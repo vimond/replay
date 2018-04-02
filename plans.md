@@ -4,14 +4,16 @@
 ## Some goals
 
 * Statically typed
-* Tests also for components
+* Tests, also for components
 * Component-centric full player toolkit
 * Standalone components + starter player
 * Still easy to re-skin starter player
 * Easy to integrate with Redux state, but also easy to keep out of global state
-* Modern, but not an immature styling approach
-* No company or customer specifics, or mentioning of them - prepared for different VCS policies
-* Code splitting for streaming libraries
+* Possibly complement traditional CSS with modern, but not an immature styling approach
+* Styling framework choices should be agnostic to components
+* Accessibility compliance...
+* No company or customer specifics, or mentioning of them - prepared for different VCS access policies
+* Code splitting for the integrated streaming libraries
 
 # The view: Player with controls
 
@@ -19,7 +21,7 @@
 
 ### Premium video engine
 
-Initially the full Vimond video engine. However, modernize and streamline API and config.
+Initially the full Vimond video engine. However, modernise and streamline API and config.
 
 ### Simple HTML5 video wrapper
 
@@ -138,11 +140,22 @@ Look into Flux action set.
 * Go to live
 * Stop
 
-## For commercial use
+## Commercial features preparations
 
 Tracking hooks. Handling schedules with pre, mid, and post rolls, without messing up flow and UI.
 
 Google IMA integration.
 
+# Top level plan
 
-
+1. Write general typed components with tests.
+2. Write typed player components with tests.
+3. Compose a player UI.
+4. Find open source graphic assets.
+5. Write CSS.
+6. Prepare revised video engine with streamlined/modernised APIs.
+7. Connect video engine with player UI. Is the context API useful for this?
+8. Build starter player with all features.
+9. Demo container app.
+10. Redux actions (with player instance addressing).
+11. Redux demo app.
