@@ -10,7 +10,7 @@
 * Still easy to re-skin starter player
 * Easy to integrate with Redux state, but also easy to keep out of global state
 * Possibly complement traditional CSS with modern, but not an immature styling approach
-* Styling framework choices should be agnostic to components
+* Styling framework choices should be agnostic to components. Consider [react-with-styles](https://github.com/airbnb/react-with-styles)
 * Accessibility compliance...
 * No company or customer specifics, or mentioning of them - prepared for different VCS access policies
 * Code splitting for the integrated streaming libraries
