@@ -6,7 +6,7 @@ import DropUpSelector from './DropUpSelector';
 Enzyme.configure({ adapter: new Adapter() });
 
 const itemsWithIds = [{ label: 'None of them' /* No id */ }, { label: 'Kim', id: '001' }, { label: 'Vladimir', id: '002' }, { label: 'Donald', id: '003' }];
-const itemsWithoutIds = [{ label: 'None of them' }, { label: 'Jeff' }, { label: 'Sundar' }, { label: 'Satya' }];
+const itemsWithoutIds = ['None of them' /* Just a string :-o */, { label: 'Jeff' }, { label: 'Sundar' }, { label: 'Satya' }];
 
 
 // TODO: Test items without ID.
@@ -113,18 +113,17 @@ test('DropUpSelector with items missing IDs marks pre-selected item (specified b
     expect(selectedItems[0].text()).toBe('Sundar');
 });
 
-test('DropUpSelector toggles an "expanded" class name when clicking on base toggle button.', () => {
+test('DropUpSelector toggles an "expanded" class name when clicking on base toggle button, and also displays different content in the toggle button.', () => {
     const shallowElement = shallowRenderDropUp({ selectedItemId: '002' });
     expect(shallowElement.hasClass('player-expanded')).toBe(false);
     expect(shallowElement.hasClass('player-collapsed')).toBe(true);
-    expect(shallowElement.find('ToggleButton').props().toggledOffContent).toEqual('+');
+    expect(shallowElement.find('ToggleButton').dive().text()).toBe('+');
     
     shallowElement.find('ToggleButton').dive().simulate('click');
     shallowElement.update();
     expect(shallowElement.hasClass('player-expanded')).toBe(true);
     expect(shallowElement.hasClass('player-collapsed')).toBe(false);
-
-
+    expect(shallowElement.find('ToggleButton').dive().text()).toBe('-');
 });
 
 test('DropUpSelector invokes a callback when option is selected.', () => {

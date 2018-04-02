@@ -1,5 +1,4 @@
 //@flow
-import * as React from "react"
 
 export type CommonProps = {
     classNamePrefix: string,

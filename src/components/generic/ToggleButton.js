@@ -18,10 +18,6 @@ class ToggleButton extends React.Component<Props> {
     static defaultProps = {
         classNamePrefix: 'player-'
     }
-    
-    constructor(props: Props) {
-        super(props);
-    }
 
     handleClick = () => this.props.onToggle && this.props.onToggle(!this.props.isOn);
     
