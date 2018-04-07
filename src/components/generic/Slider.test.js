@@ -143,11 +143,11 @@ test('When dragging the slider handle, the slider should not report a new value 
     const shallowElement = shallowRenderSlider({ value: 20, maxValue: 400, classNamePrefix: 'myprefix-', handleContent: mockHandleContent, onValueChange: handleValueChange, onDrag: handleDrag });
     shallowElement.instance().renderedTrack = mockEventElement;
 
-    // "Mouse down". Note that the event data should be ignored.
+    // "Mouse down".
     shallowElement.instance().handleHandleStartDrag(mockEvent1);
     shallowElement.update();
     expect(shallowElement.hasClass('myprefix-dragging')).toBe(true);
-    expect(handleDrag.mock.calls.length).toBe(0);
+    expect(handleDrag.mock.calls.length).toBe(1);
     expect(handleValueChange.mock.calls.length).toBe(0);
 
     // "Mouse moves".
@@ -165,17 +165,17 @@ test('When dragging the slider handle, the slider should not report a new value 
     shallowElement.update();
     
     expect(shallowElement.hasClass('myprefix-dragging')).toBe(true);
-    expect(handleDrag.mock.calls[0][0].toFixed(2)).toBe('190.67');
-    expect(handleDrag.mock.calls[1][0].toFixed(2)).toBe('338.67');
-    expect(handleDrag.mock.calls[2][0].toFixed(2)).toBe('400.00');
-    expect(handleDrag.mock.calls[3][0].toFixed(2)).toBe('380.00');
+    expect(handleDrag.mock.calls[1][0].toFixed(2)).toBe('190.67');
+    expect(handleDrag.mock.calls[2][0].toFixed(2)).toBe('338.67');
+    expect(handleDrag.mock.calls[3][0].toFixed(2)).toBe('400.00');
+    expect(handleDrag.mock.calls[4][0].toFixed(2)).toBe('380.00');
     
     // "Mouse up".
     shallowElement.instance().handleHandleEndDrag(mockEvent4);
     shallowElement.update();
 
     expect(shallowElement.childAt(1).prop('style')).toHaveProperty('left', '5.000%');
-    expect(handleDrag.mock.calls[4][0].toFixed(2)).toBe('322.67'); // We also update the drag position at the mouse button release moment.
+    expect(handleDrag.mock.calls[5][0].toFixed(2)).toBe('322.67'); // We also update the drag position at the mouse button release moment.
     expect(handleValueChange.mock.calls[0][0].toFixed(2)).toBe('322.67');
 
     
@@ -224,7 +224,7 @@ test('The slider should not update the UI based on new props while the handle is
     shallowElement.setProps({ value: 100 });
     shallowElement.update(); // Just to be sure.
 
-    expect(handleDrag.mock.calls.length).toBe(2);
+    expect(handleDrag.mock.calls.length).toBe(3);
     expect(handleValueChange.mock.calls.length).toBe(0);
     expect(shallowElement.childAt(1).prop('style')).toHaveProperty('left', '84.667%');
 
@@ -233,7 +233,7 @@ test('The slider should not update the UI based on new props while the handle is
     shallowElement.update();
 
     expect(shallowElement.childAt(1).prop('style')).toHaveProperty('left', '25.000%');
-    expect(handleDrag.mock.calls[2][0].toFixed(2)).toBe('322.67');
+    expect(handleDrag.mock.calls[3][0].toFixed(2)).toBe('322.67');
     expect(handleValueChange.mock.calls[0][0].toFixed(2)).toBe('322.67'); // New props ignored.
     
     shallowElement.setProps({ value: 200 });

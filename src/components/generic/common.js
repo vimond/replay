@@ -7,14 +7,14 @@ export type CommonProps = {
 
 export type Id = string|number;
 
+type Coordinates = { x: number, y: number, width: number, height: number };
+
+export const defaultClassNamePrefix = 'v-player-';
+
 export function prefixClassNames(prefix: string, ...names:Array<?string>):string {
     const sanitizedPrefix = prefix == null ? '' : prefix;
     return names.filter(n => n != null).map(n => n && sanitizedPrefix + n).join(' ');
 }
-
-type Coordinates = { x: number, y: number, width: number, height: number };
-
-//type CombinedEvent = SyntheticMouseEvent<HTMLDivElement> | SyntheticTouchEvent<HTMLDivElement> | MouseEvent | TouchEvent;
 
 export function getBoundingEventCoordinates(evt: any, element?: HTMLElement): Coordinates { // Difficult to code this with strict typing in a JS-optimal way. Sticking to any for the event.
     const domRect = (element || evt.currentTarget).getBoundingClientRect();

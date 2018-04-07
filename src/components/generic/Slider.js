@@ -1,6 +1,6 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, prefixClassNames, getBoundingEventCoordinates } from './common';
+import { type CommonProps, prefixClassNames, getBoundingEventCoordinates, defaultClassNamePrefix } from './common';
 
 type Props = CommonProps & {
     value: number,
@@ -51,7 +51,7 @@ The styling of the slider needs to follow some rules in order to get sensible re
 
 class Slider extends React.Component<Props,State> {
     static defaultProps = {
-        classNamePrefix: 'player-',
+        classNamePrefix: defaultClassNamePrefix,
         value: 0,
         maxValue: 1
     }
@@ -79,7 +79,7 @@ class Slider extends React.Component<Props,State> {
         }
     }
     
-    updateValue = (relativeValue: number, isEnded?: boolean) => {
+    updateValue = (relativeValue: number, isEnded?: boolean) => { // TODO: Override isDragging with extra argument
         const value = relativeValue * this.props.maxValue;
         if (this.state.isDragging) {
             this.setState({
@@ -98,9 +98,10 @@ class Slider extends React.Component<Props,State> {
         this.updateValueFromCoordinates(evt);
     }
 
-    handleHandleStartDrag = () => {
+    handleHandleStartDrag = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
         if (!this.state.isDragging) {
             this.setState({ isDragging: true });
+            this.updateValueFromCoordinates(evt);
             // We are OK with no position updates yet.
             if (this.isTouchSupported) {
                 document.addEventListener('touchmove', this.handleHandleDrag.bind(this));
@@ -186,10 +187,10 @@ class Slider extends React.Component<Props,State> {
         const handleClassNames = prefixClassNames(classNamePrefix, baseHandleClassName, handleClassName);
         const trackClassNames = prefixClassNames(classNamePrefix, baseTrackClassName, trackClassName);
         return (
-            <div title={label} className={sliderClassNames}>
-                <div onClick={this.handleHandleOrTrackClick} className={trackClassNames} ref={this.setRenderedTrack}>{trackContent}</div>
+            <div onClick={this.handleHandleOrTrackClick} onMouseDown={this.handleHandleStartDrag} onMouseUp={this.handleHandleEndDrag} onMouseMove={this.handleHandleDrag} title={label} className={sliderClassNames}>
+                <div className={trackClassNames} ref={this.setRenderedTrack}>{trackContent}</div>
                 {children}
-                <div onMouseDown={this.handleHandleStartDrag} onMouseUp={this.handleHandleEndDrag} onMouseMove={this.handleHandleDrag} className={handleClassNames} style={{ [isVertical ? verticalProp : horizontalProp]: toPercentString(displayValue, maxValue) }} ref={this.setRenderedHandle}>
+                <div className={handleClassNames} style={{ [isVertical ? verticalProp : horizontalProp]: toPercentString(displayValue, maxValue) }} ref={this.setRenderedHandle}>
                     {handleContent}
                 </div>
             </div>

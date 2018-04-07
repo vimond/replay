@@ -1,6 +1,6 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, prefixClassNames } from './common';
+import { type CommonProps, prefixClassNames, defaultClassNamePrefix } from './common';
 
 type Props = CommonProps & {
     isOn?: boolean,
@@ -16,7 +16,7 @@ const onClassName = 'toggled-on';
 
 class ToggleButton extends React.Component<Props> {
     static defaultProps = {
-        classNamePrefix: 'player-'
+        classNamePrefix: defaultClassNamePrefix
     }
 
     handleClick = () => this.props.onToggle && this.props.onToggle(!this.props.isOn);
