@@ -1,6 +1,6 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, prefixClassNames, defaultClassNamePrefix } from './common';
+import { type CommonProps, prefixClassNames, defaultClassNamePrefix } from '../common';
 
 type Props = CommonProps & {
     isOn?: boolean,

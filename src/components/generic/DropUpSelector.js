@@ -1,6 +1,6 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, type Id, prefixClassNames, defaultClassNamePrefix } from './common';
+import { type CommonProps, type Id, prefixClassNames, defaultClassNamePrefix } from '../common';
 import ToggleButton from './ToggleButton';
 
 type Item = string | {

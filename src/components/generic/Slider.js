@@ -1,6 +1,6 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, prefixClassNames, getBoundingEventCoordinates, defaultClassNamePrefix } from './common';
+import { type CommonProps, prefixClassNames, getBoundingEventCoordinates, defaultClassNamePrefix } from '../common';
 
 type Props = CommonProps & {
     value: number,
