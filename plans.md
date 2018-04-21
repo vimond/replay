@@ -19,6 +19,7 @@
 * Accessibility compliance...
 * No company or customer specifics, or mentioning of them - prepared for OS or sharing with customers
 * Code splitting for the integrated streaming libraries
+* Prettier.
 
 # The view: Player with controls
 
@@ -256,8 +257,8 @@ Should playback state consumption be allowed directly from the outside? Or do we
 * Make sure setting different sources subsequently works.
 * Test that player UI doesn't reload video...
 * Decide on how to pass technology.
+* Need to set all state properties on startup? (onReady?) ControllablePlayer is probably better for this than VideoStream.
 * External player API (exposed from ControllablePlayer).
-* Better name for ControllablePlayer.
 * Class name prefix must be managed on the non-generic level.
 * Logging across components. Runtime configurable, and individual on players? Both videoStreamProps and videoStreamState needs to pass for magic.
 * Type for configuration structure.

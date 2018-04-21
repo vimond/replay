@@ -15,6 +15,7 @@ export type AvailableTrack = {
 export type VideoStreamState = {
 	isPaused?: boolean,
 	isBuffering?: boolean,
+	isSeeking?: boolean,
 	position?: number,
 	duration?: number,
 	absolutePosition?: Date,
@@ -86,7 +87,7 @@ export type VideoStreamProps = {
 	onReady?: PlaybackMethods => void,
 	onStreamStateChange?: VideoStreamState => void,
 	onProgress?: ({ event: string }) => void,
-	onPlaybackError?: Error => void,
+	onPlaybackError?: Error => void
 };
 
 
