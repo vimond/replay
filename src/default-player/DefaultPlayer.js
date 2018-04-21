@@ -32,12 +32,13 @@ const graphics = {
 	skipback: '<-'
 };
 
-export const renderPlayerUI = (source: PlaybackSource, { playbackState, setPosition, gotoLive, updateProperty, videoStreamProps }: RenderData) => (
+// For static design work.
+export const renderPlayerUI = (source: PlaybackSource, { videoStreamState, setPosition, gotoLive, updateProperty, videoStreamProps }: RenderData) => (
 	<PlayerHost>
 		<BasicVideoStream source={source} className="video-stream" {...videoStreamProps} />
 		<ControlsBar>
-			<PlayPauseButton playingContent={graphics.pause} pausedContent={graphics.play} {...playbackState} />
-			<SkipButton label={labels.skipback} content={graphics.skipback} offset={-10} {...playbackState}/>
+			<PlayPauseButton playingContent={graphics.pause} pausedContent={graphics.play} {...videoStreamState} />
+			<SkipButton label={labels.skipback} content={graphics.skipback} offset={-10} {...videoStreamState}/>
 			<Timeline />
 			<TimeDisplay/>
 			<Volume/>

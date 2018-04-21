@@ -12,7 +12,7 @@ export type AvailableTrack = {
 	id?: string | number;
 };
 
-export type PlaybackState = {
+export type VideoStreamState = {
 	isPaused?: boolean,
 	isBuffering?: boolean,
 	position?: number,
@@ -84,7 +84,7 @@ export type VideoStreamProps = {
 	selectedAudioTrack?: AvailableTrack,
 	
 	onReady?: PlaybackMethods => void,
-	onPlaybackStateChange?: PlaybackState => void,
+	onStreamStateChange?: VideoStreamState => void,
 	onProgress?: ({ event: string }) => void,
 	onPlaybackError?: Error => void,
 };

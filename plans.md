@@ -227,7 +227,7 @@ But how do we render at appropriate times, without performance issues?
 
 Have a look at React players out there and observe rerendering during playback.
 
-* `render({ isPaused, playState, playMode, volume, ... }, configuration, source, props) => (<PlayerHost playbackState={playbackState}><Comp isPaused={playbackState.isPaused}/><BasicVideoStream source={source}/></PlayerHost>);`
+* `render({ isPaused, playState, playMode, volume, ... }, configuration, source, props) => (<PlayerHost videoStreamState={videoStreamState}><Comp isPaused={videoStreamState.isPaused}/><BasicVideoStream source={source}/></PlayerHost>);`
 
 The two last ones should be based on children traversal. All of them need consumers to be directly exposed in the children structure.
 
@@ -243,7 +243,7 @@ Some alternatives:
 * As part of the composition (wrapper parameter specifying the component). Expose as prop.
 * As part of the player UI (with children traversal).
 
-The first option can create conflicts on setting callbacks, e.g. onPlaybackStateChange. A secret, parallel API can be considered. 
+The first option can create conflicts on setting callbacks, e.g. onStreamStateChange. A secret, parallel API can be considered. 
 
 The last option is most intuitive in player composition. In render prop strategy, callbacks are needed.
 
@@ -252,10 +252,12 @@ Should playback state consumption be allowed directly from the outside? Or do we
 ## Detail tasks to be done
 
 * OK: Move the types for the playback consumption API into a common file.
-* Complete typing the source and text tracks.
+* OK: Complete typing the source and text tracks.
 * Make sure setting different sources subsequently works.
 * Test that player UI doesn't reload video...
 * Decide on how to pass technology.
+* External player API (exposed from ControllablePlayer).
+* Better name for ControllablePlayer.
 * Class name prefix must be managed on the non-generic level.
-* Logging across components. Runtime configurable, and individual on players?
+* Logging across components. Runtime configurable, and individual on players? Both videoStreamProps and videoStreamState needs to pass for magic.
 * Type for configuration structure.

@@ -1,12 +1,12 @@
 // @flow
 import * as React from 'react';
-import type { PlaybackState, VideoStreamProps, PlaybackSource, PlaybackMethods } from './VideoStream/common';
+import type { VideoStreamState, VideoStreamProps, PlaybackSource, PlaybackMethods } from './VideoStream/common';
 import { override } from '../common';
 
-type UpdateProperty = (property: PlaybackState) => void;
+type UpdateProperty = (property: VideoStreamState) => void;
 
 export type RenderData = {
-	playbackState: PlaybackState,
+	videoStreamState: VideoStreamState,
 	videoStreamProps: VideoStreamProps,
 	updateProperty: UpdateProperty,
 	gotoLive: () => {},
@@ -21,7 +21,7 @@ type Props = {
 	render: RenderMethod
 };
 
-type State = PlaybackState & {
+type State = VideoStreamState & {
 	gotoLive: () => void,
 	setPosition: (number) => void,
 	updateProperty: UpdateProperty,
@@ -31,7 +31,6 @@ type State = PlaybackState & {
 class ControllablePlayer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
-		// TODO: Compute full configuration.
 		const overriddenConfiguration = override(props.configuration, props.options);
 		this.state = {
 			gotoLive: () => {},
@@ -39,7 +38,7 @@ class ControllablePlayer extends React.Component<Props, State> {
 			updateProperty: this.updateProperty,
 			videoStreamProps: {
 				onReady: this.onVideoStreamReady,
-				onPlaybackStateChange: this.onPlaybackStateChange,
+				onStreamStateChange: this.onStreamStateChange,
 				configuration: overriddenConfiguration
 			}
 		};
@@ -53,7 +52,7 @@ class ControllablePlayer extends React.Component<Props, State> {
 	};
 		
 	// Video stream -> UI
-	onPlaybackStateChange = (property: PlaybackState) => {
+	onStreamStateChange = (property: VideoStreamState) => {
 		this.setState(property);
 	};
 	
@@ -76,7 +75,7 @@ class ControllablePlayer extends React.Component<Props, State> {
 		} = this.state;
 		
 		return this.props.render({ 
-			playbackState: uiApi,
+			videoStreamState: uiApi,
 			gotoLive: uiApi.gotoLive, 
 			setPosition: uiApi.setPosition, 
 			updateProperty: this.updateProperty,
