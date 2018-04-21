@@ -1,14 +1,9 @@
 // @flow 
 import * as React from 'react';
 import { type CommonProps, prefixClassNames, defaultClassNamePrefix } from '../common';
+import type { VideoStreamProps } from "./VideoStream/common"
 
-type Props = CommonProps & {
-    source?: {
-        streamUrl: string,
-        licenseUrl?: string,
-        startPosition?: number
-    }
-};
+type Props = CommonProps & VideoStreamProps;
 
 const baseClassName = 'video-stream';
 
@@ -17,6 +12,22 @@ class BasicVideoStream extends React.Component<Props> {
         classNamePrefix: defaultClassNamePrefix
     }
 
+    play(): Promise<any> {
+        return Promise.resolve();
+    }
+    pause(): Promise<any> {
+        return Promise.resolve();
+    }
+    gotoLive() {
+        
+    }
+
+	setPosition() {
+
+	}
+    
+	// onReady!
+	
     render() {
         const {
             className,

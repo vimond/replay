@@ -33,3 +33,41 @@ export function getBoundingEventCoordinates(evt: any, element?: HTMLElement): Co
         height: domRect.height
     };
 }
+
+export const isObject = (obj: ?{}) => obj != null && obj.constructor === {}.constructor;
+
+export function deepClone(obj: ?{}) : {} {
+    if (obj == null) {
+        return {};
+    } else {
+        const clone = {};
+        const original = obj;
+		Object.keys(obj).forEach(key => {
+		    if (isObject(original[key])) {
+		        clone[key] = deepClone(original[key]);
+			} else {
+				clone[key] = original[key];
+            }
+        });
+        return clone;
+	}
+}
+
+export function override(base: ?{}, overrides: ?{}): {} {
+	const copy = deepClone(base);
+	if (overrides) {
+	    const extension: {} = overrides; // Should be unnecessary!
+	    Object.getOwnPropertyNames((extension: {})).forEach(key => {
+	        if (isObject(extension[key])) {
+				if (isObject(copy[key])) {
+					copy[key] = override(copy[key], extension[key]);
+				} else {
+					copy[key] = deepClone(extension[key]);
+				}
+            } else {
+				copy[key] = extension[key];
+            }
+        });
+    }
+	return copy;
+}

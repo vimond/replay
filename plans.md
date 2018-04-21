@@ -1,18 +1,23 @@
 
 # Big, big plans
 
+## Naming idea
+
+*v-player* for full player and *v-stream* for video engine.
+
 ## Some goals
 
 * Statically typed
-* Tests, also for components
+* Tests, both for components and full player
 * Component-centric full player toolkit
 * Standalone components + starter player
-* Still easy to re-skin starter player
+* Still easy to re-skin and re-configure starter player
 * Easy to integrate with Redux state, but also easy to keep out of global state
 * Possibly complement traditional CSS with modern, but not an immature styling approach
-* Styling framework choices should be agnostic to components. Consider [react-with-styles](https://github.com/airbnb/react-with-styles)
+* Styling framework choices should be agnostic to components
+* First class user experience on touch/mobile
 * Accessibility compliance...
-* No company or customer specifics, or mentioning of them - prepared for different VCS access policies
+* No company or customer specifics, or mentioning of them - prepared for OS or sharing with customers
 * Code splitting for the integrated streaming libraries
 
 # The view: Player with controls
@@ -80,9 +85,13 @@ Decide early on plain-old CSS, SASS, or CSS in JS.
 
 Separating skin from basics and placement (not layout) is still essential.
 
+Prepared for styling frameworks without bloat/lock-in. Consider [react-with-styles](https://github.com/airbnb/react-with-styles).
+
 Theming support of interest? https://github.com/cssinjs/react-jss
 
-Good old prefixing of all class names?
+Good old prefixing of all class names. Use React context API to pass down prefix!
+
+Styling passed directly turns off class names?
 
 Best practices for SVG icons.
 
@@ -159,3 +168,94 @@ Google IMA integration.
 9. Demo container app.
 10. Redux actions (with player instance addressing).
 11. Redux demo app.
+12. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
+
+## Designing the best separation of concerns
+
+What to abstract with magic, and what to make clear APIs for? 
+
+### Current mix
+
+* Wrapper component.
+	* Passing player state and API to all children.
+	* Exposing API for React app outside player.
+	* Configuration as part of composed player.
+	* Allow for configuration overrides.
+
+* Containment/UI host element
+	* Helper functions
+	* UI state
+	* Keyboard events, mouse events
+	* Might need to manage start/end states.
+
+Magical injections scoped to instance of player component:
+
+* Applying class name prefix
+* Injecting logging
+
+Straightforward JSX UI. No magic:
+
+* Composing the UI with deep children structure.
+* Passing strings
+* Passing graphics
+* Specifying CSS. SOme theme or CSS in JS approaches could need 
+* Deep application of CSS in JS solutions
+
+### Passing player state
+
+Easiest approach: Pass all in ...props or ...state in PlayerUI. Probably container component applying everything.
+
+But too magical? Confusing? Perhaps examples are better.
+
+All props from outside wrapped should be possible to set on PlayerUI, to be used in children.
+
+OR: Let the user select one of these approaches:
+
+a) HOC managing the video stream state: 
+
+* `<Comp {...this.state} label="My comp" />`
+* `<Comp isPaused={this.state.isPaused} label="My comp" />`
+
+b) Wrapper component using React.cloneElement()
+
+* `<Comp isPlaybackConsumer/>`
+* completely implicit...
+
+c) Wrapper component with render prop. Specify player UI and everything in one place...
+
+But how do we render at appropriate times, without performance issues?
+
+Have a look at React players out there and observe rerendering during playback.
+
+* `render({ isPaused, playState, playMode, volume, ... }, configuration, source, props) => (<PlayerHost playbackState={playbackState}><Comp isPaused={playbackState.isPaused}/><BasicVideoStream source={source}/></PlayerHost>);`
+
+The two last ones should be based on children traversal. All of them need consumers to be directly exposed in the children structure.
+
+Should not include strings, graphics. Should include logging and class name prefix.
+
+Consider namespacing - videoStream.volume. How does that affect rendering, though? Probably need full object to be reinstantiated on property changes, and not when prop changes.
+
+### How to specify the video stream component?
+
+Some alternatives:
+
+* Instance from outside the composed player. E.g. <MyPlayer><BasicVideoStream source={{}} /></MyPlayer>
+* As part of the composition (wrapper parameter specifying the component). Expose as prop.
+* As part of the player UI (with children traversal).
+
+The first option can create conflicts on setting callbacks, e.g. onPlaybackStateChange. A secret, parallel API can be considered. 
+
+The last option is most intuitive in player composition. In render prop strategy, callbacks are needed.
+
+Should playback state consumption be allowed directly from the outside? Or do we need to have a middle API?
+
+## Detail tasks to be done
+
+* OK: Move the types for the playback consumption API into a common file.
+* Complete typing the source and text tracks.
+* Make sure setting different sources subsequently works.
+* Test that player UI doesn't reload video...
+* Decide on how to pass technology.
+* Class name prefix must be managed on the non-generic level.
+* Logging across components. Runtime configurable, and individual on players?
+* Type for configuration structure.

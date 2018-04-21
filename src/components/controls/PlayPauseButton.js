@@ -4,9 +4,7 @@ import ToggleButton from '../generic/ToggleButton';
 
 type Props = {
     isPaused: boolean,
-    play?: () => Promise<void>,
-    pause?: () => Promise<void>,
-    setIsPaused?: (boolean) => Promise<void>,
+    updateProperty?: ({ isPaused: boolean }) => void,
     label?: string,
     playingContent: React.Node,
     pausedContent: React.Node
@@ -17,14 +15,8 @@ const className = 'play-pause-button';
 class PlayPauseButton extends React.Component<Props> {
     
     handleToggle(value: boolean) {
-        if (this.props.setIsPaused) {
-			this.props.setIsPaused(value).catch(err => {});
-        } else {
-			if (value) {
-				this.props.pause && this.props.pause().catch(err => {});
-			} else {
-				this.props.play && this.props.play().catch(err => {});
-			}
+        if (this.props.updateProperty) {
+			this.props.updateProperty({ isPaused: value });
         }
     }
 
