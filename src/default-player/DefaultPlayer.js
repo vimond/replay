@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
-import ControllablePlayer from "../components/player/ControllablePlayer";
-import BasicVideoStream from "../components/player/BasicVideoStream";
+import withVideoStream from "../components/player/ControllablePlayer";
+import BasicVideoStream from "../components/player/VideoStream/BasicVideoStream";
 import ControlsBar from '../components/player/ControlsBar';
 import PlayerHost from '../components/player/PlayerHost';
 import Poster from '../components/player/Poster';
@@ -33,9 +33,9 @@ const graphics = {
 };
 
 // For static design work.
-export const renderPlayerUI = (source: PlaybackSource, { videoStreamState, setPosition, gotoLive, updateProperty, videoStreamProps }: RenderData) => (
+export const renderPlayerWithUi: RenderMethod = (VideoStream, { videoStreamState }) => (
 	<PlayerHost>
-		<BasicVideoStream source={source} className="video-stream" {...videoStreamProps} />
+		<VideoStream className="video-stream" />
 		<ControlsBar>
 			<PlayPauseButton playingContent={graphics.pause} pausedContent={graphics.play} {...videoStreamState} />
 			<SkipButton label={labels.skipback} content={graphics.skipback} offset={-10} {...videoStreamState}/>
@@ -44,15 +44,16 @@ export const renderPlayerUI = (source: PlaybackSource, { videoStreamState, setPo
 			<Volume/>
 			<FullscreenButton/>
 		</ControlsBar>
-		<Poster/>
+		<Poster/>s
 		<BufferingIndicator/>
 	</PlayerHost>
 );
 
+const ControllablePlayer = withVideoStream(BasicVideoStream, configuration);
+
 const DefaultPlayer = (source: PlaybackSource, options: any) => {
-	const render = renderData => renderPlayerUI(source, renderData); // In theory, this function should only be updated when the source changes (and options, but that's not expected).
 	return (
-		<ControllablePlayer configuration={configuration} options={options} render={render} />
+		<ControllablePlayer options={options} source={source} render={renderPlayerWithUi} />
 	);
 };
 
