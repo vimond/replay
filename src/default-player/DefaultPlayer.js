@@ -17,7 +17,7 @@ import Volume from '../components/controls/Volume';
 //import QualitySelector from '../components/controls/QualitySelector';
 import FullscreenButton from '../components/controls/FullscreenButton';
 import type { PlaybackSource } from '../components/player/VideoStream/common';
-import type { RenderData, RenderMethod } from '../components/player/ControllablePlayer';
+import type { RenderMethod } from '../components/player/ControllablePlayer';
 
 // In this file, all custom parts making up a player can be assembled and "composed".
 
@@ -44,7 +44,7 @@ export const renderPlayerWithUi: RenderMethod = (VideoStream, { videoStreamState
 			<Volume/>
 			<FullscreenButton/>
 		</ControlsBar>
-		<Poster/>s
+		<Poster/>
 		<BufferingIndicator/>
 	</PlayerHost>
 );
