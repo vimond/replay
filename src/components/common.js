@@ -1,5 +1,7 @@
 //@flow
 
+import * as React from 'react';
+
 export type CommonProps = {
     classNamePrefix: string,
     className?: string
@@ -71,3 +73,7 @@ export function override(base: ?{}, overrides: ?{}): {} {
     }
 	return copy;
 }
+
+export const withProps = (Comp: React.ComponentType<{}>, injectedProps: any) => {
+	return (props: any) => <Comp {...injectedProps} {...props} />;
+};

@@ -3,7 +3,7 @@ import * as React from 'react';
 import ToggleButton from '../generic/ToggleButton';
 
 type Props = {
-    isPaused: boolean,
+    isPaused?: boolean,
     updateProperty?: ({ isPaused: boolean }) => void,
     label?: string,
     playingContent: React.Node,

@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import withVideoStream from "../components/player/ControllablePlayer";
+import ControllablePlayer from "../components/player/ControllablePlayer";
 import BasicVideoStream from "../components/player/VideoStream/BasicVideoStream";
 import ControlsBar from '../components/player/ControlsBar';
 import PlayerHost from '../components/player/PlayerHost';
@@ -16,10 +16,16 @@ import Volume from '../components/controls/Volume';
 //import SubtitlesSelector from '../components/controls/SubtitlesSelector';
 //import QualitySelector from '../components/controls/QualitySelector';
 import FullscreenButton from '../components/controls/FullscreenButton';
-import type { PlaybackSource } from '../components/player/VideoStream/common';
+import type { PlaybackSource, SourceTrack } from '../components/player/VideoStream/common';
 import type { RenderMethod } from '../components/player/ControllablePlayer';
 
 // In this file, all custom parts making up a player can be assembled and "composed".
+
+type DefaultPlayerProps = {
+	source: PlaybackSource, 
+	textTracks: Array<SourceTrack>, 
+	options: any
+};
 
 const configuration = {};
 const labels = {
@@ -33,9 +39,9 @@ const graphics = {
 };
 
 // For static design work.
-export const renderPlayerWithUi: RenderMethod = (VideoStream, { videoStreamState }) => (
+export const renderPlayerUI: RenderMethod = ({ children, ...videoStreamState }) => (
 	<PlayerHost>
-		<VideoStream className="video-stream" />
+		{children}
 		<ControlsBar>
 			<PlayPauseButton playingContent={graphics.pause} pausedContent={graphics.play} {...videoStreamState} />
 			<SkipButton label={labels.skipback} content={graphics.skipback} offset={-10} {...videoStreamState}/>
@@ -49,12 +55,9 @@ export const renderPlayerWithUi: RenderMethod = (VideoStream, { videoStreamState
 	</PlayerHost>
 );
 
-const ControllablePlayer = withVideoStream(BasicVideoStream, configuration);
-
-const DefaultPlayer = (source: PlaybackSource, options: any) => {
-	return (
-		<ControllablePlayer options={options} source={source} render={renderPlayerWithUi} />
-	);
-};
-
+const DefaultPlayer = ({ source, textTracks, options } : DefaultPlayerProps) => ( // Can use spread for source&textTracks
+	<ControllablePlayer render={renderPlayerUI} configuration={configuration} options={options}>
+		<BasicVideoStream source={source} textTracks={textTracks} />
+	</ControllablePlayer>
+);
 export default DefaultPlayer;
