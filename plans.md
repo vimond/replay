@@ -3,7 +3,13 @@
 
 ## Naming idea
 
-*v-player* for full player and *v-stream* for video engine.
+*v-player* for full player and *v-stream* for video engine?
+
+```<Vstream/> <VStream/> <vStream/>```
+
+```<Vplayer/> <VPlayer/> <vPlayer/>```
+
+Sheesh.
 
 ## Some goals
 
@@ -82,7 +88,9 @@ The concerns above might be separated into HOCs or utilities attached to the vis
 
 ## Styles/skinning
 
-Decide early on plain-old CSS, SASS, or CSS in JS.
+Decide early on plain-old CSS, SASS, or CSS in JS. 
+
+Reason for using CSS in JS is simple embedding of default player.
 
 Separating skin from basics and placement (not layout) is still essential.
 
@@ -90,7 +98,7 @@ Prepared for styling frameworks without bloat/lock-in. Consider [react-with-styl
 
 Theming support of interest? https://github.com/cssinjs/react-jss
 
-Good old prefixing of all class names. Use React context API to pass down prefix!
+Good old prefixing of all class names. Consider passing down implicitly, but is it PlayerController's responsibility? Or another HOC?
 
 Styling passed directly turns off class names?
 
@@ -104,7 +112,7 @@ Let all components easily observe playback state, without actions + Redux store.
 
 Let all components easily manipulate playback state. Expose "actions" object to them.
 
-Look into Flux action set.
+Later: Look into Flux action set prepared for Redux. Both buttons and video state changes.
 
 # APIs
 
@@ -156,20 +164,7 @@ Tracking hooks. Handling schedules with pre, mid, and post rolls, without messin
 
 Google IMA integration.
 
-# Top level plan
-
-1. Write general typed components with tests.
-2. Write typed player components with tests.
-3. Compose a player UI.
-4. Find open source graphic assets.
-5. Write CSS.
-6. Prepare revised video engine with streamlined/modernised APIs.
-7. Connect video engine with player UI. Is the context API useful for this?
-8. Build starter player with all features.
-9. Demo container app.
-10. Redux actions (with player instance addressing).
-11. Redux demo app.
-12. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
+# Architecture
 
 ## Designing the best separation of concerns
 
@@ -191,10 +186,10 @@ What to abstract with magic, and what to make clear APIs for?
 
 Magical injections scoped to instance of player component:
 
-* Applying class name prefix
+* Applying class name prefix (reconsider)
 * Injecting logging
 
-Straightforward JSX UI. No magic:
+### Straightforward JSX UI. No magic:
 
 * Composing the UI with deep children structure.
 * Passing strings
@@ -202,15 +197,31 @@ Straightforward JSX UI. No magic:
 * Specifying CSS. SOme theme or CSS in JS approaches could need 
 * Deep application of CSS in JS solutions
 
+# Top level plan
+
+1. Write general typed components with tests.
+2. Write typed player components with tests.
+3. Compose a player UI.
+4. Find open source graphic assets.
+5. Write CSS.
+6. Prepare revised video engine with streamlined/modernised APIs.
+7. Connect video engine with player UI. Is the context API useful for this?
+8. Build starter player with all features.
+9. Demo container app.
+10. Redux actions (with player instance addressing).
+11. Redux demo app.
+12. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
+
 ## Detail tasks to be done
 
 * OK: Move the types for the playback consumption API into a common file.
 * OK: Complete typing the source and text tracks.
 * Make sure setting different sources subsequently works.
+* Do we need a stop method? 
 * Test that player UI doesn't reload video...
 * Decide on how to pass technology.
 * Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStream.
 * External player API (exposed from PlayerController).
 * Class name prefix must be managed on the non-generic level.
 * Logging across components. Runtime configurable, and individual on players? Both videoStreamProps and videoStreamState needs to pass for magic.
-* Type for configuration structure.
+* Create type set for configuration structure.
