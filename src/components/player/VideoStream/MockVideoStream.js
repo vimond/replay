@@ -71,7 +71,7 @@ const updateableKeys = Object.keys(updateableProps);
 
 const runAsync = (callback, arg, delay = 0) => setTimeout(() => callback && callback(arg), delay);
 
-const updateTracks = (prevTracks: Array<AvailableTrack>, selectedTrack: AvailableTrack) => prevTracks.map(track => ({ isSelected: track === selectedTrack, ...selectedTrack }));
+const updateTracks = (prevTracks: Array<AvailableTrack>, selectedTrack: AvailableTrack) => prevTracks.map(track => ({ ...selectedTrack, isSelected: track === selectedTrack }));
 
 const updateWithDefaultValues = updater => {
 	if (updater) {
@@ -82,18 +82,9 @@ const updateWithDefaultValues = updater => {
 };
 
 class MockVideoStream extends React.Component<VideoStreamProps> {
-	constructor(props: VideoStreamProps) {
-		super(props);
-		this.onReady = this.props.onReady;
-	}
-	
-	onReady: ?(PlaybackMethods => void);
-	
 	componentDidMount() {
-		if (this.onReady) {
-			const onReady = this.onReady;
-			this.onReady = null;
-			onReady({
+		if (this.props.onReady) {
+			this.props.onReady({
 				play: () => runAsync(this.props.onStreamStateChange, {isPaused: false}),
 				pause: () => runAsync(this.props.onStreamStateChange, {isPaused: true}),
 				setPosition: (value: number) => runAsync(this.props.onStreamStateChange, {position: value}, 1500),
@@ -102,7 +93,7 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
 			updateWithDefaultValues(this.props.onStreamStateChange);
 		}
 	}
-
+	
 	componentDidUpdate(prevProps: VideoStreamProps) {
 		Object.keys(this.props).filter(key => updateableKeys.indexOf(key) >= 0).forEach(key => {
 			if (prevProps[key] !== this.props[key]) {
@@ -121,7 +112,7 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
 	}
 	
 	render() {
-		return <div className={this.props.className} style={{ background: '#444', color: 'white', fontWeight: 'bold' }}>Mock video</div>;
+		return <div className={this.props.className} style={{ background: '#444', color: 'white', fontWeight: 'bold' }}>Mock video. Is paused? {this.props.isPaused ? 'yes' : 'no'} </div>;
 	}
 	
 } 

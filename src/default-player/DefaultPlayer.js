@@ -3,7 +3,7 @@ import * as React from 'react';
 import ControllablePlayer from "../components/player/ControllablePlayer";
 import BasicVideoStream from "../components/player/VideoStream/BasicVideoStream";
 import ControlsBar from '../components/player/ControlsBar';
-import PlayerHost from '../components/player/PlayerHost';
+import PlayerUiContainer from '../components/player/PlayerUiContainer';
 import Poster from '../components/player/Poster';
 import BufferingIndicator from '../components/player/BufferingIndicator';
 import PlayPauseButton from '../components/controls/PlayPauseButton';
@@ -39,12 +39,12 @@ const graphics = {
 };
 
 // For static design work.
-export const renderPlayerUI: RenderMethod = ({ children, ...videoStreamState }) => (
-	<PlayerHost>
+export const renderPlayerUI: RenderMethod = ({ children, videoStreamState, videoStreamProps }) => (
+	<PlayerUiContainer>
 		{children}
 		<ControlsBar>
-			<PlayPauseButton playingContent={graphics.pause} pausedContent={graphics.play} {...videoStreamState} />
-			<SkipButton label={labels.skipback} content={graphics.skipback} offset={-10} {...videoStreamState}/>
+			<PlayPauseButton {...videoStreamState} playingContent={graphics.pause} pausedContent={graphics.play} />
+			<SkipButton {...videoStreamState} label={labels.skipback} content={graphics.skipback} offset={-10} />
 			<Timeline />
 			<TimeDisplay/>
 			<Volume/>
@@ -52,7 +52,7 @@ export const renderPlayerUI: RenderMethod = ({ children, ...videoStreamState }) 
 		</ControlsBar>
 		<Poster/>
 		<BufferingIndicator/>
-	</PlayerHost>
+	</PlayerUiContainer>
 );
 
 const DefaultPlayer = ({ source, textTracks, options } : DefaultPlayerProps) => ( // Can use spread for source&textTracks

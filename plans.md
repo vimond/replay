@@ -202,54 +202,6 @@ Straightforward JSX UI. No magic:
 * Specifying CSS. SOme theme or CSS in JS approaches could need 
 * Deep application of CSS in JS solutions
 
-### Passing player state
-
-Easiest approach: Pass all in ...props or ...state in PlayerUI. Probably container component applying everything.
-
-But too magical? Confusing? Perhaps examples are better.
-
-All props from outside wrapped should be possible to set on PlayerUI, to be used in children.
-
-OR: Let the user select one of these approaches:
-
-a) HOC managing the video stream state: 
-
-* `<Comp {...this.state} label="My comp" />`
-* `<Comp isPaused={this.state.isPaused} label="My comp" />`
-
-b) Wrapper component using React.cloneElement()
-
-* `<Comp isPlaybackConsumer/>`
-* completely implicit...
-
-c) Wrapper component with render prop. Specify player UI and everything in one place...
-
-But how do we render at appropriate times, without performance issues?
-
-Have a look at React players out there and observe rerendering during playback.
-
-* `render({ isPaused, playState, playMode, volume, ... }, configuration, source, props) => (<PlayerHost videoStreamState={videoStreamState}><Comp isPaused={videoStreamState.isPaused}/><BasicVideoStream source={source}/></PlayerHost>);`
-
-The two last ones should be based on children traversal. All of them need consumers to be directly exposed in the children structure.
-
-Should not include strings, graphics. Should include logging and class name prefix.
-
-Consider namespacing - videoStream.volume. How does that affect rendering, though? Probably need full object to be reinstantiated on property changes, and not when prop changes.
-
-### How to specify the video stream component?
-
-Some alternatives:
-
-* Instance from outside the composed player. E.g. <MyPlayer><BasicVideoStream source={{}} /></MyPlayer>
-* As part of the composition (wrapper parameter specifying the component). Expose as prop.
-* As part of the player UI (with children traversal).
-
-The first option can create conflicts on setting callbacks, e.g. onStreamStateChange. A secret, parallel API can be considered. 
-
-The last option is most intuitive in player composition. In render prop strategy, callbacks are needed.
-
-Should playback state consumption be allowed directly from the outside? Or do we need to have a middle API?
-
 ## Detail tasks to be done
 
 * OK: Move the types for the playback consumption API into a common file.

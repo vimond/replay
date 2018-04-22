@@ -70,7 +70,7 @@ class ControllablePlayer extends React.Component<Props, State> {
 
 	// UI -> video stream
 	updateProperty = (updatedProp: VideoStreamProps) => {
-		const videoStreamProps = { ...updatedProp, ...this.state.videoStreamProps};
+		const videoStreamProps = { ...this.state.videoStreamProps, ...updatedProp };
 		this.setState({
 			videoStreamProps
 		});
@@ -83,17 +83,16 @@ class ControllablePlayer extends React.Component<Props, State> {
 	render() {
 		const {
 			videoStreamProps,
-			children,
-			...uiApi
+			...videoStreamState
 		} = this.state;
 
-		const enhancedChildren = passPropsToVideoStreamElement(children, videoStreamProps);
+		const enhancedChildren = passPropsToVideoStreamElement(this.props.children, videoStreamProps);
 		
 		return this.props.render({
 			children: enhancedChildren,
-			videoStreamState: uiApi,
-			gotoLive: uiApi.gotoLive,
-			setPosition: uiApi.setPosition,
+			videoStreamState: videoStreamState,
+			gotoLive: videoStreamState.gotoLive,
+			setPosition: videoStreamState.setPosition,
 			updateProperty: this.updateProperty,
 			videoStreamProps
 		});

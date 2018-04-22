@@ -14,7 +14,7 @@ const className = 'play-pause-button';
 
 class PlayPauseButton extends React.Component<Props> {
     
-    handleToggle(value: boolean) {
+    handleToggle = (value: boolean) => {
         if (this.props.updateProperty) {
 			this.props.updateProperty({ isPaused: value });
         }
