@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react';
-import type { VideoStreamProps, VideoStreamState } from './common';
-import { AvailableTrack, PlayMode, PlayState } from './common';
+import type { AvailableTrack, PlaybackMethods, VideoStreamProps, VideoStreamState } from './common';
 
 const defaultTextTracks = [{
 	isSelected: true,
@@ -74,15 +73,34 @@ const runAsync = (callback, arg, delay = 0) => setTimeout(() => callback && call
 
 const updateTracks = (prevTracks: Array<AvailableTrack>, selectedTrack: AvailableTrack) => prevTracks.map(track => ({ isSelected: track === selectedTrack, ...selectedTrack }));
 
+const updateWithDefaultValues = updater => {
+	if (updater) {
+		Object.entries(defaultValues).forEach(entry => {
+			updater({ [entry[0]]: entry[1] });
+		});
+	}
+};
+
 class MockVideoStream extends React.Component<VideoStreamProps> {
+	constructor(props: VideoStreamProps) {
+		super(props);
+		this.onReady = this.props.onReady;
+	}
+	
+	onReady: ?(PlaybackMethods => void);
 	
 	componentDidMount() {
-		this.props.onReady && this.props.onReady({
-			play: () => runAsync(this.props.onStreamStateChange, { isPaused: false }),
-			pause: () => runAsync(this.props.onStreamStateChange, { isPaused: true }),
-			setPosition: (value: number) => runAsync(this.props.onStreamStateChange, { position: value }, 1500),
-			gotoLive: () => {}
-		});
+		if (this.onReady) {
+			const onReady = this.onReady;
+			this.onReady = null;
+			onReady({
+				play: () => runAsync(this.props.onStreamStateChange, {isPaused: false}),
+				pause: () => runAsync(this.props.onStreamStateChange, {isPaused: true}),
+				setPosition: (value: number) => runAsync(this.props.onStreamStateChange, {position: value}, 1500),
+				gotoLive: () => {}
+			});
+			updateWithDefaultValues(this.props.onStreamStateChange);
+		}
 	}
 
 	componentDidUpdate(prevProps: VideoStreamProps) {
@@ -97,6 +115,9 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
 				}
 			}
 		});
+		if (this.props.onStreamStateChange !== prevProps.onStreamStateChange) {
+			updateWithDefaultValues(this.props.onStreamStateChange);
+		}
 	}
 	
 	render() {
