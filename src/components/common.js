@@ -75,5 +75,5 @@ export function override(base: ?{}, overrides: ?{}): {} {
 }
 
 export const withProps = (Comp: React.ComponentType<{}>, injectedProps: any) => {
-	return (props: any) => <Comp {...injectedProps} {...props} />;
+	return (props: any) => <Comp {...injectedProps} {...props} />; // Warning: props wins. Is that desiresd?
 };
