@@ -209,8 +209,8 @@ Straightforward JSX UI. No magic:
 * Make sure setting different sources subsequently works.
 * Test that player UI doesn't reload video...
 * Decide on how to pass technology.
-* Need to set all state properties on startup? (onReady?) ControllablePlayer is probably better for this than VideoStream.
-* External player API (exposed from ControllablePlayer).
+* Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStream.
+* External player API (exposed from PlayerController).
 * Class name prefix must be managed on the non-generic level.
 * Logging across components. Runtime configurable, and individual on players? Both videoStreamProps and videoStreamState needs to pass for magic.
 * Type for configuration structure.

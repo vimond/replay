@@ -40,7 +40,7 @@ const passPropsToVideoStreamElement = (children: React.Node, props: any) => {
 	});
 };
 
-class ControllablePlayer extends React.Component<Props, State> {
+class PlayerController extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		const overriddenConfiguration = override(this.props.configuration, props.options);
@@ -99,4 +99,4 @@ class ControllablePlayer extends React.Component<Props, State> {
 	}
 }
 
-export default ControllablePlayer;
+export default PlayerController;

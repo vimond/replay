@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import ControllablePlayer from "../components/player/ControllablePlayer";
+import PlayerController from "../components/player/PlayerController";
 import BasicVideoStream from "../components/player/VideoStream/BasicVideoStream";
 import ControlsBar from '../components/player/ControlsBar';
 import PlayerUiContainer from '../components/player/PlayerUiContainer';
@@ -17,7 +17,7 @@ import Volume from '../components/controls/Volume';
 //import QualitySelector from '../components/controls/QualitySelector';
 import FullscreenButton from '../components/controls/FullscreenButton';
 import type { PlaybackSource, SourceTrack } from '../components/player/VideoStream/common';
-import type { RenderMethod } from '../components/player/ControllablePlayer';
+import type { RenderMethod } from '../components/player/PlayerController';
 
 // In this file, all custom parts making up a player can be assembled and "composed".
 
@@ -56,8 +56,8 @@ export const renderPlayerUI: RenderMethod = ({ children, videoStreamState, video
 );
 
 const DefaultPlayer = ({ source, textTracks, options } : DefaultPlayerProps) => ( // Can use spread for source&textTracks
-	<ControllablePlayer render={renderPlayerUI} configuration={configuration} options={options}>
+	<PlayerController render={renderPlayerUI} configuration={configuration} options={options}>
 		<BasicVideoStream source={source} textTracks={textTracks} />
-	</ControllablePlayer>
+	</PlayerController>
 );
 export default DefaultPlayer;
