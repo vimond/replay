@@ -7,3 +7,9 @@ class PlayerUiContainer extends Container {
 }
 
 export default PlayerUiContainer;
+
+// Decorate with:
+// 16:9
+// Keyboard shortcuts
+// Mouse pointer and controls hiding
+// Fullscreen

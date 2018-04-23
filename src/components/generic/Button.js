@@ -11,10 +11,7 @@ type Props = CommonProps & {
 const baseClassName = 'button';
 
 class Button extends React.Component<Props> {
-    static defaultProps = {
-        classNamePrefix: defaultClassNamePrefix
-    }
-
+    
     handleClick = () => this.props.onClick && this.props.onClick();
     
     render() {

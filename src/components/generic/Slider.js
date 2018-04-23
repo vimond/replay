@@ -1,6 +1,6 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, prefixClassNames, getBoundingEventCoordinates, defaultClassNamePrefix } from '../common';
+import { type CommonProps, prefixClassNames, getBoundingEventCoordinates } from '../common';
 
 type Props = CommonProps & {
     value: number,
@@ -51,14 +51,13 @@ The styling of the slider needs to follow some rules in order to get sensible re
 
 class Slider extends React.Component<Props,State> {
     static defaultProps = {
-        classNamePrefix: defaultClassNamePrefix,
         value: 0,
         maxValue: 1
-    }
+    };
 
-    renderedHandle: ?HTMLDivElement
-    renderedTrack: ?HTMLDivElement
-    isTouchSupported: boolean
+    renderedHandle: ?HTMLDivElement;
+    renderedTrack: ?HTMLDivElement;
+    isTouchSupported: boolean;
 
     constructor(props: Props) {
         super(props);
@@ -77,7 +76,7 @@ class Slider extends React.Component<Props,State> {
                 this.updateValue(relativeHorizontalValue, isEnded);
             }
         }
-    }
+    };
     
     updateValue = (relativeValue: number, isEnded?: boolean) => { // TODO: Override isDragging with extra argument
         const value = relativeValue * this.props.maxValue;
@@ -92,11 +91,11 @@ class Slider extends React.Component<Props,State> {
         if (this.props.onValueChange && (isEnded || !this.state.isDragging)) {
             this.props.onValueChange(value);
         }
-    }
+    };
 
     handleHandleOrTrackClick = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
         this.updateValueFromCoordinates(evt);
-    }
+    };
 
     handleHandleStartDrag = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
         if (!this.state.isDragging) {
@@ -113,13 +112,13 @@ class Slider extends React.Component<Props,State> {
                 document.addEventListener('mouseleave', this.handleHandleEndDrag.bind(this));
             }
         }
-    }
+    };
     
     handleHandleDrag = (evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent) => {
         if (this.state.isDragging) {
             this.updateValueFromCoordinates(evt);
         }
-    }
+    };
     
     handleHandleEndDrag = (evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent) => {
         if (this.state.isDragging) {
@@ -135,15 +134,15 @@ class Slider extends React.Component<Props,State> {
             document.removeEventListener('mouseleave', this.handleHandleEndDrag.bind(this));
         }
         this.setState({ isDragging: false });
-    }
+    };
 
     setRenderedHandle = (handle: ?HTMLDivElement) => {
         this.renderedHandle = handle;
-    }
+    };
 
     setRenderedTrack = (track: ?HTMLDivElement) => {
         this.renderedTrack = track;
-    }
+    };
 
     /*
     componentWillReceiveProps(nextProps: Props) {

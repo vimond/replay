@@ -1,6 +1,6 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, type Id, prefixClassNames, defaultClassNamePrefix } from '../common';
+import { type CommonProps, type Id, prefixClassNames } from '../common';
 import ToggleButton from './ToggleButton';
 
 type Item = string | {
@@ -87,11 +87,6 @@ function isEqual(itemA:Item, itemB:?Item, itemBId:?Id):boolean {
 }
 
 class DropUpSelector extends React.Component<Props, DropUpState> {
-    // TODO: Can we inherit this from base component?
-    static defaultProps = {
-        classNamePrefix: defaultClassNamePrefix
-    }
-
     constructor(props: Props) {
         super(props);
         this.state = {

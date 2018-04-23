@@ -1,6 +1,6 @@
 import { prefixClassNames, getBoundingEventCoordinates } from "./common"
 
-test('prefixClassNames prefixes all class names passed and joins into one string.', () => {
+test('prefixClassNames() prefixes all class names passed and joins into one string.', () => {
     const prefix = 'myprefix-';
     const className1 = 'button';
     const className2 = 'ugly-theme';
@@ -9,7 +9,7 @@ test('prefixClassNames prefixes all class names passed and joins into one string
     expect(result).toBe('myprefix-button myprefix-ugly-theme myprefix-toggled-on');
 });
 
-test('prefixClassNames doesn\'t include null or undefined if for prefix or class names with such values.', () => {
+test('prefixClassNames() doesn\'t include null or undefined if for prefix or class names with such values.', () => {
     const prefix1 = null;
     const prefix2 = 'myprefix-';
     const className1 = 'button';
@@ -21,7 +21,7 @@ test('prefixClassNames doesn\'t include null or undefined if for prefix or class
     expect(result2).toBe('myprefix-button myprefix-toggled-on');
 })
 
-test('getBoundingEventCoordinates returns coordinates relative to target element.', () => {
+test('getBoundingEventCoordinates() returns coordinates relative to target element.', () => {
     const mockEventElement = {
         getBoundingClientRect: function() {
             return {
@@ -40,7 +40,7 @@ test('getBoundingEventCoordinates returns coordinates relative to target element
     expect(getBoundingEventCoordinates(mockEvent)).toMatchObject({ x: 143, y: 10, width: 400, height: 40 });
 });
 
-test('getBoundingEventCoordinates returns coordinates relative to explicitly passed element.', () => {
+test('getBoundingEventCoordinates() returns coordinates relative to explicitly passed element.', () => {
     const mockElement = {
         getBoundingClientRect: function() {
             return {
@@ -58,7 +58,7 @@ test('getBoundingEventCoordinates returns coordinates relative to explicitly pas
     expect(getBoundingEventCoordinates(mockEvent, mockElement)).toMatchObject({ x: 111, y: 24, width: 300, height: 400 });
 });
 
-test('getBoundingEventCoordinates doesn\'t return coordinates outside element boundary.', () => {
+test('getBoundingEventCoordinates() doesn\'t return coordinates outside element boundary.', () => {
     const mockEventElement = {
         getBoundingClientRect: function() {
             return {
@@ -88,3 +88,11 @@ test('getBoundingEventCoordinates doesn\'t return coordinates outside element bo
     expect(getBoundingEventCoordinates(mockEvent2)).toMatchObject({ x: 0, y: 0, width: 400, height: 40 });
     expect(getBoundingEventCoordinates(mockEvent3)).toMatchObject({ x: 400, y: 40, width: 400, height: 40 });
 });
+
+test('override() merges two objects deeply, also when branches are unspecified in one of them.');
+
+test('override() does not include base properties or branches when key is set to null in override.');
+
+test('override() accepts null as parameters for both base and override.');
+
+test('override() does not return mutated parts of base or override object, but a deeply cloned fresh object.');

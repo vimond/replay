@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 export type CommonProps = {
-    classNamePrefix: string,
+    classNamePrefix?: string,
     className?: string
 };
 
@@ -13,7 +13,7 @@ type Coordinates = { x: number, y: number, width: number, height: number };
 
 export const defaultClassNamePrefix = 'v-player-';
 
-export function prefixClassNames(prefix: string, ...names:Array<?string>):string {
+export function prefixClassNames(prefix: ?string, ...names:Array<?string>):string {
     const sanitizedPrefix = prefix == null ? '' : prefix;
     return names.filter(n => n != null).map(n => n && sanitizedPrefix + n).join(' ');
 }
@@ -73,7 +73,8 @@ export function override(base: ?{}, overrides: ?{}): {} {
     }
 	return copy;
 }
-
+/*
 export const withProps = (Comp: React.ComponentType<{}>, injectedProps: any) => {
 	return (props: any) => <Comp {...injectedProps} {...props} />; // Warning: props wins. Is that desiresd?
 };
+*/
