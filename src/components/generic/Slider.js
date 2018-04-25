@@ -1,8 +1,8 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, prefixClassNames, getBoundingEventCoordinates } from '../common';
+import { type CommonGenericProps, prefixClassNames, getBoundingEventCoordinates } from '../common';
 
-type Props = CommonProps & {
+type Props = CommonGenericProps & {
     value: number,
     maxValue: number,
     isVertical?: boolean,

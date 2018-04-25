@@ -1,9 +1,9 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, prefixClassNames, defaultClassNamePrefix } from '../../common';
+import { type CommonGenericProps, prefixClassNames, defaultClassNamePrefix } from '../../common';
 import type { VideoStreamProps } from "./common"
 
-type Props = CommonProps & VideoStreamProps;
+type Props = CommonGenericProps & VideoStreamProps;
 
 const baseClassName = 'video-stream';
 

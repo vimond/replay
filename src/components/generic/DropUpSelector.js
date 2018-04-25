@@ -1,6 +1,6 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, type Id, prefixClassNames } from '../common';
+import { type CommonGenericProps, type Id, prefixClassNames } from '../common';
 import ToggleButton from './ToggleButton';
 
 type Item = string | {
@@ -8,7 +8,7 @@ type Item = string | {
     id?: Id
 };
 
-type Props = CommonProps & {
+type Props = CommonGenericProps & {
     items: Array<Item>,
     selectedItem?: Item,
     selectedItemId?: Id,
@@ -24,7 +24,7 @@ type DropUpState = {
     isExpanded: boolean
 };
 
-type SelectorItemProps = CommonProps & {
+type SelectorItemProps = CommonGenericProps & {
     item: Item,
     isSelected: boolean,
     onSelect?: Item => void

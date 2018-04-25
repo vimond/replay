@@ -1,8 +1,8 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, prefixClassNames } from '../common';
+import { type CommonGenericProps, prefixClassNames } from '../common';
 
-type Props = CommonProps & {
+type Props = CommonGenericProps & {
     children: React.Node
 };
 

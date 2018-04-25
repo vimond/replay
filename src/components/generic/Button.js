@@ -1,8 +1,8 @@
 // @flow 
 import * as React from 'react';
-import { type CommonProps, prefixClassNames, defaultClassNamePrefix } from '../common';
+import { type CommonGenericProps, prefixClassNames, defaultClassNamePrefix } from '../common';
 
-type Props = CommonProps & {
+type Props = CommonGenericProps & {
     label?: string,
     content?: React.Node,
     onClick?: () => void

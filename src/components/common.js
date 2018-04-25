@@ -2,9 +2,14 @@
 
 import * as React from 'react';
 
-export type CommonProps = {
+export type CommonGenericProps = {
     classNamePrefix?: string,
     className?: string
+};
+
+export type CommonProps = {
+	classNamePrefix?: string,
+	label?: string
 };
 
 export type Id = string|number;
@@ -96,12 +101,16 @@ export const formatTime = (seconds: number) => {
 	return negativeMark + formatTimeComponent(days, '.', true, false) + formatTimeComponent(hours, ':', days === 0) + formatTimeComponent(minutes, ':', false) + formatTimeComponent(secs);
 };
 
-export const formatClockTime = (date: Date) => {
+export const formatClockTime = (date: ?Date) => {
 	const isValidDate = date instanceof Date && !isNaN(date.getTime());
-	const hours = isValidDate ? date.getHours() : 0;
-	const minutes = isValidDate ? date.getMinutes() : 0;
-	const seconds = isValidDate ? date.getSeconds() : 0;
-	
+	let hours = 0;
+	let minutes = 0;
+	let seconds = 0;
+	if (isValidDate && date != null) { // Silly construct for flow null check.
+		hours = isValidDate ? date.getHours() : 0;
+		minutes = isValidDate ? date.getMinutes() : 0;
+		seconds = isValidDate ? date.getSeconds() : 0;
+	}
 	return formatTimeComponent(hours, ':', false) + formatTimeComponent(minutes, ':', false) + formatTimeComponent(seconds);
 };
 
