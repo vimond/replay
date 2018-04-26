@@ -38,8 +38,8 @@ const TimeDisplay = ({ position, duration, absolutePosition, playMode, liveDispl
 		if ((liveDisplayMode === 'live-offset' && playMode === 'livedvr') || !isReasonableDateTime(absolutePosition)) {
 			return (
 				<div className={prefixClassNames(classNamePrefix, className)} title={label}>
-					<span className={prefixClassNames(classNamePrefix, positionClassName)} title={positionLabel}>{formatAndLimitTime(position, true)}</span>
-					<span className={prefixClassNames(classNamePrefix, durationClassName)} title={durationLabel}>{formatAndLimitTime(duration)}</span>
+					<span className={prefixClassNames(classNamePrefix, positionClassName)} title={positionLabel}>{formatAndLimitTime(position - (duration || 0), true)}</span>
+					{ playMode === 'livedvr' && <span className={prefixClassNames(classNamePrefix, durationClassName)} title={durationLabel}>{formatAndLimitTime(duration)}</span> }
 				</div>
 			);
 		} else {

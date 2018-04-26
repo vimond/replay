@@ -111,7 +111,7 @@ test('formatTime() formats 0 values and invalid numbers as 00:00.', () =>  {
 
 const pad = v => (v < 10 ? '0' : '') + v;
 
-const getUtcTime = (year, month, day, timeStr) => {
+export const getUtcTime = (year, month, day, timeStr) => {
 	const numbers = timeStr.split(':');
 	const date = new Date(year, month + 1, day, parseInt(numbers[0],10), parseInt(numbers[1],10), parseInt(numbers[2],10));
 	return pad(date.getUTCHours()) + ':' + pad(date.getUTCMinutes()) + ':' + pad(date.getUTCSeconds());
