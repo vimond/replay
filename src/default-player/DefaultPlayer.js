@@ -30,12 +30,20 @@ type DefaultPlayerProps = {
 const configuration = {};
 const labels = {
 	skipback: 'Skip back 10 seconds',
-	playpause: 'Toggle play/pause'
+	playpause: 'Toggle play/pause',
+	timedisplay: 'Video times',
+	clocktimedisplay: 'Clock time',
+	positiondisplay: 'Current time',
+	durationdisplay: 'Duration',
+	fullscreen: 'Fullscreen',
+	
 };
 const graphics = {
 	pause: 'Pa',
 	play: 'Pl',
-	skipback: '<-'
+	skipback: '<-',
+	enterfullscreen: '<>',
+	exitfullsreen: '><'
 };
 
 // For static design work.
@@ -46,9 +54,9 @@ export const renderPlayerUI: RenderMethod = ({ children, videoStreamState, video
 			<PlayPauseButton {...videoStreamState} playingContent={graphics.pause} pausedContent={graphics.play} />
 			<SkipButton {...videoStreamState} label={labels.skipback} content={graphics.skipback} offset={-10} />
 			<Timeline />
-			<TimeDisplay/>
+			<TimeDisplay liveDisplayMode="clock-time" {...videoStreamState} label={labels.timedisplay} clockTimeLabel={labels.clocktimedisplay} positionLabel={labels.positiondisplay} durationLabel={labels.durationdisplay} />
 			<Volume/>
-			<FullscreenButton/>
+			<FullscreenButton isFullscreen={false} label={labels.fullscreen} normalContent={graphics.enterfullscreen} fullscreenContent={graphics.exitfullsreen}/>
 		</ControlsBar>
 		<Poster/>
 		<BufferingIndicator/>

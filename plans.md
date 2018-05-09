@@ -183,6 +183,7 @@ What to abstract with magic, and what to make clear APIs for?
 	* UI state
 	* Keyboard events, mouse events
 	* Might need to manage start/end states.
+	* How to bind to fullscreen button etc.? Magically, parallel to video stream?
 
 Magical injections scoped to instance of player component:
 

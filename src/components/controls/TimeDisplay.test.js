@@ -6,26 +6,6 @@ import { getUtcTime } from '../common.test';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const numbers = {
-	small: 34.56,
-	normal: 123.45,
-	big: 4567.89, // More than one hour
-	extraBig: 87654.321, // More than one day 
-	negative: -234.56,
-	invalid1: NaN,
-	invalid2: undefined,
-	invalid3: Infinity,
-	invalid4: ''
-};
-
-const dates = {
-	valid: new Date('2018-04-23T20:56:12.123Z'),
-	invalid1: new Date(NaN),
-	invalid2: new Date(7200000), // Midnight in an obscure time zone.
-	invalid3: new Date(Infinity),
-	invalid4: undefined
-};
-
 const renderTimeDisplay = ({ playMode, position, duration, absolutePosition, liveDisplayMode="clockTime", classNamePrefix="a-", label="Playback time", positionLabel="Position", durationLabel="Duration", clockTimeLabel="Time" }) => {
 	return shallow(
 		<TimeDisplay 

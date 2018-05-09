@@ -2,14 +2,13 @@
 import * as React from 'react';
 import ToggleButton from '../generic/ToggleButton';
 import { defaultClassNamePrefix } from '../common';
+import type { CommonProps } from '../common';
 
-type Props = {
+type Props = CommonProps & {
     isPaused?: boolean,
     updateProperty?: ({ isPaused: boolean }) => void,
-    label?: string,
     playingContent: React.Node,
-    pausedContent: React.Node,
-    classNamePrefix: string
+    pausedContent: React.Node
 };
 
 const className = 'play-pause-button';
@@ -35,7 +34,6 @@ class PlayPauseButton extends React.Component<Props> {
         } = this.props;
         return <ToggleButton classNamePrefix={classNamePrefix} isOn={isPaused} className={className} label={label} onToggle={this.handleToggle} toggledOnContent={pausedContent} toggledOffContent={playingContent}/>
     }
-    //TODO: Move definition of default class name prefix from generic components into this level.
 }
 
 export default PlayPauseButton;

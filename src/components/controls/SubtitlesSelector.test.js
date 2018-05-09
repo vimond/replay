@@ -1,0 +1,79 @@
+import React from 'react';
+import Enzyme, { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import SubtitlesSelector from './SubtitlesSelector';
+
+Enzyme.configure({ adapter: new Adapter() });
+
+const mockTracks = [{
+	isSelected: false,
+	language: 'da',
+	kind: 'captions',
+	label: 'Danish for hearing impaired',
+	origin: 'side-loaded'
+},{
+	isSelected: true,
+	language: 'fi',
+	kind: 'subtitles',
+	label: 'Finnish',
+	origin: 'in-stream'
+},{
+	isSelected: false,
+	language: 'sv',
+	kind: 'subtitles',
+	label: 'Swedish',
+	origin: 'in-stream'
+},{
+	isSelected: false,
+	language: 'is',
+	kind: 'captions',
+	label: 'Icelandic for hearing impaired',
+	origin: 'side-loaded'
+}];
+
+
+const render = ({ noSubtitlesLabel = 'No subtitles', classNamePrefix = 'v-', updateProperty, textTracks=mockTracks, currentTextTrack }) => shallow(<SubtitlesSelector 
+	noSubtitlesLabel={noSubtitlesLabel}
+	classNamePrefix={classNamePrefix}
+	toggleContent="T"
+	updateProperty={updateProperty}
+	label="Subtitles"
+	textTracks={textTracks}
+	currentTextTrack={currentTextTrack}
+/>);
+
+test('SubtitlesSelector renders with all available tracks plus "No subtitles" as options.', () => {
+	const rendered = render({});
+	expect(rendered.prop('label')).toBe('Subtitles');
+	expect(rendered.prop('className')).toBe('subtitles-selector');
+	expect(rendered.prop('classNamePrefix')).toBe('v-');
+	const items = rendered.prop('items');
+	expect(items.length).toBe(5);
+	expect(items[4]).toEqual({ id: 'is.captions.side-loaded', label: 'Icelandic for hearing impaired', track: mockTracks[3]});
+	expect(items[0]).toEqual({ id: 0, label: 'No subtitles'});
+});
+
+test('SubtitlesSelector does not render, if no tracks are available.', () => {
+	const rendered = render({ textTracks: [] });
+	expect(rendered.getElement()).toBe(null);
+});
+
+test('SubtitlesSelector marks the specified track as selected.', () => {
+	// Should include isSelected? At least put a warning...
+	const rendered = render({ currentTextTrack: mockTracks[2]});
+	const selectedItem = rendered.prop('selectedItem');
+	expect(selectedItem).toEqual({ id: 'sv.subtitles.in-stream', label: 'Swedish', track: mockTracks[2] });
+});
+
+test('SubtitlesSelector marks the option "No subtitles" as selected if no selected track is specified.', () => {
+
+});
+
+test('SubtitlesSelector updates property selectedTrack with a track when its option is selected. ', () => {
+	//Should include dive() and expand of DropUp?
+	
+});
+
+test('SubtitlesSelector updates property selectedTrack with null when the "No subtitles" option is selected. ', () => {
+
+});

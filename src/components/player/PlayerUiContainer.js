@@ -3,7 +3,7 @@ import * as React from 'react';
 import Container from '../generic/Container';
 
 class PlayerUiContainer extends Container {
-    baseClassName = 'host';
+    baseClassName = 'ui-container';
 }
 
 export default PlayerUiContainer;
