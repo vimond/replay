@@ -2,10 +2,10 @@
 import * as React from 'react';
 import PlayerController from "../components/player/PlayerController";
 import BasicVideoStream from "../components/player/VideoStream/BasicVideoStream";
-import ControlsBar from '../components/player/ControlsBar';
+import ControlsBar from '../components/controls/ControlsBar';
 import PlayerUiContainer from '../components/player/PlayerUiContainer';
-import Poster from '../components/player/Poster';
-import BufferingIndicator from '../components/player/BufferingIndicator';
+import Poster from '../components/controls/Poster';
+import BufferingIndicator from '../components/controls/BufferingIndicator';
 import PlayPauseButton from '../components/controls/PlayPauseButton';
 import SkipButton from '../components/controls/SkipButton';
 import Timeline from '../components/controls/Timeline';
@@ -28,20 +28,25 @@ type DefaultPlayerProps = {
 };
 
 const configuration = {};
-const labels = {
+const labels = { // TODO: Consider a two level typed structure passed with the second level passed into a labels={} attribute on each element.s
 	skipback: 'Skip back 10 seconds',
 	playpause: 'Toggle play/pause',
 	timedisplay: 'Video times',
 	clocktimedisplay: 'Clock time',
 	positiondisplay: 'Current time',
 	durationdisplay: 'Duration',
-	fullscreen: 'Fullscreen',
-	
+	volume: 'Volume and mute',
+	muteToggle: 'Toggle mute',
+	volumeSlider: 'Volume setting',
+	fullscreen: 'Fullscreen'
 };
 const graphics = {
 	pause: 'Pa',
 	play: 'Pl',
 	skipback: '<-',
+	unmuted: 'A',
+	muted: 'M',
+	volumeHandle: '•',
 	enterfullscreen: '<>',
 	exitfullsreen: '><'
 };
@@ -55,13 +60,15 @@ export const renderPlayerUI: RenderMethod = ({ children, videoStreamState, video
 			<SkipButton {...videoStreamState} label={labels.skipback} content={graphics.skipback} offset={-10} />
 			<Timeline />
 			<TimeDisplay liveDisplayMode="clock-time" {...videoStreamState} label={labels.timedisplay} clockTimeLabel={labels.clocktimedisplay} positionLabel={labels.positiondisplay} durationLabel={labels.durationdisplay} />
-			<Volume/>
+			<Volume {...videoStreamState} label={labels.volume} volumeSliderLabel={labels.volumeSlider} muteToggleLabel={labels.muteToggle} mutedContent={graphics.muted} unmutedContent={graphics.unmuted} volumeSliderHandleContent={graphics.volumeHandle} />
 			<FullscreenButton isFullscreen={false} label={labels.fullscreen} normalContent={graphics.enterfullscreen} fullscreenContent={graphics.exitfullsreen}/>
 		</ControlsBar>
 		<Poster/>
 		<BufferingIndicator/>
 	</PlayerUiContainer>
 );
+
+//TODO: How about GotoLiveButton, SubtitlesSelector?
 
 const DefaultPlayer = ({ source, textTracks, options } : DefaultPlayerProps) => ( // Can use spread for source&textTracks
 	<PlayerController render={renderPlayerUI} configuration={configuration} options={options}>
