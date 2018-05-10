@@ -43,7 +43,7 @@ class SubtitlesSelector extends React.Component<Props, State> {
 			if (item.id === 0) {
 				this.props.updateProperty({ selectedTextTrack: null });
 			} else {
-				this.props.updateProperty({ selectedTextTrack: item });
+				this.props.updateProperty({ selectedTextTrack: item.track });
 			}
 		}
 	};
@@ -73,6 +73,7 @@ class SubtitlesSelector extends React.Component<Props, State> {
 				selectedItem={selectedItem}
 				label={label}
 				onSelect={this.handleSelect}
+				reverseOrder={true}
 				toggledOnContent={toggleContent}
 				toggledOffContent={toggleContent}/>
 		} else {

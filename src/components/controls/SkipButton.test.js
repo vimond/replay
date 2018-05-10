@@ -34,7 +34,7 @@ test('SkipButton does not invoke the setPosition callback upon click, if there i
 	const setPositionCallback = jest.fn();
 	const rendered = shallow(<SkipButton setPosition={setPositionCallback} position={undefined} offset={-13}/>);
 	const renderedButton = rendered.dive();
-	expect(renderedButton.simulate('click'));
+	renderedButton.simulate('click');
 	expect(setPositionCallback.mock.calls.length).toBe(0);
 });
 
