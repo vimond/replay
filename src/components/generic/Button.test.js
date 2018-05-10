@@ -5,7 +5,7 @@ import Button from './Button';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-test('Button renders with prefixed class name and DOM.', () => {
+test('<Button/> renders with prefixed class name and DOM.', () => {
     const rendered = shallow(<Button classNamePrefix="myplayer-" label="My button" className="myclassname" content="Click me!"/>);
     expect(rendered.name()).toEqual('div');
     expect(rendered.hasClass('myplayer-button')).toBe(true);
@@ -14,7 +14,7 @@ test('Button renders with prefixed class name and DOM.', () => {
     expect(rendered.text()).toEqual('Click me!');
 });
 
-test('Button invokes a callback when clicked', () => {
+test('<Button/> invokes a callback when clicked', () => {
     const handleClick = jest.fn();
     const rendered = shallow(<Button onClick={handleClick} classNamePrefix="myplayer-" className="myclassname" content="Click me!"/>);
     rendered.simulate('click');

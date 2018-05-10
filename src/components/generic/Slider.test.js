@@ -26,7 +26,7 @@ function shallowRenderSlider({ value=10, maxValue=45, classNamePrefix, className
     >{children}</Slider>);
 }
 
-test('The slider should insert the specified track content, bar content, and handle content in to its UI, in this order. Custom class names with prefixes should be applied.', ()=>{
+test('<Slider/> should insert the specified track content, bar content, and handle content in to its UI, in this order. Custom class names with prefixes should be applied.', ()=>{
     const shallowElement = shallowRenderSlider({ children: mockBarContent, handleContent: mockHandleContent, trackContent: mockTrackContent, className: 'myclassname', handleClassName: 'myhandleclassname', trackClassName: 'mytrackclassname', classNamePrefix: 'myprefix-' });
     expect(shallowElement.name()).toBe('div');
     expect(shallowElement.hasClass('myprefix-slider')).toBe(true);
@@ -48,7 +48,7 @@ test('The slider should insert the specified track content, bar content, and han
     expect(handleElement.hasClass('myprefix-myhandleclassname')).toBe(true);
 });
 
-test('The slider should position the handle relatively according to different specified values between 0 and the specified max value.', () => {
+test('<Slider/> should position the handle relatively according to different specified values between 0 and the specified max value.', () => {
     const shallowElement = shallowRenderSlider({ value: 20, maxValue: 400, handleContent: mockHandleContent });
     expect(shallowElement.childAt(1).prop('style')).toHaveProperty('left', '5.000%');
     shallowElement.setProps({ value: 400 });
@@ -59,7 +59,7 @@ test('The slider should position the handle relatively according to different sp
     expect(shallowElement.childAt(1).prop('style')).toHaveProperty('left', '16.767%');
 });
 
-test('The slider handle should be positioned to the left/bottom when specifying values or max values not making sense or not being numbers.',() => {
+test('The <Slider/> handle should be positioned to the left/bottom when specifying values or max values not making sense or not being numbers.',() => {
     expect(shallowRenderSlider({ value: 20, maxValue: Infinity, handleContent: mockHandleContent }).childAt(1).prop('style')).toHaveProperty('left', '0%');
     expect(shallowRenderSlider({ value: Infinity, maxValue: 2, handleContent: mockHandleContent }).childAt(1).prop('style')).toHaveProperty('left', '0%');
     expect(shallowRenderSlider({ value: 10, maxValue: 0, handleContent: mockHandleContent }).childAt(1).prop('style')).toHaveProperty('left', '0%');
@@ -70,7 +70,7 @@ test('The slider handle should be positioned to the left/bottom when specifying 
     expect(shallowRenderSlider({ value: null, maxValue: undefined, handleContent: mockHandleContent }).childAt(1).prop('style')).toHaveProperty('left', '0%');
 });
 
-test('When clicking on a slider position, the slider should report the updated absolute value between 0 and the specified max value.', () => {
+test('When clicking on a slider position, the <Slider/> should report the updated absolute value between 0 and the specified max value.', () => {
     const mockEventElement = {
         getBoundingClientRect: function() {
             return {
@@ -100,7 +100,7 @@ test('When clicking on a slider position, the slider should report the updated a
     expect(handleValueChange.mock.calls[1][0]).toBe(400);
 });
 
-test('When dragging the slider handle, the slider should not report a new value before dragging ends, but rather report movements as a drag in progress. ' +
+test('When dragging the slider handle, the <Slider/> should not report a new value before dragging ends, but rather report movements as a drag in progress. ' +
     'The handle position should be updated continuously during dragging. ' +
     'It should reflect the dragging state in class names.', () => {
     const mockEventElement = {
@@ -181,7 +181,7 @@ test('When dragging the slider handle, the slider should not report a new value 
     
 });
 
-test('The slider should not update the UI based on new props while the handle is pressed. However it needs fall back to the last set value in props when the handle is released.', () => {
+test('The <Slider/> should not update the UI based on new props while the handle is pressed. However it needs fall back to the last set value in props when the handle is released.', () => {
     const mockEventElement = {
         getBoundingClientRect: function() {
             return {

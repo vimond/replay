@@ -42,7 +42,7 @@ const render = ({ noSubtitlesLabel = 'No subtitles', classNamePrefix = 'v-', upd
 	currentTextTrack={currentTextTrack}
 />);
 
-test('SubtitlesSelector renders with all available tracks plus "No subtitles" as options.', () => {
+test('<SubtitlesSelector/> renders with all available tracks plus "No subtitles" as options.', () => {
 	const rendered = render({});
 	expect(rendered.prop('label')).toBe('Subtitles');
 	expect(rendered.prop('className')).toBe('subtitles-selector');
@@ -53,25 +53,25 @@ test('SubtitlesSelector renders with all available tracks plus "No subtitles" as
 	expect(items[0]).toEqual({ id: 0, label: 'No subtitles'});
 });
 
-test('SubtitlesSelector does not render, if no tracks are available.', () => {
+test('<SubtitlesSelector/> does not render, if no tracks are available.', () => {
 	const rendered = render({ textTracks: [] });
 	expect(rendered.getElement()).toBe(null);
 });
 
-test('SubtitlesSelector marks the specified track as selected.', () => {
+test('<SubtitlesSelector/> marks the specified track as selected.', () => {
 	// Should include isSelected? At least put a warning...
 	const rendered = render({ currentTextTrack: mockTracks[2] });
 	const selectedItem = rendered.prop('selectedItem');
 	expect(selectedItem).toEqual({ id: 'sv.subtitles.in-stream', label: 'Swedish', track: mockTracks[2] });
 });
 
-test('SubtitlesSelector marks the option "No subtitles" as selected if no selected track is specified.', () => {
+test('<SubtitlesSelector/> marks the option "No subtitles" as selected if no selected track is specified.', () => {
 	const rendered = render({ currentTextTrack: null });
 	const selectedItem = rendered.prop('selectedItem');
 	expect(selectedItem).toEqual({ id: 0, label: 'No subtitles' });
 });
 
-test('SubtitlesSelector updates property selectedTextTrack with a track when its option is selected, or with null if the "No subtitles" option is selected. ', () => {
+test('<SubtitlesSelector/> updates property selectedTextTrack with a track when its option is selected, or with null if the "No subtitles" option is selected. ', () => {
 	//Should include dive() and expand of DropUp?
 	const updateProperty = jest.fn();
 	const rendered = render({ updateProperty, classNamePrefix: '' });

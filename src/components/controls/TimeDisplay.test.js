@@ -22,7 +22,7 @@ const renderTimeDisplay = ({ playMode, position, duration, absolutePosition, liv
 		/>);
 };
 
-test('TimeDisplay renders with prefixed class name and DOM including children for position and duration.', () => {
+test('<TimeDisplay/> renders with prefixed class name and DOM including children for position and duration.', () => {
 	const rendered = renderTimeDisplay({ position: 0, duration: 123, playMode: 'ondemand' });
 	expect(rendered.prop('title')).toBe('Playback time');
 	expect(rendered.hasClass('a-time-display')).toBe(true);
@@ -38,13 +38,13 @@ test('TimeDisplay renders with prefixed class name and DOM including children fo
 	expect(durationElement.prop('title')).toBe('Duration');
 });
 
-test('TimeDisplay in on demand mode formats negative positions or durations as 00:00.', () => {
+test('<TimeDisplay/> in on demand mode formats negative positions or durations as 00:00.', () => {
 	const rendered = renderTimeDisplay({ position: -13.44, duration: 123, playMode: 'ondemand' });
 	const positionElement = rendered.find('.a-time-display-position');
 	expect(positionElement.text()).toBe('00:00');
 });
 
-test('TimeDisplay with clock time mode displays no duration, but a time of day including hours, ' +
+test('<TimeDisplay/> with clock time mode displays no duration, but a time of day including hours, ' +
 	'minutes, and seconds, for live streams with valid time stamps.', () => {
 	const rendered = renderTimeDisplay({ position: 13, duration: 123, playMode: 'livedvr', liveDisplayMode: 'clock-time', absolutePosition: new Date('2018-04-23T20:56:12.123Z') });
 	const positionElement = rendered.find('.a-time-display-position');
@@ -55,7 +55,7 @@ test('TimeDisplay with clock time mode displays no duration, but a time of day i
 	expect(getUtcTime(2018, 4, 23, clockTimeElement.text())).toBe('20:56:12');
 });
 
-test('TimeDisplay with live offset mode, or without valid time stamps, displays duration and ' +
+test('<TimeDisplay/> with live offset mode, or without valid time stamps, displays duration and ' +
 	'offset/timeshift from live position, including hours, minutes, and seconds.', () => {
 	const rendered1 = renderTimeDisplay({ position: 13, duration: 123, playMode: 'livedvr', liveDisplayMode: 'live-offset', absolutePosition: new Date('2018-04-23T20:56:12.123Z') });
 	const positionElement = rendered1.find('.a-time-display-position');
@@ -69,7 +69,7 @@ test('TimeDisplay with live offset mode, or without valid time stamps, displays 
 	expect(durationElement2.text()).toBe('02:03');
 });
 
-test('TimeDisplay with live offset mode, and play mode live, attempts displaying position as clock time, but falls back to relative position again..', () => {
+test('<TimeDisplay/> with live offset mode, and play mode live, attempts displaying position as clock time, but falls back to relative position again..', () => {
 	const rendered = renderTimeDisplay({ position: 13, duration: 123, playMode: 'live', liveDisplayMode: 'live-offset', absolutePosition: new Date('2018-04-23T20:56:12.123Z') });
 	const positionElement = rendered.find('.a-time-display-position');
 	const durationElement = rendered.find('.a-time-display-duration');
@@ -86,7 +86,7 @@ test('TimeDisplay with live offset mode, and play mode live, attempts displaying
 	expect(positionElement2.text()).toBe('00:00');
 });
 
-test('TimeDisplay renders 00:00 on falsy/invalid positions.', () => {
+test('<TimeDisplay/> renders 00:00 on falsy/invalid positions.', () => {
 	const renderedList = [
 		renderTimeDisplay({ position: NaN, duration: 123, playMode: 'livedvr', liveDisplayMode: 'live-offset', absolutePosition: new Date('2018-04-23T20:56:12.123Z') }),
 		renderTimeDisplay({ position: false, duration: 123, playMode: 'ondemand', liveDisplayMode: 'live-offset', absolutePosition: new Date('2018-04-23T20:56:12.123Z') }),
@@ -96,7 +96,7 @@ test('TimeDisplay renders 00:00 on falsy/invalid positions.', () => {
 	expect(renderedList.map(rendered => rendered.find('.a-time-display-position')).filter(p => p.text() === '00:00').length).toBe(4);
 });
 
-test('TimeDisplay renders 00:00 on falsy/invalid durations.', () => {
+test('<TimeDisplay/> renders 00:00 on falsy/invalid durations.', () => {
 	const renderedList = [
 		renderTimeDisplay({ position: 234, duration: NaN, playMode: 'livedvr', liveDisplayMode: 'live-offset', absolutePosition: new Date('2018-04-23T20:56:12.123Z') }),
 		renderTimeDisplay({ position: 234, duration: false, playMode: 'ondemand', liveDisplayMode: 'live-offset', absolutePosition: new Date('2018-04-23T20:56:12.123Z') }),
@@ -106,7 +106,7 @@ test('TimeDisplay renders 00:00 on falsy/invalid durations.', () => {
 	expect(renderedList.map(rendered => rendered.find('.a-time-display-duration')).filter(p => p.text() === '00:00').length).toBe(4);
 });
 
-test('TimeDisplay adds a class name indicating that only position is to be displayed, ' +
+test('<TimeDisplay/> adds a class name indicating that only position is to be displayed, ' +
 	'when clock time mode enabled or with live mode.', () => {
 	const rendered = renderTimeDisplay({ position: 13, duration: 123, playMode: 'live', liveDisplayMode: 'live-offset', absolutePosition: new Date('2018-04-23T20:56:12.123Z') });
 	expect(rendered.hasClass('a-time-display-no-duration')).toBe(true);

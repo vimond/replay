@@ -20,7 +20,7 @@ const commonProps = {
 	isMuted: true
 };
 
-test('Volume renders with prefixed class name and DOM including children.', () => {
+test('<Volume/> renders with prefixed class name and DOM including children.', () => {
 	const rendered = shallow(<Volume {...commonProps}/>);
 	
 	const container = rendered.find('div');
@@ -49,7 +49,7 @@ test('Volume renders with prefixed class name and DOM including children.', () =
 	expect(mtProps.toggledOnContent).toBe('M');
 });
 
-test('Volume updates property isMuted when mute toggle is clicked.', () => {
+test('<Volume/> updates property isMuted when mute toggle is clicked.', () => {
 	const updateProperty = jest.fn();
 	const rendered = shallow(<Volume {...commonProps} updateProperty={updateProperty} />);
 	const renderedMuteToggle = rendered.find(ToggleButton).dive();
@@ -58,7 +58,7 @@ test('Volume updates property isMuted when mute toggle is clicked.', () => {
 	expect(updateProperty.mock.calls[0][0]).toEqual({ isMuted: false });
 	
 });
-test('Volume updates property volume when volume slider handle is moved.', () => {
+test('<Volume/> updates property volume when volume slider handle is moved.', () => {
 	const updateProperty = jest.fn();
 	const rendered = shallow(<Volume {...commonProps} updateProperty={updateProperty} />);
 	const renderedVolumeSlider = rendered.find(Slider).dive();

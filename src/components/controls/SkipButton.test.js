@@ -5,7 +5,7 @@ import SkipButton from './SkipButton';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-test('SkipButton renders with prefixed class name and DOM including children.', () => {
+test('<SkipButton/> renders with prefixed class name and DOM including children.', () => {
 	const rendered = shallow(<SkipButton classNamePrefix="a-" content="S" label="C"/>);
 	const renderedButton = rendered.dive();
 	expect(rendered.name()).toBe('Button');
@@ -18,7 +18,7 @@ test('SkipButton renders with prefixed class name and DOM including children.', 
 	expect(renderedButton2.hasClass('v-player-skip-button')).toBe(true);
 });
 
-test('SkipButton invokes the setPosition callback when clicked, passing the new position calculated from adding the specified offset to the current position.', () => {
+test('<SkipButton/> invokes the setPosition callback when clicked, passing the new position calculated from adding the specified offset to the current position.', () => {
 	const setPositionCallback = jest.fn();
 	const rendered = shallow(<SkipButton setPosition={setPositionCallback} position={345} offset={-13}/>);
 	const renderedButton = rendered.dive();
@@ -30,7 +30,7 @@ test('SkipButton invokes the setPosition callback when clicked, passing the new 
 	expect(setPositionCallback.mock.calls[0][0]).toBe(332);
 });
 
-test('SkipButton does not invoke the setPosition callback upon click, if there is no valid position specified.', () => {
+test('<SkipButton/> does not invoke the setPosition callback upon click, if there is no valid position specified.', () => {
 	const setPositionCallback = jest.fn();
 	const rendered = shallow(<SkipButton setPosition={setPositionCallback} position={undefined} offset={-13}/>);
 	const renderedButton = rendered.dive();
@@ -38,7 +38,7 @@ test('SkipButton does not invoke the setPosition callback upon click, if there i
 	expect(setPositionCallback.mock.calls.length).toBe(0);
 });
 
-test('SkipButton does not invoke the setPosition callback upon click, if there is no valid offset specified.', () => {
+test('<SkipButton/> does not invoke the setPosition callback upon click, if there is no valid offset specified.', () => {
 	const setPositionCallback = jest.fn();
 	const rendered = shallow(<SkipButton setPosition={setPositionCallback} position={1234} offset={NaN}/>);
 	const renderedButton = rendered.dive();

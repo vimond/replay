@@ -5,7 +5,7 @@ import ControlsBar from './ControlsBar';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-test('ControlsBar renders with prefixed class name and DOM including children.', () => {
+test('<ControlsBar/> renders with prefixed class name and DOM including children.', () => {
     const rendered = shallow(<ControlsBar classNamePrefix="myplayer-" className="myclassname">Hello</ControlsBar>);
     expect(rendered.name()).toEqual('div');
     expect(rendered.hasClass('myplayer-controls-bar')).toBe(true);

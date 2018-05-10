@@ -5,7 +5,7 @@ import FullscreenButton from './FullscreenButton';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-test('FullscreenButton renders with prefixed class name and DOM including children.', () => {
+test('<FullscreenButton/> renders with prefixed class name and DOM including children.', () => {
 	const rendered = shallow(<FullscreenButton classNamePrefix="a-" fullscreenContent="A" normalContent="B" label="C"/>);
 	const renderedToggleButton = rendered.dive();
 	expect(rendered.name()).toBe('ToggleButton');
@@ -18,14 +18,14 @@ test('FullscreenButton renders with prefixed class name and DOM including childr
 	expect(renderedToggleButton2.hasClass('v-player-fullscreen-button')).toBe(true);
 });
 
-test('FullscreenButton renders button state during fullscreen correctly.', () => {
+test('<FullscreenButton/> renders button state during fullscreen correctly.', () => {
 	const rendered = shallow(<FullscreenButton classNamePrefix="a-" isFullscreen={true} fullscreenContent="A" normalContent="B"/>);
 	const renderedToggleButton = rendered.dive();
 	expect(rendered.props().isOn).toBe(true);
 	expect(renderedToggleButton.text()).toBe('A');
 });
 
-test('FullscreenButton updates property isFullscreen with opposite boolean value on click.', () => {
+test('<FullscreenButton/> updates property isFullscreen with opposite boolean value on click.', () => {
 	const updatePropertyCallback = jest.fn();
 	const rendered = shallow(<FullscreenButton updateProperty={updatePropertyCallback} classNamePrefix="a-" isFullscreen={false} fullscreenContent="A" normalContent="B"/>);
 	const renderedToggleButton = rendered.dive();

@@ -5,7 +5,7 @@ import PlayPauseButton from './PlayPauseButton';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-test('PlayPauseButton renders with prefixed class name and DOM including children.', () => {
+test('<PlayPauseButton/> renders with prefixed class name and DOM including children.', () => {
 	const rendered = shallow(<PlayPauseButton classNamePrefix="a-" pausedContent="A" playingContent="B" label="C"/>);
 	const renderedToggleButton = rendered.dive();
 	expect(rendered.name()).toBe('ToggleButton');
@@ -18,7 +18,7 @@ test('PlayPauseButton renders with prefixed class name and DOM including childre
 	expect(renderedToggleButton2.hasClass('v-player-play-pause-button')).toBe(true);
 });
 
-test('PlayPauseButton renders paused state correctly.', () => {
+test('<PlayPauseButton/> renders paused state correctly.', () => {
 	const rendered = shallow(<PlayPauseButton classNamePrefix="a-" isPaused={true} pausedContent="A" playingContent="B"/>);
 	const props = rendered.props();
 	const renderedToggleButton = rendered.dive();
@@ -26,7 +26,7 @@ test('PlayPauseButton renders paused state correctly.', () => {
 	expect(renderedToggleButton.text()).toBe('A');
 });
 
-test('PlayPauseButton updates property isPaused with opposite boolean value on click.', () => {
+test('<PlayPauseButton/> updates property isPaused with opposite boolean value on click.', () => {
 	const updatePropertyCallback = jest.fn();
 	const rendered = shallow(<PlayPauseButton updateProperty={updatePropertyCallback} classNamePrefix="a-" isPaused={true} pausedContent="A" playingContent="B"/>);
 	const renderedToggleButton = rendered.dive();
