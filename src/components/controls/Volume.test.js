@@ -36,6 +36,8 @@ test('<Volume/> renders with prefixed class name and DOM including children.', (
 	expect(vsProps.label).toBe('Volume setting');
 	expect(vsProps.classNamePrefix).toBe('v-');
 	expect(vsProps.className).toBe('volume-slider');
+	expect(vsProps.trackClassName).toBe('volume-slider-track');
+	expect(vsProps.handleClassName).toBe('volume-slider-handle');
 	expect(vsProps.maxValue).toBe(1);
 	expect(vsProps.value).toBe(0.7);
 	expect(vsProps.handleContent).toBe('•');

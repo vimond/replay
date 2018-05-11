@@ -2,10 +2,12 @@
 import * as React from 'react';
 import ToggleButton from '../generic/ToggleButton';
 import { defaultClassNamePrefix } from '../common';
+import type { PlayMode } from '../player/VideoStream/common';
 
 type Props = {
 	isAtLivePosition?: boolean,
 	gotoLive?: () => void,
+	playMode?: PlayMode,
 	label?: string,
 	isAtLivePositionContent: React.Node,
 	isNotAtLivePositionContent: React.Node,
@@ -27,13 +29,14 @@ class GotoLiveButton extends React.Component<Props> {
 
 	render() {
 		const {
+			playMode,
 			isAtLivePosition,
 			isAtLivePositionContent,
 			isNotAtLivePositionContent,
 			label,
 			classNamePrefix
 		} = this.props;
-		return <ToggleButton classNamePrefix={classNamePrefix} isOn={isAtLivePosition} className={className} label={label} onToggle={this.handleToggle} toggledOnContent={isAtLivePositionContent} toggledOffContent={isNotAtLivePositionContent}/>
+		return playMode === 'livedvr' ? <ToggleButton classNamePrefix={classNamePrefix} isOn={isAtLivePosition} className={className} label={label} onToggle={this.handleToggle} toggledOnContent={isAtLivePositionContent} toggledOffContent={isNotAtLivePositionContent}/> : null;
 	}
 }
 

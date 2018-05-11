@@ -14,12 +14,14 @@ type Props = CommonProps & {
 	unmutedContent: React.Node,
 	volumeSliderHandleContent: React.Node,
 	volumeSliderTrackContent: React.Node,
-	updateProperty?: ({ volume?: number, isMuted?: boolean }) => void
+	updateProperty?: ({ volume: number } | { isMuted: boolean }) => void
 };
 
 const className = 'volume';
 const muteToggleClassName = 'mute-toggle';
 const volumeSliderClassName = 'volume-slider';
+const volumeSliderHandleClassName = 'volume-slider-handle';
+const volumeSliderTrackClassName = 'volume-slider-track';
 const maxVolume = 1;
 
 class Volume extends React.Component<Props> {
@@ -73,6 +75,8 @@ class Volume extends React.Component<Props> {
 					onValueChange={this.handleVolumeSliderChange}
 					classNamePrefix={classNamePrefix}
 					className={volumeSliderClassName}
+					trackClassName={volumeSliderTrackClassName}
+					handleClassName={volumeSliderHandleClassName}
 				/>
 			</div>
 		);
