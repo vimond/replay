@@ -2,6 +2,12 @@
   "name": "snopeplayer",
   "version": "0.1.0",
   "private": true,
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "parser": "flow",
+    "jsxBracketSameLine": true
+  },
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -16,6 +22,7 @@
   "devDependencies": {
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "flow-bin": "^0.67.1"
+    "flow-bin": "^0.67.1",
+    "prettier": "^1.12.1"
   }
 }
