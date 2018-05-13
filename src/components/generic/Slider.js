@@ -1,24 +1,24 @@
-// @flow 
+// @flow
 import * as React from 'react';
 import { type CommonGenericProps, prefixClassNames, getBoundingEventCoordinates } from '../common';
 
 type Props = CommonGenericProps & {
-    value: number,
-    maxValue: number,
-    isVertical?: boolean,
-    children?: React.Node,
-    handleContent?: React.Node,
-    handleClassName?: string,
-    trackContent?: React.Node,
-    trackClassName?: string,
-    label?: string,
-    onValueChange?: number => void,
-    onDrag?: number => void
+  value: number,
+  maxValue: number,
+  isVertical?: boolean,
+  children?: React.Node,
+  handleContent?: React.Node,
+  handleClassName?: string,
+  trackContent?: React.Node,
+  trackClassName?: string,
+  label?: string,
+  onValueChange?: number => void,
+  onDrag?: number => void
 };
 
 type State = {
-    dragValue?: number,
-    isDragging?: boolean
+  dragValue?: number,
+  isDragging?: boolean
 };
 
 const baseClassName = 'slider';
@@ -30,12 +30,12 @@ const horizontalProp = 'left';
 const verticalProp = 'bottom';
 
 function toPercentString(value: number, maxValue: number): string {
-    const attempt = value/maxValue;
-    if (maxValue === Infinity || value === Infinity || maxValue === 0 || isNaN(attempt) || attempt === 0) {
-        return zeroStyle;
-    } else {
-        return `${(Math.min(1, attempt) * 100).toFixed(3)}%`;
-    }
+  const attempt = value / maxValue;
+  if (maxValue === Infinity || value === Infinity || maxValue === 0 || isNaN(attempt) || attempt === 0) {
+    return zeroStyle;
+  } else {
+    return `${(Math.min(1, attempt) * 100).toFixed(3)}%`;
+  }
 }
 
 /*
@@ -49,102 +49,106 @@ The styling of the slider needs to follow some rules in order to get sensible re
 
  */
 
-class Slider extends React.Component<Props,State> {
-    static defaultProps = {
-        value: 0,
-        maxValue: 1
-    };
+class Slider extends React.Component<Props, State> {
+  static defaultProps = {
+    value: 0,
+    maxValue: 1
+  };
 
-    renderedHandle: ?HTMLDivElement;
-    renderedTrack: ?HTMLDivElement;
-    isTouchSupported: boolean;
+  renderedHandle: ?HTMLDivElement;
+  renderedTrack: ?HTMLDivElement;
+  isTouchSupported: boolean;
 
-    constructor(props: Props) {
-        super(props);
-        this.isTouchSupported = 'ontouchend' in window;
-        this.state = {};
+  constructor(props: Props) {
+    super(props);
+    this.isTouchSupported = 'ontouchend' in window;
+    this.state = {};
+  }
+
+  updateValueFromCoordinates = (
+    evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent,
+    isEnded?: boolean
+  ) => {
+    if (this.renderedTrack) {
+      const clickCoordinates = getBoundingEventCoordinates(evt, this.renderedTrack);
+      if (this.props.isVertical) {
+        const relativeVerticalValue = (clickCoordinates.height - clickCoordinates.y) / clickCoordinates.height;
+        this.updateValue(relativeVerticalValue, isEnded);
+      } else {
+        const relativeHorizontalValue = clickCoordinates.x / clickCoordinates.width;
+        this.updateValue(relativeHorizontalValue, isEnded);
+      }
     }
-    
-    updateValueFromCoordinates = (evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent, isEnded?: boolean) => {
-        if (this.renderedTrack) {
-            const clickCoordinates = getBoundingEventCoordinates(evt, this.renderedTrack);
-            if (this.props.isVertical) {
-                const relativeVerticalValue = (clickCoordinates.height - clickCoordinates.y) / clickCoordinates.height;
-                this.updateValue(relativeVerticalValue, isEnded);
-            } else {
-                const relativeHorizontalValue = clickCoordinates.x / clickCoordinates.width;
-                this.updateValue(relativeHorizontalValue, isEnded);
-            }
-        }
-    };
-    
-    updateValue = (relativeValue: number, isEnded?: boolean) => { // TODO: Override isDragging with extra argument
-        const value = relativeValue * this.props.maxValue;
-        if (this.state.isDragging) {
-            this.setState({
-                dragValue: value
-            });
-            if (this.props.onDrag) {
-                this.props.onDrag(value);
-            }
-        }
-        if (this.props.onValueChange && (isEnded || !this.state.isDragging)) {
-            this.props.onValueChange(value);
-        }
-    };
+  };
 
-    handleHandleOrTrackClick = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
-        this.updateValueFromCoordinates(evt);
-    };
+  updateValue = (relativeValue: number, isEnded?: boolean) => {
+    // TODO: Override isDragging with extra argument
+    const value = relativeValue * this.props.maxValue;
+    if (this.state.isDragging) {
+      this.setState({
+        dragValue: value
+      });
+      if (this.props.onDrag) {
+        this.props.onDrag(value);
+      }
+    }
+    if (this.props.onValueChange && (isEnded || !this.state.isDragging)) {
+      this.props.onValueChange(value);
+    }
+  };
 
-    handleHandleStartDrag = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
-        if (!this.state.isDragging) {
-            this.setState({ isDragging: true });
-            this.updateValueFromCoordinates(evt);
-            // We are OK with no position updates yet.
-            if (this.isTouchSupported) {
-                document.addEventListener('touchmove', this.handleHandleDrag.bind(this));
-                document.addEventListener('touchend', this.handleHandleEndDrag.bind(this));
-                document.addEventListener('touchcancel', this.handleHandleEndDrag.bind(this));
-            } else {
-                document.addEventListener('mousemove', this.handleHandleDrag.bind(this));
-                document.addEventListener('mouseup', this.handleHandleEndDrag.bind(this));
-                document.addEventListener('mouseleave', this.handleHandleEndDrag.bind(this));
-            }
-        }
-    };
-    
-    handleHandleDrag = (evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent) => {
-        if (this.state.isDragging) {
-            this.updateValueFromCoordinates(evt);
-        }
-    };
-    
-    handleHandleEndDrag = (evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent) => {
-        if (this.state.isDragging) {
-            this.updateValueFromCoordinates(evt, true);
-        }
-        if (this.isTouchSupported) {
-            document.removeEventListener('touchmove', this.handleHandleDrag.bind(this));
-            document.removeEventListener('touchend', this.handleHandleEndDrag.bind(this));
-            document.removeEventListener('touchcancel', this.handleHandleEndDrag.bind(this));
-        } else {
-            document.removeEventListener('mousemove', this.handleHandleDrag.bind(this));
-            document.removeEventListener('mouseup', this.handleHandleEndDrag.bind(this));
-            document.removeEventListener('mouseleave', this.handleHandleEndDrag.bind(this));
-        }
-        this.setState({ isDragging: false });
-    };
+  handleHandleOrTrackClick = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
+    this.updateValueFromCoordinates(evt);
+  };
 
-    setRenderedHandle = (handle: ?HTMLDivElement) => {
-        this.renderedHandle = handle;
-    };
+  handleHandleStartDrag = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
+    if (!this.state.isDragging) {
+      this.setState({ isDragging: true });
+      this.updateValueFromCoordinates(evt);
+      // We are OK with no position updates yet.
+      if (this.isTouchSupported) {
+        document.addEventListener('touchmove', this.handleHandleDrag.bind(this));
+        document.addEventListener('touchend', this.handleHandleEndDrag.bind(this));
+        document.addEventListener('touchcancel', this.handleHandleEndDrag.bind(this));
+      } else {
+        document.addEventListener('mousemove', this.handleHandleDrag.bind(this));
+        document.addEventListener('mouseup', this.handleHandleEndDrag.bind(this));
+        document.addEventListener('mouseleave', this.handleHandleEndDrag.bind(this));
+      }
+    }
+  };
 
-    setRenderedTrack = (track: ?HTMLDivElement) => {
-        this.renderedTrack = track;
-    };
+  handleHandleDrag = (evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent) => {
+    if (this.state.isDragging) {
+      this.updateValueFromCoordinates(evt);
+    }
+  };
 
-    /*
+  handleHandleEndDrag = (evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent) => {
+    if (this.state.isDragging) {
+      this.updateValueFromCoordinates(evt, true);
+    }
+    if (this.isTouchSupported) {
+      document.removeEventListener('touchmove', this.handleHandleDrag.bind(this));
+      document.removeEventListener('touchend', this.handleHandleEndDrag.bind(this));
+      document.removeEventListener('touchcancel', this.handleHandleEndDrag.bind(this));
+    } else {
+      document.removeEventListener('mousemove', this.handleHandleDrag.bind(this));
+      document.removeEventListener('mouseup', this.handleHandleEndDrag.bind(this));
+      document.removeEventListener('mouseleave', this.handleHandleEndDrag.bind(this));
+    }
+    this.setState({ isDragging: false });
+  };
+
+  setRenderedHandle = (handle: ?HTMLDivElement) => {
+    this.renderedHandle = handle;
+  };
+
+  setRenderedTrack = (track: ?HTMLDivElement) => {
+    this.renderedTrack = track;
+  };
+
+  /*
     componentWillReceiveProps(nextProps: Props) {
         if (this.props.value !== nextProps.value && this.state.isDragging) {
             this.setState({
@@ -162,39 +166,49 @@ class Slider extends React.Component<Props,State> {
         }
     }
 */
-    
-    render() {
-        const {
-            children,
-            handleContent,
-            trackContent,
-            classNamePrefix,
-            className,
-            handleClassName,
-            trackClassName,
-            label,
-            isVertical,
-            value,
-            maxValue
-        } = this.props;
-        const {
-            dragValue,
-            isDragging
-        } = this.state;
-        const displayValue = (isDragging && dragValue != null) ? dragValue : value; // A bit fragile detection relying on componentWillReceiveProps.
-        const sliderClassNames = isDragging ? prefixClassNames(classNamePrefix, baseClassName, className, isDraggingClassName) : prefixClassNames(classNamePrefix, baseClassName, className);
-        const handleClassNames = prefixClassNames(classNamePrefix, baseHandleClassName, handleClassName);
-        const trackClassNames = prefixClassNames(classNamePrefix, baseTrackClassName, trackClassName);
-        return (
-            <div onClick={this.handleHandleOrTrackClick} onMouseDown={this.handleHandleStartDrag} onMouseUp={this.handleHandleEndDrag} onMouseMove={this.handleHandleDrag} title={label} className={sliderClassNames}>
-                <div className={trackClassNames} ref={this.setRenderedTrack}>{trackContent}</div>
-                {children}
-                <div className={handleClassNames} style={{ [isVertical ? verticalProp : horizontalProp]: toPercentString(displayValue, maxValue) }} ref={this.setRenderedHandle}>
-                    {handleContent}
-                </div>
-            </div>
-        );
-    }
+
+  render() {
+    const {
+      children,
+      handleContent,
+      trackContent,
+      classNamePrefix,
+      className,
+      handleClassName,
+      trackClassName,
+      label,
+      isVertical,
+      value,
+      maxValue
+    } = this.props;
+    const { dragValue, isDragging } = this.state;
+    const displayValue = isDragging && dragValue != null ? dragValue : value; // A bit fragile detection relying on componentWillReceiveProps.
+    const sliderClassNames = isDragging
+      ? prefixClassNames(classNamePrefix, baseClassName, className, isDraggingClassName)
+      : prefixClassNames(classNamePrefix, baseClassName, className);
+    const handleClassNames = prefixClassNames(classNamePrefix, baseHandleClassName, handleClassName);
+    const trackClassNames = prefixClassNames(classNamePrefix, baseTrackClassName, trackClassName);
+    return (
+      <div
+        onClick={this.handleHandleOrTrackClick}
+        onMouseDown={this.handleHandleStartDrag}
+        onMouseUp={this.handleHandleEndDrag}
+        onMouseMove={this.handleHandleDrag}
+        title={label}
+        className={sliderClassNames}>
+        <div className={trackClassNames} ref={this.setRenderedTrack}>
+          {trackContent}
+        </div>
+        {children}
+        <div
+          className={handleClassNames}
+          style={{ [isVertical ? verticalProp : horizontalProp]: toPercentString(displayValue, maxValue) }}
+          ref={this.setRenderedHandle}>
+          {handleContent}
+        </div>
+      </div>
+    );
+  }
 }
 
 export default Slider;

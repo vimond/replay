@@ -32,7 +32,6 @@ const skipBackOffset = -10;
 const qualityStrategy = 'cap-bitrate';
 const liveDisplayMode = 'clock-time';
 const labels = {
-  // TODO: Consider a two level typed structure passed with the second level passed into a labels={} attribute on each element.
   playPause: {
     label: 'Toggle play/pause'
   },

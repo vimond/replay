@@ -1,13 +1,13 @@
-// @flow 
+// @flow
 import * as React from 'react';
 import { type CommonGenericProps, prefixClassNames } from '../common';
 
 type Props = CommonGenericProps & {
-    isOn?: boolean,
-    label?: string,
-    toggledOffContent?: React.Node,
-    toggledOnContent?: React.Node,
-    onToggle?: boolean => void
+  isOn?: boolean,
+  label?: string,
+  toggledOffContent?: React.Node,
+  toggledOnContent?: React.Node,
+  onToggle?: boolean => void
 };
 
 const baseClassName = 'toggle-button';
@@ -15,23 +15,19 @@ const offClassName = 'toggled-off';
 const onClassName = 'toggled-on';
 
 class ToggleButton extends React.Component<Props> {
+  handleClick = () => this.props.onToggle && this.props.onToggle(!this.props.isOn);
 
-    handleClick = () => this.props.onToggle && this.props.onToggle(!this.props.isOn);
-    
-    render() {
-        const {
-            isOn,
-            label,
-            className,
-            classNamePrefix,
-            toggledOnContent,
-            toggledOffContent,
-        }: Props = this.props;
-        const toggleClassName = isOn ? onClassName : offClassName;
-        const classNames = prefixClassNames(classNamePrefix, baseClassName, className, toggleClassName);
-        const content = isOn ? toggledOnContent : toggledOffContent;
-        return <div title={label} onClick={this.handleClick} className={classNames}>{content}</div>;
-    }
+  render() {
+    const { isOn, label, className, classNamePrefix, toggledOnContent, toggledOffContent }: Props = this.props;
+    const toggleClassName = isOn ? onClassName : offClassName;
+    const classNames = prefixClassNames(classNamePrefix, baseClassName, className, toggleClassName);
+    const content = isOn ? toggledOnContent : toggledOffContent;
+    return (
+      <div title={label} onClick={this.handleClick} className={classNames}>
+        {content}
+      </div>
+    );
+  }
 }
 
 export default ToggleButton;

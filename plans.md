@@ -25,6 +25,7 @@ Sheesh.
 * Accessibility compliance...
 * No company or customer specifics, or mentioning of them - prepared for OS or sharing with customers
 * Code splitting for the integrated streaming libraries
+* Prepare for commercial integrations. Consider creating a Google IMA SDK integration, but nothing else.
 * Prettier.
 
 # The view: Player with controls
@@ -33,36 +34,45 @@ Sheesh.
 
 ### Premium video engine
 
-Initially the full Vimond video engine. However, modernise and streamline API and config.
+Initially the full Vimond video engine. However, modernise and streamline API and config in v3 of the React component.
+
+Best naming suggestion yet: `<VideoStreamer/>`
 
 ### Simple HTML5 video wrapper
 
 Later, create a simple replacement covering HTML5 video, with the streamlined API. This might be open-sourced.
 
+### Mock streamer component
+
+For "design mode", to be used with e.g. Styleguidist.
+
 ## Controls, overlays, UI containers
 
 ### General buttons and widgets
 
-* Button
-* Slider
+* ✓ Button
+* ✓ Slider
 * Overlay
-* Drop-up selector
+* ✓ Drop-up selector
 * Toast
 * Poster
 
 ### Specialised controls
 
-* Play/pause
-* Timeline with scrubber
-* Volume with mute toggle
-* Subtitles
-* Audio
-* Fullscreen
-* Time display
-* Live button
+* ✓ Play/pause
+* ✓ Timeline with scrubber
+* ✓ Volume with mute toggle
+* ✓ Subtitles
+* ✓ Audio
+* ✓ Fullscreen
+* ✓ Time display
+* ✓ Live button
+* ✓ Skip back/forth X seconds
+* ✓ Quality selector
 	
 ### Other UI components
-			
+
+* Poster? Need to decide on lifecycle strategy.			
 * Loading indicator
 * Player container, managing
 	* User inactivity
@@ -75,8 +85,6 @@ The concerns above might be separated into HOCs or utilities attached to the vis
 
 ### Later
 	
-* Skip back/forth X seconds
-* Quality selector
 * Markers
 * Chapters
 * Episodes selector
@@ -86,7 +94,7 @@ The concerns above might be separated into HOCs or utilities attached to the vis
 * Multiplayer...
 * End poster with replay and suggestions
 
-## Styles/skinning
+## Styles/skinning, some thoughts...
 
 Decide early on plain-old CSS, SASS, or CSS in JS. 
 
@@ -102,127 +110,77 @@ Good old prefixing of all class names. Consider passing down implicitly, but is 
 
 Styling passed directly turns off class names?
 
-Best practices for SVG icons.
-
-Open source icon set.
+Open source icon set. Best practices for SVG icons.
 
 # [Playback] state management
 
-Let all components easily observe playback state, without actions + Redux store.
-
-Let all components easily manipulate playback state. Expose "actions" object to them.
+Consuming playback state and manipulating the playback is handled by a `<PlayerController>` dealing specially with the video stream component.
 
 Later: Look into Flux action set prepared for Redux. Both buttons and video state changes.
-
-# APIs
-
-## Key APIs of a video player
-
-### Starting up
-
-* Configuration
-* What to play (URLs, extra stream data, start position)
-
-### State to be observed/consumed
-
-* Playback position (also as timestamp)
-* Video duration
-* Is live stream (or on demand)
-* Live mode
-* Volume
-* Is muted
-* Is buffering
-* Is seeking
-* Is paused (or playing)
-* Is unstarted
-* Is completed
-* Stream bitrates
-* Currently selected bitrate
-* Available subtitles
-* Available audio tracks
-* Buffer ahead size
-* Playback error
-
-### Playback state to be manipulated
-
-* Is paused
-* Volume
-* Is muted
-* Cap bitrate
-* Lock bitrate
-* Add, remove, replace subtitle tracks
-
-### Operations on the playback state
-
-* Seek
-* Go to live
-* Stop
-
-## Commercial features preparations
-
-Tracking hooks. Handling schedules with pre, mid, and post rolls, without messing up flow and UI.
-
-Google IMA integration.
 
 # Architecture
 
 ## Designing the best separation of concerns
 
-What to abstract with magic, and what to make clear APIs for? 
-
-### Current mix
-
-* Wrapper component.
-	* Passing player state and API to all children.
-	* Exposing API for React app outside player.
+* `<PlayerController/>` wrapper component.
+	* Passing player state and API in render prop invocation.
+	* Exposing API for React app outside player?
 	* Configuration as part of composed player.
 	* Allow for configuration overrides.
 
-* Containment/UI host element
+* `<PlayerUiContainer/>` UI host element
 	* Helper functions
 	* UI state
+	* 16:9, fullscreen
 	* Keyboard events, mouse events
 	* Might need to manage start/end states.
-	* How to bind to fullscreen button etc.? Magically, parallel to video stream?
+	* How to bind to fullscreen button etc.? Same way as with PlayerController?
+
+## Composing a complete player
+
+Custom component rendering PlayerController with desired UI (see below) and desired VideoStreamer.
 
 Magical injections scoped to instance of player component:
 
 * Applying class name prefix (reconsider)
-* Injecting logging
+* Injecting logging. Context API?
 
 ### Straightforward JSX UI. No magic:
 
 * Composing the UI with deep children structure.
 * Passing strings
 * Passing graphics
-* Specifying CSS. SOme theme or CSS in JS approaches could need 
+* Specifying CSS. Some theme or CSS in JS approaches could be needed
 * Deep application of CSS in JS solutions
 
 # Top level plan
 
-1. Write general typed components with tests.
-2. Write typed player components with tests.
+1. ✓ Write general typed components with tests.
+2. ✓ Write typed player components with tests.
 3. Compose a player UI.
 4. Find open source graphic assets.
 5. Write CSS.
-6. Prepare revised video engine with streamlined/modernised APIs.
-7. Connect video engine with player UI. Is the context API useful for this?
-8. Build starter player with all features.
-9. Demo container app.
-10. Redux actions (with player instance addressing).
-11. Redux demo app.
+6. Player UI container features.
+7. Catch up on writing tests.
+8. Prepare revised video engine with streamlined/modernised APIs.
+9. Connect video engine with player UI. Is the context API useful for this?
+10. Build starter player with all features.
+11. Demo container app.
 12. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
+13. Redux actions (with player instance addressing).
+14. Redux demo app.
 
-## Detail tasks to be done
+## Detail tasks to be done/clarified
 
 * OK: Move the types for the playback consumption API into a common file.
 * OK: Complete typing the source and text tracks.
 * Make sure setting different sources subsequently works.
-* Do we need a stop method? 
+* Do we need a stop method?
+* Vertical slider...
 * Test that player UI doesn't reload video...
+* Revise rendering and improve performance.
 * Decide on how to pass technology.
-* Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStream.
+* Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
 * External player API (exposed from PlayerController).
-* Class name prefix must be managed on the non-generic level.
 * Logging across components. Runtime configurable, and individual on players? Both videoStreamProps and videoStreamState needs to pass for magic.
 * Create type set for configuration structure.
