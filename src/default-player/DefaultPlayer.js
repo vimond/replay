@@ -4,7 +4,6 @@ import PlayerController from "../components/player/PlayerController";
 import BasicVideoStream from "../components/player/VideoStream/BasicVideoStream";
 import ControlsBar from '../components/controls/ControlsBar';
 import PlayerUiContainer from '../components/player/PlayerUiContainer';
-import Poster from '../components/controls/Poster';
 import BufferingIndicator from '../components/controls/BufferingIndicator';
 import PlayPauseButton from '../components/controls/PlayPauseButton';
 import SkipButton from '../components/controls/SkipButton';
@@ -18,6 +17,10 @@ import Volume from '../components/controls/Volume';
 import FullscreenButton from '../components/controls/FullscreenButton';
 import type { PlaybackSource, SourceTrack } from '../components/player/VideoStream/common';
 import type { RenderMethod } from '../components/player/PlayerController';
+import AudioSelector from '../components/controls/AudioSelector';
+import SubtitlesSelector from '../components/controls/SubtitlesSelector';
+import QualitySelector from '../components/controls/QualitySelector';
+import GotoLiveButton from '../components/controls/GotoLiveButton';
 
 // In this file, all custom parts making up a player can be assembled and "composed".
 
@@ -28,42 +31,102 @@ type DefaultPlayerProps = {
 };
 
 const configuration = {};
-const labels = { // TODO: Consider a two level typed structure passed with the second level passed into a labels={} attribute on each element.s
-	skipback: 'Skip back 10 seconds',
-	playpause: 'Toggle play/pause',
-	timedisplay: 'Video times',
-	clocktimedisplay: 'Clock time',
-	positiondisplay: 'Current time',
-	durationdisplay: 'Duration',
-	volume: 'Volume and mute',
-	muteToggle: 'Toggle mute',
-	volumeSlider: 'Volume setting',
-	fullscreen: 'Fullscreen'
+
+const skipBackOffset = -10;
+const bitrateSelectionStrategy = 'cap-bitrate';
+const liveDisplayMode = 'clock-time';
+const labels = { // TODO: Consider a two level typed structure passed with the second level passed into a labels={} attribute on each element.
+	playPause: {
+		label: 'Toggle play/pause'
+	},
+	skipBack: {
+		label: 'Skip back 10 seconds'
+	},
+	timeDisplay: {
+		label: 'Video times',
+		clockTimeLabel: 'Clock time',
+		positionLabel: 'Current time',
+		durationLabel: 'Duration',		
+	},
+	timeline: {
+		label: 'Timeline'
+	},
+	gotoLive: {
+		label: 'Play from live position'
+	},
+	volume: {
+		label: 'Volume and mute',
+		muteToggleLabel: 'Toggle mute',
+		volumeSliderLabel: 'Volume setting'
+	},
+	audioSelector: {
+		label: 'Audio track selector',
+	},
+	subtitlesSelector: {
+		label: 'Subtitles selector',
+		noSubtitlesLabel: 'No subtitles'
+	},
+	qualitySelector: {
+		label: 'Video quality selector',
+		autoLabel: 'Automatic',
+		formatBitrateLabel: (bitrate, isPlaying) => `${bitrate} kbps${isPlaying ? ' •' : ''}`
+	},
+	fullscreen: {
+		label: 'Toggle fullscreen'
+	}
 };
 const graphics = {
-	pause: 'Pa',
-	play: 'Pl',
-	skipback: '<-',
-	unmuted: 'A',
-	muted: 'M',
-	volumeHandle: '•',
-	enterfullscreen: '<>',
-	exitfullsreen: '><'
+	playPause: {
+		playingContent: 'Pa',
+		pausedContent: 'Pl'
+	},
+	skipBack: {
+		content: '‹10'
+	},
+	timeline: {
+		handleContent: '•',
+		trackContent: <div/>
+	},
+	gotoLive: {
+		isAtLivePositionContent: 'Live',
+		isNotAtLivePositionContent: 'Go to live'
+	},
+	volume: {
+		unmutedContent: 'U',
+		mutedContent: 'M',
+		volumeSliderHandleContent: '•'
+	},
+	audioSelector: {
+		toggleContent: 'A'
+	},
+	subtitlesSelector: {
+		toggleContent: 'T'
+	},
+	qualitySelector: {
+		toggleContent: 'Q'
+	},
+	fullscreen: {
+		normalContent: '‹›',
+		fullscreenContent: '›‹'
+	}
 };
 
 // For static design work.
-export const renderPlayerUI: RenderMethod = ({ children, videoStreamState, videoStreamProps }) => (
+export const renderPlayerUI: RenderMethod = ({ children, videoStreamState }) => (
 	<PlayerUiContainer>
 		{children}
 		<ControlsBar>
-			<PlayPauseButton {...videoStreamState} playingContent={graphics.pause} pausedContent={graphics.play} />
-			<SkipButton {...videoStreamState} label={labels.skipback} content={graphics.skipback} offset={-10} />
-			<Timeline />
-			<TimeDisplay liveDisplayMode="clock-time" {...videoStreamState} label={labels.timedisplay} clockTimeLabel={labels.clocktimedisplay} positionLabel={labels.positiondisplay} durationLabel={labels.durationdisplay} />
-			<Volume {...videoStreamState} label={labels.volume} volumeSliderLabel={labels.volumeSlider} muteToggleLabel={labels.muteToggle} mutedContent={graphics.muted} unmutedContent={graphics.unmuted} volumeSliderHandleContent={graphics.volumeHandle} />
-			<FullscreenButton isFullscreen={false} label={labels.fullscreen} normalContent={graphics.enterfullscreen} fullscreenContent={graphics.exitfullsreen}/>
+			<PlayPauseButton {...videoStreamState} {...labels.playPause} {...graphics.playPause} />
+			<SkipButton {...videoStreamState} {...labels.skipBack} {...graphics.skipBack} offset={skipBackOffset} />
+			<GotoLiveButton {...videoStreamState} {...labels.gotoLive} {...graphics.gotoLive} />
+			<Timeline {...videoStreamState} {...labels.timeline} {...graphics.timeline} />
+			<TimeDisplay liveDisplayMode={liveDisplayMode} {...videoStreamState} {...labels.timeDisplay} />
+			<QualitySelector {...videoStreamState} {...labels.qualitySelector} {...graphics.qualitySelector} selectionStrategy={bitrateSelectionStrategy} />
+			<Volume {...videoStreamState} {...labels.volume} {...graphics.volume} />
+			<AudioSelector {...videoStreamState} {...labels.audioSelector} {...graphics.audioSelector} />
+			<SubtitlesSelector {...videoStreamState} {...labels.subtitlesSelector} {...graphics.subtitlesSelector} />
+			<FullscreenButton isFullscreen={false} {...labels.fullscreen} {...graphics.fullscreen} />
 		</ControlsBar>
-		<Poster/>
 		<BufferingIndicator/>
 	</PlayerUiContainer>
 );

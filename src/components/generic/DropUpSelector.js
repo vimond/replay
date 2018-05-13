@@ -3,9 +3,10 @@ import * as React from 'react';
 import { type CommonGenericProps, type Id, prefixClassNames } from '../common';
 import ToggleButton from './ToggleButton';
 
-type Item = string | {
+export type Item = string | {
     label: string,
-    id?: Id
+    id?: Id,
+    data?: any
 };
 
 type Props = CommonGenericProps & {

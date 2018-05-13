@@ -49,7 +49,7 @@ test('<SubtitlesSelector/> renders with all available tracks plus "No subtitles"
 	expect(rendered.prop('classNamePrefix')).toBe('v-');
 	const items = rendered.prop('items');
 	expect(items.length).toBe(5);
-	expect(items[4]).toEqual({ id: 'is.captions.side-loaded', label: 'Icelandic for hearing impaired', track: mockTracks[3]});
+	expect(items[4]).toEqual({ id: 'is.captions.side-loaded', label: 'Icelandic for hearing impaired', data: mockTracks[3]});
 	expect(items[0]).toEqual({ id: 0, label: 'No subtitles'});
 });
 
@@ -62,7 +62,7 @@ test('<SubtitlesSelector/> marks the specified track as selected.', () => {
 	// Should include isSelected? At least put a warning...
 	const rendered = render({ currentTextTrack: mockTracks[2] });
 	const selectedItem = rendered.prop('selectedItem');
-	expect(selectedItem).toEqual({ id: 'sv.subtitles.in-stream', label: 'Swedish', track: mockTracks[2] });
+	expect(selectedItem).toEqual({ id: 'sv.subtitles.in-stream', label: 'Swedish', data: mockTracks[2] });
 });
 
 test('<SubtitlesSelector/> marks the option "No subtitles" as selected if no selected track is specified.', () => {

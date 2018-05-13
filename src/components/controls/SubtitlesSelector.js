@@ -4,6 +4,7 @@ import DropUpSelector from '../generic/DropUpSelector';
 import { defaultClassNamePrefix } from '../common';
 import type { AvailableTrack } from '../player/VideoStream/common';
 import type { CommonProps, Id } from '../common';
+import type { Item } from '../generic/DropUpSelector';
 
 type Props = CommonProps & {
 	textTracks?: Array<AvailableTrack>,
@@ -14,7 +15,7 @@ type Props = CommonProps & {
 };
 
 type State = {
-	noSubtitlesItem: { id?: Id, label: string }
+	noSubtitlesItem: { id?: Id, label: string, data?: {} }
 };
 
 const className = 'subtitles-selector';
@@ -23,7 +24,7 @@ const buildId = (...str: Array<string>) => str.filter(s => s).join('.');
 
 // TODO: This fn should be a prop on the DropUpSelector. The DropUpSelector should accept any types for items/selectedItem.
 const textTrackToItem = (track: AvailableTrack) => {
-	return { id: track.id || buildId(track.language, track.kind, track.origin) || track.label, label: track.label, track };
+	return { id: track.id || buildId(track.language, track.kind, track.origin) || track.label, label: track.label, data: track };
 };
 
 class SubtitlesSelector extends React.Component<Props, State> {
@@ -38,12 +39,12 @@ class SubtitlesSelector extends React.Component<Props, State> {
 		};
 	};
 
-	handleSelect = (item: AvailableTrack) => {
-		if (this.props.updateProperty) {
+	handleSelect = (item: Item) => {
+		if (this.props.updateProperty && typeof item !== 'string') {
 			if (item.id === 0) {
 				this.props.updateProperty({ selectedTextTrack: null });
 			} else {
-				this.props.updateProperty({ selectedTextTrack: item.track });
+				this.props.updateProperty({ selectedTextTrack: item.data });
 			}
 		}
 	};

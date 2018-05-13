@@ -7,6 +7,7 @@ type Props = CommonGenericProps & VideoStreamProps;
 
 const baseClassName = 'video-stream';
 
+//TODO: Consider renaming into *VideoStreamer
 class BasicVideoStream extends React.Component<Props> {
     static defaultProps = {
         classNamePrefix: defaultClassNamePrefix
@@ -41,7 +42,6 @@ class BasicVideoStream extends React.Component<Props> {
         } else {
             return <video className={classNames} />;
         }
-        
     }
 }
 

@@ -5,7 +5,7 @@ import DropUpSelector from './DropUpSelector';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const itemsWithIds = [{ label: 'None of them' /* No id */ }, { label: 'Kim', id: '001' }, { label: 'Vladimir', id: '002' }, { label: 'Donald', id: '003' }];
+const itemsWithIds = [{ label: 'None of them' /* No id */ }, { label: 'Kim', id: '001', data: { firstName: 'Kim', lastName: 'Jong-il', birthYear: 1983 } }, { label: 'Vladimir', id: '002' }, { label: 'Donald', id: '003' }];
 const itemsWithoutIds = ['None of them' /* Just a string :-o */, { label: 'Jeff' }, { label: 'Sundar' }, { label: 'Satya' }];
 
 
