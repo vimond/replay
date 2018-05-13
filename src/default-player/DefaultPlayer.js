@@ -69,6 +69,9 @@ const labels = {
   },
   fullscreen: {
     label: 'Toggle fullscreen'
+  },
+  bufferingIndicator: {
+    label: 'Video is buffering'
   }
 };
 const graphics = {
@@ -104,6 +107,9 @@ const graphics = {
   fullscreen: {
     normalContent: '‹›',
     fullscreenContent: '›‹'
+  },
+  bufferingIndicator: {
+    content: 'B'
   }
 };
 
@@ -128,7 +134,7 @@ export const renderPlayerUI: RenderMethod = ({ children, videoStreamState }) => 
       <SubtitlesSelector {...videoStreamState} {...labels.subtitlesSelector} {...graphics.subtitlesSelector} />
       <FullscreenButton isFullscreen={false} {...labels.fullscreen} {...graphics.fullscreen} />
     </ControlsBar>
-    <BufferingIndicator />
+    <BufferingIndicator {...videoStreamState} {...labels.bufferingIndicator} {...graphics.bufferingIndicator} />
   </PlayerUiContainer>
 );
 
