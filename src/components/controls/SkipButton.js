@@ -2,14 +2,13 @@
 import * as React from 'react';
 import Button from '../generic/Button';
 import { defaultClassNamePrefix } from '../common';
+import type { CommonProps } from '../common';
 
-type Props = {
+type Props = CommonProps & {
 	position?: number,
 	offset: number,
-	label?: string,
 	content: React.Node,
-	setPosition: number => void,
-	classNamePrefix: string
+	setPosition: number => void
 };
 
 const className = 'skip-button';

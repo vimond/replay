@@ -3,15 +3,14 @@ import * as React from 'react';
 import ToggleButton from '../generic/ToggleButton';
 import { defaultClassNamePrefix } from '../common';
 import type { PlayMode } from '../player/VideoStream/common';
+import type { CommonProps } from '../common';
 
-type Props = {
+type Props = CommonProps & {
 	isAtLivePosition?: boolean,
 	gotoLive?: () => void,
 	playMode?: PlayMode,
-	label?: string,
 	isAtLivePositionContent: React.Node,
-	isNotAtLivePositionContent: React.Node,
-	classNamePrefix: string
+	isNotAtLivePositionContent: React.Node
 };
 
 const className = 'goto-live-button';

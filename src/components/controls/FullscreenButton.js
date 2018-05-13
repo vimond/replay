@@ -2,14 +2,13 @@
 import * as React from 'react';
 import ToggleButton from '../generic/ToggleButton';
 import { defaultClassNamePrefix } from '../common';
+import type { CommonProps } from '../common';
 
-type Props = {
+type Props = CommonProps & {
 	isFullscreen?: boolean,
 	updateProperty?: ({ isFullscreen: boolean }) => void,
-	label?: string,
 	fullscreenContent: React.Node,
-	normalContent: React.Node,
-	classNamePrefix: string
+	normalContent: React.Node
 };
 
 const className = 'fullscreen-button';
