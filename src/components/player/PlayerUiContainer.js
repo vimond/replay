@@ -1,9 +1,9 @@
-// @flow 
-import * as React from 'react';
+// @flow
+//import * as React from 'react';
 import Container from '../generic/Container';
 
 class PlayerUiContainer extends Container {
-    baseClassName = 'ui-container';
+  baseClassName = 'ui-container';
 }
 
 export default PlayerUiContainer;
