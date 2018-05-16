@@ -54,8 +54,8 @@ class AudioSelector extends React.Component<Props> {
           label={label}
           onSelect={this.handleSelect}
           reverseOrder={true}
-          toggledOnContent={toggleContent}
-          toggledOffContent={toggleContent}
+          expandedToggleContent={toggleContent}
+          collapsedToggleContent={toggleContent}
         />
       );
     } else {

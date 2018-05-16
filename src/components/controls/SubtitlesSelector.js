@@ -75,8 +75,8 @@ class SubtitlesSelector extends React.Component<Props, State> {
 				label={label}
 				onSelect={this.handleSelect}
 				reverseOrder={true}
-				toggledOnContent={toggleContent}
-				toggledOffContent={toggleContent}/>
+        expandedToggleContent={toggleContent}
+        collapsedToggleContent={toggleContent}/>
 		} else {
 			return null;
 		}

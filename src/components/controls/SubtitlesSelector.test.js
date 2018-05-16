@@ -49,6 +49,8 @@ test('<SubtitlesSelector/> renders with all available tracks plus "No subtitles"
 	expect(rendered.prop('classNamePrefix')).toBe('v-');
 	const items = rendered.prop('items');
 	expect(items.length).toBe(5);
+  expect(rendered.prop('expandedToggleContent')).toBe('T');
+  expect(rendered.prop('collapsedToggleContent')).toBe('T');
 	expect(items[4]).toEqual({ id: 'is.captions.side-loaded', label: 'Icelandic for hearing impaired', data: mockTracks[3]});
 	expect(items[0]).toEqual({ id: 0, label: 'No subtitles'});
 });

@@ -37,6 +37,8 @@ test('<AudioSelector/> renders with all available tracks.', () => {
 	expect(rendered.prop('label')).toBe('Audio tracks');
 	expect(rendered.prop('className')).toBe('audio-selector');
 	expect(rendered.prop('classNamePrefix')).toBe('v-');
+  expect(rendered.prop('expandedToggleContent')).toBe('A');
+  expect(rendered.prop('collapsedToggleContent')).toBe('A');
 	const items = rendered.prop('items');
 	expect(items.length).toBe(4);
 	expect(items[3]).toEqual({ id: 'is.Icelandic', label: 'Icelandic', data: mockTracks[3]});

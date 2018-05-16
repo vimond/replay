@@ -21,7 +21,9 @@ test('<QualitySelector/> renders with all available quality options and an "Auto
 	expect(rendered.prop('label')).toBe('Quality selector');
 	expect(rendered.prop('className')).toBe('quality-selector');
 	expect(rendered.prop('classNamePrefix')).toBe('v-');
-	const items = rendered.prop('items');
+  expect(rendered.prop('expandedToggleContent')).toBe('Q');
+  expect(rendered.prop('collapsedToggleContent')).toBe('Q');
+  const items = rendered.prop('items');
 	expect(items.length).toBe(6);
 	expect(items[3]).toEqual({ id: 999, label: '999 kbps', data: 999 });
 	expect(items[0]).toEqual({ id: 0, label: 'Auto quality', data: Infinity });
