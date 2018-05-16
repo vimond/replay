@@ -43,7 +43,7 @@ const passPropsToVideoStreamElement = (children: React.Node, props: any) => {
 class PlayerController extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
-		const overriddenConfiguration = override(this.props.configuration, props.options);
+		const overriddenConfiguration = override(this.props.configuration, props.options) || {};
 		this.state = {
 			gotoLive: () => {},
 			setPosition: () => {},
@@ -51,7 +51,7 @@ class PlayerController extends React.Component<Props, State> {
 			videoStreamProps: {
 				onReady: this.onVideoStreamReady,
 				onStreamStateChange: this.onStreamStateChange,
-				configuration: overriddenConfiguration
+				configuration: overriddenConfiguration.videoStreamer || overriddenConfiguration
 			}
 		};
 	}
