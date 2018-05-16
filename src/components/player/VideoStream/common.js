@@ -1,4 +1,6 @@
-/* Types for state observation */
+// Types for state observation
+
+import type { CommonProps } from '../../common';
 
 export type PlayState = 'inactive' | 'starting' | 'playing' | 'paused' | 'seeking' | 'buffering';
 export type PlayMode = 'ondemand' | 'live' | 'livedvr';
@@ -73,7 +75,7 @@ export type PlaybackMethods = {
 
 /* Types for settable props */
 
-export type VideoStreamProps = {
+export type VideoStreamProps = CommonProps & {
 	configuration?: any,
 	source?: PlaybackSource,
 	textTracks: Array<SourceTrack>,

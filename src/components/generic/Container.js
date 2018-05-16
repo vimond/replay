@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { type CommonGenericProps, prefixClassNames } from '../common';
+import { type CommonGenericProps, defaultClassNamePrefix, prefixClassNames } from '../common';
 
 type Props = CommonGenericProps & {
   children: React.Node
@@ -9,6 +9,10 @@ type Props = CommonGenericProps & {
 class Container extends React.Component<Props> {
   baseClassName = 'container';
 
+  static defaultProps = {
+    classNamePrefix: defaultClassNamePrefix
+  };
+  
   render() {
     const { className, classNamePrefix, children }: Props = this.props;
     const classNames = prefixClassNames(classNamePrefix, this.baseClassName, className);

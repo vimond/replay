@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import type { AvailableTrack, VideoStreamProps, VideoStreamState } from './common';
+import { defaultClassNamePrefix, prefixClassNames } from '../../common';
 
 const defaultTextTracks = [
   {
@@ -73,11 +74,13 @@ const updateableProps = {
   selectedAudioTrack: 'currentAudioTrack'
 };
 const updateableKeys = Object.keys(updateableProps);
+const className = 'video-streamer';
+const mockClassName = 'mock-video-streamer';
 
 const runAsync = (callback, arg, delay = 0) => setTimeout(() => callback && callback(arg), delay);
 
 const updateTracks = (prevTracks: Array<AvailableTrack>, selectedTrack: AvailableTrack) =>
-  prevTracks.map(track => ({ ...selectedTrack, isSelected: track === selectedTrack }));
+  prevTracks.map(track => ({ ...track, isSelected: track === selectedTrack }));
 
 const updateWithDefaultValues = updater => {
   if (updater) {
@@ -88,6 +91,10 @@ const updateWithDefaultValues = updater => {
 };
 
 class MockVideoStream extends React.Component<VideoStreamProps> {
+  static defaultProps = {
+    classNamePrefix: defaultClassNamePrefix
+  };
+  
   componentDidMount() {
     if (this.props.onReady) {
       this.props.onReady({
@@ -108,13 +115,15 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
           runAsync(this.props.onStreamStateChange, { [updateableProps[key]]: this.props[key] });
           if (key === 'selectedTextTrack') {
             runAsync(this.props.onStreamStateChange, {
-              textTracks: updateTracks(prevProps.textTracks, this.props[key])
+              textTracks: updateTracks(defaultTextTracks, this.props.selectedTextTrack )
             });
+            runAsync(this.props.onStreamStateChange, { currentTextTrack: this.props.selectedTextTrack });
           }
           if (key === 'selectedAudioTrack') {
             runAsync(this.props.onStreamStateChange, {
-              textTracks: updateTracks(prevProps.audioTracks, this.props[key])
+              audioTracks: updateTracks(defaultAudioTracks, this.props.selectedAudioTrack)
             });
+            runAsync(this.props.onStreamStateChange, { currentAudioTrack: this.props.selectedAudioTrack });
           }
         }
       });
@@ -125,7 +134,7 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
 
   render() {
     return (
-      <div className={this.props.className} style={{ background: '#444', color: 'white', fontWeight: 'bold' }}>
+      <div className={prefixClassNames(this.props.classNamePrefix, className, mockClassName, this.props.className)} style={{ background: '#444', color: 'white', fontWeight: 'bold' }}>
         Mock video. Is paused? {this.props.isPaused ? 'yes' : 'no'}{' '}
       </div>
     );

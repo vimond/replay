@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import type { CommonProps } from '../common';
-import { formatClockTime, formatTime, prefixClassNames } from '../common';
+import { defaultClassNamePrefix, formatClockTime, formatTime, prefixClassNames } from '../common';
 import type { PlayMode } from '../player/VideoStream/common';
 
 type Props = CommonProps & {
@@ -26,7 +26,7 @@ const isReasonableDateTime = date => date instanceof Date && !isNaN(date.getTime
 
 const formatAndLimitTime = (time?: number, zeroAndBelow: boolean = false) => formatTime(time == null ? 0 : Math[zeroAndBelow ? 'min' : 'max'](0, time));
 
-const TimeDisplay = ({ position, duration, absolutePosition, playMode, liveDisplayMode, label, positionLabel, durationLabel, clockTimeLabel, classNamePrefix }: Props) => {
+const TimeDisplay = ({ position, duration, absolutePosition, playMode, liveDisplayMode, label, positionLabel, durationLabel, clockTimeLabel, classNamePrefix = defaultClassNamePrefix }: Props) => {
 	if (playMode === 'ondemand') {
 		return (
 			<div className={prefixClassNames(classNamePrefix, className)} title={label}>
@@ -51,4 +51,5 @@ const TimeDisplay = ({ position, duration, absolutePosition, playMode, liveDispl
 		}
 	}
 };
+
 export default TimeDisplay;

@@ -31,8 +31,8 @@ test('<Timeline/> renders with prefixed class name and DOM including children.',
 });
 
 test('<Timeline/> updates property volume when volume slider handle is moved.', () => {
-	const updateProperty = jest.fn();
-	const rendered = shallow(<Timeline {...commonProps} updateProperty={updateProperty} />);
+	const setPosition = jest.fn();
+	const rendered = shallow(<Timeline {...commonProps} setPosition={setPosition} />);
 	const renderedSlider = rendered.find(Slider).dive();
 
 	const mockEventElement = {
@@ -53,6 +53,6 @@ test('<Timeline/> updates property volume when volume slider handle is moved.', 
 	renderedSlider.instance().renderedTrack = mockEventElement;
 	renderedSlider.instance().handleHandleOrTrackClick(mockEvent1);
 
-	expect(updateProperty.mock.calls.length).toBe(1);
-	expect(updateProperty.mock.calls[0][0]).toEqual({ position: 66 });
+	expect(setPosition.mock.calls.length).toBe(1);
+	expect(setPosition.mock.calls[0][0]).toEqual(66);
 });
