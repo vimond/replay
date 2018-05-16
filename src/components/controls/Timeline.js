@@ -9,7 +9,7 @@ type Props = CommonProps & {
 	duration?: number,
 	handleContent: React.Node,
 	trackContent: React.Node,
-	updateProperty?: ({ position: number }) => void
+	setPosition?: (number) => void
 };
 
 const className = 'timeline';
@@ -22,8 +22,8 @@ class Timeline extends React.Component<Props> {
 	};
 
 	handleSliderChange = (position: number) => {
-		if (this.props.updateProperty) {
-			this.props.updateProperty({ position });
+		if (this.props.setPosition) {
+			this.props.setPosition(position);
 		}
 	};
 
