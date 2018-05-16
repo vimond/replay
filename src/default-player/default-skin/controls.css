@@ -1,0 +1,68 @@
+/* This file centralizes the look and feel: Animations, colors, fonts/graphic styles, borders, sizes, and placements subject to customisation.
+
+/* Sizes and placements */
+
+.v-player-controls-bar {
+    height: 50px;
+}
+
+.v-player-slider {
+    height: 50px;
+    margin: 0 20px;
+}
+
+.v-player-slider-track {
+    margin: 20px 0;
+    height: 10px;
+}
+
+.v-player-slider-handle {
+    height: 30px;
+    width: 30px;
+}
+
+.v-player-button, .v-player-toggle-button, .v-player-drop-up-selector {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    text-align: center;
+    align-self: center;
+    cursor: pointer;
+}
+
+.v-player-timeline {
+    flex-grow: 3;
+}
+
+.v-player-time-display {
+    font-size: 12px;
+}
+
+.v-player-time-display span {
+    display: block;
+}
+
+.v-player-volume-slider {
+    width: 100px;
+}
+
+/* Colors */
+
+.v-player-controls-bar {
+    background-color: rgba(32,32,32,0.5);
+    color: white;
+}
+
+
+.v-player-slider-track {
+    background-color: #ccc;
+}
+
+.v-player-slider-handle {
+    background-color: rgba(32,32,32,0.5);
+}
+
+/* Other */
+.v-player-slider-handle:active {
+    cursor: grabbing;
+}

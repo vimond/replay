@@ -1,0 +1,7 @@
+.v-player-volume {
+    display: flex;
+}
+
+.v-player-volume-slider {
+    flex-growth: 0;
+}

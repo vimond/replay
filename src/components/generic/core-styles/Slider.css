@@ -1,0 +1,21 @@
+.v-player-slider {
+    flex-grow: 1;
+    position: relative;
+    box-sizing: border-box;
+    user-select: none;
+    cursor: pointer;
+}
+
+.v-player-slider-track {
+    position: relative;
+}
+
+.v-player-slider-handle {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.v-player-slider-handle:active {
+    cursor: grabbing;
+}

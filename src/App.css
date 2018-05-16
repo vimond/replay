@@ -22,10 +22,24 @@
   font-size: large;
 }
 
-.reported-state table {
-  border-top: 1px solid black;
-  margin: 2em auto;
-  text-align: left;
+.App-player-panel {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.widget-bar {
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  background-color: #eee;
+}
+
+.widget-bar * {
+  flex-grow: 0;
+}
+
+.widget-bar .v-player-slider {
+  flex-grow: 1;
 }
 
 @keyframes App-logo-spin {

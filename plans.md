@@ -73,7 +73,7 @@ For "design mode", to be used with e.g. Styleguidist.
 ### Other UI components
 
 * Poster? Need to decide on lifecycle strategy.			
-* Loading indicator
+* ✓ Buffering indicator
 * Player container, managing
 	* User inactivity
 	* Keyboard shortcuts target
@@ -161,14 +161,15 @@ Magical injections scoped to instance of player component:
 4. Find open source graphic assets.
 5. Write CSS.
 6. Player UI container features.
-7. Catch up on writing tests.
+7. Catch up on writing missing tests.
 8. Prepare revised video engine with streamlined/modernised APIs.
 9. Connect video engine with player UI. Is the context API useful for this?
 10. Build starter player with all features.
 11. Demo container app.
 12. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
-13. Redux actions (with player instance addressing).
-14. Redux demo app.
+13. NPM package exposing default players and all parts. 
+14. Redux actions (with player instance addressing).
+15. Redux demo app.
 
 ## Detail tasks to be done/clarified
 
@@ -182,5 +183,5 @@ Magical injections scoped to instance of player component:
 * Decide on how to pass technology.
 * Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
 * External player API (exposed from PlayerController).
-* Logging across components. Runtime configurable, and individual on players? Both videoStreamProps and videoStreamState needs to pass for magic.
+* Logging across components. Runtime configurable, but individual on players? https://github.com/pimterry/loglevel
 * Create type set for configuration structure.
