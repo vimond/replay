@@ -6,22 +6,17 @@ import AudioSelector from './AudioSelector';
 Enzyme.configure({ adapter: new Adapter() });
 
 const mockTracks = [{
-	isSelected: false,
 	language: 'da',
 	label: 'Danish'
 },{
-	isSelected: true,
 	language: 'fi'
 },{
-	isSelected: false,
 	language: 'sv',
 	label: 'Swedish'
 },{
-	isSelected: false,
 	language: 'is',
 	label: 'Icelandic'
 }];
-
 
 const render = ({ classNamePrefix = 'v-', updateProperty, audioTracks=mockTracks, currentAudioTrack }) => shallow(<AudioSelector
 	classNamePrefix={classNamePrefix}
@@ -53,7 +48,6 @@ test('<AudioSelector/> does not render, if no tracks or only one track is report
 
 
 test('<AudioSelector/> marks the specified track as selected.', () => {
-	// Should include isSelected? At least put a warning...
 	const rendered = render({ currentAudioTrack: mockTracks[2] });
 	const selectedItem = rendered.prop('selectedItem');
 	expect(selectedItem).toEqual({ id: 'sv.Swedish', label: 'Swedish', data: mockTracks[2] });

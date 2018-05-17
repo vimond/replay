@@ -6,31 +6,26 @@ import SubtitlesSelector from './SubtitlesSelector';
 Enzyme.configure({ adapter: new Adapter() });
 
 const mockTracks = [{
-	isSelected: false,
 	language: 'da',
 	kind: 'captions',
 	label: 'Danish for hearing impaired',
 	origin: 'side-loaded'
 },{
-	isSelected: true,
 	language: 'fi',
 	kind: 'subtitles',
 	label: 'Finnish',
 	origin: 'in-stream'
 },{
-	isSelected: false,
 	language: 'sv',
 	kind: 'subtitles',
 	label: 'Swedish',
 	origin: 'in-stream'
 },{
-	isSelected: false,
 	language: 'is',
 	kind: 'captions',
 	label: 'Icelandic for hearing impaired',
 	origin: 'side-loaded'
 }];
-
 
 const render = ({ noSubtitlesLabel = 'No subtitles', classNamePrefix = 'v-', updateProperty, textTracks=mockTracks, currentTextTrack }) => shallow(<SubtitlesSelector 
 	noSubtitlesLabel={noSubtitlesLabel}
@@ -61,7 +56,6 @@ test('<SubtitlesSelector/> does not render, if no tracks are available.', () => 
 });
 
 test('<SubtitlesSelector/> marks the specified track as selected.', () => {
-	// Should include isSelected? At least put a warning...
 	const rendered = render({ currentTextTrack: mockTracks[2] });
 	const selectedItem = rendered.prop('selectedItem');
 	expect(selectedItem).toEqual({ id: 'sv.subtitles.in-stream', label: 'Swedish', data: mockTracks[2] });

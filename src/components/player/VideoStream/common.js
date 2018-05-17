@@ -6,7 +6,6 @@ export type PlayState = 'inactive' | 'starting' | 'playing' | 'paused' | 'seekin
 export type PlayMode = 'ondemand' | 'live' | 'livedvr';
 
 export type AvailableTrack = {
-	isSelected: boolean,
 	kind?: string,
 	label?: string,
 	language?: string,
