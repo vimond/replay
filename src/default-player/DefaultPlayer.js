@@ -18,19 +18,7 @@ import SubtitlesSelector from '../components/controls/SubtitlesSelector';
 import QualitySelector from '../components/controls/QualitySelector';
 import GotoLiveButton from '../components/controls/GotoLiveButton';
 
-import '../components/player/VideoStream/VideoStreamer.css';
-
-//TODO: All CSS to be referred here.
-
-// Design/skin neutral styles
-import '../components/controls/core-styles/ControlsBar.css';
-import '../components/controls/core-styles/Volume.css';
-import '../components/generic/core-styles/DropUpSelector.css';
-import '../components/generic/core-styles/Slider.css';
-
-
-// Default skin
-import './default-skin/controls.css';
+import graphics from './default-skin/defaultSkin';
 
 // In this file, all custom parts making up a player can be assembled and "composed".
 
@@ -88,44 +76,7 @@ const labels = {
     label: 'Video is buffering'
   }
 };
-const graphics = {
-  playPause: {
-    playingContent: 'Pa',
-    pausedContent: 'Pl'
-  },
-  skipBack: {
-    content: '‹10'
-  },
-  timeline: {
-    handleContent: '•',
-    trackContent: <div />
-  },
-  gotoLive: {
-    isAtLivePositionContent: 'Live',
-    isNotAtLivePositionContent: 'Go to live'
-  },
-  volume: {
-    unmutedContent: 'U',
-    mutedContent: 'M',
-    volumeSliderHandleContent: '•'
-  },
-  audioSelector: {
-    toggleContent: 'A'
-  },
-  subtitlesSelector: {
-    toggleContent: 'T'
-  },
-  qualitySelector: {
-    toggleContent: 'Q'
-  },
-  fullscreen: {
-    normalContent: '‹›',
-    fullscreenContent: '›‹'
-  },
-  bufferingIndicator: {
-    content: 'B'
-  }
-};
+
 
 // Exporting for static design work.
 export const renderPlayerUI: RenderMethod = ({ children, videoStreamState }) => (

@@ -1,0 +1,10 @@
+.v-player-button, .v-player-toggle-button {
+    overflow: hidden;
+    text-align: center;
+    align-self: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}

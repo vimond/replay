@@ -24,10 +24,6 @@
 .v-player-button, .v-player-toggle-button, .v-player-drop-up-selector {
     width: 50px;
     height: 50px;
-    overflow: hidden;
-    text-align: center;
-    align-self: center;
-    cursor: pointer;
 }
 
 .v-player-timeline {
@@ -42,8 +38,16 @@
     display: block;
 }
 
+.v-player-volume {
+    max-width: 200px;
+    min-width: 100px;
+    flex-grow: 1;
+    flex-shrink: 2;
+}
+
 .v-player-volume-slider {
-    width: 100px;
+    flex-grow: 1;
+    flex-shrink: 1;
 }
 
 /* Colors */
@@ -62,7 +66,11 @@
     background-color: rgba(32,32,32,0.5);
 }
 
-/* Other */
+/* Graphical appearance */
 .v-player-slider-handle:active {
     cursor: grabbing;
+}
+
+.v-player {
+    font-family: sans-serif;
 }

@@ -177,6 +177,8 @@ Magical injections scoped to instance of player component:
 * OK: Complete typing the source and text tracks.
 * Make sure setting different sources subsequently works.
 * Do we need a stop method?
+* Hover and selected styles.
+* Make instant mode for slider, so that volume can be updated immediately.
 * Vertical slider...
 * Test that player UI doesn't reload video...
 * Revise rendering and improve performance.
