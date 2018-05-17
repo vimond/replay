@@ -97,7 +97,7 @@ export const formatTime = (seconds: number) => {
     rounded = 0;
   } else if (rounded < 0) {
     rounded = -rounded;
-    negativeMark = '-';
+    negativeMark = '–';
   }
   const days = Math.floor(rounded / 86400);
   const daysInSeconds = days * 86400;

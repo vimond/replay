@@ -2,28 +2,58 @@
 
 /* Sizes and placements */
 
+.v-player {
+    font-size: 12px;
+}
+
 .v-player-controls-bar {
     height: 50px;
+    padding: 0 10px;
+    text-alignment: center;
 }
 
 .v-player-slider {
     height: 50px;
-    margin: 0 20px;
+    margin: 0 10px;
 }
 
 .v-player-slider-track {
-    margin: 20px 0;
-    height: 10px;
+    margin: 24px 0;
+    height: 2px;
 }
 
 .v-player-slider-handle {
-    height: 30px;
-    width: 30px;
+    height: 16px;
+    width: 16px;
+    border-radius: 8px;
 }
 
 .v-player-button, .v-player-toggle-button, .v-player-drop-up-selector {
-    width: 50px;
+    width: 40px;
     height: 50px;
+}
+
+.v-player-drop-up-selector-items {
+    position: absolute;
+    bottom: 50px;
+    padding-top: 5px;
+    transform: translateX(-50%);
+    left: 50%;
+    visibility: hidden;
+}
+
+.v-player-drop-up-selector:hover .v-player-drop-up-selector-items {
+    visibility: visible;
+}
+
+.v-player-drop-up-selector-item {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.v-player-drop-up-selector-item.v-player-selected {
+    font-weight: bold;
+    color: white;
 }
 
 .v-player-timeline {
@@ -31,11 +61,17 @@
 }
 
 .v-player-time-display {
-    font-size: 12px;
+    margin: 0 10px;
 }
 
 .v-player-time-display span {
     display: block;
+}
+
+.v-player-time-display span:nth-child(2) {
+    margin-top: 2px;
+    padding-top: 2px;
+    border-top: 1px solid;
 }
 
 .v-player-volume {
@@ -45,25 +81,88 @@
     flex-shrink: 2;
 }
 
+.v-player-mute-toggle {
+    margin-right: -5px;
+}
+
 .v-player-volume-slider {
     flex-grow: 1;
     flex-shrink: 1;
+    margin-right: 15px;
 }
 
-/* Colors */
+.v-player-skip-button {
+    position: relative;
+    font-size: 7px;
+}
 
-.v-player-controls-bar {
+.v-player-skip-button > span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.v-player-goto-live-button {
+    min-width: 50px;
+    width: auto;
+    padding: 0 10px;
+}
+
+.v-player-goto-live-button > span:first-child {
+    margin-right: 5px;
+}
+
+/* Visual vertical alignment of icons */
+
+.v-player-audio-selector .v-player-toggle-button, .v-player-skip-button, .v-player-goto-live-button svg {
+    transform: translateY(2px);
+}
+
+/* Colors with transitions */
+
+.v-player-controls-bar, .v-player-drop-up-selector-items {
     background-color: rgba(32,32,32,0.5);
-    color: white;
+    color: #ccc;
 }
 
+.v-player-button, .v-player-toggle-button {
+    transition: color 0.5s;
+}
 
-.v-player-slider-track {
-    background-color: #ccc;
+.v-player-drop-up-selector-items {
+    opacity: 0;
+    transition: opacity 0.5s, visibility 0s linear 0.5s;
+}
+
+.v-player-drop-up-selector:hover .v-player-drop-up-selector-items {
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+.v-player-drop-up-selector-item {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.v-player-slider-track, .v-player-drop-up-selector-item:hover {
+    background-color: #666;
 }
 
 .v-player-slider-handle {
-    background-color: rgba(32,32,32,0.5);
+    background-color: #ccc;
+    transition: background-color 0.5s;
+}
+
+.v-player-button:hover, .v-player-toggle-button:hover {
+    color: white;
+}
+
+.v-player-slider-handle:hover {
+    background-color: white;
+}
+
+.v-player-time-display span:nth-child(2) {
+    border-top-color: rgba(128,128,128,0.5);
 }
 
 /* Graphical appearance */

@@ -1,7 +1,10 @@
 .v-player-drop-up-selector {
-    overflow: hidden;
     text-align: center;
     align-self: center;
     cursor: pointer;
-    user-select: none;
+    position: relative;
+}
+
+.v-player-drop-up-selector-item {
+    white-space: nowrap;
 }

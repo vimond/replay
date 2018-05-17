@@ -2,7 +2,6 @@
     flex-grow: 1;
     position: relative;
     box-sizing: border-box;
-    user-select: none;
     cursor: pointer;
 }
 
@@ -14,8 +13,4 @@
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
-}
-
-.v-player-slider-handle:active {
-    cursor: grabbing;
 }

@@ -34,7 +34,7 @@ const defaultAudioTracks = [
 ];
 
 const defaultValues: VideoStreamState = {
-  playMode: 'ondemand',
+  playMode: 'livedvr',
   playState: 'playing',
   isPaused: false,
   isBuffering: false,
@@ -52,6 +52,7 @@ const defaultValues: VideoStreamState = {
   currentTextTrack: defaultTextTracks[0],
   audioTracks: defaultAudioTracks,
   currentAudioTrack: defaultAudioTracks[0],
+  isAtLivePosition: false,
   error: undefined
 };
 /*
