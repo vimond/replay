@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import type { AvailableTrack, VideoStreamProps, VideoStreamState } from './common';
+import type { VideoStreamProps, VideoStreamState } from './common';
 import { defaultClassNamePrefix, prefixClassNames } from '../../common';
 
 const defaultTextTracks = [
@@ -90,7 +90,7 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
   static defaultProps = {
     classNamePrefix: defaultClassNamePrefix
   };
-  
+
   componentDidMount() {
     if (this.props.onReady) {
       this.props.onReady({
@@ -118,7 +118,9 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
 
   render() {
     return (
-      <div className={prefixClassNames(this.props.classNamePrefix, className, mockClassName, this.props.className)} style={{ background: '#444', color: 'white', fontWeight: 'bold' }}>
+      <div
+        className={prefixClassNames(this.props.classNamePrefix, className, mockClassName, this.props.className)}
+        style={{ background: '#444', color: 'white', fontWeight: 'bold' }}>
         Mock video. Is paused? {this.props.isPaused ? 'yes' : 'no'}{' '}
       </div>
     );

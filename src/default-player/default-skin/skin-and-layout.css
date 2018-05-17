@@ -47,8 +47,9 @@
 }
 
 .v-player-drop-up-selector-item {
-    padding: 5px 10px;
+    padding: 5px 15px;
     font-size: 14px;
+    text-align: left;
 }
 
 .v-player-drop-up-selector-item.v-player-selected {

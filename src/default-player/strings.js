@@ -9,7 +9,8 @@ export const labels = {
     label: 'Video times',
     clockTimeLabel: 'Clock time',
     positionLabel: 'Current time',
-    durationLabel: 'Duration'
+    durationLabel: 'Duration',
+    negativeMark: '–'
   },
   timeline: {
     label: 'Timeline'

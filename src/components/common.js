@@ -90,14 +90,14 @@ export const formatTimeComponent = (
   return emptyIfZero && integer === 0 ? '' : integer < 10 && pad ? `0${integer}${separator}` : `${integer}${separator}`;
 };
 
-export const formatTime = (seconds: number) => {
+export const formatTime = (seconds: number, negativeMark: string = '-') => {
   let rounded = Math.round(seconds);
-  let negativeMark = '';
+  let includedNegativeMark = '';
   if (seconds === true || isNaN(seconds) || seconds === Infinity) {
     rounded = 0;
   } else if (rounded < 0) {
     rounded = -rounded;
-    negativeMark = '–';
+    includedNegativeMark = negativeMark;
   }
   const days = Math.floor(rounded / 86400);
   const daysInSeconds = days * 86400;
@@ -106,7 +106,7 @@ export const formatTime = (seconds: number) => {
   const minutes = Math.floor((rounded - hoursAndDaysInSeconds) / 60);
   const secs = rounded - hoursAndDaysInSeconds - minutes * 60;
   return (
-    negativeMark +
+    includedNegativeMark +
     formatTimeComponent(days, '.', true, false) +
     formatTimeComponent(hours, ':', days === 0) +
     formatTimeComponent(minutes, ':', false) +

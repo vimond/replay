@@ -11,12 +11,12 @@ import Timeline from '../components/controls/Timeline';
 import TimeDisplay from '../components/controls/TimeDisplay';
 import Volume from '../components/controls/Volume';
 import FullscreenButton from '../components/controls/FullscreenButton';
-import type { PlaybackSource, SourceTrack } from '../components/player/VideoStream/common';
-import type { RenderMethod } from '../components/player/PlayerController';
 import AudioSelector from '../components/controls/AudioSelector';
 import SubtitlesSelector from '../components/controls/SubtitlesSelector';
 import QualitySelector from '../components/controls/QualitySelector';
 import GotoLiveButton from '../components/controls/GotoLiveButton';
+import type { PlaybackSource, SourceTrack } from '../components/player/VideoStream/common';
+import type { RenderMethod } from '../components/player/PlayerController';
 
 import graphics from './default-skin/defaultSkin';
 import { labels } from './strings';
