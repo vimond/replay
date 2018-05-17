@@ -9,7 +9,7 @@
 .v-player-controls-bar {
     height: 50px;
     padding: 0 10px;
-    text-alignment: center;
+    text-align: center;
 }
 
 .v-player-slider {
@@ -114,6 +114,21 @@
     margin-right: 5px;
 }
 
+.v-player-buffering-indicator {
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+}
+
+.v-player-buffering-indicator.v-player-buffering {
+    visibility: visible;
+}
+
+
 /* Visual vertical alignment of icons */
 
 .v-player-audio-selector .v-player-toggle-button, .v-player-skip-button, .v-player-goto-live-button svg {
@@ -125,6 +140,40 @@
 .v-player-controls-bar, .v-player-drop-up-selector-items {
     background-color: rgba(32,32,32,0.5);
     color: #ccc;
+}
+
+.v-player-slider-track, .v-player-drop-up-selector-item:hover {
+    background-color: #666;
+}
+
+.v-player-buffering-indicator {
+    color: #ccc;
+    transition: opacity 1s, visibility 0s linear 0.5s;
+    opacity: 0;
+}
+
+.v-player-buffering-indicator.v-player-buffering {
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.v-player-buffering-indicator .animated {
+    animation: spin 1s infinite linear;
+    transform-origin: 18px 18px;
+    animation-play-state: paused;
+}
+
+.v-player-buffering-indicator.v-player-buffering .animated {
+    animation-play-state: running;
 }
 
 .v-player-button, .v-player-toggle-button {
@@ -143,10 +192,6 @@
 
 .v-player-drop-up-selector-item {
     transition: background-color 0.2s ease-in-out;
-}
-
-.v-player-slider-track, .v-player-drop-up-selector-item:hover {
-    background-color: #666;
 }
 
 .v-player-slider-handle {

@@ -33,7 +33,7 @@ const defaultValues: VideoStreamState = {
   playMode: 'livedvr',
   playState: 'playing',
   isPaused: false,
-  isBuffering: false,
+  isBuffering: true,
   isSeeking: false,
   position: 123,
   duration: 456,
@@ -90,6 +90,7 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
   static defaultProps = {
     classNamePrefix: defaultClassNamePrefix
   };
+  isBuffering = true;
 
   componentDidMount() {
     if (this.props.onReady) {
@@ -100,6 +101,7 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
         gotoLive: () => runAsync(this.props.onStreamStateChange, { position: defaultValues.duration }, 1500)
       });
       updateWithDefaultValues(this.props.onStreamStateChange);
+      setInterval(() => { this.props.onStreamStateChange({ isBuffering: this.isBuffering }); this.isBuffering = !this.isBuffering; }, 5000);
     }
   }
 
@@ -120,7 +122,7 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
     return (
       <div
         className={prefixClassNames(this.props.classNamePrefix, className, mockClassName, this.props.className)}
-        style={{ background: '#444', color: 'white', fontWeight: 'bold' }}>
+        style={{ background: '#444', color: 'white', fontWeight: 'bold', marginTop: '20px' }}>
         Mock video. Is paused? {this.props.isPaused ? 'yes' : 'no'}{' '}
       </div>
     );

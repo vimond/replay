@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import { Play, Pause, RotateCcw, RotateCw, Volume2, VolumeX, MessageSquare, Type, BarChart, Maximize, Minimize } from 'react-feather';
+import LoadingAnimation from './LoadingAnimation';
 import { strings } from '../strings';
 
 //TODO: All CSS to be referred here.
@@ -51,7 +52,7 @@ const graphics = {
     fullscreenContent: <Minimize/>
   },
   bufferingIndicator: {
-    content: 'Buffering...'
+    content: <LoadingAnimation/>
   }
 };
 

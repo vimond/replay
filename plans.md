@@ -157,9 +157,9 @@ Magical injections scoped to instance of player component:
 
 1. ✓ Write general typed components with tests.
 2. ✓ Write typed player components with tests.
-3. Compose a player UI.
-4. Find open source graphic assets.
-5. Write CSS.
+3. ✓ Compose a player UI.
+4. ✓ Find open source graphic assets.
+5. ✓ Write CSS.
 6. Player UI container features.
 7. Catch up on writing missing tests.
 8. Prepare revised video engine with streamlined/modernised APIs.
@@ -175,9 +175,9 @@ Magical injections scoped to instance of player component:
 
 * OK: Move the types for the playback consumption API into a common file.
 * OK: Complete typing the source and text tracks.
+* Make the whole slider area clickable.
 * Make sure setting different sources subsequently works.
 * Do we need a stop method?
-* Fix mock video selections for quality, subtitles, audio
 * Make instant mode for slider, so that volume can be updated immediately.
 * Vertical slider...
 * Test that player UI doesn't reload video...

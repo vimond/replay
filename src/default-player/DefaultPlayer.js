@@ -58,7 +58,7 @@ export const renderPlayerUI: RenderMethod = ({ children, videoStreamState }) => 
       />
       <FullscreenButton isFullscreen={false} {...labels.fullscreen} {...graphics.fullscreen} />
     </ControlsBar>
-    <BufferingIndicator {...videoStreamState} {...labels.bufferingIndicator} {...graphics.bufferingIndicator} />
+    <BufferingIndicator renderStrategy="always" {...videoStreamState} {...labels.bufferingIndicator} {...graphics.bufferingIndicator} />
   </PlayerUiContainer>
 );
 
