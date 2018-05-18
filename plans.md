@@ -24,6 +24,7 @@ Sheesh.
 * First class user experience on touch/mobile
 * Accessibility compliance...
 * No company or customer specifics, or mentioning of them - prepared for OS or sharing with customers
+* Also intended as replacement for player used in of Streamlab
 * Code splitting for the integrated streaming libraries
 * Prepare for commercial integrations. Consider creating a Google IMA SDK integration, but nothing else.
 * Prettier.
@@ -160,22 +161,22 @@ Magical injections scoped to instance of player component:
 3. ✓ Compose a player UI.
 4. ✓ Find open source graphic assets.
 5. ✓ Write CSS.
-6. Player UI container features.
+6. Player UI container features as composable HOCs.
 7. Catch up on writing missing tests.
 8. Prepare revised video engine with streamlined/modernised APIs.
-9. Connect video engine with player UI. Is the context API useful for this?
-10. Build starter player with all features.
-11. Demo container app.
-12. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
-13. NPM package exposing default players and all parts. 
-14. Redux actions (with player instance addressing).
-15. Redux demo app.
+9. Build starter player with all features.
+10. Demo container app.
+11. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
+12. NPM package exposing default players and all parts. 
+13. Redux actions (with player instance addressing).
+14. Redux demo app.
 
 ## Detail tasks to be done/clarified
 
 * OK: Move the types for the playback consumption API into a common file.
 * OK: Complete typing the source and text tracks.
-* Make the whole slider area clickable.
+* Rename VideoStream to VideoStreamer.
+* Improved timeline: Progress track part. Time display/preview of seek position.
 * Make sure setting different sources subsequently works.
 * Do we need a stop method?
 * Make instant mode for slider, so that volume can be updated immediately.

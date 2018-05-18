@@ -97,11 +97,20 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
       this.props.onReady({
         play: () => runAsync(this.props.onStreamStateChange, { isPaused: false }),
         pause: () => runAsync(this.props.onStreamStateChange, { isPaused: true }),
-        setPosition: (value: number) => runAsync(this.props.onStreamStateChange, { position: value }, 1500),
-        gotoLive: () => runAsync(this.props.onStreamStateChange, { position: defaultValues.duration }, 1500)
+        setPosition: (value: number) => {
+          runAsync(this.props.onStreamStateChange, { position: value }, 500);
+          runAsync(this.props.onStreamStateChange, { isAtLivePosition: value > defaultValues.duration - 10 }, 500);
+        },
+        gotoLive: () => {
+          runAsync(this.props.onStreamStateChange, { position: defaultValues.duration }, 500);
+          runAsync(this.props.onStreamStateChange, { isAtLivePosition: true }, 1000);
+        }
       });
       updateWithDefaultValues(this.props.onStreamStateChange);
-      setInterval(() => { this.props.onStreamStateChange({ isBuffering: this.isBuffering }); this.isBuffering = !this.isBuffering; }, 5000);
+      setInterval(() => {
+        this.props.onStreamStateChange({ isBuffering: this.isBuffering });
+        this.isBuffering = !this.isBuffering;
+      }, 5000);
     }
   }
 
