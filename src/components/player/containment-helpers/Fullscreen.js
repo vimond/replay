@@ -4,12 +4,11 @@ import * as React from 'react';
 import {
   enterFullscreen,
   exitFullscreen,
-  getFullScreenElement,
+  getFullscreenElement,
   notifyFullscreenChange
 } from './cross-browser-fullscreen';
 
 export type FullscreenRenderParameters = {
-  className?: string,
   isFullscreen: boolean,
   updateProperty: ({ isFullscreen: boolean }) => void,
   enterFullscreen: () => void,
@@ -18,7 +17,6 @@ export type FullscreenRenderParameters = {
 };
 
 type Props = {
-  className?: string,
   render: FullscreenRenderParameters => React.Node
 };
 
@@ -42,11 +40,12 @@ class Fullscreen extends React.Component<Props, State> {
 
   onRef = (element: ?HTMLElement) => {
     this.fullscreenTarget = element;
-    this.setState({ isFullscreen: getFullScreenElement() === element });
+    this.setState({ isFullscreen: getFullscreenElement() === element });
   };
 
   onFullscreenChange = () => {
-    this.setState({ isFullscreen: getFullScreenElement() === this.fullscreenTarget });
+    const fullscreenElement = getFullscreenElement();
+    this.setState({ isFullscreen: !!(fullscreenElement && fullscreenElement === this.fullscreenTarget) });
   };
 
   enterFullscreen = () => {
@@ -70,11 +69,10 @@ class Fullscreen extends React.Component<Props, State> {
   };
 
   render() {
-    const { render, className } = this.props;
+    const { render } = this.props;
     const { isFullscreen } = this.state;
     const { enterFullscreen, exitFullscreen, onRef, updateProperty } = this;
-
-    return render({ className, isFullscreen, enterFullscreen, exitFullscreen, updateProperty, onRef });
+    return render({ isFullscreen, enterFullscreen, exitFullscreen, updateProperty, onRef });
   }
 }
 export default Fullscreen;

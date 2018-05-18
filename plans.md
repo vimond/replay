@@ -182,6 +182,7 @@ Magical injections scoped to instance of player component:
 * Make instant mode for slider, so that volume can be updated immediately.
 * Vertical slider...
 * Test that player UI doesn't reload video...
+* Remove enterFullscreen/exitFullscreen as callback props.
 * Revise rendering and improve performance.
 * Decide on how to pass technology.
 * Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.

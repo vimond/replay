@@ -1,4 +1,4 @@
-export function getFullScreenElement() {
+export function getFullscreenElement() {
   // Ridiculous camel casing confusion ruling the Interwebs.
   return (
     document.fullScreenElement ||
