@@ -2,15 +2,16 @@
 import * as React from 'react';
 import { defaultClassNamePrefix, prefixClassNames } from '../common';
 import type { CommonProps } from '../common';
+import Fullscreen from './containment-helpers/Fullscreen';
+import AspectRatio from './containment-helpers/AspectRatio';
 
-type AspectRatioProps = CommonProps & {
-  aspectRatio: {
-    horizontal: number,
-    vertical: number
-  },
-  children: React.Node,
-  outerClassName?: string,
-  innerClassName?: string
+type RenderParameters = {
+  fullscreenState: {
+    isFullscreen: boolean,
+    updateProperty: ({ isFullscreen: boolean }) => void,
+    enterFullscreen: () => void,
+    exitFullscreen: () => void
+  }
 };
 
 type Props = CommonProps & {
@@ -18,37 +19,32 @@ type Props = CommonProps & {
     horizontal: number,
     vertical: number
   },
-  children: React.Node,
+  render: RenderParameters => React.Node,
   className?: string
 };
 
-const AspectRatio = ({ aspectRatio: { horizontal = 16, vertical = 9 }, children, outerClassName, innerClassName } : AspectRatioProps) => {
-  const outerStyle = {
-      position: 'relative'
-    },
-    beforeStyle = {
-      display: 'block',
-      width: '100%',
-      paddingTop: (vertical * 100 / horizontal).toFixed(2) + '%'
-    },
-    innerStyle = {
-      position: 'absolute',
-      top: '0',
-      left: '0',
-      right: '0',
-      bottom: '0'
-    };
-  return (
-    <div className={outerClassName} style={outerStyle}>
-      <div style={beforeStyle}/>
-      <div className={innerClassName} style={innerStyle}>
-        {children}
-      </div>
-    </div>
-  );
+const classNames = {
+  uiContainer: 'ui-container',
+  reponsivenessPrefix: 'responsive-',
+  volumePrefix: 'volume-',
+  isFullscreen: 'is-fullscreen',
+  isActive: 'is-active',
+  isInactive: 'is-inactive',
+  isBuffering: 'is-buffering',
+  isSeeking: 'is-seeking',
+  isPlaying: 'is-playing',
+  isPaused: 'is-paused',
+  isStarting: 'is-starting',
+  isMuted: 'is-muted',
+  isAtLivePosition: 'is-at-live-position',
+  isLive: 'is-live',
+  isOnDemand: 'is-ondemand',
+  isDvrEnabled: 'is-dvr-enabled',
+  isFailed: 'is-failed'
 };
 
-const uiClassName = 'ui-container';
+// Make stateClassNames pass an array with all relevant keys, so that a simple mapping can be done.
+// In addition comes dynamically generated class names from responsiveness, and perhaps volume level.
 
 class PlayerUiContainer extends React.Component<Props> {
   static defaultProps = {
@@ -59,13 +55,33 @@ class PlayerUiContainer extends React.Component<Props> {
       vertical: 9
     }
   };
-  
+
   render() {
-    const {
-      className,
-      classNamePrefix
-    } = this.props;
-    return <AspectRatio innerClassName={prefixClassNames(classNamePrefix, uiClassName)} outerClassName={className} {...this.props}/>
+    const { classNamePrefix, render } = this.props;
+    const playerClassName = this.props.className;
+
+    return (
+      <AspectRatio
+        className={playerClassName}
+        render={innerStyle => (
+          <Fullscreen
+            render={({ onRef, ...fullscreenState }) => {
+              const prefixedClassNames = prefixClassNames(
+                classNamePrefix,
+                classNames.uiContainer,
+                fullscreenState.isFullscreen ? classNames.isFullscreen : null
+              );
+              return (
+                <div ref={onRef} style={innerStyle} className={prefixedClassNames}>
+                  {render({ fullscreenState })}
+                </div>
+              );
+              // TODO: How to make this look nicer?
+            }}
+          />
+        )}
+      />
+    );
   }
 }
 
