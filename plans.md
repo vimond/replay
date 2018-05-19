@@ -1,7 +1,24 @@
-
 # Big, big plans
 
-## Naming idea
+## Some goals
+
+* Straightforward and clean React player that can replace the current reference player (in Streamlab)
+* Statically typed
+* Tests, both for components and full player
+* Prettier
+* Component-centric full player toolkit
+* Standalone components + starter player
+* Still easy to re-skin and re-configure starter player, perhaps with Storybook or Styleguidist
+* Easy to integrate with Redux state, but also easy to keep out of global state
+* Possibly complement traditional CSS with modern, but not an immature styling approach
+* Styling framework choices should be agnostic to components
+* First class user experience on touch/mobile
+* Accessibility compliance...
+* No company or customer specifics, or mentioning of them - prepared for OS or sharing with customers
+* Code splitting for the integrated streaming libraries
+* Perhaps prepare for commercial integrations. Consider creating a Google IMA SDK integration, but nothing else.
+
+## Naming ideas
 
 *v-player* for full player and *v-stream* for video engine?
 
@@ -9,25 +26,7 @@
 
 ```<Vplayer/> <VPlayer/> <vPlayer/>```
 
-Sheesh.
-
-## Some goals
-
-* Statically typed
-* Tests, both for components and full player
-* Component-centric full player toolkit
-* Standalone components + starter player
-* Still easy to re-skin and re-configure starter player
-* Easy to integrate with Redux state, but also easy to keep out of global state
-* Possibly complement traditional CSS with modern, but not an immature styling approach
-* Styling framework choices should be agnostic to components
-* First class user experience on touch/mobile
-* Accessibility compliance...
-* No company or customer specifics, or mentioning of them - prepared for OS or sharing with customers
-* Also intended as replacement for player used in of Streamlab
-* Code splitting for the integrated streaming libraries
-* Prepare for commercial integrations. Consider creating a Google IMA SDK integration, but nothing else.
-* Prettier.
+No, forget about it, that's too ugly.
 
 # The view: Player with controls
 
@@ -56,7 +55,7 @@ For "design mode", to be used with e.g. Styleguidist.
 * Overlay
 * ✓ Drop-up selector
 * Toast
-* Poster
+* Poster?
 
 ### Specialised controls
 
@@ -76,9 +75,9 @@ For "design mode", to be used with e.g. Styleguidist.
 * Poster? Need to decide on lifecycle strategy.			
 * ✓ Buffering indicator
 * Player container, managing
-	* User inactivity
-	* Keyboard shortcuts target
-	* 16:9 aspect ratio lock, fullscreen
+	* ✓ User inactivity
+	* ✓ Keyboard shortcuts target
+	* ✓ 16:9 aspect ratio lock, fullscreen
 	* Responsiveness
 	* (Play state)
 
@@ -88,10 +87,13 @@ The concerns above might be separated into HOCs or utilities attached to the vis
 	
 * Markers
 * Chapters
-* Episodes selector
-* Share
 * Pause/play overlay/toggle
 * Video synced graphics overlay
+
+In someone's dreams:
+
+* Episodes selector
+* Share
 * Multiplayer...
 * End poster with replay and suggestions
 

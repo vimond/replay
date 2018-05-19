@@ -1,12 +1,13 @@
 // @flow
 import * as React from 'react';
-import { defaultClassNamePrefix, prefixClassNames } from '../common';
+import { defaultClassNamePrefix } from '../common';
 import type { CommonProps } from '../common';
 import Fullscreen from './containment-helpers/Fullscreen';
 import AspectRatio from './containment-helpers/AspectRatio';
 import InteractionDetector from './containment-helpers/InteractionDetector';
 import KeyboardShortcuts from './containment-helpers/KeyboardShortcuts';
 import type { VideoStreamState } from './VideoStream/common';
+import getPlayerStateClassNames from './containment-helpers/playerStateClassNames';
 
 type RenderParameters = {
   fullscreenState: {
@@ -38,10 +39,11 @@ type Props = CommonProps & {
   className?: string
 };
 
-const classNames = {
-  uiContainer: 'ui-container',
-  reponsivenessPrefix: 'responsive-',
-  volumePrefix: 'volume-',
+const className = 'ui-container';
+
+const classNameDefs = {
+  responsivenessPrefix: 'player-size-',
+  volumePrefix: 'volume-level-',
   isFullscreen: 'is-fullscreen',
   isUserActive: 'is-user-active',
   isUserInactive: 'is-user-inactive',
@@ -53,7 +55,7 @@ const classNames = {
   isMuted: 'is-muted',
   isAtLivePosition: 'is-at-live-position',
   isLive: 'is-live',
-  isOnDemand: 'is-ondemand',
+  isOnDemand: 'is-on-demand',
   isDvrEnabled: 'is-dvr-enabled',
   isFailed: 'is-failed'
 };
@@ -84,14 +86,18 @@ class PlayerUiContainer extends React.Component<Props> {
                 <InteractionDetector
                   configuration={configuration}
                   render={({ handleMouseMove, handleTouchStart, handleTouchEnd, ...interactionState }) => {
-                    const prefixedClassNames = prefixClassNames(
+                    const allPrefixedClassNames = getPlayerStateClassNames(
+                      { ...fullscreenState, ...interactionState, ...videoStreamState },
+                      classNameDefs,
                       classNamePrefix,
-                      classNames.uiContainer,
-                      fullscreenState.isFullscreen ? classNames.isFullscreen : null,
-                      interactionState.isUserActive ? classNames.isUserActive : classNames.isUserInactive
+                      [className]
                     );
                     return (
-                      <KeyboardShortcuts configuration={configuration} videoStreamState={videoStreamState} fullscreenState={fullscreenState} nudge={interactionState.nudge} 
+                      <KeyboardShortcuts
+                        configuration={configuration}
+                        videoStreamState={videoStreamState}
+                        fullscreenState={fullscreenState}
+                        nudge={interactionState.nudge}
                         render={({ handleKeyUp }) => (
                           <div
                             tabIndex={1}
@@ -101,7 +107,7 @@ class PlayerUiContainer extends React.Component<Props> {
                             onTouchEnd={handleTouchEnd}
                             onKeyDown={handleKeyUp}
                             style={innerStyle}
-                            className={prefixedClassNames}>
+                            className={allPrefixedClassNames}>
                             {render({ fullscreenState, interactionState })}
                           </div>
                         )}

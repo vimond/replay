@@ -139,7 +139,7 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
     return (
       <div
         className={prefixClassNames(this.props.classNamePrefix, className, mockClassName, this.props.className)}
-        style={{ background: '#444', color: 'white', fontWeight: 'bold', marginTop: '20px' }}>
+        style={{ background: '#444', color: 'white', fontWeight: 'bold', paddingTop: '20px' }}>
         Mock video. Is paused? {this.props.isPaused ? 'yes' : 'no'}{' '}
       </div>
     );
