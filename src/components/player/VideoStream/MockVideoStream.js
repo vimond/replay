@@ -33,7 +33,7 @@ const defaultValues: VideoStreamState = {
   playMode: 'livedvr',
   playState: 'playing',
   isPaused: false,
-  isBuffering: true,
+  isBuffering: false,
   isSeeking: false,
   position: 123,
   duration: 456,
@@ -78,10 +78,10 @@ const mockClassName = 'mock-video-streamer';
 
 const runAsync = (callback, arg, delay = 0) => setTimeout(() => callback && callback(arg), delay);
 
-const updateWithDefaultValues = updater => {
+const updateWithDefaultValues = (updater, overrides: VideoStreamState = {}) => {
   if (updater) {
     Object.entries(defaultValues).forEach(entry => {
-      updater({ [entry[0]]: entry[1] });
+      updater({ [entry[0]]: entry[0] in overrides ? overrides[entry[0]] : entry[1] });
     });
   }
 };
@@ -90,27 +90,35 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
   static defaultProps = {
     classNamePrefix: defaultClassNamePrefix
   };
-  isBuffering = true;
+  modifiedStreamState = {};
+  
+  updateStreamState = (state: VideoStreamState) => {
+    Object.entries(state).forEach(entry => {
+      this.modifiedStreamState[entry[0]] = entry[1];
+    });
+    this.props.onStreamStateChange(state);
+  };
 
   componentDidMount() {
+    window.updateVideoState = this.updateStreamState;
     if (this.props.onReady) {
       this.props.onReady({
-        play: () => runAsync(this.props.onStreamStateChange, { isPaused: false }),
-        pause: () => runAsync(this.props.onStreamStateChange, { isPaused: true }),
+        play: () => runAsync(this.updateStreamState, { isPaused: false }),
+        pause: () => runAsync(this.updateStreamState, { isPaused: true }),
         setPosition: (value: number) => {
-          runAsync(this.props.onStreamStateChange, { position: value }, 500);
-          runAsync(this.props.onStreamStateChange, { isAtLivePosition: value > defaultValues.duration - 10 }, 500);
+          runAsync(this.updateStreamState, { position: value }, 500);
+          runAsync(this.updateStreamState, { isAtLivePosition: value > defaultValues.duration - 10 }, 500);
         },
         gotoLive: () => {
-          runAsync(this.props.onStreamStateChange, { position: defaultValues.duration }, 500);
-          runAsync(this.props.onStreamStateChange, { isAtLivePosition: true }, 1000);
+          runAsync(this.updateStreamState, { position: defaultValues.duration }, 500);
+          runAsync(this.updateStreamState, { isAtLivePosition: true }, 1000);
         }
       });
       updateWithDefaultValues(this.props.onStreamStateChange);
-      setInterval(() => {
+      /*setInterval(() => {
         this.props.onStreamStateChange({ isBuffering: this.isBuffering });
         this.isBuffering = !this.isBuffering;
-      }, 5000);
+      }, 5000);*/
     }
   }
 
@@ -119,11 +127,11 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
       .filter(key => updateableKeys.indexOf(key) >= 0)
       .forEach(key => {
         if (prevProps[key] !== this.props[key]) {
-          runAsync(this.props.onStreamStateChange, { [updateableProps[key]]: this.props[key] });
+          runAsync(this.updateStreamState, { [updateableProps[key]]: this.props[key] });
         }
       });
     if (this.props.onStreamStateChange !== prevProps.onStreamStateChange) {
-      updateWithDefaultValues(this.props.onStreamStateChange);
+      updateWithDefaultValues(this.props.onStreamStateChange, this.modifiedStreamState);
     }
   }
 

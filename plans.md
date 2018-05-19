@@ -162,14 +162,20 @@ Magical injections scoped to instance of player component:
 4. ✓ Find open source graphic assets.
 5. ✓ Write CSS.
 6. Player UI container features as composable HOCs.
+	1. ✓ Aspect Ratio
+	2. ✓ Fullscreen
+	3. ✓ User activity
+	4. Keyboard shortcuts
+	5. State class names 
 7. Catch up on writing missing tests.
 8. Prepare revised video engine with streamlined/modernised APIs.
 9. Build starter player with all features.
-10. Demo container app.
-11. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
-12. NPM package exposing default players and all parts. 
-13. Redux actions (with player instance addressing).
-14. Redux demo app.
+10. Streamlab integration.
+11. Demo container app.
+12. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
+13. NPM package exposing default players and all parts individually.
+14. Redux actions (with player instance addressing).
+15. Redux demo app.
 
 ## Detail tasks to be done/clarified
 
@@ -182,7 +188,6 @@ Magical injections scoped to instance of player component:
 * Make instant mode for slider, so that volume can be updated immediately.
 * Vertical slider...
 * Test that player UI doesn't reload video...
-* Remove enterFullscreen/exitFullscreen as callback props.
 * Revise rendering and improve performance.
 * Decide on how to pass technology.
 * Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
