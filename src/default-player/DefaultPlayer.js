@@ -31,7 +31,19 @@ type DefaultPlayerProps = {
   options: any
 };
 
-const configuration = {};
+const configuration = {
+  keyboardShortcuts: {
+    keyCodes: {
+      togglePause: [32, 13],
+      toggleFullscreen: 70,
+      decreaseVolume: [109, 189],
+      increaseVolume: [107, 187],
+      skipBack: 188,
+      skipForward: 190,
+      toggleMute: 77
+    }
+  }
+};
 
 const skipBackOffset = -10;
 const qualityStrategy = 'cap-bitrate';
@@ -41,6 +53,8 @@ const liveDisplayMode = 'clock-time';
 // Exporting for static design work.
 export const renderPlayerUI: RenderMethod = ({ children, videoStreamState }) => (
   <PlayerUiContainer
+    configuration={configuration}
+    videoStreamState={videoStreamState}
     render={({ fullscreenState }) => (
       <React.Fragment>
         {children}

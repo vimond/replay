@@ -43,7 +43,7 @@ test('<InteractionDetector/> reports inactive after the configured number of sec
     expect(isUserActive).toBe(false);
   };
   const renderFn = getRenderFn([renderTest1, renderTest2], done);
-  mount(<InteractionDetector render={renderFn} configuration={{ inactivityDelay: 0.001 }} />);
+  mount(<InteractionDetector render={renderFn} configuration={{ interactionDetector: { inactivityDelay: 0.001 }}} />);
 });
 
 test('<InteractionDetector/> reports active upon mouse move or touch, or when nudged.', done => {
@@ -86,7 +86,7 @@ test('<InteractionDetector/> reports active upon mouse move or touch, or when nu
     ],
     done
   );
-  mount(<InteractionDetector render={renderFn} configuration={{ inactivityDelay: 0.001 }} />);
+  mount(<InteractionDetector render={renderFn} configuration={{ interactionDetector: { inactivityDelay: 0.001 }}} />);
 });
 
 // Too unreliable.
@@ -96,5 +96,5 @@ test.skip('<InteractionDetector/> reports inactive again after the configured nu
     const endTime = new Date();
     expect(endTime.getTime() - startTime.getTime()).toBeGreaterThan(500);
   }];
-  mount(<InteractionDetector render={getRenderFn(renderFns, done)} configuration={{ inactivityDelay: 0.5 }} />);
+  mount(<InteractionDetector render={getRenderFn(renderFns, done)} configuration={{ interactionDetector: { inactivityDelay: 0.5 }}} />);
 });

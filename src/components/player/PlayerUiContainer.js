@@ -5,6 +5,8 @@ import type { CommonProps } from '../common';
 import Fullscreen from './containment-helpers/Fullscreen';
 import AspectRatio from './containment-helpers/AspectRatio';
 import InteractionDetector from './containment-helpers/InteractionDetector';
+import KeyboardShortcuts from './containment-helpers/KeyboardShortcuts';
+import type { VideoStreamState } from './VideoStream/common';
 
 type RenderParameters = {
   fullscreenState: {
@@ -19,11 +21,19 @@ type RenderParameters = {
   }
 };
 
+type StreamStateAndUpdaters = VideoStreamState & {
+  // TODO: These should be combined in VideoStreamer.
+  setPosition: number => void,
+  updateProperty: (property: VideoStreamState) => void
+};
+
 type Props = CommonProps & {
   aspectRatio: {
     horizontal: number,
     vertical: number
   },
+  configuration: any,
+  videoStreamState: StreamStateAndUpdaters,
   render: RenderParameters => React.Node,
   className?: string
 };
@@ -62,9 +72,8 @@ class PlayerUiContainer extends React.Component<Props> {
   };
 
   render() {
-    const { classNamePrefix, render } = this.props;
+    const { classNamePrefix, render, configuration, videoStreamState } = this.props;
     const playerClassName = this.props.className;
-
     return (
       <AspectRatio
         className={playerClassName}
@@ -73,6 +82,7 @@ class PlayerUiContainer extends React.Component<Props> {
             render={
               ({ onRef, ...fullscreenState }) => (
                 <InteractionDetector
+                  configuration={configuration}
                   render={({ handleMouseMove, handleTouchStart, handleTouchEnd, ...interactionState }) => {
                     const prefixedClassNames = prefixClassNames(
                       classNamePrefix,
@@ -81,15 +91,21 @@ class PlayerUiContainer extends React.Component<Props> {
                       interactionState.isUserActive ? classNames.isUserActive : classNames.isUserInactive
                     );
                     return (
-                      <div
-                        ref={onRef}
-                        onMouseMove={handleMouseMove}
-                        onTouchStart={handleTouchStart}
-                        onTouchEnd={handleTouchEnd}
-                        style={innerStyle}
-                        className={prefixedClassNames}>
-                        {render({ fullscreenState, interactionState })}
-                      </div>
+                      <KeyboardShortcuts configuration={configuration} videoStreamState={videoStreamState} fullscreenState={fullscreenState} nudge={interactionState.nudge} 
+                        render={({ handleKeyUp }) => (
+                          <div
+                            tabIndex={1}
+                            ref={onRef}
+                            onMouseMove={handleMouseMove}
+                            onTouchStart={handleTouchStart}
+                            onTouchEnd={handleTouchEnd}
+                            onKeyDown={handleKeyUp}
+                            style={innerStyle}
+                            className={prefixedClassNames}>
+                            {render({ fullscreenState, interactionState })}
+                          </div>
+                        )}
+                      />
                     );
                   }}
                 />

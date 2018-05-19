@@ -8,11 +8,14 @@ import {
   notifyFullscreenChange
 } from './cross-browser-fullscreen';
 
-export type FullscreenRenderParameters = {
+export type FullscreenState = {
   isFullscreen: boolean,
   updateProperty: ({ isFullscreen: boolean }) => void,
   enterFullscreen: () => void,
-  exitFullscreen: () => void,
+  exitFullscreen: () => void
+};
+
+type FullscreenRenderParameters = FullscreenState & {
   onRef: (?HTMLElement) => void
 };
 

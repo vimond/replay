@@ -165,7 +165,7 @@ Magical injections scoped to instance of player component:
 	1. ✓ Aspect Ratio
 	2. ✓ Fullscreen
 	3. ✓ User activity
-	4. Keyboard shortcuts
+	4. ✓ Keyboard shortcuts
 	5. State class names 
 7. Catch up on writing missing tests.
 8. Prepare revised video engine with streamlined/modernised APIs.
@@ -173,7 +173,7 @@ Magical injections scoped to instance of player component:
 10. Streamlab integration.
 11. Demo container app.
 12. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
-13. NPM package exposing default players and all parts individually.
+13. NPM package(s) exposing default players and all components individually.
 14. Redux actions (with player instance addressing).
 15. Redux demo app.
 
