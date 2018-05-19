@@ -6,7 +6,7 @@ import {
   exitFullscreen,
   getFullscreenElement,
   notifyFullscreenChange
-} from './cross-browser-fullscreen';
+} from './crossBrowserFullscreen';
 
 export type FullscreenState = {
   isFullscreen: boolean,

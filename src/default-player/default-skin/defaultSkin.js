@@ -25,7 +25,8 @@ import '../../components/generic/core-styles/Slider.css';
 import '../../components/generic/core-styles/Button.css';
 
 // Default skin
-import '../default-skin/skin-and-layout.css';
+// TODO: Add state styles.
+import '../default-skin/skinAndLayout.css';
 
 const graphics = {
   playPause: {

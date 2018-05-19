@@ -7,11 +7,11 @@ import {
   notifyFullscreenChange,
   enterFullscreen as moduleEnterFullscreen,
   exitFullscreen as moduleExitFullscreen
-} from './cross-browser-fullscreen';
+} from './crossBrowserFullscreen';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-jest.mock('./cross-browser-fullscreen');
+jest.mock('./crossBrowserFullscreen');
 
 const renderShallow = () => {
   const renderFn = jest.fn();
