@@ -4,6 +4,7 @@ import { defaultClassNamePrefix, prefixClassNames } from '../common';
 import type { CommonProps } from '../common';
 import Fullscreen from './containment-helpers/Fullscreen';
 import AspectRatio from './containment-helpers/AspectRatio';
+import InteractionDetector from './containment-helpers/InteractionDetector';
 
 type RenderParameters = {
   fullscreenState: {
@@ -11,6 +12,10 @@ type RenderParameters = {
     updateProperty: ({ isFullscreen: boolean }) => void,
     enterFullscreen: () => void,
     exitFullscreen: () => void
+  },
+  interactionState: {
+    nudge: () => void,
+    isUserActive: boolean
   }
 };
 
@@ -28,8 +33,8 @@ const classNames = {
   reponsivenessPrefix: 'responsive-',
   volumePrefix: 'volume-',
   isFullscreen: 'is-fullscreen',
-  isActive: 'is-active',
-  isInactive: 'is-inactive',
+  isUserActive: 'is-user-active',
+  isUserInactive: 'is-user-inactive',
   isBuffering: 'is-buffering',
   isSeeking: 'is-seeking',
   isPlaying: 'is-playing',
@@ -65,19 +70,31 @@ class PlayerUiContainer extends React.Component<Props> {
         className={playerClassName}
         render={innerStyle => (
           <Fullscreen
-            render={({ onRef, ...fullscreenState }) => {
-              const prefixedClassNames = prefixClassNames(
-                classNamePrefix,
-                classNames.uiContainer,
-                fullscreenState.isFullscreen ? classNames.isFullscreen : null
-              );
-              return (
-                <div ref={onRef} style={innerStyle} className={prefixedClassNames}>
-                  {render({ fullscreenState })}
-                </div>
-              );
-              // TODO: How to make this look nicer?
-            }}
+            render={
+              ({ onRef, ...fullscreenState }) => (
+                <InteractionDetector
+                  render={({ handleMouseMove, handleTouchStart, handleTouchEnd, ...interactionState }) => {
+                    const prefixedClassNames = prefixClassNames(
+                      classNamePrefix,
+                      classNames.uiContainer,
+                      fullscreenState.isFullscreen ? classNames.isFullscreen : null,
+                      interactionState.isUserActive ? classNames.isUserActive : classNames.isUserInactive
+                    );
+                    return (
+                      <div
+                        ref={onRef}
+                        onMouseMove={handleMouseMove}
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={handleTouchEnd}
+                        style={innerStyle}
+                        className={prefixedClassNames}>
+                        {render({ fullscreenState, interactionState })}
+                      </div>
+                    );
+                  }}
+                />
+              ) // TODO: How to make this look nicer?
+            }
           />
         )}
       />
