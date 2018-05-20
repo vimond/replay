@@ -168,31 +168,38 @@ Magical injections scoped to instance of player component:
 	2. ✓ Fullscreen
 	3. ✓ User activity
 	4. ✓ Keyboard shortcuts
-	5. State class names 
+	5. ✓ State class names 
+	6. Player size responsiveness. ResizeObserver in Chrome. https://codeburst.io/media-queries-based-on-element-width-with-mutationobserver-cf2eff172787 elsewhere.
 7. Catch up on writing missing tests.
 8. Prepare revised video engine with streamlined/modernised APIs.
-9. Build starter player with all features.
+9. Build default player with all features.
 10. Streamlab integration.
 11. Demo container app.
 12. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
-13. NPM package(s) exposing default players and all components individually.
-14. Redux actions (with player instance addressing).
-15. Redux demo app.
+13. Docs on creating a full CSS file for a customised player, including core styles.
+14. NPM package(s) exposing default players and all components individually.
+15. Redux actions (with player instance addressing).
+16. Redux demo app.
 
 ## Detail tasks to be done/clarified
 
 * OK: Move the types for the playback consumption API into a common file.
 * OK: Complete typing the source and text tracks.
+* Styles for player container and proper video stretch. 100vh.
 * Rename VideoStream to VideoStreamer.
-* Improved timeline: Progress track part. Time display/preview of seek position.
+* Create type set for configuration structure. Include all individual component configs.
+* Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
 * Make sure setting different sources subsequently works.
 * Do we need a stop method?
+* Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
 * Make instant mode for slider, so that volume can be updated immediately.
+* Quality selector. Reconsider icon, or make the bars correspond with current quality.
 * Vertical slider...
+* Exit button for Streamlab? Perhaps a simple overlay injection.
 * Test that player UI doesn't reload video...
 * Revise rendering and improve performance.
 * Decide on how to pass technology.
-* Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
+* For default player, a separate CSS build not including the demo app is needed.
 * External player API (exposed from PlayerController).
 * Logging across components. Runtime configurable, but individual on players? https://github.com/pimterry/loglevel
-* Create type set for configuration structure.
+

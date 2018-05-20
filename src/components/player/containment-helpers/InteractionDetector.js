@@ -9,11 +9,13 @@ type RenderParameters = {
   handleTouchEnd: (evt: TouchEvent) => void
 };
 
+export type InteractionDetectorConfiguration = {
+  inactivityDelay: number
+};
+
 type Props = {
   configuration?: {
-    interactionDetector?: {
-      inactivityDelay: number
-    }
+    interactionDetector?: InteractionDetectorConfiguration
   },
   render: RenderParameters => React.Node
 };
@@ -35,7 +37,9 @@ class InteractionDetector extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.delaySeconds =
-      this.props.configuration && this.props.configuration.interactionDetector && this.props.configuration.interactionDetector.inactivityDelay != null
+      this.props.configuration &&
+      this.props.configuration.interactionDetector &&
+      this.props.configuration.interactionDetector.inactivityDelay != null
         ? this.props.configuration.interactionDetector.inactivityDelay
         : 2;
     this.state = { isUserActive: true };
