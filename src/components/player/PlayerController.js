@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import type { VideoStreamState, VideoStreamProps, PlaybackMethods } from './VideoStream/common';
+import type { VideoStreamState, VideoStreamerProps, PlaybackMethods } from './VideoStreamer/common';
 import { override } from '../common';
 
 type UpdateProperty = (property: VideoStreamState) => void;
@@ -8,7 +8,7 @@ type UpdateProperty = (property: VideoStreamState) => void;
 export type RenderData = {
 	children: React.Node,
 	videoStreamState: VideoStreamState,
-	videoStreamProps: VideoStreamProps,
+	videoStreamerProps: VideoStreamerProps,
 	updateProperty: UpdateProperty,
 	gotoLive: () => {},
 	setPosition: (value: number) => {}
@@ -27,7 +27,7 @@ type State = VideoStreamState & {
 	gotoLive: () => void,
 	setPosition: (number) => void,
 	updateProperty: UpdateProperty,
-	videoStreamProps: VideoStreamProps
+  videoStreamerProps: VideoStreamerProps
 };
 
 const passPropsToVideoStreamElement = (children: React.Node, props: any) => {
@@ -48,18 +48,18 @@ class PlayerController extends React.Component<Props, State> {
 			gotoLive: () => {},
 			setPosition: () => {},
 			updateProperty: this.updateProperty,
-			videoStreamProps: {
-				onReady: this.onVideoStreamReady,
+      videoStreamerProps: {
+				onReady: this.onVideoStreamerReady,
 				onStreamStateChange: this.onStreamStateChange,
 				configuration: overriddenConfiguration.videoStreamer || overriddenConfiguration
 			}
 		};
 	}
 
-	onVideoStreamReady = (methods: PlaybackMethods) => {
+  onVideoStreamerReady = (methods: PlaybackMethods) => {
 		this.setState({
 			gotoLive: methods.gotoLive,
-			setPosition: methods.setPosition,
+			setPosition: methods.setPosition
 		});
 	};
 
@@ -69,10 +69,10 @@ class PlayerController extends React.Component<Props, State> {
 	};
 
 	// UI -> video stream
-	updateProperty = (updatedProp: VideoStreamProps) => {
-		const videoStreamProps = { ...this.state.videoStreamProps, ...updatedProp };
+	updateProperty = (updatedProp: VideoStreamerProps) => {
+		const videoStreamerProps = { ...this.state.videoStreamerProps, ...updatedProp };
 		this.setState({
-			videoStreamProps
+      videoStreamerProps
 		});
 	};
 
@@ -82,11 +82,11 @@ class PlayerController extends React.Component<Props, State> {
 
 	render() {
 		const {
-			videoStreamProps,
+      videoStreamerProps,
 			...videoStreamState
 		} = this.state;
 
-		const enhancedChildren = passPropsToVideoStreamElement(this.props.children, videoStreamProps);
+		const enhancedChildren = passPropsToVideoStreamElement(this.props.children, videoStreamerProps);
 		
 		return this.props.render({
 			children: enhancedChildren,
@@ -94,7 +94,7 @@ class PlayerController extends React.Component<Props, State> {
 			gotoLive: videoStreamState.gotoLive,
 			setPosition: videoStreamState.setPosition,
 			updateProperty: this.updateProperty,
-			videoStreamProps
+      videoStreamerProps
 		});
 	}
 }

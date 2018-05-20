@@ -1,6 +1,6 @@
 // @flow
 
-import { PlayState, PlayMode } from '../VideoStream/common';
+import { PlayState, PlayMode } from '../VideoStreamer/common';
 import { prefixClassNames } from '../../common';
 
 type ClassNameKeys =

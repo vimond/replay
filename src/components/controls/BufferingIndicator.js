@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { defaultClassNamePrefix, prefixClassNames } from '../common';
-import type { PlayState } from '../player/VideoStream/common';
+import type { PlayState } from '../player/VideoStreamer/common';
 import type { CommonProps } from '../common';
 
 type Props = CommonProps & {

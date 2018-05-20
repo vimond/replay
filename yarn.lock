@@ -6642,6 +6642,10 @@ term-size@^1.2.0:
   dependencies:
     execa "^0.7.0"
 
+test-cli@^0.1.0:
+  version "0.1.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/test-cli/-/test-cli-0.1.0.tgz?dl=https://registry.yarnpkg.com/test-cli/-/test-cli-0.1.0.tgz#65ef622e129c1a306753d09ed17a60bfeb7a5196"
+
 test-exclude@^4.2.1:
   version "4.2.1"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/test-exclude/-/test-exclude-4.2.1.tgz#dfa222f03480bca69207ca728b37d74b45f724fa"

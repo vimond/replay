@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import type { VideoStreamProps, VideoStreamState } from './common';
+import type { VideoStreamerProps, VideoStreamState } from './common';
 import { defaultClassNamePrefix, prefixClassNames } from '../../common';
 
 const defaultTextTracks = [
@@ -86,7 +86,7 @@ const updateWithDefaultValues = (updater, overrides: VideoStreamState = {}) => {
   }
 };
 
-class MockVideoStream extends React.Component<VideoStreamProps> {
+class MockVideoStreamer extends React.Component<VideoStreamerProps> {
   static defaultProps = {
     classNamePrefix: defaultClassNamePrefix
   };
@@ -122,7 +122,7 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
     }
   }
 
-  componentDidUpdate(prevProps: VideoStreamProps) {
+  componentDidUpdate(prevProps: VideoStreamerProps) {
     Object.keys(this.props)
       .filter(key => updateableKeys.indexOf(key) >= 0)
       .forEach(key => {
@@ -146,4 +146,4 @@ class MockVideoStream extends React.Component<VideoStreamProps> {
   }
 }
 
-export default MockVideoStream;
+export default MockVideoStreamer;

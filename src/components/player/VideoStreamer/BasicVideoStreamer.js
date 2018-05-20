@@ -1,14 +1,14 @@
 // @flow 
 import * as React from 'react';
 import { type CommonGenericProps, prefixClassNames, defaultClassNamePrefix } from '../../common';
-import type { VideoStreamProps } from "./common"
+import type { VideoStreamerProps } from "./common"
 
-type Props = CommonGenericProps & VideoStreamProps;
+type Props = CommonGenericProps & VideoStreamerProps;
 
 const baseClassName = 'video-stream';
 
 //TODO: Consider renaming into *VideoStreamer
-class BasicVideoStream extends React.Component<Props> {
+class BasicVideoStreamer extends React.Component<Props> {
     static defaultProps = {
         classNamePrefix: defaultClassNamePrefix
     };
@@ -45,4 +45,4 @@ class BasicVideoStream extends React.Component<Props> {
     }
 }
 
-export default BasicVideoStream;
+export default BasicVideoStreamer;

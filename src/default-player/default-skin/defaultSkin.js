@@ -17,7 +17,7 @@ import LoadingAnimation from './LoadingAnimation';
 import { strings } from '../strings';
 
 // Design/skin agnostic core styles
-import '../../components/player/VideoStream/VideoStreamer.css';
+import '../../components/player/VideoStreamer/VideoStreamer.css';
 import '../../components/controls/core-styles/ControlsBar.css';
 import '../../components/controls/core-styles/Volume.css';
 import '../../components/generic/core-styles/DropUpSelector.css';

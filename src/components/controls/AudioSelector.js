@@ -2,7 +2,7 @@
 import * as React from 'react';
 import DropUpSelector from '../generic/DropUpSelector';
 import { defaultClassNamePrefix } from '../common';
-import type { AvailableTrack } from '../player/VideoStream/common';
+import type { AvailableTrack } from '../player/VideoStreamer/common';
 import type { CommonProps } from '../common';
 import type { Item } from '../generic/DropUpSelector';
 

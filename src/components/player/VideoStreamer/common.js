@@ -74,7 +74,7 @@ export type PlaybackMethods = {
 
 /* Types for settable props */
 
-export type VideoStreamProps = CommonProps & {
+export type VideoStreamerProps = CommonProps & {
 	configuration?: any,
 	source?: PlaybackSource,
 	textTracks: Array<SourceTrack>,

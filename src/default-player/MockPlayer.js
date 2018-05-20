@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
 import PlayerController from '../components/player/PlayerController';
-import MockVideoStream from '../components/player/VideoStream/MockVideoStream';
+import MockVideoStreamer from '../components/player/VideoStreamer/MockVideoStreamer';
 import { renderPlayerUI } from './DefaultPlayer';
 
-const MockPlayer = () => <PlayerController render={renderPlayerUI}><MockVideoStream/></PlayerController>;
+const MockPlayer = () => <PlayerController render={renderPlayerUI}><MockVideoStreamer/></PlayerController>;
 
 export default MockPlayer;

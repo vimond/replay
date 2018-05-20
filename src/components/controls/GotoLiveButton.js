@@ -2,7 +2,7 @@
 import * as React from 'react';
 import ToggleButton from '../generic/ToggleButton';
 import { defaultClassNamePrefix } from '../common';
-import type { PlayMode } from '../player/VideoStream/common';
+import type { PlayMode } from '../player/VideoStreamer/common';
 import type { CommonProps } from '../common';
 
 type Props = CommonProps & {

@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import PlayerController from '../components/player/PlayerController';
-import BasicVideoStream from '../components/player/VideoStream/BasicVideoStream';
+import BasicVideoStreamer from '../components/player/VideoStreamer/BasicVideoStreamer';
 
 import ControlsBar from '../components/controls/ControlsBar';
 import PlayerUiContainer from '../components/player/PlayerUiContainer';
@@ -17,7 +17,7 @@ import SubtitlesSelector from '../components/controls/SubtitlesSelector';
 import QualitySelector from '../components/controls/QualitySelector';
 import GotoLiveButton from '../components/controls/GotoLiveButton';
 
-import type { PlaybackSource, SourceTrack } from '../components/player/VideoStream/common';
+import type { PlaybackSource, SourceTrack } from '../components/player/VideoStreamer/common';
 import type { RenderMethod } from '../components/player/PlayerController';
 
 import graphics from './default-skin/defaultSkin';
@@ -91,7 +91,7 @@ const DefaultPlayer = (
   { source, textTracks, options }: DefaultPlayerProps // Can use spread for source&textTracks
 ) => (
   <PlayerController render={renderPlayerUI} configuration={configuration} options={options}>
-    <BasicVideoStream source={source} textTracks={textTracks} />
+    <BasicVideoStreamer source={source} textTracks={textTracks} />
   </PlayerController>
 );
 export default DefaultPlayer;

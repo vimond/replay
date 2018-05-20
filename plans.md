@@ -79,7 +79,7 @@ For "design mode", to be used with e.g. Styleguidist.
 	* ✓ Keyboard shortcuts target
 	* ✓ 16:9 aspect ratio lock, fullscreen
 	* Responsiveness
-	* (Play state)
+	* ✓ (Play state)
 
 The concerns above might be separated into HOCs or utilities attached to the visual container component.
 
@@ -174,6 +174,7 @@ Magical injections scoped to instance of player component:
 8. Prepare revised video engine with streamlined/modernised APIs.
 9. Build default player with all features.
 10. Streamlab integration.
+11. Review what to make configurable, e.g. strings, classes.
 11. Demo container app.
 12. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
 13. Docs on creating a full CSS file for a customised player, including core styles.
@@ -186,20 +187,29 @@ Magical injections scoped to instance of player component:
 * OK: Move the types for the playback consumption API into a common file.
 * OK: Complete typing the source and text tracks.
 * Styles for player container and proper video stretch. 100vh.
-* Rename VideoStream to VideoStreamer.
+* OK Rename VideoStream to VideoStreamer.
 * Create type set for configuration structure. Include all individual component configs.
 * Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
+* Quality selector. Reconsider icon, or make the bars correspond with current quality.
+* Decide on how to pass technology.
+
+After video engine is plugged in:
+
+* Test that player UI doesn't reload video...
 * Make sure setting different sources subsequently works.
-* Do we need a stop method?
 * Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
 * Make instant mode for slider, so that volume can be updated immediately.
-* Quality selector. Reconsider icon, or make the bars correspond with current quality.
+* Revise rendering and improve performance.
+* Do we need a stop method?
+
+Preparing the project/player for other purposes:
+
+* External player API (exposed from PlayerController).
+* For default player, a separate CSS build not including the demo app is needed.
+
+Next leap year:
+
 * Vertical slider...
 * Exit button for Streamlab? Perhaps a simple overlay injection.
-* Test that player UI doesn't reload video...
-* Revise rendering and improve performance.
-* Decide on how to pass technology.
-* For default player, a separate CSS build not including the demo app is needed.
-* External player API (exposed from PlayerController).
-* Logging across components. Runtime configurable, but individual on players? https://github.com/pimterry/loglevel
+* Logging across components, if actually needed. Runtime configurable, but individual on players? https://github.com/pimterry/loglevel
 
