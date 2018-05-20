@@ -6,7 +6,7 @@ import {
   exitFullscreen,
   getFullscreenElement,
   notifyFullscreenChange
-} from './crossBrowserFullscreen';
+} from './ponyfills/crossBrowserFullscreen';
 
 export type FullscreenState = {
   isFullscreen: boolean,

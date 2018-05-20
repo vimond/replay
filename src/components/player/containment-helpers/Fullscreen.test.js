@@ -7,11 +7,11 @@ import {
   notifyFullscreenChange,
   enterFullscreen as moduleEnterFullscreen,
   exitFullscreen as moduleExitFullscreen
-} from './crossBrowserFullscreen';
+} from './ponyfills/crossBrowserFullscreen';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-jest.mock('./crossBrowserFullscreen');
+jest.mock('./ponyfills/crossBrowserFullscreen');
 
 const renderShallow = () => {
   const renderFn = jest.fn();
