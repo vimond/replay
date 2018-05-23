@@ -6,4 +6,6 @@
     display: flex;
     align-items: center;
     user-select: none;
+    visibility: visible;
+    opacity: 1;
 }

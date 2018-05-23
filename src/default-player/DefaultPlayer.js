@@ -14,24 +14,55 @@ import Volume from '../components/controls/Volume';
 import FullscreenButton from '../components/controls/FullscreenButton';
 import AudioSelector from '../components/controls/AudioSelector';
 import SubtitlesSelector from '../components/controls/SubtitlesSelector';
-import QualitySelector from '../components/controls/QualitySelector';
+import QualitySelector, { type QualitySelectionStrategy } from '../components/controls/QualitySelector';
 import GotoLiveButton from '../components/controls/GotoLiveButton';
-
-import type { PlaybackSource, SourceTrack } from '../components/player/VideoStreamer/common';
-import type { RenderMethod } from '../components/player/PlayerController';
 
 import graphics from './default-skin/defaultSkin';
 import { labels } from './strings';
 
+import type {
+  PlaybackSource,
+  SourceTrack,
+  VideoStreamerConfiguration
+} from '../components/player/VideoStreamer/common';
+import type { RenderMethod } from '../components/player/PlayerController';
+import type { KeyboardShortcutsConfiguration } from '../components/player/containment-helpers/KeyboardShortcuts';
+import type { InteractionDetectorConfiguration } from '../components/player/containment-helpers/InteractionDetector';
+
 // In this file, all custom parts making up a player can be assembled and "composed".
+
+type ControlNames =
+  | 'playPauseButton'
+  | 'skipButton'
+  | 'timeline'
+  | 'timeDisplay'
+  | 'gotoLiveButton'
+  | 'volume'
+  | 'audioSelector'
+  | 'subtitlesSelector'
+  | 'qualitySelector'
+  | 'fullscreenButton'
+  | 'bufferingIndicator';
+
+export type PlayerConfiguration = {
+  videoStreamer?: VideoStreamerConfiguration,
+  interactionDetector?: InteractionDetectorConfiguration,
+  keyboardShortcuts?: KeyboardShortcutsConfiguration,
+  ui?: {
+    classNamePrefix?: string, // Not implemented.
+    includeControls?: Array<ControlNames>, // Not implemented.
+    skipButtonOffset?: number,
+    qualitySelectionStrategy?: QualitySelectionStrategy
+  }
+};
 
 type DefaultPlayerProps = {
   source: PlaybackSource,
   textTracks: Array<SourceTrack>,
-  options: any
+  options: PlayerConfiguration
 };
 
-const configuration = {
+const baseConfiguration = {
   keyboardShortcuts: {
     keyCodes: {
       togglePause: [32, 13],
@@ -42,25 +73,41 @@ const configuration = {
       skipForward: 190,
       toggleMute: 77
     }
+  },
+  videoStreamer: {},
+  ui: {
+    skipButtonOffset: -10,
+    qualitySelectionStrategy: 'cap-bitrate'
   }
 };
 
-const skipBackOffset = -10;
-const qualityStrategy = 'cap-bitrate';
 const bufferingRenderStrategy = 'always';
 const liveDisplayMode = 'clock-time';
 
+const getSkipBackOffset = (configuration: PlayerConfiguration) => {
+  return configuration && configuration.ui && configuration.ui.skipButtonOffset;
+};
+
+const getQualitySelectionStrategy = (configuration: PlayerConfiguration) => {
+  return configuration && configuration.ui && configuration.ui.qualitySelectionStrategy;
+};
+
 // Exporting for static design work.
-export const renderPlayerUI: RenderMethod = ({ children, videoStreamState }) => (
+export const renderPlayerUI: RenderMethod = ({ children, videoStreamState, mergedConfiguration }) => (
   <PlayerUiContainer
-    configuration={configuration}
+    configuration={mergedConfiguration}
     videoStreamState={videoStreamState}
     render={({ fullscreenState }) => (
       <React.Fragment>
         {children}
         <ControlsBar>
           <PlayPauseButton {...videoStreamState} {...labels.playPause} {...graphics.playPause} />
-          <SkipButton {...videoStreamState} {...labels.skipBack} {...graphics.skipBack} offset={skipBackOffset} />
+          <SkipButton
+            {...videoStreamState}
+            {...labels.skipBack}
+            {...graphics.skipBack}
+            offset={getSkipBackOffset(mergedConfiguration)}
+          />
           <Timeline {...videoStreamState} {...labels.timeline} {...graphics.timeline} />
           <TimeDisplay liveDisplayMode={liveDisplayMode} {...videoStreamState} {...labels.timeDisplay} />
           <GotoLiveButton {...videoStreamState} {...labels.gotoLive} {...graphics.gotoLive} />
@@ -71,7 +118,7 @@ export const renderPlayerUI: RenderMethod = ({ children, videoStreamState }) => 
             {...videoStreamState}
             {...labels.qualitySelector}
             {...graphics.qualitySelector}
-            selectionStrategy={qualityStrategy}
+            selectionStrategy={getQualitySelectionStrategy(mergedConfiguration)}
           />
           <FullscreenButton {...fullscreenState} {...labels.fullscreen} {...graphics.fullscreen} />
         </ControlsBar>
@@ -87,10 +134,9 @@ export const renderPlayerUI: RenderMethod = ({ children, videoStreamState }) => 
 );
 
 // This is the component to be consumed in a full React SPA.
-const DefaultPlayer = (
-  { source, textTracks, options }: DefaultPlayerProps // Can use spread for source&textTracks
-) => (
-  <PlayerController render={renderPlayerUI} configuration={configuration} options={options}>
+const DefaultPlayer = ({ source, textTracks, options }: DefaultPlayerProps) => (
+  // Can use spread for source&textTracks
+  <PlayerController render={renderPlayerUI} configuration={baseConfiguration} options={options}>
     <BasicVideoStreamer source={source} textTracks={textTracks} />
   </PlayerController>
 );

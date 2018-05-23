@@ -5,6 +5,8 @@ import { defaultClassNamePrefix } from '../common';
 import type { CommonProps } from '../common';
 import type { Item } from '../generic/DropUpSelector';
 
+export type QualitySelectionStrategy = 'cap-bitrate' | 'lock-bitrate';
+
 type Props = CommonProps & {
   bitrates?: Array<number>,
   currentBitrate?: number,
@@ -12,7 +14,7 @@ type Props = CommonProps & {
   maxBitrate?: ?number,
   toggleContent: React.Node,
   updateProperty?: ({ lockedBitrate: ?number } | { maxBitrate: ?number }) => void,
-  selectionStrategy?: 'cap-bitrate' | 'lock-bitrate',
+  selectionStrategy?: QualitySelectionStrategy,
   autoLabel: string,
   formatBitrateLabel: (number, boolean) => string
 };

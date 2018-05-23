@@ -8,6 +8,8 @@ import InteractionDetector from './containment-helpers/InteractionDetector';
 import KeyboardShortcuts from './containment-helpers/KeyboardShortcuts';
 import type { VideoStreamState } from './VideoStreamer/common';
 import getPlayerStateClassNames from './containment-helpers/playerStateClassNames';
+import type { InteractionDetectorConfiguration } from './containment-helpers/InteractionDetector';
+import type { KeyboardShortcutsConfiguration } from './containment-helpers/KeyboardShortcuts';
 
 type RenderParameters = {
   fullscreenState: {
@@ -33,7 +35,10 @@ type Props = CommonProps & {
     horizontal: number,
     vertical: number
   },
-  configuration: any,
+  configuration?: {
+    interactionDetector?: InteractionDetectorConfiguration,
+    keyboardShortcuts?: KeyboardShortcutsConfiguration
+  },
   videoStreamState: StreamStateAndUpdaters,
   render: RenderParameters => React.Node,
   className?: string

@@ -105,6 +105,7 @@
     transform: translateX(-50%) translateY(-50%);
 }
 
+/*
 .v-player-goto-live-button {
     min-width: 50px;
     width: auto;
@@ -114,6 +115,8 @@
 .v-player-goto-live-button > span:first-child {
     margin-right: 5px;
 }
+
+*/
 
 .v-player-buffering-indicator {
     height: 100px;
@@ -130,21 +133,26 @@
 }
 
 
-/* Visual vertical alignment of icons */
+/* Aesthetic vertical alignment and correction of icons */
 
 .v-player-audio-selector .v-player-toggle-button, .v-player-skip-button, .v-player-goto-live-button svg {
     transform: translateY(2px);
 }
 
+.v-player-quality-selector .v-player-drop-up-selector-toggle {
+    transform-origin: 50% 50%;
+    transform: scale(0.85);
+}
+
 /* Colors with transitions */
 
 .v-player-controls-bar, .v-player-drop-up-selector-items {
-    background-color: rgba(32,32,32,0.5);
+    background-color: rgba(32,32,32,0.8);
     color: #ccc;
 }
 
 .v-player-slider-track, .v-player-drop-up-selector-item:hover {
-    background-color: #666;
+    background-color: #888;
 }
 
 .v-player-buffering-indicator {
@@ -177,6 +185,22 @@
     animation-play-state: running;
 }
 
+.v-player-controls-bar {
+    transition: visibility 0.5s, opacity 0.5s;
+    cursor: default;
+}
+
+.v-player-is-user-inactive .v-player-controls-bar {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.v-player-controls-bar:hover {
+    cursor: default;
+    visibility: visible;
+    opacity: 1;
+}
+
 .v-player-button, .v-player-toggle-button {
     transition: color 0.5s;
 }
@@ -202,6 +226,11 @@
 
 .v-player-button:hover, .v-player-toggle-button:hover {
     color: white;
+}
+
+.v-player-goto-live-button.v-player-toggled-on:hover {
+    color: #ccc;
+    cursor: default;
 }
 
 .v-player-slider-handle:hover {

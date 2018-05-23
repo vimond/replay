@@ -4,12 +4,11 @@ import {
   Play,
   Pause,
   RotateCcw,
-  RotateCw,
   Volume2,
   VolumeX,
   MessageSquare,
   Type,
-  BarChart,
+  Settings,
   Maximize,
   Minimize
 } from 'react-feather';
@@ -48,19 +47,8 @@ const graphics = {
     trackContent: <div />
   },
   gotoLive: {
-    isAtLivePositionContent: (
-      <React.Fragment>
-        <span>{strings.gotoLiveButton.isLive}</span>
-      </React.Fragment>
-    ),
-    isNotAtLivePositionContent: (
-      <React.Fragment>
-        <span>
-          <RotateCw />
-        </span>
-        <span>{strings.gotoLiveButton.gotoLive}</span>
-      </React.Fragment>
-    )
+    isAtLivePositionContent: <span>{strings.gotoLiveButton.isLive}</span>,
+    isNotAtLivePositionContent: <span>{strings.gotoLiveButton.gotoLive}</span>
   },
   volume: {
     unmutedContent: <Volume2 />,
@@ -74,7 +62,7 @@ const graphics = {
     toggleContent: <Type />
   },
   qualitySelector: {
-    toggleContent: <BarChart />
+    toggleContent: <Settings />
   },
   fullscreen: {
     normalContent: <Maximize />,
