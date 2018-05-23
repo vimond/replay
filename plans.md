@@ -170,34 +170,40 @@ Magical injections scoped to instance of player component:
 	4. ✓ Keyboard shortcuts
 	5. ✓ State class names 
 	6. Player size responsiveness. ResizeObserver in Chrome. https://codeburst.io/media-queries-based-on-element-width-with-mutationobserver-cf2eff172787 elsewhere.
+	7. User settings storage.
 7. Catch up on writing missing tests.
 8. Prepare revised video engine with streamlined/modernised APIs.
 9. Build default player with all features.
 10. Streamlab integration.
-11. Review what to make configurable, e.g. strings, classes.
-11. Demo container app.
-12. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
-13. Docs on creating a full CSS file for a customised player, including core styles.
-14. NPM package(s) exposing default players and all components individually.
-15. Redux actions (with player instance addressing).
-16. Redux demo app.
+11. Review what to make configurable (overridable) in default player, e.g. strings, graphics, controls appearance, their settings.
+12. Demo container app.
+13. Theme-based styling, preparing for next step.
+14. Simple HTML5 video streamer, only for MP4.
+15. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
+16. Docs on creating a full CSS file for a customised player, including core styles.
+17. NPM package(s) exposing default player and all components individually.
+18. Redux actions (with player instance addressing).
+19. Redux demo app.
 
 ## Detail tasks to be done/clarified
 
 * OK: Move the types for the playback consumption API into a common file.
 * OK: Complete typing the source and text tracks.
-* Styles for player container and proper video stretch. 100vh.
 * OK Rename VideoStream to VideoStreamer.
-* Create type set for configuration structure. Include all individual component configs.
+* OK Create type set for configuration structure. Include all individual component configs.
+* OK Quality selector. Reconsider icon.
 * Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
-* Quality selector. Reconsider icon, or make the bars correspond with current quality.
 * Decide on how to pass technology.
+* OK Hide controls bar!
+* Buffering state not visible.
+* Timeline: Dragging should be detected on whole area, not only handle.
 
 After video engine is plugged in:
 
-* Test that player UI doesn't reload video...
+* OK Test that player UI doesn't reload video...
 * Make sure setting different sources subsequently works.
 * Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
+* Styles for player container and proper video stretch. 100vh.
 * Make instant mode for slider, so that volume can be updated immediately.
 * Revise rendering and improve performance.
 * Do we need a stop method?

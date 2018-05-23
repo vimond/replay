@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import PlayerController from '../components/player/PlayerController';
-import BasicVideoStreamer from '../components/player/VideoStreamer/BasicVideoStreamer';
+import VimondVideoStreamer from '../components/player/VideoStreamer/VimondVideoStreamer';
 
 import ControlsBar from '../components/controls/ControlsBar';
 import PlayerUiContainer from '../components/player/PlayerUiContainer';
@@ -137,7 +137,7 @@ export const renderPlayerUI: RenderMethod = ({ children, videoStreamState, merge
 const DefaultPlayer = ({ source, textTracks, options }: DefaultPlayerProps) => (
   // Can use spread for source&textTracks
   <PlayerController render={renderPlayerUI} configuration={baseConfiguration} options={options}>
-    <BasicVideoStreamer source={source} textTracks={textTracks} />
+    <VimondVideoStreamer source={source} textTracks={textTracks} />
   </PlayerController>
 );
 export default DefaultPlayer;

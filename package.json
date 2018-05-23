@@ -13,7 +13,8 @@
     "react-dom": "^16.2.0",
     "react-feather": "^1.1.0",
     "react-scripts": "1.1.1",
-    "test-cli": "^0.1.0"
+    "test-cli": "^0.1.0",
+    "vimond-uniplayer-videoengine-react": "^8.18.281"
   },
   "scripts": {
     "start": "react-scripts start",
