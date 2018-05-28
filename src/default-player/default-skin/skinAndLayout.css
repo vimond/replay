@@ -119,13 +119,18 @@
 */
 
 .v-player-buffering-indicator {
-    height: 100px;
-    width: 100px;
+    height: 50px;
+    width: 50px;
     position: absolute;
-    top: 50%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     visibility: hidden;
+}
+
+.v-player-is-fullscreen .v-player-buffering-indicator {
+    height: 100px;
+    width: 100px;
 }
 
 .v-player-buffering-indicator.v-player-buffering {
