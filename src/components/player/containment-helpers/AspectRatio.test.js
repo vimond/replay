@@ -9,15 +9,7 @@ test('<AspectRatio /> renders with DOM, class names, and styles.', () => {
   const renderFn = jest.fn();
   renderFn.mockReturnValue(<figure />);
   const rendered = shallow(<AspectRatio className="my-aspect-container" render={renderFn} />);
-  expect(renderFn.mock.calls[0][0]).toEqual({
-    innerStyle: {
-      position: 'absolute',
-      top: '0',
-      left: '0',
-      right: '0',
-      bottom: '0'
-    }
-  });
+  expect(renderFn.mock.calls.length).toBe(1);
   expect(rendered.find('div').length).toBe(2);
   expect(
     rendered
