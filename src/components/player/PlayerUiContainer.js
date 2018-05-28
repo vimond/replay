@@ -84,7 +84,7 @@ class PlayerUiContainer extends React.Component<Props> {
     return (
       <AspectRatio
         className={playerClassName}
-        render={innerStyle => (
+        render={() => (
           <Fullscreen
             render={
               ({ onRef, ...fullscreenState }) => (
@@ -111,7 +111,6 @@ class PlayerUiContainer extends React.Component<Props> {
                             onTouchStart={handleTouchStart}
                             onTouchEnd={handleTouchEnd}
                             onKeyDown={handleKeyUp}
-                            style={innerStyle}
                             className={allPrefixedClassNames}>
                             {render({ fullscreenState, interactionState })}
                           </div>
