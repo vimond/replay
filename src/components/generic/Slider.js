@@ -5,6 +5,7 @@ import { type CommonGenericProps, prefixClassNames, getBoundingEventCoordinates 
 type Props = CommonGenericProps & {
   value: number,
   maxValue: number,
+  isUpdateBlocked?: boolean,
   isVertical?: boolean,
   children?: React.Node,
   handleContent?: React.Node,
@@ -67,21 +68,22 @@ class Slider extends React.Component<Props, State> {
 
   updateValueFromCoordinates = (
     evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent,
+    isDragging?: boolean,
     isEnded?: boolean
   ) => {
     if (this.renderedTrack) {
       const clickCoordinates = getBoundingEventCoordinates(evt, this.renderedTrack);
       if (this.props.isVertical) {
         const relativeVerticalValue = (clickCoordinates.height - clickCoordinates.y) / clickCoordinates.height;
-        this.updateValue(relativeVerticalValue, isEnded);
+        this.updateValue(relativeVerticalValue, isDragging, isEnded);
       } else {
         const relativeHorizontalValue = clickCoordinates.x / clickCoordinates.width;
-        this.updateValue(relativeHorizontalValue, isEnded);
+        this.updateValue(relativeHorizontalValue, isDragging, isEnded);
       }
     }
   };
 
-  updateValue = (relativeValue: number, isEnded?: boolean) => {
+  updateValue = (relativeValue: number, isDragging?: boolean, isEnded?: boolean) => {
     // TODO: Override isDragging with extra argument
     const value = relativeValue * this.props.maxValue;
     if (this.state.isDragging) {
@@ -92,7 +94,7 @@ class Slider extends React.Component<Props, State> {
         this.props.onDrag(value);
       }
     }
-    if (this.props.onValueChange && (isEnded || !this.state.isDragging)) {
+    if (this.props.onValueChange && (isEnded || !(this.state.isDragging || isDragging))) {
       this.props.onValueChange(value);
     }
   };
@@ -104,7 +106,7 @@ class Slider extends React.Component<Props, State> {
   handleHandleStartDrag = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
     if (!this.state.isDragging) {
       this.setState({ isDragging: true });
-      this.updateValueFromCoordinates(evt);
+      this.updateValueFromCoordinates(evt, true);
       // We are OK with no position updates yet.
       if (this.isTouchSupported) {
         document.addEventListener('touchmove', this.handleHandleDrag.bind(this));
@@ -126,7 +128,7 @@ class Slider extends React.Component<Props, State> {
 
   handleHandleEndDrag = (evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent) => {
     if (this.state.isDragging) {
-      this.updateValueFromCoordinates(evt, true);
+      this.updateValueFromCoordinates(evt, true, true);
     }
     if (this.isTouchSupported) {
       document.removeEventListener('touchmove', this.handleHandleDrag.bind(this));
@@ -147,26 +149,7 @@ class Slider extends React.Component<Props, State> {
   setRenderedTrack = (track: ?HTMLDivElement) => {
     this.renderedTrack = track;
   };
-
-  /*
-    componentWillReceiveProps(nextProps: Props) {
-        if (this.props.value !== nextProps.value && this.state.isDragging) {
-            this.setState({
-                lastSetValue: nextProps.value
-            });
-        }
-        // If drag is completed, we only want to modify the slider's displayed position when there is 
-        // - an actual change in props.value, compared to last set props value.
-        if (!this.state.isDragging && this.state.dragValue != null && (nextProps.value !== this.props.value || nextProps.value !== this.state.lastSetValue) || (nextProps.value !== this.state.dragValue)) {
-            // Drag was complete, and now the value is updated from props. It is time to respect the props.value again (see dragValue check in render() method).
-            console.log('Update after drag complete', this.props, nextProps, this.state);
-            this.setState({
-                dragValue: undefined
-            });
-        }
-    }
-*/
-
+  
   render() {
     const {
       children,
@@ -179,10 +162,11 @@ class Slider extends React.Component<Props, State> {
       label,
       isVertical,
       value,
-      maxValue
+      maxValue,
+      isUpdateBlocked
     } = this.props;
     const { dragValue, isDragging } = this.state;
-    const displayValue = isDragging && dragValue != null ? dragValue : value; // A bit fragile detection relying on componentWillReceiveProps.
+    const displayValue = (isDragging || isUpdateBlocked) && dragValue != null ? dragValue : value;
     const sliderClassNames = isDragging
       ? prefixClassNames(classNamePrefix, baseClassName, className, isDraggingClassName)
       : prefixClassNames(classNamePrefix, baseClassName, className);
