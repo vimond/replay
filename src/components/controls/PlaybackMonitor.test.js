@@ -82,7 +82,10 @@ test('<PlaybackMonitor /> should render if configured to start visible.', () => 
   const table = rendered.find('table');
   expect(table.hasClass('v-playback-monitor-stream-state')).toBe(true);
 
-  const tableRows = rendered.find('tbody').children().map(row => row.dive());
+  const tableRows = rendered
+    .find('tbody')
+    .children()
+    .map(row => row.dive());
   expect(tableRows.length).toBe(23);
   const headerRow = tableRows[0];
   expect(headerRow.hasClass('v-playback-monitor-table-header')).toBe(true);

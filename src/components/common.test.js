@@ -164,8 +164,8 @@ test('isDifferent() returns true with different functions, object instances or a
     )
   ).toBe(true);
   expect(isDifferent([], [])).toBe(true);
-  expect(isDifferent([1,2,3], [1,2,3])).toBe(true);
-  expect(isDifferent([1,2,3], [1,4,7])).toBe(true);
+  expect(isDifferent([1, 2, 3], [1, 2, 3])).toBe(true);
+  expect(isDifferent([1, 2, 3], [1, 4, 7])).toBe(true);
 });
 
 test('isDifferent() returns true with different types passed.', () => {
@@ -187,7 +187,7 @@ test('isDifferent() returns false with the same values of strings, booleans, or 
 test('isDifferent() returns false with the same object instances compared.', () => {
   const obj1 = {};
   const obj2 = { yes: 'no' };
-  const arr = [1,2,3,'yes', obj1, obj2];
+  const arr = [1, 2, 3, 'yes', obj1, obj2];
   expect(isDifferent(obj1, obj1)).toBe(false);
   expect(isDifferent(obj2, obj2)).toBe(false);
   expect(isDifferent(arr, arr)).toBe(false);

@@ -91,7 +91,7 @@ class MockVideoStreamer extends React.Component<VideoStreamerProps> {
     classNamePrefix: defaultClassNamePrefix
   };
   modifiedStreamState = {};
-  
+
   updateStreamState = (state: VideoStreamState) => {
     Object.entries(state).forEach(entry => {
       this.modifiedStreamState[entry[0]] = entry[1];

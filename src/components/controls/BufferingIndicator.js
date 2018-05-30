@@ -26,7 +26,8 @@ const BufferingIndicator: React.StatelessFunctionalComponent<Props> = ({
   label,
   classNamePrefix = defaultClassNamePrefix
 }) => {
-  const isActive = isBuffering || isSeeking || playState === 'starting' || playState === 'buffering' || playState === 'seeking';
+  const isActive =
+    isBuffering || isSeeking || playState === 'starting' || playState === 'buffering' || playState === 'seeking';
   if (renderStrategy === 'always') {
     if (isActive) {
       return (

@@ -47,11 +47,12 @@ export const isDifferent = (a: any, b: any) => {
   if (a === b) {
     return false;
   }
-  if (Number.isNaN(a) && Number.isNaN(b)) { // Comparing NaN values are hard! https://ariya.io/2014/05/the-curious-case-of-javascript-nan
+  if (Number.isNaN(a) && Number.isNaN(b)) {
+    // Comparing NaN values are hard! https://ariya.io/2014/05/the-curious-case-of-javascript-nan
     return false;
   }
   return true;
-}
+};
 
 export const isObject = (obj: ?{}) => obj != null && obj.constructor === {}.constructor;
 

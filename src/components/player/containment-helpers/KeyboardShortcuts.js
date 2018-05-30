@@ -78,13 +78,15 @@ class KeyboardShortcuts extends React.Component<Props> {
             }
             break;
           case 'decreaseVolume':
-            videoStreamState && videoStreamState.updateProperty({ volume: Math.max(videoStreamState.volume - volumeStep, 0) });
+            videoStreamState &&
+              videoStreamState.updateProperty({ volume: Math.max(videoStreamState.volume - volumeStep, 0) });
             break;
           case 'increaseVolume':
-            videoStreamState && videoStreamState.updateProperty({ volume: Math.min(videoStreamState.volume + volumeStep, 1) });
+            videoStreamState &&
+              videoStreamState.updateProperty({ volume: Math.min(videoStreamState.volume + volumeStep, 1) });
             break;
           default:
-            // eslint requires default in switch. Can't see that this is a good case for such a requirement.
+          // eslint requires default in switch. Can't see that this is a good case for such a requirement.
         }
         if (nudge) {
           nudge();

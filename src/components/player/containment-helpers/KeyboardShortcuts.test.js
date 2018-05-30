@@ -139,7 +139,15 @@ test('<KeyboardShortcuts/> nudges the user activity state when a valid key is pr
   const fullscreenState = {
     updateProperty: () => {}
   };
-  shallow(<KeyboardShortcuts nudge={nudge} configuration={config} render={renderFn} videoStreamState={videoStreamState} fullscreenState={fullscreenState} />);
+  shallow(
+    <KeyboardShortcuts
+      nudge={nudge}
+      configuration={config}
+      render={renderFn}
+      videoStreamState={videoStreamState}
+      fullscreenState={fullscreenState}
+    />
+  );
   const { handleKeyUp } = renderFn.mock.calls[0][0];
   handleKeyUp({ keyCode: 1, preventDefault });
   handleKeyUp({ keyCode: 313, preventDefault });

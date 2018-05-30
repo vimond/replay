@@ -5,19 +5,23 @@ import PlayerController from './PlayerController';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const MockStream = (props) =>{
+const MockStream = props => {
   const readyProps = {
     setPosition: jest.fn(),
     gotoLive: jest.fn()
   };
-  setTimeout(() => props.onReady(readyProps),20);
-  return <div/>;
+  setTimeout(() => props.onReady(readyProps), 20);
+  return <div />;
 };
 
 test('<PlayerController/> recognizes the VideoStreamer child and invoke the render prop.', () => {
   // TODO: Write tests.
   const renderFn = jest.fn();
-  const rendered = shallow(<PlayerController render={renderFn}><MockStream/></PlayerController>);
+  const rendered = shallow(
+    <PlayerController render={renderFn}>
+      <MockStream />
+    </PlayerController>
+  );
   expect(renderFn.mock.calls.length).toBe(1);
   //expect(false).toBe(true);
 });

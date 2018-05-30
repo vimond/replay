@@ -149,7 +149,7 @@ class Slider extends React.Component<Props, State> {
   setRenderedTrack = (track: ?HTMLDivElement) => {
     this.renderedTrack = track;
   };
-  
+
   render() {
     const {
       children,

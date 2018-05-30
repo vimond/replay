@@ -143,9 +143,15 @@ export class PropTableRow extends React.Component<TableRowProps, TableRowState> 
     const formattedPreviousValue = formatValue(previousValue);
     return (
       <tr>
-        <th title={propertyName} className={prefixedClassNames.propName}>{propertyName}</th>
-        <td title={formattedCurrentValue} className={prefixedClassNames.currentValue}>{formattedCurrentValue}</td>
-        <td title={formattedPreviousValue} className={prefixedClassNames.previousValue}>{formattedPreviousValue}</td>
+        <th title={propertyName} className={prefixedClassNames.propName}>
+          {propertyName}
+        </th>
+        <td title={formattedCurrentValue} className={prefixedClassNames.currentValue}>
+          {formattedCurrentValue}
+        </td>
+        <td title={formattedPreviousValue} className={prefixedClassNames.previousValue}>
+          {formattedPreviousValue}
+        </td>
       </tr>
     );
   }
@@ -219,9 +225,7 @@ class PlaybackMonitor extends React.Component<Props, State> {
             onClick={this.handleCloseClick}
           />
           <table className={prefixClassNames(classNamePrefix, tableClassName)}>
-            <tbody>
-            {renderTableRows(videoStreamState, classNamePrefix)}
-            </tbody>
+            <tbody>{renderTableRows(videoStreamState, classNamePrefix)}</tbody>
           </table>
         </div>
       );

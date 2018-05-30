@@ -148,7 +148,7 @@ test('getPlayerStateClassNames() sets prefixed responsiveness range class names.
   expect(responsivenessResult.indexOf('v-player-size-max')).toBeGreaterThanOrEqual(0);
   expect(responsivenessResult.indexOf('v-player-size-medium')).toBeGreaterThanOrEqual(0);
 
-  const emptyResult = getPlayerStateClassNames({ responsivenessRanges: []}, classNameDefs, classNamePrefix);
+  const emptyResult = getPlayerStateClassNames({ responsivenessRanges: [] }, classNameDefs, classNamePrefix);
   expect(emptyResult).toBe('');
 });
 
