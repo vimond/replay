@@ -200,14 +200,17 @@ After video engine is plugged in:
 
 * OK Test that player UI doesn't reload video...
 * OK Hide controls bar!
-* Verify buffering state with playback monitor.
-* Fix currentBitrate and publish new videoengine.
-* Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
-* Timeline: Don't call setPosition on drag start. Maybe block glitch with isSeeking.
-* Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
-* Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
+* OK Verify buffering state with playback monitor.
+* OK Fix currentBitrate and publish new videoengine.
+* OK Timeline: Don't call setPosition on drag start. Maybe block glitch with isSeeking.
+
+General improvements
 
 * Test with subtitles and audio tracks...
+* Make lockedBitrate and maxBitrate props.
+* Look into setting volume, mute, and pause state on startup.
+* Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
+* Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
 
 Before settling the architecture: Revise rendering and improve performance. Probably drop render prop.
 
@@ -224,6 +227,7 @@ Streamlab integration
 
 * All DASH alternatives. Simply add libraries as props on the component, or create a `withPlaybackLibraries()` "HOC".
 * NPM package.
+* Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
 
 Preparing the project/player for other purposes:
 

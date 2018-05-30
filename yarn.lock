@@ -7008,9 +7008,9 @@ vimond-uniplayer-shaka@^1.7.15:
   version "1.7.22"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/vimond-uniplayer-shaka/-/vimond-uniplayer-shaka-1.7.22.tgz#d1d72d8fc20a00fb4b54da57b8457be7feb18779"
 
-vimond-uniplayer-videoengine-react@^8.18.281:
-  version "8.18.281"
-  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/vimond-uniplayer-videoengine-react/-/vimond-uniplayer-videoengine-react-8.18.281.tgz#6c83f0d1609a957d13b0b87b19576c64b628b159"
+vimond-uniplayer-videoengine-react@8.18.282:
+  version "8.18.282"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/vimond-uniplayer-videoengine-react/-/vimond-uniplayer-videoengine-react-8.18.282.tgz#95c2809b06f6f08ae3772e27d6cc62bbd2c7f72c"
   dependencies:
     hls.js "^0.7.11"
     js-logger "^1.2.0"

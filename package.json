@@ -14,7 +14,7 @@
     "react-feather": "^1.1.0",
     "react-scripts": "1.1.1",
     "test-cli": "^0.1.0",
-    "vimond-uniplayer-videoengine-react": "^8.18.281"
+    "vimond-uniplayer-videoengine-react": "8.18.282"
   },
   "scripts": {
     "start": "react-scripts start",
