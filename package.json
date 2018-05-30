@@ -9,8 +9,8 @@
     "jsxBracketSameLine": true
   },
   "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
     "react-feather": "^1.1.0",
     "react-scripts": "1.1.1",
     "test-cli": "^0.1.0",
@@ -27,5 +27,8 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "flow-bin": "^0.67.1",
     "prettier": "^1.12.1"
+  },
+  "resolutions": {
+    "enzyme-adapter-react-16/react-test-renderer": "^16.3.2"
   }
 }

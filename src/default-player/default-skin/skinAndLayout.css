@@ -137,6 +137,36 @@
     visibility: visible;
 }
 
+.v-player-playback-monitor {
+    top: 3%;
+    bottom: 60px;
+    left: 6%;
+    right: 6%;
+    font-size: 10px;
+    transition: bottom 0.3s;
+}
+
+/*.v-player-is-user-inactive .v-player-playback-monitor {
+    bottom: 3%;
+    transition-delay: 0.4s;
+}*/
+
+.v-player-playback-monitor td, .v-player-playback-monitor th {
+    padding: 2px 8px;
+}
+
+.v-player-playback-monitor-stream-state {
+    top: 0.5em;
+}
+
+td.v-player-playback-monitor-current-value {
+    max-width: 160px;
+}
+
+td.v-player-playback-monitor-previous-value {
+    max-width: 160px;
+}
+
 
 /* Aesthetic vertical alignment and correction of icons */
 
@@ -151,9 +181,12 @@
 
 /* Colors with transitions */
 
+.v-player-controls-bar, .v-player-drop-up-selector-items, .v-player-playback-monitor-close-button, .v-player-buffering-indicator {
+    color: #ccc;
+}
+
 .v-player-controls-bar, .v-player-drop-up-selector-items {
     background-color: rgba(32,32,32,0.8);
-    color: #ccc;
 }
 
 .v-player-slider-track, .v-player-drop-up-selector-item:hover {
@@ -161,7 +194,6 @@
 }
 
 .v-player-buffering-indicator {
-    color: #ccc;
     transition: opacity 1s, visibility 0s linear 0.5s;
     opacity: 0;
 }
@@ -244,6 +276,20 @@
 
 .v-player-time-display span:nth-child(2) {
     border-top-color: rgba(128,128,128,0.5);
+}
+
+.v-player-playback-monitor {
+    color: white;
+    background-color: rgba(20, 20, 20, 0.9);
+    cursor: default;
+}
+
+td.v-player-playback-monitor-current-value {
+    opacity: 0.9;
+}
+
+td.v-player-playback-monitor-previous-value {
+    opacity: 0.6;
 }
 
 /* Graphical appearance */

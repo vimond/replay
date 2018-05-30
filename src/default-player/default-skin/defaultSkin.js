@@ -10,7 +10,8 @@ import {
   Type,
   Settings,
   Maximize,
-  Minimize
+  Minimize,
+  XCircle
 } from 'react-feather';
 import LoadingAnimation from './LoadingAnimation';
 import { strings } from '../strings';
@@ -22,6 +23,7 @@ import '../../components/controls/core-styles/Volume.css';
 import '../../components/generic/core-styles/DropUpSelector.css';
 import '../../components/generic/core-styles/Slider.css';
 import '../../components/generic/core-styles/Button.css';
+import '../../components/controls/core-styles/PlaybackMonitor.css';
 
 // Default skin
 // TODO: Add state styles.
@@ -70,6 +72,9 @@ const graphics = {
   },
   bufferingIndicator: {
     content: <LoadingAnimation />
+  },
+  playbackMonitor: {
+    closeButtonContent: <XCircle />
   }
 };
 

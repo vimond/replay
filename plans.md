@@ -173,7 +173,7 @@ Magical injections scoped to instance of player component:
 	7. User settings storage.
 7. Catch up on writing missing tests.
 8. Prepare revised video engine with streamlined/modernised APIs.
-9. Build default player with all features.
+9. Build default player as npm package with all features.
 10. Streamlab integration.
 11. Review what to make configurable (overridable) in default player, e.g. strings, graphics, controls appearance, their settings.
 12. Demo container app.
@@ -192,26 +192,45 @@ Magical injections scoped to instance of player component:
 * OK Rename VideoStream to VideoStreamer.
 * OK Create type set for configuration structure. Include all individual component configs.
 * OK Quality selector. Reconsider icon.
-* Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
-* Decide on how to pass technology.
-* OK Hide controls bar!
-* Buffering state not visible.
-* Timeline: Dragging should be detected on whole area, not only handle.
+* OK Decide on how to pass technology.
+
+Before settling the architecture:
 
 After video engine is plugged in:
 
 * OK Test that player UI doesn't reload video...
-* Make sure setting different sources subsequently works.
+* OK Hide controls bar!
+* Verify buffering state with playback monitor.
+* Fix currentBitrate and publish new videoengine.
+* Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
+* Timeline: Don't call setPosition on drag start. Maybe block glitch with isSeeking.
+* Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
 * Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
-* Styles for player container and proper video stretch. 100vh.
-* Make instant mode for slider, so that volume can be updated immediately.
-* Revise rendering and improve performance.
-* Do we need a stop method?
+
+* Test with subtitles and audio tracks...
+
+Before settling the architecture: Revise rendering and improve performance. Probably drop render prop.
+
+* PureComponent?
+* shouldComponentUpdate only checking the relevant props?
+* Compare prod build of player with other real-world example in performance tab of DevTools.
+* Still, the flash of element updates look bad in comparison.
+* Look into automatic detection of subscribeToStreamStateUpdates() (along with updateProperty) in spread props instead.
+* Or consider the manipulation API (subscribe/update methods) to be one object that doesn't change, and pass it down in the render prop. I.e. individual state property updates can be a matter isolated within each component.
+* Do we then need PlayerController? Yes, if it makes it clearer for the developers customising it!
+* We should also allow for non-magical state update subscription, maybe with wrapper component?
+
+Streamlab integration
+
+* All DASH alternatives. Simply add libraries as props on the component, or create a `withPlaybackLibraries()` "HOC".
+* NPM package.
 
 Preparing the project/player for other purposes:
 
 * External player API (exposed from PlayerController).
 * For default player, a separate CSS build not including the demo app is needed.
+* CSS in JS with theme + prop based customisation. Change icons, colors, sizes. Override all styles?
+* Documentation.
 
 Next leap year:
 

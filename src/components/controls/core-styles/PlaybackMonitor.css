@@ -1,0 +1,36 @@
+
+.v-player-playback-monitor {
+    position: absolute;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.v-player-playback-monitor-close-button {
+    position: sticky;
+    top: 0;
+    left: 0.8em;
+}
+
+.v-player-playback-monitor-stream-state {
+    position: absolute;
+    max-width: 100%;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    table-layout: fixed;
+}
+
+.v-player-playback-monitor-stream-state td, .v-player-playback-monitor-stream-state th {
+    vertical-align: top;
+}
+
+.v-player-playback-monitor-property-name {
+    text-align: right;
+}
+
+.v-player-playback-monitor-previous-value, .v-player-playback-monitor-current-value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}

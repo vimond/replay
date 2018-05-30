@@ -16,6 +16,7 @@ import AudioSelector from '../components/controls/AudioSelector';
 import SubtitlesSelector from '../components/controls/SubtitlesSelector';
 import QualitySelector, { type QualitySelectionStrategy } from '../components/controls/QualitySelector';
 import GotoLiveButton from '../components/controls/GotoLiveButton';
+import PlaybackMonitor from '../components/controls/PlaybackMonitor';
 
 import graphics from './default-skin/defaultSkin';
 import { labels } from './strings';
@@ -78,6 +79,9 @@ const baseConfiguration = {
   ui: {
     skipButtonOffset: -10,
     qualitySelectionStrategy: 'cap-bitrate'
+  },
+  playbackMonitor: {
+    startVisible: true
   }
 };
 
@@ -100,6 +104,11 @@ export const renderPlayerUI: RenderMethod = ({ children, videoStreamState, merge
     render={({ fullscreenState }) => (
       <React.Fragment>
         {children}
+        <PlaybackMonitor
+          videoStreamState={videoStreamState}
+          configuration={mergedConfiguration}
+          {...graphics.playbackMonitor}
+        />
         <ControlsBar>
           <PlayPauseButton {...videoStreamState} {...labels.playPause} {...graphics.playPause} />
           <SkipButton
