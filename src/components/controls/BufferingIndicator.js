@@ -6,6 +6,7 @@ import type { CommonProps } from '../common';
 
 type Props = CommonProps & {
   isBuffering?: boolean,
+  isSeeking?: boolean,
   playState?: PlayState,
   children?: React.Node,
   content?: React.Node,
@@ -19,12 +20,13 @@ const BufferingIndicator: React.StatelessFunctionalComponent<Props> = ({
   children,
   content,
   isBuffering,
+  isSeeking,
   playState,
   renderStrategy = 'when-buffering',
   label,
   classNamePrefix = defaultClassNamePrefix
 }) => {
-  const isActive = isBuffering || playState === 'starting' || playState === 'buffering';
+  const isActive = isBuffering || isSeeking || playState === 'starting' || playState === 'buffering' || playState === 'seeking';
   if (renderStrategy === 'always') {
     if (isActive) {
       return (

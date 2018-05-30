@@ -5,11 +5,13 @@ import BufferingIndicator from './BufferingIndicator';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-test('<BufferingIndicator/> with no inactive rendering mode renders when buffering or starting video.', () => {
+test('<BufferingIndicator/> with no inactive rendering mode renders when seeking, buffering or starting video.', () => {
   const rendered = [
-    shallow(<BufferingIndicator content="B" label="Video is buffering" classNamePrefix="v-" playState="starting" isBuffering="false"/>),
-    shallow(<BufferingIndicator content="B" label="Video is buffering" classNamePrefix="v-" playState="paused" isBuffering="true"/>),
-    shallow(<BufferingIndicator content="B" label="Video is buffering" classNamePrefix="v-" playState="buffering" isBuffering="false"/>)
+    shallow(<BufferingIndicator content="B" label="Video is buffering" classNamePrefix="v-" playState="starting" isBuffering={false}/>),
+    shallow(<BufferingIndicator content="B" label="Video is buffering" classNamePrefix="v-" playState="paused" isBuffering={true}/>),
+    shallow(<BufferingIndicator content="B" label="Video is buffering" classNamePrefix="v-" playState="playing" isSeeking={true}/>),
+    shallow(<BufferingIndicator content="B" label="Video is buffering" classNamePrefix="v-" playState="seeking" isSeeking={false}/>),
+    shallow(<BufferingIndicator content="B" label="Video is buffering" classNamePrefix="v-" playState="buffering" isBuffering={false}/>)
   ];
 
   rendered.forEach(r => {
@@ -22,7 +24,6 @@ test('<BufferingIndicator/> with no inactive rendering mode renders when bufferi
 
 test('<BufferingIndicator/> with no inactive rendering mode does not render when video is playing, paused, seeking, or not playing.', () => {
   const rendered = [
-    shallow(<BufferingIndicator content="B" classNamePrefix="v-" playState="seeking" />),
     shallow(<BufferingIndicator content="B" classNamePrefix="v-" playState="playing" />),
     shallow(<BufferingIndicator content="B" classNamePrefix="v-" playState="inactive" />),
     shallow(<BufferingIndicator content="B" classNamePrefix="v-" playState="paused" />)
@@ -30,9 +31,8 @@ test('<BufferingIndicator/> with no inactive rendering mode does not render when
   rendered.forEach(r => expect(r.getElement()).toBe(null))
 });
 
-test('<BufferingIndicator/> with inactive rendering mode does render when video is playing, paused, seeking, or not playing.', () => {
+test('<BufferingIndicator/> with inactive rendering mode does render when video is playing, paused, or not playing.', () => {
   const rendered = [
-    shallow(<BufferingIndicator content="B" renderStrategy="always" classNamePrefix="v-" playState="seeking" />),
     shallow(<BufferingIndicator content="B" renderStrategy="always" classNamePrefix="v-" playState="playing" />),
     shallow(<BufferingIndicator content="B" renderStrategy="always" classNamePrefix="v-" playState="inactive" />),
     shallow(<BufferingIndicator content="B" renderStrategy="always" classNamePrefix="v-" playState="paused" />)
