@@ -26,7 +26,6 @@ import '../../components/generic/core-styles/Button.css';
 import '../../components/controls/core-styles/PlaybackMonitor.css';
 
 // Default skin
-// TODO: Add state styles.
 import '../default-skin/skinAndLayout.css';
 
 const graphics = {

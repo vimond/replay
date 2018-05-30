@@ -49,8 +49,6 @@ class Timeline extends React.Component<Props, State> {
 		this.timeoutId = setTimeout(() => { this.setState({ isDragging: false }); this.timeoutId = null; }, 800);
 	};
 	
-	//TODO: Delay isSeeking true -> false as dirty trick...
-
 	render() {
 		const {
 			position,
