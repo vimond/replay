@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 //import MockPlayer from './default-player/MockPlayer';
-import DefaultPlayer from './default-player/DefaultPlayer';
+import DefaultPlayer from './playerlab/default-player/DefaultPlayer';
 
 const source = {
   playbackTechnology: 'dash',

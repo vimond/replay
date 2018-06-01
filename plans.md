@@ -80,6 +80,7 @@ For "design mode", to be used with e.g. Styleguidist.
 	* ✓ 16:9 aspect ratio lock, fullscreen
 	* Responsiveness
 	* ✓ (Play state)
+* ✓ Playback state monitor
 
 The concerns above might be separated into HOCs or utilities attached to the visual container component.
 
@@ -109,11 +110,9 @@ Prepared for styling frameworks without bloat/lock-in. Consider [react-with-styl
 
 Theming support of interest? https://github.com/cssinjs/react-jss
 
-Good old prefixing of all class names. Consider passing down implicitly, but is it PlayerController's responsibility? Or another HOC?
+Good old prefixing of all class names.
 
 Styling passed directly turns off class names?
-
-Open source icon set. Best practices for SVG icons.
 
 # [Playback] state management
 
@@ -142,11 +141,6 @@ Later: Look into Flux action set prepared for Redux. Both buttons and video stat
 ## Composing a complete player
 
 Custom component rendering PlayerController with desired UI (see below) and desired VideoStreamer.
-
-Magical injections scoped to instance of player component:
-
-* Applying class name prefix (reconsider)
-* Injecting logging. Context API?
 
 ### Straightforward JSX UI. No magic:
 
@@ -187,14 +181,12 @@ Magical injections scoped to instance of player component:
 
 ## Detail tasks to be done/clarified
 
-* OK: Move the types for the playback consumption API into a common file.
-* OK: Complete typing the source and text tracks.
+* OK Move the types for the playback consumption API into a common file.
+* OK Complete typing the source and text tracks.
 * OK Rename VideoStream to VideoStreamer.
 * OK Create type set for configuration structure. Include all individual component configs.
 * OK Quality selector. Reconsider icon.
 * OK Decide on how to pass technology.
-
-Before settling the architecture:
 
 After video engine is plugged in:
 

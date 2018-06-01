@@ -26,7 +26,7 @@ import '../../components/generic/core-styles/Button.css';
 import '../../components/controls/core-styles/PlaybackMonitor.css';
 
 // Default skin
-import '../default-skin/skinAndLayout.css';
+import './skinAndLayout.css';
 
 const graphics = {
   playPause: {
