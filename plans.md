@@ -179,6 +179,44 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 18. Redux actions (with player instance addressing).
 19. Redux demo app.
 
+## npm package
+
+### General
+
+#### Decided
+
+* vimond-uniplayer-videoengine-react should not be included in the end, when BasicVideoStreamer is implemented.
+* Avoid feather-icons and CSS(?) from being included for only component usage. Separate entry point (and package?) for player and components.
+
+#### Clarify
+
+* Publish with source maps?
+* Look into Styleguidist approach included in package.
+* How to get support for all third party libs without including them? Any way around injecting through a wrapper from the engine?
+* Consider omitting files with .npmignore or the files key in package.json.
+
+### Using CRA:
+
+https://medium.com/@stokedbits/adventures-in-creating-a-react-component-library-with-create-react-app-and-typescript-26d1116a7d87
+
+#### Decided
+
+* Publish with test app? OK.
+* "Lift" entry points (components.js, player.js or similar dirs) to the root. Push down test app, including public. Will require eject...
+
+#### Clarify
+
+* CRA-deps must be devDeps. Does that work fine?
+* Including SASS for building CSS? Is it needed? Can it give customisation options to the default player?
+
+### Using component starter
+
+#### Clarify
+
+* Full CSS build. 
+* Core styles build?
+
+
 ## Detail tasks to be done/clarified
 
 * OK Move the types for the playback consumption API into a common file.
