@@ -1,6 +1,6 @@
 // @flow
 
-import { PlayState, PlayMode } from '../VideoStreamer/common';
+import { type PlayState, type PlayMode } from '../VideoStreamer/common';
 import { prefixClassNames } from '../../common';
 
 type ClassNameKeys =
@@ -38,7 +38,7 @@ export type RecognizedPlayerStateProperties = {
 
 const volumeMappings = ['low', 'medium', 'high'];
 
-const isStreamOpen = (playState: PlayState) => playState && playState !== 'inactive' && playState !== 'starting';
+const isStreamOpen = (playState?: PlayState) => playState && playState !== 'inactive' && playState !== 'starting';
 
 // TODO: This needs to be memoized!
 const getPlayerStateClassNames = (

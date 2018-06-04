@@ -1,16 +1,10 @@
 // @flow
 import * as React from 'react';
-import type { VideoStreamState } from '../VideoStreamer/common';
+import type { PlaybackApi, VideoStreamState } from '../VideoStreamer/common';
 import type { FullscreenState } from './Fullscreen';
 
 type RenderParameters = {
   handleKeyUp: KeyboardEvent => void
-};
-
-type StreamStateAndUpdaters = VideoStreamState & {
-  // TODO: These should be combined in VideoStreamer.
-  setPosition: number => void,
-  updateProperty: (property: VideoStreamState) => void
 };
 
 type KeyCodes = number | Array<number>;
@@ -34,7 +28,7 @@ type Props = {
   configuration?: {
     keyboardShortcuts?: KeyboardShortcutsConfiguration
   },
-  videoStreamState?: StreamStateAndUpdaters,
+  videoStreamState?: PlaybackApi,
   fullscreenState?: FullscreenState,
   render: RenderParameters => React.Node
 };
@@ -66,11 +60,13 @@ class KeyboardShortcuts extends React.Component<Props> {
             fullscreenState && fullscreenState.updateProperty({ isFullscreen: !fullscreenState.isFullscreen });
             break;
           case 'skipBack':
-            videoStreamState && videoStreamState.setPosition(Math.max(videoStreamState.position - offset, 0));
+            videoStreamState &&
+              videoStreamState.position &&
+              videoStreamState.setPosition(Math.max(videoStreamState.position - offset, 0));
             break;
           case 'skipForward':
-            if (videoStreamState) {
-              const targetPosition = videoStreamState.position + offset;
+            if (videoStreamState && videoStreamState.duration) {
+              const targetPosition = (videoStreamState.position || 0) + offset;
               // Skipping to the very end is just annoying. Skipping to live position makes sense.
               if (targetPosition < videoStreamState.duration || videoStreamState.playMode !== 'ondemand') {
                 videoStreamState.setPosition(Math.min(targetPosition, videoStreamState.duration));
@@ -79,6 +75,7 @@ class KeyboardShortcuts extends React.Component<Props> {
             break;
           case 'decreaseVolume':
             videoStreamState &&
+              videoStreamState.volume &&
               videoStreamState.updateProperty({ volume: Math.max(videoStreamState.volume - volumeStep, 0) });
             break;
           case 'increaseVolume':

@@ -9,7 +9,7 @@ import type { Item } from '../generic/DropUpSelector';
 type Props = CommonProps & {
   textTracks?: Array<AvailableTrack>,
   currentTextTrack?: AvailableTrack,
-  updateProperty?: ({ selectedTextTrack: AvailableTrack }) => void,
+  updateProperty?: ({ selectedTextTrack: ?AvailableTrack }) => void,
   noSubtitlesLabel: string,
   toggleContent: React.Node
 };
@@ -20,13 +20,13 @@ type State = {
 
 const className = 'subtitles-selector';
 
-const buildId = (...str: Array<string>) => str.filter(s => s).join('.');
+const buildId = (...str: Array<?string>) => str.filter(s => s).join('.');
 
 // TODO: This fn should be a prop on the DropUpSelector. The DropUpSelector should accept any types for items/selectedItem.
 const textTrackToItem = (track: AvailableTrack) => {
   return {
     id: track.id || buildId(track.language, track.kind, track.origin) || track.label,
-    label: track.label,
+    label: track.label || '',
     data: track
   };
 };

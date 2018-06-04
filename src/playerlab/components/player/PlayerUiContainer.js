@@ -6,7 +6,7 @@ import Fullscreen from './containment-helpers/Fullscreen';
 import AspectRatio from './containment-helpers/AspectRatio';
 import InteractionDetector from './containment-helpers/InteractionDetector';
 import KeyboardShortcuts from './containment-helpers/KeyboardShortcuts';
-import type { VideoStreamState } from './VideoStreamer/common';
+import type { PlaybackApi } from './VideoStreamer/common';
 import getPlayerStateClassNames from './containment-helpers/playerStateClassNames';
 import type { InteractionDetectorConfiguration } from './containment-helpers/InteractionDetector';
 import type { KeyboardShortcutsConfiguration } from './containment-helpers/KeyboardShortcuts';
@@ -24,12 +24,6 @@ type RenderParameters = {
   }
 };
 
-type StreamStateAndUpdaters = VideoStreamState & {
-  // TODO: These should be combined in VideoStreamer.
-  setPosition: number => void,
-  updateProperty: (property: VideoStreamState) => void
-};
-
 type Props = CommonProps & {
   aspectRatio: {
     horizontal: number,
@@ -39,7 +33,7 @@ type Props = CommonProps & {
     interactionDetector?: InteractionDetectorConfiguration,
     keyboardShortcuts?: KeyboardShortcutsConfiguration
   },
-  videoStreamState: StreamStateAndUpdaters,
+  videoStreamState: PlaybackApi,
   render: RenderParameters => React.Node,
   className?: string
 };

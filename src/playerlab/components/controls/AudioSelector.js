@@ -1,4 +1,5 @@
 // @flow
+
 import * as React from 'react';
 import DropUpSelector from '../generic/DropUpSelector';
 import { defaultClassNamePrefix } from '../common';
@@ -15,11 +16,11 @@ type Props = CommonProps & {
 
 const className = 'audio-selector';
 
-const buildId = (...str: Array<string>) => str.filter(s => s).join('.');
+const buildId = (...str: Array<?string>) => str.filter(s => s).join('.');
 
 // TODO: This fn should be a prop on the DropUpSelector. The DropUpSelector should accept any types for items/selectedItem.
 const audioTrackToItem = (track: AvailableTrack) => {
-  return { id: track.id || buildId(track.language, track.label) || track.label, label: track.label, data: track };
+  return { id: track.id || buildId(track.language, track.label) || track.label, label: track.label || '', data: track };
 };
 
 class AudioSelector extends React.Component<Props> {
@@ -28,7 +29,7 @@ class AudioSelector extends React.Component<Props> {
   };
 
   handleSelect = (item: Item) => {
-    if (this.props.updateProperty && typeof item !== 'string') {
+    if (this.props.updateProperty && typeof item !== 'string' && item.data) {
       this.props.updateProperty({ selectedAudioTrack: item.data });
     }
   };

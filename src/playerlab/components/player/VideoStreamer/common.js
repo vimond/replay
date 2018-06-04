@@ -41,10 +41,10 @@ export type VideoStreamState = {
 // Types used in settable props.
 
 export type VideoStreamerConfiguration = {
-  dash: any,
-  html: any,
-  silverlight: any
-};
+  dash?: any,
+  html?: any,
+  silverlight?: any
+} | any;
 
 export type SourceTrack = {
   src: string,
@@ -72,29 +72,33 @@ export type PlaybackSource = {
 };
 
 export type PlaybackMethods = {
-  play: () => Promise<void>,
-  pause: () => Promise<void>,
+  updateProperty: (property: PlaybackProps) => void,
   setPosition: (value: number) => void,
   gotoLive: () => void
 };
 
 /* Types for settable props */
 
-export type VideoStreamerProps = CommonProps & {
-  configuration?: VideoStreamerConfiguration,
-  source?: PlaybackSource,
-  textTracks: Array<SourceTrack>,
-
+export type PlaybackProps = {
   volume?: number,
   isMuted?: boolean,
   isPaused?: boolean,
   maxBitrate?: number,
   lockedBitrate?: number | string,
   selectedTextTrack?: AvailableTrack,
-  selectedAudioTrack?: AvailableTrack,
+  selectedAudioTrack?: AvailableTrack
+};
+
+export type VideoStreamerProps = PlaybackProps & CommonProps & {
+  configuration?: VideoStreamerConfiguration,
+  source?: PlaybackSource,
+  textTracks?: Array<SourceTrack>,
+  className?: string,
 
   onReady?: PlaybackMethods => void,
   onStreamStateChange?: VideoStreamState => void,
   onProgress?: ({ event: string }) => void,
   onPlaybackError?: Error => void
 };
+
+export type PlaybackApi = PlaybackMethods & VideoStreamState;
