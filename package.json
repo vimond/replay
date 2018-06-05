@@ -16,8 +16,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build-lib": "npm run build-es5 && npm run build-flow",
-    "build-es5": "babel src/playerlab -d lib --copy-files",
-    "build-flow": "flow-copy-source src/playerlab lib",
+    "build-es5": "babel src/replay -d lib --copy-files",
+    "build-flow": "flow-copy-source src/replay lib",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

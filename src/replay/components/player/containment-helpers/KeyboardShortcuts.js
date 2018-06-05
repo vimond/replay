@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import type { PlaybackApi, VideoStreamState } from '../VideoStreamer/common';
+import type { PlaybackApi } from '../VideoStreamer/common';
 import type { FullscreenState } from './Fullscreen';
 
 type RenderParameters = {

@@ -71,12 +71,6 @@ export type PlaybackSource = {
   }
 };
 
-export type PlaybackMethods = {
-  updateProperty: (property: PlaybackProps) => void,
-  setPosition: (value: number) => void,
-  gotoLive: () => void
-};
-
 /* Types for settable props */
 
 export type PlaybackProps = {
@@ -87,6 +81,12 @@ export type PlaybackProps = {
   lockedBitrate?: number | string,
   selectedTextTrack?: AvailableTrack,
   selectedAudioTrack?: AvailableTrack
+};
+
+export type PlaybackMethods = {
+  updateProperty: (property: PlaybackProps) => void,
+  setPosition: (value: number) => void,
+  gotoLive: () => void
 };
 
 export type VideoStreamerProps = PlaybackProps & CommonProps & {

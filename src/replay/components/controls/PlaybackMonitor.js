@@ -235,6 +235,4 @@ class PlaybackMonitor extends React.Component<Props, State> {
   }
 }
 
-console.log('REACT VERSION', React.version);
-
 export default PlaybackMonitor;
