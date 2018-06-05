@@ -1,32 +1,53 @@
 {
-  "name": "playerlab",
-  "version": "0.1.0",
+  "name": "vimond-replay",
+  "version": "0.5.0",
+  "author": "Tor Erik Alræk",
+  "license": "UNLICENSED",
   "private": true,
+  "publishConfig": {
+    "registry": "https://vimond.jfrog.io/vimond/api/npm/npm-local/"
+  },
+  "main": "lib/DefaultPlayer.js",
+  "files": [
+    "lib",
+    "guide.md"
+  ],
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "build-lib": "npm run build-es5 && npm run build-flow",
+    "build-es5": "babel src/playerlab -d lib --copy-files",
+    "build-flow": "flow-copy-source src/playerlab lib",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "react-feather": "^1.1.0",
+    "vimond-uniplayer-videoengine-react": "8.18.282"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.46",
+    "@babel/core": "^7.0.0-beta.46",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.46",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.46",
+    "@babel/preset-env": "^7.0.0-beta.46",
+    "@babel/preset-flow": "^7.0.0-beta.49",
+    "@babel/preset-react": "^7.0.0-beta.46",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "flow-bin": "^0.67.1",
+    "flow-copy-source": "^1.3.0",
+    "prettier": "^1.12.1",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-scripts": "1.1.1",
+    "test-cli": "^0.1.0"
+  },
   "prettier": {
     "printWidth": 120,
     "singleQuote": true,
     "parser": "flow",
     "jsxBracketSameLine": true
-  },
-  "dependencies": {
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
-    "react-feather": "^1.1.0",
-    "react-scripts": "1.1.1",
-    "test-cli": "^0.1.0",
-    "vimond-uniplayer-videoengine-react": "8.18.282"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "devDependencies": {
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "flow-bin": "^0.67.1",
-    "prettier": "^1.12.1"
   },
   "resolutions": {
     "enzyme-adapter-react-16/react-test-renderer": "^16.3.2"
