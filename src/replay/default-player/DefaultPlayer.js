@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import PlayerController from '../components/player/PlayerController';
-import VimondVideoStreamer from '../components/player/VideoStreamer/VimondVideoStreamer';
+import BasicVideoStreamer from '../components/player/VideoStreamer/BasicVideoStreamer';
 
 import ControlsBar from '../components/controls/ControlsBar';
 import PlayerUiContainer from '../components/player/PlayerUiContainer';
@@ -26,6 +26,7 @@ import type {
   SourceTrack,
   VideoStreamerConfiguration
 } from '../components/player/VideoStreamer/common';
+
 import type { RenderMethod } from '../components/player/PlayerController';
 import type { KeyboardShortcutsConfiguration } from '../components/player/containment-helpers/KeyboardShortcuts';
 import type { InteractionDetectorConfiguration } from '../components/player/containment-helpers/InteractionDetector';
@@ -60,7 +61,8 @@ export type PlayerConfiguration = {
 type DefaultPlayerProps = {
   source: PlaybackSource,
   textTracks: Array<SourceTrack>,
-  options: PlayerConfiguration
+  options: PlayerConfiguration,
+  children: React.Element<any>
 };
 
 const baseConfiguration = {
@@ -81,7 +83,7 @@ const baseConfiguration = {
     qualitySelectionStrategy: 'cap-bitrate'
   },
   playbackMonitor: {
-    startVisible: true
+    startVisible: false
   }
 };
 
@@ -142,11 +144,15 @@ export const renderPlayerUI: RenderMethod = ({ children, videoStreamState, merge
   />
 );
 
+// Should default to <BasicVideoStreamer /> when not specified.
+
+const applyStreamer = (children, source, textTracks) => children ? React.cloneElement(children, { source, textTracks }) : <BasicVideoStreamer source={source} textTracks={textTracks} />;
+
 // This is the component to be consumed in a full React SPA.
-const DefaultPlayer = ({ source, textTracks, options }: DefaultPlayerProps) => (
+const DefaultPlayer = ({ source, textTracks, options, children }: DefaultPlayerProps) => (
   // Can use spread for source&textTracks
   <PlayerController render={renderPlayerUI} configuration={baseConfiguration} options={options}>
-    <VimondVideoStreamer source={source} textTracks={textTracks} />
+    {applyStreamer(children, source, textTracks)}
   </PlayerController>
 );
 export default DefaultPlayer;

@@ -7,19 +7,12 @@ type Props = CommonGenericProps & VideoStreamerProps;
 
 const baseClassName = 'video-stream';
 
-//TODO: Consider renaming into *VideoStreamer
+//TODO: Implement
+
 class BasicVideoStreamer extends React.Component<Props> {
   static defaultProps = {
     classNamePrefix: defaultClassNamePrefix
   };
-
-  play(): Promise<any> {
-    return Promise.resolve();
-  }
-  pause(): Promise<any> {
-    return Promise.resolve();
-  }
-
   gotoLive() {}
 
   setPosition() {}

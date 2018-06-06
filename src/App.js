@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import './App.css';
 
 //import MockPlayer from './default-player/MockPlayer';
-import DefaultPlayer from './replay/default-player/DefaultPlayer';
+import { Player } from './replay/';
+import VimondVideoStreamer from './replay/components/player/VideoStreamer/VimondVideoStreamer';
 
 const source = {
   playbackTechnology: 'dash',
@@ -26,7 +27,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-player-panel">
-          <DefaultPlayer source={source} options={configOverrides} />
+          <Player source={source} options={configOverrides}><VimondVideoStreamer /></Player>
         </div>
       </div>
     );

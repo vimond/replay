@@ -20,31 +20,73 @@
 
 ## Naming ideas
 
+Avoid fancy names, but it needs to stand out for some practical reasons.
+
+### Replay
+
+Short for _React player_.
+
+npm: `vimond-replay` since `replay` is taken. Full player component: `<Replay />`.
+
+### re-play
+
+Less misunderstandings and currently available as npm package name. However, bad style using unnecessary characters.
+
+### react-player-kit
+
+A bit long. And should we avoid using React as part of the name?
+
+### Discarded ideas:
+
 *v-player* for full player and *v-stream* for video engine?
 
 ```<Vstream/> <VStream/> <vStream/>```
 
 ```<Vplayer/> <VPlayer/> <vPlayer/>```
 
-No, forget about it, that's too ugly.
+That's just too ugly.
 
 # The view: Player with controls
 
-## Video view
+## VideoStreamer
 
-### Premium video engine
+Different streaming components can be plugged in for different purposes.
 
-Initially the full Vimond video engine. However, modernise and streamline API and config in v3 of the React component.
+### Premium content and modern browsers
 
-Best naming suggestion yet: `<VideoStreamer/>`
+Latest Shaka Player version for DASH playback in all modern non-Apple browsers. HTML playback for Safari. DRM support. No support for IE11 on Windows 7.
 
-### Simple HTML5 video wrapper
+`<PremiumVideoStreamer />`
 
-Later, create a simple replacement covering HTML5 video, with the streamlined API. This might be open-sourced.
+### Stream inspection for content producers
 
-### Mock streamer component
+Latest Shaka Player, HLS.js, HTML support. Can perhaps consider Dash.js with smooth support.
 
-For "design mode", to be used with e.g. Styleguidist.
+`<MultiFormatVideoStreamer />`
+
+### HLS and modern browsers
+
+HLS.js and native Safari HLS support with HTML. No DRM support.
+
+`<HlsVideoStreamer />`
+
+### Multiple and legacy technologies
+
+Intended for Streamlab. Shaka 1.x, Shaka 2.x with logging added, Dash.js with smooth support, Flash, Silverlight, HLS.js, HTML. DRM support.
+
+`<LabVideoStreamer />`
+
+### Basic HTML video element wrapper
+
+In the npm package, include a simple implementation covering HTML5 video, with the streamlined API. This might be open-sourced.
+
+`<BasicVideoStreamer />`
+
+### ✓ Mock streamer component
+
+For "design mode", to be used with e.g. Styleguidist. Simulates playback state and allows manipulating it.
+
+`<MockVideoStreamer />`
 
 ## Controls, overlays, UI containers
 
@@ -193,29 +235,9 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 * Publish with source maps?
 * Look into Styleguidist approach included in package.
 * How to get support for all third party libs without including them? Any way around injecting through a wrapper from the engine?
-* Consider omitting files with .npmignore or the files key in package.json.
-
-### Using CRA:
-
-https://medium.com/@stokedbits/adventures-in-creating-a-react-component-library-with-create-react-app-and-typescript-26d1116a7d87
-
-#### Decided
-
-* Publish with test app? OK.
-* "Lift" entry points (components.js, player.js or similar dirs) to the root. Push down test app, including public. Will require eject...
-
-#### Clarify
-
 * CRA-deps must be devDeps. Does that work fine?
 * Including SASS for building CSS? Is it needed? Can it give customisation options to the default player?
-
-### Using component starter
-
-#### Clarify
-
-* Full CSS build. 
-* Core styles build?
-
+* Otherwise build default skin in one CSS.
 
 ## Detail tasks to be done/clarified
 
@@ -234,30 +256,27 @@ After video engine is plugged in:
 * OK Fix currentBitrate and publish new videoengine.
 * OK Timeline: Don't call setPosition on drag start. Maybe block glitch with isSeeking.
 
-General improvements
+General improvements and things to verify
 
 * Test with subtitles and audio tracks...
 * Make lockedBitrate and maxBitrate props.
 * Look into setting volume, mute, and pause state on startup.
+* Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
 * Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
 * Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
 
 Before settling the architecture: Revise rendering and improve performance. Probably drop render prop.
 
-* PureComponent?
-* shouldComponentUpdate only checking the relevant props?
-* Compare prod build of player with other real-world example in performance tab of DevTools.
-* Still, the flash of element updates look bad in comparison.
+* Refactor PlayerController. Consider child VideoStreamer detection. Remember `// @flow`.
+* Look into render performance: PureComponent? shouldComponentUpdate only checking the relevant props? Compare prod build of player with other real-world example in performance tab of DevTools. Still, the flash of element updates look bad in comparison.
 * Look into automatic detection of subscribeToStreamStateUpdates() (along with updateProperty) in spread props instead.
 * Or consider the manipulation API (subscribe/update methods) to be one object that doesn't change, and pass it down in the render prop. I.e. individual state property updates can be a matter isolated within each component.
-* Do we then need PlayerController? Yes, if it makes it clearer for the developers customising it!
-* We should also allow for non-magical state update subscription, maybe with wrapper component?
+* updateProperty() can't be part of the VideoStreamer. Breaks the prop pass-down pattern.
+* We should also allow for non-magical state update subscription, maybe with wrapper/HOC component?
 
 Streamlab integration
 
 * All DASH alternatives. Simply add libraries as props on the component, or create a `withPlaybackLibraries()` "HOC".
-* NPM package.
-* Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
 
 Preparing the project/player for other purposes:
 
