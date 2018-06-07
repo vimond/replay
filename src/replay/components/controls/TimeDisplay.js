@@ -5,12 +5,14 @@ import type { CommonProps } from '../common';
 import { defaultClassNamePrefix, formatClockTime, formatTime, prefixClassNames } from '../common';
 import type { PlayMode } from '../player/VideoStreamer/common';
 
+export type LiveDisplayMode = 'clock-time' | 'live-offset';
+
 type Props = CommonProps & {
   position: number,
   duration?: number,
   absolutePosition?: ?Date,
   playMode?: PlayMode,
-  liveDisplayMode: 'clock-time' | 'live-offset',
+  liveDisplayMode: LiveDisplayMode,
   negativeMark?: string,
   positionLabel?: string,
   durationLabel?: string,

@@ -70,10 +70,14 @@ const graphics = {
     fullscreenContent: <Minimize />
   },
   bufferingIndicator: {
-    content: <LoadingAnimation />
+    content: <LoadingAnimation />,
+    renderStrategy: 'always'
   },
   playbackMonitor: {
     closeButtonContent: <XCircle />
+  },
+  exitButton: {
+    content: <XCircle />
   }
 };
 

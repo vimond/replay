@@ -12,6 +12,7 @@ export type RenderData = {
   videoStreamerProps: VideoStreamerProps,
   updateProperty: UpdateProperty,
   gotoLive: () => {},
+  externalProps: any,
   setPosition: (value: number) => {}
 };
 
@@ -21,6 +22,7 @@ type Props = {
   options?: any,
   configuration?: any,
   render: RenderMethod,
+  renderProps?: any,
   children: React.Node
 };
 
@@ -95,6 +97,7 @@ class PlayerController extends React.Component<Props, State> {
       gotoLive: videoStreamState.gotoLive,
       setPosition: videoStreamState.setPosition,
       updateProperty: this.updateProperty,
+      externalProps: this.props.renderProps,
       videoStreamerProps
     });
   }

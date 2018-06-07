@@ -40,7 +40,10 @@ export const labels = {
   },
   bufferingIndicator: {
     label: 'Video is buffering'
-  }
+  },
+  exit: {
+    label: 'Exit'
+  },
 };
 
 export const strings = {

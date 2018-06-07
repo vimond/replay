@@ -52,25 +52,25 @@ That's just too ugly.
 
 Different streaming components can be plugged in for different purposes.
 
-### Premium content and modern browsers
+### ✓ Premium content and modern browsers
 
 Latest Shaka Player version for DASH playback in all modern non-Apple browsers. HTML playback for Safari. DRM support. No support for IE11 on Windows 7.
 
 `<PremiumVideoStreamer />`
 
-### Stream inspection for content producers
+### ✓ Stream inspection for content producers
 
 Latest Shaka Player, HLS.js, HTML support. Can perhaps consider Dash.js with smooth support.
 
 `<MultiFormatVideoStreamer />`
 
-### HLS and modern browsers
+### ✓ HLS and modern browsers
 
 HLS.js and native Safari HLS support with HTML. No DRM support.
 
 `<HlsVideoStreamer />`
 
-### Multiple and legacy technologies
+### ✓ Multiple and legacy technologies
 
 Intended for Streamlab. Shaka 1.x, Shaka 2.x with logging added, Dash.js with smooth support, Flash, Silverlight, HLS.js, HTML. DRM support.
 
@@ -227,15 +227,13 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 
 #### Decided
 
-* vimond-uniplayer-videoengine-react should not be included in the end, when BasicVideoStreamer is implemented.
+* The `vimond-videostreamer-*` dependency should not be included in the end, when BasicVideoStreamer is implemented.
 * Avoid feather-icons and CSS(?) from being included for only component usage. Separate entry point (and package?) for player and components.
 
 #### Clarify
 
 * Publish with source maps?
 * Look into Styleguidist approach included in package.
-* How to get support for all third party libs without including them? Any way around injecting through a wrapper from the engine?
-* CRA-deps must be devDeps. Does that work fine?
 * Including SASS for building CSS? Is it needed? Can it give customisation options to the default player?
 * Otherwise build default skin in one CSS.
 
@@ -273,10 +271,6 @@ Before settling the architecture: Revise rendering and improve performance. Prob
 * Or consider the manipulation API (subscribe/update methods) to be one object that doesn't change, and pass it down in the render prop. I.e. individual state property updates can be a matter isolated within each component.
 * updateProperty() can't be part of the VideoStreamer. Breaks the prop pass-down pattern.
 * We should also allow for non-magical state update subscription, maybe with wrapper/HOC component?
-
-Streamlab integration
-
-* All DASH alternatives. Simply add libraries as props on the component, or create a `withPlaybackLibraries()` "HOC".
 
 Preparing the project/player for other purposes:
 

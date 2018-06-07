@@ -22,11 +22,24 @@ const configOverrides = {
 };
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isOpen: true
+    };
+  }
+
+  closePlayer = () => this.setState({ isOpen: false });
+
   render() {
     return (
       <div className="App">
         <div className="App-player-panel">
-          <Player source={source} options={configOverrides}><PremiumVideoStreamer className="videoStreamer" classNamePrefix={defaultClassNamePrefix} /></Player>
+          {this.state.isOpen && (
+            <Player source={source} options={configOverrides} onExit={this.closePlayer}>
+              <PremiumVideoStreamer className="videoStreamer" classNamePrefix={defaultClassNamePrefix} />
+            </Player>
+          )}
         </div>
       </div>
     );
