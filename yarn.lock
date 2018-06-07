@@ -3902,10 +3902,6 @@ he@1.1.x:
   version "1.1.1"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
-hls.js@^0.7.11:
-  version "0.7.11"
-  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/hls.js/-/hls.js-0.7.11.tgz?dl=https://registry.yarnpkg.com/hls.js/-/hls.js-0.7.11.tgz#e8448be35a2435bad24b8b93d9e7f9c05659bb28"
-
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -6350,7 +6346,7 @@ punycode@^1.2.4, punycode@^1.4.1:
 
 q@^1.1.2, q@^1.4.1:
   version "1.5.1"
-  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/q/-/q-1.5.1.tgz?dl=https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
 
 qs@6.5.1:
   version "6.5.1"
@@ -7066,6 +7062,10 @@ sha.js@^2.4.0, sha.js@^2.4.8:
   dependencies:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
+
+shaka-player@^2.4.0:
+  version "2.4.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/shaka-player/-/shaka-player-2.4.0.tgz?dl=https://registry.yarnpkg.com/shaka-player/-/shaka-player-2.4.0.tgz#b3dc4f4bd4f016ec620b0c5f637f79ec401ba250"
 
 shebang-command@^1.2.0:
   version "1.2.0"
@@ -7882,18 +7882,13 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vimond-uniplayer-shaka@^1.7.15:
-  version "1.7.22"
-  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/vimond-uniplayer-shaka/-/vimond-uniplayer-shaka-1.7.22.tgz#d1d72d8fc20a00fb4b54da57b8457be7feb18779"
-
-vimond-uniplayer-videoengine-react@8.18.282:
-  version "8.18.282"
-  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/vimond-uniplayer-videoengine-react/-/vimond-uniplayer-videoengine-react-8.18.282.tgz#95c2809b06f6f08ae3772e27d6cc62bbd2c7f72c"
+vimond-videostreamer-premium@../vimond-uniplayer-videoengine/react/VideoStreamer/PremiumVideoStreamer/publish/vimond-videostreamer-premium-8.19.0.tgz:
+  version "8.19.0"
+  resolved "../vimond-uniplayer-videoengine/react/VideoStreamer/PremiumVideoStreamer/publish/vimond-videostreamer-premium-8.19.0.tgz#f24eee4160cb87302be8195c7ea22b41e9aef7bb"
   dependencies:
-    hls.js "^0.7.11"
     js-logger "^1.2.0"
     q "^1.4.1"
-    vimond-uniplayer-shaka "^1.7.15"
+    shaka-player "^2.4.0"
 
 vm-browserify@0.0.4:
   version "0.0.4"

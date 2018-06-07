@@ -4,7 +4,8 @@ import './App.css';
 
 //import MockPlayer from './default-player/MockPlayer';
 import { Player } from './replay/';
-import VimondVideoStreamer from './replay/components/player/VideoStreamer/VimondVideoStreamer';
+import PremiumVideoStreamer from 'vimond-videostreamer-premium';
+import { defaultClassNamePrefix } from './replay/components/common';
 
 const source = {
   playbackTechnology: 'dash',
@@ -15,9 +16,7 @@ const source = {
 const configOverrides = {
   videoStreamer: {
     dash: {
-      shaka: {
-        libraryUrl: ''
-      }
+      //dashImpl: 'dashjs'
     }
   }
 };
@@ -27,7 +26,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-player-panel">
-          <Player source={source} options={configOverrides}><VimondVideoStreamer /></Player>
+          <Player source={source} options={configOverrides}><PremiumVideoStreamer className="videoStreamer" classNamePrefix={defaultClassNamePrefix} /></Player>
         </div>
       </div>
     );

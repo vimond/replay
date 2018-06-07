@@ -27,7 +27,6 @@ import getPlayerStateClassNames from './player/containment-helpers/playerStateCl
 
 import BasicVideoStreamer from './player/VideoStreamer/BasicVideoStreamer';
 import MockVideoStreamer from './player/VideoStreamer/MockVideoStreamer';
-import VimondVideoStreamer from './player/VideoStreamer/VimondVideoStreamer';
 
 import PlayerController from './player/PlayerController';
 import PlayerUiContainer from './player/PlayerUiContainer';
@@ -62,7 +61,6 @@ export {
   
   BasicVideoStreamer,
   MockVideoStreamer,
-  VimondVideoStreamer,
   
   PlayerUiContainer,
   PlayerController,
