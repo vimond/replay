@@ -6,6 +6,7 @@ import './App.css';
 import { Player } from './replay/';
 import PremiumVideoStreamer from 'vimond-videostreamer-premium';
 import { defaultClassNamePrefix } from './replay/components/common';
+import './replay/replay-default.css';
 
 const source = {
   playbackTechnology: 'dash',

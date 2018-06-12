@@ -611,6 +611,10 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
+"@csstools/convert-colors@^1.4.0":
+  version "1.4.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/@csstools/convert-colors/-/convert-colors-1.4.0.tgz?dl=https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
+
 "@types/node@*":
   version "9.4.7"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/@types/node/-/node-9.4.7.tgz#57d81cd98719df2c9de118f2d5f3b1120dcd7275"
@@ -947,6 +951,17 @@ autoprefixer@^6.3.1:
     normalize-range "^0.1.2"
     num2fraction "^1.2.2"
     postcss "^5.2.16"
+    postcss-value-parser "^3.2.3"
+
+autoprefixer@^8.5.0:
+  version "8.6.2"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/autoprefixer/-/autoprefixer-8.6.2.tgz?dl=https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-8.6.2.tgz#51d42ff13243820a582a53ecca20dedaeb7f2efd"
+  dependencies:
+    browserslist "^3.2.8"
+    caniuse-lite "^1.0.30000851"
+    normalize-range "^0.1.2"
+    num2fraction "^1.2.2"
+    postcss "^6.0.22"
     postcss-value-parser "^3.2.3"
 
 aws-sign2@~0.6.0:
@@ -1811,7 +1826,7 @@ browserslist@^2.1.2, browserslist@^2.5.1:
     caniuse-lite "^1.0.30000792"
     electron-to-chromium "^1.3.30"
 
-browserslist@^3.0.0:
+browserslist@^3.0.0, browserslist@^3.2.8:
   version "3.2.8"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/browserslist/-/browserslist-3.2.8.tgz?dl=https://registry.yarnpkg.com/browserslist/-/browserslist-3.2.8.tgz#b0005361d6471f0f5952797a76fc985f1f978fc6"
   dependencies:
@@ -1937,6 +1952,10 @@ caniuse-lite@^1.0.30000844:
   version "1.0.30000848"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30000848.tgz?dl=https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000848.tgz#ec9c0a72ec8f9ef812e4f4b8628625af9c85ade0"
 
+caniuse-lite@^1.0.30000851:
+  version "1.0.30000852"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30000852.tgz?dl=https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000852.tgz#8b7510cec030cac7842e52beca2bf292af65f935"
+
 capture-stack-trace@^1.0.0:
   version "1.0.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/capture-stack-trace/-/capture-stack-trace-1.0.0.tgz#4a6fa07399c26bba47f0b2496b4d0fb408c5550d"
@@ -1969,6 +1988,14 @@ chalk@1.1.3, chalk@^1.1.3:
 chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.1:
   version "2.3.2"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/chalk/-/chalk-2.3.2.tgz#250dc96b07491bfd601e648d66ddf5f60c7a5c65"
+  dependencies:
+    ansi-styles "^3.2.1"
+    escape-string-regexp "^1.0.5"
+    supports-color "^5.3.0"
+
+chalk@^2.4.1:
+  version "2.4.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/chalk/-/chalk-2.4.1.tgz?dl=https://registry.yarnpkg.com/chalk/-/chalk-2.4.1.tgz#18c49ab16a037b6eb0152cc83e3471338215b66e"
   dependencies:
     ansi-styles "^3.2.1"
     escape-string-regexp "^1.0.5"
@@ -2149,6 +2176,16 @@ color-convert@^1.3.0, color-convert@^1.9.0:
   dependencies:
     color-name "^1.1.1"
 
+color-convert@^1.8.2:
+  version "1.9.2"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/color-convert/-/color-convert-1.9.2.tgz?dl=https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.2.tgz#49881b8fba67df12a96bdf3f56c0aab9e7913147"
+  dependencies:
+    color-name "1.1.1"
+
+color-name@1.1.1:
+  version "1.1.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/color-name/-/color-name-1.1.1.tgz?dl=https://registry.yarnpkg.com/color-name/-/color-name-1.1.1.tgz#4b1415304cf50028ea81643643bd82ea05803689"
+
 color-name@^1.0.0, color-name@^1.1.1:
   version "1.1.3"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
@@ -2159,6 +2196,13 @@ color-string@^0.3.0:
   dependencies:
     color-name "^1.0.0"
 
+color-string@^1.4.0:
+  version "1.5.2"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/color-string/-/color-string-1.5.2.tgz?dl=https://registry.yarnpkg.com/color-string/-/color-string-1.5.2.tgz#26e45814bc3c9a7cbd6751648a41434514a773a9"
+  dependencies:
+    color-name "^1.0.0"
+    simple-swizzle "^0.2.2"
+
 color@^0.11.0:
   version "0.11.4"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/color/-/color-0.11.4.tgz#6d7b5c74fb65e841cd48792ad1ed5e07b904d764"
@@ -2166,6 +2210,13 @@ color@^0.11.0:
     clone "^1.0.2"
     color-convert "^1.3.0"
     color-string "^0.3.0"
+
+color@^1.0.3:
+  version "1.0.3"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/color/-/color-1.0.3.tgz?dl=https://registry.yarnpkg.com/color/-/color-1.0.3.tgz#e48e832d85f14ef694fb468811c2d5cfe729b55d"
+  dependencies:
+    color-convert "^1.8.2"
+    color-string "^1.4.0"
 
 colormin@^1.0.5:
   version "1.1.2"
@@ -2435,9 +2486,17 @@ css-what@2.1:
   version "2.1.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/css-what/-/css-what-2.1.0.tgz#9467d032c38cfaefb9f2d79501253062f87fa1bd"
 
+cssdb@^3.1.0:
+  version "3.1.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/cssdb/-/cssdb-3.1.0.tgz?dl=https://registry.yarnpkg.com/cssdb/-/cssdb-3.1.0.tgz#e1efa0d8831e9e655cadd499a89266d3565d9697"
+
 cssesc@^0.1.0:
   version "0.1.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/cssesc/-/cssesc-0.1.0.tgz#c814903e45623371a0477b40109aaafbeeaddbb4"
+
+cssesc@^1.0.1:
+  version "1.0.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/cssesc/-/cssesc-1.0.1.tgz?dl=https://registry.yarnpkg.com/cssesc/-/cssesc-1.0.1.tgz#ef7bd8d0229ed6a3a7051ff7771265fe7330e0a8"
 
 "cssnano@>=2.6.1 <4":
   version "3.10.0"
@@ -2492,6 +2551,10 @@ cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/cssstyle/-/cssstyle-0.2.37.tgz#541097234cb2513c83ceed3acddc27ff27987d54"
   dependencies:
     cssom "0.3.x"
+
+cuint@^0.2.2:
+  version "0.2.2"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/cuint/-/cuint-0.2.2.tgz?dl=https://registry.yarnpkg.com/cuint/-/cuint-0.2.2.tgz#408086d409550c2631155619e9fa7bcadc3b991b"
 
 currently-unhandled@^0.4.1:
   version "0.4.1"
@@ -2626,6 +2689,10 @@ depd@~1.1.1:
   version "1.1.2"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
 
+dependency-graph@^0.7.0:
+  version "0.7.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/dependency-graph/-/dependency-graph-0.7.1.tgz?dl=https://registry.yarnpkg.com/dependency-graph/-/dependency-graph-0.7.1.tgz#0da960213843d8961d444da58da438bad39343a7"
+
 des.js@^1.0.0:
   version "1.0.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/des.js/-/des.js-1.0.0.tgz#c074d2e2aa6a8a9a07dbd61f9a15c2cd83ec8ecc"
@@ -2669,6 +2736,13 @@ diffie-hellman@^5.0.0:
     bn.js "^4.1.0"
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
+
+dir-glob@^2.0.0:
+  version "2.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/dir-glob/-/dir-glob-2.0.0.tgz?dl=https://registry.yarnpkg.com/dir-glob/-/dir-glob-2.0.0.tgz#0b205d2b6aef98238ca286598a8204d29d0a0034"
+  dependencies:
+    arrify "^1.0.1"
+    path-type "^3.0.0"
 
 discontinuous-range@1.0.0:
   version "1.0.0"
@@ -3657,6 +3731,10 @@ get-stdin@^4.0.1:
   version "4.0.1"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/get-stdin/-/get-stdin-4.0.1.tgz#b968c6b0a04384324902e8bf1a5df32579a450fe"
 
+get-stdin@^5.0.1:
+  version "5.0.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/get-stdin/-/get-stdin-5.0.1.tgz?dl=https://registry.yarnpkg.com/get-stdin/-/get-stdin-5.0.1.tgz#122e161591e21ff4c52530305693f20e6393a398"
+
 get-stream@^3.0.0:
   version "3.0.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
@@ -3754,6 +3832,17 @@ globby@^6.1.0:
     object-assign "^4.0.1"
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
+
+globby@^7.1.1:
+  version "7.1.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/globby/-/globby-7.1.1.tgz?dl=https://registry.yarnpkg.com/globby/-/globby-7.1.1.tgz#fb2ccff9401f8600945dfada97440cca972b8680"
+  dependencies:
+    array-union "^1.0.1"
+    dir-glob "^2.0.0"
+    glob "^7.1.2"
+    ignore "^3.3.5"
+    pify "^3.0.0"
+    slash "^1.0.0"
 
 got@^6.7.1:
   version "6.7.1"
@@ -4077,6 +4166,10 @@ ignore@^3.3.3:
   version "3.3.7"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/ignore/-/ignore-3.3.7.tgz#612289bfb3c220e186a58118618d5be8c1bab021"
 
+ignore@^3.3.5:
+  version "3.3.8"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/ignore/-/ignore-3.3.8.tgz?dl=https://registry.yarnpkg.com/ignore/-/ignore-3.3.8.tgz#3f8e9c35d38708a3a7e0e9abb6c73e7ee7707b2b"
+
 import-lazy@^2.1.0:
   version "2.1.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/import-lazy/-/import-lazy-2.1.0.tgz#05698e3d45c88e8d7e9d92cb0584e77f096f3e43"
@@ -4197,6 +4290,10 @@ is-accessor-descriptor@^1.0.0:
 is-arrayish@^0.2.1:
   version "0.2.1"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/is-arrayish/-/is-arrayish-0.2.1.tgz#77c99840527aa8ecb1a8ba697b80645a7a926a9d"
+
+is-arrayish@^0.3.1:
+  version "0.3.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/is-arrayish/-/is-arrayish-0.3.1.tgz?dl=https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.3.1.tgz#c2dfc386abaa0c3e33c48db3fe87059e69065efd"
 
 is-binary-path@^1.0.0:
   version "1.0.1"
@@ -5051,7 +5148,7 @@ lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
 
-lodash.template@^4.4.0:
+lodash.template@^4.2.4, lodash.template@^4.4.0:
   version "4.4.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/lodash.template/-/lodash.template-4.4.0.tgz#e73a0385c8355591746e020b99679c690e68fba0"
   dependencies:
@@ -5075,6 +5172,12 @@ lodash.uniq@^4.5.0:
 lodash@^4.17.5:
   version "4.17.10"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/lodash/-/lodash-4.17.10.tgz?dl=https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
+
+log-symbols@^2.0.0:
+  version "2.2.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/log-symbols/-/log-symbols-2.2.0.tgz?dl=https://registry.yarnpkg.com/log-symbols/-/log-symbols-2.2.0.tgz#5740e1c5d6f0dfda4ad9323b5332107ef6b4c40a"
+  dependencies:
+    chalk "^2.0.1"
 
 loglevel@^1.4.1:
   version "1.6.1"
@@ -5893,6 +5996,12 @@ path-type@^2.0.0:
   dependencies:
     pify "^2.0.0"
 
+path-type@^3.0.0:
+  version "3.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/path-type/-/path-type-3.0.0.tgz?dl=https://registry.yarnpkg.com/path-type/-/path-type-3.0.0.tgz#cef31dc8e0a1a3bb0d105c0cd97cf3bf47f4e36f"
+  dependencies:
+    pify "^3.0.0"
+
 pbkdf2@^3.0.3:
   version "3.0.14"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/pbkdf2/-/pbkdf2-3.0.14.tgz#a35e13c64799b06ce15320f459c230e68e73bade"
@@ -5957,6 +6066,13 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
 
+postcss-attribute-case-insensitive@^3.0.0:
+  version "3.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-attribute-case-insensitive/-/postcss-attribute-case-insensitive-3.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-attribute-case-insensitive/-/postcss-attribute-case-insensitive-3.0.0.tgz#03ec32ed221ed0a184fae26a99fea82c7de1a3b9"
+  dependencies:
+    postcss "^6.0.22"
+    postcss-selector-parser "^4.0.0"
+
 postcss-calc@^5.2.0:
   version "5.3.1"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-calc/-/postcss-calc-5.3.1.tgz#77bae7ca928ad85716e2fda42f261bf7c1d65b5e"
@@ -5964,6 +6080,53 @@ postcss-calc@^5.2.0:
     postcss "^5.0.2"
     postcss-message-helpers "^2.0.0"
     reduce-css-calc "^1.2.6"
+
+postcss-cli@^5.0.0:
+  version "5.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-cli/-/postcss-cli-5.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-cli/-/postcss-cli-5.0.0.tgz#3d6aee7652b8dc6566f0189dd90d11bb0a535a20"
+  dependencies:
+    chalk "^2.1.0"
+    chokidar "^2.0.0"
+    dependency-graph "^0.7.0"
+    fs-extra "^5.0.0"
+    get-stdin "^5.0.1"
+    globby "^7.1.1"
+    postcss "^6.0.1"
+    postcss-load-config "^1.1.0"
+    postcss-reporter "^5.0.0"
+    pretty-hrtime "^1.0.3"
+    read-cache "^1.0.0"
+    yargs "^11.0.0"
+
+postcss-color-functional-notation@^1.0.1:
+  version "1.0.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-color-functional-notation/-/postcss-color-functional-notation-1.0.1.tgz?dl=https://registry.yarnpkg.com/postcss-color-functional-notation/-/postcss-color-functional-notation-1.0.1.tgz#a12fe1302fa63935e440859c9d53730023c0eadd"
+  dependencies:
+    postcss "^6.0.22"
+    postcss-values-parser "^1.5.0"
+
+postcss-color-hex-alpha@^3.0.0:
+  version "3.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-color-hex-alpha/-/postcss-color-hex-alpha-3.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-color-hex-alpha/-/postcss-color-hex-alpha-3.0.0.tgz#1e53e6c8acb237955e8fd08b7ecdb1b8b8309f95"
+  dependencies:
+    color "^1.0.3"
+    postcss "^6.0.1"
+    postcss-message-helpers "^2.0.0"
+
+postcss-color-mod-function@^2.4.2:
+  version "2.4.2"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-color-mod-function/-/postcss-color-mod-function-2.4.2.tgz?dl=https://registry.yarnpkg.com/postcss-color-mod-function/-/postcss-color-mod-function-2.4.2.tgz#bdf408f152bc3201517a4c38b7eb5cd2996114fb"
+  dependencies:
+    "@csstools/convert-colors" "^1.4.0"
+    postcss "^6.0.19"
+    postcss-values-parser "^1.3.2"
+
+postcss-color-rebeccapurple@^3.1.0:
+  version "3.1.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-color-rebeccapurple/-/postcss-color-rebeccapurple-3.1.0.tgz?dl=https://registry.yarnpkg.com/postcss-color-rebeccapurple/-/postcss-color-rebeccapurple-3.1.0.tgz#ce1269ecc2d0d8bf92aab44bd884e633124c33ec"
+  dependencies:
+    postcss "^6.0.22"
+    postcss-values-parser "^1.5.0"
 
 postcss-colormin@^2.1.8:
   version "2.2.2"
@@ -5979,6 +6142,33 @@ postcss-convert-values@^2.3.4:
   dependencies:
     postcss "^5.0.11"
     postcss-value-parser "^3.1.2"
+
+postcss-custom-media@^6.0.0:
+  version "6.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-custom-media/-/postcss-custom-media-6.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-custom-media/-/postcss-custom-media-6.0.0.tgz#be532784110ecb295044fb5395a18006eb21a737"
+  dependencies:
+    postcss "^6.0.1"
+
+postcss-custom-properties@^7.0.0:
+  version "7.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-custom-properties/-/postcss-custom-properties-7.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-custom-properties/-/postcss-custom-properties-7.0.0.tgz#24dc4fbe6d6ed550ea4fd3b11204660e9ffa3b33"
+  dependencies:
+    balanced-match "^1.0.0"
+    postcss "^6.0.18"
+
+postcss-custom-selectors@^4.0.1:
+  version "4.0.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-custom-selectors/-/postcss-custom-selectors-4.0.1.tgz?dl=https://registry.yarnpkg.com/postcss-custom-selectors/-/postcss-custom-selectors-4.0.1.tgz#781382f94c52e727ef5ca4776ea2adf49a611382"
+  dependencies:
+    postcss "^6.0.1"
+    postcss-selector-matches "^3.0.0"
+
+postcss-dir-pseudo-class@^4.0.0:
+  version "4.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-dir-pseudo-class/-/postcss-dir-pseudo-class-4.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-dir-pseudo-class/-/postcss-dir-pseudo-class-4.0.0.tgz#007dba154a0750cb3095eeae01077088a61dcef5"
+  dependencies:
+    postcss "^6.0.22"
+    postcss-selector-parser "^4.0.0"
 
 postcss-discard-comments@^2.0.4:
   version "2.0.4"
@@ -6011,6 +6201,13 @@ postcss-discard-unused@^2.2.1:
     postcss "^5.0.14"
     uniqs "^2.0.0"
 
+postcss-env-function@^1.0.0:
+  version "1.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-env-function/-/postcss-env-function-1.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-env-function/-/postcss-env-function-1.0.0.tgz#0d81b53b3d789d55d1cac8125ec64f89e916a2f7"
+  dependencies:
+    postcss "^6.0.22"
+    postcss-values-parser "^1.5.0"
+
 postcss-filter-plugins@^2.0.0:
   version "2.0.2"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-filter-plugins/-/postcss-filter-plugins-2.0.2.tgz#6d85862534d735ac420e4a85806e1f5d4286d84c"
@@ -6024,7 +6221,68 @@ postcss-flexbugs-fixes@3.2.0:
   dependencies:
     postcss "^6.0.1"
 
-postcss-load-config@^1.2.0:
+postcss-focus-visible@^3.0.0:
+  version "3.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-focus-visible/-/postcss-focus-visible-3.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-focus-visible/-/postcss-focus-visible-3.0.0.tgz#c105b9d97e83c6a60cf3af34245ae451b326fb54"
+  dependencies:
+    postcss "^6.0"
+
+postcss-focus-within@^2.0.0:
+  version "2.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-focus-within/-/postcss-focus-within-2.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-focus-within/-/postcss-focus-within-2.0.0.tgz#7ff76ad8b5e9a000c0123d9690a76752c36c0c52"
+  dependencies:
+    postcss "^6.0.21"
+
+postcss-font-family-system-ui@^3.0.0:
+  version "3.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-font-family-system-ui/-/postcss-font-family-system-ui-3.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-font-family-system-ui/-/postcss-font-family-system-ui-3.0.0.tgz#675fe7a9e029669f05f8dba2e44c2225ede80623"
+  dependencies:
+    postcss "^6.0"
+
+postcss-font-variant@^3.0.0:
+  version "3.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-font-variant/-/postcss-font-variant-3.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-font-variant/-/postcss-font-variant-3.0.0.tgz#08ccc88f6050ba82ed8ef2cc76c0c6a6b41f183e"
+  dependencies:
+    postcss "^6.0.1"
+
+postcss-gap-properties@^1.0.0:
+  version "1.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-gap-properties/-/postcss-gap-properties-1.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-gap-properties/-/postcss-gap-properties-1.0.0.tgz#2a43bed20d73fc9744e3b869610711ee72db58af"
+  dependencies:
+    postcss "^6.0.22"
+
+postcss-image-set-function@^2.0.0:
+  version "2.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-image-set-function/-/postcss-image-set-function-2.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-image-set-function/-/postcss-image-set-function-2.0.0.tgz#3f43f25bc242ec1319c4bd879ccfd62ee5256feb"
+  dependencies:
+    postcss "^6.0.22"
+    postcss-values-parser "^1.5.0"
+
+postcss-import@^11.1.0:
+  version "11.1.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-import/-/postcss-import-11.1.0.tgz?dl=https://registry.yarnpkg.com/postcss-import/-/postcss-import-11.1.0.tgz#55c9362c9192994ec68865d224419df1db2981f0"
+  dependencies:
+    postcss "^6.0.1"
+    postcss-value-parser "^3.2.3"
+    read-cache "^1.0.0"
+    resolve "^1.1.7"
+
+postcss-initial@^2.0.0:
+  version "2.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-initial/-/postcss-initial-2.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-initial/-/postcss-initial-2.0.0.tgz#72715f7336e0bb79351d99ee65c4a253a8441ba4"
+  dependencies:
+    lodash.template "^4.2.4"
+    postcss "^6.0.1"
+
+postcss-lab-function@^1.0.1:
+  version "1.0.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-lab-function/-/postcss-lab-function-1.0.1.tgz?dl=https://registry.yarnpkg.com/postcss-lab-function/-/postcss-lab-function-1.0.1.tgz#f493a93edcd8379de716bc3aab156626c317ce3c"
+  dependencies:
+    "@csstools/convert-colors" "^1.4.0"
+    postcss "^6.0.22"
+    postcss-values-parser "^1.5.0"
+
+postcss-load-config@^1.1.0, postcss-load-config@^1.2.0:
   version "1.2.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-load-config/-/postcss-load-config-1.2.0.tgz#539e9afc9ddc8620121ebf9d8c3673e0ce50d28a"
   dependencies:
@@ -6055,6 +6313,18 @@ postcss-loader@2.0.8:
     postcss "^6.0.0"
     postcss-load-config "^1.2.0"
     schema-utils "^0.3.0"
+
+postcss-logical@^1.1.1:
+  version "1.1.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-logical/-/postcss-logical-1.1.1.tgz?dl=https://registry.yarnpkg.com/postcss-logical/-/postcss-logical-1.1.1.tgz#bcabf0638d8aa747743b32bc52f9d90d4a3313d2"
+  dependencies:
+    postcss "^6.0.20"
+
+postcss-media-minmax@^3.0.0:
+  version "3.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-media-minmax/-/postcss-media-minmax-3.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-media-minmax/-/postcss-media-minmax-3.0.0.tgz#675256037a43ef40bc4f0760bfd06d4dc69d48d2"
+  dependencies:
+    postcss "^6.0.1"
 
 postcss-merge-idents@^2.1.5:
   version "2.1.7"
@@ -6144,6 +6414,12 @@ postcss-modules-values@^1.1.0:
     icss-replace-symbols "^1.1.0"
     postcss "^6.0.1"
 
+postcss-nesting@^5.0.0:
+  version "5.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-nesting/-/postcss-nesting-5.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-nesting/-/postcss-nesting-5.0.0.tgz#973e3a7dc6426543affc0b0beb367c3b2a8d9923"
+  dependencies:
+    postcss "^6.0.21"
+
 postcss-normalize-charset@^1.1.0:
   version "1.1.1"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-normalize-charset/-/postcss-normalize-charset-1.1.1.tgz#ef9ee71212d7fe759c78ed162f61ed62b5cb93f1"
@@ -6166,6 +6442,70 @@ postcss-ordered-values@^2.1.0:
     postcss "^5.0.4"
     postcss-value-parser "^3.0.1"
 
+postcss-overflow-shorthand@^1.0.1:
+  version "1.0.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-overflow-shorthand/-/postcss-overflow-shorthand-1.0.1.tgz?dl=https://registry.yarnpkg.com/postcss-overflow-shorthand/-/postcss-overflow-shorthand-1.0.1.tgz#f72cc216f770f1ab712863dcce9bc32f774b2b74"
+  dependencies:
+    postcss "^6.0.22"
+
+postcss-page-break@^1.0.0:
+  version "1.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-page-break/-/postcss-page-break-1.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-page-break/-/postcss-page-break-1.0.0.tgz#09a63b6e03db092d38569b33dcba42a343ace60b"
+  dependencies:
+    postcss "^6.0.16"
+
+postcss-place@^3.0.1:
+  version "3.0.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-place/-/postcss-place-3.0.1.tgz?dl=https://registry.yarnpkg.com/postcss-place/-/postcss-place-3.0.1.tgz#95b0aeedd1302fe898c77ef6392cd1cfa7b23dd8"
+  dependencies:
+    postcss "^6.0.22"
+    postcss-values-parser "^1.5.0"
+
+postcss-preset-env@^5.1.0:
+  version "5.1.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-preset-env/-/postcss-preset-env-5.1.0.tgz?dl=https://registry.yarnpkg.com/postcss-preset-env/-/postcss-preset-env-5.1.0.tgz#cc4dabd24fd39d2f2a78655b876debebff94f07c"
+  dependencies:
+    autoprefixer "^8.5.0"
+    browserslist "^3.2.8"
+    caniuse-lite "^1.0.30000844"
+    cssdb "^3.1.0"
+    postcss "^6.0.22"
+    postcss-attribute-case-insensitive "^3.0.0"
+    postcss-color-functional-notation "^1.0.1"
+    postcss-color-hex-alpha "^3.0.0"
+    postcss-color-mod-function "^2.4.2"
+    postcss-color-rebeccapurple "^3.1.0"
+    postcss-custom-media "^6.0.0"
+    postcss-custom-properties "^7.0.0"
+    postcss-custom-selectors "^4.0.1"
+    postcss-dir-pseudo-class "^4.0.0"
+    postcss-env-function "^1.0.0"
+    postcss-focus-visible "^3.0.0"
+    postcss-focus-within "^2.0.0"
+    postcss-font-family-system-ui "^3.0.0"
+    postcss-font-variant "^3.0.0"
+    postcss-gap-properties "^1.0.0"
+    postcss-image-set-function "^2.0.0"
+    postcss-initial "^2.0.0"
+    postcss-lab-function "^1.0.1"
+    postcss-logical "^1.1.1"
+    postcss-media-minmax "^3.0.0"
+    postcss-nesting "^5.0.0"
+    postcss-overflow-shorthand "^1.0.1"
+    postcss-page-break "^1.0.0"
+    postcss-place "^3.0.1"
+    postcss-pseudo-class-any-link "^5.0.0"
+    postcss-replace-overflow-wrap "^2.0.0"
+    postcss-selector-matches "^3.0.1"
+    postcss-selector-not "^3.0.1"
+
+postcss-pseudo-class-any-link@^5.0.0:
+  version "5.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-pseudo-class-any-link/-/postcss-pseudo-class-any-link-5.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-pseudo-class-any-link/-/postcss-pseudo-class-any-link-5.0.0.tgz#9979a55a75956c402c5d270a667632cf8ee8eccb"
+  dependencies:
+    postcss "^6.0.22"
+    postcss-selector-parser "^4.0.0"
+
 postcss-reduce-idents@^2.2.2:
   version "2.4.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-reduce-idents/-/postcss-reduce-idents-2.4.0.tgz#c2c6d20cc958284f6abfbe63f7609bf409059ad3"
@@ -6187,11 +6527,48 @@ postcss-reduce-transforms@^1.0.3:
     postcss "^5.0.8"
     postcss-value-parser "^3.0.1"
 
+postcss-replace-overflow-wrap@^2.0.0:
+  version "2.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-replace-overflow-wrap/-/postcss-replace-overflow-wrap-2.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-replace-overflow-wrap/-/postcss-replace-overflow-wrap-2.0.0.tgz#794db6faa54f8db100854392a93af45768b4e25b"
+  dependencies:
+    postcss "^6.0.1"
+
+postcss-reporter@^5.0.0:
+  version "5.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-reporter/-/postcss-reporter-5.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-reporter/-/postcss-reporter-5.0.0.tgz#a14177fd1342829d291653f2786efd67110332c3"
+  dependencies:
+    chalk "^2.0.1"
+    lodash "^4.17.4"
+    log-symbols "^2.0.0"
+    postcss "^6.0.8"
+
+postcss-selector-matches@^3.0.0, postcss-selector-matches@^3.0.1:
+  version "3.0.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-selector-matches/-/postcss-selector-matches-3.0.1.tgz?dl=https://registry.yarnpkg.com/postcss-selector-matches/-/postcss-selector-matches-3.0.1.tgz#e5634011e13950881861bbdd58c2d0111ffc96ab"
+  dependencies:
+    balanced-match "^0.4.2"
+    postcss "^6.0.1"
+
+postcss-selector-not@^3.0.1:
+  version "3.0.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-selector-not/-/postcss-selector-not-3.0.1.tgz?dl=https://registry.yarnpkg.com/postcss-selector-not/-/postcss-selector-not-3.0.1.tgz#2e4db2f0965336c01e7cec7db6c60dff767335d9"
+  dependencies:
+    balanced-match "^0.4.2"
+    postcss "^6.0.1"
+
 postcss-selector-parser@^2.0.0, postcss-selector-parser@^2.2.2:
   version "2.2.3"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-selector-parser/-/postcss-selector-parser-2.2.3.tgz#f9437788606c3c9acee16ffe8d8b16297f27bb90"
   dependencies:
     flatten "^1.0.2"
+    indexes-of "^1.0.1"
+    uniq "^1.0.1"
+
+postcss-selector-parser@^4.0.0:
+  version "4.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-selector-parser/-/postcss-selector-parser-4.0.0.tgz?dl=https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-4.0.0.tgz#50c6570f40579036d8e63f23e6c0626fe5743527"
+  dependencies:
+    cssesc "^1.0.1"
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
@@ -6212,9 +6589,27 @@ postcss-unique-selectors@^2.0.2:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
+postcss-url@^7.3.2:
+  version "7.3.2"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-url/-/postcss-url-7.3.2.tgz?dl=https://registry.yarnpkg.com/postcss-url/-/postcss-url-7.3.2.tgz#5fea273807fb84b38c461c3c9a9e8abd235f7120"
+  dependencies:
+    mime "^1.4.1"
+    minimatch "^3.0.4"
+    mkdirp "^0.5.0"
+    postcss "^6.0.1"
+    xxhashjs "^0.2.1"
+
 postcss-value-parser@^3.0.1, postcss-value-parser@^3.0.2, postcss-value-parser@^3.1.1, postcss-value-parser@^3.1.2, postcss-value-parser@^3.2.3, postcss-value-parser@^3.3.0:
   version "3.3.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-value-parser/-/postcss-value-parser-3.3.0.tgz#87f38f9f18f774a4ab4c8a232f5c5ce8872a9d15"
+
+postcss-values-parser@^1.3.2, postcss-values-parser@^1.5.0:
+  version "1.5.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss-values-parser/-/postcss-values-parser-1.5.0.tgz?dl=https://registry.yarnpkg.com/postcss-values-parser/-/postcss-values-parser-1.5.0.tgz#5d9fa63e2bcb0179ce48f3235303765eb89f3047"
+  dependencies:
+    flatten "^1.0.2"
+    indexes-of "^1.0.1"
+    uniq "^1.0.1"
 
 postcss-zindex@^2.0.1:
   version "2.2.0"
@@ -6232,6 +6627,14 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     js-base64 "^2.1.9"
     source-map "^0.5.6"
     supports-color "^3.2.3"
+
+postcss@^6.0, postcss@^6.0.16, postcss@^6.0.18, postcss@^6.0.19, postcss@^6.0.20, postcss@^6.0.21, postcss@^6.0.22, postcss@^6.0.8:
+  version "6.0.22"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/postcss/-/postcss-6.0.22.tgz?dl=https://registry.yarnpkg.com/postcss/-/postcss-6.0.22.tgz#e23b78314905c3b90cbd61702121e7a78848f2a3"
+  dependencies:
+    chalk "^2.4.1"
+    source-map "^0.6.1"
+    supports-color "^5.4.0"
 
 postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.13:
   version "6.0.19"
@@ -6274,6 +6677,10 @@ pretty-format@^20.0.3:
   dependencies:
     ansi-regex "^2.1.1"
     ansi-styles "^3.0.0"
+
+pretty-hrtime@^1.0.3:
+  version "1.0.3"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/pretty-hrtime/-/pretty-hrtime-1.0.3.tgz?dl=https://registry.yarnpkg.com/pretty-hrtime/-/pretty-hrtime-1.0.3.tgz#b7e3ea42435a4c9b2759d99e0f201eb195802ee1"
 
 private@^0.1.6, private@^0.1.7:
   version "0.1.8"
@@ -6552,6 +6959,12 @@ react@^16.4.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.0"
+
+read-cache@^1.0.0:
+  version "1.0.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/read-cache/-/read-cache-1.0.0.tgz?dl=https://registry.yarnpkg.com/read-cache/-/read-cache-1.0.0.tgz#e664ef31161166c9751cdbe8dbcf86b5fb58f774"
+  dependencies:
+    pify "^2.3.0"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
@@ -6856,6 +7269,12 @@ resolve@1.1.7:
   version "1.1.7"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
+resolve@^1.1.7:
+  version "1.7.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/resolve/-/resolve-1.7.1.tgz?dl=https://registry.yarnpkg.com/resolve/-/resolve-1.7.1.tgz#aadd656374fd298aee895bc026b8297418677fd3"
+  dependencies:
+    path-parse "^1.0.5"
+
 resolve@^1.3.2, resolve@^1.5.0:
   version "1.5.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/resolve/-/resolve-1.5.0.tgz#1f09acce796c9a762579f31b2c1cc4c3cddf9f36"
@@ -7093,6 +7512,12 @@ shellwords@^0.1.1:
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
+
+simple-swizzle@^0.2.2:
+  version "0.2.2"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/simple-swizzle/-/simple-swizzle-0.2.2.tgz?dl=https://registry.yarnpkg.com/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
+  dependencies:
+    is-arrayish "^0.3.1"
 
 slash@^1.0.0:
   version "1.0.0"
@@ -7403,6 +7828,12 @@ supports-color@^4.2.1:
 supports-color@^5.2.0, supports-color@^5.3.0:
   version "5.3.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/supports-color/-/supports-color-5.3.0.tgz#5b24ac15db80fa927cf5227a4a33fd3c4c7676c0"
+  dependencies:
+    has-flag "^3.0.0"
+
+supports-color@^5.4.0:
+  version "5.4.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/supports-color/-/supports-color-5.4.0.tgz?dl=https://registry.yarnpkg.com/supports-color/-/supports-color-5.4.0.tgz#1c6b337402c2137605efe19f10fec390f6faab54"
   dependencies:
     has-flag "^3.0.0"
 
@@ -8127,6 +8558,12 @@ xml-name-validator@^2.0.1:
 xtend@^4.0.0:
   version "4.0.1"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
+
+xxhashjs@^0.2.1:
+  version "0.2.2"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/xxhashjs/-/xxhashjs-0.2.2.tgz?dl=https://registry.yarnpkg.com/xxhashjs/-/xxhashjs-0.2.2.tgz#8a6251567621a1c46a5ae204da0249c7f8caa9d8"
+  dependencies:
+    cuint "^0.2.2"
 
 y18n@^3.2.1:
   version "3.2.1"
