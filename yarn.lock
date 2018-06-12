@@ -7882,9 +7882,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vimond-videostreamer-premium@../vimond-uniplayer-videoengine/react/VideoStreamer/PremiumVideoStreamer/publish/vimond-videostreamer-premium-8.19.0.tgz:
-  version "8.19.0"
-  resolved "../vimond-uniplayer-videoengine/react/VideoStreamer/PremiumVideoStreamer/publish/vimond-videostreamer-premium-8.19.0.tgz#f24eee4160cb87302be8195c7ea22b41e9aef7bb"
+vimond-videostreamer-premium@^8.19.286:
+  version "8.19.286"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/vimond-videostreamer-premium/-/vimond-videostreamer-premium-8.19.286.tgz#01a57a916f5513341d0a33228d5649321d0db44d"
   dependencies:
     js-logger "^1.2.0"
     q "^1.4.1"

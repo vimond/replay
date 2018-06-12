@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "react-feather": "^1.1.0",
-    "vimond-videostreamer-premium": "../vimond-uniplayer-videoengine/react/VideoStreamer/PremiumVideoStreamer/publish/vimond-videostreamer-premium-8.19.0.tgz"
+    "vimond-videostreamer-premium": "^8.19.286"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.46",
