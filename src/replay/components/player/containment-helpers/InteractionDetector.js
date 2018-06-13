@@ -68,6 +68,9 @@ class InteractionDetector extends React.Component<Props, State> {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+    if (this.inactivityTimeoutId) {
+      clearTimeout(this.inactivityTimeoutId);
+    }
   }
 
   handleMouseMove = (evt: MouseEvent) => {
