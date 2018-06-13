@@ -197,6 +197,10 @@ td.v-player-playback-monitor-previous-value {
     color: #ccc;
 }
 
+.v-player {
+    background-color: #222;
+}
+
 .v-player-controls-bar, .v-player-drop-up-selector-items {
     background-color: rgba(32,32,32,0.8);
 }

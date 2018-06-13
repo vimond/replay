@@ -6,6 +6,7 @@
 * Statically typed
 * Tests, both for components and full player
 * Prettier
+* Rollup?
 * Component-centric full player toolkit
 * Standalone components + starter player
 * Still easy to re-skin and re-configure starter player, perhaps with Storybook or Styleguidist
@@ -262,6 +263,7 @@ General improvements and things to verify
 * Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
 * Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
 * Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
+* Respect new set of playback technologies in VideoStreamer, replacing dashImpl prop.
 
 Before settling the architecture: Revise rendering and improve performance. Probably drop render prop.
 
@@ -271,12 +273,14 @@ Before settling the architecture: Revise rendering and improve performance. Prob
 * Or consider the manipulation API (subscribe/update methods) to be one object that doesn't change, and pass it down in the render prop. I.e. individual state property updates can be a matter isolated within each component.
 * updateProperty() can't be part of the VideoStreamer. Breaks the prop pass-down pattern.
 * We should also allow for non-magical state update subscription, maybe with wrapper/HOC component?
+* Block <VideoStreamer /> from invoking onStreamStateChange after unmount.
 
 Preparing the project/player for other purposes:
 
 * External player API (exposed from PlayerController).
 * For default player, a separate CSS build not including the demo app is needed.
 * CSS in JS with theme + prop based customisation. Change icons, colors, sizes. Override all styles?
+* Verify that Flow types are recognised in npm package consumers.
 * Documentation.
 
 Next leap year:

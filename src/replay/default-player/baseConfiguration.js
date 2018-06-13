@@ -2,7 +2,7 @@
 
 import type { PlayerConfiguration } from './types';
 
-export const baseConfiguration = {
+export const baseConfiguration : PlayerConfiguration = {
   keyboardShortcuts: {
     keyCodes: {
       togglePause: [32, 13],
@@ -21,7 +21,7 @@ export const baseConfiguration = {
     liveDisplayMode: 'clock-time'
   },
   playbackMonitor: {
-    startVisible: false
+    visibleAtStart: false
   }
 };
 
