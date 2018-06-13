@@ -6,7 +6,7 @@ import { AvailableTrack, PlayMode, PlayState } from '../player/VideoStreamer/com
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const configuration = { playbackMonitor: { startVisible: true } };
+const configuration = { playbackMonitor: { visibleAtStart: true } };
 
 const mockTextTracks = [
   {

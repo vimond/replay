@@ -7,7 +7,7 @@ import { defaultClassNamePrefix, isDifferent, prefixClassNames } from '../common
 import Button from '../generic/Button';
 
 type PlaybackMonitorConfiguration = {
-  startVisible?: boolean
+  visibleAtStart?: boolean
 };
 
 type Props = CommonProps & {
@@ -197,7 +197,7 @@ class PlaybackMonitor extends React.Component<Props, State> {
       isMonitorVisible: !!(
         props.configuration &&
         props.configuration.playbackMonitor &&
-        props.configuration.playbackMonitor.startVisible
+        props.configuration.playbackMonitor.visibleAtStart
       )
     };
     document.addEventListener('keydown', this.handleKeyDown);
