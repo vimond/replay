@@ -2,7 +2,7 @@
 import * as React from 'react';
 import PlayerController from '../components/player/PlayerController';
 import MockVideoStreamer from '../components/player/VideoStreamer/MockVideoStreamer';
-import { renderPlayerUI } from './DefaultPlayer';
+import { renderPlayerUI } from './Replay';
 
 const MockPlayer = () => (
   <PlayerController render={renderPlayerUI}>

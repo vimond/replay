@@ -56,10 +56,12 @@ class PlayerController extends React.Component<Props, State> {
         onReady: this.onVideoStreamerReady,
         onStreamStateChange: this.onStreamStateChange,
         configuration: mergedConfiguration.videoStreamer || mergedConfiguration
-        // TODO: Consider making the config merging part of the DefaultPlayer composition.
+        // TODO: Consider making the config merging part of the Replay composition.
       }
     };
   }
+  
+  isUnmounting = false;
 
   onVideoStreamerReady = (methods: PlaybackMethods) => {
     this.setState({
@@ -70,7 +72,9 @@ class PlayerController extends React.Component<Props, State> {
 
   // Video stream -> UI
   onStreamStateChange = (property: VideoStreamState) => {
-    this.setState(property);
+    if (!this.isUnmounting) {
+      this.setState(property);
+    }
   };
 
   // UI -> video stream
@@ -80,6 +84,14 @@ class PlayerController extends React.Component<Props, State> {
       videoStreamerProps
     });
   };
+
+  componentDidMount() {
+    this.isUnmounting = false;
+  }
+  
+  componentWillUnmount() {
+    this.isUnmounting = true;
+  }
 
   // TODO: shouldComponentUpdate() {
   //

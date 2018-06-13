@@ -7,10 +7,11 @@
   "publishConfig": {
     "registry": "https://vimond.jfrog.io/vimond/api/npm/npm-local/"
   },
-  "main": "lib/DefaultPlayer.js",
+  "main": "lib/index.js",
   "files": [
     "lib",
-    "guide.md"
+    "guide.md",
+    "README.md"
   ],
   "scripts": {
     "start": "react-scripts start",
@@ -23,8 +24,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "react-feather": "^1.1.0",
-    "vimond-videostreamer-premium": "^8.19.286"
+    "react-feather": "^1.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.46",
@@ -46,7 +46,8 @@
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-scripts": "1.1.1",
-    "test-cli": "^0.1.0"
+    "test-cli": "^0.1.0",
+    "vimond-videostreamer-premium": "^8.19.300"
   },
   "prettier": {
     "printWidth": 120,
