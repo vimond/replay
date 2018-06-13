@@ -1,7 +1,6 @@
-import DefaultPlayer from './default-player/DefaultPlayer';
+import Replay from './default-player/Replay';
 import * as Components from './components/index.js';
-const Player = DefaultPlayer;
 export {
-  Player,
+  Replay,
   Components
 };

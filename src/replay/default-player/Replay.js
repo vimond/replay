@@ -28,7 +28,7 @@ import {
 } from './baseConfiguration';
 
 import type { RenderMethod } from '../components/player/PlayerController';
-import type { DefaultPlayerProps } from './types';
+import type { ReplayProps } from './types';
 import ExitButton from '../components/controls/ExitButton';
 
 // In this file, all custom parts making up a player can be assembled and "composed".
@@ -89,10 +89,10 @@ const applyStreamer = (children, source, textTracks) =>
   );
 
 // This is the component to be consumed in a full React SPA.
-const DefaultPlayer = ({ source, textTracks, options, onExit, children }: DefaultPlayerProps) => (
+const Replay = ({ source, textTracks, options, onExit, children }: ReplayProps) => (
   // Can use spread for source&textTracks
   <PlayerController render={renderPlayerUI} configuration={baseConfiguration} options={options} renderProps={{ onExit }}>
     {applyStreamer(children, source, textTracks)}
   </PlayerController>
 );
-export default DefaultPlayer;
+export default Replay;

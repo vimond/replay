@@ -38,7 +38,7 @@ export type PlayerConfiguration = {
   }
 };
 
-export type DefaultPlayerProps = {
+export type ReplayProps = {
   source: PlaybackSource,
   textTracks: Array<SourceTrack>,
   options: PlayerConfiguration,

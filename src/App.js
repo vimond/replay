@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 //import MockPlayer from './default-player/MockPlayer';
-import { Player } from './replay/';
+import { Replay } from './replay/';
 import PremiumVideoStreamer from 'vimond-videostreamer-premium';
 import { defaultClassNamePrefix } from './replay/components/common';
 import './replay/replay-default.css';
@@ -11,7 +11,7 @@ import './replay/replay-default.css';
 const source = {
   playbackTechnology: 'dash',
   //streamUrl: 'https://ls3-hls-live.akamaized.net/out/u/nk.mpd'
-  streamUrl: 'https://tv2-hls-od.telenorcdn.net/dashvod12/_definst_/amlst:1335254_ps1641_pd384214.smil/manifest.mpd'
+  streamUrl: 'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1346048_ps3120_pd412370.smil/manifest.mpd'
 };
 
 const configOverrides = {
@@ -37,9 +37,9 @@ class App extends Component {
       <div className="App">
         <div className="App-player-panel">
           {this.state.isOpen && (
-            <Player source={source} options={configOverrides} onExit={this.closePlayer}>
+            <Replay source={source} options={configOverrides} onExit={this.closePlayer}>
               <PremiumVideoStreamer className="videoStreamer" classNamePrefix={defaultClassNamePrefix} />
-            </Player>
+            </Replay>
           )}
         </div>
       </div>
