@@ -59,6 +59,12 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp
+      - run: 
+          name: Fetching private npm credentials
+          command: curl -u$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD https://vimond.jfrog.io/vimond/api/npm/auth > ~/.npmrc
+      - run:
+          name: Changing to private npm registry
+          command: npm config set registry http://vimond.jfrog.io/vimond/api/npm/npm-virtual
       - run:
           name: Publish
           command: npm publish
