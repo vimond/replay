@@ -61,7 +61,7 @@ jobs:
           at: /tmp
       - run:
           name: Publish
-          command: echo npm publish
+          command: npm publish
 
 workflows:
   version: 2
