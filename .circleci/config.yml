@@ -1,0 +1,94 @@
+defaults: &defaults
+  working_directory: /tmp/replay
+  docker:
+    - image: circleci/node:8.11-browsers
+version: 2
+
+jobs:
+  install:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: 
+          name: Fetching private npm credentials
+          command: curl -u$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD https://vimond.jfrog.io/vimond/api/npm/auth > ~/.npmrc
+      - run:
+          name: Changing to private npm registry
+          command: npm config set registry http://vimond.jfrog.io/vimond/api/npm/npm-virtual
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Environment variables
+          command: |
+              if [ -z "${NODE_ENV:-}" ]; then export NODE_ENV=test; fi
+              export PATH="~/vimond/vimond-uniplayer-videoengine/node_modules/.bin:$PATH"
+      - run:
+          name: Installing dependencies for tests and builds
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - persist_to_workspace:
+          root: /tmp
+          paths: replay/*
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Tests
+          command: yarn test
+      - run:
+          name: Type checks
+          command: yarn flow
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Build
+          command: yarn build-lib
+      - persist_to_workspace:
+          root: /tmp
+          paths: replay/*
+  publish:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Publish
+          command: npm publish
+
+workflows:
+  version: 2
+  all_tasks:
+    jobs:
+      - install:
+          filters:
+            branches:
+              only: master
+      - test:
+          requires:
+            - install
+          filters:
+            branches:
+              only: master
+      - build:
+          requires:
+            - install
+          filters:
+            branches:
+              only: master
+      - publish:
+          requires:
+            - test
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
