@@ -43,5 +43,6 @@ export type ReplayProps = {
   textTracks: Array<SourceTrack>,
   options: PlayerConfiguration,
   onExit: () => void,
+  onError: any => void,
   children: React.Element<any>
 };

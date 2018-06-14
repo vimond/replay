@@ -77,6 +77,12 @@ Intended for Streamlab. Shaka 1.x, Shaka 2.x with logging added, Dash.js with sm
 
 `<LabVideoStreamer />`
 
+### Modern wrapper
+
+`<RxHlsVideoStreamer />`
+
+If RxPlayer deals well with DASH streams, consider integration without video engine.
+
 ### Basic HTML video element wrapper
 
 In the npm package, include a simple implementation covering HTML5 video, with the streamlined API. This might be open-sourced.
@@ -210,7 +216,7 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 	7. User settings storage.
 7. Catch up on writing missing tests.
 8. ✓ Prepare revised video engine with streamlined/modernised APIs.
-9. Build default player as npm package with all features.
+9. ✓ Build default player as npm package with all features.
 10. ✓ Streamlab integration.
 11. Review what to make configurable (overridable) in default player, e.g. strings, graphics, controls appearance, their settings.
 12. Demo container app.
@@ -218,9 +224,10 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 14. Basic HTML5 video streamer, only for MP4.
 15. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
 16. Docs on creating a full CSS file for a customised player, including core styles.
-17. NPM package(s) exposing default player and all components individually.
-18. Redux actions (with player instance addressing).
-19. Redux demo app.
+17. RxHlsVideoStreamer.
+18. NPM package(s) exposing default player and all components individually.
+19. Redux actions (with player instance addressing).
+20. Redux demo app.
 
 ## Detail tasks to be done/clarified
 
@@ -241,6 +248,9 @@ After video engine is plugged in:
 
 General improvements and things to verify
 
+* Silverlight doesn't work. Is this some re-rendered issue?
+* Error handling in Streamlab.
+* Change default class name.
 * Test with subtitles and audio tracks...
 * Make lockedBitrate and maxBitrate props.
 * Look into setting volume, mute, and pause state on startup.

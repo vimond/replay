@@ -23,6 +23,7 @@ type Props = {
   configuration?: any,
   render: RenderMethod,
   renderProps?: any,
+  onStreamerError?: any => void,
   children: React.Node
 };
 
@@ -54,6 +55,7 @@ class PlayerController extends React.Component<Props, State> {
       mergedConfiguration,
       videoStreamerProps: {
         onReady: this.onVideoStreamerReady,
+        onError: this.props.onStreamerError,
         onStreamStateChange: this.onStreamStateChange,
         configuration: mergedConfiguration.videoStreamer || mergedConfiguration
         // TODO: Consider making the config merging part of the Replay composition.
@@ -84,7 +86,7 @@ class PlayerController extends React.Component<Props, State> {
       videoStreamerProps
     });
   };
-
+  
   componentDidMount() {
     this.isUnmounting = false;
   }

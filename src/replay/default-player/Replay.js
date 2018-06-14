@@ -89,9 +89,9 @@ const applyStreamer = (children, source, textTracks) =>
   );
 
 // This is the component to be consumed in a full React SPA.
-const Replay = ({ source, textTracks, options, onExit, children }: ReplayProps) => (
+const Replay = ({ source, textTracks, options, onExit, onError, children }: ReplayProps) => (
   // Can use spread for source&textTracks
-  <PlayerController render={renderPlayerUI} configuration={baseConfiguration} options={options} renderProps={{ onExit }}>
+  <PlayerController render={renderPlayerUI} configuration={baseConfiguration} options={options} onStreamerError={onError} renderProps={{ onExit }}>
     {applyStreamer(children, source, textTracks)}
   </PlayerController>
 );
