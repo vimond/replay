@@ -15,7 +15,7 @@ test('<FullscreenButton/> renders with prefixed class name and DOM including chi
 
   const rendered2 = shallow(<FullscreenButton />);
   const renderedToggleButton2 = rendered2.dive();
-  expect(renderedToggleButton2.hasClass('v-player-fullscreen-button')).toBe(true);
+  expect(renderedToggleButton2.hasClass('replay-fullscreen-button')).toBe(true);
 });
 
 test('<FullscreenButton/> renders button state during fullscreen correctly.', () => {

@@ -145,8 +145,8 @@ test('getPlayerStateClassNames() sets the prefixed volume class names also for t
 
 test('getPlayerStateClassNames() sets prefixed responsiveness range class names.', () => {
   const responsivenessResult = getPlayerStateClassNames(allProps, classNameDefs, classNamePrefix);
-  expect(responsivenessResult.indexOf('v-player-size-max')).toBeGreaterThanOrEqual(0);
-  expect(responsivenessResult.indexOf('v-player-size-medium')).toBeGreaterThanOrEqual(0);
+  expect(responsivenessResult.indexOf('replay-size-max')).toBeGreaterThanOrEqual(0);
+  expect(responsivenessResult.indexOf('replay-size-medium')).toBeGreaterThanOrEqual(0);
 
   const emptyResult = getPlayerStateClassNames({ responsivenessRanges: [] }, classNameDefs, classNamePrefix);
   expect(emptyResult).toBe('');

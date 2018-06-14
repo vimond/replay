@@ -2,38 +2,38 @@
 
 /* Sizes and placements */
 
-.v-player {
+.replay {
     font-size: 12px;
 }
 
-.v-player-controls-bar {
+.replay-controls-bar {
     height: 50px;
     padding: 0 10px;
     text-align: center;
 }
 
-.v-player-slider {
+.replay-slider {
     height: 50px;
     margin: 0 10px;
 }
 
-.v-player-slider-track {
+.replay-slider-track {
     margin: 24px 0;
     height: 2px;
 }
 
-.v-player-slider-handle {
+.replay-slider-handle {
     height: 16px;
     width: 16px;
     border-radius: 8px;
 }
 
-.v-player-button, .v-player-toggle-button, .v-player-drop-up-selector {
+.replay-button, .replay-toggle-button, .replay-drop-up-selector {
     width: 40px;
     height: 50px;
 }
 
-.v-player-drop-up-selector-items {
+.replay-drop-up-selector-items {
     position: absolute;
     bottom: 50px;
     padding-top: 5px;
@@ -42,63 +42,63 @@
     visibility: hidden;
 }
 
-.v-player-drop-up-selector:hover .v-player-drop-up-selector-items {
+.replay-drop-up-selector:hover .replay-drop-up-selector-items {
     visibility: visible;
 }
 
-.v-player-drop-up-selector-item {
+.replay-drop-up-selector-item {
     padding: 5px 15px;
     font-size: 14px;
     text-align: left;
 }
 
-.v-player-drop-up-selector-item.v-player-selected {
+.replay-drop-up-selector-item.replay-selected {
     font-weight: bold;
     color: white;
 }
 
-.v-player-timeline {
+.replay-timeline {
     flex-grow: 3;
 }
 
-.v-player-time-display {
+.replay-time-display {
     margin: 0 10px;
     font-size: 10px;
 }
 
-.v-player-time-display span {
+.replay-time-display span {
     display: block;
 }
 
-.v-player-time-display span:nth-child(2) {
+.replay-time-display span:nth-child(2) {
     margin-top: 0px;
     padding-top: 0px;
     border-top: 1px solid;
 }
 
-.v-player-volume {
+.replay-volume {
     max-width: 200px;
     min-width: 100px;
     flex-grow: 1;
     flex-shrink: 2;
 }
 
-.v-player-mute-toggle {
+.replay-mute-toggle {
     margin-right: -5px;
 }
 
-.v-player-volume-slider {
+.replay-volume-slider {
     flex-grow: 1;
     flex-shrink: 1;
     margin-right: 15px;
 }
 
-.v-player-skip-button {
+.replay-skip-button {
     position: relative;
     font-size: 7px;
 }
 
-.v-player-skip-button > span {
+.replay-skip-button > span {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -106,19 +106,19 @@
 }
 
 /*
-.v-player-goto-live-button {
+.replay-goto-live-button {
     min-width: 50px;
     width: auto;
     padding: 0 10px;
 }
 
-.v-player-goto-live-button > span:first-child {
+.replay-goto-live-button > span:first-child {
     margin-right: 5px;
 }
 
 */
 
-.v-player-buffering-indicator {
+.replay-buffering-indicator {
     height: 50px;
     width: 50px;
     position: absolute;
@@ -128,28 +128,28 @@
     visibility: hidden;
 }
 
-.v-player-is-fullscreen .v-player-buffering-indicator {
+.replay-is-fullscreen .replay-buffering-indicator {
     height: 100px;
     width: 100px;
 }
 
-.v-player-buffering-indicator.v-player-buffering {
+.replay-buffering-indicator.replay-buffering {
     visibility: visible;
 }
 
-.v-player-exit-button {
+.replay-exit-button {
     top: 2%;
     right: 1%;
     position: absolute;
     opacity: 1;
 }
 
-.v-player-is-fullscreen .v-player-exit-button, .v-player-is-user-inactive .v-player-exit-button {
+.replay-is-fullscreen .replay-exit-button, .replay-is-user-inactive .replay-exit-button {
     visibility: hidden;
     opacity: 0;
 }
 
-.v-player-playback-monitor {
+.replay-playback-monitor {
     top: 3%;
     bottom: 60px;
     left: 6%;
@@ -158,63 +158,63 @@
     transition: bottom 0.3s;
 }
 
-/*.v-player-is-user-inactive .v-player-playback-monitor {
+/*.replay-is-user-inactive .replay-playback-monitor {
     bottom: 3%;
     transition-delay: 0.4s;
 }*/
 
-.v-player-playback-monitor td, .v-player-playback-monitor th {
+.replay-playback-monitor td, .replay-playback-monitor th {
     padding: 2px 8px;
 }
 
-.v-player-playback-monitor-stream-state {
+.replay-playback-monitor-stream-state {
     top: 0.5em;
 }
 
-td.v-player-playback-monitor-current-value {
+td.replay-playback-monitor-current-value {
     max-width: 160px;
 }
 
-td.v-player-playback-monitor-previous-value {
+td.replay-playback-monitor-previous-value {
     max-width: 160px;
 }
 
 
 /* Aesthetic vertical alignment and correction of icons */
 
-.v-player-audio-selector .v-player-toggle-button, .v-player-skip-button, .v-player-goto-live-button svg {
+.replay-audio-selector .replay-toggle-button, .replay-skip-button, .replay-goto-live-button svg {
     transform: translateY(2px);
 }
 
-.v-player-quality-selector .v-player-drop-up-selector-toggle {
+.replay-quality-selector .replay-drop-up-selector-toggle {
     transform-origin: 50% 50%;
     transform: scale(0.85);
 }
 
 /* Colors with transitions */
 
-.v-player-controls-bar, .v-player-drop-up-selector-items, .v-player-exit-button, .v-player-playback-monitor-close-button, .v-player-buffering-indicator {
+.replay-controls-bar, .replay-drop-up-selector-items, .replay-exit-button, .replay-playback-monitor-close-button, .replay-buffering-indicator {
     color: #ccc;
 }
 
-.v-player {
+.replay {
     background-color: #222;
 }
 
-.v-player-controls-bar, .v-player-drop-up-selector-items {
+.replay-controls-bar, .replay-drop-up-selector-items {
     background-color: rgba(32,32,32,0.8);
 }
 
-.v-player-slider-track, .v-player-drop-up-selector-item:hover {
+.replay-slider-track, .replay-drop-up-selector-item:hover {
     background-color: #888;
 }
 
-.v-player-buffering-indicator {
+.replay-buffering-indicator {
     transition: opacity 1s, visibility 0s linear 0.5s;
     opacity: 0;
 }
 
-.v-player-buffering-indicator.v-player-buffering {
+.replay-buffering-indicator.replay-buffering {
     opacity: 1;
     transition-delay: 0s;
 }
@@ -228,101 +228,101 @@ td.v-player-playback-monitor-previous-value {
     }
 }
 
-.v-player-buffering-indicator .animated {
+.replay-buffering-indicator .animated {
     animation: spin 1s infinite linear;
     transform-origin: 18px 18px;
     animation-play-state: paused;
 }
 
-.v-player-buffering-indicator.v-player-buffering .animated {
+.replay-buffering-indicator.replay-buffering .animated {
     animation-play-state: running;
 }
 
-.v-player-controls-bar {
+.replay-controls-bar {
     transition: visibility 0.5s, opacity 0.5s;
     cursor: default;
 }
 
-.v-player-exit-button:hover {
+.replay-exit-button:hover {
     visibility: visible;
     opacity: 1;
 }
 
-.v-player-is-user-inactive .v-player-controls-bar {
+.replay-is-user-inactive .replay-controls-bar {
     visibility: hidden;
     opacity: 0;
 }
 
-.v-player-controls-bar:hover {
+.replay-controls-bar:hover {
     cursor: default;
     visibility: visible;
     opacity: 1;
 }
 
-.v-player-button, .v-player-toggle-button {
+.replay-button, .replay-toggle-button {
     transition: color 0.5s;
 }
 
-.v-player-drop-up-selector-items {
+.replay-drop-up-selector-items {
     opacity: 0;
     transition: opacity 0.5s, visibility 0s linear 0.5s;
 }
 
-.v-player-drop-up-selector:hover .v-player-drop-up-selector-items {
+.replay-drop-up-selector:hover .replay-drop-up-selector-items {
     opacity: 1;
     transition-delay: 0s;
 }
 
-.v-player-drop-up-selector-item {
+.replay-drop-up-selector-item {
     transition: background-color 0.2s ease-in-out;
 }
 
-.v-player-slider-handle {
+.replay-slider-handle {
     background-color: #ccc;
     transition: background-color 0.5s;
 }
 
-.v-player-button:hover, .v-player-toggle-button:hover {
+.replay-button:hover, .replay-toggle-button:hover {
     color: white;
 }
 
-.v-player-goto-live-button.v-player-toggled-on:hover {
+.replay-goto-live-button.replay-toggled-on:hover {
     color: #ccc;
     cursor: default;
 }
 
-.v-player-slider-handle:hover {
+.replay-slider-handle:hover {
     background-color: white;
 }
 
-.v-player-time-display span:nth-child(2) {
+.replay-time-display span:nth-child(2) {
     border-top-color: rgba(128,128,128,0.5);
 }
 
-.v-player-exit-button.v-player-button {
+.replay-exit-button.replay-button {
     transition: visibility 0.5s, opacity 0.5s, color 0.5s;
 }
 
 
-.v-player-playback-monitor {
+.replay-playback-monitor {
     color: white;
     background-color: rgba(20, 20, 20, 0.9);
     cursor: default;
 }
 
-td.v-player-playback-monitor-current-value {
+td.replay-playback-monitor-current-value {
     opacity: 0.9;
 }
 
-td.v-player-playback-monitor-previous-value {
+td.replay-playback-monitor-previous-value {
     opacity: 0.6;
 }
 
 /* Graphical appearance */
-.v-player-slider-handle:active {
+.replay-slider-handle:active {
     cursor: grabbing;
 }
 
-.v-player {
+.replay {
     font-family: sans-serif;
 }

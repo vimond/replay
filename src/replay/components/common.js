@@ -14,7 +14,7 @@ export type Id = string | number;
 
 type Coordinates = { x: number, y: number, width: number, height: number };
 
-export const defaultClassNamePrefix = 'v-player-';
+export const defaultClassNamePrefix = 'replay-';
 
 export function prefixClassNames(prefix: ?string, ...names: Array<?string>): string {
   const sanitizedPrefix = prefix == null ? '' : prefix;

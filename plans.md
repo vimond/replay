@@ -37,6 +37,10 @@ Less misunderstandings and currently available as npm package name. However, bad
 
 A bit long. And should we avoid using React as part of the name?
 
+### replayed
+
+Hmmmm.
+
 ### Discarded ideas:
 
 *v-player* for full player and *v-stream* for video engine?
@@ -250,7 +254,7 @@ General improvements and things to verify
 
 * Silverlight doesn't work. Is this some re-rendered issue?
 * Error handling in Streamlab.
-* Change default class name.
+* OK Change default class name.
 * Test with subtitles and audio tracks...
 * Make lockedBitrate and maxBitrate props.
 * Look into setting volume, mute, and pause state on startup.

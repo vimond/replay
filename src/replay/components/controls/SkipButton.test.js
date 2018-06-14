@@ -15,7 +15,7 @@ test('<SkipButton/> renders with prefixed class name and DOM including children.
 
   const rendered2 = shallow(<SkipButton />);
   const renderedButton2 = rendered2.dive();
-  expect(renderedButton2.hasClass('v-player-skip-button')).toBe(true);
+  expect(renderedButton2.hasClass('replay-skip-button')).toBe(true);
 });
 
 test('<SkipButton/> invokes the setPosition callback when clicked, passing the new position calculated from adding the specified offset to the current position.', () => {

@@ -1,15 +1,15 @@
-.v-player-slider {
+.replay-slider {
     flex-grow: 1;
     position: relative;
     box-sizing: border-box;
     cursor: pointer;
 }
 
-.v-player-slider-track {
+.replay-slider-track {
     position: relative;
 }
 
-.v-player-slider-handle {
+.replay-slider-handle {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);

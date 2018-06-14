@@ -15,7 +15,7 @@ test('<PlayPauseButton/> renders with prefixed class name and DOM including chil
 
   const rendered2 = shallow(<PlayPauseButton pausedContent="A" playingContent="B" label="C" />);
   const renderedToggleButton2 = rendered2.dive();
-  expect(renderedToggleButton2.hasClass('v-player-play-pause-button')).toBe(true);
+  expect(renderedToggleButton2.hasClass('replay-play-pause-button')).toBe(true);
 });
 
 test('<PlayPauseButton/> renders paused state correctly.', () => {

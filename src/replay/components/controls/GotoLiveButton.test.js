@@ -23,7 +23,7 @@ test('<GotoLiveButton/> renders with prefixed class name and DOM including child
 
   const rendered2 = shallow(<GotoLiveButton playMode="livedvr" />);
   const renderedToggleButton2 = rendered2.dive();
-  expect(renderedToggleButton2.hasClass('v-player-goto-live-button')).toBe(true);
+  expect(renderedToggleButton2.hasClass('replay-goto-live-button')).toBe(true);
 });
 
 test('<GotoLiveButton/> does not render if stream is stream is on demand or has no DVR window.', () => {

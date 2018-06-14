@@ -15,7 +15,7 @@ test('<ExitButton/> renders with prefixed class name and DOM including children.
 
   const rendered2 = shallow(<ExitButton />);
   const renderedButton2 = rendered2.dive();
-  expect(renderedButton2.hasClass('v-player-exit-button')).toBe(true);
+  expect(renderedButton2.hasClass('replay-exit-button')).toBe(true);
 });
 
 test('<ExitButton/> invokes the onClick callback when clicked.', () => {
