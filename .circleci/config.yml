@@ -61,7 +61,7 @@ jobs:
           at: /tmp
       - run:
           name: Publish
-          command: npm publish
+          command: echo npm publish
 
 workflows:
   version: 2
@@ -90,5 +90,5 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-            branches:
-              ignore: /.*/
+            #branches:
+            #  ignore: /.*/
