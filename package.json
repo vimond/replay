@@ -3,7 +3,6 @@
   "version": "0.5.0",
   "author": "Tor Erik Alræk",
   "license": "UNLICENSED",
-  "private": true,
   "publishConfig": {
     "registry": "https://vimond.jfrog.io/vimond/api/npm/npm-local/"
   },
@@ -17,7 +16,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build-lib": "npm run build-es5 && npm run build-flow && npm run build-css",
-    "build-es5": "babel src/replay -d lib --copy-files",
+    "build-es5": "babel src/replay -d lib --copy-files --source-maps",
     "build-flow": "flow-copy-source src/replay lib",
     "build-css": "postcss src/replay/replay-default.css -o lib/index.css",
     "test": "react-scripts test --env=jsdom",

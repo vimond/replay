@@ -209,34 +209,18 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 	6. Player size responsiveness. ResizeObserver in Chrome. https://codeburst.io/media-queries-based-on-element-width-with-mutationobserver-cf2eff172787 elsewhere.
 	7. User settings storage.
 7. Catch up on writing missing tests.
-8. Prepare revised video engine with streamlined/modernised APIs.
+8. ✓ Prepare revised video engine with streamlined/modernised APIs.
 9. Build default player as npm package with all features.
-10. Streamlab integration.
+10. ✓ Streamlab integration.
 11. Review what to make configurable (overridable) in default player, e.g. strings, graphics, controls appearance, their settings.
 12. Demo container app.
 13. Theme-based styling, preparing for next step.
-14. Simple HTML5 video streamer, only for MP4.
+14. Basic HTML5 video streamer, only for MP4.
 15. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
 16. Docs on creating a full CSS file for a customised player, including core styles.
 17. NPM package(s) exposing default player and all components individually.
 18. Redux actions (with player instance addressing).
 19. Redux demo app.
-
-## npm package
-
-### General
-
-#### Decided
-
-* The `vimond-videostreamer-*` dependency should not be included in the end, when BasicVideoStreamer is implemented.
-* Avoid feather-icons and CSS(?) from being included for only component usage. Separate entry point (and package?) for player and components.
-
-#### Clarify
-
-* Publish with source maps?
-* Look into Styleguidist approach included in package.
-* Including SASS for building CSS? Is it needed? Can it give customisation options to the default player?
-* Otherwise build default skin in one CSS.
 
 ## Detail tasks to be done/clarified
 
@@ -277,8 +261,9 @@ Before settling the architecture: Revise rendering and improve performance. Prob
 
 Preparing the project/player for other purposes:
 
+* README.md
 * External player API (exposed from PlayerController).
-* For default player, a separate CSS build not including the demo app is needed.
+* ✓ For default player, a separate CSS build not including the demo app is needed.
 * CSS in JS with theme + prop based customisation. Change icons, colors, sizes. Override all styles?
 * Verify that Flow types are recognised in npm package consumers.
 * Documentation.
