@@ -252,9 +252,9 @@ After video engine is plugged in:
 
 General improvements and things to verify
 
-* Silverlight doesn't work. Is this some re-rendered issue?
-* Error handling in Streamlab.
 * OK Change default class name.
+* OK Error handling in Streamlab.
+* Silverlight doesn't work. Is this some re-rendering issue?
 * Test with subtitles and audio tracks...
 * Make lockedBitrate and maxBitrate props.
 * Look into setting volume, mute, and pause state on startup.
