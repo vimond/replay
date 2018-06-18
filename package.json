@@ -35,7 +35,7 @@
     "@babel/preset-react": "^7.0.0-beta.46",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "flow-bin": "^0.67.1",
+    "flow-bin": "0.74.0",
     "flow-copy-source": "^1.3.0",
     "postcss-cli": "^5.0.0",
     "postcss-import": "^11.1.0",

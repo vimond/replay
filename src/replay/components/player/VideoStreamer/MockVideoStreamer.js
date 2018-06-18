@@ -1,4 +1,4 @@
-// @flow
+// @XYZflow
 import * as React from 'react';
 import type { VideoStreamerProps, VideoStreamState } from './common';
 import { defaultClassNamePrefix, prefixClassNames } from '../../common';

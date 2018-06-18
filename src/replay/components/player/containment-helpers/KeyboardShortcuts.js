@@ -1,7 +1,8 @@
 // @flow
 import * as React from 'react';
-import type { PlaybackApi } from '../VideoStreamer/common';
+import type { PlayMode } from '../VideoStreamer/common';
 import type { FullscreenState } from './Fullscreen';
+import type { ControllerApi } from '../player-controller/ControllerContext';
 
 type RenderParameters = {
   handleKeyUp: KeyboardEvent => void
@@ -28,7 +29,13 @@ type Props = {
   configuration?: {
     keyboardShortcuts?: KeyboardShortcutsConfiguration
   },
-  videoStreamState?: PlaybackApi,
+  isPaused?: ?boolean,
+  isMuted?: ?boolean,
+  position?: ?number,
+  duration?: ?number,
+  volume?: ?number,
+  playMode?: ?PlayMode,
+  controllerApi?: ControllerApi,
   fullscreenState?: FullscreenState,
   render: RenderParameters => React.Node
 };
@@ -43,7 +50,18 @@ const getMatchingOperationFromKeycodeConfig = (config: KeyboardShortcutsConfigur
 
 class KeyboardShortcuts extends React.Component<Props> {
   handleKeyUp = (keyboardEvent: KeyboardEvent) => {
-    const { nudge, configuration, videoStreamState, fullscreenState } = this.props;
+    const {
+      nudge,
+      configuration,
+      controllerApi,
+      fullscreenState,
+      isPaused,
+      isMuted,
+      position,
+      duration,
+      volume,
+      playMode
+    } = this.props;
     if (configuration && configuration.keyboardShortcuts) {
       const offset = configuration.keyboardShortcuts.skipOffset || 30;
       const volumeStep = configuration.keyboardShortcuts.volumeStep || 0.1;
@@ -51,36 +69,35 @@ class KeyboardShortcuts extends React.Component<Props> {
       if (operation) {
         switch (operation) {
           case 'togglePause':
-            videoStreamState && videoStreamState.updateProperty({ isPaused: !videoStreamState.isPaused });
+            controllerApi && controllerApi.updateProperty({ isPaused: !isPaused });
             break;
           case 'toggleMute':
-            videoStreamState && videoStreamState.updateProperty({ isMuted: !videoStreamState.isMuted });
+            controllerApi && controllerApi.updateProperty({ isMuted: !isMuted });
             break;
           case 'toggleFullscreen':
             fullscreenState && fullscreenState.updateProperty({ isFullscreen: !fullscreenState.isFullscreen });
             break;
           case 'skipBack':
-            videoStreamState &&
-              videoStreamState.position &&
-              videoStreamState.setPosition(Math.max(videoStreamState.position - offset, 0));
+            controllerApi && position != null && controllerApi.setPosition(Math.max(position - offset, 0));
             break;
           case 'skipForward':
-            if (videoStreamState && videoStreamState.duration) {
-              const targetPosition = (videoStreamState.position || 0) + offset;
+            if (controllerApi && duration) {
+              const targetPosition = (position || 0) + offset;
               // Skipping to the very end is just annoying. Skipping to live position makes sense.
-              if (targetPosition < videoStreamState.duration || videoStreamState.playMode !== 'ondemand') {
-                videoStreamState.setPosition(Math.min(targetPosition, videoStreamState.duration));
+              if (targetPosition < duration || playMode !== 'ondemand') {
+                controllerApi.setPosition(Math.min(targetPosition, duration));
               }
             }
             break;
           case 'decreaseVolume':
-            videoStreamState &&
-              videoStreamState.volume &&
-              videoStreamState.updateProperty({ volume: Math.max(videoStreamState.volume - volumeStep, 0) });
+            controllerApi &&
+              volume != null &&
+              controllerApi.updateProperty({ volume: Math.max(volume - volumeStep, 0) });
             break;
           case 'increaseVolume':
-            videoStreamState &&
-              videoStreamState.updateProperty({ volume: Math.min(videoStreamState.volume + volumeStep, 1) });
+            controllerApi &&
+              volume != null &&
+              controllerApi.updateProperty({ volume: Math.min(volume + volumeStep, 1) });
             break;
           default:
           // eslint requires default in switch. Can't see that this is a good case for such a requirement.

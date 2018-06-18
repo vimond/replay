@@ -31,7 +31,7 @@ test('<KeyboardShortcuts/> renders and invokes render prop.', () => {
   expect(renderFn.mock.calls.length).toBe(1);
 });
 
-const renderAndPressKey = (prop, initialValue, keyCode, stateKey = 'videoStreamState') => {
+const renderAndPressKey = (prop, initialValue, keyCode, stateKey = 'controllerApi') => {
   const renderFn = jest.fn();
   renderFn.mockReturnValue('Inner content');
   const updateProperty = jest.fn();
@@ -42,10 +42,18 @@ const renderAndPressKey = (prop, initialValue, keyCode, stateKey = 'videoStreamS
       setPosition
     }
   };
-  if (Array.isArray(prop)) {
-    prop.forEach((p, i) => (state[stateKey][p] = initialValue[i]));
+  if (stateKey === 'controllerApi') {
+    if (Array.isArray(prop)) {
+      prop.forEach((p, i) => (state[p] = initialValue[i]));
+    } else {
+      state[prop] = initialValue;
+    }
   } else {
-    state[stateKey][prop] = initialValue;
+    if (Array.isArray(prop)) {
+      prop.forEach((p, i) => (state[stateKey][p] = initialValue[i]));
+    } else {
+      state[stateKey][prop] = initialValue;
+    }
   }
 
   shallow(<KeyboardShortcuts render={renderFn} configuration={config} {...state} />);

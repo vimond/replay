@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import type { VideoStreamState, VideoStreamerProps, PlaybackMethods } from './VideoStreamer/common';
 import { override } from '../common';

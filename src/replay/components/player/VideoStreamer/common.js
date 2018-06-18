@@ -1,3 +1,5 @@
+// @flow
+
 // Types for state observation
 
 import type { CommonProps } from '../../common';
@@ -84,7 +86,6 @@ export type PlaybackProps = {
 };
 
 export type PlaybackMethods = {
-  updateProperty: (property: PlaybackProps) => void,
   setPosition: (value: number) => void,
   gotoLive: () => void
 };
