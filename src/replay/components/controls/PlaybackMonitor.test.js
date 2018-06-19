@@ -2,7 +2,7 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import PlaybackMonitor, { PropTableRow } from './PlaybackMonitor';
-import { AvailableTrack, PlayMode, PlayState } from '../player/VideoStreamer/common';
+import { AvailableTrack, PlayMode, PlayState } from '../player/VideoStreamer/types';
 
 Enzyme.configure({ adapter: new Adapter() });
 

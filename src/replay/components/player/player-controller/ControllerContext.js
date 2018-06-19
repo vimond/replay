@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import type { PlaybackProps, VideoStreamStateKeys } from '../VideoStreamer/common';
+import type { PlaybackProps, VideoStreamStateKeys } from '../VideoStreamer/types';
 
 export type ObserveCallback = ({ [VideoStreamStateKeys]: any }) => void;
 export type ObserveMethod = (VideoStreamStateKeys, ObserveCallback) => void;

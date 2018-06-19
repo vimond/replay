@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { VideoStreamState, VideoStreamerProps, PlaybackMethods } from './VideoStreamer/common';
+import type { VideoStreamState, VideoStreamerProps, PlaybackMethods } from './VideoStreamer/types';
 import { override } from '../common';
 
 type UpdateProperty = (property: VideoStreamState) => void;

@@ -6,7 +6,7 @@ import type {
   PlaybackSource,
   SourceTrack,
   VideoStreamerConfiguration
-} from '../components/player/VideoStreamer/common';
+} from '../components/player/VideoStreamer/types';
 import type { QualitySelectionStrategy } from '../components/controls/QualitySelector';
 import type { LiveDisplayMode } from '../components/controls/TimeDisplay';
 

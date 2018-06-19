@@ -3,7 +3,7 @@
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
 import type { ObserveMethod, UnobserveMethod } from './ControllerContext';
-import type { PlaybackProps, VideoStreamStateKeys } from '../VideoStreamer/common';
+import type { PlaybackProps, VideoStreamStateKeys } from '../VideoStreamer/types';
 
 type HandleChangeMethod = ({ [VideoStreamStateKeys]: any }) => void;
 

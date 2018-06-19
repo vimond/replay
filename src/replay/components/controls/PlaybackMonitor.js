@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import type { CommonProps } from '../common';
-import type { VideoStreamState } from '../player/VideoStreamer/common';
+import type { VideoStreamState } from '../player/VideoStreamer/types';
 import { defaultClassNamePrefix, isDifferent, prefixClassNames } from '../common';
 import Button from '../generic/Button';
 

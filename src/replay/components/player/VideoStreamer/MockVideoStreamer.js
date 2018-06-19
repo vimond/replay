@@ -1,6 +1,6 @@
 // @XYZflow
 import * as React from 'react';
-import type { VideoStreamerProps, VideoStreamState } from './common';
+import type { VideoStreamerProps, VideoStreamState } from './types';
 import { defaultClassNamePrefix, prefixClassNames } from '../../common';
 
 const defaultTextTracks = [

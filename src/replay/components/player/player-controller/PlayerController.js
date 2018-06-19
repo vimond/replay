@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
-import type { PlaybackMethods, PlaybackProps, VideoStreamerProps, VideoStreamState, VideoStreamStateKeys } from '../VideoStreamer/common';
+import type { PlaybackMethods, PlaybackProps, VideoStreamerProps, VideoStreamState, VideoStreamStateKeys } from '../VideoStreamer/types';
 import type { ObserveCallback, GotoLiveMethod, SetPositionMethod, ControllerApi } from './ControllerContext';
 import { override } from '../../common';
 

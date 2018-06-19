@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import type { PlayMode } from '../VideoStreamer/common';
+import type { PlayMode } from '../VideoStreamer/types';
 import type { FullscreenState } from './Fullscreen';
 import type { ControllerApi } from '../player-controller/ControllerContext';
 

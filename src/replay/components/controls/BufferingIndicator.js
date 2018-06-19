@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { defaultClassNamePrefix, prefixClassNames } from '../common';
-import type { PlayState } from '../player/VideoStreamer/common';
+import type { PlayState, VideoStreamStateKeys } from '../player/VideoStreamer/types';
 import type { CommonProps } from '../common';
 
 type Props = CommonProps & {
@@ -16,7 +16,11 @@ type Props = CommonProps & {
 const className = 'buffering-indicator';
 const isActiveClassName = 'buffering';
 
-const BufferingIndicator: React.StatelessFunctionalComponent<Props> = ({
+type BufferingIndicatorType = React.StatelessFunctionalComponent<Props> & {
+  streamStatePropsToObserve?: Array<string>
+};
+
+const BufferingIndicator: BufferingIndicatorType = ({
   children,
   content,
   isBuffering,
@@ -50,5 +54,7 @@ const BufferingIndicator: React.StatelessFunctionalComponent<Props> = ({
     }
   }
 };
+
+BufferingIndicator.streamStatePropsToObserve = ['audioTracks', 'currentAudioTrack'];
 
 export default BufferingIndicator;
