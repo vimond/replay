@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
-import type { PlaybackProps } from '../VideoStreamer/common';
+import type { PlaybackProps, VideoStreamStateKeys } from '../VideoStreamer/common';
 
-export type ObserveCallback = ({ [string]: any }) => void;
-export type ObserveMethod = (string, ObserveCallback) => void;
+export type ObserveCallback = ({ [VideoStreamStateKeys]: any }) => void;
+export type ObserveMethod = (VideoStreamStateKeys, ObserveCallback) => void;
 export type UnobserveMethod = ObserveMethod;
 export type UpdatePropertyMethod = PlaybackProps => void;
 export type GotoLiveMethod = () => void;

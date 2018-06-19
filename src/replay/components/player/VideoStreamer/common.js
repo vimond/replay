@@ -40,6 +40,8 @@ export type VideoStreamState = {
   error?: any
 };
 
+export type VideoStreamStateKeys = $Keys<VideoStreamState>;
+
 // Types used in settable props.
 
 export type VideoStreamerConfiguration = {

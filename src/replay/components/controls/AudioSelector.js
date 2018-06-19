@@ -3,7 +3,7 @@
 import * as React from 'react';
 import DropUpSelector from '../generic/DropUpSelector';
 import { defaultClassNamePrefix } from '../common';
-import type { AvailableTrack } from '../player/VideoStreamer/common';
+import type { AvailableTrack, VideoStreamStateKeys } from '../player/VideoStreamer/common';
 import type { CommonProps } from '../common';
 import type { Item } from '../generic/DropUpSelector';
 
@@ -27,6 +27,8 @@ class AudioSelector extends React.Component<Props> {
   static defaultProps = {
     classNamePrefix: defaultClassNamePrefix
   };
+
+  static streamStatePropsToObserve: Array<VideoStreamStateKeys> = ['audioTracks', 'currentAudioTrack'];
 
   handleSelect = (item: Item) => {
     if (this.props.updateProperty && typeof item !== 'string' && item.data) {

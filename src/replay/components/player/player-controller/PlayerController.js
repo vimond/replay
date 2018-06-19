@@ -1,9 +1,13 @@
 // @flow
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
-import type { PlaybackMethods, PlaybackProps, VideoStreamerProps, VideoStreamState } from '../VideoStreamer/common';
+import type { PlaybackMethods, PlaybackProps, VideoStreamerProps, VideoStreamState, VideoStreamStateKeys } from '../VideoStreamer/common';
 import type { ObserveCallback, GotoLiveMethod, SetPositionMethod, ControllerApi } from './ControllerContext';
 import { override } from '../../common';
+
+declare class Object {
+  static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
+}
 
 export type RenderData = {
   controllerApi: ControllerApi,
@@ -38,16 +42,16 @@ const passPropsToVideoStreamer = (children: React.Node, props: any) => {
 };
 
 const getObserveManager = () => {
-  const observers: { [string]: Array<ObserveCallback> } = {};
+  const observers: { [VideoStreamStateKeys]: Array<ObserveCallback> } = {};
 
-  const observe = (key: string, callback: ObserveCallback) => {
+  const observe = (key: VideoStreamStateKeys, callback: ObserveCallback) => {
     if (!(key in observers)) {
       observers[key] = [];
     }
     observers[key].push(callback);
   };
 
-  const unobserve = (key: string, callback: ObserveCallback) => {
+  const unobserve = (key: VideoStreamStateKeys, callback: ObserveCallback) => {
     //TODO: What if this.setState is identical across elements?
     if (Array.isArray(observers[key])) {
       const index = observers[key].indexOf(callback);
@@ -58,18 +62,17 @@ const getObserveManager = () => {
   };
 
   const unobserveAll = () => {
-    Object.entries(observers).forEach(entry => {
-      const arr = Array.isArray(entry[1]) ? entry[1] : [];
-      while (arr.length) {
-        arr.pop();
+    Object.entries(observers).forEach(([key, handlers]) => {
+      while (handlers) {
+        handlers.pop();
       }
     });
   };
 
   const update = (prop: VideoStreamState) => {
-    Object.entries(prop).forEach(entry => {
-      if (Array.isArray(observers[entry[0]])) {
-        observers[entry[0]].forEach(callback => {
+    Object.keys(prop).forEach(key => {
+      if (Array.isArray(observers[key])) {
+        observers[key].forEach(callback => {
           callback(prop);
         });
       }

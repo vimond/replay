@@ -3,9 +3,9 @@
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
 import type { ObserveMethod, UnobserveMethod } from './ControllerContext';
-import type { PlaybackProps } from '../VideoStreamer/common';
+import type { PlaybackProps, VideoStreamStateKeys } from '../VideoStreamer/common';
 
-type HandleChangeMethod = ({ [string]: any }) => void;
+type HandleChangeMethod = ({ [VideoStreamStateKeys]: any }) => void;
 
 type PassdownProps = any & {
   updateProperty: PlaybackProps => void,
@@ -24,10 +24,10 @@ const getObserver = (callback: HandleChangeMethod) => (key: string, value: any) 
   callback({ [key]: value });
 };
 */
-const registerObservers = (observe: ObserveMethod, keys: Array<string>, onChange: HandleChangeMethod) =>
+const registerObservers = (observe: ObserveMethod, keys: Array<VideoStreamStateKeys>, onChange: HandleChangeMethod) =>
   keys.forEach(p => observe(p, onChange));
 
-const connectControl = (propKeys: Array<string>, Control: React.ComponentType<any>) => {
+const connectControl = (propKeys: Array<VideoStreamStateKeys>, Control: React.ComponentType<any>) => {
   
   //TODO: Read static props intsead of passing propKeys"
   
