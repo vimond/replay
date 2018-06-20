@@ -3,6 +3,7 @@ import * as React from 'react';
 import Button from '../generic/Button';
 import { defaultClassNamePrefix } from '../common';
 import type { CommonProps } from '../common';
+import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
 
 type Props = CommonProps & {
   position?: number,
@@ -19,6 +20,8 @@ class SkipButton extends React.Component<Props> {
     offset: -30
   };
 
+  static streamStateKeysForObservation: StreamStateKeysForObservation = ['position'];
+  
   handleClick = () => {
     if (this.props.setPosition) {
       const newPosition = this.props.position + this.props.offset;

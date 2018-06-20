@@ -5,6 +5,7 @@ import { defaultClassNamePrefix } from '../common';
 import type { AvailableTrack } from '../player/VideoStreamer/types';
 import type { CommonProps, Id } from '../common';
 import type { Item } from '../generic/DropUpSelector';
+import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
 
 type Props = CommonProps & {
   textTracks?: Array<AvailableTrack>,
@@ -36,6 +37,8 @@ class SubtitlesSelector extends React.Component<Props, State> {
     classNamePrefix: defaultClassNamePrefix
   };
 
+  static streamStateKeysForObservation: StreamStateKeysForObservation = ['textTracks', 'currentTextTrack'];
+  
   constructor(props: Props) {
     super(props);
     this.state = {

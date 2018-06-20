@@ -3,9 +3,10 @@
 import * as React from 'react';
 import DropUpSelector from '../generic/DropUpSelector';
 import { defaultClassNamePrefix } from '../common';
-import type { AvailableTrack, VideoStreamStateKeys } from '../player/VideoStreamer/types';
+import type { AvailableTrack } from '../player/VideoStreamer/types';
 import type { CommonProps } from '../common';
 import type { Item } from '../generic/DropUpSelector';
+import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
 
 type Props = CommonProps & {
   audioTracks?: Array<AvailableTrack>,
@@ -28,7 +29,7 @@ class AudioSelector extends React.Component<Props> {
     classNamePrefix: defaultClassNamePrefix
   };
 
-  static streamStatePropsToObserve: Array<VideoStreamStateKeys> = ['audioTracks', 'currentAudioTrack'];
+  static streamStateKeysForObservation: StreamStateKeysForObservation = ['audioTracks', 'currentAudioTrack'];
 
   handleSelect = (item: Item) => {
     if (this.props.updateProperty && typeof item !== 'string' && item.data) {

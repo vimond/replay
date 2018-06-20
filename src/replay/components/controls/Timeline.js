@@ -3,6 +3,7 @@ import * as React from 'react';
 import { defaultClassNamePrefix } from '../common';
 import type { CommonProps } from '../common';
 import Slider from '../generic/Slider';
+import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
 
 type Props = CommonProps & {
   position?: number,
@@ -28,6 +29,8 @@ class Timeline extends React.Component<Props, State> {
     reduceDragGlitch: true
   };
 
+  static streamStateKeysForObservation: StreamStateKeysForObservation = ['position', 'duration', 'isSeeking'];
+  
   timeoutId: ?TimeoutID;
 
   constructor(props: Props) {

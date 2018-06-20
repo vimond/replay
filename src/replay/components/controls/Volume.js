@@ -4,6 +4,7 @@ import { defaultClassNamePrefix, prefixClassNames } from '../common';
 import type { CommonProps } from '../common';
 import ToggleButton from '../generic/ToggleButton';
 import Slider from '../generic/Slider';
+import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
 
 type Props = CommonProps & {
   volume: number,
@@ -28,6 +29,8 @@ class Volume extends React.Component<Props> {
   static defaultProps = {
     classNamePrefix: defaultClassNamePrefix
   };
+
+  static streamStateKeysForObservation: StreamStateKeysForObservation = ['volume', 'isMuted'];
 
   handleMuteToggleClick = (isMuted: boolean) => {
     if (this.props.updateProperty) {

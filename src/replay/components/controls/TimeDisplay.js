@@ -4,6 +4,7 @@ import * as React from 'react';
 import type { CommonProps } from '../common';
 import { defaultClassNamePrefix, formatClockTime, formatTime, prefixClassNames } from '../common';
 import type { PlayMode } from '../player/VideoStreamer/types';
+import type { ObservingControlStaticProps } from '../player/player-controller/ControllerContext';
 
 export type LiveDisplayMode = 'clock-time' | 'live-offset';
 
@@ -19,6 +20,8 @@ type Props = CommonProps & {
   clockTimeLabel?: string
 };
 
+type TimeDisplayType = React.StatelessFunctionalComponent<Props> & ObservingControlStaticProps;
+
 const className = 'time-display';
 const positionClassName = 'time-display-position';
 const durationClassName = 'time-display-duration';
@@ -30,7 +33,7 @@ const isReasonableDateTime = date => date instanceof Date && !isNaN(date.getTime
 const formatAndLimitTime = (time?: number, negativeMark?: string, zeroAndBelow: boolean = false) =>
   formatTime(time == null ? 0 : Math[zeroAndBelow ? 'min' : 'max'](0, time), negativeMark);
 
-const TimeDisplay = ({
+const TimeDisplay: TimeDisplayType = ({
   position,
   duration,
   absolutePosition,
@@ -42,7 +45,7 @@ const TimeDisplay = ({
   durationLabel,
   clockTimeLabel,
   classNamePrefix = defaultClassNamePrefix
-}: Props) => {
+}) => {
   if (playMode === 'ondemand') {
     return (
       <div className={prefixClassNames(classNamePrefix, className)} title={label}>
@@ -79,5 +82,7 @@ const TimeDisplay = ({
     }
   }
 };
+
+TimeDisplay.streamStateKeysForObservation = ['position', 'duration', 'absolutePosition', 'playMode'];
 
 export default TimeDisplay;

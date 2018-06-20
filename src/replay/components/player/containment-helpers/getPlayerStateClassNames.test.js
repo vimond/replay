@@ -1,5 +1,5 @@
-import getPlayerStateClassNames from './playerStateClassNames';
-import type { RecognizedPlayerStateProperties } from './playerStateClassNames';
+import getPlayerStateClassNames from './getPlayerStateClassNames';
+import type { RecognizedPlayerStateProperties } from './getPlayerStateClassNames';
 
 const plainBooleanProps = ['isSeeking', 'isBuffering', 'isMuted', 'isAtLivePosition', 'isFullscreen'];
 const classNamePrefix = 'v-';

@@ -3,7 +3,7 @@
 import { type PlayState, type PlayMode } from '../VideoStreamer/types';
 import { prefixClassNames } from '../../common';
 
-type ClassNameKeys =
+export type ClassNameKeys =
   | 'isBuffering'
   | 'isStarting'
   | 'isPlaying'

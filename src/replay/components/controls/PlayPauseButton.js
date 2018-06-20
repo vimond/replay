@@ -3,6 +3,7 @@ import * as React from 'react';
 import ToggleButton from '../generic/ToggleButton';
 import { defaultClassNamePrefix } from '../common';
 import type { CommonProps } from '../common';
+import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
 
 type Props = CommonProps & {
   isPaused?: boolean,
@@ -18,6 +19,8 @@ class PlayPauseButton extends React.Component<Props> {
     classNamePrefix: defaultClassNamePrefix
   };
 
+  static streamStateKeysForObservation: StreamStateKeysForObservation = ['isPaused'];
+  
   handleToggle = (value: boolean) => {
     if (this.props.updateProperty) {
       this.props.updateProperty({ isPaused: value });

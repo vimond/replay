@@ -2,7 +2,7 @@
 import * as React from 'react';
 import type { PlayMode } from '../VideoStreamer/types';
 import type { FullscreenState } from './Fullscreen';
-import type { ControllerApi } from '../player-controller/ControllerContext';
+import type { StreamStateKeysForObservation } from '../player-controller/ControllerContext';
 
 type RenderParameters = {
   handleKeyUp: KeyboardEvent => void
@@ -24,6 +24,8 @@ export type KeyboardShortcutsConfiguration = {
   skipOffset?: number
 };
 
+type UpdateableProperties = { volume: number } | { isMuted: boolean } | { isPaused: boolean };
+
 type Props = {
   nudge?: () => void,
   configuration?: {
@@ -35,7 +37,8 @@ type Props = {
   duration?: ?number,
   volume?: ?number,
   playMode?: ?PlayMode,
-  controllerApi?: ControllerApi,
+  updateProperty?: UpdateableProperties => void,
+  setPosition?: number => void,
   fullscreenState?: FullscreenState,
   render: RenderParameters => React.Node
 };
@@ -49,11 +52,15 @@ const getMatchingOperationFromKeycodeConfig = (config: KeyboardShortcutsConfigur
 };
 
 class KeyboardShortcuts extends React.Component<Props> {
+
+  static streamStateKeysForObservation: StreamStateKeysForObservation = ['isPaused', 'isMuted', 'position', 'duration', 'playMode'];
+  
   handleKeyUp = (keyboardEvent: KeyboardEvent) => {
     const {
       nudge,
       configuration,
-      controllerApi,
+      updateProperty,
+      setPosition,
       fullscreenState,
       isPaused,
       isMuted,
@@ -69,35 +76,35 @@ class KeyboardShortcuts extends React.Component<Props> {
       if (operation) {
         switch (operation) {
           case 'togglePause':
-            controllerApi && controllerApi.updateProperty({ isPaused: !isPaused });
+            updateProperty && updateProperty({ isPaused: !isPaused });
             break;
           case 'toggleMute':
-            controllerApi && controllerApi.updateProperty({ isMuted: !isMuted });
+            updateProperty && updateProperty({ isMuted: !isMuted });
             break;
           case 'toggleFullscreen':
             fullscreenState && fullscreenState.updateProperty({ isFullscreen: !fullscreenState.isFullscreen });
             break;
           case 'skipBack':
-            controllerApi && position != null && controllerApi.setPosition(Math.max(position - offset, 0));
+            setPosition && position != null && setPosition(Math.max(position - offset, 0));
             break;
           case 'skipForward':
-            if (controllerApi && duration) {
+            if (setPosition && duration) {
               const targetPosition = (position || 0) + offset;
               // Skipping to the very end is just annoying. Skipping to live position makes sense.
               if (targetPosition < duration || playMode !== 'ondemand') {
-                controllerApi.setPosition(Math.min(targetPosition, duration));
+                setPosition(Math.min(targetPosition, duration));
               }
             }
             break;
           case 'decreaseVolume':
-            controllerApi &&
+            updateProperty &&
               volume != null &&
-              controllerApi.updateProperty({ volume: Math.max(volume - volumeStep, 0) });
+              updateProperty({ volume: Math.max(volume - volumeStep, 0) });
             break;
           case 'increaseVolume':
-            controllerApi &&
+            updateProperty &&
               volume != null &&
-              controllerApi.updateProperty({ volume: Math.min(volume + volumeStep, 1) });
+              updateProperty({ volume: Math.min(volume + volumeStep, 1) });
             break;
           default:
           // eslint requires default in switch. Can't see that this is a good case for such a requirement.

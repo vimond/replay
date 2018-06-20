@@ -4,6 +4,7 @@ import DropUpSelector from '../generic/DropUpSelector';
 import { defaultClassNamePrefix } from '../common';
 import type { CommonProps } from '../common';
 import type { Item } from '../generic/DropUpSelector';
+import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
 
 export type QualitySelectionStrategy = 'cap-bitrate' | 'lock-bitrate';
 
@@ -27,6 +28,8 @@ class QualitySelector extends React.Component<Props> {
     selectionStrategy: 'cap-bitrate'
   };
 
+  static streamStateKeysForObservation: StreamStateKeysForObservation = ['bitrates', 'currentBitrate', 'lockedBitrate', 'maxBitrate'];
+  
   handleSelect = (item: Item) => {
     if (this.props.updateProperty && typeof item !== 'string') {
       if (this.props.selectionStrategy === 'lock-bitrate') {

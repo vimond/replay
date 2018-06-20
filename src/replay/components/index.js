@@ -23,7 +23,7 @@ import AspectRatio from './player/containment-helpers/AspectRatio';
 import Fullscreen from './player/containment-helpers/Fullscreen';
 import InteractionDetector from './player/containment-helpers/InteractionDetector';
 import KeyboardShortcuts from './player/containment-helpers/KeyboardShortcuts';
-import getPlayerStateClassNames from './player/containment-helpers/playerStateClassNames';
+import getPlayerStateClassNames from './player/containment-helpers/getPlayerStateClassNames';
 
 import BasicVideoStreamer from './player/VideoStreamer/BasicVideoStreamer';
 import MockVideoStreamer from './player/VideoStreamer/MockVideoStreamer';

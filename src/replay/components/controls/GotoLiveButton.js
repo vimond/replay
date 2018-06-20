@@ -4,6 +4,7 @@ import ToggleButton from '../generic/ToggleButton';
 import { defaultClassNamePrefix } from '../common';
 import type { PlayMode } from '../player/VideoStreamer/types';
 import type { CommonProps } from '../common';
+import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
 
 type Props = CommonProps & {
   isAtLivePosition?: boolean,
@@ -19,6 +20,8 @@ class GotoLiveButton extends React.Component<Props> {
   static defaultProps = {
     classNamePrefix: defaultClassNamePrefix
   };
+
+  static streamStateKeysForObservation: StreamStateKeysForObservation = ['isAtLivePosition', 'playMode'];
 
   handleToggle = (value: boolean) => {
     if (value && this.props.gotoLive) {

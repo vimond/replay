@@ -27,18 +27,23 @@ const getObserver = (callback: HandleChangeMethod) => (key: string, value: any) 
 const registerObservers = (observe: ObserveMethod, keys: Array<VideoStreamStateKeys>, onChange: HandleChangeMethod) =>
   keys.forEach(p => observe(p, onChange));
 
-const connectControl = (propKeys: Array<VideoStreamStateKeys>, Control: React.ComponentType<any>) => {
-  
-  //TODO: Read static props intsead of passing propKeys"
-  
+const connectControl = (Control: any, propKeys?: Array<VideoStreamStateKeys>) => {
+  const resolvedPropKeys = propKeys || Control.streamStateKeysForObservation;
+  if (!Array.isArray(resolvedPropKeys)) { // Good old runtime check.
+    throw new Error(
+      `The component ${Control.displayName ||
+        Control.name} cannot be connected to the player controller because no stream state property keys are specified to be observed.`
+    );
+  }
+
   class Observer extends React.Component<ObserverProps, any> {
     constructor(props) {
       super(props);
-      registerObservers(props.observe, propKeys, this.setState);
+      registerObservers(props.observe, resolvedPropKeys, this.setState);
     }
 
     componentWillUnmount() {
-      registerObservers(this.props.unobserve, propKeys, this.setState);
+      registerObservers(this.props.unobserve, resolvedPropKeys, this.setState);
     }
 
     render() {

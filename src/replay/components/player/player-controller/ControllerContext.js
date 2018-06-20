@@ -9,6 +9,12 @@ export type UpdatePropertyMethod = PlaybackProps => void;
 export type GotoLiveMethod = () => void;
 export type SetPositionMethod = number => void;
 
+//TODO: Consider removing the following props so that the controls collection doesn't have any bindings to the player controller or video streamer concepts.
+export type StreamStateKeysForObservation = Array<VideoStreamStateKeys>;
+export type ObservingControlStaticProps = {
+  streamStateKeysForObservation?: StreamStateKeysForObservation
+};
+
 export type ControllerApi = {
   setPosition: SetPositionMethod,
   gotoLive: GotoLiveMethod,
