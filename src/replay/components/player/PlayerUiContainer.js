@@ -77,11 +77,12 @@ export const getConnectedPlayerUiContainer = (connector: any => React.ComponentT
     };
 
     render() {
-      const { classNamePrefix, render, configuration } = this.props;
+      const { classNamePrefix, render, configuration, aspectRatio } = this.props;
       const playerClassName = this.props.className;
       return (
         <AspectRatio
           className={playerClassName}
+          aspectRatio={aspectRatio}
           render={() => (
             <Fullscreen
               render={({ onRef, ...fullscreenState }) => (
@@ -97,8 +98,7 @@ export const getConnectedPlayerUiContainer = (connector: any => React.ComponentT
                           {...fullscreenState}
                           {...interactionState}
                           classNameDefinitions={classNameDefinitions}
-                          classNamePrefix={classNamePrefix}
-                          className={className}>
+                          classNamePrefix={classNamePrefix}>
                           <div
                             tabIndex={1}
                             ref={onRef}
