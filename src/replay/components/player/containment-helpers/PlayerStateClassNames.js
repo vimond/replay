@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
-import type { RecognizedPlayerStateProperties, ClassNameKeys } from './getPlayerStateClassNames';
-import getPlayerStateClassNames from './getPlayerStateClassNames';
+import type { RecognizedPlayerStateProperties, ClassNameKeys } from './playerStateClassNameBuilder';
+import playerStateClassNameBuilder from './playerStateClassNameBuilder';
 import type { CommonGenericProps } from '../../common';
 import { defaultClassNamePrefix } from '../../common';
 import type { StreamStateKeysForObservation } from '../player-controller/ControllerContext';
@@ -20,7 +20,7 @@ class PlayerStateClassNames extends React.Component<Props> {
     
   render() {
     const { children, classNamePrefix, classNameDefinitions, className, ...playerStateProps } = this.props;
-    return React.cloneElement(children, { className: getPlayerStateClassNames(playerStateProps, classNameDefinitions, classNamePrefix, className ? [className] : undefined ) });
+    return React.cloneElement(children, { className: playerStateClassNameBuilder(playerStateProps, classNameDefinitions, classNamePrefix, className ? [className] : undefined ) });
   }
 }
 

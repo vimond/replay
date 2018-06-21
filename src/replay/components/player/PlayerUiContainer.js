@@ -6,8 +6,6 @@ import Fullscreen from './containment-helpers/Fullscreen';
 import AspectRatio from './containment-helpers/AspectRatio';
 import InteractionDetector from './containment-helpers/InteractionDetector';
 import KeyboardShortcuts from './containment-helpers/KeyboardShortcuts';
-import type { PlaybackApi } from './VideoStreamer/types';
-import getPlayerStateClassNames from './containment-helpers/getPlayerStateClassNames';
 import type { InteractionDetectorConfiguration } from './containment-helpers/InteractionDetector';
 import type { KeyboardShortcutsConfiguration } from './containment-helpers/KeyboardShortcuts';
 import PlayerStateClassNames from './containment-helpers/PlayerStateClassNames';

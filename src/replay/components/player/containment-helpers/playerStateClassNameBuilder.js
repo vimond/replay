@@ -41,7 +41,7 @@ const volumeMappings = ['low', 'medium', 'high'];
 const isStreamOpen = (playState?: PlayState) => playState && playState !== 'inactive' && playState !== 'starting';
 
 // TODO: This needs to be memoized!
-const getPlayerStateClassNames = (
+const playerStateClassNameBuilder = (
   {
     isPaused,
     isSeeking,
@@ -117,4 +117,4 @@ const getPlayerStateClassNames = (
   return prefixClassNames(classNamePrefix, ...resultingClassNames.concat(extraClassNames));
 };
 
-export default getPlayerStateClassNames;
+export default playerStateClassNameBuilder;
