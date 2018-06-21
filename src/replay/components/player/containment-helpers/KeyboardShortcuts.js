@@ -2,7 +2,7 @@
 import * as React from 'react';
 import type { PlayMode } from '../VideoStreamer/types';
 import type { FullscreenState } from './Fullscreen';
-import type { StreamStateKeysForObservation } from '../player-controller/ControllerContext';
+import type { InspectMethod } from '../player-controller/ControllerContext';
 
 type RenderParameters = {
   handleKeyUp: KeyboardEvent => void
@@ -31,16 +31,17 @@ type Props = {
   configuration?: {
     keyboardShortcuts?: KeyboardShortcutsConfiguration
   },
+  playMode?: ?PlayMode,
+  updateProperty?: UpdateableProperties => void,
+  setPosition?: number => void,
+  fullscreenState?: FullscreenState,
+  render: RenderParameters => React.Node,
   isPaused?: ?boolean,
   isMuted?: ?boolean,
   position?: ?number,
   duration?: ?number,
   volume?: ?number,
-  playMode?: ?PlayMode,
-  updateProperty?: UpdateableProperties => void,
-  setPosition?: number => void,
-  fullscreenState?: FullscreenState,
-  render: RenderParameters => React.Node
+  inspect?: InspectMethod
 };
 
 const getMatchingOperationFromKeycodeConfig = (config: KeyboardShortcutsConfiguration, keyCode: number): ?string => {
@@ -52,11 +53,9 @@ const getMatchingOperationFromKeycodeConfig = (config: KeyboardShortcutsConfigur
 };
 
 class KeyboardShortcuts extends React.Component<Props> {
-
-  static streamStateKeysForObservation: StreamStateKeysForObservation = ['isPaused', 'isMuted', 'position', 'duration', 'playMode'];
   
   handleKeyUp = (keyboardEvent: KeyboardEvent) => {
-    const {
+    let {
       nudge,
       configuration,
       updateProperty,
@@ -67,8 +66,19 @@ class KeyboardShortcuts extends React.Component<Props> {
       position,
       duration,
       volume,
-      playMode
+      playMode,
+      inspect
     } = this.props;
+    if (inspect) {
+      const inspectedState = inspect();
+      isPaused = inspectedState.isPaused;
+      isMuted = inspectedState.isMuted;
+      position = inspectedState.position;
+      duration = inspectedState.duration;
+      volume = inspectedState.volume;
+      playMode = inspectedState.playMode;
+    }
+    
     if (configuration && configuration.keyboardShortcuts) {
       const offset = configuration.keyboardShortcuts.skipOffset || 30;
       const volumeStep = configuration.keyboardShortcuts.volumeStep || 0.1;

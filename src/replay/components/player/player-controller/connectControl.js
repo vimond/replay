@@ -2,15 +2,16 @@
 
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
-import type { ObserveMethod, UnobserveMethod } from './ControllerContext';
-import type { PlaybackProps, VideoStreamStateKeys } from '../VideoStreamer/types';
+import type { SetPositionMethod, GotoLiveMethod, InspectMethod, ObserveMethod, UnobserveMethod, UpdatePropertyMethod } from './ControllerContext';
+import type { VideoStreamStateKeys } from '../VideoStreamer/types';
 
 type HandleChangeMethod = ({ [VideoStreamStateKeys]: any }) => void;
 
 type PassdownProps = any & {
-  updateProperty: PlaybackProps => void,
-  gotoLive: () => void,
-  setPosition: number => void
+  updateProperty: UpdatePropertyMethod,
+  gotoLive: GotoLiveMethod,
+  inspect: InspectMethod,
+  setPosition: SetPositionMethod
 };
 
 type ObserverProps = {
@@ -28,7 +29,7 @@ const registerObservers = (observe: ObserveMethod, keys: Array<VideoStreamStateK
   keys.forEach(p => observe(p, onChange));
 
 const connectControl = (Control: any, propKeys?: Array<VideoStreamStateKeys>) => {
-  const resolvedPropKeys = propKeys || Control.streamStateKeysForObservation;
+  const resolvedPropKeys = propKeys || Control.streamStateKeysForObservation || [];
   if (!Array.isArray(resolvedPropKeys)) {
     // Good old runtime check.
     throw new Error(
@@ -56,12 +57,12 @@ const connectControl = (Control: any, propKeys?: Array<VideoStreamStateKeys>) =>
 
   const ConnectedControl: React.StatelessFunctionalComponent<any> = (props: any) => (
     <ControllerContext.Consumer>
-      {({ observe, unobserve, updateProperty, gotoLive, setPosition }) => {
+      {({ observe, unobserve, updateProperty, gotoLive, setPosition, inspect }) => {
         return observe ? (
           <Observer
             observe={observe}
             unobserve={unobserve}
-            passdownProps={{ ...props, gotoLive, setPosition, updateProperty }}
+            passdownProps={{ ...props, gotoLive, setPosition, updateProperty, inspect }}
           />
         ) : null;
       }}

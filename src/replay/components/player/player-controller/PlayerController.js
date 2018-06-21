@@ -105,8 +105,13 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
       }
     };
   }
+  
+  inspectableStreamState: VideoStreamState = {};
+  
+  inspect = () => this.inspectableStreamState;
 
   componentWillUnmount() {
+    this.inspectableStreamState = {};
     this.observeManager.unobserveAll();
   }
 
@@ -123,6 +128,7 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   onStreamStateChange = (property: VideoStreamState) => {
     //if (!this.isUnmounting) {
     this.observeManager.update(property);
+    this.inspectableStreamState = { ...this.inspectableStreamState, ...property };
     //}
   };
 
@@ -144,6 +150,7 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
       setPosition,
       videoStreamer: passPropsToVideoStreamer(this.props.children, videoStreamerProps),
       observe,
+      inspect: this.inspect,
       unobserve
     };
 
