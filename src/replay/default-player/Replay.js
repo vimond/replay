@@ -1,22 +1,24 @@
 // @flow
 import * as React from 'react';
-import PlayerController from '../components/player/PlayerController';
+import PlayerController from '../components/player/player-controller/PlayerController';
 import BasicVideoStreamer from '../components/player/VideoStreamer/BasicVideoStreamer';
+import connectControl, { ControlledVideoStreamer } from '../components/player/player-controller/connectControl';
 
 import ControlsBar from '../components/controls/ControlsBar';
-import PlayerUiContainer from '../components/player/PlayerUiContainer';
-import BufferingIndicator from '../components/controls/BufferingIndicator';
-import PlayPauseButton from '../components/controls/PlayPauseButton';
-import SkipButton from '../components/controls/SkipButton';
-import Timeline from '../components/controls/Timeline';
-import TimeDisplay from '../components/controls/TimeDisplay';
-import Volume from '../components/controls/Volume';
+import { getConnectedPlayerUiContainer } from '../components/player/PlayerUiContainer';
+import UnconnectedBufferingIndicator from '../components/controls/BufferingIndicator';
+import UnconnectedPlayPauseButton from '../components/controls/PlayPauseButton';
+import UnconnectedSkipButton from '../components/controls/SkipButton';
+import UnconnectedTimeline from '../components/controls/Timeline';
+import UnconnectedTimeDisplay from '../components/controls/TimeDisplay';
+import UnconnectedVolume from '../components/controls/Volume';
 import FullscreenButton from '../components/controls/FullscreenButton';
-import AudioSelector from '../components/controls/AudioSelector';
-import SubtitlesSelector from '../components/controls/SubtitlesSelector';
-import QualitySelector from '../components/controls/QualitySelector';
-import GotoLiveButton from '../components/controls/GotoLiveButton';
-import PlaybackMonitor from '../components/controls/PlaybackMonitor';
+import UnconnectedAudioSelector from '../components/controls/AudioSelector';
+import UnconnectedSubtitlesSelector from '../components/controls/SubtitlesSelector';
+import UnconnectedQualitySelector from '../components/controls/QualitySelector';
+import UnconnectedGotoLiveButton from '../components/controls/GotoLiveButton';
+import ExitButton from '../components/controls/ExitButton';
+// import PlaybackMonitor from '../components/controls/PlaybackMonitor';
 
 import graphics from './default-skin/defaultSkin';
 import { labels } from './strings';
@@ -27,53 +29,55 @@ import {
   getSkipBackOffset
 } from './baseConfiguration';
 
-import type { RenderMethod } from '../components/player/PlayerController';
+import type { RenderMethod } from '../components/player/player-controller/PlayerController';
 import type { ReplayProps } from './types';
-import ExitButton from '../components/controls/ExitButton';
+
+// TODO: Decide on externalProps
+const externalProps = {};
+
+// TODO: Separate into file.
+const PlayerUiContainer = getConnectedPlayerUiContainer(connectControl);
+const PlayPauseButton = connectControl(UnconnectedPlayPauseButton);
+const SkipButton = connectControl(UnconnectedSkipButton);
+const Timeline = connectControl(UnconnectedTimeline);
+const TimeDisplay = connectControl(UnconnectedTimeDisplay);
+const GotoLiveButton = connectControl(UnconnectedGotoLiveButton);
+const Volume = connectControl(UnconnectedVolume);
+const AudioSelector = connectControl(UnconnectedAudioSelector);
+const SubtitlesSelector = connectControl(UnconnectedSubtitlesSelector);
+const QualitySelector = connectControl(UnconnectedQualitySelector);
+const BufferingIndicator = connectControl(UnconnectedBufferingIndicator);
 
 // In this file, all custom parts making up a player can be assembled and "composed".
 
 // Exporting for static design work.
-export const renderPlayerUI: RenderMethod = ({ children, videoStreamState, mergedConfiguration, externalProps }) => (
+export const renderPlayerUI: RenderMethod = ({ controllerApi, configuration }) => (
   <PlayerUiContainer
-    configuration={mergedConfiguration}
-    videoStreamState={videoStreamState}
+    configuration={configuration}
     render={({ fullscreenState }) => (
       <React.Fragment>
-        {children}
-        <PlaybackMonitor
-          videoStreamState={videoStreamState}
-          configuration={mergedConfiguration}
-          {...graphics.playbackMonitor}
-        />
-        {externalProps && externalProps.onExit && <ExitButton {...labels.exit} {...graphics.exitButton} onClick={externalProps.onExit} /> }
+        <ControlledVideoStreamer />
+        {externalProps &&
+          externalProps.onExit && (
+            <ExitButton {...labels.exit} {...graphics.exitButton} onClick={externalProps.onExit} />
+          )}
         <ControlsBar>
-          <PlayPauseButton {...videoStreamState} {...labels.playPause} {...graphics.playPause} />
-          <SkipButton
-            {...videoStreamState}
-            {...labels.skipBack}
-            {...graphics.skipBack}
-            offset={getSkipBackOffset(mergedConfiguration)}
-          />
-          <Timeline {...videoStreamState} {...labels.timeline} {...graphics.timeline} />
-          <TimeDisplay
-            liveDisplayMode={getLiveDisplayMode(mergedConfiguration)}
-            {...videoStreamState}
-            {...labels.timeDisplay}
-          />
-          <GotoLiveButton {...videoStreamState} {...labels.gotoLive} {...graphics.gotoLive} />
-          <Volume {...videoStreamState} {...labels.volume} {...graphics.volume} />
-          <AudioSelector {...videoStreamState} {...labels.audioSelector} {...graphics.audioSelector} />
-          <SubtitlesSelector {...videoStreamState} {...labels.subtitlesSelector} {...graphics.subtitlesSelector} />
+          <PlayPauseButton {...labels.playPause} {...graphics.playPause} />
+          <SkipButton {...labels.skipBack} {...graphics.skipBack} offset={getSkipBackOffset(configuration)} />
+          <Timeline {...labels.timeline} {...graphics.timeline} />
+          <TimeDisplay liveDisplayMode={getLiveDisplayMode(configuration)} {...labels.timeDisplay} />
+          <GotoLiveButton {...labels.gotoLive} {...graphics.gotoLive} />
+          <Volume {...labels.volume} {...graphics.volume} />
+          <AudioSelector {...labels.audioSelector} {...graphics.audioSelector} />
+          <SubtitlesSelector {...labels.subtitlesSelector} {...graphics.subtitlesSelector} />
           <QualitySelector
-            {...videoStreamState}
             {...labels.qualitySelector}
             {...graphics.qualitySelector}
-            selectionStrategy={getQualitySelectionStrategy(mergedConfiguration)}
+            selectionStrategy={getQualitySelectionStrategy(configuration)}
           />
           <FullscreenButton {...fullscreenState} {...labels.fullscreen} {...graphics.fullscreen} />
         </ControlsBar>
-        <BufferingIndicator {...videoStreamState} {...labels.bufferingIndicator} {...graphics.bufferingIndicator} />
+        <BufferingIndicator {...labels.bufferingIndicator} {...graphics.bufferingIndicator} />
       </React.Fragment>
     )}
   />
@@ -91,7 +95,12 @@ const applyStreamer = (children, source, textTracks) =>
 // This is the component to be consumed in a full React SPA.
 const Replay = ({ source, textTracks, options, onExit, onError, children }: ReplayProps) => (
   // Can use spread for source&textTracks
-  <PlayerController render={renderPlayerUI} configuration={baseConfiguration} options={options} onStreamerError={onError} renderProps={{ onExit }}>
+  <PlayerController
+    render={renderPlayerUI}
+    configuration={baseConfiguration}
+    options={options}
+    onStreamerError={onError}
+    renderProps={{ onExit }}>
     {applyStreamer(children, source, textTracks)}
   </PlayerController>
 );

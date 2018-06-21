@@ -23,15 +23,14 @@ export type ControllerApi = {
   videoStreamer: ?React.Node,
   unobserve: ObserveMethod
 };
-
-const ControllerContext = 
-  React.createContext<ControllerApi>({ 
-      setPosition: () => {}, 
-      gotoLive: () => {}, 
-      updateProperty: () => {},
-      videoStreamer: null,
-      observe: null, 
-      unobserve: () => {} 
-    });
+const initialContextValue: ControllerApi = {
+  setPosition: () => {},
+  gotoLive: () => {},
+  updateProperty: () => {},
+  videoStreamer: null,
+  observe: null,
+  unobserve: () => {}
+};
+const ControllerContext = React.createContext(initialContextValue);
 
 export default ControllerContext;

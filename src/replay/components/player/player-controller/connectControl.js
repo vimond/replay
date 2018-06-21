@@ -29,7 +29,8 @@ const registerObservers = (observe: ObserveMethod, keys: Array<VideoStreamStateK
 
 const connectControl = (Control: any, propKeys?: Array<VideoStreamStateKeys>) => {
   const resolvedPropKeys = propKeys || Control.streamStateKeysForObservation;
-  if (!Array.isArray(resolvedPropKeys)) { // Good old runtime check.
+  if (!Array.isArray(resolvedPropKeys)) {
+    // Good old runtime check.
     throw new Error(
       `The component ${Control.displayName ||
         Control.name} cannot be connected to the player controller because no stream state property keys are specified to be observed.`
@@ -39,11 +40,13 @@ const connectControl = (Control: any, propKeys?: Array<VideoStreamStateKeys>) =>
   class Observer extends React.Component<ObserverProps, any> {
     constructor(props) {
       super(props);
-      registerObservers(props.observe, resolvedPropKeys, this.setState);
+      registerObservers(props.observe, resolvedPropKeys, this.update);
     }
 
+    update = prop => this.setState(prop);
+
     componentWillUnmount() {
-      registerObservers(this.props.unobserve, resolvedPropKeys, this.setState);
+      registerObservers(this.props.unobserve, resolvedPropKeys, this.update);
     }
 
     render() {
@@ -51,7 +54,7 @@ const connectControl = (Control: any, propKeys?: Array<VideoStreamStateKeys>) =>
     }
   }
 
-  const ConnectedControl = (props: any) => (
+  const ConnectedControl: React.StatelessFunctionalComponent<any> = (props: any) => (
     <ControllerContext.Consumer>
       {({ observe, unobserve, updateProperty, gotoLive, setPosition }) => {
         return observe ? (
@@ -68,5 +71,9 @@ const connectControl = (Control: any, propKeys?: Array<VideoStreamStateKeys>) =>
   ConnectedControl.displayName = 'Connected' + (Control.displayName || Control.name);
   return ConnectedControl;
 };
+
+export const ControlledVideoStreamer: React.StatelessFunctionalComponent<{}> = () => (
+  <ControllerContext.Consumer>{({ videoStreamer }) => videoStreamer}</ControllerContext.Consumer>
+);
 
 export default connectControl;

@@ -62,7 +62,7 @@ const classNameDefinitions = {
 
 const noConnect = Component => Component;
 
-export const getConnectablePlayerUiContainer = (connector: any => React.ComponentType<any> = noConnect) => {
+export const getConnectedPlayerUiContainer = (connector: any => React.ComponentType<any> = noConnect) => {
   const ConnectedPlayerStateClassNames = connector(PlayerStateClassNames);
   const ConnectedKeyboardShortcuts = connector(KeyboardShortcuts);
 
@@ -122,5 +122,5 @@ export const getConnectablePlayerUiContainer = (connector: any => React.Componen
   };
 };
 
-const PlayerUiContainer = getConnectablePlayerUiContainer();
+const PlayerUiContainer = getConnectedPlayerUiContainer();
 export default PlayerUiContainer;
