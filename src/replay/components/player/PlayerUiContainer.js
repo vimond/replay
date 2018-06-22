@@ -98,6 +98,7 @@ export const getConnectedPlayerUiContainer = (connector: any => React.ComponentT
                           {...fullscreenState}
                           {...interactionState}
                           classNameDefinitions={classNameDefinitions}
+                          className={className}
                           classNamePrefix={classNamePrefix}>
                           <div
                             tabIndex={1}

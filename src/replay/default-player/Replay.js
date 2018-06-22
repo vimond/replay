@@ -32,9 +32,6 @@ import {
 import type { RenderMethod } from '../components/player/player-controller/PlayerController';
 import type { ReplayProps } from './types';
 
-// TODO: Decide on externalProps
-const externalProps = {};
-
 // TODO: Separate into file.
 const PlayerUiContainer = getConnectedPlayerUiContainer(connectControl);
 const PlayPauseButton = connectControl(UnconnectedPlayPauseButton);
@@ -51,7 +48,7 @@ const BufferingIndicator = connectControl(UnconnectedBufferingIndicator);
 // In this file, all custom parts making up a player can be assembled and "composed".
 
 // Exporting for static design work.
-export const renderPlayerUI: RenderMethod = ({ controllerApi, configuration }) => (
+export const renderPlayerUI: RenderMethod = ({ controllerApi, configuration, externalProps }) => (
   <PlayerUiContainer
     configuration={configuration}
     render={({ fullscreenState }) => (
@@ -100,7 +97,7 @@ const Replay = ({ source, textTracks, options, onExit, onError, children }: Repl
     configuration={baseConfiguration}
     options={options}
     onStreamerError={onError}
-    renderProps={{ onExit }}>
+    externalProps={{ onExit }}>
     {applyStreamer(children, source, textTracks)}
   </PlayerController>
 );

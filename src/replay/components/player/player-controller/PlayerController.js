@@ -11,6 +11,7 @@ declare class Object {
 
 export type RenderData = {
   controllerApi: ControllerApi,
+  externalProps: any,
   configuration: any
 };
 
@@ -19,7 +20,8 @@ export type RenderMethod = RenderData => React.Node;
 type PlayerControllerProps = {
   render: RenderMethod,
   children: React.Node,
-  configuration: any,
+  externalProps?: any,
+  configuration?: any,
   options?: any,
   onStreamerError?: any => void
 };
@@ -52,7 +54,6 @@ const getObserveManager = () => {
   };
 
   const unobserve = (key: VideoStreamStateKeys, callback: ObserveCallback) => {
-    //TODO: What if this.setState is identical across elements?
     if (Array.isArray(observers[key])) {
       const index = observers[key].indexOf(callback);
       if (index !== -1) {
@@ -63,7 +64,7 @@ const getObserveManager = () => {
 
   const unobserveAll = () => {
     Object.entries(observers).forEach(([key, handlers]) => {
-      while (handlers) {
+      while (handlers.length) {
         handlers.pop();
       }
     });
@@ -111,13 +112,13 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   inspect = () => this.inspectableStreamState;
 
   componentWillUnmount() {
-    this.inspectableStreamState = {};
     this.observeManager.unobserveAll();
   }
 
   observeManager = getObserveManager();
 
   onVideoStreamerReady = (methods: PlaybackMethods) => {
+    this.inspectableStreamState = {};
     this.setState({
       gotoLive: methods.gotoLive,
       setPosition: methods.setPosition
@@ -143,6 +144,7 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   render() {
     const { gotoLive, setPosition, mergedConfiguration, videoStreamerProps } = this.state;
     const { updateProperty, observeManager } = this;
+    const { render, externalProps } = this.props;
     const { observe, unobserve } = observeManager;
     const controllerApi = {
       updateProperty,
@@ -156,7 +158,7 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
 
     return (
       <ControllerContext.Provider value={controllerApi}>
-        {this.props.render({ controllerApi, configuration: mergedConfiguration })}
+        {render({ controllerApi, configuration: mergedConfiguration, externalProps })}
       </ControllerContext.Provider>
     );
   }

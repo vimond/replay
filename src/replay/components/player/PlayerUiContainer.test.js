@@ -22,9 +22,7 @@ const playerUiContainerProps = {
 };
 
 test('<PlayerUiContainer/> renders with prefixed class name and DOM including children.', () => {
-  const rendered = mount(
-    <PlayerUiContainer {...playerUiContainerProps} />
-  );
+  const rendered = mount(<PlayerUiContainer {...playerUiContainerProps} />);
   const aspectRatio = rendered.find('AspectRatio');
   expect(aspectRatio.props().aspectRatio).toBe(playerUiContainerProps.aspectRatio);
   const fullscreen = rendered.find('Fullscreen');

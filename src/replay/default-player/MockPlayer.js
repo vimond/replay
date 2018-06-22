@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import PlayerController from '../components/player/PlayerController';
+import PlayerController from '../components/player/player-controller/PlayerController';
 import MockVideoStreamer from '../components/player/VideoStreamer/MockVideoStreamer';
 import { renderPlayerUI } from './Replay';
 

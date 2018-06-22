@@ -23,14 +23,18 @@ import AspectRatio from './player/containment-helpers/AspectRatio';
 import Fullscreen from './player/containment-helpers/Fullscreen';
 import InteractionDetector from './player/containment-helpers/InteractionDetector';
 import KeyboardShortcuts from './player/containment-helpers/KeyboardShortcuts';
-import playerStateClassNameBuilder from './player/containment-helpers/playerStateClassNameBuilder';
+import PlayerStateClassNames from './player/containment-helpers/PlayerStateClassNames';
 
 import BasicVideoStreamer from './player/VideoStreamer/BasicVideoStreamer';
 import MockVideoStreamer from './player/VideoStreamer/MockVideoStreamer';
 
-import PlayerController from './player/PlayerController';
-import PlayerUiContainer from './player/PlayerUiContainer';
-import * as common from './common';
+import PlayerController from './player/player-controller/PlayerController';
+import { ControlledVideoStreamer } from './player/player-controller/connectControl';
+import PlayerUiContainer from './player/PlayerUiContainer';import * as common from './common';
+
+import { getConnectedPlayerUiContainer } from './player/PlayerUiContainer';
+import connectControl from './player/player-controller/connectControl';
+import playerStateClassNameBuilder from './player/containment-helpers/playerStateClassNameBuilder';
 
 export {
   AudioSelector,
@@ -57,12 +61,19 @@ export {
   Fullscreen,
   InteractionDetector,
   KeyboardShortcuts,
-  playerStateClassNameBuilder,
+  PlayerStateClassNames,
   
   BasicVideoStreamer,
   MockVideoStreamer,
   
   PlayerUiContainer,
   PlayerController,
+  ControlledVideoStreamer,
+
+  getConnectedPlayerUiContainer,
+  connectControl,
+  playerStateClassNameBuilder,
   common
 };
+
+// TODO: Look into reexporting also types.
