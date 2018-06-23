@@ -30,9 +30,10 @@ import MockVideoStreamer from './player/VideoStreamer/MockVideoStreamer';
 
 import PlayerController from './player/PlayerController/PlayerController';
 import { ControlledVideoStreamer } from './player/PlayerController/connectControl';
-import PlayerUiContainer from './player/PlayerUiContainer';import * as common from './common';
+import PlayerUIContainer from './player/PlayerUIContainer';
+import * as common from './common';
 
-import { getConnectedPlayerUiContainer } from './player/PlayerUiContainer';
+import { getConnectedPlayerUIContainer } from './player/PlayerUIContainer';
 import connectControl from './player/PlayerController/connectControl';
 import playerStateClassNameBuilder from './player/containment-helpers/playerStateClassNameBuilder';
 
@@ -50,27 +51,22 @@ export {
   TimeDisplay,
   Timeline,
   Volume,
-
   Button,
   Container,
   DropUpSelector,
   Slider,
   ToggleButton,
-  
   AspectRatio,
   Fullscreen,
   InteractionDetector,
   KeyboardShortcuts,
   PlayerStateClassNames,
-  
   BasicVideoStreamer,
   MockVideoStreamer,
-  
-  PlayerUiContainer,
+  PlayerUIContainer,
   PlayerController,
   ControlledVideoStreamer,
-
-  getConnectedPlayerUiContainer,
+  getConnectedPlayerUIContainer,
   connectControl,
   playerStateClassNameBuilder,
   common

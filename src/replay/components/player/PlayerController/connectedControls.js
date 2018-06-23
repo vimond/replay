@@ -1,0 +1,24 @@
+import { getConnectedPlayerUIContainer } from '../PlayerUIContainer';
+import UnconnectedSkipButton from '../../controls/SkipButton';
+import UnconnectedTimeDisplay from '../../controls/TimeDisplay';
+import UnconnectedQualitySelector from '../../controls/QualitySelector';
+import UnconnectedBufferingIndicator from '../../controls/BufferingIndicator';
+import connectControl from './connectControl';
+import UnconnectedAudioSelector from '../../controls/AudioSelector';
+import UnconnectedPlayPauseButton from '../../controls/PlayPauseButton';
+import UnconnectedSubtitlesSelector from '../../controls/SubtitlesSelector';
+import UnconnectedVolume from '../../controls/Volume';
+import UnconnectedGotoLiveButton from '../../controls/GotoLiveButton';
+import UnconnectedTimeline from '../../controls/Timeline';
+
+export const PlayerUIContainer = getConnectedPlayerUIContainer(connectControl);
+export const PlayPauseButton = connectControl(UnconnectedPlayPauseButton);
+export const SkipButton = connectControl(UnconnectedSkipButton);
+export const Timeline = connectControl(UnconnectedTimeline);
+export const TimeDisplay = connectControl(UnconnectedTimeDisplay);
+export const GotoLiveButton = connectControl(UnconnectedGotoLiveButton);
+export const Volume = connectControl(UnconnectedVolume);
+export const AudioSelector = connectControl(UnconnectedAudioSelector);
+export const SubtitlesSelector = connectControl(UnconnectedSubtitlesSelector);
+export const QualitySelector = connectControl(UnconnectedQualitySelector);
+export const BufferingIndicator = connectControl(UnconnectedBufferingIndicator);

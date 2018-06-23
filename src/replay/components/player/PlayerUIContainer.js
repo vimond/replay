@@ -62,11 +62,11 @@ const classNameDefinitions = {
 
 const noConnect = Component => Component;
 
-export const getConnectedPlayerUiContainer = (connector: any => React.ComponentType<any> = noConnect) => {
+export const getConnectedPlayerUIContainer = (connector: any => React.ComponentType<any> = noConnect) => {
   const ConnectedPlayerStateClassNames = connector(PlayerStateClassNames);
   const ConnectedKeyboardShortcuts = connector(KeyboardShortcuts);
 
-  return class PlayerUiContainer extends React.Component<Props> {
+  return class PlayerUIContainer extends React.Component<Props> {
     static defaultProps = {
       classNamePrefix: defaultClassNamePrefix,
       className: defaultClassNamePrefix.substr(0, defaultClassNamePrefix.length - 1), // Removing the last dash of the prefix. Dangerous assumption...
@@ -123,5 +123,5 @@ export const getConnectedPlayerUiContainer = (connector: any => React.ComponentT
   };
 };
 
-const PlayerUiContainer = getConnectedPlayerUiContainer();
-export default PlayerUiContainer;
+const PlayerUIContainer = getConnectedPlayerUIContainer();
+export default PlayerUIContainer;
