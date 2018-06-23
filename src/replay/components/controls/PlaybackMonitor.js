@@ -5,6 +5,8 @@ import type { CommonProps } from '../common';
 import type { VideoStreamState } from '../player/VideoStreamer/types';
 import { defaultClassNamePrefix, isDifferent, prefixClassNames } from '../common';
 import Button from '../generic/Button';
+import connectControl from '../player/PlayerController/connectControl';
+import type { InspectMethod } from '../player/PlayerController/ControllerContext';
 
 type PlaybackMonitorConfiguration = {
   visibleAtStart?: boolean
@@ -14,7 +16,6 @@ type Props = CommonProps & {
   configuration?: {
     playbackMonitor?: PlaybackMonitorConfiguration
   },
-  videoStreamState: VideoStreamState,
   closeButtonContent: React.Node
 };
 
@@ -29,9 +30,9 @@ type PrefixedClassNames = {
   headerRow: string
 };
 
-type TableRowProps = {
-  videoStreamState: VideoStreamState,
+type TableRowProps = VideoStreamState & {
   propertyName: string,
+  inspect: InspectMethod,
   prefixedClassNames: PrefixedClassNames
 };
 
@@ -121,14 +122,14 @@ export class PropTableRow extends React.Component<TableRowProps, TableRowState> 
   constructor(props: TableRowProps) {
     super(props);
     this.state = {
-      currentValue: props.videoStreamState[props.propertyName]
+      currentValue: props.inspect()[props.propertyName]
     };
   }
 
   static getDerivedStateFromProps(nextProps: TableRowProps, prevState: TableRowState) {
-    if (isDifferent(nextProps.videoStreamState[nextProps.propertyName], prevState.currentValue)) {
+    if (nextProps.propertyName in nextProps && isDifferent(nextProps[nextProps.propertyName], prevState.currentValue)) {
       return {
-        currentValue: nextProps.videoStreamState[nextProps.propertyName],
+        currentValue: nextProps[nextProps.propertyName],
         previousValue: prevState.currentValue
       };
     } else {
@@ -157,15 +158,13 @@ export class PropTableRow extends React.Component<TableRowProps, TableRowState> 
   }
 }
 
-const TableHeaderRow = ({ prefixedClassNames }: { prefixedClassNames: PrefixedClassNames }) => (
-  <tr className={prefixedClassNames.headerRow}>
-    <th className={prefixedClassNames.propName}>Property name</th>
-    <th className={prefixedClassNames.currentValue}>Current value</th>
-    <th className={prefixedClassNames.previousValue}>Previous value</th>
-  </tr>
-);
+const connectedComponents = {};
 
-const renderTableRows = (videoStreamState: VideoStreamState, classNamePrefix) => {
+orderedPropertyNames.forEach(propertyName => {
+  connectedComponents[propertyName] = connectControl(PropTableRow, [propertyName]);
+});
+
+const renderTableRows = classNamePrefix => {
   const prefixedClassNames = {
     headerRow: prefixClassNames(classNamePrefix, headerRowClassName),
     propName: prefixClassNames(classNamePrefix, propNameClassName),
@@ -174,17 +173,25 @@ const renderTableRows = (videoStreamState: VideoStreamState, classNamePrefix) =>
   };
   return [<TableHeaderRow key="header-row" prefixedClassNames={prefixedClassNames} />].concat(
     orderedPropertyNames.map(propertyName => {
+      const ConnectedPropRow = connectedComponents[propertyName];
       return (
-        <PropTableRow
+        <ConnectedPropRow
           key={`prop-row-${propertyName}`}
           prefixedClassNames={prefixedClassNames}
           propertyName={propertyName}
-          videoStreamState={videoStreamState}
         />
       );
     })
   );
 };
+
+const TableHeaderRow = ({ prefixedClassNames }: { prefixedClassNames: PrefixedClassNames }) => (
+  <tr className={prefixedClassNames.headerRow}>
+    <th className={prefixedClassNames.propName}>Property name</th>
+    <th className={prefixedClassNames.currentValue}>Current value</th>
+    <th className={prefixedClassNames.previousValue}>Previous value</th>
+  </tr>
+);
 
 class PlaybackMonitor extends React.Component<Props, State> {
   static defaultProps = {
@@ -213,7 +220,7 @@ class PlaybackMonitor extends React.Component<Props, State> {
   };
 
   render() {
-    const { videoStreamState, label, classNamePrefix, closeButtonContent } = this.props;
+    const { label, classNamePrefix, closeButtonContent } = this.props;
     if (this.state.isMonitorVisible) {
       return (
         <div title={label} className={prefixClassNames(classNamePrefix, className)}>
@@ -225,7 +232,7 @@ class PlaybackMonitor extends React.Component<Props, State> {
             onClick={this.handleCloseClick}
           />
           <table className={prefixClassNames(classNamePrefix, tableClassName)}>
-            <tbody>{renderTableRows(videoStreamState, classNamePrefix)}</tbody>
+            <tbody>{renderTableRows(classNamePrefix)}</tbody>
           </table>
         </div>
       );

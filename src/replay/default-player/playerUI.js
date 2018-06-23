@@ -20,7 +20,7 @@ import {
   Volume
 } from '../components/player/PlayerController/connectedControls';
 
-// import PlaybackMonitor from '../components/controls/PlaybackMonitor';
+import PlaybackMonitor from '../components/controls/PlaybackMonitor';
 
 import graphics from './default-skin/defaultSkin';
 import { labels } from './strings';
@@ -38,6 +38,7 @@ const renderPlayerUI: RenderMethod = ({ controllerApi, configuration, externalPr
           externalProps.onExit && (
             <ExitButton {...labels.exit} {...graphics.exitButton} onClick={externalProps.onExit} />
           )}
+        <PlaybackMonitor configuration={configuration} closeButtonContent={graphics.playbackMonitor.closeButtonContent} />
         <ControlsBar>
           <PlayPauseButton {...labels.playPause} {...graphics.playPause} />
           <SkipButton offset={getSkipBackOffset(configuration)} {...labels.skipBack} {...graphics.skipBack} />

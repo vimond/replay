@@ -1,8 +1,8 @@
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
+import Enzyme, { mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import PlaybackMonitor, { PropTableRow } from './PlaybackMonitor';
-import { AvailableTrack, PlayMode, PlayState } from '../player/VideoStreamer/types';
+import ControllerContext from '../player/PlayerController/ControllerContext';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -65,29 +65,41 @@ const commonProps = {
   configuration
 };
 
-test('<PlaybackMonitor /> should render if configured to start visible.', () => {
-  const rendered = shallow(<PlaybackMonitor {...commonProps} />);
-  expect(rendered.name()).toEqual('div');
-  expect(rendered.hasClass('v-playback-monitor')).toBe(true);
-  expect(rendered.props().title).toBe('Playback monitor label');
+const renderTree = (props, observe = () => {}) => {
+  const mockContextValue = {
+    inspect: () => mockVideoStreamState,
+    observe,
+    unobserve: () => {}
+  };
+
+  return (
+    <ControllerContext.Provider value={mockContextValue}>
+      <PlaybackMonitor {...props} />
+    </ControllerContext.Provider>
+  );
+};
+
+test('<PlaybackMonitor /> should render with table rows for each property, if configured to start visible.', () => {
+  const tree = mount(renderTree(commonProps));
+  const playbackMonitor = tree.find('PlaybackMonitor>div');
+  expect(playbackMonitor.hasClass('v-playback-monitor')).toBe(true);
+  expect(playbackMonitor.props().title).toBe('Playback monitor label');
 
   // Close button
-  expect(rendered.find('Button').props().content).toEqual('X');
-  expect(rendered.find('Button').props().label).toEqual('Close');
-  expect(rendered.find('Button').props().className).toEqual('playback-monitor-close-button');
-  expect(rendered.find('Button').props().classNamePrefix).toEqual('v-');
-  expect(typeof rendered.find('Button').props().onClick).toEqual('function');
+  expect(playbackMonitor.find('Button').props().content).toEqual('X');
+  expect(playbackMonitor.find('Button').props().label).toEqual('Close');
+  expect(playbackMonitor.find('Button').props().className).toEqual('playback-monitor-close-button');
+  expect(playbackMonitor.find('Button').props().classNamePrefix).toEqual('v-');
+  expect(typeof playbackMonitor.find('Button').props().onClick).toEqual('function');
 
   // Table
-  const table = rendered.find('table');
+  const table = playbackMonitor.find('table');
   expect(table.hasClass('v-playback-monitor-stream-state')).toBe(true);
 
-  const tableRows = rendered
-    .find('tbody')
-    .children()
-    .map(row => row.dive());
+  const tableRows = playbackMonitor.find('tbody').children();
+  //.map(row => row.dive());
   expect(tableRows.length).toBe(23);
-  const headerRow = tableRows[0];
+  const headerRow = tableRows.at(0).find('tr');
   expect(headerRow.hasClass('v-playback-monitor-table-header')).toBe(true);
   const child0 = headerRow.childAt(0);
   const child1 = headerRow.childAt(1);
@@ -102,52 +114,47 @@ test('<PlaybackMonitor /> should render if configured to start visible.', () => 
   expect(child1.hasClass('v-playback-monitor-current-value')).toBe(true);
   expect(child2.hasClass('v-playback-monitor-previous-value')).toBe(true);
   tableRows.slice(1).forEach(row => {
-    const child0 = row.childAt(0);
-    const child1 = row.childAt(1);
-    const child2 = row.childAt(2);
-    expect(child0.name()).toBe('th');
-    expect(child1.name()).toBe('td');
-    expect(child2.name()).toBe('td');
-    const propertyName = child0.text();
+    const tr = row.find('tr');
+    const td0 = tr.childAt(0);
+    const td1 = tr.childAt(1);
+    const td2 = tr.childAt(2);
+    expect(td0.name()).toBe('th');
+    expect(td1.name()).toBe('td');
+    expect(td2.name()).toBe('td');
+    const propertyName = td0.text();
     if (propertyName in mockVideoStreamState) {
-      expect(child1.text()).toBe(expectedRenderedValues[propertyName]);
+      expect(td1.text()).toBe(expectedRenderedValues[propertyName]);
     } else {
-      expect(child1.text()).toBe('');
+      expect(td1.text()).toBe('');
     }
-    expect(child2.text()).toBe('');
-    expect(child0.hasClass('v-playback-monitor-property-name')).toBe(true);
-    expect(child1.hasClass('v-playback-monitor-current-value')).toBe(true);
-    expect(child2.hasClass('v-playback-monitor-previous-value')).toBe(true);
+    expect(td2.text()).toBe('');
+    expect(td0.hasClass('v-playback-monitor-property-name')).toBe(true);
+    expect(td1.hasClass('v-playback-monitor-current-value')).toBe(true);
+    expect(td2.hasClass('v-playback-monitor-previous-value')).toBe(true);
   });
 });
 
 test('<PlaybackMonitor /> should not render if not configured to start visible.', () => {
-  const rendered = shallow(<PlaybackMonitor {...commonProps} configuration={{}} />);
-  expect(rendered.getElement()).toBe(null);
+  const rendered = mount(<PlaybackMonitor {...commonProps} configuration={{}} />);
+  expect(rendered.find('div').length).toBe(0);
 });
 
 test('<PlaybackMonitor /> should remove its rendering if the close button is pressed.', () => {
-  const rendered = shallow(<PlaybackMonitor {...commonProps} />);
-  rendered
-    .find('Button')
-    .dive()
-    .simulate('click');
+  const rendered = mount(<PlaybackMonitor {...commonProps} />);
+  rendered.find('Button').simulate('click');
   rendered.update();
-  expect(rendered.getElement()).toBe(null);
+  expect(rendered.find('div').length).toBe(0);
 });
 
 test('<PlaybackMonitor /> should render if Ctrl+Alt+V is pressed.', () => {
-  const rendered = shallow(<PlaybackMonitor {...commonProps} configuration={null} />);
-  expect(rendered.getElement()).toBe(null);
+  const rendered = mount(<PlaybackMonitor {...commonProps} configuration={null} />);
+  expect(rendered.find('div').length).toBe(0);
   rendered.instance().handleKeyDown({ ctrlKey: true, altKey: true, keyCode: 86 });
   rendered.update();
-  expect(rendered.name()).toEqual('div');
-  expect(rendered.hasClass('v-playback-monitor')).toBe(true);
-  expect(rendered.find('table').length).toBe(1);
-});
-
-test.skip('<PlaybackMonitor /> should render one table row with state properties for each ordered property name.', () => {
-  // Already covered in monstrous render test.
+  const freshRendered = rendered.find('div').at(0);
+  expect(freshRendered.name()).toEqual('div');
+  expect(freshRendered.hasClass('v-playback-monitor')).toBe(true);
+  expect(freshRendered.find('table').length).toBe(1);
 });
 
 test.skip('<PlaybackMonitor /> should format different types of values appropriately.', () => {
@@ -170,12 +177,13 @@ test.skip('<PlaybackMonitor /> should format different types of values appropria
 test('<PropTableRow/> should fill the previous value column when the observed property changes.', () => {
   const rendered = shallow(
     <PropTableRow
-      videoStreamState={{ myProp: '13', myOtherProp: true }}
+      inspect={() => ({ myProp: 13 })}
+      myOtherProp={true}
       propertyName="myProp"
       prefixedClassNames={{ propName: 'a', currentValue: 'b', previousValue: 'c' }}
     />
   );
-  rendered.setProps({ videoStreamState: { myProp: '255' } });
+  rendered.setProps({ myProp: '255' });
   rendered.update();
   const currentValueCell = rendered.find('.b');
   const previousValueCell = rendered.find('.c');
