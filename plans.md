@@ -4,9 +4,8 @@
 
 * Straightforward and clean React player that can replace the current reference player (in Streamlab)
 * Statically typed
-* Tests, both for components and full player
-* Prettier
-* Rollup?
+* Unit tests, component tests
+* Full player tests with [Puppeteer](https://blog.bitsrc.io/testing-your-react-app-with-puppeteer-and-jest-c72b3dfcde59)
 * Component-centric full player toolkit
 * Standalone components + starter player
 * Still easy to re-skin and re-configure starter player, perhaps with Storybook or Styleguidist
@@ -183,7 +182,7 @@ Later: Look into Flux action set prepared for Redux. Both buttons and video stat
 	* Configuration as part of composed player.
 	* Allow for configuration overrides.
 
-* `<PlayerUiContainer/>` UI host element
+* `<PlayerUIContainer/>` UI host element
 	* Helper functions
 	* UI state
 	* 16:9, fullscreen
@@ -230,57 +229,28 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 16. Docs on creating a full CSS file for a customised player, including core styles.
 17. RxHlsVideoStreamer.
 18. NPM package(s) exposing default player and all components individually.
-19. Redux actions (with player instance addressing).
-20. Redux demo app.
 
 ## Detail tasks to be done/clarified
 
-* OK Move the types for the playback consumption API into a common file.
-* OK Complete typing the source and text tracks.
-* OK Rename VideoStream to VideoStreamer.
-* OK Create type set for configuration structure. Include all individual component configs.
-* OK Quality selector. Reconsider icon.
-* OK Decide on how to pass technology.
+Preparing the project/player for other purposes:
 
-After video engine is plugged in:
-
-* OK Test that player UI doesn't reload video...
-* OK Hide controls bar!
-* OK Verify buffering state with playback monitor.
-* OK Fix currentBitrate and publish new videoengine.
-* OK Timeline: Don't call setPosition on drag start. Maybe block glitch with isSeeking.
+* Clear and brief README.md
+* External player API (exposed from PlayerController).
+* ✓ For default player, a separate CSS build not including the demo app is needed.
+* CSS in JS with theme + prop based customisation. Change icons, colors, sizes. Override all styles?
+* Verify that Flow types are recognised in npm package consumers.
+* Documentation.
 
 General improvements and things to verify
 
-* OK Change default class name.
-* OK Error handling in Streamlab.
 * Silverlight doesn't work. Is this some re-rendering issue?
 * Test with subtitles and audio tracks...
 * Make lockedBitrate and maxBitrate props.
 * Look into setting volume, mute, and pause state on startup.
 * Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
 * Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
-* Need to set all state and prop properties on startup? (onReady?) PlayerController is probably better for this than VideoStreamer.
 * Respect new set of playback technologies in VideoStreamer, replacing dashImpl prop.
-
-Before settling the architecture: Revise rendering and improve performance. Probably drop render prop.
-
-* Refactor PlayerController. Consider child VideoStreamer detection. Remember `// @flow`.
-* Look into render performance: PureComponent? shouldComponentUpdate only checking the relevant props? Compare prod build of player with other real-world example in performance tab of DevTools. Still, the flash of element updates look bad in comparison.
-* Look into automatic detection of subscribeToStreamStateUpdates() (along with updateProperty) in spread props instead.
-* Or consider the manipulation API (subscribe/update methods) to be one object that doesn't change, and pass it down in the render prop. I.e. individual state property updates can be a matter isolated within each component.
-* updateProperty() can't be part of the VideoStreamer. Breaks the prop pass-down pattern.
-* We should also allow for non-magical state update subscription, maybe with wrapper/HOC component?
 * Block <VideoStreamer /> from invoking onStreamStateChange after unmount.
-
-Preparing the project/player for other purposes:
-
-* README.md
-* External player API (exposed from PlayerController).
-* ✓ For default player, a separate CSS build not including the demo app is needed.
-* CSS in JS with theme + prop based customisation. Change icons, colors, sizes. Override all styles?
-* Verify that Flow types are recognised in npm package consumers.
-* Documentation.
 
 Next leap year:
 
