@@ -4,7 +4,7 @@ import ToggleButton from '../generic/ToggleButton';
 import { defaultClassNamePrefix } from '../common';
 import type { PlayMode } from '../player/VideoStreamer/types';
 import type { CommonProps } from '../common';
-import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
+import type { StreamStateKeysForObservation } from '../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
   isAtLivePosition?: boolean,

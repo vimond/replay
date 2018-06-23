@@ -4,7 +4,7 @@ import type { RecognizedPlayerStateProperties, ClassNameKeys } from './playerSta
 import playerStateClassNameBuilder from './playerStateClassNameBuilder';
 import type { CommonGenericProps } from '../../common';
 import { defaultClassNamePrefix } from '../../common';
-import type { StreamStateKeysForObservation } from '../player-controller/ControllerContext';
+import type { StreamStateKeysForObservation } from '../PlayerController/ControllerContext';
 
 type Props = RecognizedPlayerStateProperties & CommonGenericProps & {
   children: React.Element<any>,

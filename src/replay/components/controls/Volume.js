@@ -4,7 +4,7 @@ import { defaultClassNamePrefix, prefixClassNames } from '../common';
 import type { CommonProps } from '../common';
 import ToggleButton from '../generic/ToggleButton';
 import Slider from '../generic/Slider';
-import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
+import type { StreamStateKeysForObservation } from '../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
   volume: number,

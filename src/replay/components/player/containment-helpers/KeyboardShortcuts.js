@@ -2,7 +2,7 @@
 import * as React from 'react';
 import type { PlayMode } from '../VideoStreamer/types';
 import type { FullscreenState } from './Fullscreen';
-import type { InspectMethod } from '../player-controller/ControllerContext';
+import type { InspectMethod } from '../PlayerController/ControllerContext';
 
 type RenderParameters = {
   handleKeyUp: KeyboardEvent => void

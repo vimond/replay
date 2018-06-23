@@ -5,7 +5,7 @@ import { defaultClassNamePrefix } from '../common';
 import type { AvailableTrack } from '../player/VideoStreamer/types';
 import type { CommonProps, Id } from '../common';
 import type { Item } from '../generic/DropUpSelector';
-import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
+import type { StreamStateKeysForObservation } from '../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
   textTracks?: Array<AvailableTrack>,

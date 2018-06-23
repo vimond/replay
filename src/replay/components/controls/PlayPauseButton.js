@@ -3,7 +3,7 @@ import * as React from 'react';
 import ToggleButton from '../generic/ToggleButton';
 import { defaultClassNamePrefix } from '../common';
 import type { CommonProps } from '../common';
-import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
+import type { StreamStateKeysForObservation } from '../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
   isPaused?: boolean,

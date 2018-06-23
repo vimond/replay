@@ -3,7 +3,7 @@ import * as React from 'react';
 import Button from '../generic/Button';
 import { defaultClassNamePrefix } from '../common';
 import type { CommonProps } from '../common';
-import type { InspectMethod } from '../player/player-controller/ControllerContext';
+import type { InspectMethod } from '../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
   position?: number,

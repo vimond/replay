@@ -3,7 +3,7 @@ import * as React from 'react';
 import { defaultClassNamePrefix } from '../common';
 import type { CommonProps } from '../common';
 import Slider from '../generic/Slider';
-import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
+import type { StreamStateKeysForObservation } from '../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
   position?: number,

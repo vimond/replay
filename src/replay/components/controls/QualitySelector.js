@@ -4,7 +4,7 @@ import DropUpSelector from '../generic/DropUpSelector';
 import { defaultClassNamePrefix } from '../common';
 import type { CommonProps } from '../common';
 import type { Item } from '../generic/DropUpSelector';
-import type { StreamStateKeysForObservation } from '../player/player-controller/ControllerContext';
+import type { StreamStateKeysForObservation } from '../player/PlayerController/ControllerContext';
 
 export type QualitySelectionStrategy = 'cap-bitrate' | 'lock-bitrate';
 

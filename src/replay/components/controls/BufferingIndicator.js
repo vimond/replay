@@ -3,7 +3,7 @@ import * as React from 'react';
 import { defaultClassNamePrefix, prefixClassNames } from '../common';
 import type { PlayState } from '../player/VideoStreamer/types';
 import type { CommonProps } from '../common';
-import type { ObservingControlStaticProps } from '../player/player-controller/ControllerContext';
+import type { ObservingControlStaticProps } from '../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
   isBuffering?: boolean,

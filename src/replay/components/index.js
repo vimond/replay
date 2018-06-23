@@ -28,12 +28,12 @@ import PlayerStateClassNames from './player/containment-helpers/PlayerStateClass
 import BasicVideoStreamer from './player/VideoStreamer/BasicVideoStreamer';
 import MockVideoStreamer from './player/VideoStreamer/MockVideoStreamer';
 
-import PlayerController from './player/player-controller/PlayerController';
-import { ControlledVideoStreamer } from './player/player-controller/connectControl';
+import PlayerController from './player/PlayerController/PlayerController';
+import { ControlledVideoStreamer } from './player/PlayerController/connectControl';
 import PlayerUiContainer from './player/PlayerUiContainer';import * as common from './common';
 
 import { getConnectedPlayerUiContainer } from './player/PlayerUiContainer';
-import connectControl from './player/player-controller/connectControl';
+import connectControl from './player/PlayerController/connectControl';
 import playerStateClassNameBuilder from './player/containment-helpers/playerStateClassNameBuilder';
 
 export {

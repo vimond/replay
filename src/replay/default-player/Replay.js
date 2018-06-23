@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
-import PlayerController from '../components/player/player-controller/PlayerController';
+import PlayerController from '../components/player/PlayerController/PlayerController';
 import BasicVideoStreamer from '../components/player/VideoStreamer/BasicVideoStreamer';
-import connectControl, { ControlledVideoStreamer } from '../components/player/player-controller/connectControl';
+import connectControl, { ControlledVideoStreamer } from '../components/player/PlayerController/connectControl';
 
 import ControlsBar from '../components/controls/ControlsBar';
 import { getConnectedPlayerUiContainer } from '../components/player/PlayerUiContainer';
@@ -29,7 +29,7 @@ import {
   getSkipBackOffset
 } from './baseConfiguration';
 
-import type { RenderMethod } from '../components/player/player-controller/PlayerController';
+import type { RenderMethod } from '../components/player/PlayerController/PlayerController';
 import type { ReplayProps } from './types';
 
 // TODO: Separate into file.
@@ -60,7 +60,7 @@ export const renderPlayerUI: RenderMethod = ({ controllerApi, configuration, ext
           )}
         <ControlsBar>
           <PlayPauseButton {...labels.playPause} {...graphics.playPause} />
-          <SkipButton {...labels.skipBack} {...graphics.skipBack} offset={getSkipBackOffset(configuration)} />
+          <SkipButton offset={getSkipBackOffset(configuration)} {...labels.skipBack} {...graphics.skipBack} />
           <Timeline {...labels.timeline} {...graphics.timeline} />
           <TimeDisplay liveDisplayMode={getLiveDisplayMode(configuration)} {...labels.timeDisplay} />
           <GotoLiveButton {...labels.gotoLive} {...graphics.gotoLive} />
@@ -91,7 +91,6 @@ const applyStreamer = (children, source, textTracks) =>
 
 // This is the component to be consumed in a full React SPA.
 const Replay = ({ source, textTracks, options, onExit, onError, children }: ReplayProps) => (
-  // Can use spread for source&textTracks
   <PlayerController
     render={renderPlayerUI}
     configuration={baseConfiguration}
