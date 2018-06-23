@@ -1,7 +1,13 @@
 // @flow
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
-import type { PlaybackMethods, PlaybackProps, VideoStreamerProps, VideoStreamState, VideoStreamStateKeys } from '../VideoStreamer/types';
+import type {
+  PlaybackMethods,
+  PlaybackProps,
+  VideoStreamerProps,
+  VideoStreamState,
+  VideoStreamStateKeys
+} from '../VideoStreamer/types';
 import type { ObserveCallback, GotoLiveMethod, SetPositionMethod, ControllerApi } from './ControllerContext';
 import { override } from '../../common';
 
@@ -106,9 +112,9 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
       }
     };
   }
-  
+
   inspectableStreamState: VideoStreamState = {};
-  
+
   inspect = () => this.inspectableStreamState;
 
   componentWillUnmount() {
@@ -136,9 +142,7 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   // UI -> video stream
   updateProperty = (updatedProp: PlaybackProps) => {
     const videoStreamerProps = { ...this.state.videoStreamerProps, ...updatedProp };
-    this.setState({
-      videoStreamerProps
-    });
+    this.setState({ videoStreamerProps });
   };
 
   render() {
