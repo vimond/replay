@@ -1,4 +1,4 @@
-// @XYZflow
+// @flow
 import * as React from 'react';
 import type { VideoStreamerProps, VideoStreamState } from './types';
 import { defaultClassNamePrefix, prefixClassNames } from '../../common';
@@ -29,7 +29,7 @@ const defaultAudioTracks = [
   }
 ];
 
-const defaultValues: VideoStreamState = {
+const defaultValues = {
   playMode: 'livedvr',
   playState: 'playing',
   isPaused: false,
@@ -96,7 +96,9 @@ class MockVideoStreamer extends React.Component<VideoStreamerProps> {
     Object.entries(state).forEach(entry => {
       this.modifiedStreamState[entry[0]] = entry[1];
     });
-    this.props.onStreamStateChange(state);
+    if (this.props.onStreamStateChange != null) {
+      this.props.onStreamStateChange(state);
+    }
   };
 
   componentDidMount() {
@@ -127,6 +129,7 @@ class MockVideoStreamer extends React.Component<VideoStreamerProps> {
       .filter(key => updateableKeys.indexOf(key) >= 0)
       .forEach(key => {
         if (prevProps[key] !== this.props[key]) {
+          // $FlowFixMe Trying to set video streamer props on stream state. Type misalignment.
           runAsync(this.updateStreamState, { [updateableProps[key]]: this.props[key] });
         }
       });
