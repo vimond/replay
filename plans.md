@@ -223,23 +223,25 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 12. Demo container app.
 13. Theme-based styling, preparing for next step.
 14. Basic HTML5 video streamer, only for MP4.
-15. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
-16. Docs on creating a full CSS file for a customised player, including core styles.
-17. RxHlsVideoStreamer.
-18. NPM package(s) exposing default player and all components individually.
+15. Guide documentation.
+16. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
+17. Docs on creating a full CSS file for a customised player, including core styles.
+18. Accessibility.
+19. Touch and mobile friendly.
+20. RxHlsVideoStreamer.
+21. NPM package(s) exposing default player and all components individually.
 
 ## Detail tasks to be done/clarified
 
-Preparing the project/player for other purposes:
+Preparing the project/player for other purposes than Streamlab:
 
 * Clear and brief README.md
 * External player API (exposed from PlayerController).
 * ✓ For default player, a separate CSS build not including the demo app is needed.
 * CSS in JS with theme + prop based customisation. Change icons, colors, sizes. Override all styles?
 * Verify that Flow types are recognised in npm package consumers.
-* Documentation.
 
-General improvements and things to verify
+Specific improvements and things to verify
 
 * Silverlight doesn't work. Is this some re-rendering issue?
 * Test with subtitles and audio tracks...

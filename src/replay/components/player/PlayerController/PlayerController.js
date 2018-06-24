@@ -108,7 +108,6 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
         onStreamStateChange: this.onStreamStateChange,
         // $FlowFixMe
         configuration: mergedConfiguration.videoStreamer || mergedConfiguration
-        // TODO: Consider making the config merging part of the Replay composition.
       }
     };
   }

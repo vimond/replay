@@ -26,4 +26,6 @@ test('renderPlayerUI() renders and recognises the specified props.', () => {
   expect(rendered.find('TimeDisplay').prop('liveDisplayMode')).toBe('clock-time');
   expect(rendered.find('QualitySelector').prop('selectionStrategy')).toBe('cap-bitrate');
   expect(rendered.find('PlaybackMonitor').prop('configuration')).toBe(renderParameters.configuration);
+  
+  expect(rendered).toMatchSnapshot();
 });

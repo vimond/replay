@@ -84,7 +84,6 @@ class Slider extends React.Component<Props, State> {
   };
 
   updateValue = (relativeValue: number, isDragging?: boolean, isEnded?: boolean) => {
-    // TODO: Override isDragging with extra argument
     const value = relativeValue * this.props.maxValue;
     if (this.state.isDragging) {
       this.setState({
