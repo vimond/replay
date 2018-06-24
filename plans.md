@@ -170,8 +170,6 @@ Styling passed directly turns off class names?
 
 Consuming playback state and manipulating the playback is handled by a `<PlayerController>` dealing specially with the video stream component.
 
-Later: Look into Flux action set prepared for Redux. Both buttons and video state changes.
-
 # Architecture
 
 ## Designing the best separation of concerns
@@ -217,7 +215,7 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 	5. ✓ State class names 
 	6. Player size responsiveness. ResizeObserver in Chrome. https://codeburst.io/media-queries-based-on-element-width-with-mutationobserver-cf2eff172787 elsewhere.
 	7. User settings storage.
-7. Catch up on writing missing tests.
+7. ✓ Catch up on writing missing tests.
 8. ✓ Prepare revised video engine with streamlined/modernised APIs.
 9. ✓ Build default player as npm package with all features.
 10. ✓ Streamlab integration.

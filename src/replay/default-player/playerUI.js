@@ -28,7 +28,7 @@ import { getLiveDisplayMode, getQualitySelectionStrategy, getSkipBackOffset } fr
 
 // In this file, all custom parts making up a player can be assembled and "composed".
 
-const renderPlayerUI: RenderMethod = ({ controllerApi, configuration, externalProps }) => (
+const renderPlayerUI: RenderMethod = ({ configuration, externalProps }) => (
   <PlayerUIContainer
     configuration={configuration}
     render={({ fullscreenState }) => (

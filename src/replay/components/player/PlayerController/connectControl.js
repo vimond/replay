@@ -2,7 +2,14 @@
 
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
-import type { SetPositionMethod, GotoLiveMethod, InspectMethod, ObserveMethod, UnobserveMethod, UpdatePropertyMethod } from './ControllerContext';
+import type {
+  SetPositionMethod,
+  GotoLiveMethod,
+  InspectMethod,
+  ObserveMethod,
+  UnobserveMethod,
+  UpdatePropertyMethod
+} from './ControllerContext';
 import type { VideoStreamStateKeys } from '../VideoStreamer/types';
 
 type HandleChangeMethod = ({ [VideoStreamStateKeys]: any }) => void;
@@ -58,13 +65,15 @@ const connectControl = (Control: any, propKeys?: Array<VideoStreamStateKeys>) =>
   const ConnectedControl: React.StatelessFunctionalComponent<any> = (props: any) => (
     <ControllerContext.Consumer>
       {({ observe, unobserve, updateProperty, gotoLive, setPosition, inspect }) => {
-        return observe ? (
-          <Observer
+        if (observe) {
+          return <Observer
             observe={observe}
             unobserve={unobserve}
             passdownProps={{ ...props, gotoLive, setPosition, updateProperty, inspect }}
-          />
-        ) : null;
+          />;
+        } else {
+          return <Control {...{ ...props, gotoLive, setPosition, updateProperty, inspect }} />;
+        }
       }}
     </ControllerContext.Consumer>
   );
