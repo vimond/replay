@@ -7,6 +7,7 @@ import type { StreamStateKeysForObservation } from '../player/PlayerController/C
 
 type Props = CommonProps & {
   isPaused?: boolean,
+  classes?: { pausedPlayPauseButton: string, playingPlayPauseButton: string },
   updateProperty?: ({ isPaused: boolean }) => void,
   playingContent: React.Node,
   pausedContent: React.Node
@@ -20,7 +21,7 @@ class PlayPauseButton extends React.Component<Props> {
   };
 
   static streamStateKeysForObservation: StreamStateKeysForObservation = ['isPaused'];
-  
+
   handleToggle = (value: boolean) => {
     if (this.props.updateProperty) {
       this.props.updateProperty({ isPaused: value });
@@ -28,14 +29,21 @@ class PlayPauseButton extends React.Component<Props> {
   };
 
   render() {
-    const { isPaused, pausedContent, playingContent, label, classNamePrefix } = this.props;
+    const { isPaused, pausedContent, playingContent, label, classNamePrefix, classes } = this.props;
+    const classNames = classes
+      ? isPaused
+        ? classes.pausedPlayPauseButton
+        : classes.playingPlayPauseButton
+      : className;
     return (
       <ToggleButton
         classNamePrefix={classNamePrefix}
         isOn={isPaused}
-        className={className}
+        className={classNames}
+        useDefaultClassNaming={classes == null}
         label={label}
         onToggle={this.handleToggle}
+        koko={'haha'}
         toggledOnContent={pausedContent}
         toggledOffContent={playingContent}
       />

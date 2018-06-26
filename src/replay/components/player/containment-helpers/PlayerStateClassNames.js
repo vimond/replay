@@ -20,6 +20,7 @@ class PlayerStateClassNames extends React.Component<Props> {
     
   render() {
     const { children, classNamePrefix, classNameDefinitions, className, ...playerStateProps } = this.props;
+    // TODO: Consider render prop instead of cloneElement for consistency.
     return React.cloneElement(children, { className: playerStateClassNameBuilder(playerStateProps, classNameDefinitions, classNamePrefix, className ? [className] : undefined ) });
   }
 }

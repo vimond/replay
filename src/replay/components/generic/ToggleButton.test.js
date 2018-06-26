@@ -12,6 +12,7 @@ test('<ToggleButton/> renders with prefixed class name and DOM.', () => {
       classNamePrefix="myplayer-"
       label="My toggle button"
       className="myclassname"
+      useDefaultClassNaming={true}
       toggledOffContent="Off"
       toggledOnContent="On"
     />
@@ -25,12 +26,33 @@ test('<ToggleButton/> renders with prefixed class name and DOM.', () => {
   expect(rendered.text()).toEqual('Off');
 });
 
+test('<ToggleButton/> renders with only the className passed as prop, if useDefaultClassNaming is false.', () => {
+  const rendered = shallow(
+    <ToggleButton
+      isOn={false}
+      classNamePrefix="myplayer-"
+      label="My toggle button"
+      className="myclassname"
+      useDefaultClassNaming={false}
+      toggledOffContent="Off"
+      toggledOnContent="On"
+    />
+  );
+  expect(rendered.name()).toEqual('div');
+  expect(rendered.hasClass('myplayer-toggle-button')).toBe(false);
+  expect(rendered.hasClass('myplayer-myclassname')).toBe(false);
+  expect(rendered.hasClass('myplayer-toggled-off')).toBe(false);
+  expect(rendered.hasClass('toggled-off')).toBe(false);
+  expect(rendered.hasClass('myclassname')).toBe(true);
+});
+
 test('<ToggleButton/> renders different the specified inner content when toggled or not toggled.', () => {
   const rendered = shallow(
     <ToggleButton
       isOn={true}
       classNamePrefix="myplayer-"
       className="myclassname"
+      useDefaultClassNaming={true}
       toggledOffContent="Off"
       toggledOnContent="On"
     />
@@ -50,6 +72,7 @@ test('<ToggleButton/> invokes a callback passing true when toggled from off to o
       isOn={false}
       classNamePrefix="myplayer-"
       className="myclassname"
+      useDefaultClassNaming={true}
       toggledOffContent="Off"
       toggledOnContent="On"
     />
@@ -66,6 +89,7 @@ test('<ToggleButton/> invokes a callback passing false when toggled from on to o
       isOn={true}
       classNamePrefix="myplayer-"
       className="myclassname"
+      useDefaultClassNaming={true}
       toggledOffContent="Off"
       toggledOnContent="On"
     />

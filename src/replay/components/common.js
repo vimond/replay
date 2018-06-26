@@ -1,6 +1,7 @@
 //@flow
 
 export type CommonGenericProps = {
+  useDefaultClassNaming?: boolean,
   classNamePrefix?: string,
   className?: string
 };

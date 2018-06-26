@@ -23,12 +23,26 @@ const onClassName = 'toggled-on';
  * Renders a button with two states - toggled on and off. When clicked, it reports back the opposite state.
  */
 class ToggleButton extends React.Component<Props> {
+  static defaultProps = {
+    useDefaultClassNaming: true
+  };
+  
   handleClick = () => this.props.onToggle && this.props.onToggle(!this.props.isOn);
 
   render() {
-    const { isOn, label, className, classNamePrefix, toggledOnContent, toggledOffContent }: Props = this.props;
+    const {
+      isOn,
+      label,
+      className,
+      classNamePrefix,
+      toggledOnContent,
+      toggledOffContent,
+      useDefaultClassNaming
+    } = this.props;
     const toggleClassName = isOn ? onClassName : offClassName;
-    const classNames = prefixClassNames(classNamePrefix, baseClassName, className, toggleClassName);
+    const classNames = useDefaultClassNaming
+      ? prefixClassNames(classNamePrefix, baseClassName, className, toggleClassName)
+      : className;
     const content = isOn ? toggledOnContent : toggledOffContent;
     return (
       <div title={label} onClick={this.handleClick} className={classNames}>
