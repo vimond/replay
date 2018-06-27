@@ -10,6 +10,8 @@ import type {
 } from '../VideoStreamer/types';
 import type { ObserveCallback, GotoLiveMethod, SetPositionMethod, ControllerApi } from './ControllerContext';
 import { override } from '../../common';
+// $FlowFixMe // Flow has problems with the typed version of this lib.
+import memoize from 'memoize-one';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
@@ -35,7 +37,6 @@ type PlayerControllerProps = {
 type PlayerControllerState = {
   gotoLive: GotoLiveMethod,
   setPosition: SetPositionMethod,
-  mergedConfiguration: any,
   videoStreamerProps: VideoStreamerProps
 };
 
@@ -97,17 +98,13 @@ const getObserveManager = () => {
 class PlayerController extends React.Component<PlayerControllerProps, PlayerControllerState> {
   constructor(props: PlayerControllerProps) {
     super(props);
-    const mergedConfiguration = override(props.configuration, props.options) || {};
     this.state = {
       gotoLive: () => {},
       setPosition: () => {},
-      mergedConfiguration,
       videoStreamerProps: {
         onReady: this.onVideoStreamerReady,
         onError: this.props.onStreamerError,
-        onStreamStateChange: this.onStreamStateChange,
-        // $FlowFixMe
-        configuration: mergedConfiguration.videoStreamer || mergedConfiguration
+        onStreamStateChange: this.onStreamStateChange
       }
     };
   }
@@ -118,6 +115,8 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
 
   inspect = () => this.inspectableStreamState;
 
+  mergeConfiguration = memoize(override);
+  
   componentDidMount() {
     this.isUnmounting = false;
   }
@@ -152,15 +151,16 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   };
 
   render() {
-    const { gotoLive, setPosition, mergedConfiguration, videoStreamerProps } = this.state;
+    const { gotoLive, setPosition, videoStreamerProps } = this.state;
     const { updateProperty, observeManager } = this;
-    const { render, externalProps } = this.props;
+    const { render, externalProps, configuration, options } = this.props;
+    const mergedConfiguration = this.mergeConfiguration(configuration, options);
     const { observe, unobserve } = observeManager;
     const controllerApi = {
       updateProperty,
       gotoLive,
       setPosition,
-      videoStreamer: passPropsToVideoStreamer(this.props.children, videoStreamerProps),
+      videoStreamer: passPropsToVideoStreamer(this.props.children, { ...videoStreamerProps, configuration: mergedConfiguration.videoStreamer }),
       observe,
       inspect: this.inspect,
       unobserve

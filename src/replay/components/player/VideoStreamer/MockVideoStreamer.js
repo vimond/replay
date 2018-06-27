@@ -3,6 +3,10 @@ import * as React from 'react';
 import type { VideoStreamerProps, VideoStreamState } from './types';
 import { defaultClassNamePrefix, prefixClassNames } from '../../common';
 
+type Props = VideoStreamerProps & {
+  children?: React.Node
+};
+
 const defaultTextTracks = [
   {
     kind: 'subtitles',
@@ -86,7 +90,7 @@ const updateWithDefaultValues = (updater, overrides: VideoStreamState = {}) => {
   }
 };
 
-class MockVideoStreamer extends React.Component<VideoStreamerProps> {
+class MockVideoStreamer extends React.Component<Props> {
   static defaultProps = {
     classNamePrefix: defaultClassNamePrefix
   };
@@ -143,7 +147,7 @@ class MockVideoStreamer extends React.Component<VideoStreamerProps> {
       <div
         className={prefixClassNames(this.props.classNamePrefix, className, mockClassName, this.props.className)}
         style={{ background: '#444', color: 'white', fontWeight: 'bold', paddingTop: '20px' }}>
-        Mock video. Is paused? {this.props.isPaused ? 'yes' : 'no'}{' '}
+        {this.props.children || 'Mock video player.'}
       </div>
     );
   }

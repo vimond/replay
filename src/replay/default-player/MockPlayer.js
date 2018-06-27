@@ -4,9 +4,9 @@ import PlayerController from '../components/player/PlayerController/PlayerContro
 import MockVideoStreamer from '../components/player/VideoStreamer/MockVideoStreamer';
 import renderPlayerUI from './playerUI';
 
-const MockPlayer = () => (
-  <PlayerController render={renderPlayerUI}>
-    <MockVideoStreamer />
+const MockPlayer = ({ options, onExit, children } : { options: any, onExit?: () => void, children?: React.Node } = {}) => (
+  <PlayerController options={options} render={renderPlayerUI} externalProps={{ onExit }}>
+    <MockVideoStreamer>{children}</MockVideoStreamer>
   </PlayerController>
 );
 

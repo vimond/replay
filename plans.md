@@ -233,13 +233,60 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 
 ## Detail tasks to be done/clarified
 
-Preparing the project/player for other purposes than Streamlab:
+### Preparing the project/player for other purposes than Streamlab:
 
 * Clear and brief README.md
 * External player API (exposed from PlayerController).
 * ✓ For default player, a separate CSS build not including the demo app is needed.
 * CSS in JS with theme + prop based customisation. Change icons, colors, sizes. Override all styles?
 * Verify that Flow types are recognised in npm package consumers.
+* Utilising the releases functions in Github.
+
+### Docs and control/component gallery
+
+#### Some goals:
+
+* Documentation/showcasing of all controls and their props.
+* Full documentation of everything else.
+* Flow types must be included.
+* Interactive theme editor.
+* Interactive composition of a player UI.
+
+#### [Structor](https://github.com/ipselon/structor/blob/master/docs/README.md)
+
+* Dev environment allowing for composing components together.
+* How about render props?
+
+#### Styleguidist
+
+* Flow support.
+* Only simple dynamic code box.
+
+#### Storybook
+
+* Visual docs through many stories for a control. Control states correspond with stories.
+* Can it also be used for the full playerUI?
+
+#### [Documentation.js](https://github.com/documentationjs/documentation/blob/master/docs/TROUBLESHOOTING.md)
+
+* Supports Flow.
+
+### CSS in JS
+
+JSS looks most interesting. HOC on each styled controls. With connected controls, double HOC-ing of many controls is needed, but not all of them. PlayerUIContainer is one special one.
+
+Need to find strategy for player state class names. Will probably eliminate the need for playerStateClassNameBuilder, but perhaps still keep it there.
+
+Strategy:
+
+* Make all player controls accept a classes prop.
+* Also PlayerUIContainer, AspectRatio, and perhaps PlayerStateClassNames.
+* If present, apply class names from this.
+* If not present, use the class name specified for the control.
+* Make the default PlayerUI optionally call injectSheet() on all controls. This should be done outside playerUI.js, so that there are no react-jss bindings.
+* But don't do it on each render. Instead create a higher order function.
+* ThemedReplay.js or something, wrapping the original Replay.js.
+* Look into including graphics in JSS styles, or make a tight coupling.
 
 Specific improvements and things to verify
 

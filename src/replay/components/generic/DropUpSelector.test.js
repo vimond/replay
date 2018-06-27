@@ -8,7 +8,7 @@ Enzyme.configure({ adapter: new Adapter() });
 const itemsWithIds = [
   { label: 'None of them' /* No id */ },
   { label: 'Kim', id: '001', data: { firstName: 'Kim', lastName: 'Jong-il', birthYear: 1983 } },
-  { label: 'Vladimir', id: '002' },
+  { label: 'Angela', id: '002' },
   { label: 'Donald', id: '003' }
 ];
 const itemsWithoutIds = [
@@ -125,7 +125,7 @@ test('<DropUpSelector/> marks pre-selected item (specified by its ID) with class
   ).toBe(4);
   const selectedItems = shallowSelectorItems.filter(c => c.hasClass('selected'));
   expect(selectedItems.length).toBe(1);
-  expect(selectedItems[0].text()).toBe('Vladimir');
+  expect(selectedItems[0].text()).toBe('Angela');
 });
 
 test('<DropUpSelector/> with items missing IDs marks pre-selected item (specified by object) with class name.', () => {

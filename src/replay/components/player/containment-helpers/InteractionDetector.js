@@ -33,15 +33,11 @@ type InteractionState = {
   clientY: number
 };
 
+const getDelaySeconds = configuration => configuration && configuration.interactionDetector && configuration.interactionDetector.inactivityDelay != null ? configuration.interactionDetector.inactivityDelay : 2;
+
 class InteractionDetector extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.delaySeconds =
-      this.props.configuration &&
-      this.props.configuration.interactionDetector &&
-      this.props.configuration.interactionDetector.inactivityDelay != null
-        ? this.props.configuration.interactionDetector.inactivityDelay
-        : 2;
     this.state = { isUserActive: true };
   }
 
@@ -58,9 +54,25 @@ class InteractionDetector extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (this.delaySeconds >= 0) {
+    const delaySeconds = getDelaySeconds(this.props.configuration);
+    if (delaySeconds >= 0) {
       // Negative values deactivate
       this.intervalId = setInterval(this.updateActivity, 250); // This interval is not the inactivity delay.
+    }
+  }
+  
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    const delaySeconds = getDelaySeconds(this.props.configuration);
+    if (delaySeconds !== getDelaySeconds(prevProps.configuration)) {
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+      }
+      if (delaySeconds >= 0) {
+        // Negative values deactivate
+        this.intervalId = setInterval(this.updateActivity, 250); // This interval is not the inactivity delay.
+      } else {
+        this.setState({ isUserActive: true });
+      }
     }
   }
 
@@ -109,7 +121,7 @@ class InteractionDetector extends React.Component<Props, State> {
         this.setState({ isUserActive: true });
       }
       clearTimeout(this.inactivityTimeoutId);
-      this.inactivityTimeoutId = setTimeout(this.setInactive, this.delaySeconds * 1000);
+      this.inactivityTimeoutId = setTimeout(this.setInactive, getDelaySeconds(this.props.configuration) * 1000);
     }
   };
 

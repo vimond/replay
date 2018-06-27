@@ -5097,6 +5097,10 @@ lodash.cond@^4.3.0:
   version "4.5.2"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/lodash.cond/-/lodash.cond-4.5.2.tgz#f471a1da486be60f6ab955d17115523dd1d255d5"
 
+lodash.debounce@^4.0.8:
+  version "4.0.8"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+
 lodash.defaults@^4.2.0:
   version "4.2.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
@@ -5104,6 +5108,10 @@ lodash.defaults@^4.2.0:
 lodash.flattendeep@^4.4.0:
   version "4.4.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
+
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
 
 lodash.memoize@^4.1.2:
   version "4.1.2"
@@ -5222,6 +5230,10 @@ mem@^1.1.0:
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/mem/-/mem-1.1.0.tgz#5edd52b485ca1d900fe64895505399a0dfa45f76"
   dependencies:
     mimic-fn "^1.0.0"
+
+memoize-one@^3.1.1:
+  version "3.1.1"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/memoize-one/-/memoize-one-3.1.1.tgz#ef609811e3bc28970eac2884eece64d167830d17"
 
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
@@ -6829,6 +6841,13 @@ react-feather@^1.1.0:
 react-is@^16.4.0:
   version "16.4.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/react-is/-/react-is-16.4.0.tgz?dl=https://registry.yarnpkg.com/react-is/-/react-is-16.4.0.tgz#cc9fdc855ac34d2e7d9d2eb7059bbc240d35ffcf"
+
+react-persist@^1.0.2:
+  version "1.0.2"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/react-persist/-/react-persist-1.0.2.tgz#32955ba2f38f65d945055470a1ee90c4894f8b05"
+  dependencies:
+    lodash.debounce "^4.0.8"
+    lodash.isequal "^4.5.0"
 
 react-reconciler@^0.7.0:
   version "0.7.0"
