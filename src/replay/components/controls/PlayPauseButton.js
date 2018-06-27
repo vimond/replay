@@ -43,7 +43,6 @@ class PlayPauseButton extends React.Component<Props> {
         useDefaultClassNaming={classes == null}
         label={label}
         onToggle={this.handleToggle}
-        koko={'haha'}
         toggledOnContent={pausedContent}
         toggledOffContent={playingContent}
       />

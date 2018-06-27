@@ -313,7 +313,6 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                             <ToggleButton
                               className="play-pause-button"
                               classNamePrefix="replay-"
-                              koko="haha"
                               label="Toggle play/pause"
                               onToggle={[Function]}
                               toggledOffContent={
