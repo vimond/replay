@@ -38,8 +38,21 @@ test('hydrateClassNames() returns unprefixed class names from the classes object
     b: 'nice-button-123'
   };
   const selectClasses = cls => [cls.a, cls.b];
-  const result = hydrateClassNames({ classes, selectClasses, classNamePrefix, classNames: [className1, className2, className3] });
+  const selectClasses2 = cls => cls.b;
+  const result = hydrateClassNames({
+    classes,
+    selectClasses,
+    classNamePrefix,
+    classNames: [className1, className2, className3]
+  });
   expect(result).toBe('button-123 nice-button-123');
+  const result2 = hydrateClassNames({
+    classes,
+    selectClasses: selectClasses2,
+    classNamePrefix,
+    classNames: [className1, className2, className3]
+  });
+  expect(result2).toBe('nice-button-123');
 });
 
 test('hydrateClassNames() prefixes all class names passed and joins into one string if useDefaultClassNaming is true.', () => {
@@ -48,7 +61,12 @@ test('hydrateClassNames() prefixes all class names passed and joins into one str
   const className2 = 'ugly-theme';
   const className3 = 'toggled-on';
   const selectClasses = cls => [cls.a, cls.b];
-  const result = hydrateClassNames({ classes: null, selectClasses, classNamePrefix, classNames: [className1, className2, className3] });
+  const result = hydrateClassNames({
+    classes: null,
+    selectClasses,
+    classNamePrefix,
+    classNames: [className1, className2, className3]
+  });
   expect(result).toBe('myprefix-button myprefix-ugly-theme myprefix-toggled-on');
 });
 

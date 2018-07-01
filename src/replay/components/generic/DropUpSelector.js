@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { type CommonGenericProps, type Id, prefixClassNames } from '../common';
+import { hydrateClassNames, type CommonGenericProps, type Id } from '../common';
 import ToggleButton from './ToggleButton';
 
 export type Item =
@@ -41,6 +41,12 @@ const collapsedClassName = 'collapsed';
 const defaultItemClassName = 'drop-up-selector-item';
 const selectedClassName = 'selected';
 
+const selectCollapsedClasses = classes => classes.selectorCollapsed || classes.selector;
+const selectExpandedClasses = classes => classes.selectorExpanded || classes.selector;
+const selectItemsContainerClasses = classes => classes.selectorItemsContainer;
+const selectItemClasses = classes => classes.selectorItem;
+const selectItemSelectedClasses = classes => classes.selectorItemSelected || classes.selectorItem;
+
 const getLabel = (item: Item): string => {
   if (typeof item === 'string') {
     return item;
@@ -61,23 +67,23 @@ class DropUpSelectorItem extends React.Component<SelectorItemProps> {
   handleClick = () => this.props.onSelect && this.props.onSelect(this.props.item);
 
   render() {
-    const { className, classNamePrefix, item, isSelected } = this.props;
+    const { className, classNamePrefix, classes, item, isSelected } = this.props;
     const label = getLabel(item);
-    if (isSelected) {
-      const selectedClassNames = prefixClassNames(classNamePrefix, className, defaultItemClassName, selectedClassName);
-      return (
-        <div onClick={this.handleClick} className={selectedClassNames}>
-          {label}
-        </div>
-      );
-    } else {
-      const classNames = prefixClassNames(classNamePrefix, className, defaultItemClassName);
-      return (
-        <div onClick={this.handleClick} className={classNames}>
-          {label}
-        </div>
-      );
-    }
+    const classNames = hydrateClassNames({
+      classes,
+      classNamePrefix,
+      selectClasses: isSelected ? selectItemSelectedClasses : selectItemClasses,
+      classNames: [
+        className,
+        defaultItemClassName,
+        isSelected ? selectedClassName : null
+      ]
+    });
+    return (
+      <div onClick={this.handleClick} className={classNames}>
+        {label}
+      </div>
+    );
   }
 }
 
@@ -92,6 +98,10 @@ function isEqual(itemA: Item, itemB: ?Item, itemBId: ?Id): boolean {
 }
 
 class DropUpSelector extends React.Component<Props, DropUpState> {
+  static defaultProps = {
+    useDefaultClassNaming: true
+  };
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -108,6 +118,7 @@ class DropUpSelector extends React.Component<Props, DropUpState> {
       onSelect={this.props.onSelect}
       isSelected={isEqual(item, this.props.selectedItem, this.props.selectedItemId)}
       className={this.props.itemClassName}
+      classes={this.props.classes}
       classNamePrefix={this.props.classNamePrefix}
     />
   );
@@ -116,6 +127,7 @@ class DropUpSelector extends React.Component<Props, DropUpState> {
     const {
       className,
       classNamePrefix,
+      classes,
       items,
       collapsedToggleContent,
       expandedToggleContent,
@@ -127,24 +139,42 @@ class DropUpSelector extends React.Component<Props, DropUpState> {
         ? items.map(this.renderSelectorItem).reverse()
         : items.map(this.renderSelectorItem)
       : null;
-    const classNames = prefixClassNames(
+    const classNames = hydrateClassNames({
+      classes,
       classNamePrefix,
-      className,
-      defaultSelectorClassName,
-      this.state.isExpanded ? expandedClassName : collapsedClassName
-    );
+      selectClasses: this.state.isExpanded ? selectExpandedClasses : selectCollapsedClasses,
+      classNames: [
+        className,
+        defaultSelectorClassName,
+        this.state.isExpanded ? expandedClassName : collapsedClassName
+      ]
+    });
+    const itemsContainerClassNames = hydrateClassNames({
+      classes,
+      selectClasses: selectItemsContainerClasses,
+      classNamePrefix,
+      classNames: [selectorItemsClassName]
+    });
+    const toggleButtonClasses = classes ? {
+      toggleButtonOff: classes.selectorToggle || classes.selectorToggleOff,
+      toggleButtonOn: classes.selectorToggleOn
+    } : null;
+
     return (
       <div className={classNames}>
         <ToggleButton
           isOn={this.state.isExpanded}
           className={expandToggleClassName}
           classNamePrefix={classNamePrefix}
+          classes={toggleButtonClasses}
           label={label}
           onToggle={this.handleToggle}
           toggledOffContent={collapsedToggleContent}
           toggledOnContent={expandedToggleContent}
         />
-        <div className={prefixClassNames(classNamePrefix, selectorItemsClassName)}>{renderedItems}</div>
+        <div className={itemsContainerClassNames}>
+          {renderedItems}
+        </div>
       </div>
     );
   }

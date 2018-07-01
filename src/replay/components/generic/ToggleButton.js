@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { type CommonGenericProps, prefixClassNames } from '../common';
+import { type CommonGenericProps, hydrateClassNames } from '../common';
 
 type Props = CommonGenericProps & {
   /** Set to true if the button should be in the toggled on mode. */
@@ -19,6 +19,9 @@ const baseClassName = 'toggle-button';
 const offClassName = 'toggled-off';
 const onClassName = 'toggled-on';
 
+const selectOffClasses = classes => classes.toggleButtonOff || classes.toggleButton;
+const selectOnClasses = classes => classes.toggleButtonOn || classes.toggleButton;
+
 /**
  * Renders a button with two states - toggled on and off. When clicked, it reports back the opposite state.
  */
@@ -26,7 +29,7 @@ class ToggleButton extends React.Component<Props> {
   static defaultProps = {
     useDefaultClassNaming: true
   };
-  
+
   handleClick = () => this.props.onToggle && this.props.onToggle(!this.props.isOn);
 
   render() {
@@ -37,12 +40,15 @@ class ToggleButton extends React.Component<Props> {
       classNamePrefix,
       toggledOnContent,
       toggledOffContent,
-      useDefaultClassNaming
+      classes
     } = this.props;
     const toggleClassName = isOn ? onClassName : offClassName;
-    const classNames = useDefaultClassNaming
-      ? prefixClassNames(classNamePrefix, baseClassName, className, toggleClassName)
-      : className;
+    const classNames = hydrateClassNames({
+      classes,
+      selectClasses: isOn ? selectOnClasses : selectOffClasses,
+      classNamePrefix,
+      classNames: [className, baseClassName, toggleClassName]
+    });
     const content = isOn ? toggledOnContent : toggledOffContent;
     return (
       <div title={label} onClick={this.handleClick} className={classNames}>

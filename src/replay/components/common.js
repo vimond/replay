@@ -1,7 +1,9 @@
 //@flow
 
+type Classes = { [string]: ?string };
+
 export type CommonGenericProps = {
-  classes?: {},
+  classes?: ?Classes,
   classNamePrefix?: string,
   className?: string
 };
@@ -41,13 +43,18 @@ export function hydrateClassNames({
   classNames,
   classNamePrefix
 }: {
-  classes?: {},
-  selectClasses: ({ [string]: string }) => Array<string>,
+  classes: ?Classes,
+  selectClasses: Classes => ?string | ?Array<?string>,
   classNames?: Array<?string>,
   classNamePrefix?: string
 }): ?string {
   if (classes && selectClasses) {
-    return selectClasses(classes).filter(isDefined).join(' ');
+    const selectedClasses = selectClasses(classes);
+    if (Array.isArray(selectedClasses)) {
+      return selectedClasses.filter(isDefined).join(' ');
+    } else {
+      return selectedClasses;
+    }
   } else if (classNames) {
     return prefixClassNames(classNamePrefix, ...classNames);
   }

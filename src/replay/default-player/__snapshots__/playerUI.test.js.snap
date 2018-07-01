@@ -207,6 +207,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                         }
                         label="Exit"
                         onClick={[Function]}
+                        useDefaultClassNaming={true}
                       >
                         <div
                           className="replay-button replay-exit-button"
@@ -271,6 +272,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                     />
                     <ControlsBar
                       classNamePrefix="replay-"
+                      useDefaultClassNaming={true}
                     >
                       <div
                         className="replay-controls-bar"
@@ -330,7 +332,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                               useDefaultClassNaming={true}
                             >
                               <div
-                                className="replay-toggle-button replay-play-pause-button replay-toggled-off"
+                                className="replay-play-pause-button replay-toggle-button replay-toggled-off"
                                 onClick={[Function]}
                                 title="Toggle play/pause"
                               >
@@ -424,6 +426,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                               }
                               label="Skip back 10 seconds"
                               onClick={[Function]}
+                              useDefaultClassNaming={true}
                             >
                               <div
                                 className="replay-button replay-skip-button"
@@ -647,7 +650,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                                 useDefaultClassNaming={true}
                               >
                                 <div
-                                  className="replay-toggle-button replay-mute-toggle replay-toggled-off"
+                                  className="replay-mute-toggle replay-toggle-button replay-toggled-off"
                                   onClick={[Function]}
                                   title="Toggle mute"
                                 >
@@ -832,7 +835,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                             useDefaultClassNaming={true}
                           >
                             <div
-                              className="replay-toggle-button replay-fullscreen-button replay-toggled-off"
+                              className="replay-fullscreen-button replay-toggle-button replay-toggled-off"
                               onClick={[Function]}
                               title="Toggle fullscreen"
                             >

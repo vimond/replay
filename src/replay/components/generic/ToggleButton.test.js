@@ -26,14 +26,18 @@ test('<ToggleButton/> renders with prefixed class name and DOM.', () => {
   expect(rendered.text()).toEqual('Off');
 });
 
-test('<ToggleButton/> renders with only the className passed as prop, if useDefaultClassNaming is false.', () => {
+test(`<ToggleButton/> renders only with unprefixed class name from classes.toggleButton, classes.toggleButtonOn, 
+    classes.toggleButtonOff if classes is specified.`, () => {
   const rendered = shallow(
     <ToggleButton
       isOn={false}
       classNamePrefix="myplayer-"
       label="My toggle button"
       className="myclassname"
-      useDefaultClassNaming={false}
+      classes={{
+        toggleButtonOn: 'toggle-button-on-456',
+        toggleButtonOff: 'toggle-button-off-456'
+      }}
       toggledOffContent="Off"
       toggledOnContent="On"
     />
@@ -43,7 +47,13 @@ test('<ToggleButton/> renders with only the className passed as prop, if useDefa
   expect(rendered.hasClass('myplayer-myclassname')).toBe(false);
   expect(rendered.hasClass('myplayer-toggled-off')).toBe(false);
   expect(rendered.hasClass('toggled-off')).toBe(false);
-  expect(rendered.hasClass('myclassname')).toBe(true);
+  expect(rendered.hasClass('toggle-button-off-456')).toBe(true);
+  expect(rendered.hasClass('toggle-button-on-456')).toBe(false);
+  
+  rendered.setProps({ isOn: true });
+  rendered.update();
+  expect(rendered.hasClass('toggle-button-off-456')).toBe(false);
+  expect(rendered.hasClass('toggle-button-on-456')).toBe(true);
 });
 
 test('<ToggleButton/> renders different the specified inner content when toggled or not toggled.', () => {

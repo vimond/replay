@@ -317,8 +317,6 @@ Timeline:
 ```
 
 
-
-
 * Make all player controls accept a classes prop.
 * Also PlayerUIContainer, AspectRatio, and perhaps PlayerStateClassNames.
 * If present, apply class names from this.
@@ -327,6 +325,16 @@ Timeline:
 * But don't do it on each render. Instead create a higher order function.
 * ThemedReplay.js or something, wrapping the original Replay.js.
 * Look into including graphics in JSS styles, or make a tight coupling.
+
+* Consider directories for each control, with the following files, e.g. for Slider:
+	* Slider.js
+	* Slider.jss.js
+	* Slider.css
+	* Slider.test.js
+	* Slider.classes.js
+	* Styleguidist example?
+
+
 
 Specific improvements and things to verify
 

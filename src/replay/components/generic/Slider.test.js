@@ -93,7 +93,7 @@ but only with unprefixed custom class names, when classes is specified.`, () => 
       slider: 'slider-123',
       sliderTrack: 'slider-track-123',
       sliderHandle: 'slider-handle-123',
-      sliderDragging: 'dragging-123'
+      sliderDragging: 'slider-dragging-123'
     },
     className: 'myclassname',
     handleClassName: 'myhandleclassname',
@@ -120,8 +120,8 @@ but only with unprefixed custom class names, when classes is specified.`, () => 
   expect(handleElement.hasClass('slider-handle-123')).toBe(true);
   shallowElement.setState({ isDragging: true });
   shallowElement.update();
-  expect(shallowElement.hasClass('slider-123')).toBe(true);
-  expect(shallowElement.hasClass('dragging-123')).toBe(true);
+  expect(shallowElement.hasClass('slider-123')).toBe(false);
+  expect(shallowElement.hasClass('slider-dragging-123')).toBe(true);
 });
 
 test(

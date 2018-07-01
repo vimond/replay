@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { type CommonGenericProps, prefixClassNames, getBoundingEventCoordinates, hydrateClassNames } from '../common';
+import { type CommonGenericProps, getBoundingEventCoordinates, hydrateClassNames } from '../common';
 
 type Props = CommonGenericProps & {
   value: number,
@@ -30,10 +30,10 @@ const zeroStyle = '0%';
 const horizontalProp = 'left';
 const verticalProp = 'bottom';
 
-const selectDefaultClasses = classes => [classes.slider];
-const selectDraggingClasses = classes => [classes.slider, classes.sliderDragging];
-const selectTrackClasses = classes => [classes.sliderTrack];
-const selectHandleClasses = classes => [classes.sliderHandle];
+const selectDefaultClasses = classes => classes.slider;
+const selectDraggingClasses = classes => classes.sliderDragging || classes.slider;
+const selectTrackClasses = classes => classes.sliderTrack;
+const selectHandleClasses = classes => classes.sliderHandle;
 
 function toPercentString(value: number, maxValue: number): string {
   const attempt = value / maxValue;

@@ -9,7 +9,7 @@ type Props = CommonGenericProps & {
 };
 
 const baseClassName = 'button';
-const selectClasses = classes => [classes.button];
+const selectClasses = classes => classes.button;
 
 class Button extends React.Component<Props> {
   static defaultProps = {

@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { type CommonGenericProps, defaultClassNamePrefix, prefixClassNames } from '../common';
+import { hydrateClassNames, type CommonGenericProps, defaultClassNamePrefix } from '../common';
 
 type Props = CommonGenericProps & {
   children: React.Node
@@ -8,14 +8,22 @@ type Props = CommonGenericProps & {
 
 class Container extends React.Component<Props> {
   baseClassName = 'container';
+  selectClasses: ({ [string]: ?string }) => ?string | ?Array<?string> = classes => classes.container;
 
   static defaultProps = {
-    classNamePrefix: defaultClassNamePrefix
+    classNamePrefix: defaultClassNamePrefix,
+    useDefaultClassNaming: true
   };
 
   render() {
-    const { className, classNamePrefix, children }: Props = this.props;
-    const classNames = prefixClassNames(classNamePrefix, this.baseClassName, className);
+    const { className, classNamePrefix, classes, children }: Props = this.props;
+    const { selectClasses } = this;
+    const classNames = hydrateClassNames({
+      classes,
+      selectClasses,
+      classNamePrefix,
+      classNames: [className, this.baseClassName]
+    });
     return <div className={classNames}>{children}</div>;
   }
 }
