@@ -1,4 +1,11 @@
-import { prefixClassNames, getBoundingEventCoordinates, formatTime, formatClockTime, isDifferent } from './common';
+import {
+  prefixClassNames,
+  getBoundingEventCoordinates,
+  formatTime,
+  formatClockTime,
+  isDifferent,
+  hydrateClassNames
+} from './common';
 
 test('prefixClassNames() prefixes all class names passed and joins into one string.', () => {
   const prefix = 'myprefix-';
@@ -19,6 +26,30 @@ test("prefixClassNames() doesn't include null or undefined if for prefix or clas
   expect(result1).toBe('button toggled-on');
   const result2 = prefixClassNames(prefix2, className1, className2, className3);
   expect(result2).toBe('myprefix-button myprefix-toggled-on');
+});
+
+test('hydrateClassNames() returns unprefixed class names from the classes object when the latter is specified.', () => {
+  const classNamePrefix = 'myprefix-';
+  const className1 = 'button';
+  const className2 = 'ugly-theme';
+  const className3 = 'toggled-on';
+  const classes = {
+    a: 'button-123',
+    b: 'nice-button-123'
+  };
+  const selectClasses = cls => [cls.a, cls.b];
+  const result = hydrateClassNames({ classes, selectClasses, classNamePrefix, classNames: [className1, className2, className3] });
+  expect(result).toBe('button-123 nice-button-123');
+});
+
+test('hydrateClassNames() prefixes all class names passed and joins into one string if useDefaultClassNaming is true.', () => {
+  const classNamePrefix = 'myprefix-';
+  const className1 = 'button';
+  const className2 = 'ugly-theme';
+  const className3 = 'toggled-on';
+  const selectClasses = cls => [cls.a, cls.b];
+  const result = hydrateClassNames({ classes: null, selectClasses, classNamePrefix, classNames: [className1, className2, className3] });
+  expect(result).toBe('myprefix-button myprefix-ugly-theme myprefix-toggled-on');
 });
 
 test('getBoundingEventCoordinates() returns coordinates relative to target element.', () => {

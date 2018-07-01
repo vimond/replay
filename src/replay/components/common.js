@@ -1,7 +1,7 @@
 //@flow
 
 export type CommonGenericProps = {
-  useDefaultClassNaming?: boolean,
+  classes?: {},
   classNamePrefix?: string,
   className?: string
 };
@@ -19,10 +19,38 @@ export const defaultClassNamePrefix = 'replay-';
 
 export function prefixClassNames(prefix: ?string, ...names: Array<?string>): string {
   const sanitizedPrefix = prefix == null ? '' : prefix;
-  return names
-    .filter(n => n != null)
-    .map(n => n && sanitizedPrefix + n)
-    .join(' ');
+  const classNameArray = [];
+  for (let i = 0; i < names.length; i++) {
+    // Early optimisation: For loop is more effective than map/filter...
+    if (names[i]) {
+      classNameArray.push(sanitizedPrefix + names[i]);
+    }
+  }
+  return classNameArray.join(' ');
+}
+
+/*export function buildClassNames(useDefaultClassNaming: ?boolean, prefix: ?string, ...names: Array<?string>): string {
+  return useDefaultClassNaming ? prefixClassNames(prefix, ...names) : names[0] || '';
+}*/
+
+const isDefined = item => item;
+
+export function hydrateClassNames({
+  classes,
+  selectClasses,
+  classNames,
+  classNamePrefix
+}: {
+  classes?: {},
+  selectClasses: ({ [string]: string }) => Array<string>,
+  classNames?: Array<?string>,
+  classNamePrefix?: string
+}): ?string {
+  if (classes && selectClasses) {
+    return selectClasses(classes).filter(isDefined).join(' ');
+  } else if (classNames) {
+    return prefixClassNames(classNamePrefix, ...classNames);
+  }
 }
 
 export function getBoundingEventCoordinates(evt: any, element?: HTMLElement): Coordinates {

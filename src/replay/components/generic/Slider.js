@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { type CommonGenericProps, prefixClassNames, getBoundingEventCoordinates } from '../common';
+import { type CommonGenericProps, prefixClassNames, getBoundingEventCoordinates, hydrateClassNames } from '../common';
 
 type Props = CommonGenericProps & {
   value: number,
@@ -29,6 +29,11 @@ const baseHandleClassName = 'slider-handle';
 const zeroStyle = '0%';
 const horizontalProp = 'left';
 const verticalProp = 'bottom';
+
+const selectDefaultClasses = classes => [classes.slider];
+const selectDraggingClasses = classes => [classes.slider, classes.sliderDragging];
+const selectTrackClasses = classes => [classes.sliderTrack];
+const selectHandleClasses = classes => [classes.sliderHandle];
 
 function toPercentString(value: number, maxValue: number): string {
   const attempt = value / maxValue;
@@ -156,6 +161,7 @@ class Slider extends React.Component<Props, State> {
       trackContent,
       classNamePrefix,
       className,
+      classes,
       handleClassName,
       trackClassName,
       label,
@@ -166,11 +172,25 @@ class Slider extends React.Component<Props, State> {
     } = this.props;
     const { dragValue, isDragging } = this.state;
     const displayValue = (isDragging || isUpdateBlocked) && dragValue != null ? dragValue : value;
-    const sliderClassNames = isDragging
-      ? prefixClassNames(classNamePrefix, baseClassName, className, isDraggingClassName)
-      : prefixClassNames(classNamePrefix, baseClassName, className);
-    const handleClassNames = prefixClassNames(classNamePrefix, baseHandleClassName, handleClassName);
-    const trackClassNames = prefixClassNames(classNamePrefix, baseTrackClassName, trackClassName);
+    const selectClasses = isDragging ? selectDraggingClasses : selectDefaultClasses;
+    const sliderClassNames = hydrateClassNames({
+      classes,
+      selectClasses,
+      classNamePrefix,
+      classNames: [baseClassName, className, isDragging ? isDraggingClassName : null]
+    });
+    const handleClassNames = hydrateClassNames({
+      classes,
+      selectClasses: selectHandleClasses,
+      classNamePrefix,
+      classNames: [baseHandleClassName, handleClassName]
+    });
+    const trackClassNames = hydrateClassNames({
+      classes,
+      selectClasses: selectTrackClasses,
+      classNamePrefix,
+      classNames: [baseTrackClassName, trackClassName]
+    });
     return (
       <div
         onClick={this.handleHandleOrTrackClick}

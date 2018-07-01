@@ -18,6 +18,8 @@ function shallowRenderSlider({
   classNamePrefix,
   className,
   handleClassName = 'myitemclassname',
+  trackClassName,
+  classes,
   trackContent,
   children,
   handleContent,
@@ -30,6 +32,8 @@ function shallowRenderSlider({
       className={className}
       classNamePrefix={classNamePrefix}
       handleClassName={handleClassName}
+      trackClassName={trackClassName}
+      classes={classes}
       value={value}
       maxValue={maxValue}
       label={label}
@@ -68,6 +72,8 @@ test(
     const trackElement = shallowElement.childAt(0);
     expect(trackElement.name()).toBe('div');
     expect(trackElement.childAt(0).name()).toBe('svg');
+    expect(trackElement.hasClass('myprefix-slider-track')).toBe(true);
+    expect(trackElement.hasClass('myprefix-mytrackclassname')).toBe(true);
 
     const handleElement = shallowElement.childAt(2);
     expect(handleElement.name()).toBe('div');
@@ -76,6 +82,47 @@ test(
     expect(handleElement.hasClass('myprefix-myhandleclassname')).toBe(true);
   }
 );
+
+test(`<Slider/> should insert the specified track content, bar content, and handle content 
+but only with unprefixed custom class names, when classes is specified.`, () => {
+  const shallowElement = shallowRenderSlider({
+    children: mockBarContent,
+    handleContent: mockHandleContent,
+    trackContent: mockTrackContent,
+    classes: {
+      slider: 'slider-123',
+      sliderTrack: 'slider-track-123',
+      sliderHandle: 'slider-handle-123',
+      sliderDragging: 'dragging-123'
+    },
+    className: 'myclassname',
+    handleClassName: 'myhandleclassname',
+    trackClassName: 'mytrackclassname',
+    classNamePrefix: 'myprefix-'
+  });
+  expect(shallowElement.name()).toBe('div');
+  expect(shallowElement.hasClass('myprefix-slider')).toBe(false);
+  expect(shallowElement.hasClass('myprefix-myclassname')).toBe(false);
+  expect(shallowElement.hasClass('slider-123')).toBe(true);
+  
+  const trackElement = shallowElement.childAt(0);
+  expect(trackElement.name()).toBe('div');
+  expect(trackElement.childAt(0).name()).toBe('svg');
+  expect(trackElement.hasClass('myprefix-slider-track')).toBe(false);
+  expect(trackElement.hasClass('myprefix-mytrackclassname')).toBe(false);
+  expect(trackElement.hasClass('slider-track-123')).toBe(true);
+
+  const handleElement = shallowElement.childAt(2);
+  expect(handleElement.name()).toBe('div');
+  expect(handleElement.childAt(0).name()).toBe('span');
+  expect(handleElement.hasClass('myprefix-slider-handle')).toBe(false);
+  expect(handleElement.hasClass('myprefix-myhandleclassname')).toBe(false);
+  expect(handleElement.hasClass('slider-handle-123')).toBe(true);
+  shallowElement.setState({ isDragging: true });
+  shallowElement.update();
+  expect(shallowElement.hasClass('slider-123')).toBe(true);
+  expect(shallowElement.hasClass('dragging-123')).toBe(true);
+});
 
 test(
   '<Slider/> should position the handle relatively according to different specified values ' +

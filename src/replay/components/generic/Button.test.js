@@ -16,6 +16,23 @@ test('<Button/> renders with prefixed class name and DOM.', () => {
   expect(rendered.text()).toEqual('Click me!');
 });
 
+test('<Button/> renders only with unprefixed class name from classes.button if classes is specified.', () => {
+  const rendered = shallow(
+    <Button
+      classNamePrefix="myplayer-"
+      label="My button"
+      classes={{ button: 'my-injected-classname' }}
+      className="myclassname"
+      content="Click me!"
+    />
+  );
+  expect(rendered.name()).toEqual('div');
+  expect(rendered.hasClass('myplayer-button')).toBe(false);
+  expect(rendered.hasClass('myplayer-myclassname')).toBe(false);
+  expect(rendered.hasClass('myclassname')).toBe(false);
+  expect(rendered.hasClass('my-injected-classname')).toBe(true);
+});
+
 test('<Button/> invokes a callback when clicked', () => {
   const handleClick = jest.fn();
   const rendered = shallow(
