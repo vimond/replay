@@ -28,12 +28,12 @@
     border-radius: 8px;
 }
 
-.replay-button, .replay-toggle-button, .replay-drop-up-selector {
+.replay-button, .replay-toggle-button, .replay-selector {
     width: 40px;
     height: 50px;
 }
 
-.replay-drop-up-selector-items {
+.replay-selector-items {
     position: absolute;
     bottom: 50px;
     padding-top: 5px;
@@ -42,17 +42,17 @@
     visibility: hidden;
 }
 
-.replay-drop-up-selector:hover .replay-drop-up-selector-items {
+.replay-selector:hover .replay-selector-items {
     visibility: visible;
 }
 
-.replay-drop-up-selector-item {
+.replay-selector-item {
     padding: 5px 15px;
     font-size: 14px;
     text-align: left;
 }
 
-.replay-drop-up-selector-item.replay-selected {
+.replay-selector-item.replay-selected {
     font-weight: bold;
     color: white;
 }
@@ -186,14 +186,14 @@ td.replay-playback-monitor-previous-value {
     transform: translateY(2px);
 }
 
-.replay-quality-selector .replay-drop-up-selector-toggle {
+.replay-quality-selector .replay-selector-toggle {
     transform-origin: 50% 50%;
     transform: scale(0.85);
 }
 
 /* Colors with transitions */
 
-.replay-controls-bar, .replay-drop-up-selector-items, .replay-exit-button, .replay-playback-monitor-close-button, .replay-buffering-indicator {
+.replay-controls-bar, .replay-selector-items, .replay-exit-button, .replay-playback-monitor-close-button, .replay-buffering-indicator {
     color: #ccc;
 }
 
@@ -201,11 +201,11 @@ td.replay-playback-monitor-previous-value {
     background-color: #222;
 }
 
-.replay-controls-bar, .replay-drop-up-selector-items {
+.replay-controls-bar, .replay-selector-items {
     background-color: rgba(32,32,32,0.8);
 }
 
-.replay-slider-track, .replay-drop-up-selector-item:hover {
+.replay-slider-track, .replay-selector-item:hover {
     background-color: #888;
 }
 
@@ -263,17 +263,17 @@ td.replay-playback-monitor-previous-value {
     transition: color 0.5s;
 }
 
-.replay-drop-up-selector-items {
+.replay-selector-items {
     opacity: 0;
     transition: opacity 0.5s, visibility 0s linear 0.5s;
 }
 
-.replay-drop-up-selector:hover .replay-drop-up-selector-items {
+.replay-selector:hover .replay-selector-items {
     opacity: 1;
     transition-delay: 0s;
 }
 
-.replay-drop-up-selector-item {
+.replay-selector-item {
     transition: background-color 0.2s ease-in-out;
 }
 

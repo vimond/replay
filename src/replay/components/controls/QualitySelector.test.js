@@ -66,7 +66,7 @@ test('<QualitySelector/> with strategy "lock-bitrate" updates property lockedBit
       classNamePrefix=""
     />
   );
-  const itemsContainer = rendered.dive().find('div.drop-up-selector-items');
+  const itemsContainer = rendered.dive().find('div.selector-items');
   const selectorItems = itemsContainer.children().map(c => c.dive());
   selectorItems[4].simulate('click');
   expect(updateProperty.mock.calls[0][0].lockedBitrate).toBe(333);
@@ -84,7 +84,7 @@ test('<QualitySelector/> with strategy cap-bitrate updates property maxBitrate w
       classNamePrefix=""
     />
   );
-  const itemsContainer = rendered.dive().find('div.drop-up-selector-items');
+  const itemsContainer = rendered.dive().find('div.selector-items');
   const selectorItems = itemsContainer.children().map(c => c.dive());
   selectorItems[0].simulate('click');
   expect(updateProperty.mock.calls[0][0].maxBitrate).toBe(4444);

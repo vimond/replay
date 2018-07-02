@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import DropUpSelector from './DropUpSelector';
+import Selector from './Selector';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -18,7 +18,7 @@ const itemsWithoutIds = [
   { label: 'Satya' }
 ];
 
-function shallowRenderDropUp({
+function shallowRenderSelector({
   items = itemsWithIds,
   reverseOrder,
   classNamePrefix,
@@ -33,7 +33,7 @@ function shallowRenderDropUp({
   onSelect
 } = {}) {
   return shallow(
-    <DropUpSelector
+    <Selector
       items={items}
       classNamePrefix={classNamePrefix}
       className={className}
@@ -50,10 +50,10 @@ function shallowRenderDropUp({
   );
 }
 
-test('<DropUpSelector/> renders with prefixed class name and DOM, including all selectable items in the same order as specified.', () => {
-  const shallowElement = shallowRenderDropUp({ classNamePrefix: 'myplayer-' });
+test('<Selector/> renders with prefixed class name and DOM, including all selectable items in the same order as specified.', () => {
+  const shallowElement = shallowRenderSelector({ classNamePrefix: 'myplayer-' });
   expect(shallowElement.name()).toEqual('div');
-  expect(shallowElement.hasClass('myplayer-drop-up-selector')).toBe(true);
+  expect(shallowElement.hasClass('myplayer-selector')).toBe(true);
   expect(shallowElement.hasClass('myplayer-myclassname')).toBe(true);
   expect(shallowElement.hasClass('myplayer-expanded')).toBe(false);
   expect(shallowElement.hasClass('myplayer-collapsed')).toBe(true);
@@ -61,15 +61,15 @@ test('<DropUpSelector/> renders with prefixed class name and DOM, including all 
   expect(shallowElement.find('ToggleButton').props().label).toEqual('My selector');
   expect(shallowElement.find('ToggleButton').props().useDefaultClassNaming).toBe(true);
 
-  const shallowItemsContainer = shallowElement.find('div.myplayer-drop-up-selector-items');
+  const shallowItemsContainer = shallowElement.find('div.myplayer-selector-items');
   expect(shallowItemsContainer.length).toBe(1);
-  expect(shallowItemsContainer.hasClass('myplayer-drop-up-selector-items')).toBe(true);
+  expect(shallowItemsContainer.hasClass('myplayer-selector-items')).toBe(true);
   expect(shallowItemsContainer.children().length).toBe(4);
 
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
   expect(
     shallowSelectorItems.filter(
-      c => c.hasClass('myplayer-drop-up-selector-item') && c.hasClass('myplayer-myitemclassname')
+      c => c.hasClass('myplayer-selector-item') && c.hasClass('myplayer-myitemclassname')
     ).length
   ).toBe(4);
   expect(shallowSelectorItems.filter(c => c.hasClass('myplayer-selected')).length).toBe(0);
@@ -78,129 +78,129 @@ test('<DropUpSelector/> renders with prefixed class name and DOM, including all 
   expect(shallowSelectorItems[3].text()).toBe('Donald');
 });
 
-test('<DropUpSelector/> renders with unprefixed names from classes if specified.', () => {
+test('<Selector/> renders with unprefixed names from classes if specified.', () => {
   const classes = {
-    selectorCollapsed: 'dropup-collapsed-1',
-    selectorExpanded: 'dropup-expanded-1',
-    selectorItemsContainer: 'dropup-items-1',
-    selectorItem: 'dropup-item-1',
-    selectorItemSelected: 'dropup-item-selected-1',
-    selectorToggleOff: 'dropup-toggle-off',
-    selectorToggleOn: 'dropup-toggle-on'
+    selectorCollapsed: 'selector-collapsed-1',
+    selectorExpanded: 'selector-expanded-1',
+    selectorItemsContainer: 'selector-items-1',
+    selectorItem: 'selector-item-1',
+    selectorItemSelected: 'selector-item-selected-1',
+    selectorToggleOff: 'selector-toggle-off',
+    selectorToggleOn: 'selector-toggle-on'
   };
-  const shallowElement = shallowRenderDropUp({ classNamePrefix: 'myplayer-', classes });
+  const shallowElement = shallowRenderSelector({ classNamePrefix: 'myplayer-', classes });
   expect(shallowElement.name()).toEqual('div');
-  expect(shallowElement.hasClass('myplayer-drop-up-selector')).toBe(false);
+  expect(shallowElement.hasClass('myplayer-selector')).toBe(false);
   expect(shallowElement.hasClass('myplayer-myclassname')).toBe(false);
   expect(shallowElement.hasClass('myplayer-expanded')).toBe(false);
   expect(shallowElement.hasClass('myplayer-collapsed')).toBe(false);
-  expect(shallowElement.hasClass('dropup-collapsed-1')).toBe(true);
+  expect(shallowElement.hasClass('selector-collapsed-1')).toBe(true);
   expect(shallowElement.find('ToggleButton').props().classes).toEqual({
-    toggleButtonOn: 'dropup-toggle-on',
-    toggleButtonOff: 'dropup-toggle-off'
+    toggleButtonOn: 'selector-toggle-on',
+    toggleButtonOff: 'selector-toggle-off'
   });
 
-  const shallowItemsContainer = shallowElement.find('div.dropup-items-1');
-  expect(shallowItemsContainer.hasClass('myplayer-drop-up-selector-items')).toBe(false);
+  const shallowItemsContainer = shallowElement.find('div.selector-items-1');
+  expect(shallowItemsContainer.hasClass('myplayer-selector-items')).toBe(false);
 
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
   expect(
     shallowSelectorItems.filter(
-      c => c.hasClass('dropup-item-1') // && !c.hasClass('myplayer-drop-up-selector-item') && !c.hasClass('myplayer-myitemclassname')
+      c => c.hasClass('selector-item-1') // && !c.hasClass('myplayer-selector-item') && !c.hasClass('myplayer-myitemclassname')
     ).length
   ).toBe(4);
 
   shallowElement.setState({ isExpanded: true });
   shallowElement.update();
 
-  expect(shallowElement.hasClass('dropup-collapsed-1')).toBe(false);
-  expect(shallowElement.hasClass('dropup-expanded-1')).toBe(true);
+  expect(shallowElement.hasClass('selector-collapsed-1')).toBe(false);
+  expect(shallowElement.hasClass('selector-expanded-1')).toBe(true);
 
-  const shallowElement2 = shallowRenderDropUp({ classNamePrefix: 'myplayer-', classes, selectedItem: itemsWithIds[2] });
+  const shallowElement2 = shallowRenderSelector({ classNamePrefix: 'myplayer-', classes, selectedItem: itemsWithIds[2] });
   const shallowSelectorItems2 = shallowElement2
-    .find('div.dropup-items-1')
+    .find('div.selector-items-1')
     .children()
     .map(c => c.dive());
 
   expect(
     shallowSelectorItems2.filter(
-      c => c.hasClass('dropup-item-1') // && !c.hasClass('myplayer-drop-up-selector-item') && !c.hasClass('myplayer-myitemclassname')
+      c => c.hasClass('selector-item-1') // && !c.hasClass('myplayer-selector-item') && !c.hasClass('myplayer-myitemclassname')
     ).length
   ).toBe(3);
 
-  expect(shallowSelectorItems2[2].hasClass('dropup-item-selected-1')).toBe(true);
+  expect(shallowSelectorItems2[2].hasClass('selector-item-selected-1')).toBe(true);
 });
 
-test('<DropUpSelector/> reverses the order of selectable items for natural appearance in the "drop up" approach.', () => {
-  const shallowElement = shallowRenderDropUp({ reverseOrder: true });
-  const shallowItemsContainer = shallowElement.find('div.drop-up-selector-items');
+test('<Selector/> reverses the order of selectable items for natural appearance in the "drop up" approach.', () => {
+  const shallowElement = shallowRenderSelector({ reverseOrder: true });
+  const shallowItemsContainer = shallowElement.find('div.selector-items');
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
 
   expect(shallowSelectorItems[0].text()).toBe('Donald');
   expect(shallowSelectorItems[3].text()).toBe('None of them');
 });
 
-test('<DropUpSelector/> renders with default class name prefix (when unspecified) and DOM, including all selectable items.', () => {
-  const shallowElement = shallowRenderDropUp({ classNamePrefix: undefined });
+test('<Selector/> renders with default class name prefix (when unspecified) and DOM, including all selectable items.', () => {
+  const shallowElement = shallowRenderSelector({ classNamePrefix: undefined });
   expect(shallowElement.name()).toEqual('div');
-  expect(shallowElement.hasClass('drop-up-selector')).toBe(true);
+  expect(shallowElement.hasClass('selector')).toBe(true);
   expect(shallowElement.hasClass('myclassname')).toBe(true);
   expect(shallowElement.hasClass('expanded')).toBe(false);
   expect(shallowElement.hasClass('collapsed')).toBe(true);
   expect(shallowElement.find('ToggleButton').props().toggledOffContent).toEqual('+');
 
-  const shallowItemsContainer = shallowElement.find('div.drop-up-selector-items');
+  const shallowItemsContainer = shallowElement.find('div.selector-items');
   expect(shallowItemsContainer.length).toBe(1);
-  expect(shallowItemsContainer.hasClass('drop-up-selector-items')).toBe(true);
+  expect(shallowItemsContainer.hasClass('selector-items')).toBe(true);
   expect(shallowItemsContainer.children().length).toBe(4);
 });
 
-test('<DropUpSelector/> marks pre-selected item (specified by object) with class name.', () => {
+test('<Selector/> marks pre-selected item (specified by object) with class name.', () => {
   // Both based on item and based on item ID.
-  const shallowElement = shallowRenderDropUp({ selectedItem: itemsWithIds[3] });
+  const shallowElement = shallowRenderSelector({ selectedItem: itemsWithIds[3] });
 
-  const shallowItemsContainer = shallowElement.find('div.drop-up-selector-items');
+  const shallowItemsContainer = shallowElement.find('div.selector-items');
   expect(shallowItemsContainer.children().length).toBe(4);
 
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
   expect(
-    shallowSelectorItems.filter(c => c.hasClass('drop-up-selector-item') && c.hasClass('myitemclassname')).length
+    shallowSelectorItems.filter(c => c.hasClass('selector-item') && c.hasClass('myitemclassname')).length
   ).toBe(4);
   const selectedItems = shallowSelectorItems.filter(c => c.hasClass('selected'));
   expect(selectedItems.length).toBe(1);
   expect(selectedItems[0].text()).toBe('Donald');
 });
 
-test('<DropUpSelector/> marks pre-selected item (specified by its ID) with class name.', () => {
-  const shallowElement = shallowRenderDropUp({ selectedItemId: '002' });
-  const shallowItemsContainer = shallowElement.find('div.drop-up-selector-items');
+test('<Selector/> marks pre-selected item (specified by its ID) with class name.', () => {
+  const shallowElement = shallowRenderSelector({ selectedItemId: '002' });
+  const shallowItemsContainer = shallowElement.find('div.selector-items');
 
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
   expect(
-    shallowSelectorItems.filter(c => c.hasClass('drop-up-selector-item') && c.hasClass('myitemclassname')).length
+    shallowSelectorItems.filter(c => c.hasClass('selector-item') && c.hasClass('myitemclassname')).length
   ).toBe(4);
   const selectedItems = shallowSelectorItems.filter(c => c.hasClass('selected'));
   expect(selectedItems.length).toBe(1);
   expect(selectedItems[0].text()).toBe('Angela');
 });
 
-test('<DropUpSelector/> with items missing IDs marks pre-selected item (specified by object) with class name.', () => {
-  const shallowElement = shallowRenderDropUp({ items: itemsWithoutIds, selectedItem: itemsWithoutIds[2] });
+test('<Selector/> with items missing IDs marks pre-selected item (specified by object) with class name.', () => {
+  const shallowElement = shallowRenderSelector({ items: itemsWithoutIds, selectedItem: itemsWithoutIds[2] });
 
-  const shallowItemsContainer = shallowElement.find('div.drop-up-selector-items');
+  const shallowItemsContainer = shallowElement.find('div.selector-items');
   expect(shallowItemsContainer.children().length).toBe(4);
 
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
   expect(
-    shallowSelectorItems.filter(c => c.hasClass('drop-up-selector-item') && c.hasClass('myitemclassname')).length
+    shallowSelectorItems.filter(c => c.hasClass('selector-item') && c.hasClass('myitemclassname')).length
   ).toBe(4);
   const selectedItems = shallowSelectorItems.filter(c => c.hasClass('selected'));
   expect(selectedItems.length).toBe(1);
   expect(selectedItems[0].text()).toBe('Sundar');
 });
 
-test('<DropUpSelector/> toggles an "expanded" class name when clicking on base toggle button, and also displays different content in the toggle button.', () => {
-  const shallowElement = shallowRenderDropUp({ selectedItemId: '002' });
+test('<Selector/> toggles an "expanded" class name when clicking on base toggle button, and also displays different content in the toggle button.', () => {
+  const shallowElement = shallowRenderSelector({ selectedItemId: '002' });
   expect(shallowElement.hasClass('expanded')).toBe(false);
   expect(shallowElement.hasClass('collapsed')).toBe(true);
   expect(
@@ -225,10 +225,10 @@ test('<DropUpSelector/> toggles an "expanded" class name when clicking on base t
   ).toBe('-');
 });
 
-test('<DropUpSelector/> invokes a callback when option is selected.', () => {
+test('<Selector/> invokes a callback when option is selected.', () => {
   const handleSelectStub = jest.fn();
-  const shallowElement = shallowRenderDropUp({ reverseOrder: true, selectedItemId: '002', onSelect: handleSelectStub });
-  const shallowItemsContainer = shallowElement.find('div.drop-up-selector-items');
+  const shallowElement = shallowRenderSelector({ reverseOrder: true, selectedItemId: '002', onSelect: handleSelectStub });
+  const shallowItemsContainer = shallowElement.find('div.selector-items');
 
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
   shallowSelectorItems[2].simulate('click');

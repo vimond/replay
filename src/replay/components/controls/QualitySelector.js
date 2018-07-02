@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
-import DropUpSelector from '../generic/DropUpSelector';
+import Selector from '../generic/Selector';
 import { defaultClassNamePrefix } from '../common';
 import type { CommonProps } from '../common';
-import type { Item } from '../generic/DropUpSelector';
+import type { Item } from '../generic/Selector';
 import type { StreamStateKeysForObservation } from '../player/PlayerController/ControllerContext';
 
 export type QualitySelectionStrategy = 'cap-bitrate' | 'lock-bitrate';
@@ -65,7 +65,7 @@ class QualitySelector extends React.Component<Props> {
         )[0] || items[0];
 
       return (
-        <DropUpSelector
+        <Selector
           items={items}
           classNamePrefix={classNamePrefix}
           className={className}

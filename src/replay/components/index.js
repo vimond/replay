@@ -15,7 +15,7 @@ import Volume from './controls/Volume';
 
 import Button from './generic/Button';
 import Container from './generic/Container';
-import DropUpSelector from './generic/DropUpSelector';
+import Selector from './generic/Selector';
 import Slider from './generic/Slider';
 import ToggleButton from './generic/ToggleButton';
 
@@ -53,7 +53,7 @@ export {
   Volume,
   Button,
   Container,
-  DropUpSelector,
+  Selector,
   Slider,
   ToggleButton,
   AspectRatio,

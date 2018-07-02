@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react';
-import DropUpSelector from '../generic/DropUpSelector';
+import Selector from '../generic/Selector';
 import { defaultClassNamePrefix } from '../common';
 import type { AvailableTrack } from '../player/VideoStreamer/types';
 import type { CommonProps, Id } from '../common';
-import type { Item } from '../generic/DropUpSelector';
+import type { Item } from '../generic/Selector';
 import type { StreamStateKeysForObservation } from '../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
@@ -23,7 +23,7 @@ const className = 'subtitles-selector';
 
 const buildId = (...str: Array<?string>) => str.filter(s => s).join('.');
 
-// TODO: This fn should be a prop on the DropUpSelector. The DropUpSelector should accept any types for items/selectedItem.
+// TODO: This fn should be a prop on the Selector. The Selector should accept any types for items/selectedItem.
 const textTrackToItem = (track: AvailableTrack) => {
   return {
     id: track.id || buildId(track.language, track.kind, track.origin) || track.label,
@@ -69,7 +69,7 @@ class SubtitlesSelector extends React.Component<Props, State> {
         }
       }
       return (
-        <DropUpSelector
+        <Selector
           items={items}
           classNamePrefix={classNamePrefix}
           className={className}

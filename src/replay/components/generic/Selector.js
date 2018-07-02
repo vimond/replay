@@ -23,7 +23,7 @@ type Props = CommonGenericProps & {
   onSelect?: Item => void
 };
 
-type DropUpState = {
+type SelectorState = {
   isExpanded: boolean
 };
 
@@ -33,12 +33,12 @@ type SelectorItemProps = CommonGenericProps & {
   onSelect?: Item => void
 };
 
-const defaultSelectorClassName = 'drop-up-selector';
-const expandToggleClassName = 'drop-up-selector-toggle';
-const selectorItemsClassName = 'drop-up-selector-items';
+const defaultSelectorClassName = 'selector';
+const expandToggleClassName = 'selector-toggle';
+const selectorItemsClassName = 'selector-items';
 const expandedClassName = 'expanded';
 const collapsedClassName = 'collapsed';
-const defaultItemClassName = 'drop-up-selector-item';
+const defaultItemClassName = 'selector-item';
 const selectedClassName = 'selected';
 
 const selectCollapsedClasses = classes => classes.selectorCollapsed || classes.selector;
@@ -63,7 +63,7 @@ const getId = (item: Item): string => {
   }
 };
 
-class DropUpSelectorItem extends React.Component<SelectorItemProps> {
+class SelectorItem extends React.Component<SelectorItemProps> {
   handleClick = () => this.props.onSelect && this.props.onSelect(this.props.item);
 
   render() {
@@ -97,7 +97,7 @@ function isEqual(itemA: Item, itemB: ?Item, itemBId: ?Id): boolean {
   }
 }
 
-class DropUpSelector extends React.Component<Props, DropUpState> {
+class Selector extends React.Component<Props, SelectorState> {
   static defaultProps = {
     useDefaultClassNaming: true
   };
@@ -112,7 +112,7 @@ class DropUpSelector extends React.Component<Props, DropUpState> {
   handleToggle = (isOn: boolean) => this.setState({ isExpanded: isOn });
 
   renderSelectorItem = (item: Item) => (
-    <DropUpSelectorItem
+    <SelectorItem
       key={getId(item)}
       item={item}
       onSelect={this.props.onSelect}
@@ -180,4 +180,4 @@ class DropUpSelector extends React.Component<Props, DropUpState> {
   }
 }
 
-export default DropUpSelector;
+export default Selector;

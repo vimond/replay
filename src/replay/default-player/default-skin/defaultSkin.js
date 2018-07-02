@@ -20,7 +20,7 @@ import { strings } from '../strings';
 //import '../../components/player/VideoStreamer/VideoStreamer.css';
 //import '../../components/controls/core-styles/ControlsBar.css';
 //import '../../components/controls/core-styles/Volume.css';
-//import '../../components/generic/core-styles/DropUpSelector.css';
+//import '../../components/generic/core-styles/Selector.css';
 //import '../../components/generic/core-styles/Slider.css';
 //import '../../components/generic/core-styles/Button.css';
 //import '../../components/controls/core-styles/PlaybackMonitor.css';

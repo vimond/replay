@@ -86,10 +86,10 @@ test('<SubtitlesSelector/> marks the option "No subtitles" as selected if no sel
 });
 
 test('<SubtitlesSelector/> updates property selectedTextTrack with a track when its option is selected, or with null if the "No subtitles" option is selected. ', () => {
-  //Should include dive() and expand of DropUp?
+  //Should include dive() and expand of Selector?
   const updateProperty = jest.fn();
   const rendered = render({ updateProperty, classNamePrefix: '' });
-  const itemsContainer = rendered.dive().find('div.drop-up-selector-items');
+  const itemsContainer = rendered.dive().find('div.selector-items');
   const selectorItems = itemsContainer.children().map(c => c.dive());
   selectorItems[3].simulate('click');
   expect(updateProperty.mock.calls[0][0].selectedTextTrack).toBe(mockTracks[0]);
