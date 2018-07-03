@@ -113,13 +113,13 @@ class Slider extends React.Component<Props, State> {
       this.updateValueFromCoordinates(evt, true);
       // We are OK with no position updates yet.
       if (this.isTouchSupported) {
-        document.addEventListener('touchmove', this.handleHandleDrag.bind(this));
-        document.addEventListener('touchend', this.handleHandleEndDrag.bind(this));
-        document.addEventListener('touchcancel', this.handleHandleEndDrag.bind(this));
+        document.addEventListener('touchmove', this.handleHandleDrag);
+        document.addEventListener('touchend', this.handleHandleEndDrag);
+        document.addEventListener('touchcancel', this.handleHandleEndDrag);
       } else {
-        document.addEventListener('mousemove', this.handleHandleDrag.bind(this));
-        document.addEventListener('mouseup', this.handleHandleEndDrag.bind(this));
-        document.addEventListener('mouseleave', this.handleHandleEndDrag.bind(this));
+        document.addEventListener('mousemove', this.handleHandleDrag);
+        document.addEventListener('mouseup', this.handleHandleEndDrag);
+        document.addEventListener('mouseleave', this.handleHandleEndDrag);
       }
     }
   };
@@ -135,13 +135,13 @@ class Slider extends React.Component<Props, State> {
       this.updateValueFromCoordinates(evt, true, true);
     }
     if (this.isTouchSupported) {
-      document.removeEventListener('touchmove', this.handleHandleDrag.bind(this));
-      document.removeEventListener('touchend', this.handleHandleEndDrag.bind(this));
-      document.removeEventListener('touchcancel', this.handleHandleEndDrag.bind(this));
+      document.removeEventListener('touchmove', this.handleHandleDrag);
+      document.removeEventListener('touchend', this.handleHandleEndDrag);
+      document.removeEventListener('touchcancel', this.handleHandleEndDrag);
     } else {
-      document.removeEventListener('mousemove', this.handleHandleDrag.bind(this));
-      document.removeEventListener('mouseup', this.handleHandleEndDrag.bind(this));
-      document.removeEventListener('mouseleave', this.handleHandleEndDrag.bind(this));
+      document.removeEventListener('mousemove', this.handleHandleDrag);
+      document.removeEventListener('mouseup', this.handleHandleEndDrag);
+      document.removeEventListener('mouseleave', this.handleHandleEndDrag);
     }
     this.setState({ isDragging: false });
   };

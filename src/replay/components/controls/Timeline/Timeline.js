@@ -58,6 +58,7 @@ class Timeline extends React.Component<Props, State> {
   componentWillUnmount() {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
+      this.timeoutId = null;
     }
   }
 
