@@ -31,10 +31,10 @@ import MockVideoStreamer from './player/VideoStreamer/MockVideoStreamer';
 
 import PlayerController from './player/PlayerController/PlayerController';
 import { ControlledVideoStreamer } from './player/PlayerController/connectControl';
-import PlayerUIContainer from './player/PlayerUIContainer';
+import PlayerUIContainer from './player/PlayerUIContainer/PlayerUIContainer';
 import * as common from './common';
 
-import { getConnectedPlayerUIContainer } from './player/PlayerUIContainer';
+import { getConnectedPlayerUIContainer } from './player/PlayerUIContainer/PlayerUIContainer';
 import connectControl from './player/PlayerController/connectControl';
 import playerStateClassNameBuilder from './player/containment-helpers/playerStateClassNameBuilder';
 

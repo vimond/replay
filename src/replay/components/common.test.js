@@ -4,7 +4,7 @@ import {
   formatTime,
   formatClockTime,
   isDifferent,
-  hydrateClassNames
+  hydrateClassNames, isShallowEqual
 } from './common';
 
 test('prefixClassNames() prefixes all class names passed and joins into one string.', () => {
@@ -55,7 +55,7 @@ test('hydrateClassNames() returns unprefixed class names from the classes object
   expect(result2).toBe('nice-button-123');
 });
 
-test('hydrateClassNames() prefixes all class names passed and joins into one string if useDefaultClassNaming is true.', () => {
+test('hydrateClassNames() prefixes all class names passed and joins into one string if classes is null.', () => {
   const classNamePrefix = 'myprefix-';
   const className1 = 'button';
   const className2 = 'ugly-theme';

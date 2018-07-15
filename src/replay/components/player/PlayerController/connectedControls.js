@@ -1,4 +1,4 @@
-import { getConnectedPlayerUIContainer } from '../PlayerUIContainer';
+import { getConnectedPlayerUIContainer } from '../PlayerUIContainer/PlayerUIContainer';
 import UnconnectedSkipButton from '../../controls/SkipButton/SkipButton';
 import UnconnectedTimeDisplay from '../../controls/TimeDisplay/TimeDisplay';
 import UnconnectedQualitySelector from '../../controls/QualitySelector/QualitySelector';

@@ -34,7 +34,8 @@ const getObserver = (callback: HandleChangeMethod) => (key: string, value: any) 
 const registerObservers = (observe: ObserveMethod, keys: Array<VideoStreamStateKeys>, onChange: HandleChangeMethod) =>
   keys.forEach(p => observe(p, onChange));
 
-const connectControl = <Props: {}>(Control: React.ComponentType<Props>, propKeys?: Array<VideoStreamStateKeys>): React.ComponentType<Props> => {
+const connectControl = <Props: {}>(Control: React.ComponentType<Props>, propKeys?: Array<VideoStreamStateKeys>): React.ComponentType<$Diff<Props, PassdownProps>> => {
+  // $FlowFixMe What's the best practices for extending component classes with static properties?
   const resolvedPropKeys = propKeys || Control.streamStateKeysForObservation || [];
   if (!Array.isArray(resolvedPropKeys)) {
     // Good old runtime check.
