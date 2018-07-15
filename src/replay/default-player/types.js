@@ -7,8 +7,8 @@ import type {
   SourceTrack,
   VideoStreamerConfiguration
 } from '../components/player/VideoStreamer/types';
-import type { QualitySelectionStrategy } from '../components/controls/QualitySelector';
-import type { LiveDisplayMode } from '../components/controls/TimeDisplay';
+import type { QualitySelectionStrategy } from '../components/controls/QualitySelector/QualitySelector';
+import type { LiveDisplayMode } from '../components/controls/TimeDisplay/TimeDisplay';
 
 export type ControlNames =
   | 'playPauseButton'

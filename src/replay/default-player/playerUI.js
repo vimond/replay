@@ -3,9 +3,9 @@ import * as React from 'react';
 import type { RenderMethod } from '../components/player/PlayerController/PlayerController';
 import { ControlledVideoStreamer } from '../components/player/PlayerController/connectControl';
 
-import ControlsBar from '../components/controls/ControlsBar';
-import FullscreenButton from '../components/controls/FullscreenButton';
-import ExitButton from '../components/controls/ExitButton';
+import ControlsBar from '../components/controls/ControlsBar/ControlsBar';
+import FullscreenButton from '../components/controls/FullscreenButton/FullscreenButton';
+import ExitButton from '../components/controls/ExitButton/ExitButton';
 import {
   AudioSelector,
   BufferingIndicator,
@@ -20,7 +20,7 @@ import {
   Volume
 } from '../components/player/PlayerController/connectedControls';
 
-import PlaybackMonitor from '../components/controls/PlaybackMonitor';
+import PlaybackMonitor from '../components/controls/PlaybackMonitor/PlaybackMonitor';
 
 import graphics from './default-skin/defaultSkin';
 import { labels } from './strings';
