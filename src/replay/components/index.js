@@ -2,6 +2,7 @@
 import AudioSelector from './controls/AudioSelector/AudioSelector';
 import BufferingIndicator from './controls/BufferingIndicator/BufferingIndicator';
 import ControlsBar from './controls/ControlsBar/ControlsBar';
+import ExitButton from './controls/ExitButton/ExitButton';
 import FullscreenButton from './controls/FullscreenButton/FullscreenButton';
 import GotoLiveButton from './controls/GotoLiveButton/GotoLiveButton';
 import PlaybackMonitor from './controls/PlaybackMonitor/PlaybackMonitor';
@@ -41,6 +42,7 @@ export {
   AudioSelector,
   BufferingIndicator,
   ControlsBar,
+  ExitButton,
   FullscreenButton,
   GotoLiveButton,
   PlaybackMonitor,

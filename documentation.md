@@ -15,7 +15,6 @@
 
 ## API
 
-
 ## Architecture of a player
 
 
@@ -45,10 +44,11 @@
 ## Custom controls
 
 
-# A complete player user interface
+# Assembling a complete player user interface
 
 ## Containment helpers
 
 ## CSS
 
 ## Customising the UI
+

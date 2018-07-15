@@ -92,6 +92,26 @@ export const isDifferent = (a: any, b: any) => {
 
 export const isObject = (obj: ?{}) => obj != null && obj.constructor === {}.constructor;
 
+
+export const isShallowEqual = (a: any, b: any): boolean => {
+  if (a === b) {
+    return true;
+  } else if (isObject(a) && isObject(b)) {
+    const keysA = Object.keys(a);
+    const keysB = Object.keys(b);
+    if (keysA.length !== keysB.length) {
+      return false;
+    }
+    const differentACount = keysA.filter(key => isDifferent(a[key], b[key])).length;
+    if (differentACount > 0) {
+      return false;
+    }
+    return keysB.filter(key => isDifferent(b[key], a[key])).length === 0;
+  } else { // No identical equality
+    return false;
+  }
+};
+
 export function deepClone(obj: ?{}): {} {
   if (obj == null) {
     return {};
@@ -109,7 +129,7 @@ export function deepClone(obj: ?{}): {} {
   }
 }
 
-export function override(base: ?{}, overrides: ?{}): {} {
+export function override(base: ?{}, overrides: ?{}): Object {
   const copy = deepClone(base);
   if (overrides) {
     const extension: {} = overrides; // Should be unnecessary!

@@ -1,5 +1,6 @@
+# Configuring and customising the default Replay player
 
-# Assembling a full player
+# Building a full, custom player
 
 ### Special concerns and caveats
 

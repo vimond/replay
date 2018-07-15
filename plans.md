@@ -277,50 +277,8 @@ JSS looks most interesting. HOC on each styled controls. With connected controls
 
 Need to find strategy for player state class names. Will probably eliminate the need for playerStateClassNameBuilder, but perhaps still keep it there.
 
-Strategy:
-
-Generic controls must accept either prefix + any class name props and any control class names to be assembled together.
-
-OR:
-
-A complete passthrough of classes. This name can be used even if generic controls shouldn't get HOC-ed. 
-Use jss-extend to combine general slider rules with timeline specifics.
-
-For state classes still add them, unless a dedicated one is specified in classes.
-
-Consider npm classnames for easy boolean toggles. Check size!
-
-Slider:
-
-```
-  <div className={classes.slider}> or <div className={classes.sliderDragging || (classes.slider + ' dragging')}>
-	<div className={classes.sliderTrack}>
-	  {trackContent}
-	</div>
-	{children}
-	<div
-	  className={classes.sliderHandle}
-	  style={{ [isVertical ? verticalProp : horizontalProp]: toPercentString(displayValue, maxValue) }}>
-	  {handleContent}
-	</div>
-  </div>
-
 ```
 
-Timeline:
-
-
-```
-  <Slider
-	classes={{ slider: classes.timeline, sliderDragging: classes.timelineDragging, sliderTrack: classes.timelineTrack, sliderHandle: classes.timelineHandle }}
-  />
-```
-
-
-* Make all player controls accept a classes prop.
-* Also PlayerUIContainer, AspectRatio, and perhaps PlayerStateClassNames.
-* If present, apply class names from this.
-* If not present, use the class name specified for the control.
 * Make the default PlayerUI optionally call injectSheet() on all controls. This should be done outside playerUI.js, so that there are no react-jss bindings.
 * But don't do it on each render. Instead create a higher order function.
 * ThemedReplay.js or something, wrapping the original Replay.js.
@@ -333,8 +291,6 @@ Timeline:
 	* Slider.test.js
 	* Slider.classes.js
 	* Styleguidist example?
-
-
 
 Specific improvements and things to verify
 

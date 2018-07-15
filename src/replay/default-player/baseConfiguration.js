@@ -14,7 +14,16 @@ export const baseConfiguration : PlayerConfiguration = {
       toggleMute: 77
     }
   },
-  videoStreamer: {},
+  videoStreamer: {
+    dash: {
+      shaka: {
+        logLevel: 'ERROR'
+      }
+    },
+    logging: {
+      global: 'WARN'
+    }
+  },
   ui: {
     skipButtonOffset: -10,
     qualitySelectionStrategy: 'cap-bitrate',

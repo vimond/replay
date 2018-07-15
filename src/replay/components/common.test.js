@@ -247,6 +247,85 @@ test('isDifferent() returns false with two NaNs, nulls, or undefined passed.', (
   expect(isDifferent(undefined, undefined)).toBe(false);
 });
 
+test('isShallowEqual() returns true for two objects having the same property set with the same values.', () => {
+  const a = {
+    c: 'n',
+    d: 13,
+    e: NaN
+  };
+  const b = {
+    c: 'n',
+    d: 13,
+    e: NaN
+  };
+  expect(isShallowEqual(a, b)).toBe(true);
+});
+
+test('isShallowEqual() returns true for two references to the same object.', () => {
+  const a = {
+    c: 'n',
+    d: 13,
+    e: NaN
+  };
+  const b = a;
+  expect(isShallowEqual(a, b)).toBe(true);
+});
+
+test('isShallowEqual() returns true for two equal values of primitive types.', () => {
+  const a = 'hello';
+  const b = 'hello';
+  expect(isShallowEqual(a, b)).toBe(true);
+  const c = 313;
+  const d = 313;
+  expect(isShallowEqual(c, d)).toBe(true);
+  const e = null;
+  const f = null;
+  expect(isShallowEqual(e, f)).toBe(true);
+});
+
+test('isShallowEqual() returns false for two different values of primitive types.', () => {
+  const a = 'hello';
+  const b = 'world';
+  expect(isShallowEqual(a, b)).toBe(false);
+  const c = 313;
+  const d = 626;
+  expect(isShallowEqual(c, d)).toBe(false);
+  const e = null;
+  const f = new Date();
+  expect(isShallowEqual(e, f)).toBe(false);
+});
+
+test('isShallowEqual() returns false for two objects not having the same property sets.', () => {
+  const a = {
+    c: 'n',
+    d: 13,
+    e: NaN
+  };
+  const b = {
+    c: 'n',
+    d: 13,
+    e: NaN,
+    f: {}
+  };
+  expect(isShallowEqual(a, b)).toBe(false);
+});
+
+test('isShallowEqual() returns false for two objects not having the same property values.', () => {
+  const a = {
+    c: 'n',
+    d: 13,
+    e: NaN
+  };
+  const b = {
+    c: 'n',
+    d: 14,
+    e: NaN
+  };
+  expect(isShallowEqual(a, b)).toBe(false);
+});
+
+
+
 // TODO: Write tests.
 test('override() merges two objects deeply, also when branches are unspecified in one of them.');
 

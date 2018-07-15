@@ -1,5 +1,4 @@
 // @flow
-
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
 import type {
@@ -35,7 +34,7 @@ const getObserver = (callback: HandleChangeMethod) => (key: string, value: any) 
 const registerObservers = (observe: ObserveMethod, keys: Array<VideoStreamStateKeys>, onChange: HandleChangeMethod) =>
   keys.forEach(p => observe(p, onChange));
 
-const connectControl = (Control: any, propKeys?: Array<VideoStreamStateKeys>) => {
+const connectControl = <Props: {}>(Control: React.ComponentType<Props>, propKeys?: Array<VideoStreamStateKeys>): React.ComponentType<Props> => {
   const resolvedPropKeys = propKeys || Control.streamStateKeysForObservation || [];
   if (!Array.isArray(resolvedPropKeys)) {
     // Good old runtime check.
@@ -62,7 +61,7 @@ const connectControl = (Control: any, propKeys?: Array<VideoStreamStateKeys>) =>
     }
   }
 
-  const ConnectedControl: React.StatelessFunctionalComponent<any> = (props: any) => (
+  const ConnectedControl: React.StatelessFunctionalComponent<Props> = (props: Props) => (
     <ControllerContext.Consumer>
       {({ observe, unobserve, updateProperty, gotoLive, setPosition, inspect }) => {
         if (observe) {
