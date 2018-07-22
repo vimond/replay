@@ -21,13 +21,16 @@ type State = {
 
 const className = 'subtitles-selector';
 
+const defaultKind = 'subtitles';
+
 const buildId = (...str: Array<?string>) => str.filter(s => s).join('.');
+const buildLabel = ({ label, kind = defaultKind, language = 'unknown' }: AvailableTrack) => label || (kind !== defaultKind ? `[${language}] ${kind}` : `[${language}]`);
 
 // TODO: This fn should be a prop on the Selector. The Selector should accept any types for items/selectedItem.
 const textTrackToItem = (track: AvailableTrack) => {
   return {
     id: track.id || buildId(track.language, track.kind, track.origin) || track.label,
-    label: track.label || '',
+    label: buildLabel(track),
     data: track
   };
 };
