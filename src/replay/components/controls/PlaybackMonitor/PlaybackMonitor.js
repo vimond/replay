@@ -53,10 +53,10 @@ const orderedPropertyNames = [
   'absoluteStartPosition',
   'isAtLivePosition',
   'bufferedAhead',
-  'currentBitrate',
-  'bitrates',
   'lockedBitrate',
   'maxBitrate',
+  'currentBitrate',
+  'bitrates',
   'currentTextTrack',
   'textTracks',
   'currentAudioTrack',
@@ -207,7 +207,7 @@ class PlaybackMonitor extends React.Component<Props, State> {
         props.configuration.playbackMonitor.visibleAtStart
       )
     };
-    document.addEventListener('keydown', this.handleKeyDown);
+
   }
 
   handleCloseClick = () => this.setState({ isMonitorVisible: false });
@@ -219,6 +219,14 @@ class PlaybackMonitor extends React.Component<Props, State> {
     }
   };
 
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+  
   render() {
     const { label, classNamePrefix, closeButtonContent } = this.props;
     if (this.state.isMonitorVisible) {

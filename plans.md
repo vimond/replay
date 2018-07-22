@@ -277,8 +277,6 @@ JSS looks most interesting. HOC on each styled controls. With connected controls
 
 Need to find strategy for player state class names. Will probably eliminate the need for playerStateClassNameBuilder, but perhaps still keep it there.
 
-```
-
 * Make the default PlayerUI optionally call injectSheet() on all controls. This should be done outside playerUI.js, so that there are no react-jss bindings.
 * But don't do it on each render. Instead create a higher order function.
 * ThemedReplay.js or something, wrapping the original Replay.js.
@@ -294,14 +292,14 @@ Need to find strategy for player state class names. Will probably eliminate the 
 
 Specific improvements and things to verify
 
-* Silverlight doesn't work. Is this some re-rendering issue?
 * Test with subtitles and audio tracks...
-* Make lockedBitrate and maxBitrate props.
+* ✓ Make lockedBitrate and maxBitrate props.
 * Look into setting volume, mute, and pause state on startup.
 * Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
 * Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
 * Respect new set of playback technologies in VideoStreamer, replacing dashImpl prop.
-* Block <VideoStreamer /> from invoking onStreamStateChange after unmount.
+* ✓ Make sure Dash.js works in Streamlab.
+* `<PlayerController />` and `<VideoStreamer />` must support rapid reinstantiations (as happening with `react-rnd@7.4.3`).
 
 Next leap year:
 

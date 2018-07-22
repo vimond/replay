@@ -4833,7 +4833,7 @@ js-base64@^2.1.9:
 
 js-logger@^1.2.0:
   version "1.4.1"
-  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/js-logger/-/js-logger-1.4.1.tgz?dl=https://registry.yarnpkg.com/js-logger/-/js-logger-1.4.1.tgz#f0230dc5e84e120f213d6e5a6b767a913d290335"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/js-logger/-/js-logger-1.4.1.tgz#f0230dc5e84e120f213d6e5a6b767a913d290335"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
@@ -7437,8 +7437,8 @@ sha.js@^2.4.0, sha.js@^2.4.8:
     safe-buffer "^5.0.1"
 
 shaka-player@^2.4.0:
-  version "2.4.0"
-  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/shaka-player/-/shaka-player-2.4.0.tgz?dl=https://registry.yarnpkg.com/shaka-player/-/shaka-player-2.4.0.tgz#b3dc4f4bd4f016ec620b0c5f637f79ec401ba250"
+  version "2.4.2"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/shaka-player/-/shaka-player-2.4.2.tgz#68a90dce1a1eeb28b46fcd88792e2f26fc48f6ec"
 
 shebang-command@^1.2.0:
   version "1.2.0"
@@ -8239,9 +8239,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vimond-videostreamer-premium@^8.19.300:
-  version "8.19.300"
-  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/vimond-videostreamer-premium/-/vimond-videostreamer-premium-8.19.300.tgz#99847f8429f441d19f04b79df6aefdd2a25a4910"
+vimond-videostreamer-premium@^8.20.550:
+  version "8.20.550"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/vimond-videostreamer-premium/-/vimond-videostreamer-premium-8.20.550.tgz#3f00f7983b938218cfcd837713fdaa8e9dcdb676"
   dependencies:
     js-logger "^1.2.0"
     q "^1.4.1"
