@@ -1,27 +1,36 @@
 //@flow
 import React, { Component } from 'react';
 import { Persist } from 'react-persist';
+import memoize from 'memoize-one';
 import MockPlayer from './replay/default-player/MockPlayer';
-import './App.css';
-
 import { Replay } from './replay/';
 import PremiumVideoStreamer from 'vimond-videostreamer-premium';
 import { defaultClassNamePrefix } from './replay/components/common';
-import './replay/replay-default.css';
 import type { PlayerConfiguration } from './replay/default-player/types';
+import './App.css';
+import './replay/replay-default.css';
 
 type State = {
   useMock?: boolean,
+  streamUrl: string,
   alwaysShowDesignControls: boolean
 };
 
-const source = {
-  playbackTechnology: 'dash',
-  //streamUrl: 'https://ls3-hls-live.akamaized.net/out/u/nk.mpd'
-  streamUrl: 'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1346048_ps3120_pd412370.smil/manifest.mpd'
-};
+const streamUrl1 =
+  'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1346048_ps3120_pd412370.smil/manifest.mpd';
+//const streamUrl2 = 'https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd';
+//const streamUrl3 = 'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1359479_ps2064_pd186923.smil/manifest.mpd';
 
-const configOverrides : PlayerConfiguration = {
+const getSource = memoize(streamUrl => {
+  if (streamUrl) {
+    return {
+      playbackTechnology: 'dash',
+      streamUrl
+    };
+  }
+});
+
+const configOverrides: PlayerConfiguration = {
   videoStreamer: {
     dash: {
       //dashImpl: 'dashjs'
@@ -49,35 +58,54 @@ class App extends Component<void, State> {
   constructor() {
     super();
     this.state = {
-      useMock: false,
-      alwaysShowDesignControls: true
+      useMock: true,
+      alwaysShowDesignControls: true,
+      streamUrl: streamUrl1
     };
+    window.setState = stateProps => this.setState(stateProps);
   }
 
   togglePlayer = () => this.setState({ useMock: !this.state.useMock });
 
   toggleShowDesignControls = () => this.setState({ alwaysShowDesignControls: !this.state.alwaysShowDesignControls });
 
+  handleStreamUrlFieldChange = (evt: SyntheticEvent<HTMLInputElement>) =>
+    this.setState({ streamUrl: evt.currentTarget.value });
+
   render() {
+    const {
+      alwaysShowDesignControls,
+      streamUrl,
+      useMock
+    } = this.state;
     return (
       <div className="App">
         <div className="App-player-panel">
-          {this.state.useMock ? (
-            <Replay source={source} options={configOverrides} onExit={this.togglePlayer}>
-              <PremiumVideoStreamer className="videoStreamer" classNamePrefix={defaultClassNamePrefix} />
-            </Replay>
-          ) : (
+          {useMock ? (
             <div>
-              <MockPlayer options={getPlayerOptionsFromState(this.state)} onExit={this.togglePlayer}>Design mode</MockPlayer>
+              <MockPlayer options={getPlayerOptionsFromState(this.state)} onExit={this.togglePlayer}>
+                Design mode
+              </MockPlayer>
               <p>
                 <input
                   id="toggleAlwaysShowControls"
-                  checked={this.state.alwaysShowDesignControls}
+                  checked={alwaysShowDesignControls}
                   type="checkbox"
                   onChange={this.toggleShowDesignControls}
                 />
                 <label htmlFor="toggleAlwaysShowControls">Never hide the controls bar.</label>
               </p>
+            </div>
+          ) : (
+            <div>
+              <Replay
+                source={getSource(streamUrl)}
+                options={configOverrides}
+                onExit={this.togglePlayer}
+              >
+                <PremiumVideoStreamer className="videoStreamer" classNamePrefix={defaultClassNamePrefix} />
+              </Replay>
+              <input type="url" value={streamUrl} onChange={this.handleStreamUrlFieldChange} />
             </div>
           )}
         </div>
