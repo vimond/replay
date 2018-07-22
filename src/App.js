@@ -1,5 +1,4 @@
 //@flow
-
 import React, { Component } from 'react';
 import { Persist } from 'react-persist';
 import MockPlayer from './replay/default-player/MockPlayer';
@@ -9,6 +8,7 @@ import { Replay } from './replay/';
 import PremiumVideoStreamer from 'vimond-videostreamer-premium';
 import { defaultClassNamePrefix } from './replay/components/common';
 import './replay/replay-default.css';
+import type { PlayerConfiguration } from './replay/default-player/types';
 
 type State = {
   useMock?: boolean,
@@ -21,10 +21,13 @@ const source = {
   streamUrl: 'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1346048_ps3120_pd412370.smil/manifest.mpd'
 };
 
-const configOverrides = {
+const configOverrides : PlayerConfiguration = {
   videoStreamer: {
     dash: {
       //dashImpl: 'dashjs'
+    },
+    logging: {
+      global: 'DEBUG'
     }
   }
 };
