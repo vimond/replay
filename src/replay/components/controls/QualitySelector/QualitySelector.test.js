@@ -44,6 +44,18 @@ test('<QualitySelector/> with strategy "lock-bitrate" highlights the quality opt
   expect(selectedItem).toEqual({ id: 999, label: '999 kbps', data: 999 });
 });
 
+test('<QualitySelector/> with strategy "lock-bitrate" highlights the lowest quality option when locked bitrate is set to "min".', () => {
+  const rendered = shallow(<QualitySelector {...commonProps} selectionStrategy="lock-bitrate" lockedBitrate="min" />);
+  const selectedItem = rendered.prop('selectedItem');
+  expect(selectedItem).toEqual({ id: 333, label: '333 kbps', data: 333 });
+});
+
+test('<QualitySelector/> with strategy "lock-bitrate" highlights the highest quality option when locked bitrate is set to "max".', () => {
+  const rendered = shallow(<QualitySelector {...commonProps} selectionStrategy="lock-bitrate" lockedBitrate="max" />);
+  const selectedItem = rendered.prop('selectedItem');
+  expect(selectedItem).toEqual({ id: 4444, label: '4444 kbps', data: 4444 });
+});
+
 test('<QualitySelector/> marks the currently playing bitrate next to the option label.', () => {
   const rendered = shallow(<QualitySelector {...commonProps} />);
   const currentBitrateItem = rendered.prop('items')[4];

@@ -40,29 +40,36 @@ class QualitySelector extends React.Component<Props> {
     }
   };
 
-  bitrateToItem = (bitrate: number) => ({
+  bitrateToItem = (bitrate: number): Item => ({
     id: bitrate,
     label: this.props.formatBitrateLabel(bitrate, bitrate === this.props.currentBitrate),
     data: bitrate
   });
 
+  isSelected = (item: Item, index: number, arr: Array<Item>) => {
+    const { lockedBitrate, maxBitrate, selectionStrategy } = this.props;
+    const matchValue = (lockedBitrate != null && maxBitrate != null) ? (selectionStrategy === 'locked-bitrate' ? lockedBitrate : maxBitrate) : lockedBitrate || maxBitrate; 
+    if (matchValue === 'min') {
+      return index === 1;
+    } else if (matchValue === 'max') {
+      return index === arr.length - 1;
+    } else {
+      return typeof item !== 'string' && item.id === matchValue;
+    }
+  };
+
   render() {
     const {
       bitrates,
-      maxBitrate,
-      lockedBitrate,
       label,
       autoLabel,
       toggleContent,
-      selectionStrategy,
       classNamePrefix
     } = this.props;
     if (Array.isArray(bitrates) && bitrates.length > 1) {
       const items = [{ id: 0, label: autoLabel, data: Infinity }].concat(bitrates.map(this.bitrateToItem));
       const selectedItem =
-        items.filter(
-          i => typeof i !== 'string' && i.id === (selectionStrategy === 'lock-bitrate' ? lockedBitrate : maxBitrate)
-        )[0] || items[0];
+        items.filter(this.isSelected)[0] || items[0];
 
       return (
         <Selector
