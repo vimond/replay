@@ -102,6 +102,7 @@ class App extends Component<void, State> {
                 source={getSource(streamUrl)}
                 options={configOverrides}
                 onExit={this.togglePlayer}
+                startVolume={0.5}
               >
                 <PremiumVideoStreamer className="videoStreamer" classNamePrefix={defaultClassNamePrefix} />
               </Replay>

@@ -8240,8 +8240,8 @@ verror@1.10.0:
     extsprintf "^1.2.0"
 
 vimond-videostreamer-premium@^8.20.550:
-  version "8.20.550"
-  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/vimond-videostreamer-premium/-/vimond-videostreamer-premium-8.20.550.tgz#3f00f7983b938218cfcd837713fdaa8e9dcdb676"
+  version "8.20.565"
+  resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/vimond-videostreamer-premium/-/vimond-videostreamer-premium-8.20.565.tgz#d728cf1f32ef7d9e420b8b703f62801d083dcf05"
   dependencies:
     js-logger "^1.2.0"
     q "^1.4.1"

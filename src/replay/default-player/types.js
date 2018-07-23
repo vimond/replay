@@ -44,5 +44,12 @@ export type ReplayProps = {
   options: PlayerConfiguration,
   onExit: () => void,
   onError: any => void,
-  children: React.Element<any>
+  children: React.Element<any>,
+  startMuted?: boolean,
+  startPaused?: boolean,
+  startVolume?: number,
+  preferredSubtitlesLanguage?: string, // TODO
+  preferredAudioLanguage?: string, // TODO
+  maxBitrate?: number,
+  lockedBitrate?: number | string
 };

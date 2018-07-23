@@ -292,14 +292,14 @@ Need to find strategy for player state class names. Will probably eliminate the 
 
 Specific improvements and things to verify
 
-* Test with subtitles and audio tracks...
+* ✓ Test with subtitles and audio tracks...
 * ✓ Make lockedBitrate and maxBitrate props.
-* Look into setting volume, mute, and pause state on startup.
-* Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
+* ✓ Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
+* ✓ Make sure Dash.js works in Streamlab.
+* ✓ Look into setting volume, mute, and pause state on startup. Needs to be explicit start values. Full outbound API via updateProperty/onStreamPropertyChange.
+* `<PlayerController />` and `<VideoStreamer />` must handle rapid reinstantiations (as happening with `react-rnd@7.4.3`).
 * Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
 * Respect new set of playback technologies in VideoStreamer, replacing dashImpl prop.
-* ✓ Make sure Dash.js works in Streamlab.
-* `<PlayerController />` and `<VideoStreamer />` must support rapid reinstantiations (as happening with `react-rnd@7.4.3`).
 
 Next leap year:
 

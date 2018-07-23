@@ -31,7 +31,12 @@ type PlayerControllerProps = {
   externalProps?: any,
   configuration?: any,
   options?: any,
-  onStreamerError?: any => void
+  onStreamerError?: any => void,
+  startMuted?: boolean,
+  startPaused?: boolean,
+  startVolume?: number,
+  maxBitrate?: number,
+  lockedBitrate?: number | string
 };
 
 type PlayerControllerState = {
@@ -98,14 +103,29 @@ const getObserveManager = () => {
 class PlayerController extends React.Component<PlayerControllerProps, PlayerControllerState> {
   constructor(props: PlayerControllerProps) {
     super(props);
+    const videoStreamerProps: VideoStreamerProps = {
+      onReady: this.onVideoStreamerReady,
+      onError: this.props.onStreamerError,
+      onStreamStateChange: this.onStreamStateChange
+    };
+    if (props.startMuted != null) {
+      videoStreamerProps.isMuted = props.startMuted;
+    }
+    if (props.startPaused != null) {
+      videoStreamerProps.isPaused = props.startPaused;
+    }
+    if (props.startVolume != null) {
+      videoStreamerProps.volume = props.startVolume;
+    }
+    if (props.lockedBitrate != null) {
+      videoStreamerProps.lockedBitrate = props.lockedBitrate;
+    } else if (props.maxBitrate != null) {
+      videoStreamerProps.maxBitrate = props.maxBitrate;
+    }
     this.state = {
       gotoLive: () => {},
       setPosition: () => {},
-      videoStreamerProps: {
-        onReady: this.onVideoStreamerReady,
-        onError: this.props.onStreamerError,
-        onStreamStateChange: this.onStreamStateChange
-      }
+      videoStreamerProps
     };
   }
 
