@@ -203,12 +203,14 @@ test(
     const mockEvent1 = {
       currentTarget: mockEventElement,
       pageX: 456,
-      pageY: 23
+      pageY: 23,
+      stopPropagation: function() {}
     };
     const outOfBoundsEvent = {
       currentTarget: mockEventElement,
       pageX: 800,
-      pageY: 23
+      pageY: 23,
+      stopPropagation: function() {}
     };
     const handleValueChange = jest.fn();
     const shallowElement = shallowRenderSlider({
@@ -244,27 +246,32 @@ test(
     const mockEvent1 = {
       currentTarget: mockEventElement,
       pageX: 456,
-      pageY: 23
+      pageY: 23,
+      stopPropagation: function() {}
     };
     const mockEvent2 = {
       currentTarget: mockEventElement,
       pageX: 567,
-      pageY: 234 // Out of bounds, but in the insignificant direction.
+      pageY: 234, // Out of bounds, but in the insignificant direction.
+      stopPropagation: function() {}
     };
     const mockEvent3 = {
       currentTarget: mockEventElement,
       pageX: 598,
-      pageY: 42
+      pageY: 42,
+      stopPropagation: function() {}
     };
     const mockEvent4 = {
       currentTarget: mockEventElement,
       pageX: 555,
-      pageY: 78
+      pageY: 78,
+      stopPropagation: function() {}
     };
     const outOfBoundsEvent = {
       currentTarget: mockEventElement,
       pageX: 800,
-      pageY: 23
+      pageY: 23,
+      stopPropagation: function() {}
     };
     const handleValueChange = jest.fn();
     const handleDrag = jest.fn();
@@ -332,17 +339,20 @@ test(
     const mockEvent1 = {
       currentTarget: mockEventElement,
       pageX: 456,
-      pageY: 23
+      pageY: 23,
+      stopPropagation: function() {}
     };
     const mockEvent2 = {
       currentTarget: mockEventElement,
       pageX: 567,
-      pageY: 234 // Out of bounds, but in the insignificant direction.
+      pageY: 234, // Out of bounds, but in the insignificant direction.
+      stopPropagation: function() {}
     };
     const mockEvent3 = {
       currentTarget: mockEventElement,
       pageX: 555,
-      pageY: 78
+      pageY: 78,
+      stopPropagation: function() {}
     };
     const handleValueChange = jest.fn();
     const handleDrag = jest.fn();
@@ -399,17 +409,20 @@ test('<Slider/> should not update the UI based on new props while updates are bl
   const mockEvent1 = {
     currentTarget: mockEventElement,
     pageX: 456,
-    pageY: 23
+    pageY: 23,
+    stopPropagation: function() {}
   };
   const mockEvent2 = {
     currentTarget: mockEventElement,
     pageX: 567,
-    pageY: 234 // Out of bounds, but in the insignificant direction.
+    pageY: 234, // Out of bounds, but in the insignificant direction.
+    stopPropagation: function() {}
   };
   const mockEvent3 = {
     currentTarget: mockEventElement,
     pageX: 555,
-    pageY: 78
+    pageY: 78,
+    stopPropagation: function() {}
   };
   const handleValueChange = jest.fn();
   const handleDrag = jest.fn();

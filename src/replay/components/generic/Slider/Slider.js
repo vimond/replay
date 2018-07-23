@@ -108,6 +108,7 @@ class Slider extends React.Component<Props, State> {
   };
 
   handleHandleStartDrag = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
+    evt.stopPropagation();
     if (!this.state.isDragging) {
       this.setState({ isDragging: true });
       this.updateValueFromCoordinates(evt, true);
