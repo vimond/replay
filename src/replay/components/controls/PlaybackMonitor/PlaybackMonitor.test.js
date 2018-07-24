@@ -73,9 +73,11 @@ const renderTree = (props, observe = () => {}) => {
   };
 
   return (
-    <ControllerContext.Provider value={mockContextValue}>
-      <PlaybackMonitor {...props} />
-    </ControllerContext.Provider>
+    <div>
+      <ControllerContext.Provider value={mockContextValue}>
+        <PlaybackMonitor {...props} />
+      </ControllerContext.Provider>
+    </div>
   );
 };
 
