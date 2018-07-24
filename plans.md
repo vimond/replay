@@ -90,7 +90,17 @@ If RxPlayer deals well with DASH streams, consider integration without video eng
 
 In the npm package, include a simple implementation covering HTML5 video, with the streamlined API. This might be open-sourced.
 
+Create stream state change to event emitter helper, to be plugged into all pure VideoStreamer components.
+
 `<BasicVideoStreamer />`
+
+### Composable VideoSyreamer
+
+Allows to specify different VideoStreamer components and mappings.
+
+Consider callback prop invoked with possible playback technologies for the current browser. The callback should return appropriate stream for one of the possible technologies.
+
+Premium option returning structure with both DRM and non-DRM.
 
 ### ✓ Mock streamer component
 

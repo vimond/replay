@@ -8239,7 +8239,7 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vimond-videostreamer-premium@^8.20.550:
+vimond-videostreamer-premium@^8.20.565:
   version "8.20.565"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/vimond-videostreamer-premium/-/vimond-videostreamer-premium-8.20.565.tgz#d728cf1f32ef7d9e420b8b703f62801d083dcf05"
   dependencies:
