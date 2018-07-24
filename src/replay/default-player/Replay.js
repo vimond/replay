@@ -2,7 +2,7 @@
 import * as React from 'react';
 import type { ReplayProps } from './types';
 import PlayerController from '../components/player/PlayerController/PlayerController';
-import BasicVideoStreamer from '../components/player/VideoStreamer/BasicVideoStreamer';
+import BasicVideoStreamer from '../components/player/VideoStreamer/BasicVideoStreamer/BasicVideoStreamer';
 import { baseConfiguration } from './baseConfiguration';
 import renderPlayerUI from './playerUI';
 

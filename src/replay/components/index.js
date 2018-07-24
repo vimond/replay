@@ -26,7 +26,7 @@ import InteractionDetector from './player/containment-helpers/InteractionDetecto
 import KeyboardShortcuts from './player/containment-helpers/KeyboardShortcuts';
 import PlayerStateClassNames from './player/containment-helpers/PlayerStateClassNames';
 
-import BasicVideoStreamer from './player/VideoStreamer/BasicVideoStreamer';
+import BasicVideoStreamer from './player/VideoStreamer/BasicVideoStreamer/BasicVideoStreamer';
 import MockVideoStreamer from './player/VideoStreamer/MockVideoStreamer';
 
 import PlayerController from './player/PlayerController/PlayerController';
