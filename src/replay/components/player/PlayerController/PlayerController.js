@@ -10,7 +10,6 @@ import type {
 } from '../VideoStreamer/types';
 import type { ObserveCallback, GotoLiveMethod, SetPositionMethod, ControllerApi } from './ControllerContext';
 import { override } from '../../common';
-// $FlowFixMe // Flow has problems with the typed version of this lib.
 import memoize from 'memoize-one';
 
 declare class Object {
@@ -105,7 +104,7 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
     super(props);
     const videoStreamerProps: VideoStreamerProps = {
       onReady: this.onVideoStreamerReady,
-      onError: this.props.onStreamerError,
+      onPlaybackError: this.props.onStreamerError,
       onStreamStateChange: this.onStreamStateChange
     };
     if (props.startMuted != null) {

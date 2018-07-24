@@ -26,5 +26,5 @@ test('<Replay/> renders and recognises the specified props.', () => {
   const controlledVideoStreamer = rendered.find('MyStreamer');
   expect(controlledVideoStreamer.props().source.streamUrl).toBe('https://example.com/video.mp4');
   expect(controlledVideoStreamer.props().textTracks).toBe(props.textTracks);
-  expect(controlledVideoStreamer.props().onError).toBe(props.onError);
+  expect(controlledVideoStreamer.props().onPlaybackError).toBe(props.onError);
 });

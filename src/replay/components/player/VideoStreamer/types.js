@@ -7,6 +7,31 @@ import type { CommonProps } from '../../common';
 export type PlayState = 'inactive' | 'starting' | 'playing' | 'paused' | 'seeking' | 'buffering';
 export type PlayMode = 'ondemand' | 'live' | 'livedvr';
 
+export type ErrorCodes =
+  | 'STREAM_ERROR_DOWNLOAD'
+  | 'STREAM_ERROR_DECODE'
+  | 'STREAM_ERROR_DRM_OUTPUT_BLOCKED'
+  | 'STREAM_ERROR_PLUGIN_UNAVAILABLE'
+  | 'PLUGIN_APP_LOAD_ERROR'
+  | 'STREAM_ERROR_DRM_CLIENT_UNAVAILABLE'
+  | 'STREAM_ERROR';
+
+export type Severity = 'FATAL' | 'WARNING' | 'INFO';
+
+export class PlaybackError extends Error {
+  constructor(code: ErrorCodes, technology: string, message?: string, severity: Severity = 'FATAL', sourceError?: any) {
+    super(message);
+    this.code = code;
+    this.severity = severity;
+    this.technology = technology;
+    this.sourceError = sourceError;
+  }
+  code: ErrorCodes;
+  severity: Severity;
+  technology: string;
+  sourceError: any
+}
+
 export type AvailableTrack = {
   kind?: string,
   label?: string,
@@ -41,6 +66,7 @@ export type VideoStreamState = {
 };
 
 export type VideoStreamStateKeys = $Keys<VideoStreamState>;
+export type VideoStreamStateValues = $Values<VideoStreamState>;
 
 // Types used in settable props.
 
@@ -101,7 +127,7 @@ export type VideoStreamerProps = PlaybackProps & CommonProps & {
   onReady?: PlaybackMethods => void,
   onStreamStateChange?: VideoStreamState => void,
   onProgress?: ({ event: string }) => void,
-  onPlaybackError?: Error => void
+  onPlaybackError?: PlaybackError => void
 };
 
 export type PlaybackApi = PlaybackMethods & VideoStreamState;

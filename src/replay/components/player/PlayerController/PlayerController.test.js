@@ -100,7 +100,7 @@ test('<PlayerController /> passes down props and merged configuration in the ren
 
   const videoStreamerProps = rendered.find('MockVideo').props();
   expect(typeof videoStreamerProps.onReady).toBe('function');
-  expect(typeof videoStreamerProps.onError).toBe('function');
+  expect(typeof videoStreamerProps.onPlaybackError).toBe('function');
   expect(typeof videoStreamerProps.onStreamStateChange).toBe('function');
   expect(videoStreamerProps.configuration).toEqual({ propE: 14, propF: { propG: 'perhaps' } });
 });
