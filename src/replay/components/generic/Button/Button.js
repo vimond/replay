@@ -20,7 +20,12 @@ class Button extends React.Component<Props> {
 
   render() {
     const { label, className, classNamePrefix, classes, content }: Props = this.props;
-    const classNames =  hydrateClassNames({ classes, selectClasses, classNames: [baseClassName, className], classNamePrefix }); // buildClassNames(useDefaultClassNaming, classNamePrefix, className, baseClassName);
+    const classNames = hydrateClassNames({
+      classes,
+      selectClasses,
+      classNames: [baseClassName, className],
+      classNamePrefix
+    }); // buildClassNames(useDefaultClassNaming, classNamePrefix, className, baseClassName);
     return (
       <div title={label} onClick={this.handleClick} className={classNames}>
         {content}

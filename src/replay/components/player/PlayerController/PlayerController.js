@@ -44,7 +44,7 @@ type PlayerControllerState = {
   videoStreamerProps: VideoStreamerProps
 };
 
-const passPropsToVideoStreamer = (children: React.Node, props: any) : React.Element<any> => {
+const passPropsToVideoStreamer = (children: React.Node, props: any): React.Element<any> => {
   return React.Children.map(children, (child, i) => {
     if (i === 0) {
       return React.cloneElement(child, props);
@@ -135,11 +135,11 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   inspect = () => this.inspectableStreamState;
 
   mergeConfiguration = memoize(override);
-  
+
   componentDidMount() {
     this.isUnmounting = false;
   }
-  
+
   componentWillUnmount() {
     this.observeManager.unobserveAll();
     this.isUnmounting = true;
@@ -179,7 +179,10 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
       updateProperty,
       gotoLive,
       setPosition,
-      videoStreamer: passPropsToVideoStreamer(this.props.children, { ...videoStreamerProps, configuration: mergedConfiguration.videoStreamer }),
+      videoStreamer: passPropsToVideoStreamer(this.props.children, {
+        ...videoStreamerProps,
+        configuration: mergedConfiguration.videoStreamer
+      }),
       observe,
       inspect: this.inspect,
       unobserve

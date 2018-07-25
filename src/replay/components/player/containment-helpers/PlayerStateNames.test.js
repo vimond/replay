@@ -25,11 +25,13 @@ const state = {
 test('<PlayerStateClassNames/> renders with the child control having className filled based on the state.', () => {
   const handleClick = () => {};
   const rendered = shallow(
-    <PlayerStateClassNames classNamePrefix="a-" className="b" classNameDefinitions={classNameDefinitions} {...state} >
-      <div onClick={handleClick} id="test">Test</div>
+    <PlayerStateClassNames classNamePrefix="a-" className="b" classNameDefinitions={classNameDefinitions} {...state}>
+      <div onClick={handleClick} id="test">
+        Test
+      </div>
     </PlayerStateClassNames>
   );
-  
+
   expect(rendered.name()).toBe('div');
   expect(rendered.prop('id')).toBe('test');
   expect(rendered.prop('onClick')).toBe(handleClick);

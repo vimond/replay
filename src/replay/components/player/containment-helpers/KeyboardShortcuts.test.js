@@ -50,7 +50,6 @@ const renderAndPressKey = (isUpdatingFullscreenState, prop, initialValue, keyCod
     } else {
       state.fullscreenState[prop] = initialValue;
     }
-
   } else {
     if (Array.isArray(prop)) {
       prop.forEach((p, i) => (state[p] = initialValue[i]));

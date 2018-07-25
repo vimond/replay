@@ -30,7 +30,7 @@ class Timeline extends React.Component<Props, State> {
   };
 
   static streamStateKeysForObservation: StreamStateKeysForObservation = ['position', 'duration', 'isSeeking'];
-  
+
   timeoutId: ?TimeoutID;
 
   constructor(props: Props) {
@@ -54,7 +54,7 @@ class Timeline extends React.Component<Props, State> {
       this.timeoutId = null;
     }, 800);
   };
-  
+
   componentWillUnmount() {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);

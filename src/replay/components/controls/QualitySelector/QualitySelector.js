@@ -28,8 +28,13 @@ class QualitySelector extends React.Component<Props> {
     selectionStrategy: 'cap-bitrate'
   };
 
-  static streamStateKeysForObservation: StreamStateKeysForObservation = ['bitrates', 'currentBitrate', 'lockedBitrate', 'maxBitrate'];
-  
+  static streamStateKeysForObservation: StreamStateKeysForObservation = [
+    'bitrates',
+    'currentBitrate',
+    'lockedBitrate',
+    'maxBitrate'
+  ];
+
   handleSelect = (item: Item) => {
     if (this.props.updateProperty && typeof item !== 'string') {
       if (this.props.selectionStrategy === 'lock-bitrate') {
@@ -48,7 +53,12 @@ class QualitySelector extends React.Component<Props> {
 
   isSelected = (item: Item, index: number, arr: Array<Item>) => {
     const { lockedBitrate, maxBitrate, selectionStrategy } = this.props;
-    const matchValue = (lockedBitrate != null && maxBitrate != null) ? (selectionStrategy === 'locked-bitrate' ? lockedBitrate : maxBitrate) : lockedBitrate || maxBitrate; 
+    const matchValue =
+      lockedBitrate != null && maxBitrate != null
+        ? selectionStrategy === 'locked-bitrate'
+          ? lockedBitrate
+          : maxBitrate
+        : lockedBitrate || maxBitrate;
     if (matchValue === 'min') {
       return index === 1;
     } else if (matchValue === 'max') {
@@ -59,17 +69,10 @@ class QualitySelector extends React.Component<Props> {
   };
 
   render() {
-    const {
-      bitrates,
-      label,
-      autoLabel,
-      toggleContent,
-      classNamePrefix
-    } = this.props;
+    const { bitrates, label, autoLabel, toggleContent, classNamePrefix } = this.props;
     if (Array.isArray(bitrates) && bitrates.length > 1) {
       const items = [{ id: 0, label: autoLabel, data: Infinity }].concat(bitrates.map(this.bitrateToItem));
-      const selectedItem =
-        items.filter(this.isSelected)[0] || items[0];
+      const selectedItem = items.filter(this.isSelected)[0] || items[0];
 
       return (
         <Selector

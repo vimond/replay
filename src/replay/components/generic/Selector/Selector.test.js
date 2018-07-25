@@ -68,9 +68,8 @@ test('<Selector/> renders with prefixed class name and DOM, including all select
 
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
   expect(
-    shallowSelectorItems.filter(
-      c => c.hasClass('myplayer-selector-item') && c.hasClass('myplayer-myitemclassname')
-    ).length
+    shallowSelectorItems.filter(c => c.hasClass('myplayer-selector-item') && c.hasClass('myplayer-myitemclassname'))
+      .length
   ).toBe(4);
   expect(shallowSelectorItems.filter(c => c.hasClass('myplayer-selected')).length).toBe(0);
 
@@ -116,7 +115,11 @@ test('<Selector/> renders with unprefixed names from classes if specified.', () 
   expect(shallowElement.hasClass('selector-collapsed-1')).toBe(false);
   expect(shallowElement.hasClass('selector-expanded-1')).toBe(true);
 
-  const shallowElement2 = shallowRenderSelector({ classNamePrefix: 'myplayer-', classes, selectedItem: itemsWithIds[2] });
+  const shallowElement2 = shallowRenderSelector({
+    classNamePrefix: 'myplayer-',
+    classes,
+    selectedItem: itemsWithIds[2]
+  });
   const shallowSelectorItems2 = shallowElement2
     .find('div.selector-items-1')
     .children()
@@ -163,9 +166,7 @@ test('<Selector/> marks pre-selected item (specified by object) with class name.
   expect(shallowItemsContainer.children().length).toBe(4);
 
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
-  expect(
-    shallowSelectorItems.filter(c => c.hasClass('selector-item') && c.hasClass('myitemclassname')).length
-  ).toBe(4);
+  expect(shallowSelectorItems.filter(c => c.hasClass('selector-item') && c.hasClass('myitemclassname')).length).toBe(4);
   const selectedItems = shallowSelectorItems.filter(c => c.hasClass('selected'));
   expect(selectedItems.length).toBe(1);
   expect(selectedItems[0].text()).toBe('Donald');
@@ -176,9 +177,7 @@ test('<Selector/> marks pre-selected item (specified by its ID) with class name.
   const shallowItemsContainer = shallowElement.find('div.selector-items');
 
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
-  expect(
-    shallowSelectorItems.filter(c => c.hasClass('selector-item') && c.hasClass('myitemclassname')).length
-  ).toBe(4);
+  expect(shallowSelectorItems.filter(c => c.hasClass('selector-item') && c.hasClass('myitemclassname')).length).toBe(4);
   const selectedItems = shallowSelectorItems.filter(c => c.hasClass('selected'));
   expect(selectedItems.length).toBe(1);
   expect(selectedItems[0].text()).toBe('Angela');
@@ -191,9 +190,7 @@ test('<Selector/> with items missing IDs marks pre-selected item (specified by o
   expect(shallowItemsContainer.children().length).toBe(4);
 
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
-  expect(
-    shallowSelectorItems.filter(c => c.hasClass('selector-item') && c.hasClass('myitemclassname')).length
-  ).toBe(4);
+  expect(shallowSelectorItems.filter(c => c.hasClass('selector-item') && c.hasClass('myitemclassname')).length).toBe(4);
   const selectedItems = shallowSelectorItems.filter(c => c.hasClass('selected'));
   expect(selectedItems.length).toBe(1);
   expect(selectedItems[0].text()).toBe('Sundar');
@@ -227,7 +224,11 @@ test('<Selector/> toggles an "expanded" class name when clicking on base toggle 
 
 test('<Selector/> invokes a callback when option is selected.', () => {
   const handleSelectStub = jest.fn();
-  const shallowElement = shallowRenderSelector({ reverseOrder: true, selectedItemId: '002', onSelect: handleSelectStub });
+  const shallowElement = shallowRenderSelector({
+    reverseOrder: true,
+    selectedItemId: '002',
+    onSelect: handleSelectStub
+  });
   const shallowItemsContainer = shallowElement.find('div.selector-items');
 
   const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());

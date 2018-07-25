@@ -207,7 +207,6 @@ class PlaybackMonitor extends React.Component<Props, State> {
         props.configuration.playbackMonitor.visibleAtStart
       )
     };
-
   }
 
   handleCloseClick = () => this.setState({ isMonitorVisible: false });
@@ -226,7 +225,7 @@ class PlaybackMonitor extends React.Component<Props, State> {
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
-  
+
   render() {
     const { label, classNamePrefix, closeButtonContent } = this.props;
     if (this.state.isMonitorVisible) {

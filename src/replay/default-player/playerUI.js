@@ -38,7 +38,10 @@ const renderPlayerUI: RenderMethod = ({ configuration, externalProps }) => (
           externalProps.onExit && (
             <ExitButton {...labels.exit} {...graphics.exitButton} onClick={externalProps.onExit} />
           )}
-        <PlaybackMonitor configuration={configuration} closeButtonContent={graphics.playbackMonitor.closeButtonContent} />
+        <PlaybackMonitor
+          configuration={configuration}
+          closeButtonContent={graphics.playbackMonitor.closeButtonContent}
+        />
         <ControlsBar>
           <PlayPauseButton {...labels.playPause} {...graphics.playPause} />
           <SkipButton offset={getSkipBackOffset(configuration)} {...labels.skipBack} {...graphics.skipBack} />

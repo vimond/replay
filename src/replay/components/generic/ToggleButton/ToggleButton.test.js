@@ -49,7 +49,7 @@ test(`<ToggleButton/> renders only with unprefixed class name from classes.toggl
   expect(rendered.hasClass('toggled-off')).toBe(false);
   expect(rendered.hasClass('toggle-button-off-456')).toBe(true);
   expect(rendered.hasClass('toggle-button-on-456')).toBe(false);
-  
+
   rendered.setProps({ isOn: true });
   rendered.update();
   expect(rendered.hasClass('toggle-button-off-456')).toBe(false);

@@ -13,6 +13,6 @@ test('Entry point exposes both the player and the components.', () => {
 });
 
 test('Replay renders', () => {
-  const rendered = shallow(<Replay source={{ streamUrl: 'https://example.com/path/file.mp4'}} />);
+  const rendered = shallow(<Replay source={{ streamUrl: 'https://example.com/path/file.mp4' }} />);
   expect(rendered).toBeDefined();
 });

@@ -104,7 +104,7 @@ but only with unprefixed custom class names, when classes is specified.`, () => 
   expect(shallowElement.hasClass('myprefix-slider')).toBe(false);
   expect(shallowElement.hasClass('myprefix-myclassname')).toBe(false);
   expect(shallowElement.hasClass('slider-123')).toBe(true);
-  
+
   const trackElement = shallowElement.childAt(0);
   expect(trackElement.name()).toBe('div');
   expect(trackElement.childAt(0).name()).toBe('svg');

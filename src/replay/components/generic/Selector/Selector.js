@@ -73,11 +73,7 @@ class SelectorItem extends React.Component<SelectorItemProps> {
       classes,
       classNamePrefix,
       selectClasses: isSelected ? selectItemSelectedClasses : selectItemClasses,
-      classNames: [
-        className,
-        defaultItemClassName,
-        isSelected ? selectedClassName : null
-      ]
+      classNames: [className, defaultItemClassName, isSelected ? selectedClassName : null]
     });
     return (
       <div onClick={this.handleClick} className={classNames}>
@@ -143,11 +139,7 @@ class Selector extends React.Component<Props, SelectorState> {
       classes,
       classNamePrefix,
       selectClasses: this.state.isExpanded ? selectExpandedClasses : selectCollapsedClasses,
-      classNames: [
-        className,
-        defaultSelectorClassName,
-        this.state.isExpanded ? expandedClassName : collapsedClassName
-      ]
+      classNames: [className, defaultSelectorClassName, this.state.isExpanded ? expandedClassName : collapsedClassName]
     });
     const itemsContainerClassNames = hydrateClassNames({
       classes,
@@ -155,10 +147,12 @@ class Selector extends React.Component<Props, SelectorState> {
       classNamePrefix,
       classNames: [selectorItemsClassName]
     });
-    const toggleButtonClasses = classes ? {
-      toggleButtonOff: classes.selectorToggle || classes.selectorToggleOff,
-      toggleButtonOn: classes.selectorToggleOn
-    } : null;
+    const toggleButtonClasses = classes
+      ? {
+          toggleButtonOff: classes.selectorToggle || classes.selectorToggleOff,
+          toggleButtonOn: classes.selectorToggleOn
+        }
+      : null;
 
     return (
       <div className={classNames}>
@@ -172,9 +166,7 @@ class Selector extends React.Component<Props, SelectorState> {
           toggledOffContent={collapsedToggleContent}
           toggledOnContent={expandedToggleContent}
         />
-        <div className={itemsContainerClassNames}>
-          {renderedItems}
-        </div>
+        <div className={itemsContainerClassNames}>{renderedItems}</div>
       </div>
     );
   }

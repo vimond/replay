@@ -93,9 +93,9 @@ test('<BasicVideoStreamer/> respects isMuted, volume, and isPaused props at play
   const { videoElement, videoRef } = domRender({ ...commonProps, isPaused: true, isMuted: true, volume: 0.5 });
 
   const pauseSpy = jest.spyOn(videoRef.current, 'pause');
-  
+
   videoElement.simulate('loadedmetadata');
-  
+
   expect(videoRef.current.muted).toBe(true);
   expect(videoRef.current.volume).toBe(0.5);
   expect(pauseSpy).toHaveBeenCalledTimes(1);

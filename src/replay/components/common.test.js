@@ -4,7 +4,8 @@ import {
   formatTime,
   formatClockTime,
   isDifferent,
-  hydrateClassNames, isShallowEqual
+  hydrateClassNames,
+  isShallowEqual
 } from './common';
 
 test('prefixClassNames() prefixes all class names passed and joins into one string.', () => {
@@ -323,8 +324,6 @@ test('isShallowEqual() returns false for two objects not having the same propert
   };
   expect(isShallowEqual(a, b)).toBe(false);
 });
-
-
 
 // TODO: Write tests.
 test('override() merges two objects deeply, also when branches are unspecified in one of them.');

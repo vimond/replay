@@ -36,7 +36,10 @@ const getObserver = (callback: HandleChangeMethod) => (key: string, value: any) 
 const registerObservers = (observe: ObserveMethod, keys: Array<VideoStreamStateKeys>, onChange: HandleChangeMethod) =>
   keys.forEach(p => observe(p, onChange));
 
-const connectControl = <Props: {}>(Control: React.ComponentType<Props>, stateKeys?: Array<VideoStreamStateKeys>): React.ComponentType<$Diff<Props, PassdownProps>> => {
+const connectControl = <Props: {}>(
+  Control: React.ComponentType<Props>,
+  stateKeys?: Array<VideoStreamStateKeys>
+): React.ComponentType<$Diff<Props, PassdownProps>> => {
   // $FlowFixMe What's the best practices for extending component classes with static properties?
   const resolvedStateKeys = stateKeys || Control.streamStateKeysForObservation || [];
   if (!Array.isArray(resolvedStateKeys)) {
@@ -54,7 +57,7 @@ const connectControl = <Props: {}>(Control: React.ComponentType<Props>, stateKey
       const currentState = props.inspect();
       const initialState = {};
       if (currentState) {
-        resolvedStateKeys.forEach(key => initialState[key] = currentState[key]);
+        resolvedStateKeys.forEach(key => (initialState[key] = currentState[key]));
       }
       this.state = initialState;
     }
@@ -74,12 +77,14 @@ const connectControl = <Props: {}>(Control: React.ComponentType<Props>, stateKey
     <ControllerContext.Consumer>
       {({ observe, unobserve, updateProperty, gotoLive, setPosition, inspect }) => {
         if (observe) {
-          return <Observer
-            observe={observe}
-            unobserve={unobserve}
-            inspect={inspect}
-            passdownProps={{ ...props, gotoLive, setPosition, updateProperty, inspect }}
-          />;
+          return (
+            <Observer
+              observe={observe}
+              unobserve={unobserve}
+              inspect={inspect}
+              passdownProps={{ ...props, gotoLive, setPosition, updateProperty, inspect }}
+            />
+          );
         } else {
           return <Control {...{ ...props, gotoLive, setPosition, updateProperty, inspect }} />;
         }
@@ -91,8 +96,10 @@ const connectControl = <Props: {}>(Control: React.ComponentType<Props>, stateKey
   return ConnectedControl;
 };
 
-export const ControlledVideoStreamer: React.StatelessFunctionalComponent<CommonGenericProps> = (props) => (
-  <ControllerContext.Consumer>{({ videoStreamer }) => videoStreamer != null ? React.cloneElement(videoStreamer, props) : null }</ControllerContext.Consumer>
+export const ControlledVideoStreamer: React.StatelessFunctionalComponent<CommonGenericProps> = props => (
+  <ControllerContext.Consumer>
+    {({ videoStreamer }) => (videoStreamer != null ? React.cloneElement(videoStreamer, props) : null)}
+  </ControllerContext.Consumer>
 );
 
 export default connectControl;

@@ -33,15 +33,7 @@ class ToggleButton extends React.Component<Props> {
   handleClick = () => this.props.onToggle && this.props.onToggle(!this.props.isOn);
 
   render() {
-    const {
-      isOn,
-      label,
-      className,
-      classNamePrefix,
-      toggledOnContent,
-      toggledOffContent,
-      classes
-    } = this.props;
+    const { isOn, label, className, classNamePrefix, toggledOnContent, toggledOffContent, classes } = this.props;
     const toggleClassName = isOn ? onClassName : offClassName;
     const classNames = hydrateClassNames({
       classes,

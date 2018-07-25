@@ -24,7 +24,8 @@ const className = 'subtitles-selector';
 const defaultKind = 'subtitles';
 
 const buildId = (...str: Array<?string>) => str.filter(s => s).join('.');
-const buildLabel = ({ label, kind = defaultKind, language = 'unknown' }: AvailableTrack) => label || (kind !== defaultKind ? `[${language}] ${kind}` : `[${language}]`);
+const buildLabel = ({ label, kind = defaultKind, language = 'unknown' }: AvailableTrack) =>
+  label || (kind !== defaultKind ? `[${language}] ${kind}` : `[${language}]`);
 
 // TODO: This fn should be a prop on the Selector. The Selector should accept any types for items/selectedItem.
 const textTrackToItem = (track: AvailableTrack) => {
@@ -41,7 +42,7 @@ class SubtitlesSelector extends React.Component<Props, State> {
   };
 
   static streamStateKeysForObservation: StreamStateKeysForObservation = ['textTracks', 'currentTextTrack'];
-  
+
   constructor(props: Props) {
     super(props);
     this.state = {

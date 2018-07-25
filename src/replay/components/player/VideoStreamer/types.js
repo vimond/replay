@@ -29,7 +29,7 @@ export class PlaybackError extends Error {
   code: ErrorCodes;
   severity: Severity;
   technology: string;
-  sourceError: any
+  sourceError: any;
 }
 
 export type AvailableTrack = {
@@ -70,11 +70,13 @@ export type VideoStreamStateValues = $Values<VideoStreamState>;
 
 // Types used in settable props.
 
-export type VideoStreamerConfiguration = {
-  dash?: any,
-  html?: any,
-  silverlight?: any
-} | any;
+export type VideoStreamerConfiguration =
+  | {
+      dash?: any,
+      html?: any,
+      silverlight?: any
+    }
+  | any;
 
 export type SourceTrack = {
   src: string,
@@ -118,16 +120,17 @@ export type PlaybackMethods = {
   gotoLive: () => void
 };
 
-export type VideoStreamerProps = PlaybackProps & CommonProps & {
-  configuration?: VideoStreamerConfiguration,
-  source?: PlaybackSource,
-  textTracks?: Array<SourceTrack>,
-  className?: string,
+export type VideoStreamerProps = PlaybackProps &
+  CommonProps & {
+    configuration?: VideoStreamerConfiguration,
+    source?: PlaybackSource,
+    textTracks?: Array<SourceTrack>,
+    className?: string,
 
-  onReady?: PlaybackMethods => void,
-  onStreamStateChange?: VideoStreamState => void,
-  onProgress?: ({ event: string }) => void,
-  onPlaybackError?: PlaybackError => void
-};
+    onReady?: PlaybackMethods => void,
+    onStreamStateChange?: VideoStreamState => void,
+    onProgress?: ({ event: string }) => void,
+    onPlaybackError?: PlaybackError => void
+  };
 
 export type PlaybackApi = PlaybackMethods & VideoStreamState;

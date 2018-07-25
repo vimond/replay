@@ -8,16 +8,20 @@ Enzyme.configure({ adapter: new Adapter() });
 test('<Replay/> renders and recognises the specified props.', () => {
   const props = {
     options: { setting: 'value' },
-    source: { streamUrl: 'https://example.com/video.mp4'},
+    source: { streamUrl: 'https://example.com/video.mp4' },
     textTracks: [],
     onError: () => {},
     onExit: () => {}
   };
-  
-  const MyStreamer = () => <video/>;
 
-  const rendered = mount(<Replay {...props}><MyStreamer/></Replay>)
-  
+  const MyStreamer = () => <video />;
+
+  const rendered = mount(
+    <Replay {...props}>
+      <MyStreamer />
+    </Replay>
+  );
+
   const playerController = rendered.find('PlayerController');
   expect(playerController.props().onStreamerError).toBe(props.onError);
   expect(playerController.props().options).toBe(props.options);

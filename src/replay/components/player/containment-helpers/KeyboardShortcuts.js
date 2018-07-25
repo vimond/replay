@@ -53,7 +53,6 @@ const getMatchingOperationFromKeycodeConfig = (config: KeyboardShortcutsConfigur
 };
 
 class KeyboardShortcuts extends React.Component<Props> {
-  
   handleKeyUp = (keyboardEvent: KeyboardEvent) => {
     let {
       nudge,
@@ -78,7 +77,7 @@ class KeyboardShortcuts extends React.Component<Props> {
       volume = inspectedState.volume;
       playMode = inspectedState.playMode;
     }
-    
+
     if (configuration && configuration.keyboardShortcuts) {
       const offset = configuration.keyboardShortcuts.skipOffset || 30;
       const volumeStep = configuration.keyboardShortcuts.volumeStep || 0.1;
@@ -107,14 +106,10 @@ class KeyboardShortcuts extends React.Component<Props> {
             }
             break;
           case 'decreaseVolume':
-            updateProperty &&
-              volume != null &&
-              updateProperty({ volume: Math.max(volume - volumeStep, 0) });
+            updateProperty && volume != null && updateProperty({ volume: Math.max(volume - volumeStep, 0) });
             break;
           case 'increaseVolume':
-            updateProperty &&
-              volume != null &&
-              updateProperty({ volume: Math.min(volume + volumeStep, 1) });
+            updateProperty && volume != null && updateProperty({ volume: Math.min(volume + volumeStep, 1) });
             break;
           default:
           // eslint requires default in switch. Can't see that this is a good case for such a requirement.

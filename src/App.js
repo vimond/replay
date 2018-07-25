@@ -111,7 +111,7 @@ class App extends Component<void, State> {
               </p>
               <p className="buttons-row">
                 <button onClick={() => this.handleVideoButtonClick(0)}>Video 1</button>{' '}
-                <button onClick={() => this.handleVideoButtonClick(1)}>Video 2</button> 
+                <button onClick={() => this.handleVideoButtonClick(1)}>Video 2</button>
                 <button onClick={this.handleNoVideoClick}>No video</button>
               </p>
             </div>

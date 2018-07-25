@@ -15,7 +15,7 @@ const setup = () => {
     onControlARender(props);
     return <div id="hello">{props.text}</div>;
   };
-  
+
   ObservingControlA.streamStateKeysForObservation = ['position', 'isPaused'];
 
   const ObservingControlB = props => {
@@ -24,17 +24,17 @@ const setup = () => {
   };
 
   ObservingControlB.streamStateKeysForObservation = ['playState'];
-  
+
   const ConnectedA = connectControl(ObservingControlA);
   const ConnectedB = connectControl(ObservingControlB);
-  
+
   class RenderTree extends React.Component {
     render() {
       return (
         <div>
           <ControllerContext.Provider value={this.props.contextValue}>
             <div>
-              <ControlledVideoStreamer/>
+              <ControlledVideoStreamer />
               <ConnectedA text="A text" />
               <ConnectedB />
             </div>
@@ -44,7 +44,7 @@ const setup = () => {
     }
   }
 
-  const contextValue = { gotoLive: () => {}, setPosition: () => {}, updateProperty: () => {}, inspect: () => {}};
+  const contextValue = { gotoLive: () => {}, setPosition: () => {}, updateProperty: () => {}, inspect: () => {} };
   const observeMethods = { observe: mockObserve, unobserve: () => {} };
   return {
     contextValue,
@@ -55,7 +55,7 @@ const setup = () => {
     RenderTree
   };
 };
-//          
+//
 
 test('connectControl() returns a Control with controller props passed down.', () => {
   const { RenderTree, onControlARender, onControlBRender, contextValue, observeMethods } = setup();
@@ -80,7 +80,11 @@ test('The connected controls are rerendered when the context value is updated.',
   const renderedTree = mount(<RenderTree contextValue={{ videoStreamer: null, ...observeMethods, ...contextValue }} />);
   expect(onControlARender.mock.calls.length).toBe(1);
   expect(onControlBRender.mock.calls.length).toBe(1);
-  renderedTree.setProps({ ...observeMethods, ...contextValue, videoStreamer: <div id="videoStreamer">Yes video.</div> });
+  renderedTree.setProps({
+    ...observeMethods,
+    ...contextValue,
+    videoStreamer: <div id="videoStreamer">Yes video.</div>
+  });
   renderedTree.update();
   expect(onControlARender.mock.calls.length).toBe(2);
   expect(onControlBRender.mock.calls.length).toBe(2);
@@ -96,16 +100,16 @@ test('The connected controls are rerendered when the context value is updated.',
   });
   expect(onControlARender.mock.calls.length).toBe(1);
   expect(onControlBRender.mock.calls.length).toBe(1);
-  
+
   updaters['isPaused']({ isPaused: false });
   expect(onControlARender.mock.calls.length).toBe(2);
   expect(onControlARender.mock.calls[1][0]).toMatchObject({ isPaused: false });
   expect(onControlBRender.mock.calls.length).toBe(1);
-  
+
   updaters['playState']({ playState: 'starting' });
   expect(onControlBRender.mock.calls[1][0]).toMatchObject({ playState: 'starting' });
   expect(onControlARender.mock.calls.length).toBe(2);
-  
+
   updaters['position']({ position: 313 });
   expect(onControlARender.mock.calls[2][0]).toMatchObject({ position: 313 });
   expect(onControlBRender.mock.calls.length).toBe(2);
@@ -114,6 +118,8 @@ test('The connected controls are rerendered when the context value is updated.',
 
 test('<ControlledVideoStreamer/> renders the videoStreamer element provided to the context.', () => {
   const { RenderTree, contextValue, observeMethods } = setup();
-  const renderedTree = mount(<RenderTree contextValue={{ videoStreamer: <video id="videoStreamer"/>, ...observeMethods, ...contextValue }} />);
+  const renderedTree = mount(
+    <RenderTree contextValue={{ videoStreamer: <video id="videoStreamer" />, ...observeMethods, ...contextValue }} />
+  );
   expect(renderedTree.find('video').props().id).toBe('videoStreamer');
 });

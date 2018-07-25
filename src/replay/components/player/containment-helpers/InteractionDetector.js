@@ -33,7 +33,10 @@ type InteractionState = {
   clientY: number
 };
 
-const getDelaySeconds = configuration => configuration && configuration.interactionDetector && configuration.interactionDetector.inactivityDelay != null ? configuration.interactionDetector.inactivityDelay : 2;
+const getDelaySeconds = configuration =>
+  configuration && configuration.interactionDetector && configuration.interactionDetector.inactivityDelay != null
+    ? configuration.interactionDetector.inactivityDelay
+    : 2;
 
 class InteractionDetector extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -60,7 +63,7 @@ class InteractionDetector extends React.Component<Props, State> {
       this.intervalId = setInterval(this.updateActivity, 250); // This interval is not the inactivity delay.
     }
   }
-  
+
   componentDidUpdate(prevProps: Props, prevState: State) {
     const delaySeconds = getDelaySeconds(this.props.configuration);
     if (delaySeconds !== getDelaySeconds(prevProps.configuration)) {

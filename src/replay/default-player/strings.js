@@ -43,7 +43,7 @@ export const labels = {
   },
   exit: {
     label: 'Exit'
-  },
+  }
 };
 
 export const strings = {

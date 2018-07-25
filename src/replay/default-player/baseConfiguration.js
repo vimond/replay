@@ -2,7 +2,7 @@
 
 import type { PlayerConfiguration } from './types';
 
-export const baseConfiguration : PlayerConfiguration = {
+export const baseConfiguration: PlayerConfiguration = {
   keyboardShortcuts: {
     keyCodes: {
       togglePause: [32, 13],

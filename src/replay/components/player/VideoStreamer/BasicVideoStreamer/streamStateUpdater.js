@@ -59,9 +59,11 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
   if (isDebugging) {
     window.videoElementEvents = [];
   }
-  
-  const log = isDebugging ? (eventName: string) => window.videoElementEvents.push(eventName) : (eventName: string) => {};
-  
+
+  const log = isDebugging
+    ? (eventName: string) => window.videoElementEvents.push(eventName)
+    : (eventName: string) => {};
+
   function withVideoElement(operation: HTMLVideoElement => void) {
     streamer.videoRef.current && operation(streamer.videoRef.current);
   }
@@ -252,8 +254,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
 
   // TODO: Text tracks and audio tracks.
   // TODO: Live and positions.
-  
-  
+
   const { notifyPropertyChange } = getFilteredPropertyUpdater(invokeOnStreamStateChange, filters);
   const update = notifyPropertyChange;
 

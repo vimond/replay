@@ -92,7 +92,6 @@ export const isDifferent = (a: any, b: any) => {
 
 export const isObject = (obj: ?{}) => obj != null && obj.constructor === {}.constructor;
 
-
 export const isShallowEqual = (a: any, b: any): boolean => {
   if (a === b) {
     return true;
@@ -107,7 +106,8 @@ export const isShallowEqual = (a: any, b: any): boolean => {
       return false;
     }
     return keysB.filter(key => isDifferent(b[key], a[key])).length === 0;
-  } else { // No identical equality
+  } else {
+    // No identical equality
     return false;
   }
 };
