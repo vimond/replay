@@ -4,8 +4,6 @@ import { Persist } from 'react-persist';
 import memoize from 'memoize-one';
 import MockPlayer from './replay/default-player/MockPlayer';
 import { Replay } from './replay/';
-import PremiumVideoStreamer from 'vimond-videostreamer-premium';
-import { defaultClassNamePrefix } from './replay/components/common';
 import type { PlayerConfiguration } from './replay/default-player/types';
 import './App.css';
 import './replay/replay-default.css';
@@ -16,17 +14,19 @@ type State = {
   alwaysShowDesignControls: boolean
 };
 
-const streamUrl1 =
-  'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1346048_ps3120_pd412370.smil/manifest.mpd';
-//const streamUrl2 = 'https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd';
-//const streamUrl3 = 'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1359479_ps2064_pd186923.smil/manifest.mpd';
+const videoUrls = [
+  'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4',
+  'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-20/N_ELGBADER_200718_SIKRO_(1359389_R212MP41000).mp4'
+];
 
 const getSource = memoize(streamUrl => {
   if (streamUrl) {
     return {
-      playbackTechnology: 'dash',
+      playbackTechnology: 'html',
       streamUrl
     };
+  } else {
+    return null;
   }
 });
 
@@ -38,6 +38,9 @@ const configOverrides: PlayerConfiguration = {
     logging: {
       global: 'DEBUG'
     }
+  },
+  playbackMonitor: {
+    visibleAtStart: false
   }
 };
 
@@ -60,7 +63,7 @@ class App extends Component<void, State> {
     this.state = {
       useMock: true,
       alwaysShowDesignControls: true,
-      streamUrl: streamUrl1
+      streamUrl: videoUrls[0]
     };
     window.setState = stateProps => this.setState(stateProps);
   }
@@ -72,12 +75,11 @@ class App extends Component<void, State> {
   handleStreamUrlFieldChange = (evt: SyntheticEvent<HTMLInputElement>) =>
     this.setState({ streamUrl: evt.currentTarget.value });
 
+  handleVideoButtonClick = (index: number) => this.setState({ streamUrl: videoUrls[index] });
+  handleNoVideoClick = () => this.setState({ streamUrl: '' });
+
   render() {
-    const {
-      alwaysShowDesignControls,
-      streamUrl,
-      useMock
-    } = this.state;
+    const { alwaysShowDesignControls, streamUrl, useMock } = this.state;
     return (
       <div className="App">
         <div className="App-player-panel">
@@ -103,10 +105,15 @@ class App extends Component<void, State> {
                 options={configOverrides}
                 onExit={this.togglePlayer}
                 startVolume={0.5}
-              >
-                <PremiumVideoStreamer className="videoStreamer" classNamePrefix={defaultClassNamePrefix} />
-              </Replay>
-              <input type="url" value={streamUrl} onChange={this.handleStreamUrlFieldChange} />
+              />
+              <p>
+                <input type="url" value={streamUrl} onChange={this.handleStreamUrlFieldChange} />
+              </p>
+              <p className="buttons-row">
+                <button onClick={() => this.handleVideoButtonClick(0)}>Video 1</button>{' '}
+                <button onClick={() => this.handleVideoButtonClick(1)}>Video 2</button> 
+                <button onClick={this.handleNoVideoClick}>No video</button>
+              </p>
             </div>
           )}
         </div>

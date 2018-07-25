@@ -15,44 +15,23 @@
 * First class user experience on touch/mobile
 * Accessibility compliance...
 * No company or customer specifics, or mentioning of them - prepared for OS or sharing with customers
-* Code splitting for the integrated streaming libraries
-* Perhaps prepare for commercial integrations. Consider creating a Google IMA SDK integration, but nothing else.
+* Pick, mix and match streaming libraries/playback technologies, but avoid bloat from covering all of them.
 
-## Naming ideas
+# Not included: The model in the broad sense
 
-Avoid fancy names, but it needs to stand out for some practical reasons.
+Data lookup, API integrations, commercial integrations, UI components relying on such data
 
-### Replay
+# Included: The view - A player with controls
 
-Short for _React player_.
+A concept of three parts:
 
-npm: `vimond-replay` since `replay` is taken. Full player component: `<Replay />`.
-
-### re-play
-
-Less misunderstandings and currently available as npm package name. However, bad style using unnecessary characters.
-
-### react-player-kit
-
-A bit long. And should we avoid using React as part of the name?
-
-### replayed
-
-Hmmmm.
-
-### Discarded ideas:
-
-*v-player* for full player and *v-stream* for video engine?
-
-```<Vstream/> <VStream/> <vStream/>```
-
-```<Vplayer/> <VPlayer/> <vPlayer/>```
-
-That's just too ugly.
-
-# The view: Player with controls
+* The player UI (including controls)
+* The video streamer (see right underneath)
+* The player controller, connecting the UI with the controls.
 
 ## VideoStreamer
+
+The video streamer is the component fetching and rendering the video. It includes audio and subtitles, but no UI elements.
 
 Different streaming components can be plugged in for different purposes.
 
@@ -92,9 +71,11 @@ In the npm package, include a simple implementation covering HTML5 video, with t
 
 Create stream state change to event emitter helper, to be plugged into all pure VideoStreamer components.
 
+Support live for HLS, but FairPlay DRM should be plugged in from a premium package. Same for TTML and SRT parsing support.
+
 `<BasicVideoStreamer />`
 
-### Composable VideoSyreamer
+### Composable VideoStreamer
 
 Allows to specify different VideoStreamer components and mappings.
 
@@ -114,10 +95,7 @@ For "design mode", to be used with e.g. Styleguidist. Simulates playback state a
 
 * ✓ Button
 * ✓ Slider
-* Overlay
 * ✓ Drop-up selector
-* Toast
-* Poster?
 
 ### Specialised controls
 
@@ -134,7 +112,6 @@ For "design mode", to be used with e.g. Styleguidist. Simulates playback state a
 	
 ### Other UI components
 
-* Poster? Need to decide on lifecycle strategy.			
 * ✓ Buffering indicator
 * Player container, managing
 	* ✓ User inactivity
@@ -153,13 +130,6 @@ The concerns above might be separated into HOCs or utilities attached to the vis
 * Pause/play overlay/toggle
 * Video synced graphics overlay
 
-In someone's dreams:
-
-* Episodes selector
-* Share
-* Multiplayer...
-* End poster with replay and suggestions
-
 ## Styles/skinning, some thoughts...
 
 Decide early on plain-old CSS, SASS, or CSS in JS. 
@@ -176,11 +146,15 @@ Good old prefixing of all class names.
 
 Styling passed directly turns off class names?
 
-# [Playback] state management
+## The player controller
 
-Consuming playback state and manipulating the playback is handled by a `<PlayerController>` dealing specially with the video stream component.
+Consuming playback state and manipulating the playback is handled by a `<PlayerController>` and is hosting a React context.
 
-# Architecture
+It monitors and manipulates the playback and stream state of the video streamer, which can be placed further down in the rendered element tree.
+
+All player controls can also be located on any level down in the element tree, and the player controller allows for all of them to connect to receive updates to the playback state, or control the playback.
+
+# Some architecture principles
 
 ## Designing the best separation of concerns
 
@@ -190,7 +164,7 @@ Consuming playback state and manipulating the playback is handled by a `<PlayerC
 	* Configuration as part of composed player.
 	* Allow for configuration overrides.
 
-* `<PlayerUIContainer/>` UI host element
+* `<PlayerUIContainer/>` UI host components
 	* Helper functions
 	* UI state
 	* 16:9, fullscreen
@@ -292,14 +266,6 @@ Need to find strategy for player state class names. Will probably eliminate the 
 * ThemedReplay.js or something, wrapping the original Replay.js.
 * Look into including graphics in JSS styles, or make a tight coupling.
 
-* Consider directories for each control, with the following files, e.g. for Slider:
-	* Slider.js
-	* Slider.jss.js
-	* Slider.css
-	* Slider.test.js
-	* Slider.classes.js
-	* Styleguidist example?
-
 Specific improvements and things to verify
 
 * ✓ Test with subtitles and audio tracks...
@@ -307,6 +273,7 @@ Specific improvements and things to verify
 * ✓ Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
 * ✓ Make sure Dash.js works in Streamlab.
 * ✓ Look into setting volume, mute, and pause state on startup. Needs to be explicit start values. Full outbound API via updateProperty/onStreamPropertyChange.
+* Manipulating the playback through setting props on the video streamer is asking for trouble/state out of sync. Reconsider?
 * `<PlayerController />` and `<VideoStreamer />` must handle rapid reinstantiations (as happening with `react-rnd@7.4.3`).
 * Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
 * Respect new set of playback technologies in VideoStreamer, replacing dashImpl prop.

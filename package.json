@@ -48,8 +48,7 @@
     "react-dom": "^16.4.0",
     "react-persist": "^1.0.2",
     "react-scripts": "1.1.1",
-    "test-cli": "^0.1.0",
-    "vimond-videostreamer-premium": "^8.20.565"
+    "test-cli": "^0.1.0"
   },
   "prettier": {
     "printWidth": 120,

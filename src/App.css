@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin-top: 0.5em;
 }
 
 .App-player-panel {
@@ -8,7 +9,16 @@
 }
 
 .App-player-panel input[type=url] {
-  margin-top: 1em;
   width: 100%;
   box-sizing: border-box;
+}
+
+.App-player-panel p {
+  margin: 0.5em 0;
+}
+
+.App-player-panel .button-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
