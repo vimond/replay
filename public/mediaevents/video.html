@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+	<video style="width: 800px; height: 450px" autoplay controls></video>
+	<script>
+		
+		const v = document.getElementsByTagName('video')[0];
+		
+		let prevEventName;
+		let prevEventTime = new Date().getTime();
+		
+		function logEvent(eventName, evt) {
+		  if (eventName !== 'timeupdate' || prevEventName !== 'timeupdate') {
+            const now = new Date().getTime();
+            console.log((now - prevEventTime) + ': ' + v.paused + ' - ' + eventName);
+            prevEventName = eventName;
+			prevEventTime = now;
+		  }
+		}
+		
+		const eventNames = [
+		  'canplay',
+		  'canplaythrough',
+		  'durationchange',
+		  'emptied',
+		  'ended',
+		  'loadeddata',
+		  'loadedmetadata',
+		  'loadstart',
+		  'load',
+		  'timeupdate',
+		  'pause',
+		  'play',
+		  'playing',
+		  'seeking',
+		  'progress',
+		  'seeking',
+		  'seeked',
+		  'stalled',
+		  'suspend',
+		  'waiting'
+		];
+		
+		eventNames.forEach(name => {
+		  v.addEventListener(name, logEvent.bind(null, name));
+		});
+		
+		v.src = 'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4';
+		v.addEventListener('loadedmetadata', () => { v.pause(); v.currentTime = 10;});
+		
+		
+		
+	</script>
+</body>
+</html>

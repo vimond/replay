@@ -7,5 +7,3 @@ test('mapError() wraps the error in a PlaybackError', () => {
   const playbackError = mapError({ error });
   expect(playbackError).toBeInstanceOf(PlaybackError);
 });
-
-//TODO.

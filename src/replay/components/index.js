@@ -74,4 +74,4 @@ export {
   common
 };
 
-// TODO: Look into reexporting also types.
+// TODO: Look into re-exporting also types.

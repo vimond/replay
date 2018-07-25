@@ -9,7 +9,7 @@ const mockHandleContent = <span />;
 const mockBarContent = <div />;
 const mockTrackContent = <svg />;
 
-//TODO: Vertical mode! Double up every test?
+//TODO: Vertical mode. Double up every test?
 
 function shallowRenderSlider({
   value = 10,

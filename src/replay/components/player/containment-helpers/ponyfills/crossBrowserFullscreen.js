@@ -53,7 +53,7 @@ export function notifyFullscreenChange(handler) {
   ];
 
   fullscreenEventNames.forEach(function(eventName) {
-    document.addEventListener(eventName, handler); //TODO: Check if some browsers fire on both prefixed and unprefixed event names. Then remove duplicate invocations.
+    document.addEventListener(eventName, handler);
   });
 
   return function() {

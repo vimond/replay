@@ -19,13 +19,12 @@ function getFilteredPropertyUpdater(
   const currentValues: VideoStreamState = {};
 
   function notifyPropertyChange(property: VideoStreamState) {
-    // $FlowFixMe Yet to understand how to get this type safe or let Flow see the type safety here.
+    // $FlowFixMe Yet to understand how to safely iterate through objects as maps.
     Object.entries(property).forEach(([key, value]) => {
       const saneValue = filters[key] ? filters[key](value) : value;
       if (isDifferent(currentValues[key], saneValue)) {
         // $FlowFixMe
         currentValues[key] = saneValue;
-        // $FlowFixMe
         callback({ [key]: saneValue });
       }
     });

@@ -40,7 +40,6 @@ const volumeMappings = ['low', 'medium', 'high'];
 
 const isStreamOpen = (playState?: PlayState) => playState && playState !== 'inactive' && playState !== 'starting';
 
-// TODO: A candidate for memoisation.
 const playerStateClassNameBuilder = (
   {
     isPaused,
