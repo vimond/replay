@@ -179,7 +179,6 @@ td.replay-playback-monitor-previous-value {
     max-width: 160px;
 }
 
-
 /* Aesthetic vertical alignment and correction of icons */
 
 .replay-audio-selector .replay-toggle-button, .replay-skip-button, .replay-goto-live-button svg {
@@ -319,10 +318,15 @@ td.replay-playback-monitor-previous-value {
 }
 
 /* Graphical appearance */
+
 .replay-slider-handle:active {
     cursor: grabbing;
 }
 
 .replay {
     font-family: sans-serif;
+}
+
+.replay-ui-container:focus {
+    outline: none;
 }
