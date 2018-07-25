@@ -14,7 +14,7 @@ const filters = {
 export type StreamStateUpdater = {
   eventHandlers: { [string]: () => void },
   notifyPropertyChange: VideoStreamState => void,
-  startPlaybackSession: () => void 
+  startPlaybackSession: () => void
 };
 
 function seekToInitialPosition(source: ?PlaybackSource, videoElement: HTMLVideoElement) {
@@ -43,21 +43,25 @@ type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'un
 
 function getStreamStateUpdater(streamer: BasicVideoStreamer) {
   let lifeCycleStage: PlaybackLifeCycle = 'unknown';
-  
+  const isSafari =
+    navigator.userAgent.indexOf('Safari') > 0 &&
+    navigator.userAgent.indexOf('Chrome') < 0 &&
+    navigator.userAgent.indexOf('Firefox') < 0;
+
   function withVideoElement(operation: HTMLVideoElement => void) {
     streamer.videoRef.current && operation(streamer.videoRef.current);
   }
-  
+
   function invokeOnStreamStateChange(property: VideoStreamState) {
     if (streamer.props.onStreamStateChange) {
       try {
         streamer.props.onStreamStateChange(property);
-      } catch(e) {
+      } catch (e) {
         console.error('onStreamStateChange failed.', e);
       }
     }
   }
-  
+
   function notifyInitialState() {
     update({ duration: 0 });
     update({ position: 0 });
@@ -77,7 +81,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     notifyInitialState();
     // TODO: Notify closedown of previous session?
   }
-  
+
   function onError() {
     withVideoElement(videoElement => {
       const playbackError = mapError(videoElement);
@@ -102,16 +106,16 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
       });
     }
   }
-  
+
   function onLoadedMetadata() {
     withVideoElement(videoElement => {
       seekToInitialPosition(streamer.props.source, videoElement);
-      
+
       update({ position: videoElement.currentTime });
       update({ duration: videoElement.duration });
     });
   }
-  
+
   function onCanPlay() {
     // If starting as paused, we consider "canplay" as completed starting. The playState must be updated accordingly.
     // When starting as playing, the starting to started transition is handled by the onPlaying handler.
@@ -126,7 +130,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
       }
     });
   }
-  
+
   function onWaiting() {
     if (lifeCycleStage === 'started') {
       update({ playState: 'buffering' });
@@ -134,12 +138,12 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
   }
 
   function onStalled() {
-    // TODO: Fired after pausing in Safari.
-    if (lifeCycleStage === 'started') {
+    // The stalled event is fired also after pausing in Safari.
+    if (lifeCycleStage === 'started' && !isSafari) {
       update({ playState: 'buffering' });
     }
   }
-  
+
   function onPlaying() {
     // When this is invoked, and we are not starting as paused, we consider the playback as started.
     if (lifeCycleStage === 'starting') {
@@ -149,13 +153,13 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
       update({ playState: 'playing', isBuffering: false, isPaused: false, isSeeking: false });
     }
   }
-  
+
   function onPause() {
     if (lifeCycleStage === 'started') {
       update({ playState: 'paused', isPaused: true });
     }
   }
-  
+
   function onSeeking() {
     if (lifeCycleStage === 'started') {
       update({ playState: 'seeking', isSeeking: true });
@@ -174,32 +178,32 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
       });
     }*/
   }
-  
+
   function onDurationChange() {
     withVideoElement(videoElement => {
       update({ position: videoElement.currentTime });
       update({ duration: videoElement.duration });
     });
   }
-  
+
   function onTimeUpdate() {
     withVideoElement(videoElement => {
       update({ position: videoElement.currentTime });
     });
   }
-  
+
   function onVolumeChange() {
     withVideoElement(videoElement => {
       update({ volume: videoElement.volume, isMuted: videoElement.muted });
     });
   }
-  
+
   function onProgress() {
     withVideoElement(videoElement => {
-      update({ bufferedAhead: calculateBufferedAhead(videoElement)});
+      update({ bufferedAhead: calculateBufferedAhead(videoElement) });
     });
   }
-  
+
   function onEnded() {
     if (lifeCycleStage === 'started') {
       lifeCycleStage = 'ended';
@@ -209,7 +213,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
 
   const { notifyPropertyChange } = getFilteredPropertyUpdater(invokeOnStreamStateChange, filters);
   const update = notifyPropertyChange;
-  
+
   return {
     eventHandlers: {
       onLoadStart,

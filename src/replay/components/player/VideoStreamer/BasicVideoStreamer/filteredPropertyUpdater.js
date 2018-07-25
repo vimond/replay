@@ -12,7 +12,10 @@ const emptyFilters = {};
 
 export type SanityFilter = <T: ?VideoStreamStateValues>(val: T) => T;
 
-function getFilteredPropertyUpdater(callback: VideoStreamState => void, filters: { [VideoStreamStateKeys]: SanityFilter } = emptyFilters) {
+function getFilteredPropertyUpdater(
+  callback: VideoStreamState => void,
+  filters: { [VideoStreamStateKeys]: SanityFilter } = emptyFilters
+) {
   const currentValues: VideoStreamState = {};
 
   function notifyPropertyChange(property: VideoStreamState) {

@@ -7,6 +7,7 @@ import getFilteredPropertyUpdater from './filteredPropertyUpdater';
 import type { SanityFilter } from './filteredPropertyUpdater';
 import getStreamStateUpdater from './streamStateUpdater';
 import type { StreamStateUpdater } from './streamStateUpdater';
+import processPropChanges from './videoUpdater';
 
 type Props = CommonGenericProps &
   VideoStreamerProps & {
@@ -44,9 +45,15 @@ class BasicVideoStreamer extends React.Component<Props> {
   streamStateUpdater: StreamStateUpdater;
   videoRef: { current: null | HTMLVideoElement };
 
-  gotoLive() {}
+  gotoLive = () => {
+    // TODO. Check for live stream before changing position.
+  };
 
-  setPosition(position: number) {}
+  setPosition = (position: number) => {
+    if (this.videoRef.current) {
+      this.videoRef.current.currentTime = position;
+    }
+  };
 
   componentDidMount() {
     // TODO: Should probably be called for each new source set. Could also consider a "source change" callback.
@@ -55,13 +62,14 @@ class BasicVideoStreamer extends React.Component<Props> {
       this.props.onReady({ setPosition: this.setPosition, gotoLive: this.gotoLive });
     }
   }
-  
+
   componentDidUpdate(prevProps: Props) {
     if (prevProps.source !== this.props.source) {
       this.streamStateUpdater.startPlaybackSession();
     }
+    processPropChanges(this.videoRef, prevProps, this.props);
   }
-  
+
   /* Special video element event handlers */
 
   render() {
@@ -77,7 +85,6 @@ class BasicVideoStreamer extends React.Component<Props> {
           src={source.streamUrl}
           ref={this.videoRef}
           {...this.streamStateUpdater.eventHandlers}
-          
         />
       );
     } else {

@@ -2,7 +2,7 @@ import getStreamStateUpdater from './streamStateUpdater';
 import type { PlaybackSource } from '../types';
 import { PlaybackError } from '../types';
 
-const getPropertyUpdates = (mockFn, key) =>  mockFn.mock.calls.filter(call => key in call[0]).map(call => call[0]);
+const getPropertyUpdates = (mockFn, key) => mockFn.mock.calls.filter(call => key in call[0]).map(call => call[0]);
 
 const addProperties = (obj, properties) => {
   Object.entries(properties).forEach(([key, value]) => {
@@ -25,14 +25,14 @@ function setup() {
   const streamStateUpdater = getStreamStateUpdater(streamerElement);
   streamStateUpdater.startPlaybackSession();
   addProperties(videoElement, streamStateUpdater.eventHandlers);
-  
+
   return {
     streamStateUpdater,
     streamerElement,
     videoElement,
     onStreamStateChange,
     setProps: function(newProps) {
-      addProperties(streamerElement.props, newProps)
+      addProperties(streamerElement.props, newProps);
     }
   };
 }
@@ -69,7 +69,7 @@ const runStartAsPlayingAtStartPositionSequence = videoElement => {
 };
 
 const runBufferingWhilePlayingSequence = videoElement => {
-  videoElement.onWaiting();
+  videoElement.onStalled(); // Also testing alternative event.
   videoElement.onCanPlay();
   videoElement.onPlaying();
 };
@@ -99,7 +99,7 @@ const runEndSequence = videoElement => {
   videoElement.onPause();
   videoElement.onEnded();
 };
-  
+
 const runChangeToPauseSequence = videoElement => {
   videoElement.paused = true;
   videoElement.onPause();
@@ -131,9 +131,9 @@ test('streamStateUpdater reports an initial state of properties.', () => {
   expect(onStreamStateChange).toHaveBeenCalledWith({ isPaused: false });
 });
 
-test('streamStateUpdater reports playMode "ondemand" and a duration when a video file source is loaded.', () => {
+test('streamStateUpdater reports playMode "ondemand" and a duration when a video source is loaded.', () => {
   const { videoElement, onStreamStateChange } = setup();
-  
+
   videoElement.duration = 313;
   videoElement.onLoadedMetadata();
   videoElement.onDurationChange();
@@ -148,7 +148,7 @@ test('streamStateUpdater reports playMode "ondemand" and a duration when a video
   expect(playModeUpdates[0]).toEqual({ playMode: 'ondemand' });
 });
 
-test.skip('streamStateUpdater reports positions accordingly during playback.', () => {
+test('streamStateUpdater reports positions accordingly during playback.', () => {
   const { videoElement, onStreamStateChange } = setup();
 
   videoElement.currentTime = 121;
@@ -158,33 +158,36 @@ test.skip('streamStateUpdater reports positions accordingly during playback.', (
 
   const positionUpdates = getPropertyUpdates(onStreamStateChange, 'position');
   expect(positionUpdates).toHaveLength(3);
+  expect(positionUpdates[1]).toEqual({ position: 121 });
+  expect(positionUpdates[2]).toEqual({ position: 123 });
 });
+
 test('streamStateUpdater reports playState for all different phases of a common playback.', () => {
   const { videoElement, onStreamStateChange } = setup();
-  
+
   // 'inactive' | 'starting' | 'playing' | 'paused' | 'seeking' | 'buffering' | 'inactive'
 
   runStartAsPlayingSequence(videoElement);
   runCommonPlaybackSequences(videoElement);
-  
+
   let updateNumber = 0;
   const playStateUpdates = getPropertyUpdates(onStreamStateChange, 'playState');
-  
+
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'inactive' });
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'starting' });
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'playing' });
-  
+
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'buffering' });
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'playing' });
-  
+
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'paused' });
-  
+
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'buffering' });
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'paused' });
-  
+
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'seeking' });
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'paused' });
-  
+
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'playing' });
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'paused' });
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'seeking' });
@@ -197,10 +200,10 @@ test('streamStateUpdater reports playState for all different phases of a common 
 
 test('streamStateUpdater reports correct playState sequence for a playback started as paused.', () => {
   const { videoElement, onStreamStateChange, setProps } = setup();
-  
+
   setProps({ isPaused: true });
   videoElement.paused = true;
-    
+
   runStartAsPausedSequence(videoElement);
 
   // Simulating the user resuming playing.
@@ -215,13 +218,12 @@ test('streamStateUpdater reports correct playState sequence for a playback start
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'paused' });
 
   expect(playStateUpdates[updateNumber]).toEqual({ playState: 'playing' });
-  
 });
 
 test('streamStateUpdater reports correct playState sequence for a playback started on a position > 0.', () => {
   const { videoElement, onStreamStateChange, setProps } = setup();
 
-  setProps({ source: { startPosition: 5 }});
+  setProps({ source: { startPosition: 5 } });
 
   runStartAsPlayingAtStartPositionSequence(videoElement);
 
@@ -236,7 +238,7 @@ test('streamStateUpdater reports correct playState sequence for a playback start
 test('streamStateUpdater reports correct playState sequence for a playback started as paused on a position > 0.', () => {
   const { videoElement, onStreamStateChange, setProps } = setup();
 
-  setProps({ isPaused: true, source: { startPosition: 5 }});
+  setProps({ isPaused: true, source: { startPosition: 5 } });
   videoElement.paused = true;
 
   runStartAsPausedAtStartPositionSequence(videoElement);
@@ -254,9 +256,9 @@ test('streamStateUpdater reports correct playState sequence for a playback faili
 
   const onPlaybackError = jest.fn();
   setProps({ onPlaybackError });
-  
+
   runStartAsPlayingSequence(videoElement);
-  
+
   videoElement.error = new Error('It failed.');
   videoElement.onError();
 
@@ -267,17 +269,16 @@ test('streamStateUpdater reports correct playState sequence for a playback faili
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'starting' });
   expect(playStateUpdates[updateNumber++]).toEqual({ playState: 'playing' });
   expect(playStateUpdates[updateNumber]).toEqual({ playState: 'inactive' });
-  
+
   expect(onPlaybackError.mock.calls[0][0]).toBeInstanceOf(PlaybackError);
   expect(onPlaybackError.mock.calls.length).toBe(1);
 });
 
 test('streamStateUpdater reports correct playState sequence for a playback failing on startup', () => {
   const { videoElement, onStreamStateChange, setProps } = setup();
-  
+
   const onPlaybackError = jest.fn();
   setProps({ onPlaybackError });
-  
 
   // Start as playing.
   runStartToLoadedSequence(videoElement);
@@ -304,16 +305,16 @@ test('streamStateUpdater reports true for isSeeking, isBuffering, and isPaused f
   expect(bufferingUpdates).toHaveLength(3);
   expect(seekingUpdates).toHaveLength(1);
   expect(pausedUpdates).toHaveLength(1);
-  
+
   expect(bufferingUpdates[0]).toEqual({ isBuffering: false });
   expect(bufferingUpdates[1]).toEqual({ isBuffering: true });
   expect(bufferingUpdates[2]).toEqual({ isBuffering: false });
-  
+
   onStreamStateChange.mockClear();
-  
+
   runChangeToPauseSequence(videoElement);
   runChangeToPlayingSequence(videoElement);
-  
+
   pausedUpdates = getPropertyUpdates(onStreamStateChange, 'isPaused');
   expect(pausedUpdates).toHaveLength(2);
 
@@ -332,7 +333,7 @@ test('streamStateUpdater reports true for isSeeking, isBuffering, and isPaused f
 
   expect(seekingUpdates[0]).toEqual({ isSeeking: true });
   expect(seekingUpdates[1]).toEqual({ isSeeking: false });
-  
+
   expect(pausedUpdates[0]).toEqual({ isPaused: true });
   expect(pausedUpdates[1]).toEqual({ isPaused: false });
 });
@@ -357,10 +358,10 @@ test('streamStateUpdater reports volume and mute changes.', () => {
 
 test('streamStateUpdater reports bufferedAhead.', () => {
   const { videoElement, onStreamStateChange } = setup();
-  
-  const start = index => index ? 48 : 12;
-  const end = index => index ? 60 : 24;
-  
+
+  const start = index => (index ? 48 : 12);
+  const end = index => (index ? 60 : 24);
+
   // Nothing buffered.
   videoElement.buffered = { length: 0 };
   videoElement.currentTime = 13;
@@ -392,10 +393,10 @@ test('streamStateUpdater reports bufferedAhead.', () => {
 test('streamStateUpdater reports an empty bitrates array, and no current bitrate, and locked or max bitrate.', () => {
   const { setProps, onStreamStateChange } = setup();
   expect(onStreamStateChange).toHaveBeenCalledWith({ bitrates: [] });
-  
+
   setProps({ lockedBitrate: 13 });
   expect(getPropertyUpdates(onStreamStateChange, 'lockedBitrate')).toHaveLength(0);
-  
+
   setProps({ maxBitrate: 13 });
   expect(getPropertyUpdates(onStreamStateChange, 'maxBitrate')).toHaveLength(0);
 
