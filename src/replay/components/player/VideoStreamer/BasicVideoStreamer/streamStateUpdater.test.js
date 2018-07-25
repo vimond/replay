@@ -11,7 +11,7 @@ const addProperties = (obj, properties) => {
 };
 
 function setup() {
-  const videoElement = {};
+  const videoElement = { volume: 1, muted: false };
   const onStreamStateChange = jest.fn();
   const streamerElement = {
     videoRef: {
@@ -338,11 +338,66 @@ test('streamStateUpdater reports true for isSeeking, isBuffering, and isPaused f
 });
 
 test('streamStateUpdater reports volume and mute changes.', () => {
+  const { videoElement, onStreamStateChange } = setup();
+  videoElement.muted = false;
+  videoElement.volume = 0.3;
+  videoElement.onVolumeChange();
+  videoElement.volume = 0.3;
+  videoElement.onVolumeChange();
+  videoElement.volume = 0.7;
+  videoElement.onVolumeChange();
+  videoElement.muted = true;
+  videoElement.onVolumeChange();
 
+  const volumeUpdates = getPropertyUpdates(onStreamStateChange, 'volume');
+  const mutedUpdates = getPropertyUpdates(onStreamStateChange, 'isMuted');
+  expect(volumeUpdates.map(u => u.volume)).toEqual([1, 0.3, 0.7]);
+  expect(mutedUpdates.map(u => u.isMuted)).toEqual([false, true]);
 });
+
 test('streamStateUpdater reports bufferedAhead.', () => {
+  const { videoElement, onStreamStateChange } = setup();
+  
+  const start = index => index ? 48 : 12;
+  const end = index => index ? 60 : 24;
+  
+  // Nothing buffered.
+  videoElement.buffered = { length: 0 };
+  videoElement.currentTime = 13;
+  videoElement.onProgress();
 
+  // One buffer range.
+  videoElement.buffered = { length: 1, start, end };
+  videoElement.currentTime = 13;
+  videoElement.onProgress();
+
+  // Two buffer ranges:
+  // First range.
+  videoElement.buffered = { length: 2, start, end };
+  videoElement.currentTime = 15;
+  videoElement.onProgress();
+
+  // Second range.
+  videoElement.currentTime = 50;
+  videoElement.onProgress();
+
+  // Position outside ranges.
+  videoElement.currentTime = 30;
+  videoElement.onProgress();
+
+  const bufferedAheadUpdates = getPropertyUpdates(onStreamStateChange, 'bufferedAhead');
+  expect(bufferedAheadUpdates.map(u => u.bufferedAhead)).toEqual([0, 11, 9, 10, 0]);
 });
-test('streamStateUpdater doesn\'t report bitrate property updates.', () => {
 
+test('streamStateUpdater reports an empty bitrates array, and no current bitrate, and locked or max bitrate.', () => {
+  const { setProps, onStreamStateChange } = setup();
+  expect(onStreamStateChange).toHaveBeenCalledWith({ bitrates: [] });
+  
+  setProps({ lockedBitrate: 13 });
+  expect(getPropertyUpdates(onStreamStateChange, 'lockedBitrate')).toHaveLength(0);
+  
+  setProps({ maxBitrate: 13 });
+  expect(getPropertyUpdates(onStreamStateChange, 'maxBitrate')).toHaveLength(0);
+
+  expect(getPropertyUpdates(onStreamStateChange, 'currentBitrate')).toHaveLength(0);
 });

@@ -23,6 +23,22 @@ function seekToInitialPosition(source: ?PlaybackSource, videoElement: HTMLVideoE
   }
 }
 
+function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
+  const currentTime = videoElement.currentTime;
+  const buffered = videoElement.buffered;
+  let ahead = 0;
+  let behind = 0;
+
+  for (let i = 0; i < buffered.length; ++i) {
+    if (buffered.start(i) <= currentTime && buffered.end(i) >= currentTime) {
+      ahead = buffered.end(i) - currentTime;
+      behind = currentTime - buffered.start(i);
+      break;
+    }
+  }
+  return ahead;
+}
+
 type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
 
 function getStreamStateUpdater(streamer: BasicVideoStreamer) {
@@ -50,6 +66,10 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     update({ isBuffering: false });
     update({ isPaused: false });
     update({ isSeeking: false });
+    update({ volume: 1 });
+    update({ muted: false });
+    update({ bufferedAhead: 0 });
+    update({ bitrates: [] });
   }
 
   function startPlaybackSession() {
@@ -77,7 +97,9 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
   function onLoadStart() {
     if (lifeCycleStage === 'new') {
       lifeCycleStage = 'starting';
-      update({ playState: 'starting', isBuffering: true });
+      withVideoElement(videoElement => {
+        update({ playState: 'starting', isBuffering: true, volume: videoElement.volume, isMuted: videoElement.muted });
+      });
     }
   }
   
@@ -166,6 +188,18 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     });
   }
   
+  function onVolumeChange() {
+    withVideoElement(videoElement => {
+      update({ volume: videoElement.volume, isMuted: videoElement.muted });
+    });
+  }
+  
+  function onProgress() {
+    withVideoElement(videoElement => {
+      update({ bufferedAhead: calculateBufferedAhead(videoElement)});
+    });
+  }
+  
   function onEnded() {
     if (lifeCycleStage === 'started') {
       lifeCycleStage = 'ended';
@@ -189,6 +223,8 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
       onSeeked,
       onDurationChange,
       onTimeUpdate,
+      onVolumeChange,
+      onProgress,
       onError,
       onEnded
     },
