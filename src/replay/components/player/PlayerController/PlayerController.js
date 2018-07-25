@@ -44,14 +44,14 @@ type PlayerControllerState = {
   videoStreamerProps: VideoStreamerProps
 };
 
-const passPropsToVideoStreamer = (children: React.Node, props: any) => {
+const passPropsToVideoStreamer = (children: React.Node, props: any) : React.Element<any> => {
   return React.Children.map(children, (child, i) => {
     if (i === 0) {
       return React.cloneElement(child, props);
     } else {
       return child;
     }
-  });
+  })[0];
 };
 
 const getObserveManager = () => {

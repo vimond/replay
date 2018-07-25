@@ -21,7 +21,7 @@ export type ControllerApi = {
   updateProperty: UpdatePropertyMethod,
   observe: ?ObserveMethod,
   inspect: InspectMethod,
-  videoStreamer: ?React.Node,
+  videoStreamer: ?React.Element<any>,
   unobserve: ObserveMethod
 };
 const initialContextValue: ControllerApi = {
