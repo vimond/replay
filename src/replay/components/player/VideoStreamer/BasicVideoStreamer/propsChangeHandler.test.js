@@ -1,4 +1,4 @@
-import processPropChanges from './videoUpdater';
+import processPropChanges from './propsChangeHandler';
 
 const getVideoElementMock = () => ({
   play: jest.fn(),

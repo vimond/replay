@@ -11,7 +11,7 @@ const addProperties = (obj, properties) => {
 };
 
 function setup() {
-  const videoElement = { volume: 1, muted: false };
+  const videoElement = { volume: 1, muted: false, play: () => {}, pause: () => {} };
   const onStreamStateChange = jest.fn();
   const streamerElement = {
     videoRef: {

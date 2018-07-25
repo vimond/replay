@@ -53,7 +53,7 @@ test('<BasicVideoStreamer/> shuts down cleanly when source prop is removed.', ()
   expect(videoElement.prop('src')).toBe(commonProps.source.streamUrl);
   element.setProps({ source: null });
   element.update();
-  expect(element.find('video').prop('src')).toBeUndefined();
+  expect(element.find('video').prop('src')).toBe('');
 });
 
 test('<BasicVideoStreamer/> invokes a callback with position manipulation methods when ready.', () => {
@@ -89,11 +89,19 @@ test('<BasicVideoStreamer/> seeks to a specified startPosition upon playback sta
   expect(videoRef.current.currentTime).toBe(13);
 });
 
-test('<BasicVideoStreamer/> handles changes to sources.', () => {});
+test('<BasicVideoStreamer/> respects isMuted, volume, and isPaused props at playback start.', () => {
+  const { videoElement, videoRef } = domRender({ ...commonProps, isPaused: true, isMuted: true, volume: 0.5 });
 
-// TODO: Advanced topics for testing:
-// * Configuration
-// * Progress events
+  const pauseSpy = jest.spyOn(videoRef.current, 'pause');
+  
+  videoElement.simulate('loadedmetadata');
+  
+  expect(videoRef.current.muted).toBe(true);
+  expect(videoRef.current.volume).toBe(0.5);
+  expect(pauseSpy).toHaveBeenCalledTimes(1);
+});
+
+test('<BasicVideoStreamer/> handles changes to sources.', () => {});
 
 test('<BasicVideoStreamer/> updates stream state when video elements are invoked.', () => {
   const onStreamStateChange = jest.fn();
@@ -151,6 +159,8 @@ test('<BasicVideoStreamer/> changes playback position when setPosition() is invo
   expect(videoRef.current.currentTime).toBe(23);
 });
 
+// TODO: Remaining, advanced features:
+
 describe.skip('<BasicVideoStreamer/> live streaming (with Safari and HLS)', () => {
   test('<BasicVideoStreamer/> reports playMode "livedvr" and the DVR duration of a live stream with a DVR window longer than 100 seconds.', () => {});
   test('<BasicVideoStreamer/> reports playMode "live" of a live stream with a DVR window shorter than 100 seconds.', () => {});
@@ -160,19 +170,13 @@ describe.skip('<BasicVideoStreamer/> live streaming (with Safari and HLS)', () =
   test('<BasicVideoStreamer/> reports absolutePosition and absoluteStartPosition for the current playback position of a live stream.', () => {});
 });
 
-//TODO: Advanced features
-
 describe.skip('<BasicVideoStreamer/> subtitles support', () => {
   test('<BasicVideoStreamer/> adds text tracks with cues when VTT file is specified as source track.', () => {});
-  test('<BasicVideoStreamer/> parses and add text tracks with cues when TTML file is specified as source track.', () => {});
   test('<BasicVideoStreamer/> "removes" old text tracks if new ones are set through the textTracks property.', () => {});
   test('<BasicVideoStreamer/> changes visibility to the text tracks according to the selectedTextTrack property', () => {});
 });
 
 describe.skip('<BasicVideoStreamer/> audio track support', () => {
-  // TODO.
-});
-
-describe.skip('<BasicVideoStreamer/> FairPlay DRM support (Safari)', () => {
-  // TODO.
+  test('<BasicVideoStreamer/> lists audio tracks reported from the source.', () => {});
+  test('<BasicVideoStreamer/> changes the audible track when the selecedAudioTrack is set/changed.', () => {});
 });

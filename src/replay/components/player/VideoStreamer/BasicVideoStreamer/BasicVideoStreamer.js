@@ -1,13 +1,10 @@
 // @flow
 import * as React from 'react';
 import { type CommonGenericProps, prefixClassNames, defaultClassNamePrefix } from '../../../common';
-import type { VideoStreamerProps, VideoStreamState } from '../types';
-import mapError from './errorMapper';
-import getFilteredPropertyUpdater from './filteredPropertyUpdater';
-import type { SanityFilter } from './filteredPropertyUpdater';
+import type { VideoStreamerProps } from '../types';
 import getStreamStateUpdater from './streamStateUpdater';
 import type { StreamStateUpdater } from './streamStateUpdater';
-import processPropChanges from './videoUpdater';
+import processPropChanges from './propsChangeHandler';
 
 type Props = CommonGenericProps &
   VideoStreamerProps & {
@@ -56,11 +53,10 @@ class BasicVideoStreamer extends React.Component<Props> {
   };
 
   componentDidMount() {
-    // TODO: Should probably be called for each new source set. Could also consider a "source change" callback.
-    this.streamStateUpdater.startPlaybackSession();
     if (this.props.onReady) {
       this.props.onReady({ setPosition: this.setPosition, gotoLive: this.gotoLive });
     }
+    this.streamStateUpdater.startPlaybackSession();
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -88,7 +84,7 @@ class BasicVideoStreamer extends React.Component<Props> {
         />
       );
     } else {
-      return <video className={classNames} ref={this.videoRef} />;
+      return <video className={classNames} ref={this.videoRef} src={''} />;
     }
   }
 }
