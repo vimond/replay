@@ -53,7 +53,9 @@ const connectControl = <Props: {}>(Control: React.ComponentType<Props>, stateKey
       registerObservers(props.observe, resolvedStateKeys, this.update);
       const currentState = props.inspect();
       const initialState = {};
-      resolvedStateKeys.forEach(key => initialState[key] = currentState[key]);
+      if (currentState) {
+        resolvedStateKeys.forEach(key => initialState[key] = currentState[key]);
+      }
       this.state = initialState;
     }
 
