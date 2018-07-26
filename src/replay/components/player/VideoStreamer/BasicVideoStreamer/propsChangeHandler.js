@@ -28,7 +28,7 @@ const processPropChanges = (
       if (prevProps.source !== nextProps.source || prevProps.textTracks !== nextProps.textTracks) {
         textTrackManager.handleNewSourceProps(nextProps);
       }
-      if (nextProps.selectedTextTrack != null && isDifferent(prevProps.selectedTextTrack, nextProps.selectedTextTrack)) {
+      if (isDifferent(prevProps.selectedTextTrack, nextProps.selectedTextTrack)) {
         textTrackManager.handleSelectedTextTrackChange(nextProps.selectedTextTrack);
       }
     }
