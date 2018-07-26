@@ -2,7 +2,12 @@
 import * as React from 'react';
 import PlayerController from '../components/player/PlayerController/PlayerController';
 import MockVideoStreamer from '../components/player/VideoStreamer/MockVideoStreamer';
-import renderPlayerUI from './playerUI';
+import getPlayerUIRenderer from './playerUI';
+import graphics from './default-skin/defaultSkin';
+import strings from './strings';
+import { defaultClassNamePrefix } from '../components/common';
+
+const renderPlayerUI = getPlayerUIRenderer(graphics, strings, defaultClassNamePrefix);
 
 const MockPlayer = ({
   options,

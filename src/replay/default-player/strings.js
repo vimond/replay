@@ -1,9 +1,10 @@
-export const labels = {
-  playPause: {
+const strings = {
+  playPauseButton: {
     label: 'Toggle play/pause'
   },
-  skipBack: {
-    label: 'Skip back 10 seconds'
+  skipButton: {
+    label: 'Skip back 10 seconds',
+    seconds: '–10'
   },
   timeDisplay: {
     label: 'Video times',
@@ -15,8 +16,10 @@ export const labels = {
   timeline: {
     label: 'Timeline'
   },
-  gotoLive: {
-    label: 'Play from live position'
+  gotoLiveButton: {
+    label: 'Play from live position',
+    isLive: 'Live',
+    gotoLive: 'Go live'
   },
   volume: {
     label: 'Volume and mute',
@@ -35,23 +38,15 @@ export const labels = {
     autoLabel: 'Automatic',
     formatBitrateLabel: (bitrate, isPlaying) => `${bitrate} kbps${isPlaying ? ' •' : ''}`
   },
-  fullscreen: {
+  fullscreenButton: {
     label: 'Toggle fullscreen'
   },
   bufferingIndicator: {
     label: 'Video is buffering'
   },
-  exit: {
+  exitButton: {
     label: 'Exit'
   }
 };
 
-export const strings = {
-  gotoLiveButton: {
-    isLive: 'Live',
-    gotoLive: 'Go live'
-  },
-  skipButton: {
-    seconds: '–10'
-  }
-};
+export default strings;

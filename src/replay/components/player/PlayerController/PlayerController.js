@@ -16,13 +16,13 @@ declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
 }
 
-export type RenderData = {
+export type RenderParameters = {
   controllerApi: ControllerApi,
   externalProps: any,
   configuration: any
 };
 
-export type RenderMethod = RenderData => React.Node;
+export type RenderMethod = RenderParameters => React.Node;
 
 type PlayerControllerProps = {
   render: RenderMethod,

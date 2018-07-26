@@ -33,10 +33,3 @@ export const baseConfiguration: PlayerConfiguration = {
     visibleAtStart: false
   }
 };
-
-export const getSkipBackOffset = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.skipButtonOffset;
-
-export const getLiveDisplayMode = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.liveDisplayMode;
-
-export const getQualitySelectionStrategy = (conf: PlayerConfiguration) =>
-  conf && conf.ui && conf.ui.qualitySelectionStrategy;

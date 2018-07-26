@@ -1,11 +1,14 @@
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import renderPlayerUI from './playerUI';
+import getPlayerUIRenderer from './playerUI';
+import graphics from './default-skin/defaultSkin';
+import strings from './strings';
+import { defaultClassNamePrefix } from '../components/common';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-test('renderPlayerUI() renders and recognises the specified props.', () => {
+test('getPlayerUIRenderer() returns a full method which when called renders and recognises the specified props.', () => {
   const renderParameters = {
     configuration: {
       setting: 'value',
@@ -19,6 +22,8 @@ test('renderPlayerUI() renders and recognises the specified props.', () => {
       onExit: jest.fn()
     }
   };
+  const renderPlayerUI = getPlayerUIRenderer(graphics, strings, defaultClassNamePrefix);
+
   const rendered = mount(renderPlayerUI(renderParameters));
   rendered.find('ExitButton').simulate('click');
   expect(renderParameters.externalProps.onExit.mock.calls.length).toBe(1);

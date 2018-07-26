@@ -6,6 +6,7 @@ import type { PlaybackSource, SourceTrack, VideoStreamerConfiguration } from '..
 import type { QualitySelectionStrategy } from '../components/controls/QualitySelector/QualitySelector';
 import type { LiveDisplayMode } from '../components/controls/TimeDisplay/TimeDisplay';
 
+// TODO: Implement, but maybe as a separate compose parameter.
 export type ControlNames =
   | 'playPauseButton'
   | 'skipButton'
@@ -34,13 +35,32 @@ export type PlayerConfiguration = {
   }
 };
 
+export type GraphicResources = { [string]: React.Node };
+export type StringResources = { [string]: string };
+
+export type UIResources<T> = {
+  playPauseButton?: T,
+  skipButton?: T,
+  timeline?: T,
+  timeDisplay?: T,
+  gotoLiveButton?: T,
+  volume?: T,
+  audioSelector?: T,
+  subtitlesSelector?: T,
+  qualitySelector?: T,
+  fullscreenButton?: T,
+  bufferingIndicator?: T,
+  playbackMonitor?: T,
+  exitButton?: T
+};
+
 export type ReplayProps = {
   source: PlaybackSource,
   textTracks: Array<SourceTrack>,
   options: PlayerConfiguration,
   onExit: () => void,
   onError: any => void,
-  children: React.Element<any>,
+  children?: React.Element<any>,
   startMuted?: boolean,
   startPaused?: boolean,
   startVolume?: number,

@@ -124,8 +124,8 @@ export type PlaybackMethods = {
 export type VideoStreamerProps = PlaybackProps &
   CommonProps & {
     configuration?: VideoStreamerConfiguration,
-    source?: PlaybackSource,
-    textTracks?: Array<SourceTrack>,
+    source?: ?PlaybackSource,
+    textTracks?: ?Array<SourceTrack>,
     className?: string,
 
     onReady?: PlaybackMethods => void,

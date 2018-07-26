@@ -14,7 +14,7 @@ import {
   XCircle
 } from 'react-feather';
 import LoadingAnimation from './LoadingAnimation';
-import { strings } from '../strings';
+import strings from '../strings';
 
 // Design/skin agnostic core styles
 //import '../../components/player/VideoStreamer/VideoStreamer.css';
@@ -29,11 +29,11 @@ import { strings } from '../strings';
 //import './skinAndLayout.css';
 
 const graphics = {
-  playPause: {
+  playPauseButton: {
     playingContent: <Pause />,
     pausedContent: <Play />
   },
-  skipBack: {
+  skipButton: {
     content: (
       <React.Fragment>
         <span>
@@ -47,7 +47,7 @@ const graphics = {
     handleContent: '',
     trackContent: <div />
   },
-  gotoLive: {
+  gotoLiveButton: {
     isAtLivePositionContent: <span>{strings.gotoLiveButton.isLive}</span>,
     isNotAtLivePositionContent: <span>{strings.gotoLiveButton.gotoLive}</span>
   },
@@ -65,7 +65,7 @@ const graphics = {
   qualitySelector: {
     toggleContent: <Settings />
   },
-  fullscreen: {
+  fullscreenButton: {
     normalContent: <Maximize />,
     fullscreenContent: <Minimize />
   },

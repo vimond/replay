@@ -1,11 +1,16 @@
 // @flow
 import * as React from 'react';
 import type { RenderMethod } from '../components/player/PlayerController/PlayerController';
-import { ControlledVideoStreamer } from '../components/player/PlayerController/connectControl';
+import type { GraphicResources, PlayerConfiguration, StringResources, UIResources } from './types';
+import { defaultClassNamePrefix } from '../components/common';
 
+// Non-connected controls
 import ControlsBar from '../components/controls/ControlsBar/ControlsBar';
 import FullscreenButton from '../components/controls/FullscreenButton/FullscreenButton';
 import ExitButton from '../components/controls/ExitButton/ExitButton';
+
+// Connected controls
+import PlaybackMonitor from '../components/controls/PlaybackMonitor/PlaybackMonitor';
 import {
   AudioSelector,
   BufferingIndicator,
@@ -20,48 +25,54 @@ import {
   Volume
 } from '../components/player/PlayerController/connectedControls';
 
-import PlaybackMonitor from '../components/controls/PlaybackMonitor/PlaybackMonitor';
+import { ControlledVideoStreamer } from '../components/player/PlayerController/connectControl';
 
-import graphics from './default-skin/defaultSkin';
-import { labels } from './strings';
-import { getLiveDisplayMode, getQualitySelectionStrategy, getSkipBackOffset } from './baseConfiguration';
+const getSkipBackOffset = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.skipButtonOffset;
+const getLiveDisplayMode = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.liveDisplayMode;
+const getQualitySelectionStrategy = (conf: PlayerConfiguration) =>
+  conf && conf.ui && conf.ui.qualitySelectionStrategy;
 
-// In this file, all custom parts making up a player can be assembled and "composed".
+// In this file, all custom parts making up a player UI are assembled. Create a copy for assembling custom player UIs.
 
-const renderPlayerUI: RenderMethod = ({ configuration, externalProps }) => (
-  <PlayerUIContainer
-    configuration={configuration}
-    render={({ fullscreenState }) => (
-      <React.Fragment>
-        <ControlledVideoStreamer />
-        {externalProps &&
+const getPlayerUIRenderer = (graphics: UIResources<GraphicResources>, strings: UIResources<StringResources>, classNamePrefix?: string = defaultClassNamePrefix) => {
+  const renderPlayerUI: RenderMethod = ({ configuration, externalProps }) => (
+    <PlayerUIContainer
+      classNamePrefix={classNamePrefix}
+      configuration={configuration}
+      render={({ fullscreenState }) => (
+        <React.Fragment>
+          <ControlledVideoStreamer classNamePrefix={classNamePrefix} />
+          {externalProps &&
           externalProps.onExit && (
-            <ExitButton {...labels.exit} {...graphics.exitButton} onClick={externalProps.onExit} />
+            <ExitButton {...strings.exitButton} {...graphics.exitButton} onClick={externalProps.onExit} classNamePrefix={classNamePrefix} />
           )}
-        <PlaybackMonitor
-          configuration={configuration}
-          closeButtonContent={graphics.playbackMonitor.closeButtonContent}
-        />
-        <ControlsBar>
-          <PlayPauseButton {...labels.playPause} {...graphics.playPause} />
-          <SkipButton offset={getSkipBackOffset(configuration)} {...labels.skipBack} {...graphics.skipBack} />
-          <Timeline {...labels.timeline} {...graphics.timeline} />
-          <TimeDisplay liveDisplayMode={getLiveDisplayMode(configuration)} {...labels.timeDisplay} />
-          <GotoLiveButton {...labels.gotoLive} {...graphics.gotoLive} />
-          <Volume {...labels.volume} {...graphics.volume} />
-          <AudioSelector {...labels.audioSelector} {...graphics.audioSelector} />
-          <SubtitlesSelector {...labels.subtitlesSelector} {...graphics.subtitlesSelector} />
-          <QualitySelector
-            {...labels.qualitySelector}
-            {...graphics.qualitySelector}
-            selectionStrategy={getQualitySelectionStrategy(configuration)}
+          <PlaybackMonitor
+            configuration={configuration}
+            closeButtonContent={graphics.playbackMonitor && graphics.playbackMonitor.closeButtonContent}
           />
-          <FullscreenButton {...fullscreenState} {...labels.fullscreen} {...graphics.fullscreen} />
-        </ControlsBar>
-        <BufferingIndicator {...labels.bufferingIndicator} {...graphics.bufferingIndicator} />
-      </React.Fragment>
-    )}
-  />
-);
+          <ControlsBar>
+            <PlayPauseButton {...strings.playPauseButton} {...graphics.playPauseButton} classNamePrefix={classNamePrefix} />
+            <SkipButton offset={getSkipBackOffset(configuration)} {...strings.skipButton} {...graphics.skipButton} classNamePrefix={classNamePrefix} />
+            <Timeline {...strings.timeline} {...graphics.timeline} classNamePrefix={classNamePrefix} />
+            <TimeDisplay liveDisplayMode={getLiveDisplayMode(configuration)} {...strings.timeDisplay} classNamePrefix={classNamePrefix} />
+            <GotoLiveButton {...strings.gotoLiveButton} {...graphics.gotoLiveButton} classNamePrefix={classNamePrefix} />
+            <Volume {...strings.volume} {...graphics.volume} />
+            <AudioSelector {...strings.audioSelector} {...graphics.audioSelector} classNamePrefix={classNamePrefix} />
+            <SubtitlesSelector {...strings.subtitlesSelector} {...graphics.subtitlesSelector} classNamePrefix={classNamePrefix} />
+            <QualitySelector
+              {...strings.qualitySelector}
+              {...graphics.qualitySelector}
+              selectionStrategy={getQualitySelectionStrategy(configuration)}
+              classNamePrefix={classNamePrefix}
+            />
+            <FullscreenButton {...fullscreenState} {...strings.fullscreenButton} {...graphics.fullscreenButton} classNamePrefix={classNamePrefix} />
+          </ControlsBar>
+          <BufferingIndicator {...strings.bufferingIndicator} {...graphics.bufferingIndicator} classNamePrefix={classNamePrefix} />
+        </React.Fragment>
+      )}
+    />
+  );
+  return renderPlayerUI;
+};
 
-export default renderPlayerUI;
+export default getPlayerUIRenderer;
