@@ -6,6 +6,8 @@ HTMLTrackElement.prototype.addEventListener = function(eventName, listener) {
   }
 };
 
+HTMLTrackElement.prototype.track = { mode: 'disabled ' };
+
 window.VTTCue = function(start, end, content) {
   return {
     start,

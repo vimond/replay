@@ -152,6 +152,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: VideoStream
           };
         } else {
           const htmlTrackElement = createTrackElement(sourceTrack);
+          setTrackMode(htmlTrackElement.track, 'hidden');
           const loadPromise = new Promise(resolve => {
             const handleLoad = () => {
               htmlTrackElement.removeEventListener('load', handleLoad);
