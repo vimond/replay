@@ -5,6 +5,8 @@ import type { VideoStreamerProps } from '../types';
 import getStreamStateUpdater from './streamStateUpdater';
 import type { StreamStateUpdater } from './streamStateUpdater';
 import processPropChanges from './propsChangeHandler';
+import getTextTrackManager from './textTrackManager';
+import type { TextTrackManager } from './textTrackManager';
 
 type Props = CommonGenericProps &
   VideoStreamerProps & {
@@ -40,6 +42,7 @@ class BasicVideoStreamer extends React.Component<Props> {
     this.streamStateUpdater = getStreamStateUpdater(this);
   }
   streamStateUpdater: StreamStateUpdater;
+  textTrackManager: TextTrackManager;
   videoRef: { current: null | HTMLVideoElement };
 
   gotoLive = () => {
@@ -57,13 +60,22 @@ class BasicVideoStreamer extends React.Component<Props> {
       this.props.onReady({ setPosition: this.setPosition, gotoLive: this.gotoLive });
     }
     this.streamStateUpdater.startPlaybackSession();
+    if (this.videoRef.current) {
+      this.textTrackManager = getTextTrackManager(this.videoRef.current, this.streamStateUpdater.notifyPropertyChange);
+    }
+  }
+  
+  componentWillUnmount() {
+    if (this.textTrackManager) {
+      this.textTrackManager.cleanup();
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.source !== this.props.source) {
       this.streamStateUpdater.startPlaybackSession();
     }
-    processPropChanges(this.videoRef, prevProps, this.props);
+    processPropChanges(this.videoRef, this.textTrackManager, prevProps, this.props);
   }
 
   /* Special video element event handlers */

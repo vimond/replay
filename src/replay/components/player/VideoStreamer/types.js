@@ -58,9 +58,9 @@ export type VideoStreamState = {
   lockedBitrate?: ?number,
   maxBitrate?: number,
   bitrates?: Array<number>,
-  currentTextTrack?: AvailableTrack,
+  currentTextTrack?: ?AvailableTrack,
   textTracks?: Array<AvailableTrack>,
-  currentAudioTrack?: AvailableTrack,
+  currentAudioTrack?: ?AvailableTrack,
   audioTracks?: Array<AvailableTrack>,
   error?: any
 };
@@ -84,6 +84,7 @@ export type SourceTrack = {
   kind?: string,
   language?: string,
   contentType?: string,
+  cues?: Array<{ start: number, end: number, content: string }>,
   isDefault: boolean
 };
 

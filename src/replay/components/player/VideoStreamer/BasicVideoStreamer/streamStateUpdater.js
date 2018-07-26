@@ -4,6 +4,7 @@ import BasicVideoStreamer from './BasicVideoStreamer';
 import type { AvailableTrack, PlaybackSource, VideoStreamerProps, VideoStreamState } from '../types';
 import mapError from './errorMapper';
 import processPropChanges from './propsChangeHandler';
+import type { TextTrackManager } from './textTrackManager';
 
 const emptyTracks: Array<AvailableTrack> = []; // Keeping the same array instance for all updates as long as not in use.
 const emptyBitrates: Array<number> = [];
@@ -28,8 +29,8 @@ function seekToInitialPosition(source: ?PlaybackSource, videoElement: HTMLVideoE
   }
 }
 
-function applyPlaybackProps(props: VideoStreamerProps, videoRef: { current: null | HTMLVideoElement }) {
-  processPropChanges(videoRef, {}, props);
+function applyPlaybackProps(props: VideoStreamerProps, videoRef: { current: null | HTMLVideoElement }, textTrackManager: ?TextTrackManager) {
+  processPropChanges(videoRef, textTrackManager, {}, props);
 }
 
 function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
@@ -90,7 +91,6 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     update({ muted: false });
     update({ bufferedAhead: 0 });
     update({ bitrates: emptyBitrates });
-    update({ textTracks: emptyTracks });
     update({ audioTracks: emptyTracks });
   }
 
@@ -128,7 +128,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
 
   function onLoadedMetadata() {
     log('loadedmetadata');
-    applyPlaybackProps(streamer.props, streamer.videoRef);
+    applyPlaybackProps(streamer.props, streamer.videoRef, streamer.textTrackManager);
     withVideoElement(videoElement => {
       seekToInitialPosition(streamer.props.source, videoElement);
 

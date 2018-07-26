@@ -161,6 +161,12 @@ test('<BasicVideoStreamer/> changes playback position when setPosition() is invo
 
 // TODO: Remaining, advanced features:
 
+describe.skip('<BasicVideoStreamer/> subtitles support', () => {
+  test('<BasicVideoStreamer/> adds text tracks with cues when VTT file is specified as source track.', () => {});
+  test('<BasicVideoStreamer/> "removes" old text tracks if new ones are set through the textTracks property.', () => {});
+  test('<BasicVideoStreamer/> changes visibility to the text tracks according to the selectedTextTrack property', () => {});
+});
+
 describe.skip('<BasicVideoStreamer/> live streaming (with Safari and HLS)', () => {
   test('<BasicVideoStreamer/> reports playMode "livedvr" and the DVR duration of a live stream with a DVR window longer than 100 seconds.', () => {});
   test('<BasicVideoStreamer/> reports playMode "live" of a live stream with a DVR window shorter than 100 seconds.', () => {});
@@ -168,12 +174,6 @@ describe.skip('<BasicVideoStreamer/> live streaming (with Safari and HLS)', () =
   test('<BasicVideoStreamer/> reports false for isAtLivePosition for a timeshifted live stream.', () => {});
   test('<BasicVideoStreamer/> resumes playback at the live edge when gotoLive() is invoked on a timeshifted live stream.', () => {});
   test('<BasicVideoStreamer/> reports absolutePosition and absoluteStartPosition for the current playback position of a live stream.', () => {});
-});
-
-describe.skip('<BasicVideoStreamer/> subtitles support', () => {
-  test('<BasicVideoStreamer/> adds text tracks with cues when VTT file is specified as source track.', () => {});
-  test('<BasicVideoStreamer/> "removes" old text tracks if new ones are set through the textTracks property.', () => {});
-  test('<BasicVideoStreamer/> changes visibility to the text tracks according to the selectedTextTrack property', () => {});
 });
 
 describe.skip('<BasicVideoStreamer/> audio track support', () => {
