@@ -130,19 +130,12 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
 
   inspectableStreamState: VideoStreamState = {};
 
-  isUnmounting = false; // TODO: Eliminate this.
-
   inspect = () => this.inspectableStreamState;
 
   mergeConfiguration = memoize(override);
 
-  componentDidMount() {
-    this.isUnmounting = false;
-  }
-
   componentWillUnmount() {
     this.observeManager.unobserveAll();
-    this.isUnmounting = true;
   }
 
   observeManager = getObserveManager();
@@ -157,10 +150,8 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
 
   // Video stream -> UI
   onStreamStateChange = (property: VideoStreamState) => {
-    if (!this.isUnmounting) {
-      this.observeManager.update(property);
-      this.inspectableStreamState = { ...this.inspectableStreamState, ...property };
-    }
+    this.observeManager.update(property);
+    this.inspectableStreamState = { ...this.inspectableStreamState, ...property };
   };
 
   // UI -> video stream
