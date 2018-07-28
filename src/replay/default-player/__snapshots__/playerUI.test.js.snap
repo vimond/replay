@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
+exports[`getPlayerUIRenderer() returns a full method which when called renders and recognises the specified props. 1`] = `
 <PlayerUIContainer
   aspectRatio={
     Object {
@@ -184,7 +184,9 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                     onTouchStart={[Function]}
                     tabIndex={1}
                   >
-                    <Component />
+                    <Component
+                      classNamePrefix="replay-"
+                    />
                     <ExitButton
                       classNamePrefix="replay-"
                       content={
@@ -278,6 +280,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                         className="replay-controls-bar"
                       >
                         <ConnectedPlayPauseButton
+                          classNamePrefix="replay-"
                           label="Toggle play/pause"
                           pausedContent={
                             <Play
@@ -370,6 +373,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                           </PlayPauseButton>
                         </ConnectedPlayPauseButton>
                         <ConnectedSkipButton
+                          classNamePrefix="replay-"
                           content={
                             <Unknown>
                               <span>
@@ -385,6 +389,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                           }
                           label="Skip back 10 seconds"
                           offset={-20}
+                          seconds="–10"
                         >
                           <SkipButton
                             classNamePrefix="replay-"
@@ -405,6 +410,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                             inspect={[Function]}
                             label="Skip back 10 seconds"
                             offset={-20}
+                            seconds="–10"
                             setPosition={[Function]}
                             updateProperty={[Function]}
                           >
@@ -466,6 +472,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                           </SkipButton>
                         </ConnectedSkipButton>
                         <ConnectedTimeline
+                          classNamePrefix="replay-"
                           handleContent=""
                           label="Timeline"
                           trackContent={<div />}
@@ -521,6 +528,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                           </Timeline>
                         </ConnectedTimeline>
                         <ConnectedTimeDisplay
+                          classNamePrefix="replay-"
                           clockTimeLabel="Clock time"
                           durationLabel="Duration"
                           label="Video times"
@@ -529,6 +537,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                           positionLabel="Current time"
                         >
                           <TimeDisplay
+                            classNamePrefix="replay-"
                             clockTimeLabel="Clock time"
                             durationLabel="Duration"
                             gotoLive={[Function]}
@@ -554,11 +563,14 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                           </TimeDisplay>
                         </ConnectedTimeDisplay>
                         <ConnectedGotoLiveButton
+                          classNamePrefix="replay-"
+                          gotoLive="Go live"
                           isAtLivePositionContent={
                             <span>
                               Live
                             </span>
                           }
+                          isLive="Live"
                           isNotAtLivePositionContent={
                             <span>
                               Go live
@@ -575,6 +587,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                                 Live
                               </span>
                             }
+                            isLive="Live"
                             isNotAtLivePositionContent={
                               <span>
                                 Go live
@@ -715,6 +728,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                           </Volume>
                         </ConnectedVolume>
                         <ConnectedAudioSelector
+                          classNamePrefix="replay-"
                           label="Audio track selector"
                           toggleContent={
                             <MessageSquare
@@ -739,6 +753,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                           />
                         </ConnectedAudioSelector>
                         <ConnectedSubtitlesSelector
+                          classNamePrefix="replay-"
                           label="Subtitles selector"
                           noSubtitlesLabel="No subtitles"
                           toggleContent={
@@ -766,6 +781,7 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                         </ConnectedSubtitlesSelector>
                         <ConnectedQualitySelector
                           autoLabel="Automatic"
+                          classNamePrefix="replay-"
                           formatBitrateLabel={[Function]}
                           label="Video quality selector"
                           selectionStrategy="cap-bitrate"
@@ -865,11 +881,13 @@ exports[`renderPlayerUI() renders and recognises the specified props. 1`] = `
                       </div>
                     </ControlsBar>
                     <ConnectedBufferingIndicator
+                      classNamePrefix="replay-"
                       content={<LoadingAnimation />}
                       label="Video is buffering"
                       renderStrategy="always"
                     >
                       <BufferingIndicator
+                        classNamePrefix="replay-"
                         content={<LoadingAnimation />}
                         gotoLive={[Function]}
                         inspect={[Function]}
