@@ -159,7 +159,7 @@ test('<BasicVideoStreamer/> changes playback position when setPosition() is invo
   expect(videoRef.current.currentTime).toBe(23);
 });
 
-// TODO: Remaining, advanced features:
+// TODO: Remaining integration tests.
 
 describe.skip('<BasicVideoStreamer/> subtitles support', () => {
   test('<BasicVideoStreamer/> adds text tracks with cues when VTT file is specified as source track.', () => {});
@@ -175,6 +175,8 @@ describe.skip('<BasicVideoStreamer/> live streaming (with Safari and HLS)', () =
   test('<BasicVideoStreamer/> resumes playback at the live edge when gotoLive() is invoked on a timeshifted live stream.', () => {});
   test('<BasicVideoStreamer/> reports absolutePosition and absoluteStartPosition for the current playback position of a live stream.', () => {});
 });
+
+// TODO: Audio track support not implemented.
 
 describe.skip('<BasicVideoStreamer/> audio track support', () => {
   test('<BasicVideoStreamer/> lists audio tracks reported from the source.', () => {});

@@ -19,6 +19,9 @@ function setup() {
     },
     props: {
       onStreamStateChange
+    },
+    streamRangeHelper: {
+      setUpdater: function() {}
     }
   };
 

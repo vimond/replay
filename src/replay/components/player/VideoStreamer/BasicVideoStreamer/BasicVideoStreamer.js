@@ -7,6 +7,8 @@ import type { StreamStateUpdater } from './streamStateUpdater';
 import processPropChanges from './propsChangeHandler';
 import getTextTrackManager from './textTrackManager';
 import type { TextTrackManager } from './textTrackManager';
+import type { StreamRangeHelper } from './streamRangeHelper';
+import getStreamRangeHelper from './streamRangeHelper';
 
 type Props = CommonGenericProps &
   VideoStreamerProps & {
@@ -39,20 +41,20 @@ class BasicVideoStreamer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
     this.videoRef = React.createRef();
+    this.streamRangeHelper = getStreamRangeHelper(this.videoRef);
     this.streamStateUpdater = getStreamStateUpdater(this);
   }
   streamStateUpdater: StreamStateUpdater;
   textTrackManager: TextTrackManager;
+  streamRangeHelper: StreamRangeHelper;
   videoRef: { current: null | HTMLVideoElement };
 
   gotoLive = () => {
-    // TODO. Check for live stream before changing position.
+    this.streamRangeHelper.gotoLive();
   };
 
   setPosition = (position: number) => {
-    if (this.videoRef.current) {
-      this.videoRef.current.currentTime = position;
-    }
+    this.streamRangeHelper.setPosition(position);
   };
 
   componentDidMount() {
@@ -61,7 +63,7 @@ class BasicVideoStreamer extends React.Component<Props> {
     }
     this.streamStateUpdater.startPlaybackSession();
     if (this.videoRef.current) {
-      this.textTrackManager = getTextTrackManager(this.videoRef.current, this.streamStateUpdater.notifyPropertyChange);
+      this.textTrackManager = getTextTrackManager(this.videoRef.current, this.streamStateUpdater.onTextTracksChanged);
     }
   }
   
@@ -69,6 +71,7 @@ class BasicVideoStreamer extends React.Component<Props> {
     if (this.textTrackManager) {
       this.textTrackManager.cleanup();
     }
+    this.streamRangeHelper.stopPauseStateUpdates();
   }
 
   componentDidUpdate(prevProps: Props) {

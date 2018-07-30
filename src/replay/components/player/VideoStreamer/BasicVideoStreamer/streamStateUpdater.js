@@ -1,26 +1,43 @@
 // @flow
 import getFilteredPropertyUpdater from './filteredPropertyUpdater';
 import BasicVideoStreamer from './BasicVideoStreamer';
-import type { AvailableTrack, PlaybackSource, VideoStreamerProps, VideoStreamState } from '../types';
+import type { AvailableTrack, PlaybackSource, PlayMode, VideoStreamerProps, VideoStreamState } from '../types';
 import mapError from './errorMapper';
 import processPropChanges from './propsChangeHandler';
 import type { TextTrackManager } from './textTrackManager';
 
+type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
+
+export type TextTracksStateProps = {
+  textTracks: Array<AvailableTrack>,
+  currentTextTrack: ?AvailableTrack
+};
+export type StreamRangeProps = {
+  playMode: PlayMode,
+  isAtLivePosition: boolean,
+  position: number,
+  duration: number,
+  absolutePosition: Date,
+  absoluteStartPosition: Date
+};
+
+export type StreamStateUpdater = {
+  eventHandlers: { [string]: () => void },
+  onTextTracksChanged: TextTracksStateProps => void,
+  startPlaybackSession: () => void
+};
+
 const emptyTracks: Array<AvailableTrack> = []; // Keeping the same array instance for all updates as long as not in use.
 const emptyBitrates: Array<number> = [];
+const dawnOfTime = new Date(0);
 
-const saneNumberFilter = <T>(value: ?T) => (value == null || isNaN(value) ? 0 : value);
+const saneNumberFilter = <T>(value: ?T) =>
+  value == null || isNaN(value) || value === Infinity || typeof value !== 'number' || value < 0 ? 0 : value;
 
 const filters = {
   position: saneNumberFilter,
   duration: saneNumberFilter,
   volume: saneNumberFilter
-};
-
-export type StreamStateUpdater = {
-  eventHandlers: { [string]: () => void },
-  notifyPropertyChange: VideoStreamState => void,
-  startPlaybackSession: () => void
 };
 
 function seekToInitialPosition(source: ?PlaybackSource, videoElement: HTMLVideoElement) {
@@ -29,7 +46,11 @@ function seekToInitialPosition(source: ?PlaybackSource, videoElement: HTMLVideoE
   }
 }
 
-function applyPlaybackProps(props: VideoStreamerProps, videoRef: { current: null | HTMLVideoElement }, textTrackManager: ?TextTrackManager) {
+function applyPlaybackProps(
+  props: VideoStreamerProps,
+  videoRef: { current: null | HTMLVideoElement },
+  textTrackManager: ?TextTrackManager
+) {
   processPropChanges(videoRef, textTrackManager, {}, props);
 }
 
@@ -47,8 +68,6 @@ function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
   return ahead;
 }
 
-type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
-
 function getStreamStateUpdater(streamer: BasicVideoStreamer) {
   let lifeCycleStage: PlaybackLifeCycle = 'unknown';
   const isSafari =
@@ -57,6 +76,8 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     navigator.userAgent.indexOf('Firefox') < 0;
 
   const isDebugging = window.location.search.indexOf('debug') > 0;
+  const streamRangeHelper = streamer.streamRangeHelper;
+  
   if (isDebugging) {
     window.videoElementEvents = [];
   }
@@ -92,6 +113,8 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     update({ bufferedAhead: 0 });
     update({ bitrates: emptyBitrates });
     update({ audioTracks: emptyTracks });
+    update({ absolutePosition: dawnOfTime });
+    update({ absoluteStartPosition: dawnOfTime });
   }
 
   function startPlaybackSession() {
@@ -112,6 +135,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
         lifeCycleStage = 'dead';
         update({ playState: 'inactive' });
       }
+      // TODO: stop updating live stream range.
     });
     lifeCycleStage = 'dead';
   }
@@ -131,7 +155,6 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     applyPlaybackProps(streamer.props, streamer.videoRef, streamer.textTrackManager);
     withVideoElement(videoElement => {
       seekToInitialPosition(streamer.props.source, videoElement);
-
       update({ position: videoElement.currentTime });
       update({ duration: videoElement.duration });
     });
@@ -181,6 +204,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
 
   function onPause() {
     log('pause');
+    //TODO: Timer for live positions.
     if (lifeCycleStage === 'started') {
       update({ playState: 'paused', isPaused: true });
     }
@@ -252,11 +276,23 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     }
   }
 
-  // TODO: Text tracks and audio tracks.
-  // TODO: Live and positions.
+  function onTextTracksChanged(textTracksStateProps: TextTracksStateProps) {
+    // Silly object remapping because of Flow not understanding that TextTracksStateProps always satisfies VideoStreamState.
+    update({
+      currentTextTrack: textTracksStateProps.currentTextTrack,
+      textTracks: textTracksStateProps.textTracks
+    });
+  }
 
-  const { notifyPropertyChange } = getFilteredPropertyUpdater(invokeOnStreamStateChange, filters);
-  const update = notifyPropertyChange;
+  function onStreamRangeChanged(stateProps: StreamRangeProps) {
+    // $FlowFixMe Skipping the silly object mapping mentioned above.
+    update(stateProps);
+  }
+
+  // TODO: Audio tracks.
+  const update = getFilteredPropertyUpdater(invokeOnStreamStateChange, filters).notifyPropertyChange;
+  // Ugly two-way connection to some separated concerns. 
+  streamRangeHelper.setUpdater(onStreamRangeChanged);
 
   return {
     eventHandlers: {
@@ -276,7 +312,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
       onError,
       onEnded
     },
-    notifyPropertyChange: update,
+    onTextTracksChanged,
     startPlaybackSession
   };
 }

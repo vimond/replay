@@ -1,6 +1,7 @@
 // @flow
 
 import type { AvailableTrack, PlaybackSource, SourceTrack, VideoStreamState } from '../types';
+import type { TextTracksStateProps } from './streamStateUpdater';
 
 type ManagedTextTrack = {
   isBlackListed: boolean,
@@ -87,7 +88,7 @@ function createTrackElement(sourceTrack: SourceTrack): HTMLTrackElement {
   return htmlTrackElement;
 }
 
-const getTextTrackManager = (videoElement: HTMLVideoElement, update: VideoStreamState => void) => {
+const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksStateProps => void) => {
   let managedTracks: Array<ManagedTextTrack> = [];
   let unique = 0;
   const Cue = window.VTTCue || window.TextTrackCue;
