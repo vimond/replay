@@ -85,7 +85,7 @@ class App extends Component<void, State> {
         <div className="App-player-panel">
           {useMock ? (
             <div>
-              <MockPlayer options={getPlayerOptionsFromState(this.state)} onExit={this.togglePlayer}>
+              <MockPlayer options={{ ...configOverrides, ...getPlayerOptionsFromState(this.state) }} onExit={this.togglePlayer}>
                 Design mode
               </MockPlayer>
               <p>

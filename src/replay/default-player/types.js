@@ -18,6 +18,8 @@ export type ControlNames =
   | 'subtitlesSelector'
   | 'qualitySelector'
   | 'fullscreenButton'
+  | 'exitButton'
+  | 'playbackMonitor'
   | 'bufferingIndicator';
 
 // Some properties are nullable because the null value deletes the base configuration, and this should be allowed.

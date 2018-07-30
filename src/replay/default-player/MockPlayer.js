@@ -6,6 +6,7 @@ import getPlayerUIRenderer from './playerUI';
 import graphics from './default-skin/defaultSkin';
 import strings from './strings';
 import { defaultClassNamePrefix } from '../components/common';
+import { baseConfiguration } from './baseConfiguration';
 
 const renderPlayerUI = getPlayerUIRenderer(graphics, strings, defaultClassNamePrefix);
 
@@ -14,7 +15,7 @@ const MockPlayer = ({
   onExit,
   children
 }: { options: any, onExit?: () => void, children?: React.Node } = {}) => (
-  <PlayerController options={options} render={renderPlayerUI} externalProps={{ onExit }}>
+  <PlayerController configuration={baseConfiguration} options={options} render={renderPlayerUI} externalProps={{ onExit }}>
     <MockVideoStreamer>{children}</MockVideoStreamer>
   </PlayerController>
 );

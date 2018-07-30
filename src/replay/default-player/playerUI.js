@@ -26,6 +26,7 @@ import {
 } from '../components/player/PlayerController/connectedControls';
 
 import { ControlledVideoStreamer } from '../components/player/PlayerController/connectControl';
+import RenderIfEnabled from '../components/player/RenderIfEnabled';
 
 const getSkipBackOffset = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.skipButtonOffset;
 const getLiveDisplayMode = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.liveDisplayMode;
@@ -42,30 +43,34 @@ const getPlayerUIRenderer = (graphics: UIResources<GraphicResources>, strings: U
       render={({ fullscreenState }) => (
         <React.Fragment>
           <ControlledVideoStreamer classNamePrefix={classNamePrefix} />
-          {externalProps &&
-          externalProps.onExit && (
-            <ExitButton {...strings.exitButton} {...graphics.exitButton} onClick={externalProps.onExit} classNamePrefix={classNamePrefix} />
-          )}
-          <PlaybackMonitor
-            configuration={configuration}
-            closeButtonContent={graphics.playbackMonitor && graphics.playbackMonitor.closeButtonContent}
-          />
-          <ControlsBar>
-            <PlayPauseButton {...strings.playPauseButton} {...graphics.playPauseButton} classNamePrefix={classNamePrefix} />
-            <SkipButton offset={getSkipBackOffset(configuration)} {...strings.skipButton} {...graphics.skipButton} classNamePrefix={classNamePrefix} />
-            <Timeline {...strings.timeline} {...graphics.timeline} classNamePrefix={classNamePrefix} />
-            <TimeDisplay liveDisplayMode={getLiveDisplayMode(configuration)} {...strings.timeDisplay} classNamePrefix={classNamePrefix} />
-            <GotoLiveButton {...strings.gotoLiveButton} {...graphics.gotoLiveButton} classNamePrefix={classNamePrefix} />
-            <Volume {...strings.volume} {...graphics.volume} />
-            <AudioSelector {...strings.audioSelector} {...graphics.audioSelector} classNamePrefix={classNamePrefix} />
-            <SubtitlesSelector {...strings.subtitlesSelector} {...graphics.subtitlesSelector} classNamePrefix={classNamePrefix} />
-            <QualitySelector
-              {...strings.qualitySelector}
-              {...graphics.qualitySelector}
-              selectionStrategy={getQualitySelectionStrategy(configuration)}
-              classNamePrefix={classNamePrefix}
+          <RenderIfEnabled configuration={configuration.ui && configuration.ui.includeControls}>
+            {externalProps &&
+            externalProps.onExit && (
+              <ExitButton {...strings.exitButton} {...graphics.exitButton} onClick={externalProps.onExit} classNamePrefix={classNamePrefix} />
+            )}
+            <PlaybackMonitor
+              configuration={configuration}
+              closeButtonContent={graphics.playbackMonitor && graphics.playbackMonitor.closeButtonContent}
             />
-            <FullscreenButton {...fullscreenState} {...strings.fullscreenButton} {...graphics.fullscreenButton} classNamePrefix={classNamePrefix} />
+          </RenderIfEnabled>
+          <ControlsBar>
+            <RenderIfEnabled configuration={configuration.ui && configuration.ui.includeControls}>
+              <PlayPauseButton {...strings.playPauseButton} {...graphics.playPauseButton} classNamePrefix={classNamePrefix} />
+              <SkipButton offset={getSkipBackOffset(configuration)} {...strings.skipButton} {...graphics.skipButton} classNamePrefix={classNamePrefix} />
+              <Timeline {...strings.timeline} {...graphics.timeline} classNamePrefix={classNamePrefix} />
+              <TimeDisplay liveDisplayMode={getLiveDisplayMode(configuration)} {...strings.timeDisplay} classNamePrefix={classNamePrefix} />
+              <GotoLiveButton {...strings.gotoLiveButton} {...graphics.gotoLiveButton} classNamePrefix={classNamePrefix} />
+              <Volume {...strings.volume} {...graphics.volume} />
+              <AudioSelector {...strings.audioSelector} {...graphics.audioSelector} classNamePrefix={classNamePrefix} />
+              <SubtitlesSelector {...strings.subtitlesSelector} {...graphics.subtitlesSelector} classNamePrefix={classNamePrefix} />
+              <QualitySelector
+                {...strings.qualitySelector}
+                {...graphics.qualitySelector}
+                selectionStrategy={getQualitySelectionStrategy(configuration)}
+                classNamePrefix={classNamePrefix}
+              />
+              <FullscreenButton {...fullscreenState} {...strings.fullscreenButton} {...graphics.fullscreenButton} classNamePrefix={classNamePrefix} />
+            </RenderIfEnabled>
           </ControlsBar>
           <BufferingIndicator {...strings.bufferingIndicator} {...graphics.bufferingIndicator} classNamePrefix={classNamePrefix} />
         </React.Fragment>
