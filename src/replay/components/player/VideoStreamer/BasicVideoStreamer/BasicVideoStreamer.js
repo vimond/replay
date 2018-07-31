@@ -70,7 +70,7 @@ class BasicVideoStreamer extends React.Component<Props> {
       this.textTrackManager = getTextTrackManager(this.videoRef.current, this.streamStateUpdater.onTextTracksChanged);
     }
   }
-  
+
   componentWillUnmount() {
     if (this.textTrackManager) {
       this.textTrackManager.cleanup();

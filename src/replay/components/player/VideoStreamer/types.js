@@ -7,7 +7,7 @@ import type { CommonProps } from '../../common';
 export type PlayState = 'inactive' | 'starting' | 'playing' | 'paused' | 'seeking' | 'buffering';
 export type PlayMode = 'ondemand' | 'live' | 'livedvr';
 
-export type ErrorCodes =
+export type ErrorCode =
   | 'STREAM_ERROR_DOWNLOAD'
   | 'STREAM_ERROR_DECODE'
   | 'STREAM_ERROR_DRM_OUTPUT_BLOCKED'
@@ -19,14 +19,14 @@ export type ErrorCodes =
 export type Severity = 'FATAL' | 'WARNING' | 'INFO';
 
 export class PlaybackError extends Error {
-  constructor(code: ErrorCodes, technology: string, message?: string, severity: Severity = 'FATAL', sourceError?: any) {
+  constructor(code: ErrorCode, technology: string, message?: string, severity: Severity = 'FATAL', sourceError?: any) {
     super(message);
     this.code = code;
     this.severity = severity;
     this.technology = technology;
     this.sourceError = sourceError;
   }
-  code: ErrorCodes;
+  code: ErrorCode;
   severity: Severity;
   technology: string;
   sourceError: any;

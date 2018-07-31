@@ -5,7 +5,7 @@ export type StreamRangeHelper = {
   adjustForDvrStartOffset: HTMLVideoElement => void,
   calculateNewState: HTMLVideoElement => VideoStreamState,
   setPosition: (HTMLVideoElement, number) => void,
-  gotoLive: (HTMLVideoElement) => void
+  gotoLive: HTMLVideoElement => void
 };
 
 const dawnOfTime = new Date(0);
@@ -70,10 +70,7 @@ function getAbsolutePositions(
   }
 }
 
-const getStreamRangeHelper = (
-  livePositionMargin: number = defaultLivePositionMargin
-): StreamRangeHelper => {
-
+const getStreamRangeHelper = (livePositionMargin: number = defaultLivePositionMargin): StreamRangeHelper => {
   function calculateNewState(videoElement: HTMLVideoElement) {
     const seekableRange = getSeekableNetRange(videoElement);
     const isLive = videoElement.duration === Infinity;

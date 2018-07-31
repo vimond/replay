@@ -71,7 +71,10 @@ function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
   return ahead;
 }
 
-function getStreamStateUpdater(streamer: BasicVideoStreamer, pauseUpdateInterval?: number = defaultPauseUpdateInterval) {
+function getStreamStateUpdater(
+  streamer: BasicVideoStreamer,
+  pauseUpdateInterval?: number = defaultPauseUpdateInterval
+) {
   let lifeCycleStage: PlaybackLifeCycle = 'unknown';
   const isSafari =
     navigator.userAgent.indexOf('Safari') > 0 &&
@@ -81,7 +84,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer, pauseUpdateInterval
   const isDebugging = window.location.search.indexOf('debug') > 0;
   const streamRangeHelper = streamer.streamRangeHelper;
   let pauseStreamRangeUpdater = getIntervalRunner(onPauseInterval, pauseUpdateInterval);
-  
+
   if (isDebugging) {
     window.videoElementEvents = [];
   }
@@ -291,7 +294,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer, pauseUpdateInterval
       update(streamRangeHelper.calculateNewState(videoElement));
     });
   }
-  
+
   function onTextTracksChanged(textTracksStateProps: TextTracksStateProps) {
     // Silly object remapping because of Flow not understanding that TextTracksStateProps always satisfies VideoStreamState.
     update({
@@ -301,7 +304,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer, pauseUpdateInterval
   }
 
   // TODO: Audio tracks.
-  
+
   const update = getFilteredPropertyUpdater(invokeOnStreamStateChange, filters).notifyPropertyChange;
 
   return {

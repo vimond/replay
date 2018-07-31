@@ -217,8 +217,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
       // Awkward for-loop because Flow doesn't understand Array.from().
       videoElementTracks.push(textTracksList[i]);
     }
-
-    // TODO: Could there be async considerations with source tracks not added as textTracks yet?
+    
     const cleanedUpManagedTracks = managedTracks.filter(managedTrack => {
       return videoElementTracks.indexOf(managedTrack.videoElementTrack) >= 0;
     });
