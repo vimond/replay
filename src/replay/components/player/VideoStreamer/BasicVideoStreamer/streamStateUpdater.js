@@ -1,10 +1,11 @@
 // @flow
 import getFilteredPropertyUpdater from './filteredPropertyUpdater';
 import BasicVideoStreamer from './BasicVideoStreamer';
-import type { AvailableTrack, PlaybackSource, PlayMode, VideoStreamerProps, VideoStreamState } from '../types';
+import type { AvailableTrack, PlaybackSource, VideoStreamerProps, VideoStreamState } from '../types';
 import mapError from './errorMapper';
 import processPropChanges from './propsChangeHandler';
 import type { TextTrackManager } from './textTrackManager';
+import { getIntervalRunner } from '../../../common';
 
 type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
 
@@ -12,14 +13,15 @@ export type TextTracksStateProps = {
   textTracks: Array<AvailableTrack>,
   currentTextTrack: ?AvailableTrack
 };
-export type StreamRangeProps = {
+
+/*export type StreamRangeProps = {
   playMode: PlayMode,
   isAtLivePosition: boolean,
   position: number,
   duration: number,
   absolutePosition: Date,
   absoluteStartPosition: Date
-};
+};*/
 
 export type StreamStateUpdater = {
   eventHandlers: { [string]: () => void },
@@ -30,6 +32,7 @@ export type StreamStateUpdater = {
 const emptyTracks: Array<AvailableTrack> = []; // Keeping the same array instance for all updates as long as not in use.
 const emptyBitrates: Array<number> = [];
 const dawnOfTime = new Date(0);
+const defaultPauseUpdateInterval = 5;
 
 const saneNumberFilter = <T>(value: ?T) =>
   value == null || isNaN(value) || value === Infinity || typeof value !== 'number' || value < 0 ? 0 : value;
@@ -68,7 +71,7 @@ function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
   return ahead;
 }
 
-function getStreamStateUpdater(streamer: BasicVideoStreamer) {
+function getStreamStateUpdater(streamer: BasicVideoStreamer, pauseUpdateInterval?: number = defaultPauseUpdateInterval) {
   let lifeCycleStage: PlaybackLifeCycle = 'unknown';
   const isSafari =
     navigator.userAgent.indexOf('Safari') > 0 &&
@@ -77,6 +80,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
 
   const isDebugging = window.location.search.indexOf('debug') > 0;
   const streamRangeHelper = streamer.streamRangeHelper;
+  let pauseStreamRangeUpdater = getIntervalRunner(onPauseInterval, pauseUpdateInterval);
   
   if (isDebugging) {
     window.videoElementEvents = [];
@@ -121,6 +125,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     log('New session');
     lifeCycleStage = 'new';
     notifyInitialState();
+    pauseStreamRangeUpdater.stop();
     // TODO: Notify closedown of previous session?
   }
 
@@ -135,7 +140,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
         lifeCycleStage = 'dead';
         update({ playState: 'inactive' });
       }
-      // TODO: stop updating live stream range.
+      pauseStreamRangeUpdater.stop();
     });
     lifeCycleStage = 'dead';
   }
@@ -155,8 +160,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     applyPlaybackProps(streamer.props, streamer.videoRef, streamer.textTrackManager);
     withVideoElement(videoElement => {
       seekToInitialPosition(streamer.props.source, videoElement);
-      update({ position: videoElement.currentTime });
-      update({ duration: videoElement.duration });
+      update(streamRangeHelper.calculateNewState(videoElement));
     });
   }
 
@@ -172,6 +176,7 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     withVideoElement(videoElement => {
       if (videoElement.paused) {
         update({ playState: 'paused', isPaused: true, isBuffering: false, isSeeking: false });
+        pauseStreamRangeUpdater.start();
       }
     });
   }
@@ -200,18 +205,20 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     if (lifeCycleStage === 'started') {
       update({ playState: 'playing', isBuffering: false, isPaused: false, isSeeking: false });
     }
+    pauseStreamRangeUpdater.stop();
   }
 
   function onPause() {
     log('pause');
-    //TODO: Timer for live positions.
     if (lifeCycleStage === 'started') {
       update({ playState: 'paused', isPaused: true });
     }
+    pauseStreamRangeUpdater.start();
   }
 
   function onSeeking() {
     log('seeking');
+    pauseStreamRangeUpdater.stop();
     if (lifeCycleStage === 'started') {
       update({ playState: 'seeking', isSeeking: true });
     }
@@ -223,8 +230,10 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
       withVideoElement(videoElement => {
         if (videoElement.paused) {
           update({ playState: 'paused', isPaused: true, isBuffering: false, isSeeking: false });
+          pauseStreamRangeUpdater.start();
         } else {
           update({ playState: 'playing', isPaused: false, isBuffering: false, isSeeking: false });
+          pauseStreamRangeUpdater.stop();
         }
       });
     }
@@ -243,14 +252,13 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
   function onDurationChange() {
     log('durationchange');
     withVideoElement(videoElement => {
-      update({ position: videoElement.currentTime });
-      update({ duration: videoElement.duration });
+      update(streamRangeHelper.calculateNewState(videoElement));
     });
   }
 
   function onTimeUpdate() {
     withVideoElement(videoElement => {
-      update({ position: videoElement.currentTime });
+      update(streamRangeHelper.calculateNewState(videoElement));
     });
   }
 
@@ -274,8 +282,16 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
       lifeCycleStage = 'ended';
       update({ playState: 'inactive' });
     }
+    pauseStreamRangeUpdater.stop();
   }
 
+  function onPauseInterval() {
+    withVideoElement(videoElement => {
+      streamRangeHelper.adjustForDvrStartOffset(videoElement);
+      update(streamRangeHelper.calculateNewState(videoElement));
+    });
+  }
+  
   function onTextTracksChanged(textTracksStateProps: TextTracksStateProps) {
     // Silly object remapping because of Flow not understanding that TextTracksStateProps always satisfies VideoStreamState.
     update({
@@ -284,15 +300,9 @@ function getStreamStateUpdater(streamer: BasicVideoStreamer) {
     });
   }
 
-  function onStreamRangeChanged(stateProps: StreamRangeProps) {
-    // $FlowFixMe Skipping the silly object mapping mentioned above.
-    update(stateProps);
-  }
-
   // TODO: Audio tracks.
+  
   const update = getFilteredPropertyUpdater(invokeOnStreamStateChange, filters).notifyPropertyChange;
-  // Ugly two-way connection to some separated concerns. 
-  streamRangeHelper.setUpdater(onStreamRangeChanged);
 
   return {
     eventHandlers: {

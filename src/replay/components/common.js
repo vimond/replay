@@ -83,11 +83,11 @@ export const isDifferent = (a: any, b: any) => {
   if (a === b) {
     return false;
   }
-  if (Number.isNaN(a) && Number.isNaN(b)) {
-    // Comparing NaN values are hard! https://ariya.io/2014/05/the-curious-case-of-javascript-nan
+  if (a instanceof Date && b instanceof Date && a.getTime() === b.getTime()) {
     return false;
   }
-  return true;
+  return !(Number.isNaN(a) && Number.isNaN(b));
+  
 };
 
 export const isObject = (obj: ?{}) => obj != null && obj.constructor === {}.constructor;
@@ -197,8 +197,19 @@ export const formatClockTime = (date: ?Date) => {
   );
 };
 
-/*
-export const withProps = (Comp: React.ComponentType<{}>, injectedProps: any) => {
-	return (props: any) => <Comp {...injectedProps} {...props} />; // Warning: props wins. Is that desiresd?
+export const getIntervalRunner = (method: () => void, intervalSeconds: number) => {
+  let intervalID: ?IntervalID = null;
+  return {
+    start: () => {
+      if (!intervalID) {
+        intervalID = setInterval(method, intervalSeconds * 1000);
+      }
+    },
+    stop: () => {
+      if (intervalID) {
+        clearInterval(intervalID);
+        intervalID = null;
+      }
+    }
+  };
 };
-*/

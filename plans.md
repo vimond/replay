@@ -203,13 +203,13 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 8. ✓ Prepare revised video engine with streamlined/modernised APIs.
 9. ✓ Build default player as npm package with all features.
 10. ✓ Streamlab integration.
-11. Review what to make configurable (overridable) in default player, e.g. strings, graphics, controls appearance, their settings.
-12. Demo container app.
-13. Theme-based styling, preparing for next step.
-14. ✓ Basic HTML5 video streamer, only for MP4.
-15. Guide documentation.
-16. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
-17. Docs on creating a full CSS file for a customised player, including core styles.
+11. ✓ Review what to make configurable (overridable) in default player, e.g. strings, graphics, controls appearance, their settings.
+12. ✓ Demo container app.
+13. ✓ Basic HTML5 video streamer, only for MP4.
+14. Guide documentation.
+15. Component and API documentation [Styleguidist](https://react-styleguidist.js.org/docs/documenting.html)
+16. Docs on creating a full CSS file for a customised player, including core styles.
+17. Theme-based styling, preparing for next step.
 18. Accessibility.
 19. Touch and mobile friendly.
 20. Other new pure VideoStreamers: HlsVideoStreamer, ShakaVideoStreamer.
@@ -275,9 +275,11 @@ Specific improvements and things to verify
 * ✓ Look into setting volume, mute, and pause state on startup. Needs to be explicit start values. Full outbound API via updateProperty/onStreamPropertyChange.
 * Manipulating the playback through setting props on the video streamer is asking for trouble/state out of sync. Reconsider?
 * `<PlayerController />` and `<VideoStreamer />` must handle rapid reinstantiations (as happening with `react-rnd@7.4.3`).
-* Live HLS support for `<BasicVideoStreamer />`.
+* ✓ Live HLS support for `<BasicVideoStreamer />`.
 * Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
 * Respect new set of playback technologies in VideoStreamer, replacing dashImpl prop.
+* Test MP4 streamer with start position.
+* Let `<Volume/>` sync volume slider and mute state.
 
 Next leap year:
 

@@ -1,16 +1,14 @@
 // @flow
-import type { PlaybackMethods, PlayMode } from '../types';
-import type { StreamRangeProps } from './streamStateUpdater';
+import type { PlayMode, VideoStreamState } from '../types';
 
-export type StreamRangeHelper = PlaybackMethods & {
-  setUpdater: (StreamRangeProps => void) => void,
-  calculateNewState: () => void,
-  startPauseStateUpdates: () => void,
-  stopPauseStateUpdates: () => void
+export type StreamRangeHelper = {
+  adjustForDvrStartOffset: HTMLVideoElement => void,
+  calculateNewState: HTMLVideoElement => VideoStreamState,
+  setPosition: (HTMLVideoElement, number) => void,
+  gotoLive: (HTMLVideoElement) => void
 };
 
 const dawnOfTime = new Date(0);
-const defaultPauseUpdateInterval = 5; // seconds
 const minimumDvrLength = 100; // seconds
 const defaultLivePositionMargin = 10; // seconds
 const dvrStartCorrection = 10; // yep, seconds
@@ -73,83 +71,52 @@ function getAbsolutePositions(
 }
 
 const getStreamRangeHelper = (
-  videoRef: { current: null | HTMLVideoElement },
-  livePositionMargin: number = defaultLivePositionMargin,
-  pauseUpdateInterval: number = defaultPauseUpdateInterval
+  livePositionMargin: number = defaultLivePositionMargin
 ): StreamRangeHelper => {
-  let pauseUpdaterIntervalID: ?IntervalID;
-  let update: StreamRangeProps => void = () => {};
 
-  function calculateNewState() {
-    const videoElement = videoRef.current;
-    if (videoElement) {
-      const seekableRange = getSeekableNetRange(videoElement);
-      const isLive = videoElement.duration === Infinity;
+  function calculateNewState(videoElement: HTMLVideoElement) {
+    const seekableRange = getSeekableNetRange(videoElement);
+    const isLive = videoElement.duration === Infinity;
 
-      const position = getPosition(videoElement);
-      const duration = getDuration(videoElement, isLive, seekableRange);
-      const playMode = resolvePlayMode(videoElement, seekableRange, isLive);
-      const isAtLivePosition = isLive && position > duration - livePositionMargin;
-      const { absolutePosition, absoluteStartPosition } = getAbsolutePositions(videoElement, isLive, position);
-      update({
-        position,
-        duration,
-        playMode,
-        isAtLivePosition,
-        absolutePosition,
-        absoluteStartPosition
-      });
-    }
+    const position = getPosition(videoElement);
+    const duration = getDuration(videoElement, isLive, seekableRange);
+    const playMode = resolvePlayMode(videoElement, seekableRange, isLive);
+    const isAtLivePosition = isLive && position > duration - livePositionMargin;
+    const { absolutePosition, absoluteStartPosition } = getAbsolutePositions(videoElement, isLive, position);
+    return {
+      position,
+      duration,
+      playMode,
+      isAtLivePosition,
+      absolutePosition,
+      absoluteStartPosition
+    };
   }
 
-  function updatePausedState() {
-    const videoElement = videoRef.current;
+  function adjustForDvrStartOffset(videoElement) {
     if (videoElement && videoElement.paused && videoElement.duration === Infinity) {
       const seekableStart = getStartOffset(videoElement);
       if (seekableStart !== Infinity && seekableStart >= videoElement.currentTime) {
         videoElement.currentTime = seekableStart + dvrStartCorrection;
       }
     }
-    calculateNewState();
-  }
-  
-  function startPauseStateUpdates() {
-    if (pauseUpdaterIntervalID) {
-      clearInterval(pauseUpdaterIntervalID);
-    }
-    pauseUpdaterIntervalID = setInterval(updatePausedState, pauseUpdateInterval * 1000);
   }
 
-  function stopPauseStateUpdates() {
-    if (pauseUpdaterIntervalID) {
-      clearInterval(pauseUpdaterIntervalID);
-      pauseUpdaterIntervalID = null;
-    }
-  }
-
-  function setPosition(newPosition: number) {
-    const videoElement = videoRef.current;
-    if (videoElement && !(isNaN(newPosition) && newPosition === Infinity)) {
+  function setPosition(videoElement: HTMLVideoElement, newPosition: number) {
+    if (!(isNaN(newPosition) && newPosition === Infinity)) {
       videoElement.currentTime = getStartOffset(videoElement) + newPosition;
     }
   }
 
-  function gotoLive() {
-    const videoElement = videoRef.current;
-    if (videoElement && videoElement.duration === Infinity && videoElement.seekable.length > 0) {
+  function gotoLive(videoElement: HTMLVideoElement) {
+    if (videoElement.duration === Infinity && videoElement.seekable.length > 0) {
       videoElement.currentTime = videoElement.seekable.end(0);
     }
   }
-  
-  function setUpdater(updateFn: StreamRangeProps => void) {
-    update = updateFn;
-  }
-  
+
   return {
-    setUpdater,
+    adjustForDvrStartOffset,
     calculateNewState,
-    startPauseStateUpdates,
-    stopPauseStateUpdates,
     setPosition,
     gotoLive
   };

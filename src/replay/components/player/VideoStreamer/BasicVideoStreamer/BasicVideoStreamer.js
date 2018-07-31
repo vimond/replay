@@ -41,7 +41,7 @@ class BasicVideoStreamer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
     this.videoRef = React.createRef();
-    this.streamRangeHelper = getStreamRangeHelper(this.videoRef);
+    this.streamRangeHelper = getStreamRangeHelper(); // TODO: Add configuration parameters.
     this.streamStateUpdater = getStreamStateUpdater(this);
   }
   streamStateUpdater: StreamStateUpdater;
@@ -50,11 +50,15 @@ class BasicVideoStreamer extends React.Component<Props> {
   videoRef: { current: null | HTMLVideoElement };
 
   gotoLive = () => {
-    this.streamRangeHelper.gotoLive();
+    if (this.videoRef.current) {
+      this.streamRangeHelper.gotoLive(this.videoRef.current);
+    }
   };
 
   setPosition = (position: number) => {
-    this.streamRangeHelper.setPosition(position);
+    if (this.videoRef.current) {
+      this.streamRangeHelper.setPosition(this.videoRef.current, position);
+    }
   };
 
   componentDidMount() {
@@ -71,7 +75,6 @@ class BasicVideoStreamer extends React.Component<Props> {
     if (this.textTrackManager) {
       this.textTrackManager.cleanup();
     }
-    this.streamRangeHelper.stopPauseStateUpdates();
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -80,8 +83,6 @@ class BasicVideoStreamer extends React.Component<Props> {
     }
     processPropChanges(this.videoRef, this.textTrackManager, prevProps, this.props);
   }
-
-  /* Special video element event handlers */
 
   render() {
     const { className, classNamePrefix, source, applyBuiltInStyles }: Props = this.props;

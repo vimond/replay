@@ -5,7 +5,8 @@ import {
   formatClockTime,
   isDifferent,
   hydrateClassNames,
-  isShallowEqual
+  isShallowEqual, 
+  getIntervalRunner
 } from './common';
 
 test('prefixClassNames() prefixes all class names passed and joins into one string.', () => {
@@ -325,6 +326,25 @@ test('isShallowEqual() returns false for two objects not having the same propert
   expect(isShallowEqual(a, b)).toBe(false);
 });
 
+test('getIntervalRunner() returns start and stop methods, and invokes the callback repeatedly after starting.', (done) => {
+  let counter = 0;
+  const updateFn = () => {
+    try {
+      if (counter == 2) {
+        expect(typeof stop).toBe('function');
+        stop();
+        done();
+      } else {
+        counter++;
+      }
+    } catch(e) {
+      done.fail(e);
+    }
+  };
+  const { start, stop } = getIntervalRunner(updateFn, 0.5);
+  start();
+});
+
 // TODO: Write tests.
 test('override() merges two objects deeply, also when branches are unspecified in one of them.');
 
@@ -333,3 +353,4 @@ test('override() does not include base properties or branches when key is set to
 test('override() accepts null as parameters for both base and override.');
 
 test('override() does not return mutated parts of base or override object, but a deeply cloned fresh object.');
+

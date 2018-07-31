@@ -1,6 +1,6 @@
 import getStreamStateUpdater from './streamStateUpdater';
-import type { PlaybackSource } from '../types';
 import { PlaybackError } from '../types';
+import getStreamRangeHelper from './streamRangeHelper';
 
 const getPropertyUpdates = (mockFn, key) => mockFn.mock.calls.filter(call => key in call[0]).map(call => call[0]);
 
@@ -10,9 +10,8 @@ const addProperties = (obj, properties) => {
   });
 };
 
-function setup() {
+function setup(onStreamStateChange = jest.fn(), streamRangeHelper) {
   const videoElement = { volume: 1, muted: false, play: () => {}, pause: () => {} };
-  const onStreamStateChange = jest.fn();
   const streamerElement = {
     videoRef: {
       current: videoElement
@@ -20,12 +19,20 @@ function setup() {
     props: {
       onStreamStateChange
     },
-    streamRangeHelper: {
-      setUpdater: function() {}
+    streamRangeHelper: streamRangeHelper || {
+      calculateNewState: videoElement => ({
+        playMode: 'ondemand',
+        isAtLivePosition: false,
+        position: videoElement.currentTime,
+        duration: videoElement.duration,
+        absolutePosition: new Date(0),
+        absoluteStartPosition: new Date(0)
+      }),
+      adjustForDvrStartOffset: () => {}
     }
   };
 
-  const streamStateUpdater = getStreamStateUpdater(streamerElement);
+  const streamStateUpdater = getStreamStateUpdater(streamerElement, 0.5);
   streamStateUpdater.startPlaybackSession();
   addProperties(videoElement, streamStateUpdater.eventHandlers);
 
@@ -151,6 +158,7 @@ test('streamStateUpdater reports playMode "ondemand" and a duration when a video
   expect(playModeUpdates[0]).toEqual({ playMode: 'ondemand' });
 });
 
+// streamRangeHelper actually has the responsibility of duration/position updates.
 test('streamStateUpdater reports positions accordingly during playback.', () => {
   const { videoElement, onStreamStateChange } = setup();
 
@@ -404,4 +412,89 @@ test('streamStateUpdater reports an empty bitrates array, and no current bitrate
   expect(getPropertyUpdates(onStreamStateChange, 'maxBitrate')).toHaveLength(0);
 
   expect(getPropertyUpdates(onStreamStateChange, 'currentBitrate')).toHaveLength(0);
+});
+
+test('If live stream playback pauses, start timer based updates of positions and play mode.', done => {
+  const noop = () => {};
+  const onUpdateDuringPaused = newState => {
+    try {
+      expect(newState).toMatchObject({
+        position: 117
+      });
+      currentOp = noop;
+      videoElement.onEnded();
+      done();
+    } catch (e) {
+      done.fail(e);
+      currentOp = noop;
+      videoElement.onEnded();
+    }
+  };
+  let currentOp = noop;
+
+  const onStreamStateChange = newState => {
+    currentOp(newState);
+  };
+  const { videoElement } = setup(onStreamStateChange, getStreamRangeHelper());
+  videoElement.currentTime = 121;
+  videoElement.duration = Infinity;
+  videoElement.seekable = {
+    length: 1,
+    start: () => 13,
+    end: () => 123
+  };
+  runStartAsPlayingSequence(videoElement);
+  videoElement.paused = true;
+  videoElement.onPause();
+  currentOp = onUpdateDuringPaused;
+  videoElement.currentTime = 130;
+});
+
+// Also tests streamRangeHelper.adjustForDvrStartOffset().
+test('If live stream playback pauses and current position falls outside (before) DVR range, it should be adjusted.', done => {
+  let isStarted = false;
+  const expectations = [
+    newState => {
+      expect(newState).toMatchObject({
+        position: 2
+      });
+      isStarted = false;
+      videoElement.onEnded();
+      done();
+    },
+    newState => {
+      expect(newState).toMatchObject({
+        position: 10
+      });
+      videoElement.seekable = {
+        length: 1,
+        start: () => 44,
+        end: () => 133
+      };
+      videoElement.currentTime = 46;
+    }
+  ];
+
+  const updateFn = newState => {
+    try {
+      if ('position' in newState && isStarted) {
+        expectations.pop()(newState);
+      }
+    } catch (e) {
+      done.fail(e);
+    }
+  };
+
+  const { videoElement } = setup(updateFn, getStreamRangeHelper());
+  videoElement.currentTime = 15;
+  videoElement.duration = Infinity;
+  videoElement.seekable = {
+    length: 1,
+    start: () => 23,
+    end: () => 123
+  };
+  runStartAsPlayingSequence(videoElement);
+  videoElement.paused = true;
+  videoElement.onPause();
+  isStarted = true;
 });

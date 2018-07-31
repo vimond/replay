@@ -1,6 +1,6 @@
 // @flow
 
-import type { AvailableTrack, PlaybackSource, SourceTrack, VideoStreamState } from '../types';
+import type { AvailableTrack, PlaybackSource, SourceTrack } from '../types';
 import type { TextTracksStateProps } from './streamStateUpdater';
 
 type ManagedTextTrack = {
