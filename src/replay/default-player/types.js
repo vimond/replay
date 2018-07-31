@@ -6,7 +6,6 @@ import type { PlaybackSource, SourceTrack, VideoStreamerConfiguration } from '..
 import type { QualitySelectionStrategy } from '../components/controls/QualitySelector/QualitySelector';
 import type { LiveDisplayMode } from '../components/controls/TimeDisplay/TimeDisplay';
 
-// TODO: Implement, but maybe as a separate compose parameter.
 export type ControlNames =
   | 'playPauseButton'
   | 'skipButton'
