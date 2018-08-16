@@ -13,7 +13,7 @@
     "README.md"
   ],
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3033 react-scripts start",
     "build": "react-scripts build",
     "build-lib": "npm run build-es5 && npm run build-flow && npm run build-css",
     "build-es5": "babel src/replay -d lib --copy-files --source-maps",
