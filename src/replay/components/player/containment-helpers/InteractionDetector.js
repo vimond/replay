@@ -36,7 +36,7 @@ type InteractionState = {
 const getDelaySeconds = configuration =>
   configuration && configuration.interactionDetector && configuration.interactionDetector.inactivityDelay != null
     ? configuration.interactionDetector.inactivityDelay
-    : 2;
+    : 0;
 
 class InteractionDetector extends React.Component<Props, State> {
   constructor(props: Props) {

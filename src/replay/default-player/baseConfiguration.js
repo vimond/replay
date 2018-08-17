@@ -3,6 +3,19 @@
 import type { PlayerConfiguration } from './types';
 
 export const baseConfiguration: PlayerConfiguration = {
+  videoStreamer: {
+    dash: {
+      shaka: {
+        logLevel: 'ERROR'
+      }
+    },
+    logging: {
+      global: 'WARN'
+    }
+  },
+  interactionDetector: {
+    inactivityDelay: 2
+  },
   keyboardShortcuts: {
     keyCodes: {
       togglePause: [32, 13],
@@ -12,16 +25,6 @@ export const baseConfiguration: PlayerConfiguration = {
       skipBack: 188,
       skipForward: 190,
       toggleMute: 77
-    }
-  },
-  videoStreamer: {
-    dash: {
-      shaka: {
-        logLevel: 'ERROR'
-      }
-    },
-    logging: {
-      global: 'WARN'
     }
   },
   ui: {
