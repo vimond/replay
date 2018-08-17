@@ -39,8 +39,9 @@ class Volume extends React.Component<Props> {
   };
 
   handleVolumeSliderChange = (volume: number) => {
-    if (this.props.updateProperty) {
-      this.props.updateProperty({ volume });
+    const updateProperty = this.props.updateProperty;
+    if (updateProperty) {
+      updateProperty({ isMuted: false, volume });
     }
   };
 
@@ -71,7 +72,7 @@ class Volume extends React.Component<Props> {
         />
         <Slider
           label={volumeSliderLabel}
-          value={volume}
+          value={isMuted ? 0 : volume}
           maxValue={maxVolume}
           handleContent={volumeSliderHandleContent}
           trackContent={volumeSliderTrackContent}

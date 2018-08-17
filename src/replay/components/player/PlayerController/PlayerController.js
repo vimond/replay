@@ -156,6 +156,7 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
 
   // UI -> video stream
   updateProperty = (updatedProp: PlaybackProps) => {
+    // TODO: Risky one where the copied props might be outdated, upon subsequent sync updateProperty calls.
     const videoStreamerProps = { ...this.state.videoStreamerProps, ...updatedProp };
     this.setState({ videoStreamerProps });
   };

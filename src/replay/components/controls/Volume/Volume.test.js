@@ -39,7 +39,7 @@ test('<Volume/> renders with prefixed class name and DOM including children.', (
   expect(vsProps.trackClassName).toBe('volume-slider-track');
   expect(vsProps.handleClassName).toBe('volume-slider-handle');
   expect(vsProps.maxValue).toBe(1);
-  expect(vsProps.value).toBe(0.7);
+  expect(vsProps.value).toBe(0);
   expect(vsProps.handleContent).toBe('•');
   expect(vsProps.trackContent).toBe('-');
 
@@ -49,6 +49,14 @@ test('<Volume/> renders with prefixed class name and DOM including children.', (
   expect(mtProps.isOn).toBe(true);
   expect(mtProps.toggledOffContent).toBe('A');
   expect(mtProps.toggledOnContent).toBe('M');
+
+  const rendered2 = shallow(<Volume {...commonProps} isMuted={false} />);
+  const muteToggle2 = rendered2.find(ToggleButton);
+  const volumeSlider2 = rendered2.find(Slider);
+  const vsProps2 = volumeSlider2.props();
+  const mtProps2 = muteToggle2.props();
+  expect(vsProps2.value).toBe(0.7);
+  expect(mtProps2.isOn).toBe(false);
 });
 
 test('<Volume/> updates property isMuted when mute toggle is clicked.', () => {
@@ -59,7 +67,7 @@ test('<Volume/> updates property isMuted when mute toggle is clicked.', () => {
   expect(updateProperty.mock.calls.length).toBe(1);
   expect(updateProperty.mock.calls[0][0]).toEqual({ isMuted: false });
 });
-test('<Volume/> updates property volume when volume slider handle is moved.', () => {
+test('<Volume/> updates property volume when volume slider handle is moved. isMuted is also set to false.', () => {
   const updateProperty = jest.fn();
   const rendered = shallow(<Volume {...commonProps} updateProperty={updateProperty} />);
   const renderedVolumeSlider = rendered.find(Slider).dive();
@@ -83,5 +91,5 @@ test('<Volume/> updates property volume when volume slider handle is moved.', ()
   renderedVolumeSlider.instance().handleHandleOrTrackClick(mockEvent1);
 
   expect(updateProperty.mock.calls.length).toBe(1);
-  expect(updateProperty.mock.calls[0][0]).toEqual({ volume: 0.33 });
+  expect(updateProperty.mock.calls[0][0]).toEqual({ volume: 0.33, isMuted: false });
 });
