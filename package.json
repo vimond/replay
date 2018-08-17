@@ -20,6 +20,7 @@
     "build-flow": "flow-copy-source src/replay lib",
     "build-css": "postcss src/replay/replay-default.css -o lib/index.css",
     "docs": "x0 docs --webpack webpack.x0.config.js",
+    "build-docs": "x0 build docs --webpack webpack.x0.config.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
@@ -65,5 +66,8 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ]
+  },
+  "x0": {
+    "title": "Replay docs"
   }
 }

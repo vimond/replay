@@ -1,27 +1,32 @@
+# Replay
 
-# Guides
+## Guides
 
 ### I want to:
 
-[‣ Insert the standard Replay player into my React web page](#)
+‣ [Insert the standard Replay player into my React web page](insert#inserting-the-player-and-playing-videos)
 
-[‣ Insert the standard Replay player and play advanced streams](#)
+‣ [Insert the standard Replay player and play advanced/professional streams](insert#playing-professional-streams)
 
-[‣ Configure my inserted Replay player](#)
+‣ [Configure my inserted Replay player](customize#configuring-the-player)
 
-[‣ With standard controls, apply my custom design, layout, or appearance, to the Replay player](#)
+‣ [Select which controls to be included when inserting the Replay player](customize#including-or-omitting-player-control-elements)
 
-[‣ Select which controls to be included when inserting the Replay player](#)
+TODO: 
 
-[‣ Apply my own user interface and control set to Replay](#)
+‣ [Replace or change graphics, texts, styles, in the standard player UI](#)
 
-[‣ Include my own UI, model layer, etc., custom integrations, and assemble my own full player with the Replay controller and video streamer](#)
+‣ [Apply my own user interface and control set to Replay](#)
 
-[‣ Create a video streamer component wrapping a specific player library or enabling a specific streaming technology](#)
+‣ [Include my own UI, model layer, etc., custom integrations, and assemble my own full player with the Replay controller and video streamer](#)
 
-### Technical descriptions
+Consider keeping this separate: ‣ [Integrate with a REST API, monitor playback events and state, play video ads](#)
 
-# Reference documentation
+‣ [Create a video streamer component wrapping a specific player library or enabling a specific streaming technology](#)
+
+## Technical descriptions
+
+## Reference documentation
 
 [Replay player](#)
 
