@@ -1,0 +1,76 @@
+
+.replay-buffering-indicator {
+    transition: opacity 1s, visibility 0s linear 0.5s;
+    opacity: 0;
+}
+
+.replay-buffering-indicator.replay-buffering {
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.replay-buffering-indicator .animated {
+    animation: spin 1s infinite linear;
+    transform-origin: 18px 18px;
+    animation-play-state: paused;
+}
+
+.replay-buffering-indicator.replay-buffering .animated {
+    animation-play-state: running;
+}
+
+.replay-controls-bar {
+    transition: visibility 0.5s, opacity 0.5s;
+    cursor: default;
+}
+
+.replay-exit-button:hover {
+    visibility: visible;
+    opacity: 1;
+}
+
+.replay-is-user-inactive .replay-controls-bar {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.replay-controls-bar:hover {
+    cursor: default;
+    visibility: visible;
+    opacity: 1;
+}
+
+.replay-button, .replay-toggle-button {
+    transition: color 0.5s;
+}
+
+.replay-selector-items {
+    opacity: 0;
+    transition: opacity 0.5s, visibility 0s linear 0.5s;
+}
+
+.replay-selector:hover .replay-selector-items {
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+.replay-selector-item {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.replay-slider-handle {
+    transition: background-color 0.5s;
+}
+
+.replay-exit-button.replay-button {
+    transition: visibility 0.5s, opacity 0.5s, color 0.5s;
+}

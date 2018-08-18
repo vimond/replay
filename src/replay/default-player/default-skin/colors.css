@@ -1,0 +1,51 @@
+
+.replay-controls-bar, .replay-selector-items, .replay-exit-button, .replay-playback-monitor-close-button, .replay-buffering-indicator {
+    color: #ccc;
+}
+
+.replay {
+    background-color: #222;
+}
+
+.replay-controls-bar, .replay-selector-items {
+    background-color: rgba(32,32,32,0.8);
+}
+
+.replay-slider-track, .replay-selector-item:hover {
+    background-color: #888;
+}
+
+.replay-slider-handle {
+    background-color: #ccc;
+}
+
+.replay-button:hover, .replay-toggle-button:hover {
+    color: white;
+}
+
+.replay-goto-live-button.replay-toggled-on:hover {
+    color: #ccc;
+    cursor: default;
+}
+
+.replay-slider-handle:hover {
+    background-color: white;
+}
+
+.replay-time-display span:nth-child(2) {
+    border-top-color: rgba(128,128,128,0.5);
+}
+
+.replay-playback-monitor {
+    color: white;
+    background-color: rgba(20, 20, 20, 0.9);
+    cursor: default;
+}
+
+td.replay-playback-monitor-current-value {
+    opacity: 0.9;
+}
+
+td.replay-playback-monitor-previous-value {
+    opacity: 0.6;
+}

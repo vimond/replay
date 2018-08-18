@@ -2,10 +2,10 @@
 import * as React from 'react';
 import BasicVideoStreamer from '../components/player/VideoStreamer/BasicVideoStreamer/BasicVideoStreamer';
 import { baseConfiguration } from './baseConfiguration';
-import createCustomPlayer from '../composer';
-import graphics from './default-skin/defaultSkin';
+import createCustomPlayer from '../customizer';
+import graphics from './default-skin/graphics';
 import strings from './strings';
-import type { ResolveVideoStreamerMethod } from '../composer';
+import type { ResolveVideoStreamerMethod } from '../customizer';
 
 const applyStreamer: ResolveVideoStreamerMethod = (Component, children, source, textTracks) =>
   children ? (
@@ -16,8 +16,8 @@ const applyStreamer: ResolveVideoStreamerMethod = (Component, children, source, 
 
 const Replay = createCustomPlayer({
   name: 'Replay',
-  graphics: graphics,
-  strings: strings,
+  graphics,
+  strings,
   resolveVideoStreamerMethod: applyStreamer,
   configuration: baseConfiguration // Already added as default value.
 });

@@ -10,7 +10,12 @@ import type { GraphicResources, StringResources, UIResources } from './default-p
 import getPlayerUIRenderer from './default-player/playerUI';
 import { defaultClassNamePrefix } from './components/common';
 
-export type ResolveVideoStreamerMethod = (Component: ?React.ComponentType<VideoStreamerProps>, children: ?React.Element<any>, source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack>) => ?React.Element<any>;
+export type ResolveVideoStreamerMethod = (
+  Component: ?React.ComponentType<VideoStreamerProps>,
+  children: ?React.Element<any>,
+  source?: ?PlaybackSource,
+  textTracks?: ?Array<SourceTrack>
+) => ?React.Element<any>;
 
 type Customization = {
   name?: string,
@@ -21,20 +26,22 @@ type Customization = {
   uiRenderMethod?: RenderMethod,
   resolveVideoStreamerMethod?: ResolveVideoStreamerMethod,
   // future: styles: { [string]: any },
-  VideoStreamerComponent?: React.ComponentType<VideoStreamerProps>
+  videoStreamerComponent?: React.ComponentType<VideoStreamerProps>
 };
 
 // In addition comes CSS.
 
 const defaultVideoStreamerResolver: ResolveVideoStreamerMethod = (Component, children, source, textTracks) => {
-  return Component ? (<Component source={source} textTracks={textTracks}/>) 
-    : children != null ? React.cloneElement(children, { source, textTracks }) 
-      : null;
+  return Component ? (
+    <Component source={source} textTracks={textTracks} />
+  ) : children != null ? (
+    React.cloneElement(children, { source, textTracks })
+  ) : null;
 };
 
 const createCustomPlayer = ({
   name,
-  VideoStreamerComponent,
+  videoStreamerComponent,
   graphics,
   strings,
   uiRenderMethod,
@@ -74,7 +81,7 @@ const createCustomPlayer = ({
       maxBitrate={maxBitrate}
       lockedBitrate={lockedBitrate}
       externalProps={{ onExit }}>
-      {resolveVideoStreamerMethod(VideoStreamerComponent, children, source, textTracks)}
+      {resolveVideoStreamerMethod(videoStreamerComponent, children, source, textTracks)}
     </PlayerController>
   );
   if (name) {

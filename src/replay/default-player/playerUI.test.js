@@ -2,7 +2,7 @@ import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import getPlayerUIRenderer from './playerUI';
-import graphics from './default-skin/defaultSkin';
+import graphics from './default-skin/graphics';
 import strings from './strings';
 import { defaultClassNamePrefix } from '../components/common';
 
