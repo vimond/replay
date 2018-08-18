@@ -57,7 +57,6 @@ The `startPosition` property of the `source` object treat any positive numbers a
     startPosition: 13
   }}
   startPaused={true}
-  onExit={() => alert('The player was closed.')}
 />
 ```
 

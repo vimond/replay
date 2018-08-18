@@ -10,23 +10,28 @@
 
 ‣ [Configure my inserted Replay player](customize#configuring-the-player)
 
-‣ [Select which controls to be included when inserting the Replay player](customize#including-or-omitting-player-control-elements)
+‣ [Select which controls to be included when inserting the Replay player](customize#including-or-omitting-player-controls-by-configuration)
+
+‣ [Replace or change graphics or texts in the standard player UI](customize#changing-the-graphics-or-texts)
+
+‣ [Change CSS styles for the standard player UI](customize#changing-the-styles-css)
 
 TODO: 
-
-‣ [Replace or change graphics, texts, styles, in the standard player UI](#)
 
 ‣ [Apply my own user interface and control set to Replay](#)
 
 ‣ [Include my own UI, model layer, etc., custom integrations, and assemble my own full player with the Replay controller and video streamer](#)
 
-Consider keeping this separate: ‣ [Integrate with a REST API, monitor playback events and state, play video ads](#)
-
 ‣ [Create a video streamer component wrapping a specific player library or enabling a specific streaming technology](#)
+
 
 ## Technical descriptions
 
+TODO.
+
 ## Reference documentation
+
+TODO: 
 
 [Replay player](#)
 
