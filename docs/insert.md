@@ -12,7 +12,7 @@ All props are to be documented in the [Replay component API docs](#) (TODO).
 
 If not already done:
 
-```
+```sh
 npm install vimond-replay --save
 ```
 

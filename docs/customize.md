@@ -158,7 +158,7 @@ Observe that when using `createCustomPlayer()`, whether to use the `<MockVideoSt
 ```
 Observe that the rendered player contains the texts *Pa* or *Pl* instead of the familiar play/pause icons. Also observe the tooltip "Captions" on the subtitle button, while the lower subtitles menu option says "No captions".
 
-### Changing the styles (CSS)
+### Changing the CSS styles
 
 Currently, styles must be defined separately from the components. As the insert guide shows, the default styles are bundled to one file and must be included to the page either through `import` statements assisted by bundler tools (e.g. Webpack), SASS imports, or even direct references in the web page, if desired.
 
@@ -177,7 +177,96 @@ The styling approach follows some principles:
 
 Refer to the component API reference (TODO: when written) for possible class names.
 
+### Customising the player UI component tree
 
+The player UI consists of container components for the full player, controls, and some overlays. The default UI is found in playerUI.js (TODO: link). 
 
+Besides the parameters for `createCustomPlayer()` discussed above, and instead of the `graphics` and `strings` parameters, this method can also take a parameter `uiRenderMethod`. This is like a render prop in a React component, and can be used to add a custom UI:
 
-TODO: This shows a custom overlay toggling pause state.
+```javascript
+const MyCustomPlayer = createCustomPlayer({
+  name: 'MyCustomPlayer',
+  uiRenderMethod: ({ externalProps, configuration }) => <MyPlayerUI externalProps={externalProps} configuration={configuration} />
+  videoStreamerComponent: MockVideoStreamer
+});
+```
+Due to limitations to the live code editor, the following example uses one of the underlying components consuming the render prop passed through `uiRenderMethod`, instead of showing the method passed to `createCustomPlayer()`. That means that the method that shoule be pased to `uiRenderMethod`, is just inlined in the JSX code.
+
+This example includes a somewhat simplified copy of the actual default Replay UI. You can live edit the UI while playing an actual video. 
+
+A title overlay is added as a custom UI detail. Further, a component allowing for toggling play/pause by clicking the video area, is defined with the name `<MyPlayPauseOverlay/>` and included. This component is discussed below.
+
+In your real code, any components with data can be brought in. All Replay components and the element tree can be substituted.
+
+```.jsx
+<PlayerController
+  startPaused={true}
+  configuration={baseConfiguration}
+  render={({externalProps, configuration}) => (
+    <PlayerUIContainer
+      configuration={configuration}
+      classNamePrefix={classNamePrefix}
+      render={({ fullscreenState, interactionState }) => (
+        <React.Fragment>
+          <ControlledVideoStreamer classNamePrefix={classNamePrefix} />
+          <MyPlayPauseOverlay/>
+          <h5 className="title-overlay" style={{ opacity: interactionState.isUserActive ? 1 : 0, margin: 0, color: 'white', backgroundColor: 'rgba(0,0,0,0.8)', position: 'absolute', top: 0, width: '100%', padding: '1em 2em', fontSize: '18px'}}>
+            My video title
+          </h5>
+          <ControlsBar>
+            <PlayPauseButton {...strings.playPauseButton} {...graphics.playPauseButton} classNamePrefix={classNamePrefix} />
+            <SkipButton offset={10} {...strings.skipButton} {...graphics.skipButton} classNamePrefix={classNamePrefix} />
+            <Timeline {...strings.timeline} {...graphics.timeline} classNamePrefix={classNamePrefix} />
+            <TimeDisplay liveDisplayMode="clock-time" {...strings.timeDisplay} classNamePrefix={classNamePrefix} />
+            <GotoLiveButton {...strings.gotoLiveButton} {...graphics.gotoLiveButton} classNamePrefix={classNamePrefix} />
+            <Volume {...strings.volume} {...graphics.volume} />
+            <AudioSelector {...strings.audioSelector} {...graphics.audioSelector} classNamePrefix={classNamePrefix} />
+            <SubtitlesSelector {...strings.subtitlesSelector} {...graphics.subtitlesSelector} classNamePrefix={classNamePrefix} />
+            <QualitySelector
+              {...strings.qualitySelector}
+              {...graphics.qualitySelector}
+              selectionStrategy={"lock-bitrate"}
+              classNamePrefix={classNamePrefix}
+            />
+            <FullscreenButton {...fullscreenState} {...strings.fullscreenButton} {...graphics.fullscreenButton} classNamePrefix={classNamePrefix} />
+          </ControlsBar>
+          <BufferingIndicator {...strings.bufferingIndicator} {...graphics.bufferingIndicator} classNamePrefix={classNamePrefix} />
+        </React.Fragment>
+      )}
+    />
+  )}>
+  <BasicVideoStreamer
+    source={{ 
+      streamUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      startPosition: 13
+    }}
+  />
+</PlayerController>
+```
+
+#### Some things to observe
+
+* The example shows a custom overlay, displaying the video title when the user is active. It utilises a render parameter passed by the utility container component, `<PlayerUIContainer/>`, indicating the user activity state.
+* Passing the graphics and strings clutters the code significantly. Other approaches might be considered for custom UIs.
+* `A <BasicVideoStreamer/>` rendering the actual video, is the child element of the PlayerController element. This is rendered at the correct place in the UI element tree through the `<ControlledVideoStreamer/>` element.
+
+#### `<MyPlayPauseOverlay/>`: A connected control
+
+This custom component in the example above is defined with the following code:
+
+```javascript
+const MyPlayPauseOverlay = connectControl(
+  ({ isPaused, updateProperty }) => 
+    <div 
+      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', cursor: 'pointer'}} 
+      onClick={() => updateProperty({ isPaused: !isPaused })}
+    />, 
+  ['isPaused']
+);
+```
+
+Observe the `connectControl()` call wrapping it as a higher-order component. This connects the component to the player controller, whose responsibility is to expose the video streamer component and its state and API to components anywhere in the player UI tree. In this case, we specify that the `isPaused` property should be exposed as a prop to our custom React component. `connectControl()` also passes down an `updateProperty()` method to the component, allowing for manipulating the video playback.
+
+Note that all other Replay provided controls, operating on the playing video (video streamer), are already connected with `connectControl()`, when used in the default player UI.
+
+More about the player controller, video streamer, and controls relationship in this article. TODO: link.

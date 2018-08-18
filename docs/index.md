@@ -1,5 +1,7 @@
 # Replay
 
+The documentation consists of guides with live code examples, and yet an unwritten API (component) reference set.
+
 ## Guides
 
 ### I want to:
@@ -16,14 +18,13 @@
 
 ‣ [Change CSS styles for the standard player UI](customize#changing-the-styles-css)
 
-TODO: 
+‣ [Apply my own user interface and control set to Replay](customize#customising-the-player-ui-component-tree)
 
-‣ [Apply my own user interface and control set to Replay](#)
+TODO:
 
 ‣ [Include my own UI, model layer, etc., custom integrations, and assemble my own full player with the Replay controller and video streamer](#)
 
 ‣ [Create a video streamer component wrapping a specific player library or enabling a specific streaming technology](#)
-
 
 ## Technical descriptions
 
