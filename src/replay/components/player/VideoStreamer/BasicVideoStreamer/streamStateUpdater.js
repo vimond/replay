@@ -141,7 +141,7 @@ function getStreamStateUpdater(
       update({ error: videoElement.error });
       if (playbackError.severity === 'FATAL') {
         lifeCycleStage = 'dead';
-        update({ playState: 'inactive' });
+        update({ playState: 'inactive', isBuffering: false, isSeeking: false });
       }
       pauseStreamRangeUpdater.stop();
     });
