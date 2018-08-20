@@ -1,5 +1,7 @@
 # Using the Replay player
 
+*This document will enable live edit and render the code examples when run with x0 doc server.*
+
 *Note that all examples underneath with actual video include the `startPaused={true}` prop, so that the examples don't play wildly all over the page. Please remove when copying to real app code.*
 
 All props are to be documented in the [Replay component API docs](#) (TODO).
@@ -24,7 +26,7 @@ All code examples below need the following import statements:
 import React from 'react';
 import { Replay } from 'vimond-replay';
 import 'vimond-replay/lib/index.css'; 
-// Or substitute the CSS module approach with your desired CSS inclusion mechanism.
+// Or substitute the CSS module import statement with your desired CSS inclusion mechanism.
 ```
 
 #### Video/stream technology support
@@ -33,13 +35,11 @@ Out of the box, Replay supports progressive videos that can be played natively i
 
 ### Inserting the player and starting it with progressive video
 
-Include the `source` prop in order to load a video. This prop should be an object containing several pieces of technical details in order to play the video/stream appropriately. Essential is the `streamUrl` property, referring to the video file or adaptive stream URL (if applicable).
+Include the `source` prop in order to load a video. This prop can be a string with the video URL, or an object containing several pieces of technical details in order to play the video/stream appropriately. Essential is the `streamUrl` property, referring to the video file or adaptive stream URL (if applicable). The object variant is shown in later examples.
 
 ```.jsx
 <Replay
-  source={{ 
-    streamUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
-  }}
+  source="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   startPaused={true}
 />
 ```
@@ -48,7 +48,9 @@ When the object specified as the `source` prop is changed, a new playback will s
 
 ### Starting playback from a different position than the beginning
 
-The `startPosition` property of the `source` object treat any positive numbers as the number of seconds offset from the beginning.
+The `startPosition` property treats any positive numbers as the number of seconds offset from the beginning.
+
+Note that specifying source as a string doesn't work anymore, and an object with the property streamUrl must be passed as the `source` prop.
 
 ```.jsx
 <Replay
@@ -62,13 +64,11 @@ The `startPosition` property of the `source` object treat any positive numbers a
 
 ### Setting volume and mute state for startup
 
-This video will start playing without audio. When unmuting, the volume will be set to 20%,
+This video will start playing without audio. When unmuting, the volume level will be set to 20 %.
 
 ```.jsx
 <Replay
-  source={{ 
-    streamUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
-  }}
+  source="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   startPaused={true}
   startMuted={true}
   startVolume={0.2}
@@ -77,7 +77,7 @@ This video will start playing without audio. When unmuting, the volume will be s
 
 ### Specifying text tracks along with the video source
 
-Subtitle files of different languages and kinds can be specified as text tracks along with the stream URL. There are requirements to the metadata following the subtitle file URLs.
+Subtitle files of different languages and kinds can be specified as text tracks along with the stream URL. There are requirements to the metadata fields following the subtitle file URLs.
 
 ```.jsx
 <Replay
@@ -101,7 +101,7 @@ Subtitle files of different languages and kinds can be specified as text tracks 
 />
 ```
 
-Observe that this adds the **T** subtitles button to the controls bar. Also note that the subtitles are not selected for display by default. Specifying the preferred subtitles is a planned Replay feature.
+Observe that this reveals the **T** subtitles button and selector in the controls bar. Also note that the subtitles are not selected for display by default. Specifying the preferred subtitles upon inserting the player, is a planned Replay feature.
 
 ### Setting (new) text tracks for an opened video source
 
@@ -109,9 +109,7 @@ If the text tracks are not available when starting the stream, or when a current
 
 ```.jsx
 <Replay
-  source={{ 
-    streamUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
-  }}
+  source="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   startPaused={true}
   textTracks={[{
 	src: 'example-media/en.vtt',
@@ -131,6 +129,8 @@ If the text tracks are not available when starting the stream, or when a current
 
 ### Activating the close button with an onExit callback
 
+Observe the close (×) button overlaid in the upper right corner, when the `onExit` callback prop is specified:
+
 ```.jsx
 <Replay
   source={{ 
@@ -142,16 +142,19 @@ If the text tracks are not available when starting the stream, or when a current
 />
 ```
 
+The container component inserting the `<Replay/>` component is responsible for removing it from the rendered UI tree.
+
 ### Getting notified about stream and playback errors
 
 The `onError` prop expects a function taking one parameter containing a `PlaybackError` object wrapping the underlying raw error.
 
 ```.jsx
 <Replay
-  source={{ streamUrl: '404' }}
-  onError={err => console.log('This is an example playback error intentionally triggered.', { code: err.code, message: err.messages })}
+  source="http://example.com"
+  onError={err => console.log('This is an example playback error intentionally triggered.', { code: err.code, message: err.message })}
 />
 ```
+The error message found in the code example should be present in the web browser's Javascript console.
 
 ### Mock player for design mode
 
@@ -174,7 +177,7 @@ Also, it is convenient blocking the automatic hide of the controls bar in develo
 </Replay>
 ```
 
-## Playing professional streams
+## Playing advanced streams
 
 #### Using adaptive video streamers
 

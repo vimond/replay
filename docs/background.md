@@ -1,4 +1,4 @@
-# Introduction: The challenges and requirements
+# Background: The challenges and requirements
 
 ## Defining the video player
 
@@ -6,9 +6,13 @@ The task of playing back video in a web page, is more or less handled by the bro
 
 In the scope of this project, and quite commonly in frontend development, a (customised) video player in a web page is defined by a set of page elements: The element displaying/rendering the video stream (and all the inner mechanics behind this task), combined with element hierarchy constituting the player user interface, with controls, overlays, styling, and a layout. This becomes a branch of the page DOM tree looking a bit like its own ecosystem. Often, the video player should operate quite autonomously after being instantiated and told what to play.
 
-The video player could be enriched with extra features for the end-user or behind-the-scenes, and it could be desired to keep these extensions as part of the subtree-scoped player ecosystem. Examples are REST API consumption, content recommendation overlays or menus, game events related to a sports live stream, video ad system integrations, or tracking/analytics integrations. 
+The video player could be enriched with extra features for the end-user or behind-the-scenes, and it could be desired to keep these extensions as part of the subtree-scoped player ecosystem. Examples are REST API consumption, content recommendation overlays or menus, game events related to a sports live stream, video ad system integrations, or tracking/analytics integrations.
 
-This project is built with customisation and extensibility in mind for these purposes, however it only implements features covering the core playback tasks along with a core playback UX. It also aims to allow for advanced, multiple playback/streaming technologies with a consistent wrapping of, and plug-in approach to, existing implementations/libraries.
+## Goals of this player project
+
+This project is built with customisation and extensibility in mind for these purposes, however at this time it only implements features covering the core playback tasks along with a core playback UX. It also prepares to allow for advanced, multiple playback/streaming technologies with a consistent wrapping of, and plug-in approach to, existing implementations/libraries. The same wrapping might also be used to plug in embed playback from e.g. YouTube or Vimeo in the same consistent wrapping, but the roots of this project are professional streaming requirements from independent services.
+
+Part of reaching these goal is extensively adopting modern React patterns giving structure, clarity, and predictability to the running player code. Core video playback in the browser unfortunately gives a lot of surprises and inconsistencies to a player developer (example: *Why is the HTML video element state in some browsers "paused" when seeking to a different position?*). One goal is to express the observed playback state to observers, like player controls, in a clean manner. This is different to several other React video player alternatives out there.
 
 ## The task of the video player UI: Consuming and controlling the video playback state
 
@@ -45,7 +49,9 @@ A Replay player contains components with three main roles: 1) Player UI componen
 
 The core principle of Replay is distilling the different state properties related to the video playback, and expose it to the full player UI element tree. At the same time, all controls and components can invoke actions manipulating some of the properties of playback. All this with as little boilerplate code, like `ref`-plumbing or [prop-drilling](https://blog.kentcdodds.com/prop-drilling-bb62e02cb691), as possible.
 
-### A familiar React pattern exists
+## Discarded implementation alternatives
+
+### The familiar React pattern
 
 Passing down state across components, and invoking actions manipulating the state, is a well-known and central React pattern, and often implemented with Redux. Could playback state like play/pause mode, duration, available subtitle tracks, etc. be transferred and exposed in a Redux state slice? Could manipulating the player be Flux actions, setting volume, seeking, toggling pause?
 
@@ -66,78 +72,6 @@ Any components within the player subtree dependent on playback state and/or cont
 Further, using the context means not passing down playback state props through the player UI render tree to components consuming them. This eliminates the full subtree rerender requirement. Each component individually can subscribe to specific props and only get updated when those props update.
 
 The player controller hosts the player UI and the video streamer, and also manages configuration.
-
-## Summary of the playback state properties and actions/operations that can be performed with Replay and its VideoStreamer 
-
-### Playback state
-
-* Current playback position and duration of the stream or video file. For live streams also clock time for a stream position.
-* Play state: Is the stream paused, has it ended, is it buffering, is a seeking operation going on?
-* Stream mode: On demand, live, timeshifting availability.
-* Current bitrate and available qualities for a stream.
-* Buffer level.
-* Currently displayed subtitles (if any) and available subtitles (typically different language options).
-* Current audio track playing and all available audio tracks (typically different language options).
-* Volume level and mute state.
-
-### Playback operations
-
-* Seek to a different stream position or timeshift or resume from live edge in a live stream.
-* Pause/play toggle.
-* Override adaptive bitrate selection with a specific quality setting or capping the quality selection.
-* Select subtitles or switch audio tracks.
-* Adjust the volume or mute/unmute the playback.
-* Specifying what to play: Stream URLs, subtitles URLs, and associated technical details.
-
-# Design and architecture
-
-## Tools and coding practices
-
-### Flow
-
-Component prop types are specified with Flow. And more importantly, the video streamer API is defined with Flow types. This is essential to understanding how controls should operate on the video playback, and for creating different VideoStreamer components wrapping different playback technologies.
-
-### Other quality tools
-
-Jest/Enzyme unit and component testing, Prettier/ESLint.
-
-## UI: No-nonsense React components
-
-### Controls
-
-#### Generic components and specialised player controls
-
-
-
-
-#### A common control API pattern
-
-* Props with names matching one or several playback state properties related to the control purpose.
-* Callback prop updateProperty or setPosition/gotoLive.
-* Appearance props for control content (graphics, text) and styling/class names.
-* In some cases, simple configuration props for alternative control behaviour/appearance
-
-#### Connected controls
-
-The controls are on its own not connected to the video streamer. Through a higher order component (HOC), all Replay controls are connected to the player context. Custom controls can also get connected by applying the same higher order component, [`ConnectControl`](api.md#ConnectControl).
-
-What playback state properties a component is consuming, is specified when applying the HOC. This ensures that the rendered component is only updated when the desired properties are changed. This prevents frequent updates coming mainly from playback position updates.
-
-### Other player UI tasks (containment helpers)
-
-## VideoStreamer: Consistency, completion, first-class React
-
-The idea is that any streaming/playback technology wrapped in a video streamer component should expose all of this consistently, as long as the feature is supported. 
-
-The video element is behaving differently across browsers. It has a not so well-designed API, exposing state changes inconsistently through a big number of events. 
-
-#### VideoStreamer API and expected behaviour
-
-## PlayerController, and assembling all parts into a full player
-
-#### Using the composer helper
-
-#### Simply defining a player component wiring up all parts
 
 
 

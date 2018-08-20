@@ -1,6 +1,6 @@
 # Customising the Replay player
 
-*All player code examples in this guide use the [MockVideoStreamer](insert#mock-player-for-design-mode), so that the live examples don't load actual videos.*
+*Most of the player code examples in this guide use the [MockVideoStreamer](insert#mock-player-for-design-mode), so that the live examples don't load actual videos.*
 
 ## Configuring the player
 
@@ -64,7 +64,7 @@ The overrides in this example changes the following, compared to the base config
 
 * The player controls are hidden after 10 seconds, instead of 2.
 * For a live stream, the position will be displayed as an offset from the live edge, instead of time-of-day clock time (if applicable).
-* All the keyboard keys `Enter`, `Space`, and `P` (key codes 32, 13, 80) can be used to toggle pause/playing. In the base configuration only `Enter` and `Space` (32, 13) were defined as keyboard shortcuts.
+* All the keyboard keys `Enter`, `Space`, and `P` (key codes 32, 13, 80) can be used to toggle pause/playing. In the base configuration only `Enter` and `Space` (32, 13) were defined as shortcuts for this operation.
 
 ### Including or omitting player controls by configuration
 
@@ -79,6 +79,9 @@ For a full list of possible control names, see TODO.
   options={{ 
     ui: { 
       includeControls: ['playPauseButton', 'timeline', 'timeDisplay', 'volume', 'fullscreenButton']
+    },
+    interactionDetector: { 
+      inactivityDelay: 10 
     }
   }}>
 	<MockVideoStreamer/>
@@ -164,16 +167,7 @@ Currently, styles must be defined separately from the components. As the insert 
 
 Then, changing the styles is a matter of either replacing the default stylesheet, or adding style rules overriding the default stylesheet.
 
-The styling approach follows some principles:
-
-* All controls and container components have prefixed class names. The default prefix is `replay-`, and a full class name will then for instance be `replay-play-pause-button`. The prefix can be changed when creating custom players. In this way, the player can get different skins coexisting in the same CSS scope. I.e. a common site-wide CSS bundle can contain different skins for Replay players branded differently according to e.g. content category.
-* Controls typically have several class names: One corresponding to the control's name and purpose, and one for the generic component(s) used in the control, and maybe one or more for the state of the control. For instance the PlayPauseButton's root element gets the following class attribute with the default prefix: `class="replay-play-pause-button replay-toggle-button replay-toggled-off"`.
-* Some style rules apply to multiple controls. I.e. all control buttons share a lot of styling through common class names.
-* The container element for the full UI sets a lot of class names based on the player state. This can be, and is used to create style rules with descendant selector.
-* For reference, the default stylesheet are built with several CSS files with the following setup. However, replacement stylesheets can be organised independently of the default one.
-  * Some distinct general CSS files when there is a requirement for styles specifically for a component/control. These are located in the `components/` hierarchy.
-  * Style rules for the default skin, organised in different files, located in `default-player/default-skin/`: `sizesAndLayout.css`, `colors.css`, `animations.css`, and assembled with some more styles in `index.css`.
-  * `replay-default.css` includes all above and constitutes the full default stylesheet.
+Principles for [styling and class names](technical-topics#styling-and-class-name-principles).
 
 Refer to the component API reference (TODO: when written) for possible class names.
 

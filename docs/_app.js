@@ -31,21 +31,25 @@ const components = {
 };
 
 const routeNames = {
-  insert: 'Player insertion and usage',
-  'architecture-design': 'Architecture and design',
-  customize: 'Customising the player',
-  'inner-workings-guide': 'excluded',
-  'tech-notes': 'excluded'
+  index: { name: 'Start page', priority: 1 },
+  insert: { name: 'Player insertion and usage', priority: 2 },
+  customize: { name: 'Customising the player', priority: 3 },
+  'technical-topics': { priority: 4 },
+  'architecture-patterns': { name: 'Architecture and patterns', priority: 5 },
+  background: { priority: 6 },
+  'inner-workings-guide': { priority: 0 },
+  'tech-notes': { priority: 0 }
 };
 
 const processRoutes = routes =>
-  routes.filter(route => routeNames[route.name] !== 'excluded').map(route => {
+  routes.filter(route => !routeNames[route.name] || routeNames[route.name].priority > 0).map(route => {
     if (!routeNames[route.name]) return route;
     return {
       ...route,
-      name: routeNames[route.name]
+      name: routeNames[route.name].name || route.name,
+      priority: routeNames[route.name].priority
     };
-  });
+  }).sort((a, b) => ((a && a.priority) || 255) - ((b && b.priority) || 255));
 
 const classNamePrefix = defaultClassNamePrefix;
 
