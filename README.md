@@ -8,8 +8,10 @@ It is also a **replay**cement (pun intended) for the legacy and non-React Vimond
 
 It allows for wrapping and plugging in advanced streaming and playback technologies as first-class React components. The goal is "thinking in React" as much as possible.
 
-However, it also aims to "get the job done" when it comes to simply embedding a video file to be splayed in a web page (or React app, that is), with custom controls.
+However, it also aims to "get the job done" when it comes to simply embedding a video file to be played in a web page (or React app, that is), with custom controls.
 
-Curiousity about the code, technologies explored, and problems to be solved, is welcome.
+Curiosity about the code, the technologies explored, and problems to be solved, are all welcome.
+
+Except bug fixes, the project has a finite set of tasks to be done, all listed as [issues](https://github.com/vimond/replay/issues).
 
 For questions about this repo, contact [Tor Erik Alræk](mailto:torerik@vimond.com).
