@@ -1,6 +1,6 @@
 # Replay
 
-React is a personal training project coded outside office hours.
+This is a personal training project coded outside office hours.
 
 Replay is a **Re**act **play**er controls component library and a full player component, planned to be independent to Vimond environments and earlier projects.
 
