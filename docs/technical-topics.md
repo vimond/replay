@@ -2,8 +2,6 @@
 
 For developers contributing to this project, or extending or consuming the player or components library.
 
-TODO: Split into shorter documents.
-
 ## package.json/yarn commands
 
 [Yarn](https://yarnpkg.com/) is used instead of `npm`. The workflows are not tested with `npm`.
@@ -77,7 +75,7 @@ However, Flow is not perfect, and there are examples of `// $FlowFixMe` in the c
 
 All code being part of the exposed library should be annotated with Flow types, with the `// @flow` "directive" at the start of the file.
 
-Consumers of the library should automatically have the Flow types of Replay, components, and other exposed parts, available.
+The npm package is set up so that consumers automatically will have the Flow types of Replay, components, and other exposed parts, available.
 
 ## Styling and class name principles
 
@@ -89,13 +87,17 @@ All controls and container components have prefixed class names. The default pre
 
 ### Not [BEM](http://getbem.com/naming/), but...
 
-Controls typically have several class names: One corresponding to the control's name and purpose, and one for the generic component(s) used in the control, and maybe one or more for the state of the control. For instance the PlayPauseButton's root element gets the following class attribute with the default prefix: `class="replay-play-pause-button replay-toggle-button replay-toggled-off"`.
+Controls typically have several class names: One corresponding to the control's name and purpose, and one for the generic component(s) used in the control, and maybe one or more for the state of the control. For instance the PlayPauseButton's root element gets the following class attribute with the default prefix: 
 
-### Reuse-oriented stylesheets
+```html
+<div class="replay-play-pause-button replay-toggle-button replay-toggled-off">...</div>
+```
 
-The CSS is organised with rules that apply to many distinct components or controls, and with modifier rules based on class names set further up in the DOM hierarchy. This is the traditional approach, contrary to an "object-oriented" stylesheet, where CSS rules are tightly coupled to components.
+### DRY and common-rule oriented stylesheets
 
-This is most DRY, in the sense that common styles and properties are only defined once, and some exceptions are simply overriding what's common.
+The CSS is organised with as few rules as possibly applying to many distinct components or controls, and with modifier rules based on class names set further up in the DOM hierarchy. This is the traditional approach, contrary to an "object-oriented" stylesheet, where CSS rules are tightly coupled to components and possibly repeated several times.
+
+The intended outcome is to be DRY, in the sense that common styles and properties are only defined once, and some exceptions are simply overriding what's common through more targeted selectors.
 
 In practice:
 
@@ -109,21 +111,46 @@ For reference, in the Replay code base, the default stylesheet is built with sev
 * Style rules for the default skin, organised in different files, located in `default-player/default-skin/`: `sizesAndLayout.css`, `colors.css`, `animations.css`, and assembled with some more styles in `index.css`.
 * `replay-default.css` includes all above and constitutes the full default stylesheet.
 
-## Specifying what to play, i.e. the video sources
+## Specifying what to play, i.e. the video source
 
-The VideoStreamer prop `source` can be a string for the video URL in the basic cases. When passing an object with at least a `streamUrl` property instead, several other technical details can optionally be specified at the same time.
+The VideoStreamer prop `source` can be a string containing the video or stream URL in the basic cases. When instead passing an object with at least a `streamUrl` string property, several other technical details can optionally be specified at the same time:
 
 * Side-loaded subtitles.
 * A position to start playback from, offset from the start of the video.
 * DRM information for premium streams.
 * Playback technology for the stream specified in the `streamUrl` property. This is relevant for other VideoStreamer implementations covering more than technology.
 
-The VideoStreamer closes down any current playback and starts a new one if the source object changes. In other words, *referential inequality* for the `source` object will also change the playback. If changing the `streamUrl` property of the existing object passed to the video streamer `source` prop, this will not be detected as a changed source in the video streamer.
+The VideoStreamer closes down any current playback and starts a new one if the source object changes. In other words, *referential inequality* for the `source` object will also change the playback. 
 
-Specify a nullish `source` prop in order to shut down playback, or not start a playback when the video streamer or Replay player is inserted.
+If changing only the `streamUrl` property of the existing object passed to the video streamer `source` prop, this will not be detected as a changed source in the video streamer.
+
+Specify a nullish `source` prop, in order to shut down playback, or not start a playback when the video streamer or Replay player is inserted.
+
+The following example indicates several different properties that more or less could be passed in the `source` object in advanced or more specific playback use cases.
 
 ```javascript
-// TODO: Example of complex source object here.
+const source = {
+  playbackTechnology: 'dash',
+  streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mmpd',
+  licenseUrl: 'https://license.example.com/BigBuckBunny/drmLicense',
+  licenseRequestDetails: {
+    widevineServiceCertificateUrl: 'https://license.example.com/drmCertificate'
+  },
+  startPosition: 313,
+  textTracks: [{
+    src: 'https://example.com/example-media/en.vtt',
+    kind: 'subtitles',
+    language: 'en',
+    label: 'English',
+    contentType: 'text/vtt'
+  }, {
+    src: 'https://example.com/sexample-media/no.vtt',
+    kind: 'subtitles',
+    language: 'no',
+    label: 'Norwegian',
+    contentType: 'text/vtt'
+  }]
+};
 ```
 
 ## How to control or observe all aspects of playback
@@ -140,16 +167,16 @@ It also passes down a couple of methods as props to the component:
 
 More info:
 
-* TODO: connectControl() API reference.
+* TODO: connectControl() API reference link.
 * [Example of connecting a custom control](customize.md#Customising_the_player_UI_component_tree).
 
-In the following chaptes, video streamer state properties and playback manipulation APIs are listed by topic. Note that there are only a handful properties to be set, and there is no symmetry between state properties and settable props, not even in naming.
+In the following chapters, video streamer state properties and playback manipulation APIs are listed by topic. Note that there are only a handful properties to be set, and there is no symmetry between state properties and settable props, not even in naming.
 
-TODO: Link to API reference.
+TODO: Link to API reference for all API members below.
 
 ### Positions, clock times, durations, DVR
 
-Current playback position and duration of the stream or video file are exposed in properties with these two names. Both for live DVR streams and on demand streams, the rule `0 <= position <= duration` applies. The position can be manipulated (set) within the same range with `setPosition(newPosition)`, and again both with live DVR and on demand streams.
+Current playback position and duration of the stream or video file are exposed in properties with these two names. Both for live DVR streams and on demand streams, the range limitation `0 ≤ position ≤ duration` applies. The position can be manipulated (set) within the same range with `setPosition(newPosition)`, and again both with live DVR and on demand streams.
 
 For live streams, duration constitutes the DVR seekable range, and can change during playback. When playing at the live edge, `position ≈ duration`.
 
@@ -177,7 +204,7 @@ The state property `playMode: PlayMode` can contain three string values, `'ondem
 
 ### Current bitrate and available qualities for a stream
 
-Does not apply to the BasicVideoStreamer, due to missing capabilities of the `HTMLVideoElement`. 
+Does not apply to `<BasicVideoStreamer/>`, due to missing capabilities of the `HTMLVideoElement`. It is however relevant for adaptive streaming player libraries wrapped as video streamer components.
 
 All numbers are in kbps.
 
@@ -209,12 +236,14 @@ Audio tracks are often representing different audible languages. The two audio t
 
 ### Volume level and mute state
 
-These simple rules apply: `0 <= volume <= 1`, and the two properties are updated independently, so that `volume` can e.g. have the value `0.33`, while `isMuted` is `true`.
+These simple rules apply: `0 ≤ volume ≤ 1`, and the two properties are updated independently, so that `volume` can e.g. have the value `0.33`, while `isMuted` is `true`.
 
 * State properties: `volume: number`, `isMuted: boolean`.
 * Playback manipulation: `updateProperty({ volume: number })`, `updateProperty({ isMuted: boolean })`
 
 ## Containment for the player UI
+
+TODO: Link to API reference.
 
 There are some concerns not directly related to visual player UI components, but important for presenting the complete player UI with video. These are addressed in separate functions or components, but also gathered in `<PlayerUIContainer />` and used in the Replay default player component. They can be picked separately for other player UIs.
 
@@ -240,6 +269,20 @@ There are some concerns not directly related to visual player UI components, but
 * Mute toggling.
 * Volume up/down.
 
-### Expressing player state through CSS classes
+### Exposing player state through CSS classes
 
-According to playback state, several prefixed class names can be added to the container element. This allows for CSS decendant rules toggling the appearance of player controls and other UI parts. For instance, the class name `'replay-is-live'` can be added for the container `<div/>` if the currently playing stream is live. Easiest understood by inspectimg the Replay `<div/>` in the browser's dev tools during playback.
+According to playback state, several prefixed class names can be added to the container element. This allows for CSS decendant rules toggling the appearance of player controls and other UI parts. For instance, the class name `'replay-is-live'` can be added for the container `<div/>` if the currently playing stream is live. Easiest understood by inspecting the Replay `<div/>` in the browser's dev tools during playback.
+
+With the class name above, for instance an overlay saying "LIVE" can be made visible based on a rule lke this:
+
+```css
+.replay-my-live-overlay {
+  display: none;
+}
+
+.replay-is-live .replay-my-live-overlay {
+  display: block;
+}
+```
+
+
