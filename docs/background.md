@@ -63,7 +63,7 @@ Further, Redux state works best with "singletons" in a page. Contrary, quite com
 
 For simple/flat player UI trees this could be useful. Still the state and playback API needs to be "lifted up" from the video streamer component so it can be exposed downwards to player UI components, and significant amounts of "plumbing" is needed. Besides, it is hard to design this with optimal performance in mind. Every time the playback position is updated, the prop set is changed, and from the top of the player UI tree, a rerender will be required down to the components actually consuming the playback position. This does have a performance impact.
 
-## The player controller and its perfect React fit
+## The player controller and its React fit
 
 The Context API, introduced with React 16.3, is on the other hand a good fit. It makes it easy to share and scope state in a branch/part of the rendered React element tree. Any player instance will keep data private between instances, other parts of the React app don't need to deal with playback state (unless it is desired). The player becomes an isolated component abstracting its inner concerns.
 
