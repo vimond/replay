@@ -198,7 +198,7 @@ Custom component rendering PlayerController with desired UI (see below) and desi
 	4. ✓ Keyboard shortcuts
 	5. ✓ State class names 
 	6. Player size responsiveness. ResizeObserver in Chrome. https://codeburst.io/media-queries-based-on-element-width-with-mutationobserver-cf2eff172787 elsewhere.
-	7. User settings storage.
+	7. ✓ User settings storage.
 7. ✓ Catch up on writing missing tests.
 8. ✓ Prepare revised video engine with streamlined/modernised APIs.
 9. ✓ Build default player as npm package with all features.
@@ -278,12 +278,11 @@ Specific improvements and things to verify
 * ✓ Live HLS support for `<BasicVideoStreamer />`.
 * Improved timeline: Progress track part. Time display/preview of seek position. The latter should be a separate component.
 * Respect new set of playback technologies in VideoStreamer, replacing dashImpl prop.
-* Test MP4 streamer with start position.
-* Let `<Volume/>` sync volume slider and mute state.
+* ✓ Test MP4 streamer with start position.
+* ✓ Let `<Volume/>` sync volume slider and mute state.
 
 Next leap year:
 
 * Vertical slider...
-* Exit button for Streamlab? Perhaps a simple overlay injection.
 * Logging across components, if actually needed. Runtime configurable, but individual on players? https://github.com/pimterry/loglevel
 
