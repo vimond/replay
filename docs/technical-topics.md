@@ -269,6 +269,16 @@ There are some concerns not directly related to visual player UI components, but
 * Mute toggling.
 * Volume up/down.
 
+### Remembering user's preferences for audio tracks, text tracks, and volume/mute.
+
+There are two helpers facilitating storage and reapplication of the user's selections for volume, mute, audio or text track language, audio or text track kind.
+
+`<PreferredSettingsApplicator/>` applies the stored settings when the playback is starting. This includes finding the text or audio track with the best match for the stored language and kind codes.
+
+`withSettingsStorage(Component: React.Component)` creates a higher order component from any control, monitoring the user's selections propagated through the `updateProperty({ prop: value })` callback. I.e. when `updateProperty({ isMuted: true })` is called from the wrapped component, it will be stored to the settings storage, before propagated to the controller (assuming the HOC is connected to the player controller).
+
+The different settings can be configured individually to be stored in either the browser's `localStorage` or `sessionStorage`. It is also possible to pass props with the same name as the different settings to the ´<PreferredSettingsApplicator/>´ component, which allows for having a different source or outside source for the preferences.
+
 ### Exposing player state through CSS classes
 
 According to playback state, several prefixed class names can be added to the container element. This allows for CSS decendant rules toggling the appearance of player controls and other UI parts. For instance, the class name `'replay-is-live'` can be added for the container `<div/>` if the currently playing stream is live. Easiest understood by inspecting the Replay `<div/>` in the browser's dev tools during playback.

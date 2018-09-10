@@ -12,30 +12,32 @@ import ExitButton from '../components/controls/ExitButton/ExitButton';
 // Connected controls
 import PlaybackMonitor from '../components/controls/PlaybackMonitor/PlaybackMonitor';
 import {
-  AudioSelector,
   BufferingIndicator,
   GotoLiveButton,
   PlayerUIContainer,
   PlayPauseButton,
   QualitySelector,
+  SettingsStorage,
   SkipButton,
-  SubtitlesSelector,
   TimeDisplay,
-  Timeline,
-  Volume
+  Timeline
 } from '../components/player/PlayerController/connectedControls';
-
 import { ControlledVideoStreamer } from '../components/player/PlayerController/connectControl';
 import RenderIfEnabled from '../components/player/RenderIfEnabled';
+import PreferredSettingsApplicator from '../components/player/settings-helpers/PreferredSettingsApplicator';
 
+const { AudioSelector, SubtitlesSelector, Volume } = SettingsStorage;
 const getSkipBackOffset = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.skipButtonOffset;
 const getLiveDisplayMode = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.liveDisplayMode;
-const getQualitySelectionStrategy = (conf: PlayerConfiguration) =>
-  conf && conf.ui && conf.ui.qualitySelectionStrategy;
+const getQualitySelectionStrategy = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.qualitySelectionStrategy;
 
 // In this file, all custom parts making up a player UI are assembled. Create a copy for assembling custom player UIs.
 
-const getPlayerUIRenderer = (graphics: UIResources<GraphicResources>, strings: UIResources<StringResources>, classNamePrefix?: string = defaultClassNamePrefix) => {
+const getPlayerUIRenderer = (
+  graphics: UIResources<GraphicResources>,
+  strings: UIResources<StringResources>,
+  classNamePrefix?: string = defaultClassNamePrefix
+) => {
   const renderPlayerUI: RenderMethod = ({ configuration, externalProps }) => (
     <PlayerUIContainer
       classNamePrefix={classNamePrefix}
@@ -45,9 +47,14 @@ const getPlayerUIRenderer = (graphics: UIResources<GraphicResources>, strings: U
           <ControlledVideoStreamer classNamePrefix={classNamePrefix} />
           <RenderIfEnabled configuration={configuration.ui && configuration.ui.includeControls}>
             {externalProps &&
-            externalProps.onExit && (
-              <ExitButton {...strings.exitButton} {...graphics.exitButton} onClick={externalProps.onExit} classNamePrefix={classNamePrefix} />
-            )}
+              externalProps.onExit && (
+                <ExitButton
+                  {...strings.exitButton}
+                  {...graphics.exitButton}
+                  onClick={externalProps.onExit}
+                  classNamePrefix={classNamePrefix}
+                />
+              )}
             <PlaybackMonitor
               configuration={configuration}
               closeButtonContent={graphics.playbackMonitor && graphics.playbackMonitor.closeButtonContent}
@@ -55,24 +62,68 @@ const getPlayerUIRenderer = (graphics: UIResources<GraphicResources>, strings: U
           </RenderIfEnabled>
           <ControlsBar>
             <RenderIfEnabled configuration={configuration.ui && configuration.ui.includeControls}>
-              <PlayPauseButton {...strings.playPauseButton} {...graphics.playPauseButton} classNamePrefix={classNamePrefix} />
-              <SkipButton offset={getSkipBackOffset(configuration)} {...strings.skipButton} {...graphics.skipButton} classNamePrefix={classNamePrefix} />
-              <Timeline {...strings.timeline} {...graphics.timeline} classNamePrefix={classNamePrefix} />
-              <TimeDisplay liveDisplayMode={getLiveDisplayMode(configuration)} {...strings.timeDisplay} classNamePrefix={classNamePrefix} />
-              <GotoLiveButton {...strings.gotoLiveButton} {...graphics.gotoLiveButton} classNamePrefix={classNamePrefix} />
-              <Volume {...strings.volume} {...graphics.volume} />
-              <AudioSelector {...strings.audioSelector} {...graphics.audioSelector} classNamePrefix={classNamePrefix} />
-              <SubtitlesSelector {...strings.subtitlesSelector} {...graphics.subtitlesSelector} classNamePrefix={classNamePrefix} />
+              <PlayPauseButton
+                {...strings.playPauseButton}
+                {...graphics.playPauseButton}
+                classNamePrefix={classNamePrefix}
+              />
+              <SkipButton
+                offset={getSkipBackOffset(configuration)}
+                {...strings.skipButton}
+                {...graphics.skipButton}
+                classNamePrefix={classNamePrefix}
+              />
+              <Timeline 
+                {...strings.timeline} 
+                {...graphics.timeline} 
+                classNamePrefix={classNamePrefix} 
+              />
+              <TimeDisplay
+                liveDisplayMode={getLiveDisplayMode(configuration)}
+                {...strings.timeDisplay}
+                classNamePrefix={classNamePrefix}
+              />
+              <GotoLiveButton
+                {...strings.gotoLiveButton}
+                {...graphics.gotoLiveButton}
+                classNamePrefix={classNamePrefix}
+              />
+              <Volume {...strings.volume} {...graphics.volume} configuration={configuration} />
+              <AudioSelector
+                {...strings.audioSelector}
+                {...graphics.audioSelector}
+                classNamePrefix={classNamePrefix}
+                configuration={configuration}
+              />
+              <SubtitlesSelector
+                {...strings.subtitlesSelector}
+                {...graphics.subtitlesSelector}
+                classNamePrefix={classNamePrefix}
+                configuration={configuration}
+              />
               <QualitySelector
                 {...strings.qualitySelector}
                 {...graphics.qualitySelector}
                 selectionStrategy={getQualitySelectionStrategy(configuration)}
                 classNamePrefix={classNamePrefix}
               />
-              <FullscreenButton {...fullscreenState} {...strings.fullscreenButton} {...graphics.fullscreenButton} classNamePrefix={classNamePrefix} />
+              <FullscreenButton
+                {...fullscreenState}
+                {...strings.fullscreenButton}
+                {...graphics.fullscreenButton}
+                classNamePrefix={classNamePrefix}
+              />
             </RenderIfEnabled>
           </ControlsBar>
-          <BufferingIndicator {...strings.bufferingIndicator} {...graphics.bufferingIndicator} classNamePrefix={classNamePrefix} />
+          <BufferingIndicator
+            {...strings.bufferingIndicator}
+            {...graphics.bufferingIndicator}
+            classNamePrefix={classNamePrefix}
+          />
+          <PreferredSettingsApplicator 
+            configuration={configuration} 
+            {...externalProps.preferredSettings} 
+          />
         </React.Fragment>
       )}
     />

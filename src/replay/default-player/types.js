@@ -5,6 +5,7 @@ import type { KeyboardShortcutsConfiguration } from '../components/player/contai
 import type { PlaybackSource, SourceTrack, VideoStreamerConfiguration } from '../components/player/VideoStreamer/types';
 import type { QualitySelectionStrategy } from '../components/controls/QualitySelector/QualitySelector';
 import type { LiveDisplayMode } from '../components/controls/TimeDisplay/TimeDisplay';
+import type { UserSettingsConfiguration } from '../components/player/settings-helpers/PreferredSettingsApplicator';
 
 export type ControlNames =
   | 'playPauseButton'
@@ -27,6 +28,7 @@ export type PlayerConfiguration = {
   videoStreamer?: ?VideoStreamerConfiguration,
   interactionDetector?: ?InteractionDetectorConfiguration,
   keyboardShortcuts?: ?KeyboardShortcutsConfiguration,
+  userSettings?: ?UserSettingsConfiguration,
   ui?: ?{
     classNamePrefix?: ?string, // Not implemented.
     includeControls?: ?Array<ControlNames>, // Not implemented.
@@ -55,6 +57,15 @@ export type UIResources<T> = {
   exitButton?: T
 };
 
+export type PreferredSettings = {
+  volume?: ?number,
+  isMuted?: ?boolean,
+  textTrackLanguage?: ?string,
+  textTrackKind?: ?string,
+  audioTrackLanguage?: ?string,
+  audioTrackKind?: ?string
+};
+
 export type ReplayProps = {
   source: PlaybackSource,
   textTracks: Array<SourceTrack>,
@@ -65,8 +76,7 @@ export type ReplayProps = {
   startMuted?: boolean,
   startPaused?: boolean,
   startVolume?: number,
-  preferredSubtitlesLanguage?: string, // TODO
-  preferredAudioLanguage?: string, // TODO
+  preferredSettings?: PreferredSettings,
   maxBitrate?: number,
   lockedBitrate?: number | string
 };

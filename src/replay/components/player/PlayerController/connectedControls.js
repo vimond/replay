@@ -10,6 +10,7 @@ import UnconnectedSubtitlesSelector from '../../controls/SubtitlesSelector/Subti
 import UnconnectedVolume from '../../controls/Volume/Volume';
 import UnconnectedGotoLiveButton from '../../controls/GotoLiveButton/GotoLiveButton';
 import UnconnectedTimeline from '../../controls/Timeline/Timeline';
+import withSettingsStorage from '../settings-helpers/settingsStorage';
 
 export const PlayerUIContainer = getConnectedPlayerUIContainer(connectControl);
 export const PlayPauseButton = connectControl(UnconnectedPlayPauseButton);
@@ -22,3 +23,8 @@ export const AudioSelector = connectControl(UnconnectedAudioSelector);
 export const SubtitlesSelector = connectControl(UnconnectedSubtitlesSelector);
 export const QualitySelector = connectControl(UnconnectedQualitySelector);
 export const BufferingIndicator = connectControl(UnconnectedBufferingIndicator);
+export const SettingsStorage = {
+  AudioSelector: connectControl(withSettingsStorage(UnconnectedAudioSelector)),
+  SubtitlesSelector: connectControl(withSettingsStorage(UnconnectedSubtitlesSelector)),
+  Volume: connectControl(withSettingsStorage(UnconnectedVolume))
+};

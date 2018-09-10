@@ -601,7 +601,17 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               updateProperty={[Function]}
                             />
                           </ConnectedGotoLiveButton>
-                          <ConnectedVolume
+                          <ConnectedSettingsStorageVolume
+                            configuration={
+                              Object {
+                                "setting": "value",
+                                "ui": Object {
+                                  "liveDisplayMode": "clock-time",
+                                  "qualitySelectionStrategy": "cap-bitrate",
+                                  "skipButtonOffset": -20,
+                                },
+                              }
+                            }
                             label="Volume and mute"
                             muteToggleLabel="Toggle mute"
                             mutedContent={
@@ -619,8 +629,17 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                             volumeSliderHandleContent=""
                             volumeSliderLabel="Volume setting"
                           >
-                            <Volume
-                              classNamePrefix="replay-"
+                            <SettingsStorageVolume
+                              configuration={
+                                Object {
+                                  "setting": "value",
+                                  "ui": Object {
+                                    "liveDisplayMode": "clock-time",
+                                    "qualitySelectionStrategy": "cap-bitrate",
+                                    "skipButtonOffset": -20,
+                                  },
+                                }
+                              }
                               gotoLive={[Function]}
                               inspect={[Function]}
                               label="Volume and mute"
@@ -642,96 +661,140 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               volumeSliderHandleContent=""
                               volumeSliderLabel="Volume setting"
                             >
-                              <div
-                                className="replay-volume"
-                                title="Volume and mute"
+                              <Volume
+                                classNamePrefix="replay-"
+                                configuration={
+                                  Object {
+                                    "setting": "value",
+                                    "ui": Object {
+                                      "liveDisplayMode": "clock-time",
+                                      "qualitySelectionStrategy": "cap-bitrate",
+                                      "skipButtonOffset": -20,
+                                    },
+                                  }
+                                }
+                                gotoLive={[Function]}
+                                inspect={[Function]}
+                                label="Volume and mute"
+                                muteToggleLabel="Toggle mute"
+                                mutedContent={
+                                  <VolumeX
+                                    color="currentColor"
+                                    size="24"
+                                  />
+                                }
+                                setPosition={[Function]}
+                                unmutedContent={
+                                  <Volume2
+                                    color="currentColor"
+                                    size="24"
+                                  />
+                                }
+                                updateProperty={[Function]}
+                                volumeSliderHandleContent=""
+                                volumeSliderLabel="Volume setting"
                               >
-                                <ToggleButton
-                                  className="mute-toggle"
-                                  classNamePrefix="replay-"
-                                  label="Toggle mute"
-                                  onToggle={[Function]}
-                                  toggledOffContent={
-                                    <Volume2
-                                      color="currentColor"
-                                      size="24"
-                                    />
-                                  }
-                                  toggledOnContent={
-                                    <VolumeX
-                                      color="currentColor"
-                                      size="24"
-                                    />
-                                  }
-                                  useDefaultClassNaming={true}
+                                <div
+                                  className="replay-volume"
+                                  title="Volume and mute"
                                 >
-                                  <div
-                                    className="replay-mute-toggle replay-toggle-button replay-toggled-off"
-                                    onClick={[Function]}
-                                    title="Toggle mute"
+                                  <ToggleButton
+                                    className="mute-toggle"
+                                    classNamePrefix="replay-"
+                                    label="Toggle mute"
+                                    onToggle={[Function]}
+                                    toggledOffContent={
+                                      <Volume2
+                                        color="currentColor"
+                                        size="24"
+                                      />
+                                    }
+                                    toggledOnContent={
+                                      <VolumeX
+                                        color="currentColor"
+                                        size="24"
+                                      />
+                                    }
+                                    useDefaultClassNaming={true}
                                   >
-                                    <Volume2
-                                      color="currentColor"
-                                      size="24"
+                                    <div
+                                      className="replay-mute-toggle replay-toggle-button replay-toggled-off"
+                                      onClick={[Function]}
+                                      title="Toggle mute"
                                     >
-                                      <svg
-                                        fill="none"
-                                        height="24"
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        viewBox="0 0 24 24"
-                                        width="24"
-                                        xmlns="http://www.w3.org/2000/svg"
+                                      <Volume2
+                                        color="currentColor"
+                                        size="24"
                                       >
-                                        <polygon
-                                          points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"
-                                        />
-                                        <path
-                                          d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
-                                        />
-                                      </svg>
-                                    </Volume2>
-                                  </div>
-                                </ToggleButton>
-                                <Slider
-                                  className="volume-slider"
-                                  classNamePrefix="replay-"
-                                  handleClassName="volume-slider-handle"
-                                  handleContent=""
-                                  label="Volume setting"
-                                  maxValue={1}
-                                  onValueChange={[Function]}
-                                  trackClassName="volume-slider-track"
-                                  value={0}
-                                >
-                                  <div
-                                    className="replay-slider replay-volume-slider"
-                                    onClick={[Function]}
-                                    onMouseDown={[Function]}
-                                    onMouseMove={[Function]}
-                                    onMouseUp={[Function]}
-                                    title="Volume setting"
+                                        <svg
+                                          fill="none"
+                                          height="24"
+                                          stroke="currentColor"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth="2"
+                                          viewBox="0 0 24 24"
+                                          width="24"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <polygon
+                                            points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+                                          />
+                                          <path
+                                            d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+                                          />
+                                        </svg>
+                                      </Volume2>
+                                    </div>
+                                  </ToggleButton>
+                                  <Slider
+                                    className="volume-slider"
+                                    classNamePrefix="replay-"
+                                    handleClassName="volume-slider-handle"
+                                    handleContent=""
+                                    label="Volume setting"
+                                    maxValue={1}
+                                    onValueChange={[Function]}
+                                    trackClassName="volume-slider-track"
+                                    value={0}
                                   >
                                     <div
-                                      className="replay-slider-track replay-volume-slider-track"
-                                    />
-                                    <div
-                                      className="replay-slider-handle replay-volume-slider-handle"
-                                      style={
-                                        Object {
-                                          "left": "0%",
+                                      className="replay-slider replay-volume-slider"
+                                      onClick={[Function]}
+                                      onMouseDown={[Function]}
+                                      onMouseMove={[Function]}
+                                      onMouseUp={[Function]}
+                                      title="Volume setting"
+                                    >
+                                      <div
+                                        className="replay-slider-track replay-volume-slider-track"
+                                      />
+                                      <div
+                                        className="replay-slider-handle replay-volume-slider-handle"
+                                        style={
+                                          Object {
+                                            "left": "0%",
+                                          }
                                         }
-                                      }
-                                    />
-                                  </div>
-                                </Slider>
-                              </div>
-                            </Volume>
-                          </ConnectedVolume>
-                          <ConnectedAudioSelector
+                                      />
+                                    </div>
+                                  </Slider>
+                                </div>
+                              </Volume>
+                            </SettingsStorageVolume>
+                          </ConnectedSettingsStorageVolume>
+                          <ConnectedSettingsStorageAudioSelector
                             classNamePrefix="replay-"
+                            configuration={
+                              Object {
+                                "setting": "value",
+                                "ui": Object {
+                                  "liveDisplayMode": "clock-time",
+                                  "qualitySelectionStrategy": "cap-bitrate",
+                                  "skipButtonOffset": -20,
+                                },
+                              }
+                            }
                             label="Audio track selector"
                             toggleContent={
                               <MessageSquare
@@ -740,8 +803,18 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               />
                             }
                           >
-                            <AudioSelector
+                            <SettingsStorageAudioSelector
                               classNamePrefix="replay-"
+                              configuration={
+                                Object {
+                                  "setting": "value",
+                                  "ui": Object {
+                                    "liveDisplayMode": "clock-time",
+                                    "qualitySelectionStrategy": "cap-bitrate",
+                                    "skipButtonOffset": -20,
+                                  },
+                                }
+                              }
                               gotoLive={[Function]}
                               inspect={[Function]}
                               label="Audio track selector"
@@ -753,10 +826,45 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 />
                               }
                               updateProperty={[Function]}
-                            />
-                          </ConnectedAudioSelector>
-                          <ConnectedSubtitlesSelector
+                            >
+                              <AudioSelector
+                                classNamePrefix="replay-"
+                                configuration={
+                                  Object {
+                                    "setting": "value",
+                                    "ui": Object {
+                                      "liveDisplayMode": "clock-time",
+                                      "qualitySelectionStrategy": "cap-bitrate",
+                                      "skipButtonOffset": -20,
+                                    },
+                                  }
+                                }
+                                gotoLive={[Function]}
+                                inspect={[Function]}
+                                label="Audio track selector"
+                                setPosition={[Function]}
+                                toggleContent={
+                                  <MessageSquare
+                                    color="currentColor"
+                                    size="24"
+                                  />
+                                }
+                                updateProperty={[Function]}
+                              />
+                            </SettingsStorageAudioSelector>
+                          </ConnectedSettingsStorageAudioSelector>
+                          <ConnectedSettingsStorageSubtitlesSelector
                             classNamePrefix="replay-"
+                            configuration={
+                              Object {
+                                "setting": "value",
+                                "ui": Object {
+                                  "liveDisplayMode": "clock-time",
+                                  "qualitySelectionStrategy": "cap-bitrate",
+                                  "skipButtonOffset": -20,
+                                },
+                              }
+                            }
                             label="Subtitles selector"
                             noSubtitlesLabel="No subtitles"
                             toggleContent={
@@ -766,8 +874,18 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               />
                             }
                           >
-                            <SubtitlesSelector
+                            <SettingsStorageSubtitlesSelector
                               classNamePrefix="replay-"
+                              configuration={
+                                Object {
+                                  "setting": "value",
+                                  "ui": Object {
+                                    "liveDisplayMode": "clock-time",
+                                    "qualitySelectionStrategy": "cap-bitrate",
+                                    "skipButtonOffset": -20,
+                                  },
+                                }
+                              }
                               gotoLive={[Function]}
                               inspect={[Function]}
                               label="Subtitles selector"
@@ -780,8 +898,34 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 />
                               }
                               updateProperty={[Function]}
-                            />
-                          </ConnectedSubtitlesSelector>
+                            >
+                              <SubtitlesSelector
+                                classNamePrefix="replay-"
+                                configuration={
+                                  Object {
+                                    "setting": "value",
+                                    "ui": Object {
+                                      "liveDisplayMode": "clock-time",
+                                      "qualitySelectionStrategy": "cap-bitrate",
+                                      "skipButtonOffset": -20,
+                                    },
+                                  }
+                                }
+                                gotoLive={[Function]}
+                                inspect={[Function]}
+                                label="Subtitles selector"
+                                noSubtitlesLabel="No subtitles"
+                                setPosition={[Function]}
+                                toggleContent={
+                                  <Type
+                                    color="currentColor"
+                                    size="24"
+                                  />
+                                }
+                                updateProperty={[Function]}
+                              />
+                            </SettingsStorageSubtitlesSelector>
+                          </ConnectedSettingsStorageSubtitlesSelector>
                           <ConnectedQualitySelector
                             autoLabel="Automatic"
                             classNamePrefix="replay-"
@@ -936,6 +1080,35 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                         </div>
                       </BufferingIndicator>
                     </ConnectedBufferingIndicator>
+                    <ConnectedPreferredSettingsApplicator
+                      configuration={
+                        Object {
+                          "setting": "value",
+                          "ui": Object {
+                            "liveDisplayMode": "clock-time",
+                            "qualitySelectionStrategy": "cap-bitrate",
+                            "skipButtonOffset": -20,
+                          },
+                        }
+                      }
+                    >
+                      <PreferredSettingsApplicator
+                        configuration={
+                          Object {
+                            "setting": "value",
+                            "ui": Object {
+                              "liveDisplayMode": "clock-time",
+                              "qualitySelectionStrategy": "cap-bitrate",
+                              "skipButtonOffset": -20,
+                            },
+                          }
+                        }
+                        gotoLive={[Function]}
+                        inspect={[Function]}
+                        setPosition={[Function]}
+                        updateProperty={[Function]}
+                      />
+                    </ConnectedPreferredSettingsApplicator>
                   </div>
                 </PlayerStateClassNames>
               </ConnectedPlayerStateClassNames>

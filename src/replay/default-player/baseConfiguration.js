@@ -27,6 +27,18 @@ export const baseConfiguration: PlayerConfiguration = {
       toggleMute: 77
     }
   },
+  userSettings: {
+    hasPrecedence: true,
+    storageKey: 'replay-settings',
+    settingsStoragePolicy: {
+      volume: 'local',
+      isMuted: 'local',
+      textTrackLanguage: 'local',
+      textTrackKind: 'local',
+      audioTrackLanguage: 'local',
+      audioTrackKind: 'local'
+    }
+  },
   ui: {
     skipButtonOffset: -10,
     qualitySelectionStrategy: 'cap-bitrate',
