@@ -131,7 +131,7 @@ The following example indicates several different properties that more or less c
 ```javascript
 const source = {
   playbackTechnology: 'dash',
-  streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mmpd',
+  streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mpd',
   licenseUrl: 'https://license.example.com/BigBuckBunny/drmLicense',
   licenseRequestDetails: {
     widevineServiceCertificateUrl: 'https://license.example.com/drmCertificate'

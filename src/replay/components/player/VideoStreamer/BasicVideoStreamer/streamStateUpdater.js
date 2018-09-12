@@ -6,12 +6,18 @@ import mapError from './errorMapper';
 import processPropChanges from './propsChangeHandler';
 import type { TextTrackManager } from './textTrackManager';
 import { getIntervalRunner } from '../../../common';
+import type { AudioTrackManager } from './audioTrackManager';
 
 type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
 
 export type TextTracksStateProps = {
   textTracks: Array<AvailableTrack>,
   currentTextTrack: ?AvailableTrack
+};
+
+export type AudioTracksStateProps = {
+  audioTracks?: Array<AvailableTrack>,
+  currentAudioTrack?: ?AvailableTrack
 };
 
 /*export type StreamRangeProps = {
@@ -26,6 +32,7 @@ export type TextTracksStateProps = {
 export type StreamStateUpdater = {
   eventHandlers: { [string]: () => void },
   onTextTracksChanged: TextTracksStateProps => void,
+  onAudioTracksChanged: AudioTracksStateProps => void,
   startPlaybackSession: () => void
 };
 
@@ -52,9 +59,10 @@ function seekToInitialPosition(source: ?PlaybackSource, videoElement: HTMLVideoE
 function applyPlaybackProps(
   props: VideoStreamerProps,
   videoRef: { current: null | HTMLVideoElement },
-  textTrackManager: ?TextTrackManager
+  textTrackManager: ?TextTrackManager,
+  audioTrackManager: ?AudioTrackManager
 ) {
-  processPropChanges(videoRef, textTrackManager, {}, props);
+  processPropChanges(videoRef, textTrackManager, audioTrackManager, {}, props);
 }
 
 function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
@@ -160,7 +168,7 @@ function getStreamStateUpdater(
 
   function onLoadedMetadata() {
     log('loadedmetadata');
-    applyPlaybackProps(streamer.props, streamer.videoRef, streamer.textTrackManager);
+    applyPlaybackProps(streamer.props, streamer.videoRef, streamer.textTrackManager, streamer.audioTrackManager);
     withVideoElement(videoElement => {
       seekToInitialPosition(streamer.props.source, videoElement);
       update(streamRangeHelper.calculateNewState(videoElement));
@@ -302,11 +310,15 @@ function getStreamStateUpdater(
       textTracks: textTracksStateProps.textTracks
     });
   }
-
-  // TODO: Audio tracks.
+  
+  function onAudioTracksChanged(audioTracksStateProps: AudioTracksStateProps) {
+    update({
+      currentAudioTrack: audioTracksStateProps.currentAudioTrack,
+      audioTracks: audioTracksStateProps.audioTracks
+    });
+  }
 
   const update = getFilteredPropertyUpdater(invokeOnStreamStateChange, filters).notifyPropertyChange;
-
   return {
     eventHandlers: {
       onLoadStart,
@@ -326,6 +338,7 @@ function getStreamStateUpdater(
       onEnded
     },
     onTextTracksChanged,
+    onAudioTracksChanged,
     startPlaybackSession
   };
 }

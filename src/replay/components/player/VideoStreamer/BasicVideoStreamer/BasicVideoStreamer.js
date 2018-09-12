@@ -9,6 +9,8 @@ import getTextTrackManager from './textTrackManager';
 import type { TextTrackManager } from './textTrackManager';
 import type { StreamRangeHelper } from './streamRangeHelper';
 import getStreamRangeHelper from './streamRangeHelper';
+import type { AudioTrackManager } from './audioTrackManager';
+import getAudioTrackManager from './audioTrackManager';
 
 type Props = CommonGenericProps &
   VideoStreamerProps & {
@@ -46,6 +48,7 @@ class BasicVideoStreamer extends React.Component<Props> {
   }
   streamStateUpdater: StreamStateUpdater;
   textTrackManager: TextTrackManager;
+  audioTrackManager: AudioTrackManager;
   streamRangeHelper: StreamRangeHelper;
   videoRef: { current: null | HTMLVideoElement };
 
@@ -66,8 +69,10 @@ class BasicVideoStreamer extends React.Component<Props> {
       this.props.onReady({ setPosition: this.setPosition, gotoLive: this.gotoLive });
     }
     this.streamStateUpdater.startPlaybackSession();
-    if (this.videoRef.current) {
-      this.textTrackManager = getTextTrackManager(this.videoRef.current, this.streamStateUpdater.onTextTracksChanged);
+    const videoElement = this.videoRef.current;
+    if (videoElement) {
+      this.textTrackManager = getTextTrackManager(videoElement, this.streamStateUpdater.onTextTracksChanged);
+      this.audioTrackManager = getAudioTrackManager(videoElement, this.streamStateUpdater.onAudioTracksChanged);
     }
   }
 
@@ -75,13 +80,16 @@ class BasicVideoStreamer extends React.Component<Props> {
     if (this.textTrackManager) {
       this.textTrackManager.cleanup();
     }
+    if (this.audioTrackManager) {
+      this.audioTrackManager.cleanup();
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.source !== this.props.source) {
       this.streamStateUpdater.startPlaybackSession();
     }
-    processPropChanges(this.videoRef, this.textTrackManager, prevProps, this.props);
+    processPropChanges(this.videoRef, this.textTrackManager, this.audioTrackManager, prevProps, this.props);
   }
 
   render() {

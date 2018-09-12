@@ -20,25 +20,25 @@ const getVideoElementMock = () => {
   const handlers = {};
   const children = [];
   const textTracks = [{ mode: 'showing' }, { mode: 'hidden' }];
+  textTracks.addEventListener = (eventName, listener) => {
+    if (handlers[eventName]) {
+      throw new Error('Already added event listener.');
+    } else {
+      handlers[eventName] = listener;
+    }
+  };
+  textTracks.removeEventListener = (eventName, listener) => {
+    if (handlers[eventName] !== listener) {
+      throw new Error('Event listener not added.');
+    } else {
+      delete handlers[eventName];
+    }
+  };
 
   return {
     textTracks,
     children,
     videoElement: {
-      addEventListener: (eventName, listener) => {
-        if (handlers[eventName]) {
-          throw new Error('Already added event listener.');
-        } else {
-          handlers[eventName] = listener;
-        }
-      },
-      removeEventListener: (eventName, listener) => {
-        if (handlers[eventName] !== listener) {
-          throw new Error('Event listener not added.');
-        } else {
-          delete handlers[eventName];
-        }
-      },
       addTextTrack: (kind, label, language) => {
         const track = {
           kind,
@@ -67,7 +67,7 @@ const getVideoElementMock = () => {
       },
       textTracks
     },
-    notifyEventListener: () => handlers['addtrack']()
+    notifyTrackEventListener: () => handlers['addtrack']()
   };
 };
 
@@ -304,7 +304,7 @@ test(
 test('textTrackManager updates the currentTextTrack stream state property according to the initial setting, or when the visible track changes.', done => {
   const firstUpdate = () => {
     m.textTracks[2].mode = 'showing';
-    m.notifyEventListener();
+    m.notifyTrackEventListener();
   };
   const secondUpdate = newState => {
     try {
@@ -333,7 +333,7 @@ test('textTrackManager adds and removes tracks based on events from the video el
       label: 'G: French',
       mode: 'hidden'
     });
-    m.notifyEventListener();
+    m.notifyTrackEventListener();
   };
   const secondUpdate = newState => {
     try {
@@ -346,7 +346,7 @@ test('textTrackManager adds and removes tracks based on events from the video el
       });
 
       m.videoElement.textTracks.splice(2, 1);
-      m.notifyEventListener();
+      m.notifyTrackEventListener();
     } catch (e) {
       done.fail(e);
     }

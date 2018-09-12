@@ -3,10 +3,12 @@
 import type { VideoStreamerProps } from '../types';
 import { isDifferent } from '../../../common';
 import type { TextTrackManager } from './textTrackManager';
+import type { AudioTrackManager } from './audioTrackManager';
 
 const processPropChanges = (
   videoRef: { current: ?HTMLVideoElement },
   textTrackManager: ?TextTrackManager,
+  audioTrackManager: ?AudioTrackManager,
   prevProps: VideoStreamerProps,
   nextProps: VideoStreamerProps
 ) => {
@@ -32,8 +34,15 @@ const processPropChanges = (
         textTrackManager.handleSelectedTextTrackChange(nextProps.selectedTextTrack);
       }
     }
+    if (audioTrackManager) {
+      if (prevProps.source !== nextProps.source) {
+        audioTrackManager.handleSourceChange();
+      }
+      if (isDifferent(prevProps.selectedAudioTrack, nextProps.selectedAudioTrack)) {
+        audioTrackManager.handleSelectedAudioTrackChange(nextProps.selectedAudioTrack);
+      }
+    }
   }
-  // TODO: Audio tracks.
 };
 
 export default processPropChanges;

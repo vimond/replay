@@ -68,9 +68,9 @@ function createSelectableTrack(
 ): AvailableTrack {
   return {
     id,
-    kind: videoElementTrack.kind,
-    label: videoElementTrack.label,
-    language: videoElementTrack.language,
+    kind: videoElementTrack.kind || '',
+    label: videoElementTrack.label || '',
+    language: videoElementTrack.language || '',
     origin
   };
 }
@@ -112,8 +112,8 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
 
   function addTracks(sourceTracks?: Array<SourceTrack>) {
     if (Array.isArray(sourceTracks)) {
-      videoElement.removeEventListener('addtrack', handleTrackAdd);
-      videoElement.removeEventListener('removetrack', handleTrackRemove);
+      videoElement.textTracks.removeEventListener('addtrack', handleTrackAdd);
+      videoElement.textTracks.removeEventListener('removetrack', handleTrackRemove);
 
       const freshSourceTracks = sourceTracks.filter(sourceTrack => {
         const managedTrackMatches = managedTracks.filter(managedTrack => {
@@ -198,8 +198,8 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
       managedTracks = managedTracks.concat(freshManagedTracks);
       
       return Promise.all(freshManagedTracks.map(managedTrack => managedTrack.loadPromise)).then(() => {
-        videoElement.addEventListener('addtrack', handleTrackAdd);
-        videoElement.addEventListener('removetrack', handleTrackRemove);
+        videoElement.textTracks.addEventListener('addtrack', handleTrackAdd);
+        videoElement.textTracks.addEventListener('removetrack', handleTrackRemove);
         notifyPropertyChanges();
       });
     } else {
@@ -269,7 +269,6 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
     });
   }
   
-
   function handleNewSourceProps(newProps: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
     if ('source' in newProps) {
       cleanupTracks(true);
@@ -308,13 +307,13 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
   }
 
   function cleanup() {
-    videoElement.removeEventListener('addtrack', handleTrackAdd);
-    videoElement.removeEventListener('removetrack', handleTrackRemove);
+    videoElement.textTracks.removeEventListener('addtrack', handleTrackAdd);
+    videoElement.textTracks.removeEventListener('removetrack', handleTrackRemove);
   }
 
   function initialize() {
-    videoElement.addEventListener('addtrack', handleTrackAdd);
-    videoElement.addEventListener('removetrack', handleTrackRemove);
+    videoElement.textTracks.addEventListener('addtrack', handleTrackAdd);
+    videoElement.textTracks.addEventListener('removetrack', handleTrackRemove);
   }
 
   initialize();

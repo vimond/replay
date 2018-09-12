@@ -3,10 +3,63 @@ import Enzyme, { shallow, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import BasicVideoStreamer from './BasicVideoStreamer';
 import { PlaybackError } from '../types';
-
 Enzyme.configure({ adapter: new Adapter() });
+
 // Mockifying the fairly useless jsdom HTML video element.
+function getTextTracks() {
+  const handlers = this.textTracksHandlers || {};
+  this.textTracksHandlers = handlers;
+  return {
+    handlers,
+    addEventListener: (eventName, listener) => {
+      if (handlers[eventName]) {
+        throw new Error('Already added event listener.');
+      } else {
+        handlers[eventName] = listener;
+      }
+    },
+    removeEventListener: (eventName, listener) => {
+      if (handlers[eventName] !== listener) {
+        throw new Error('Event listener not added.');
+      } else {
+        delete handlers[eventName];
+      }
+    }
+  };
+}
+function getAudioTracks() {
+  const handlers = this.audioTracksHandlers || {};
+  this.audioTracksHandlers = handlers;
+  return {
+    handlers,
+    addEventListener: (eventName, listener) => {
+      if (handlers[eventName]) {
+        throw new Error('Already added event listener.');
+      } else {
+        handlers[eventName] = listener;
+      }
+    },
+    removeEventListener: (eventName, listener) => {
+      if (handlers[eventName] !== listener) {
+        throw new Error('Event listener not added.');
+      } else {
+        delete handlers[eventName];
+      }
+    }
+  };
+}
+
 Object.defineProperty(window.HTMLMediaElement.prototype, 'duration', { enumerable: true, writable: true });
+
+Object.defineProperty(window.HTMLMediaElement.prototype, 'textTracks', {
+  enumerable: true,
+  get: getTextTracks
+});
+
+Object.defineProperty(window.HTMLMediaElement.prototype, 'audioTracks', {
+  enumerable: true,
+  get: getAudioTracks
+});
 
 const commonProps = {
   source: {
@@ -175,8 +228,6 @@ describe.skip('<BasicVideoStreamer/> live streaming (with Safari and HLS)', () =
   test('<BasicVideoStreamer/> resumes playback at the live edge when gotoLive() is invoked on a timeshifted live stream.', () => {});
   test('<BasicVideoStreamer/> reports absolutePosition and absoluteStartPosition for the current playback position of a live stream.', () => {});
 });
-
-// TODO: Audio track support not implemented.
 
 describe.skip('<BasicVideoStreamer/> audio track support', () => {
   test('<BasicVideoStreamer/> lists audio tracks reported from the source.', () => {});
