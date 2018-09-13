@@ -84,8 +84,7 @@ export type SourceTrack = {
   kind?: string,
   language?: string,
   contentType?: string,
-  cues?: Array<{ start: number, end: number, content: string }>,
-  isDefault: boolean
+  cues?: Array<{ start: number, end: number, content: string }>
 };
 
 export type PlaybackSource = {
