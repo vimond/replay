@@ -67,11 +67,11 @@ export type PreferredSettings = {
 };
 
 export type ReplayProps = {
-  source: PlaybackSource,
-  textTracks: Array<SourceTrack>,
-  options: PlayerConfiguration,
-  onExit: () => void,
-  onError: any => void,
+  source?: ?PlaybackSource,
+  textTracks?: Array<SourceTrack>,
+  options?: PlayerConfiguration,
+  onExit?: () => void,
+  onError?: any => void,
   children?: React.Element<any>,
   startMuted?: boolean,
   startPaused?: boolean,
