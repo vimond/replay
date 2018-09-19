@@ -12,7 +12,9 @@ type Props = CommonGenericProps & {
   /** The button content to be displayed when the button is toggled on. */
   toggledOnContent?: React.Node,
   /** A callback method that will be invoked when the button is clicked and the value toggled. If the button has been toggled on, true is passed to the callback. */
-  onToggle?: boolean => void
+  onToggle?: boolean => void,
+  /** A callback method invoked with the rendered button element, for focus purposes. */
+  onRef?: ?HTMLElement => void
 };
 
 const baseClassName = 'toggle-button';
@@ -31,9 +33,15 @@ class ToggleButton extends React.Component<Props> {
   };
 
   handleClick = () => this.props.onToggle && this.props.onToggle(!this.props.isOn);
+  handleKeyUp = (keyboardEvent: KeyboardEvent) => {
+    if ((keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ')) {
+      keyboardEvent.preventDefault();
+      this.handleClick();
+    }
+  };
 
   render() {
-    const { isOn, label, className, classNamePrefix, toggledOnContent, toggledOffContent, classes } = this.props;
+    const { isOn, label, className, classNamePrefix, toggledOnContent, toggledOffContent, onRef, classes } = this.props;
     const toggleClassName = isOn ? onClassName : offClassName;
     const classNames = hydrateClassNames({
       classes,
@@ -43,8 +51,8 @@ class ToggleButton extends React.Component<Props> {
     });
     const content = isOn ? toggledOnContent : toggledOffContent;
     return (
-      <div title={label} onClick={this.handleClick} className={classNames}>
-        {content}
+      <div role="button" aria-pressed={isOn} title={label} onClick={this.handleClick} onKeyUp={this.handleKeyUp} ref={onRef} className={classNames} tabIndex={0}>
+        <div tabIndex={-1}>{content}</div>
       </div>
     );
   }

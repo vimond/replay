@@ -1,6 +1,6 @@
 
 .replay-controls-bar, .replay-selector-items, .replay-exit-button, .replay-playback-monitor-close-button, .replay-buffering-indicator {
-    color: #ccc;
+    color: #bbb;
 }
 
 .replay {
@@ -15,21 +15,38 @@
     background-color: #888;
 }
 
+.replay-selector-item:focus > * {
+    background-color: #888;
+}
+
 .replay-slider-handle {
-    background-color: #ccc;
+    background-color: #bbb;
+}
+
+.replay-slider-handle:hover {
+    background-color: white;
+}
+
+.replay-slider:focus .replay-slider-handle {
+    background-color: white;
 }
 
 .replay-button:hover, .replay-toggle-button:hover {
     color: white;
 }
 
-.replay-goto-live-button.replay-toggled-on:hover {
-    color: #ccc;
-    cursor: default;
+.replay-button:focus > *, .replay-toggle-button:focus > * {
+    color: white;
 }
 
-.replay-slider-handle:hover {
-    background-color: white;
+.replay-button:focus, .replay-button > :focus, .replay-toggle-button:focus, .replay-toggle-button > :focus, 
+.replay-slider:focus, .replay-slider-handle:focus, .replay-selector-item:focus, .replay-selector-item > :focus {
+    outline: none;
+}
+
+.replay-goto-live-button.replay-toggled-on:hover {
+    color: #bbb;
+    cursor: default;
 }
 
 .replay-time-display span:nth-child(2) {
@@ -49,3 +66,4 @@ td.replay-playback-monitor-current-value {
 td.replay-playback-monitor-previous-value {
     opacity: 0.6;
 }
+

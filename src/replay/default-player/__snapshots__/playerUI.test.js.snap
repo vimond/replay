@@ -215,42 +215,49 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           <div
                             className="replay-button replay-exit-button"
                             onClick={[Function]}
+                            onKeyUp={[Function]}
+                            role="button"
+                            tabIndex={0}
                             title="Exit"
                           >
-                            <XCircle
-                              color="currentColor"
-                              size="24"
+                            <div
+                              tabIndex={-1}
                             >
-                              <svg
-                                fill="none"
-                                height="24"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                                width="24"
-                                xmlns="http://www.w3.org/2000/svg"
+                              <XCircle
+                                color="currentColor"
+                                size="24"
                               >
-                                <circle
-                                  cx="12"
-                                  cy="12"
-                                  r="10"
-                                />
-                                <line
-                                  x1="15"
-                                  x2="9"
-                                  y1="9"
-                                  y2="15"
-                                />
-                                <line
-                                  x1="9"
-                                  x2="15"
-                                  y1="9"
-                                  y2="15"
-                                />
-                              </svg>
-                            </XCircle>
+                                <svg
+                                  fill="none"
+                                  height="24"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                  />
+                                  <line
+                                    x1="15"
+                                    x2="9"
+                                    y1="9"
+                                    y2="15"
+                                  />
+                                  <line
+                                    x1="9"
+                                    x2="15"
+                                    y1="9"
+                                    y2="15"
+                                  />
+                                </svg>
+                              </XCircle>
+                            </div>
                           </div>
                         </Button>
                       </ExitButton>
@@ -340,37 +347,44 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 <div
                                   className="replay-play-pause-button replay-toggle-button replay-toggled-off"
                                   onClick={[Function]}
+                                  onKeyUp={[Function]}
+                                  role="button"
+                                  tabIndex={0}
                                   title="Toggle play/pause"
                                 >
-                                  <Pause
-                                    color="currentColor"
-                                    size="24"
+                                  <div
+                                    tabIndex={-1}
                                   >
-                                    <svg
-                                      fill="none"
-                                      height="24"
-                                      stroke="currentColor"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      viewBox="0 0 24 24"
-                                      width="24"
-                                      xmlns="http://www.w3.org/2000/svg"
+                                    <Pause
+                                      color="currentColor"
+                                      size="24"
                                     >
-                                      <rect
-                                        height="16"
-                                        width="4"
-                                        x="6"
-                                        y="4"
-                                      />
-                                      <rect
-                                        height="16"
-                                        width="4"
-                                        x="14"
-                                        y="4"
-                                      />
-                                    </svg>
-                                  </Pause>
+                                      <svg
+                                        fill="none"
+                                        height="24"
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <rect
+                                          height="16"
+                                          width="4"
+                                          x="6"
+                                          y="4"
+                                        />
+                                        <rect
+                                          height="16"
+                                          width="4"
+                                          x="14"
+                                          y="4"
+                                        />
+                                      </svg>
+                                    </Pause>
+                                  </div>
                                 </div>
                               </ToggleButton>
                             </PlayPauseButton>
@@ -440,36 +454,43 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 <div
                                   className="replay-button replay-skip-button"
                                   onClick={[Function]}
+                                  onKeyUp={[Function]}
+                                  role="button"
+                                  tabIndex={0}
                                   title="Skip back 10 seconds"
                                 >
-                                  <span>
-                                    <RotateCcw
-                                      color="currentColor"
-                                      size="24"
-                                    >
-                                      <svg
-                                        fill="none"
-                                        height="24"
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        viewBox="0 0 24 24"
-                                        width="24"
-                                        xmlns="http://www.w3.org/2000/svg"
+                                  <div
+                                    tabIndex={-1}
+                                  >
+                                    <span>
+                                      <RotateCcw
+                                        color="currentColor"
+                                        size="24"
                                       >
-                                        <polyline
-                                          points="1 4 1 10 7 10"
-                                        />
-                                        <path
-                                          d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"
-                                        />
-                                      </svg>
-                                    </RotateCcw>
-                                  </span>
-                                  <span>
-                                    –10
-                                  </span>
+                                        <svg
+                                          fill="none"
+                                          height="24"
+                                          stroke="currentColor"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth="2"
+                                          viewBox="0 0 24 24"
+                                          width="24"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <polyline
+                                            points="1 4 1 10 7 10"
+                                          />
+                                          <path
+                                            d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"
+                                          />
+                                        </svg>
+                                      </RotateCcw>
+                                    </span>
+                                    <span>
+                                      –10
+                                    </span>
+                                  </div>
                                 </div>
                               </Button>
                             </SkipButton>
@@ -506,11 +527,18 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 value={0}
                               >
                                 <div
+                                  aria-valuemax={1}
+                                  aria-valuemin={0}
+                                  aria-valuenow={0}
                                   className="replay-slider replay-timeline"
                                   onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  onKeyUp={[Function]}
                                   onMouseDown={[Function]}
                                   onMouseMove={[Function]}
                                   onMouseUp={[Function]}
+                                  role="slider"
+                                  tabIndex={0}
                                   title="Timeline"
                                 >
                                   <div
@@ -520,11 +548,13 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   </div>
                                   <div
                                     className="replay-slider-handle replay-timeline-handle"
+                                    role="button"
                                     style={
                                       Object {
                                         "left": "0%",
                                       }
                                     }
+                                    tabIndex={-1}
                                   />
                                 </div>
                               </Slider>
@@ -720,31 +750,38 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     <div
                                       className="replay-mute-toggle replay-toggle-button replay-toggled-off"
                                       onClick={[Function]}
+                                      onKeyUp={[Function]}
+                                      role="button"
+                                      tabIndex={0}
                                       title="Toggle mute"
                                     >
-                                      <Volume2
-                                        color="currentColor"
-                                        size="24"
+                                      <div
+                                        tabIndex={-1}
                                       >
-                                        <svg
-                                          fill="none"
-                                          height="24"
-                                          stroke="currentColor"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          strokeWidth="2"
-                                          viewBox="0 0 24 24"
-                                          width="24"
-                                          xmlns="http://www.w3.org/2000/svg"
+                                        <Volume2
+                                          color="currentColor"
+                                          size="24"
                                         >
-                                          <polygon
-                                            points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"
-                                          />
-                                          <path
-                                            d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
-                                          />
-                                        </svg>
-                                      </Volume2>
+                                          <svg
+                                            fill="none"
+                                            height="24"
+                                            stroke="currentColor"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <polygon
+                                              points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+                                            />
+                                            <path
+                                              d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+                                            />
+                                          </svg>
+                                        </Volume2>
+                                      </div>
                                     </div>
                                   </ToggleButton>
                                   <Slider
@@ -759,11 +796,18 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     value={0}
                                   >
                                     <div
+                                      aria-valuemax={1}
+                                      aria-valuemin={0}
+                                      aria-valuenow={0}
                                       className="replay-slider replay-volume-slider"
                                       onClick={[Function]}
+                                      onKeyDown={[Function]}
+                                      onKeyUp={[Function]}
                                       onMouseDown={[Function]}
                                       onMouseMove={[Function]}
                                       onMouseUp={[Function]}
+                                      role="slider"
+                                      tabIndex={0}
                                       title="Volume setting"
                                     >
                                       <div
@@ -771,11 +815,13 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                       />
                                       <div
                                         className="replay-slider-handle replay-volume-slider-handle"
+                                        role="button"
                                         style={
                                           Object {
                                             "left": "0%",
                                           }
                                         }
+                                        tabIndex={-1}
                                       />
                                     </div>
                                   </Slider>
@@ -998,30 +1044,38 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               useDefaultClassNaming={true}
                             >
                               <div
+                                aria-pressed={false}
                                 className="replay-fullscreen-button replay-toggle-button replay-toggled-off"
                                 onClick={[Function]}
+                                onKeyUp={[Function]}
+                                role="button"
+                                tabIndex={0}
                                 title="Toggle fullscreen"
                               >
-                                <Maximize
-                                  color="currentColor"
-                                  size="24"
+                                <div
+                                  tabIndex={-1}
                                 >
-                                  <svg
-                                    fill="none"
-                                    height="24"
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    viewBox="0 0 24 24"
-                                    width="24"
-                                    xmlns="http://www.w3.org/2000/svg"
+                                  <Maximize
+                                    color="currentColor"
+                                    size="24"
                                   >
-                                    <path
-                                      d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
-                                    />
-                                  </svg>
-                                </Maximize>
+                                    <svg
+                                      fill="none"
+                                      height="24"
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+                                      />
+                                    </svg>
+                                  </Maximize>
+                                </div>
                               </div>
                             </ToggleButton>
                           </FullscreenButton>

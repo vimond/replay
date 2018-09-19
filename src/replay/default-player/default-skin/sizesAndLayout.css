@@ -39,11 +39,11 @@
     visibility: hidden;
 }
 
-.replay-selector:hover .replay-selector-items {
+.replay-selector:hover .replay-selector-items, .replay-expanded .replay-selector-items {
     visibility: visible;
 }
 
-.replay-selector-item {
+.replay-selector-item > div {
     padding: 5px 15px;
     font-size: 14px;
     text-align: left;
@@ -95,7 +95,7 @@
     font-size: 7px;
 }
 
-.replay-skip-button > span {
+.replay-skip-button span {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -109,7 +109,7 @@
     padding: 0 10px;
 }
 
-.replay-goto-live-button > span:first-child {
+.replay-goto-live-button span:first-child {
     margin-right: 5px;
 }
 

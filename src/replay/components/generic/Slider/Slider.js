@@ -29,6 +29,7 @@ const baseHandleClassName = 'slider-handle';
 const zeroStyle = '0%';
 const horizontalProp = 'left';
 const verticalProp = 'bottom';
+const keyPressValueStep = 0.025;
 
 const selectDefaultClasses = classes => classes.slider;
 const selectDraggingClasses = classes => classes.sliderDragging || classes.slider;
@@ -54,6 +55,10 @@ The styling of the slider needs to follow some rules in order to get sensible re
 * The handle should ideally be shifted half its width to the left for horizontal sliders, or half its height down for vertical sliders. It is the center coordinate that should count.
 
  */
+
+const decreaseKeys = ['Left', 'ArrowLeft', 'Down', 'ArrowDown'];
+const increaseKeys = ['Right', 'ArrowRight', 'Up', 'ArrowUp'];
+const allCapturedKeys = decreaseKeys.concat(increaseKeys);
 
 class Slider extends React.Component<Props, State> {
   static defaultProps = {
@@ -147,6 +152,24 @@ class Slider extends React.Component<Props, State> {
     this.setState({ isDragging: false });
   };
 
+  handleKeyDown = (keyboardEvent: KeyboardEvent) => {
+    if (allCapturedKeys.indexOf(keyboardEvent.key) >= 0) {
+      keyboardEvent.preventDefault();
+    }
+  };
+  
+  handleKeyUp = (keyboardEvent: KeyboardEvent) => {
+    if (!isNaN(this.props.value) && !isNaN(this.props.maxValue)) {
+      const relativeValue = this.props.value / this.props.maxValue;
+      if (decreaseKeys.indexOf(keyboardEvent.key) >= 0) {
+        this.updateValue(Math.max(0, relativeValue - keyPressValueStep));
+      }
+      if (increaseKeys.indexOf(keyboardEvent.key) >= 0) {
+        this.updateValue(Math.min(1, relativeValue + keyPressValueStep));
+      }
+    }
+  };
+
   setRenderedHandle = (handle: ?HTMLDivElement) => {
     this.renderedHandle = handle;
   };
@@ -198,8 +221,16 @@ class Slider extends React.Component<Props, State> {
         onMouseDown={this.handleHandleStartDrag}
         onMouseUp={this.handleHandleEndDrag}
         onMouseMove={this.handleHandleDrag}
+        onKeyDown={this.handleKeyDown}
+        onKeyUp={this.handleKeyUp}
         title={label}
-        className={sliderClassNames}>
+        role="slider"
+        aria-valuemin={0}
+        aria-valuemax={maxValue}
+        aria-valuenow={value}
+        className={sliderClassNames}
+        tabIndex={0}
+      >
         <div className={trackClassNames} ref={this.setRenderedTrack}>
           {trackContent}
         </div>
@@ -207,6 +238,8 @@ class Slider extends React.Component<Props, State> {
         <div
           className={handleClassNames}
           style={{ [isVertical ? verticalProp : horizontalProp]: toPercentString(displayValue, maxValue) }}
+          role="button"
+          tabIndex={-1}
           ref={this.setRenderedHandle}>
           {handleContent}
         </div>

@@ -18,7 +18,7 @@ export const baseConfiguration: PlayerConfiguration = {
   },
   keyboardShortcuts: {
     keyCodes: {
-      togglePause: [32, 13],
+      togglePause: [13],
       toggleFullscreen: 70,
       decreaseVolume: [109, 189],
       increaseVolume: [107, 187],

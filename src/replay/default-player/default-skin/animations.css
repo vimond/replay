@@ -58,7 +58,7 @@
     transition: opacity 0.5s, visibility 0s linear 0.5s;
 }
 
-.replay-selector:hover .replay-selector-items {
+.replay-selector:hover .replay-selector-items, .replay-expanded .replay-selector-items {
     opacity: 1;
     transition-delay: 0s;
 }

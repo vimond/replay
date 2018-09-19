@@ -1,3 +1,5 @@
+/* TODO: Move this and the other core-styles into the components' directories. */
+
 .replay-button, .replay-toggle-button {
     overflow: hidden;
     text-align: center;

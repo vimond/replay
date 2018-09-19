@@ -17,6 +17,13 @@ class Button extends React.Component<Props> {
   };
 
   handleClick = () => this.props.onClick && this.props.onClick();
+  
+  handleKeyUp = (keyboardEvent: KeyboardEvent) => {
+    if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
+      keyboardEvent.preventDefault();
+      this.handleClick();
+    }
+  };
 
   render() {
     const { label, className, classNamePrefix, classes, content }: Props = this.props;
@@ -27,8 +34,8 @@ class Button extends React.Component<Props> {
       classNamePrefix
     }); // buildClassNames(useDefaultClassNaming, classNamePrefix, className, baseClassName);
     return (
-      <div title={label} onClick={this.handleClick} className={classNames}>
-        {content}
+      <div title={label} onClick={this.handleClick} onKeyUp={this.handleKeyUp} className={classNames} role="button" tabIndex={0}>
+        <div tabIndex={-1}>{content}</div>
       </div>
     );
   }
