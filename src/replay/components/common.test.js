@@ -5,8 +5,9 @@ import {
   formatClockTime,
   isDifferent,
   hydrateClassNames,
-  isShallowEqual, 
-  getIntervalRunner
+  isShallowEqual,
+  getIntervalRunner,
+  getKeyboardShortcutBlocker
 } from './common';
 
 test('prefixClassNames() prefixes all class names passed and joins into one string.', () => {
@@ -138,6 +139,35 @@ test("getBoundingEventCoordinates() doesn't return coordinates outside element b
   expect(getBoundingEventCoordinates(mockEvent1)).toMatchObject({ x: 143, y: 40, width: 400, height: 40 });
   expect(getBoundingEventCoordinates(mockEvent2)).toMatchObject({ x: 0, y: 0, width: 400, height: 40 });
   expect(getBoundingEventCoordinates(mockEvent3)).toMatchObject({ x: 400, y: 40, width: 400, height: 40 });
+});
+
+test('getKeyboardShortcutBlocker() returns a function calling event.preventDefault() and event.stopPropagation() if (and only if) event.key is found in specified array.', () => {
+  const keys = ['Enter', 'Tab', ' '];
+  const handleKeyDown = getKeyboardShortcutBlocker(keys);
+  const keyboardEvent1 = {
+    key: 'Tab',
+    preventDefault: jest.fn(),
+    stopPropagation: jest.fn()
+  };
+  const keyboardEvent2 = {
+    key: ' ',
+    preventDefault: jest.fn(),
+    stopPropagation: jest.fn()
+  };
+  const keyboardEvent3 = {
+    key: 'ArrowUp',
+    preventDefault: jest.fn(),
+    stopPropagation: jest.fn()
+  };
+  handleKeyDown(keyboardEvent1);
+  handleKeyDown(keyboardEvent2);
+  handleKeyDown(keyboardEvent3);
+  expect(keyboardEvent1.preventDefault).toHaveBeenCalledTimes(1);
+  expect(keyboardEvent2.preventDefault).toHaveBeenCalledTimes(1);
+  expect(keyboardEvent3.preventDefault).not.toHaveBeenCalled();
+  expect(keyboardEvent1.stopPropagation).toHaveBeenCalledTimes(1);
+  expect(keyboardEvent2.stopPropagation).toHaveBeenCalledTimes(1);
+  expect(keyboardEvent3.stopPropagation).not.toHaveBeenCalled();
 });
 
 test('formatTime() formats seconds with decimals into days, hours, (if > 0), and always minutes and seconds.', () => {
@@ -326,7 +356,7 @@ test('isShallowEqual() returns false for two objects not having the same propert
   expect(isShallowEqual(a, b)).toBe(false);
 });
 
-test('getIntervalRunner() returns start and stop methods, and invokes the callback repeatedly after starting.', (done) => {
+test('getIntervalRunner() returns start and stop methods, and invokes the callback repeatedly after starting.', done => {
   let counter = 0;
   const updateFn = () => {
     try {
@@ -337,7 +367,7 @@ test('getIntervalRunner() returns start and stop methods, and invokes the callba
       } else {
         counter++;
       }
-    } catch(e) {
+    } catch (e) {
       done.fail(e);
     }
   };
@@ -353,4 +383,3 @@ test('override() does not include base properties or branches when key is set to
 test('override() accepts null as parameters for both base and override.');
 
 test('override() does not return mutated parts of base or override object, but a deeply cloned fresh object.');
-

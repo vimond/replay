@@ -79,6 +79,15 @@ export function getBoundingEventCoordinates(evt: any, element?: HTMLElement): Co
   };
 }
 
+export function getKeyboardShortcutBlocker(keysToBeBlocked: Array<string>): KeyboardEvent => void {
+  return (keyboardEvent: KeyboardEvent) => {
+    if (keysToBeBlocked.indexOf(keyboardEvent.key) >= 0) {
+      keyboardEvent.preventDefault();
+      keyboardEvent.stopPropagation();
+    }
+  };
+}
+
 export const isDifferent = (a: any, b: any) => {
   if (a === b) {
     return false;
@@ -87,7 +96,6 @@ export const isDifferent = (a: any, b: any) => {
     return false;
   }
   return !(Number.isNaN(a) && Number.isNaN(b));
-  
 };
 
 export const isObject = (obj: ?{}) => obj != null && obj.constructor === {}.constructor;

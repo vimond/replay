@@ -1,6 +1,11 @@
 // @flow
 import * as React from 'react';
-import { type CommonGenericProps, getBoundingEventCoordinates, hydrateClassNames } from '../../common';
+import {
+  type CommonGenericProps,
+  getBoundingEventCoordinates,
+  getKeyboardShortcutBlocker,
+  hydrateClassNames
+} from '../../common';
 
 type Props = CommonGenericProps & {
   value: number,
@@ -58,7 +63,7 @@ The styling of the slider needs to follow some rules in order to get sensible re
 
 const decreaseKeys = ['Left', 'ArrowLeft', 'Down', 'ArrowDown'];
 const increaseKeys = ['Right', 'ArrowRight', 'Up', 'ArrowUp'];
-const allCapturedKeys = decreaseKeys.concat(increaseKeys);
+const allCaptureKeys = decreaseKeys.concat(increaseKeys);
 
 class Slider extends React.Component<Props, State> {
   static defaultProps = {
@@ -152,12 +157,8 @@ class Slider extends React.Component<Props, State> {
     this.setState({ isDragging: false });
   };
 
-  handleKeyDown = (keyboardEvent: KeyboardEvent) => {
-    if (allCapturedKeys.indexOf(keyboardEvent.key) >= 0) {
-      keyboardEvent.preventDefault();
-    }
-  };
-  
+  handleKeyDown = getKeyboardShortcutBlocker(allCaptureKeys);
+
   handleKeyUp = (keyboardEvent: KeyboardEvent) => {
     if (!isNaN(this.props.value) && !isNaN(this.props.maxValue)) {
       const relativeValue = this.props.value / this.props.maxValue;
@@ -229,8 +230,7 @@ class Slider extends React.Component<Props, State> {
         aria-valuemax={maxValue}
         aria-valuenow={value}
         className={sliderClassNames}
-        tabIndex={0}
-      >
+        tabIndex={0}>
         <div className={trackClassNames} ref={this.setRenderedTrack}>
           {trackContent}
         </div>

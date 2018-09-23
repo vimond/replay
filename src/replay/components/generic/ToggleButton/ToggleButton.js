@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { type CommonGenericProps, hydrateClassNames } from '../../common';
+import { type CommonGenericProps, getKeyboardShortcutBlocker, hydrateClassNames } from '../../common';
 
 type Props = CommonGenericProps & {
   /** Set to true if the button should be in the toggled on mode. */
@@ -14,7 +14,7 @@ type Props = CommonGenericProps & {
   /** A callback method that will be invoked when the button is clicked and the value toggled. If the button has been toggled on, true is passed to the callback. */
   onToggle?: boolean => void,
   /** A callback method invoked with the rendered button element, for focus purposes. */
-  onRef?: ?HTMLElement => void
+  onRef?: (?HTMLElement) => void
 };
 
 const baseClassName = 'toggle-button';
@@ -33,8 +33,11 @@ class ToggleButton extends React.Component<Props> {
   };
 
   handleClick = () => this.props.onToggle && this.props.onToggle(!this.props.isOn);
+
+  handleKeyDown = getKeyboardShortcutBlocker(['Enter', ' ']);
+
   handleKeyUp = (keyboardEvent: KeyboardEvent) => {
-    if ((keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ')) {
+    if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
       keyboardEvent.preventDefault();
       this.handleClick();
     }
@@ -51,7 +54,16 @@ class ToggleButton extends React.Component<Props> {
     });
     const content = isOn ? toggledOnContent : toggledOffContent;
     return (
-      <div role="button" aria-pressed={isOn} title={label} onClick={this.handleClick} onKeyUp={this.handleKeyUp} ref={onRef} className={classNames} tabIndex={0}>
+      <div
+        role="button"
+        aria-pressed={isOn}
+        title={label}
+        onClick={this.handleClick}
+        onKeyUp={this.handleKeyUp}
+        onKeyDown={this.handleKeyDown}
+        ref={onRef}
+        className={classNames}
+        tabIndex={0}>
         <div tabIndex={-1}>{content}</div>
       </div>
     );

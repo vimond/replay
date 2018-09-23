@@ -86,6 +86,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
             }
             nudge={[Function]}
             render={[Function]}
+            toggleFixedUserActive={[Function]}
           >
             <KeyboardShortcuts
               configuration={
@@ -111,6 +112,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
               nudge={[Function]}
               render={[Function]}
               setPosition={[Function]}
+              toggleFixedUserActive={[Function]}
               updateProperty={[Function]}
             >
               <ConnectedPlayerStateClassNames
@@ -141,6 +143,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                 isFullscreen={false}
                 isUserActive={true}
                 nudge={[Function]}
+                toggleFixedUserActive={[Function]}
                 updateProperty={[Function]}
               >
                 <PlayerStateClassNames
@@ -174,15 +177,17 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                   isUserActive={true}
                   nudge={[Function]}
                   setPosition={[Function]}
+                  toggleFixedUserActive={[Function]}
                   updateProperty={[Function]}
                 >
                   <div
                     className="replay-is-user-active replay-ui-container"
+                    onFocus={[Function]}
                     onKeyDown={[Function]}
                     onMouseMove={[Function]}
                     onTouchEnd={[Function]}
                     onTouchStart={[Function]}
-                    tabIndex={1}
+                    tabIndex={0}
                   >
                     <Component
                       classNamePrefix="replay-"
@@ -215,6 +220,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           <div
                             className="replay-button replay-exit-button"
                             onClick={[Function]}
+                            onKeyDown={[Function]}
                             onKeyUp={[Function]}
                             role="button"
                             tabIndex={0}
@@ -347,6 +353,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 <div
                                   className="replay-play-pause-button replay-toggle-button replay-toggled-off"
                                   onClick={[Function]}
+                                  onKeyDown={[Function]}
                                   onKeyUp={[Function]}
                                   role="button"
                                   tabIndex={0}
@@ -454,6 +461,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 <div
                                   className="replay-button replay-skip-button"
                                   onClick={[Function]}
+                                  onKeyDown={[Function]}
                                   onKeyUp={[Function]}
                                   role="button"
                                   tabIndex={0}
@@ -750,6 +758,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     <div
                                       className="replay-mute-toggle replay-toggle-button replay-toggled-off"
                                       onClick={[Function]}
+                                      onKeyDown={[Function]}
                                       onKeyUp={[Function]}
                                       role="button"
                                       tabIndex={0}
@@ -1047,6 +1056,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 aria-pressed={false}
                                 className="replay-fullscreen-button replay-toggle-button replay-toggled-off"
                                 onClick={[Function]}
+                                onKeyDown={[Function]}
                                 onKeyUp={[Function]}
                                 role="button"
                                 tabIndex={0}

@@ -34,7 +34,7 @@ test('<PlayerUIContainer/> renders with prefixed class name and DOM including ch
   const playerStateClassNames = rendered.find('PlayerStateClassNames');
   expect(playerStateClassNames.props().classNamePrefix).toBe('a-');
   const deepDiv = playerStateClassNames.find('div');
-  expect(deepDiv.props().tabIndex).toBe(1);
+  expect(deepDiv.props().tabIndex).toBe(0);
   expect(playerUIContainerProps.render.mock.calls.length).toBeGreaterThan(0);
   expect(Object.keys(playerUIContainerProps.render.mock.calls[0][0])).toContain('fullscreenState');
   expect(Object.keys(playerUIContainerProps.render.mock.calls[0][0])).toContain('interactionState');

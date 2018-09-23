@@ -59,8 +59,8 @@ const renderAndPressKey = (isUpdatingFullscreenState, prop, initialValue, keyCod
   }
 
   shallow(<KeyboardShortcuts render={renderFn} configuration={config} {...state} />);
-  const { handleKeyUp } = renderFn.mock.calls[0][0];
-  handleKeyUp({ keyCode, preventDefault });
+  const { handleKeyDown } = renderFn.mock.calls[0][0];
+  handleKeyDown({ keyCode, preventDefault });
   return {
     updateProperty,
     setPosition
@@ -156,11 +156,11 @@ test('<KeyboardShortcuts/> nudges the user activity state when a valid key is pr
       fullscreenState={fullscreenState}
     />
   );
-  const { handleKeyUp } = renderFn.mock.calls[0][0];
-  handleKeyUp({ keyCode: 1, preventDefault });
-  handleKeyUp({ keyCode: 313, preventDefault });
-  handleKeyUp({ keyCode: 167671, preventDefault });
-  handleKeyUp({ keyCode: 8, preventDefault });
+  const { handleKeyDown } = renderFn.mock.calls[0][0];
+  handleKeyDown({ keyCode: 1, preventDefault });
+  handleKeyDown({ keyCode: 313, preventDefault });
+  handleKeyDown({ keyCode: 167671, preventDefault });
+  handleKeyDown({ keyCode: 8, preventDefault });
   expect(nudge.mock.calls.length).toBe(2);
   expect(preventDefault.mock.calls.length).toBe(2);
 });

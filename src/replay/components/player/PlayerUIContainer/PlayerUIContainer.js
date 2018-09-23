@@ -88,12 +88,13 @@ export const getConnectedPlayerUIContainer = (connector: any => React.ComponentT
               render={({ onRef, ...fullscreenState }) => (
                 <InteractionDetector
                   configuration={configuration}
-                  render={({ handleMouseMove, handleTouchStart, handleTouchEnd, ...interactionState }) => (
+                  render={({ handleMouseMove, handleTouchStart, handleTouchEnd, handleFocus, ...interactionState }) => (
                     <ConnectedKeyboardShortcuts
                       configuration={configuration}
                       fullscreenState={fullscreenState}
                       nudge={interactionState.nudge}
-                      render={({ handleKeyUp }) => (
+                      toggleFixedUserActive={interactionState.toggleFixedUserActive}
+                      render={({ handleKeyDown }) => (
                         <ConnectedPlayerStateClassNames
                           {...fullscreenState}
                           {...interactionState}
@@ -101,12 +102,13 @@ export const getConnectedPlayerUIContainer = (connector: any => React.ComponentT
                           className={className}
                           classNamePrefix={classNamePrefix}>
                           <div
-                            tabIndex={1}
+                            tabIndex={0}
                             ref={onRef}
                             onMouseMove={handleMouseMove}
                             onTouchStart={handleTouchStart}
                             onTouchEnd={handleTouchEnd}
-                            onKeyDown={handleKeyUp}>
+                            onKeyDown={handleKeyDown}
+                            onFocus={handleFocus}>
                             {render({ fullscreenState, interactionState })}
                           </div>
                         </ConnectedPlayerStateClassNames>

@@ -4,7 +4,9 @@ import * as React from 'react';
 type RenderParameters = {
   isUserActive: boolean,
   nudge: () => void,
+  toggleFixedUserActive: () => void,
   handleMouseMove: (evt: MouseEvent) => void,
+  handleFocus: (evt: FocusEvent) => void,
   handleTouchStart: (evt: TouchEvent) => void,
   handleTouchEnd: (evt: TouchEvent) => void
 };
@@ -44,7 +46,7 @@ class InteractionDetector extends React.Component<Props, State> {
     this.state = { isUserActive: true };
   }
 
-  delaySeconds: number;
+  isFixed: boolean = false;
   intervalId: IntervalID;
   inactivityTimeoutId: TimeoutID;
   flags: InteractionState = {
@@ -109,8 +111,23 @@ class InteractionDetector extends React.Component<Props, State> {
     this.flags.isMouseMoved = true;
   };
 
+  toggleFixedUserActive = () => {
+    this.isFixed = !this.isFixed;
+    if (this.isFixed) {
+      this.flags.isMouseMoved = true;
+    } else {
+      this.setState({ isUserActive: false });
+    }
+  };
+
+  handleFocus = (focusEvent: FocusEvent) => {
+    if (focusEvent.target === focusEvent.currentTarget) {
+      this.nudge();
+    }
+  };
+
   setInactive = () => {
-    if (!this.flags.isMouseMoved) {
+    if (!(this.isFixed || this.flags.isMouseMoved)) {
       this.setState({ isUserActive: false });
     }
   };
@@ -131,8 +148,16 @@ class InteractionDetector extends React.Component<Props, State> {
   render() {
     const { isUserActive } = this.state;
     const { render } = this.props;
-    const { handleMouseMove, handleTouchStart, handleTouchEnd, nudge } = this;
-    return render({ isUserActive, handleMouseMove, handleTouchStart, handleTouchEnd, nudge });
+    const { handleMouseMove, handleTouchStart, handleTouchEnd, handleFocus, toggleFixedUserActive, nudge } = this;
+    return render({
+      isUserActive,
+      handleMouseMove,
+      handleTouchStart,
+      handleTouchEnd,
+      handleFocus,
+      toggleFixedUserActive: toggleFixedUserActive,
+      nudge
+    });
   }
 }
 

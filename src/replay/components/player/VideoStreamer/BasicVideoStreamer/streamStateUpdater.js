@@ -109,9 +109,7 @@ function getStreamStateUpdater(
     if (streamer.props.onStreamStateChange) {
       try {
         streamer.props.onStreamStateChange(property);
-      } catch (e) {
-        console.error('onStreamStateChange failed.', e);
-      }
+      } catch (e) {}
     }
   }
 

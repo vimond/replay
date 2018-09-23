@@ -218,7 +218,12 @@ class Selector extends React.Component<Props, SelectorState> {
       }
       if (keyboardEvent.key === 'ArrowDown' || keyboardEvent.key === 'Down') {
         keyboardEvent.preventDefault();
-        const focusedElement = focusElement(false, this.props.reverseOrder || false, this.focusableItems, this.toggleElement);
+        const focusedElement = focusElement(
+          false,
+          this.props.reverseOrder || false,
+          this.focusableItems,
+          this.toggleElement
+        );
         if (focusedElement === this.toggleElement) {
           this.setState({ isExpanded: false });
         }

@@ -5,7 +5,7 @@ import type { FullscreenState } from './Fullscreen';
 import type { InspectMethod } from '../PlayerController/ControllerContext';
 
 type RenderParameters = {
-  handleKeyUp: KeyboardEvent => void
+  handleKeyDown: KeyboardEvent => void
 };
 
 type KeyCodes = number | Array<number>;
@@ -28,6 +28,7 @@ type UpdateableProperties = { volume: number } | { isMuted: boolean } | { isPaus
 
 type Props = {
   nudge?: () => void,
+  toggleFixedUserActive?: () => void,
   configuration?: {
     keyboardShortcuts?: KeyboardShortcutsConfiguration
   },
@@ -53,9 +54,10 @@ const getMatchingOperationFromKeycodeConfig = (config: KeyboardShortcutsConfigur
 };
 
 class KeyboardShortcuts extends React.Component<Props> {
-  handleKeyUp = (keyboardEvent: KeyboardEvent) => {
+  handleKeyDown = (keyboardEvent: KeyboardEvent) => {
     let {
       nudge,
+      toggleFixedUserActive,
       configuration,
       updateProperty,
       setPosition,
@@ -111,20 +113,27 @@ class KeyboardShortcuts extends React.Component<Props> {
           case 'increaseVolume':
             updateProperty && volume != null && updateProperty({ volume: Math.min(volume + volumeStep, 1) });
             break;
+          case 'toggleUserActive':
+            if (toggleFixedUserActive) {
+              toggleFixedUserActive();
+            }
+            break;
           default:
           // eslint requires default in switch. Can't see that this is a good case for such a requirement.
         }
-        if (nudge) {
+        if (nudge && operation !== 'toggleUserActive') {
           nudge();
         }
         keyboardEvent.preventDefault();
+      } else if (keyboardEvent.keyCode === 9 && nudge) {
+        nudge();
       }
     }
   };
 
   render() {
-    const { handleKeyUp } = this;
-    return this.props.render({ handleKeyUp });
+    const { handleKeyDown } = this;
+    return this.props.render({ handleKeyDown });
   }
 }
 export default KeyboardShortcuts;

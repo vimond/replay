@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { type CommonGenericProps, hydrateClassNames } from '../../common';
+import { type CommonGenericProps, getKeyboardShortcutBlocker, hydrateClassNames } from '../../common';
 
 type Props = CommonGenericProps & {
   label?: string,
@@ -17,7 +17,9 @@ class Button extends React.Component<Props> {
   };
 
   handleClick = () => this.props.onClick && this.props.onClick();
-  
+
+  handleKeyDown = getKeyboardShortcutBlocker(['Enter', ' ']);
+
   handleKeyUp = (keyboardEvent: KeyboardEvent) => {
     if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
       keyboardEvent.preventDefault();
@@ -34,7 +36,14 @@ class Button extends React.Component<Props> {
       classNamePrefix
     }); // buildClassNames(useDefaultClassNaming, classNamePrefix, className, baseClassName);
     return (
-      <div title={label} onClick={this.handleClick} onKeyUp={this.handleKeyUp} className={classNames} role="button" tabIndex={0}>
+      <div
+        title={label}
+        onClick={this.handleClick}
+        onKeyDown={this.handleKeyDown}
+        onKeyUp={this.handleKeyUp}
+        className={classNames}
+        role="button"
+        tabIndex={0}>
         <div tabIndex={-1}>{content}</div>
       </div>
     );
