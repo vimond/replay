@@ -42,14 +42,17 @@ const routeNames = {
 };
 
 const processRoutes = routes =>
-  routes.filter(route => !routeNames[route.name] || routeNames[route.name].priority > 0).map(route => {
-    if (!routeNames[route.name]) return route;
-    return {
-      ...route,
-      name: routeNames[route.name].name || route.name,
-      priority: routeNames[route.name].priority
-    };
-  }).sort((a, b) => ((a && a.priority) || 255) - ((b && b.priority) || 255));
+  routes
+    .filter(route => !routeNames[route.name] || routeNames[route.name].priority > 0)
+    .map(route => {
+      if (!routeNames[route.name]) return route;
+      return {
+        ...route,
+        name: routeNames[route.name].name || route.name,
+        priority: routeNames[route.name].priority
+      };
+    })
+    .sort((a, b) => ((a && a.priority) || 255) - ((b && b.priority) || 255));
 
 const classNamePrefix = defaultClassNamePrefix;
 
@@ -76,15 +79,22 @@ const MyCustomPlayer = createCustomPlayer({
   videoStreamerComponent: MockVideoStreamer
 });
 
-
-const MyPlayPauseOverlay = connectControl(({ isPaused, updateProperty }) => <div style={{ 
-  position: 'absolute', 
-  top: 0, 
-  left: 0, 
-  width: '100%',
-  height: '100%',
-  cursor: 'pointer'
-}} onClick={() => updateProperty({ isPaused: !isPaused })}/>, ['isPaused']);
+const MyPlayPauseOverlay = connectControl(
+  ({ isPaused, updateProperty }) => (
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        cursor: 'pointer'
+      }}
+      onClick={() => updateProperty({ isPaused: !isPaused })}
+    />
+  ),
+  ['isPaused']
+);
 
 export default props => (
   <ScopeProvider

@@ -139,8 +139,20 @@ const getPropsToBeUpdated = (
 };
 
 const onPropsChanged = (prevProps: Props, nextProps: Props) => {
-  const { configuration, playState, audioTracks, textTracks, volume, isMuted, textTrackLanguage, textTrackKind, audioTrackLanguage, audioTrackKind, updateProperty } = nextProps;
-  
+  const {
+    configuration,
+    playState,
+    audioTracks,
+    textTracks,
+    volume,
+    isMuted,
+    textTrackLanguage,
+    textTrackKind,
+    audioTrackLanguage,
+    audioTrackKind,
+    updateProperty
+  } = nextProps;
+
   const programmaticSettings = {};
   if (volume != null) {
     programmaticSettings.volume = volume;
@@ -160,7 +172,7 @@ const onPropsChanged = (prevProps: Props, nextProps: Props) => {
   if (audioTrackKind != null) {
     programmaticSettings.audioTrackKind = audioTrackKind;
   }
-    
+
   const mergedSettings = mergePreferredSettings(configuration, programmaticSettings);
   const propsToBeUpdated = getPropsToBeUpdated(
     prevProps.playState,
@@ -178,7 +190,7 @@ const onPropsChanged = (prevProps: Props, nextProps: Props) => {
 };
 
 // https://twitter.com/t045tbr0t/status/972275166611898368
-export const UnConnectedPreferredSettingsApplicator = class PreferredSettingsApplicator extends React.Component<Props> { 
+export const UnConnectedPreferredSettingsApplicator = class PreferredSettingsApplicator extends React.Component<Props> {
   static streamStateKeysForObservation: StreamStateKeysForObservation = ['playState', 'textTracks', 'audioTracks'];
   componentDidMount() {
     onPropsChanged({ updateProperty: noop }, this.props);

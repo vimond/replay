@@ -15,7 +15,11 @@ const MockPlayer = ({
   onExit,
   children
 }: { options: any, onExit?: () => void, children?: React.Node } = {}) => (
-  <PlayerController configuration={baseConfiguration} options={options} render={renderPlayerUI} externalProps={{ onExit }}>
+  <PlayerController
+    configuration={baseConfiguration}
+    options={options}
+    render={renderPlayerUI}
+    externalProps={{ onExit }}>
     <MockVideoStreamer>{children}</MockVideoStreamer>
   </PlayerController>
 );

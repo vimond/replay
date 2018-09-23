@@ -308,7 +308,7 @@ function getStreamStateUpdater(
       textTracks: textTracksStateProps.textTracks
     });
   }
-  
+
   function onAudioTracksChanged(audioTracksStateProps: AudioTracksStateProps) {
     update({
       currentAudioTrack: audioTracksStateProps.currentAudioTrack,

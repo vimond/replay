@@ -73,11 +73,7 @@ const getPlayerUIRenderer = (
                 {...graphics.skipButton}
                 classNamePrefix={classNamePrefix}
               />
-              <Timeline 
-                {...strings.timeline} 
-                {...graphics.timeline} 
-                classNamePrefix={classNamePrefix} 
-              />
+              <Timeline {...strings.timeline} {...graphics.timeline} classNamePrefix={classNamePrefix} />
               <TimeDisplay
                 liveDisplayMode={getLiveDisplayMode(configuration)}
                 {...strings.timeDisplay}
@@ -120,10 +116,7 @@ const getPlayerUIRenderer = (
             {...graphics.bufferingIndicator}
             classNamePrefix={classNamePrefix}
           />
-          <PreferredSettingsApplicator 
-            configuration={configuration} 
-            {...externalProps.preferredSettings} 
-          />
+          <PreferredSettingsApplicator configuration={configuration} {...externalProps.preferredSettings} />
         </React.Fragment>
       )}
     />

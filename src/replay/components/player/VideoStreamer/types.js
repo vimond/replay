@@ -88,7 +88,7 @@ export type SourceTrack = {
 };
 
 export type PlaybackSource = {
-  playbackTechnology: 'html' | 'shaka-legacy' | 'shaka-player' | 'dash.js' | 'hls.js' | 'silverlight' | 'flash',
+  playbackTechnology?: 'html' | 'shaka-legacy' | 'shaka-player' | 'dash.js' | 'hls.js' | 'silverlight' | 'flash',
   streamUrl: string,
   licenseUrl?: string,
   startPosition?: number,

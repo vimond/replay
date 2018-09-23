@@ -40,22 +40,23 @@ const getAudioTrackManager = (
     // $FlowFixMe Array.from() doesn't seem to understand iterables from the DOM API.
     managedTracks = videoElement.audioTracks ? Array.from(videoElement.audioTracks).map(createManagedTrack) : [];
   }
-  
+
   function updateStreamStateProps(selectedTrack?: ?AvailableTrack) {
-    const currentAudioTrack = selectedTrack || managedTracks.filter(mt => mt.videoElementTrack.enabled).map(mt=> mt.selectableTrack)[0] || null;
+    const currentAudioTrack =
+      selectedTrack ||
+      managedTracks.filter(mt => mt.videoElementTrack.enabled).map(mt => mt.selectableTrack)[0] ||
+      null;
     update({ audioTracks: managedTracks.map(mt => mt.selectableTrack), currentAudioTrack });
   }
-  
 
   function handleTrackAddOrRemove() {
     mapAudioTracks();
     updateStreamStateProps();
   }
-  
+
   function handleTrackChange() {
     updateStreamStateProps();
   }
-  
 
   function setup() {
     if (videoElement.audioTracks) {

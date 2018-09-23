@@ -19,7 +19,7 @@ export type TextTrackManager = {
   handleSelectedTextTrackChange: (?AvailableTrack) => void,
   handleNewSourceProps: ({ source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) => void,
   cleanup: () => void
-}
+};
 
 const trackModeMappings = ['disabled', 'hidden', 'showing']; // Index corresponds with "enum" value.
 
@@ -196,7 +196,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
       });
 
       managedTracks = managedTracks.concat(freshManagedTracks);
-      
+
       return Promise.all(freshManagedTracks.map(managedTrack => managedTrack.loadPromise)).then(() => {
         videoElement.textTracks.addEventListener('addtrack', handleTrackAdd);
         videoElement.textTracks.addEventListener('removetrack', handleTrackRemove);
@@ -217,7 +217,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
       // Awkward for-loop because Flow doesn't understand Array.from().
       videoElementTracks.push(textTracksList[i]);
     }
-    
+
     const cleanedUpManagedTracks = managedTracks.filter(managedTrack => {
       return videoElementTracks.indexOf(managedTrack.videoElementTrack) >= 0;
     });
@@ -227,9 +227,11 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
 
     if (videoElementTracks.length > cleanedUpManagedTracks.length) {
       const freshVideoElementTracks = videoElementTracks.filter(videoElementTrack => {
-        return (cleanedUpManagedTracks.filter(function(managedTrack) {
-          return videoElementTrack === managedTrack.videoElementTrack;
-        }).length === 0);
+        return (
+          cleanedUpManagedTracks.filter(function(managedTrack) {
+            return videoElementTrack === managedTrack.videoElementTrack;
+          }).length === 0
+        );
       });
       const freshManagedTracks: Array<ManagedTextTrack> = freshVideoElementTracks.map(videoElementTrack => {
         const id = ++unique;
@@ -247,7 +249,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
       managedTracks = cleanedUpManagedTracks;
     }
   }
-  
+
   function cleanupTracks(isNewSession: boolean) {
     updateFromVideoElement(videoElement.textTracks);
     managedTracks.forEach(m => {
@@ -265,10 +267,9 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
         setTrackMode(vt, 'disabled');
       }
       m.selectableTrack = null;
-      
     });
   }
-  
+
   function handleNewSourceProps(newProps: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
     if ('source' in newProps) {
       cleanupTracks(true);
@@ -295,7 +296,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
     }
     notifyPropertyChanges();
   }
-  
+
   function handleTrackAdd() {
     updateFromVideoElement(videoElement.textTracks);
     notifyPropertyChanges();

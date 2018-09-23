@@ -95,7 +95,7 @@ class BasicVideoStreamer extends React.Component<Props> {
   render() {
     const { className, classNamePrefix, source, applyBuiltInStyles }: Props = this.props;
     const classNames = prefixClassNames(classNamePrefix, baseClassName, className);
-    const streamUrl = source && ((typeof source === 'string' && source.length > 0) ? source : source.streamUrl);
+    const streamUrl = source && (typeof source === 'string' && source.length > 0 ? source : source.streamUrl);
     if (streamUrl) {
       return (
         <video

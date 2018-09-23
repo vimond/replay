@@ -14,31 +14,36 @@ type State = {
   alwaysShowDesignControls: boolean
 };
 
-const textTracks = [{
-  kind: 'subtitles',
-  language: 'no',
-  src: 'subtitles/no.vtt',
-  contentType: 'text/vtt;charset="UTF-8"',
-  label: 'Norsk'
-},{
-  kind: 'subtitles',
-  language: 'en',
-  src: 'subtitles/en.vtt',
-  contentType: 'text/vtt;charset="UTF-8"',
-  label: 'English'
-},{
-  kind: 'captions',
-  language: 'no',
-  src: 'subtitles/no-captions.vtt',
-  contentType: 'text/vtt;charset="UTF-8"',
-  label: 'Norsk (th)'
-},{
-  kind: 'captions',
-  language: 'en',
-  src: 'subtitles/en-captions.vtt',
-  contentType: 'text/vtt;charset="UTF-8"',
-  label: 'English captions'
-}];
+const textTracks = [
+  {
+    kind: 'subtitles',
+    language: 'no',
+    src: 'subtitles/no.vtt',
+    contentType: 'text/vtt;charset="UTF-8"',
+    label: 'Norsk'
+  },
+  {
+    kind: 'subtitles',
+    language: 'en',
+    src: 'subtitles/en.vtt',
+    contentType: 'text/vtt;charset="UTF-8"',
+    label: 'English'
+  },
+  {
+    kind: 'captions',
+    language: 'no',
+    src: 'subtitles/no-captions.vtt',
+    contentType: 'text/vtt;charset="UTF-8"',
+    label: 'Norsk (th)'
+  },
+  {
+    kind: 'captions',
+    language: 'en',
+    src: 'subtitles/en-captions.vtt',
+    contentType: 'text/vtt;charset="UTF-8"',
+    label: 'English captions'
+  }
+];
 
 const videoUrls = [
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4',
@@ -70,7 +75,7 @@ const configOverrides: PlayerConfiguration = {
     visibleAtStart: false
   },
   ui: {
-  //includeControls: ['playPauseButton', 'timeline', 'timeDisplay', 'gotoLiveButton', 'volume', 'fullscreenButton', 'exitButton']
+    //includeControls: ['playPauseButton', 'timeline', 'timeDisplay', 'gotoLiveButton', 'volume', 'fullscreenButton', 'exitButton']
   }
 };
 
@@ -115,7 +120,9 @@ class App extends Component<void, State> {
         <div className="App-player-panel">
           {useMock ? (
             <div>
-              <MockPlayer options={{ ...configOverrides, ...getPlayerOptionsFromState(this.state) }} onExit={this.togglePlayer}>
+              <MockPlayer
+                options={{ ...configOverrides, ...getPlayerOptionsFromState(this.state) }}
+                onExit={this.togglePlayer}>
                 Design mode
               </MockPlayer>
               <p>
@@ -135,6 +142,7 @@ class App extends Component<void, State> {
                 options={configOverrides}
                 onExit={this.togglePlayer}
                 startVolume={0.5}
+                startPaused={true}
               />
               <p>
                 <input type="url" value={streamUrl} onChange={this.handleStreamUrlFieldChange} />
@@ -147,6 +155,13 @@ class App extends Component<void, State> {
             </div>
           )}
         </div>
+        <h4>Remaining for tab nav</h4>
+        <ul>
+          <li>Avoid hiding the controls</li>
+          <li>Conflict for space/enter and play/pause</li>
+          <li>Code cleanup</li>
+          <li>Can keyboard shortcuts simply replace tab nav?</li>
+        </ul>
         <Persist name="app-state" data={this.state} onMount={data => this.setState(data)} />
       </div>
     );
