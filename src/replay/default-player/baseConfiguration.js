@@ -17,15 +17,15 @@ export const baseConfiguration: PlayerConfiguration = {
     inactivityDelay: 2
   },
   keyboardShortcuts: {
-    keyCodes: {
-      togglePause: [32, 13],
-      toggleFullscreen: 70,
-      decreaseVolume: [109, 189],
-      increaseVolume: [107, 187],
-      skipBack: 188,
-      skipForward: 190,
-      toggleUserActive: 67,
-      toggleMute: 77
+    keyMap: {
+      togglePause: [' ', 'Enter'],
+      toggleFullscreen: 'F',
+      decreaseVolume: '-',
+      increaseVolume: '+',
+      skipBack: ',',
+      skipForward: '.',
+      toggleUserActive: 'C',
+      toggleMute: 'M'
     }
   },
   userSettings: {

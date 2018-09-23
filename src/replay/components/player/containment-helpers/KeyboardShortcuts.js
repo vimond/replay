@@ -8,17 +8,17 @@ type RenderParameters = {
   handleKeyDown: KeyboardEvent => void
 };
 
-type KeyCodes = number | Array<number>;
+type KeyMapping = string | Array<string>;
 
 export type KeyboardShortcutsConfiguration = {
-  keyCodes: {
-    togglePause?: KeyCodes,
-    toggleMute?: KeyCodes,
-    toggleFullscreen?: KeyCodes,
-    skipBack?: KeyCodes,
-    skipForward?: KeyCodes,
-    increaseVolume?: KeyCodes,
-    decreaseVolume?: KeyCodes
+  keyMap: {
+    togglePause?: KeyMapping,
+    toggleMute?: KeyMapping,
+    toggleFullscreen?: KeyMapping,
+    skipBack?: KeyMapping,
+    skipForward?: KeyMapping,
+    increaseVolume?: KeyMapping,
+    decreaseVolume?: KeyMapping
   },
   volumeStep?: number,
   skipOffset?: number
@@ -45,10 +45,24 @@ type Props = {
   inspect?: InspectMethod
 };
 
-const getMatchingOperationFromKeycodeConfig = (config: KeyboardShortcutsConfiguration, keyCode: number): ?string => {
-  if (config.keyCodes) {
-    return Object.entries(config.keyCodes)
-      .filter(entry => !!(entry[1] === keyCode || (Array.isArray(entry[1]) && entry[1].indexOf(keyCode) >= 0)))
+const matchKeyCaseSafely = (key: ?(string | any), eventKey: string): boolean => {
+  return typeof key !== 'string'
+    ? false
+    : key.length > 1
+      ? key === eventKey
+      : key.toLowerCase() === eventKey.toLowerCase();
+};
+
+const getMatchingOperationFromKeyMap = (config: KeyboardShortcutsConfiguration, eventKey: string): ?string => {
+  if (config.keyMap) {
+    return Object.entries(config.keyMap)
+      .filter(
+        ([_, mappedKeys]) =>
+          !!(
+            matchKeyCaseSafely(mappedKeys, eventKey) ||
+            (Array.isArray(mappedKeys) && mappedKeys.filter(key => matchKeyCaseSafely(key, eventKey)).length)
+          )
+      )
       .map(entry => entry[0])[0];
   }
 };
@@ -83,7 +97,7 @@ class KeyboardShortcuts extends React.Component<Props> {
     if (configuration && configuration.keyboardShortcuts) {
       const offset = configuration.keyboardShortcuts.skipOffset || 30;
       const volumeStep = configuration.keyboardShortcuts.volumeStep || 0.1;
-      const operation = getMatchingOperationFromKeycodeConfig(configuration.keyboardShortcuts, keyboardEvent.keyCode);
+      const operation = getMatchingOperationFromKeyMap(configuration.keyboardShortcuts, keyboardEvent.key);
       if (operation) {
         switch (operation) {
           case 'togglePause':
@@ -125,7 +139,7 @@ class KeyboardShortcuts extends React.Component<Props> {
           nudge();
         }
         keyboardEvent.preventDefault();
-      } else if (keyboardEvent.keyCode === 9 && nudge) {
+      } else if (keyboardEvent.key === 'Tab' && nudge) {
         nudge();
       }
     }

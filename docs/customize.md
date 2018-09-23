@@ -20,14 +20,15 @@ export const baseConfiguration: PlayerConfiguration = {
     inactivityDelay: 2
   },
   keyboardShortcuts: {
-    keyCodes: {
-      togglePause: [32, 13],
-      toggleFullscreen: 70,
-      decreaseVolume: [109, 189],
-      increaseVolume: [107, 187],
-      skipBack: 188,
-      skipForward: 190,
-      toggleMute: 77
+    keyMap: {
+      togglePause: [' ', 'Enter'],
+      toggleFullscreen: 'F',
+      decreaseVolume: '-',
+      increaseVolume: '+',
+      skipBack: ',',
+      skipForward: '.',
+      toggleUserActive: 'C',
+      toggleMute: 'M'
     }
   },
   ui: {
@@ -51,8 +52,8 @@ Configuration overrides can be specified through the `options` prop. Pass an obj
       liveDisplayMode: 'live-offset' 
     },
     keyboardShortcuts: { 
-      keyCodes: {
-        togglePause: [32, 13, 80]
+      keyMap: {
+        togglePause: [' ', 'Enter', 'P']
       }
     }
   }}>
@@ -64,7 +65,7 @@ The overrides in this example changes the following, compared to the base config
 
 * The player controls are hidden after 10 seconds, instead of 2.
 * For a live stream, the position will be displayed as an offset from the live edge, instead of time-of-day clock time (if applicable).
-* All the keyboard keys `Enter`, `Space`, and `P` (key codes 32, 13, 80) can be used to toggle pause/playing. In the base configuration only `Enter` and `Space` (32, 13) were defined as shortcuts for this operation.
+* All the keyboard keys `Enter`, `Space`, and `P` can be used to toggle pause/playing. In the base configuration only `Enter` and `Space` were defined as shortcuts for this operation.
 
 ### Including or omitting player controls by configuration
 
