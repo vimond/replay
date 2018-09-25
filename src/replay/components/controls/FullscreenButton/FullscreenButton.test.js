@@ -28,12 +28,12 @@ test('<FullscreenButton/> renders button state during fullscreen correctly.', ()
 });
 
 test('<FullscreenButton/> updates property isFullscreen with opposite boolean value on click. It correspondingly calls enterFullscreen or exitFullscreen.', () => {
-  const updatePropertyCallback = jest.fn();
+  const setPropertyCallback = jest.fn();
   const enterFullscreenCallback = jest.fn();
   const exitFullscreenCallback = jest.fn();
   const rendered = shallow(
     <FullscreenButton
-      updateProperty={updatePropertyCallback}
+      setProperty={setPropertyCallback}
       enterFullscreen={enterFullscreenCallback}
       exitFullscreen={exitFullscreenCallback}
       classNamePrefix="a-"
@@ -44,16 +44,16 @@ test('<FullscreenButton/> updates property isFullscreen with opposite boolean va
   );
   const renderedToggleButton = rendered.dive();
   renderedToggleButton.simulate('click');
-  expect(updatePropertyCallback.mock.calls.length).toBe(1);
-  expect(updatePropertyCallback.mock.calls[0][0]).toEqual({ isFullscreen: true });
+  expect(setPropertyCallback.mock.calls.length).toBe(1);
+  expect(setPropertyCallback.mock.calls[0][0]).toEqual({ isFullscreen: true });
   expect(renderedToggleButton.simulate('click'));
-  expect(updatePropertyCallback.mock.calls.length).toBe(2);
-  expect(updatePropertyCallback.mock.calls[1][0]).toEqual({ isFullscreen: true }); // Prop not updated. Same outcome.
+  expect(setPropertyCallback.mock.calls.length).toBe(2);
+  expect(setPropertyCallback.mock.calls[1][0]).toEqual({ isFullscreen: true }); // Prop not updated. Same outcome.
 
   rendered.setProps({ isFullscreen: true });
   const renderedToggle2 = rendered.dive();
   renderedToggle2.simulate('click');
 
-  expect(updatePropertyCallback.mock.calls.length).toBe(3);
-  expect(updatePropertyCallback.mock.calls[2][0]).toEqual({ isFullscreen: false });
+  expect(setPropertyCallback.mock.calls.length).toBe(3);
+  expect(setPropertyCallback.mock.calls[2][0]).toEqual({ isFullscreen: false });
 });

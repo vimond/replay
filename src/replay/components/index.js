@@ -73,5 +73,3 @@ export {
   playerStateClassNameBuilder,
   common
 };
-
-// TODO: Look into re-exporting also types.

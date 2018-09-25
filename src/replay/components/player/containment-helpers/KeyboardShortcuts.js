@@ -24,7 +24,7 @@ export type KeyboardShortcutsConfiguration = {
   skipOffset?: number
 };
 
-type UpdateableProperties = { volume: number } | { isMuted: boolean } | { isPaused: boolean };
+type UpdateableProperties = { volume: number } | { isMuted: boolean } | { isPaused: boolean } | { position: number };
 
 type Props = {
   nudge?: () => void,
@@ -33,8 +33,7 @@ type Props = {
     keyboardShortcuts?: KeyboardShortcutsConfiguration
   },
   playMode?: ?PlayMode,
-  updateProperty?: UpdateableProperties => void,
-  setPosition?: number => void,
+  setProperty?: UpdateableProperties => void,
   fullscreenState?: FullscreenState,
   render: RenderParameters => React.Node,
   isPaused?: ?boolean,
@@ -73,8 +72,7 @@ class KeyboardShortcuts extends React.Component<Props> {
       nudge,
       toggleFixedUserActive,
       configuration,
-      updateProperty,
-      setPosition,
+      setProperty,
       fullscreenState,
       isPaused,
       isMuted,
@@ -101,31 +99,31 @@ class KeyboardShortcuts extends React.Component<Props> {
       if (operation) {
         switch (operation) {
           case 'togglePause':
-            updateProperty && updateProperty({ isPaused: !isPaused });
+            setProperty && setProperty({ isPaused: !isPaused });
             break;
           case 'toggleMute':
-            updateProperty && updateProperty({ isMuted: !isMuted });
+            setProperty && setProperty({ isMuted: !isMuted });
             break;
           case 'toggleFullscreen':
-            fullscreenState && fullscreenState.updateProperty({ isFullscreen: !fullscreenState.isFullscreen });
+            fullscreenState && fullscreenState.setProperty({ isFullscreen: !fullscreenState.isFullscreen });
             break;
           case 'skipBack':
-            setPosition && position != null && setPosition(Math.max(position - offset, 0));
+            setProperty && position != null && setProperty({ position: Math.max(position - offset, 0) });
             break;
           case 'skipForward':
-            if (setPosition && duration) {
+            if (setProperty && duration) {
               const targetPosition = (position || 0) + offset;
               // Skipping to the very end is just annoying. Skipping to live position makes sense.
               if (targetPosition < duration || playMode !== 'ondemand') {
-                setPosition(Math.min(targetPosition, duration));
+                setProperty({ position: Math.min(targetPosition, duration) });
               }
             }
             break;
           case 'decreaseVolume':
-            updateProperty && volume != null && updateProperty({ volume: Math.max(volume - volumeStep, 0) });
+            setProperty && volume != null && setProperty({ volume: Math.max(volume - volumeStep, 0) });
             break;
           case 'increaseVolume':
-            updateProperty && volume != null && updateProperty({ volume: Math.min(volume + volumeStep, 1) });
+            setProperty && volume != null && setProperty({ volume: Math.min(volume + volumeStep, 1) });
             break;
           case 'toggleUserActive':
             if (toggleFixedUserActive) {

@@ -69,19 +69,19 @@ const noStorageKeyConfig = {
 
 const setup = configuration => {
   setupStorageMocks();
-  const updateProperty = jest.fn();
+  const setProperty = jest.fn();
 
   const returnValue = {
-    updateProperty
+    setProperty
   };
 
-  const Component = ({ updateProperty }) => {
-    returnValue.updater = updateProperty;
+  const Component = ({ setProperty }) => {
+    returnValue.updater = setProperty;
     return null;
   };
   const Hoc = withSettingsStorage(Component);
 
-  returnValue.rendered = mount(<Hoc configuration={configuration} updateProperty={updateProperty} />);
+  returnValue.rendered = mount(<Hoc configuration={configuration} setProperty={setProperty} />);
   return returnValue;
 };
 
@@ -180,8 +180,8 @@ test("withSettingsStorage() doesn't store anything from unrecognized props.", ()
   });
 });
 
-test('withSettingsStorage() calls the original updateProperty prop when wrapped component does it', () => {
-  const { updater, updateProperty } = setup(localConfig);
+test('withSettingsStorage() calls the original setProperty prop when wrapped component does it', () => {
+  const { updater, setProperty } = setup(localConfig);
   updater({ isPaused: true });
-  expect(updateProperty).toHaveBeenCalledWith({ isPaused: true });
+  expect(setProperty).toHaveBeenCalledWith({ isPaused: true });
 });

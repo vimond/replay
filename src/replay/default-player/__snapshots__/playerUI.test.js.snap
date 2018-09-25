@@ -81,7 +81,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                 "enterFullscreen": [Function],
                 "exitFullscreen": [Function],
                 "isFullscreen": false,
-                "updateProperty": [Function],
+                "setProperty": [Function],
               }
             }
             nudge={[Function]}
@@ -104,16 +104,14 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                   "enterFullscreen": [Function],
                   "exitFullscreen": [Function],
                   "isFullscreen": false,
-                  "updateProperty": [Function],
+                  "setProperty": [Function],
                 }
               }
-              gotoLive={[Function]}
               inspect={[Function]}
               nudge={[Function]}
               render={[Function]}
-              setPosition={[Function]}
+              setProperty={[Function]}
               toggleFixedUserActive={[Function]}
-              updateProperty={[Function]}
             >
               <ConnectedPlayerStateClassNames
                 className="ui-container"
@@ -143,8 +141,8 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                 isFullscreen={false}
                 isUserActive={true}
                 nudge={[Function]}
+                setProperty={[Function]}
                 toggleFixedUserActive={[Function]}
-                updateProperty={[Function]}
               >
                 <PlayerStateClassNames
                   className="ui-container"
@@ -171,14 +169,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                   classNamePrefix="replay-"
                   enterFullscreen={[Function]}
                   exitFullscreen={[Function]}
-                  gotoLive={[Function]}
                   inspect={[Function]}
                   isFullscreen={false}
                   isUserActive={true}
                   nudge={[Function]}
-                  setPosition={[Function]}
+                  setProperty={[Function]}
                   toggleFixedUserActive={[Function]}
-                  updateProperty={[Function]}
                 >
                   <div
                     className="replay-is-user-active replay-ui-container"
@@ -313,7 +309,6 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           >
                             <PlayPauseButton
                               classNamePrefix="replay-"
-                              gotoLive={[Function]}
                               inspect={[Function]}
                               label="Toggle play/pause"
                               pausedContent={
@@ -328,8 +323,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   size="24"
                                 />
                               }
-                              setPosition={[Function]}
-                              updateProperty={[Function]}
+                              setProperty={[Function]}
                             >
                               <ToggleButton
                                 className="play-pause-button"
@@ -430,13 +424,11 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   </span>
                                 </Unknown>
                               }
-                              gotoLive={[Function]}
                               inspect={[Function]}
                               label="Skip back 10 seconds"
                               offset={-20}
                               seconds="–10"
-                              setPosition={[Function]}
-                              updateProperty={[Function]}
+                              setProperty={[Function]}
                             >
                               <Button
                                 className="skip-button"
@@ -511,14 +503,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           >
                             <Timeline
                               classNamePrefix="replay-"
-                              gotoLive={[Function]}
                               handleContent=""
                               inspect={[Function]}
                               label="Timeline"
                               reduceDragGlitch={true}
-                              setPosition={[Function]}
+                              setProperty={[Function]}
                               trackContent={<div />}
-                              updateProperty={[Function]}
                             >
                               <Slider
                                 className="timeline"
@@ -581,14 +571,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               classNamePrefix="replay-"
                               clockTimeLabel="Clock time"
                               durationLabel="Duration"
-                              gotoLive={[Function]}
                               inspect={[Function]}
                               label="Video times"
                               liveDisplayMode="clock-time"
                               negativeMark="–"
                               positionLabel="Current time"
-                              setPosition={[Function]}
-                              updateProperty={[Function]}
+                              setProperty={[Function]}
                             >
                               <div
                                 className="replay-time-display"
@@ -621,7 +609,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           >
                             <GotoLiveButton
                               classNamePrefix="replay-"
-                              gotoLive={[Function]}
+                              gotoLive="Go live"
                               inspect={[Function]}
                               isAtLivePositionContent={
                                 <span>
@@ -635,8 +623,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 </span>
                               }
                               label="Play from live position"
-                              setPosition={[Function]}
-                              updateProperty={[Function]}
+                              setProperty={[Function]}
                             />
                           </ConnectedGotoLiveButton>
                           <ConnectedSettingsStorageVolume
@@ -678,7 +665,6 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   },
                                 }
                               }
-                              gotoLive={[Function]}
                               inspect={[Function]}
                               label="Volume and mute"
                               muteToggleLabel="Toggle mute"
@@ -688,14 +674,13 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   size="24"
                                 />
                               }
-                              setPosition={[Function]}
+                              setProperty={[Function]}
                               unmutedContent={
                                 <Volume2
                                   color="currentColor"
                                   size="24"
                                 />
                               }
-                              updateProperty={[Function]}
                               volumeSliderHandleContent=""
                               volumeSliderLabel="Volume setting"
                             >
@@ -711,7 +696,6 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     },
                                   }
                                 }
-                                gotoLive={[Function]}
                                 inspect={[Function]}
                                 label="Volume and mute"
                                 muteToggleLabel="Toggle mute"
@@ -721,14 +705,13 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     size="24"
                                   />
                                 }
-                                setPosition={[Function]}
+                                setProperty={[Function]}
                                 unmutedContent={
                                   <Volume2
                                     color="currentColor"
                                     size="24"
                                   />
                                 }
-                                updateProperty={[Function]}
                                 volumeSliderHandleContent=""
                                 volumeSliderLabel="Volume setting"
                               >
@@ -870,17 +853,15 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   },
                                 }
                               }
-                              gotoLive={[Function]}
                               inspect={[Function]}
                               label="Audio track selector"
-                              setPosition={[Function]}
+                              setProperty={[Function]}
                               toggleContent={
                                 <MessageSquare
                                   color="currentColor"
                                   size="24"
                                 />
                               }
-                              updateProperty={[Function]}
                             >
                               <AudioSelector
                                 classNamePrefix="replay-"
@@ -894,17 +875,15 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     },
                                   }
                                 }
-                                gotoLive={[Function]}
                                 inspect={[Function]}
                                 label="Audio track selector"
-                                setPosition={[Function]}
+                                setProperty={[Function]}
                                 toggleContent={
                                   <MessageSquare
                                     color="currentColor"
                                     size="24"
                                   />
                                 }
-                                updateProperty={[Function]}
                               />
                             </SettingsStorageAudioSelector>
                           </ConnectedSettingsStorageAudioSelector>
@@ -941,18 +920,16 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   },
                                 }
                               }
-                              gotoLive={[Function]}
                               inspect={[Function]}
                               label="Subtitles selector"
                               noSubtitlesLabel="No subtitles"
-                              setPosition={[Function]}
+                              setProperty={[Function]}
                               toggleContent={
                                 <Type
                                   color="currentColor"
                                   size="24"
                                 />
                               }
-                              updateProperty={[Function]}
                             >
                               <SubtitlesSelector
                                 classNamePrefix="replay-"
@@ -966,18 +943,16 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     },
                                   }
                                 }
-                                gotoLive={[Function]}
                                 inspect={[Function]}
                                 label="Subtitles selector"
                                 noSubtitlesLabel="No subtitles"
-                                setPosition={[Function]}
+                                setProperty={[Function]}
                                 toggleContent={
                                   <Type
                                     color="currentColor"
                                     size="24"
                                   />
                                 }
-                                updateProperty={[Function]}
                               />
                             </SettingsStorageSubtitlesSelector>
                           </ConnectedSettingsStorageSubtitlesSelector>
@@ -998,18 +973,16 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               autoLabel="Automatic"
                               classNamePrefix="replay-"
                               formatBitrateLabel={[Function]}
-                              gotoLive={[Function]}
                               inspect={[Function]}
                               label="Video quality selector"
                               selectionStrategy="cap-bitrate"
-                              setPosition={[Function]}
+                              setProperty={[Function]}
                               toggleContent={
                                 <Settings
                                   color="currentColor"
                                   size="24"
                                 />
                               }
-                              updateProperty={[Function]}
                             />
                           </ConnectedQualitySelector>
                           <FullscreenButton
@@ -1030,7 +1003,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 size="24"
                               />
                             }
-                            updateProperty={[Function]}
+                            setProperty={[Function]}
                           >
                             <ToggleButton
                               className="fullscreen-button"
@@ -1101,12 +1074,10 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                       <BufferingIndicator
                         classNamePrefix="replay-"
                         content={<LoadingAnimation />}
-                        gotoLive={[Function]}
                         inspect={[Function]}
                         label="Video is buffering"
                         renderStrategy="always"
-                        setPosition={[Function]}
-                        updateProperty={[Function]}
+                        setProperty={[Function]}
                       >
                         <div
                           className="replay-buffering-indicator"
@@ -1167,10 +1138,8 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                             },
                           }
                         }
-                        gotoLive={[Function]}
                         inspect={[Function]}
-                        setPosition={[Function]}
-                        updateProperty={[Function]}
+                        setProperty={[Function]}
                       />
                     </ConnectedPreferredSettingsApplicator>
                   </div>

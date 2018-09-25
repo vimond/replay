@@ -57,7 +57,6 @@ test('<PlayerController /> renders through render prop with video streamer child
       <MockVideo />
     </PlayerController>
   );
-
   expect(renderProp.mock.calls.length).toBe(1);
   expect(rendered.find('video').length).toBe(1);
 });
@@ -72,6 +71,7 @@ test('<PlayerController /> passes down props and merged configuration in the ren
       configuration={mockConfig}
       options={mockOptions}
       render={renderProp}
+      initialPlaybackProps={{ isPaused: true, volume: 0 }}
       externalProps={{ playerMode: 'full' }}>
       <MockVideo />
     </PlayerController>
@@ -91,9 +91,7 @@ test('<PlayerController /> passes down props and merged configuration in the ren
     }
   });
   expect(renderParameters.externalProps).toEqual({ playerMode: 'full' });
-  expect(typeof controllerApi.updateProperty).toBe('function');
-  expect(typeof controllerApi.setPosition).toBe('function');
-  expect(typeof controllerApi.gotoLive).toBe('function');
+  expect(typeof controllerApi.setProperty).toBe('function');
   expect(typeof controllerApi.observe).toBe('function');
   expect(typeof controllerApi.unobserve).toBe('function');
   expect(controllerApi.inspect()).toEqual({});
@@ -101,24 +99,9 @@ test('<PlayerController /> passes down props and merged configuration in the ren
   const videoStreamerProps = rendered.find('MockVideo').props();
   expect(typeof videoStreamerProps.onReady).toBe('function');
   expect(typeof videoStreamerProps.onPlaybackError).toBe('function');
+  expect(videoStreamerProps.initialPlaybackProps.isPaused).toBe(true);
   expect(typeof videoStreamerProps.onStreamStateChange).toBe('function');
   expect(videoStreamerProps.configuration).toEqual({ propE: 14, propF: { propG: 'perhaps' } });
-});
-
-test('<PlayerController /> exposes the videoStreamer methods when it is ready.', () => {
-  const renderProp = jest.fn();
-  renderProp.mockReturnValue(getMockPlayerUi());
-  const rendered = mount(
-    <PlayerController render={renderProp}>
-      <MockVideo />
-    </PlayerController>
-  );
-  const gotoLive = () => {};
-  const setPosition = () => {};
-  const videoStreamerProps = rendered.find('MockVideo').props();
-  videoStreamerProps.onReady({ gotoLive, setPosition });
-  expect(renderProp.mock.calls[1][0].controllerApi.gotoLive).toBe(gotoLive);
-  expect(renderProp.mock.calls[1][0].controllerApi.setPosition).toBe(setPosition);
 });
 
 test('<PlayerController /> updates observers (only) when specified stream state properties change.', () => {
@@ -149,23 +132,22 @@ test('<PlayerController /> updates observers (only) when specified stream state 
   expect(onConnectedControlRender.mock.calls[3][0].position).toEqual(22);
 });
 
-test("<PlayerController /> updates the videoStreamer's props when updateProperty() is invoked.", () => {
+test("<PlayerController /> invokes videoStreamer's setProperty when setProperty() is invoked and videoStreamer is ready.", () => {
   const renderProp = jest.fn();
+  const setProperty = jest.fn();
   renderProp.mockReturnValue(getMockPlayerUi());
   const rendered = mount(
     <PlayerController render={renderProp}>
       <MockVideo />
     </PlayerController>
   );
-  const controllerApi = renderProp.mock.calls[0][0].controllerApi;
-
-  controllerApi.updateProperty({ volume: 0.75 });
-  rendered.update();
   const videoStreamerProps = rendered.find('MockVideo').props();
-  expect(videoStreamerProps.volume).toBe(0.75);
-
-  controllerApi.updateProperty({ volume: 0.1 });
-  rendered.update();
-  const updatedVideoStreamerProps = rendered.find('MockVideo').props();
-  expect(updatedVideoStreamerProps.volume).toBe(0.1);
+  videoStreamerProps.onReady({ setProperty });
+  const controllerApi = renderProp.mock.calls[1][0].controllerApi;
+  controllerApi.setProperty({ volume: 0.75 });
+  controllerApi.setProperty({ volume: 0.1 });
+  controllerApi.setProperty({ volume: 0.1 });
+  expect(setProperty.mock.calls[0][0].volume).toBe(0.75);
+  //expect(setProperty.mock.calls[1][0].volume).toBe(0.1);
+  //expect(setProperty.mock.calls[2][0].volume).toBe(0.1);
 });

@@ -8,7 +8,7 @@ import type { StreamStateKeysForObservation } from '../../player/PlayerControlle
 type Props = CommonProps & {
   isPaused?: boolean,
   classes?: { pausedPlayPauseButton: string, playingPlayPauseButton: string },
-  updateProperty?: ({ isPaused: boolean }) => void,
+  setProperty?: ({ isPaused: boolean }) => void,
   playingContent: React.Node,
   pausedContent: React.Node
 };
@@ -23,8 +23,8 @@ class PlayPauseButton extends React.Component<Props> {
   static streamStateKeysForObservation: StreamStateKeysForObservation = ['isPaused'];
 
   handleToggle = (value: boolean) => {
-    if (this.props.updateProperty) {
-      this.props.updateProperty({ isPaused: value });
+    if (this.props.setProperty) {
+      this.props.setProperty({ isPaused: value });
     }
   };
 

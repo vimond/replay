@@ -1,12 +1,10 @@
 // @flow
 import getFilteredPropertyUpdater from './filteredPropertyUpdater';
 import BasicVideoStreamer from './BasicVideoStreamer';
-import type { AvailableTrack, PlaybackSource, VideoStreamerProps, VideoStreamState } from '../types';
+import type { AvailableTrack, PlaybackSource, VideoStreamState } from '../types';
 import mapError from './errorMapper';
-import processPropChanges from './propsChangeHandler';
-import type { TextTrackManager } from './textTrackManager';
 import { getIntervalRunner } from '../../../common';
-import type { AudioTrackManager } from './audioTrackManager';
+import { applyProperties } from './propertyApplier';
 
 type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
 
@@ -54,15 +52,6 @@ function seekToInitialPosition(source: ?PlaybackSource, videoElement: HTMLVideoE
   if (source && typeof source.startPosition === 'number') {
     videoElement.currentTime = source.startPosition;
   }
-}
-
-function applyPlaybackProps(
-  props: VideoStreamerProps,
-  videoRef: { current: null | HTMLVideoElement },
-  textTrackManager: ?TextTrackManager,
-  audioTrackManager: ?AudioTrackManager
-) {
-  processPropChanges(videoRef, textTrackManager, audioTrackManager, {}, props);
 }
 
 function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
@@ -135,7 +124,6 @@ function getStreamStateUpdater(
     lifeCycleStage = 'new';
     notifyInitialState();
     pauseStreamRangeUpdater.stop();
-    // TODO: Notify closedown of previous session?
   }
 
   function onError() {
@@ -158,6 +146,10 @@ function getStreamStateUpdater(
     log('loadstart');
     if (lifeCycleStage === 'new') {
       lifeCycleStage = 'starting';
+      if (streamer.props.initialPlaybackProps) {
+        const { isMuted, volume, lockedBitrate, maxBitrate } = streamer.props.initialPlaybackProps;
+        applyProperties({ isMuted, volume, lockedBitrate, maxBitrate }, streamer.videoRef, streamRangeHelper, streamer.textTrackManager, streamer.audioTrackManager);
+      }
       withVideoElement(videoElement => {
         update({ playState: 'starting', isBuffering: true, volume: videoElement.volume, isMuted: videoElement.muted });
       });
@@ -166,8 +158,13 @@ function getStreamStateUpdater(
 
   function onLoadedMetadata() {
     log('loadedmetadata');
-    applyPlaybackProps(streamer.props, streamer.videoRef, streamer.textTrackManager, streamer.audioTrackManager);
+    streamer.audioTrackManager && streamer.audioTrackManager.handleSourceChange();
+    streamer.textTrackManager && streamer.textTrackManager.handleNewSourceProps(streamer.props);
+
     withVideoElement(videoElement => {
+      if (streamer.props.initialPlaybackProps && streamer.props.initialPlaybackProps.isPaused) {
+        videoElement.pause();
+      }
       seekToInitialPosition(streamer.props.source, videoElement);
       update(streamRangeHelper.calculateNewState(videoElement));
     });
@@ -178,7 +175,7 @@ function getStreamStateUpdater(
     // If starting as paused, we consider "canplay" as completed starting. The playState must be updated accordingly.
     // When starting as playing, the starting to started transition is handled by the onPlaying handler.
     if (lifeCycleStage === 'starting') {
-      if (streamer.props.isPaused) {
+      if (streamer.props.initialPlaybackProps && streamer.props.initialPlaybackProps.isPaused) {
         lifeCycleStage = 'started';
       }
     }

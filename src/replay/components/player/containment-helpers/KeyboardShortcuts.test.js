@@ -34,15 +34,12 @@ test('<KeyboardShortcuts/> renders and invokes render prop.', () => {
 const renderAndPressKey = (isUpdatingFullscreenState, prop, initialValue, key) => {
   const renderFn = jest.fn();
   renderFn.mockReturnValue('Inner content');
-  const updateProperty = jest.fn();
-  const setPosition = jest.fn();
+  const setProperty = jest.fn();
   const state = {
     fullscreenState: {
-      updateProperty,
-      setPosition
+      setProperty
     },
-    updateProperty,
-    setPosition
+    setProperty
   };
   if (isUpdatingFullscreenState) {
     if (Array.isArray(prop)) {
@@ -62,77 +59,76 @@ const renderAndPressKey = (isUpdatingFullscreenState, prop, initialValue, key) =
   const { handleKeyDown } = renderFn.mock.calls[0][0];
   handleKeyDown({ key, preventDefault });
   return {
-    updateProperty,
-    setPosition
+    setProperty
   };
 };
 
 test('<KeyboardShortcuts/> toggles pause when mapped key is pressed and previous state was play', () => {
   const prop = 'isPaused';
-  const { updateProperty } = renderAndPressKey(false, prop, false, 'A');
-  expect(updateProperty.mock.calls[0][0]).toEqual({ isPaused: true });
-  const updateProperty2 = renderAndPressKey(false, prop, true, 'B').updateProperty;
-  expect(updateProperty2.mock.calls[0][0]).toEqual({ isPaused: false });
+  const { setProperty } = renderAndPressKey(false, prop, false, 'A');
+  expect(setProperty.mock.calls[0][0]).toEqual({ isPaused: true });
+  const setProperty2 = renderAndPressKey(false, prop, true, 'B').setProperty;
+  expect(setProperty2.mock.calls[0][0]).toEqual({ isPaused: false });
 });
 
 test('<KeyboardShortcuts/> toggles mute when mapped key is pressed.', () => {
   const prop = 'isMuted';
-  const { updateProperty } = renderAndPressKey(false, prop, false, 'E');
-  expect(updateProperty.mock.calls[0][0]).toEqual({ isMuted: true });
-  const updateProperty2 = renderAndPressKey(false, prop, true, 'E').updateProperty;
-  expect(updateProperty2.mock.calls[0][0]).toEqual({ isMuted: false });
+  const { setProperty } = renderAndPressKey(false, prop, false, 'E');
+  expect(setProperty.mock.calls[0][0]).toEqual({ isMuted: true });
+  const setProperty2 = renderAndPressKey(false, prop, true, 'E').setProperty;
+  expect(setProperty2.mock.calls[0][0]).toEqual({ isMuted: false });
 });
 
 test('<KeyboardShortcuts/> toggles fullscreen when mapped key is pressed.', () => {
   const prop = 'isFullscreen';
-  const { updateProperty } = renderAndPressKey(true, prop, true, 'C');
-  expect(updateProperty.mock.calls[0][0]).toEqual({ isFullscreen: false });
-  const updateProperty2 = renderAndPressKey(true, prop, false, 'C').updateProperty;
-  expect(updateProperty2.mock.calls[0][0]).toEqual({ isFullscreen: true });
+  const { setProperty } = renderAndPressKey(true, prop, true, 'C');
+  expect(setProperty.mock.calls[0][0]).toEqual({ isFullscreen: false });
+  const setProperty2 = renderAndPressKey(true, prop, false, 'C').setProperty;
+  expect(setProperty2.mock.calls[0][0]).toEqual({ isFullscreen: true });
 });
 
 test('<KeyboardShortcuts/> does not invoke any updating if the key code is not defined in the config.', () => {
   const prop = 'isFullscreen';
-  const { updateProperty } = renderAndPressKey(true, prop, true, 'Enter');
-  expect(updateProperty.mock.calls.length).toEqual(0);
+  const { setProperty } = renderAndPressKey(true, prop, true, 'Enter');
+  expect(setProperty.mock.calls.length).toEqual(0);
 });
 
 test('<KeyboardShortcuts/> increases or decreases volume when mapped keys are pressed.', () => {
   const prop = 'volume';
-  const { updateProperty } = renderAndPressKey(false, prop, 0.65, 'H');
-  expect(updateProperty.mock.calls[0][0].volume).toBeCloseTo(0.6);
-  const updateProperty2 = renderAndPressKey(false, prop, 0.65, 'I').updateProperty;
-  expect(updateProperty2.mock.calls[0][0].volume).toBeCloseTo(0.7);
+  const { setProperty } = renderAndPressKey(false, prop, 0.65, 'H');
+  expect(setProperty.mock.calls[0][0].volume).toBeCloseTo(0.6);
+  const setProperty2 = renderAndPressKey(false, prop, 0.65, 'I').setProperty;
+  expect(setProperty2.mock.calls[0][0].volume).toBeCloseTo(0.7);
 });
 
 test("<KeyboardShortcuts/> doesn't increase volume above 1 or decrease below 0.", () => {
   const prop = 'volume';
-  const { updateProperty } = renderAndPressKey(false, prop, 0.03, 'H');
-  expect(updateProperty.mock.calls[0][0].volume).toBe(0);
-  const updateProperty2 = renderAndPressKey(false, prop, 0.98, 'I').updateProperty;
-  expect(updateProperty2.mock.calls[0][0].volume).toBe(1);
+  const { setProperty } = renderAndPressKey(false, prop, 0.03, 'H');
+  expect(setProperty.mock.calls[0][0].volume).toBe(0);
+  const setProperty2 = renderAndPressKey(false, prop, 0.98, 'I').setProperty;
+  expect(setProperty2.mock.calls[0][0].volume).toBe(1);
 });
 
 test('<KeyboardShortcuts/> skips back or forward the configured amount of seconds, when mapped keys are pressed.', () => {
   const prop = ['position', 'duration', 'playMode'];
-  const { setPosition } = renderAndPressKey(false, prop, [13, 123, 'live'], 'G');
-  expect(setPosition.mock.calls[0][0]).toBe(33);
-  const setPosition2 = renderAndPressKey(false, prop, [56, 123], 'F').setPosition;
-  expect(setPosition2.mock.calls[0][0]).toBe(36);
+  const { setProperty } = renderAndPressKey(false, prop, [13, 123, 'live'], 'G');
+  expect(setProperty.mock.calls[0][0]).toEqual({ position: 33 });
+  const setProperty2 = renderAndPressKey(false, prop, [56, 123], 'F').setProperty;
+  expect(setProperty2.mock.calls[0][0]).toEqual({ position: 36 });
 });
 
 test('<KeyboardShortcuts/> does not skip back to positions below 0.', () => {
   const prop = ['position', 'duration', 'playMode'];
-  const { setPosition } = renderAndPressKey(false, prop, [13, 123, 'ondemand'], 'F');
-  expect(setPosition.mock.calls[0][0]).toBe(0);
+  const { setProperty } = renderAndPressKey(false, prop, [13, 123, 'ondemand'], 'F');
+  expect(setProperty.mock.calls[0][0]).toEqual({ position: 0 });
 });
 
 test('<KeyboardShortcuts/> does not skip forward to positions above the full duration, and for on demand streams not to the very end.', () => {
   const prop = ['position', 'duration', 'playMode'];
-  const { setPosition } = renderAndPressKey(false, prop, [110, 123, 'livedvr'], 'G');
-  expect(setPosition.mock.calls[0][0]).toBe(123);
-  const setPosition2 = renderAndPressKey(false, prop, [110, 123, 'ondemand'], 'G').setPosition;
-  expect(setPosition2.mock.calls.length).toBe(0);
+  const { setProperty } = renderAndPressKey(false, prop, [110, 123, 'livedvr'], 'G');
+  expect(setProperty.mock.calls[0][0]).toEqual({ position: 123 });
+  const setProperty2 = renderAndPressKey(false, prop, [110, 123, 'ondemand'], 'G').setProperty;
+  expect(setProperty2.mock.calls.length).toBe(0);
 });
 
 test('<KeyboardShortcuts/> nudges the user activity state when a valid key is pressed. It also prevents default event handling.', () => {
@@ -141,11 +137,10 @@ test('<KeyboardShortcuts/> nudges the user activity state when a valid key is pr
   const preventDefault = jest.fn();
   renderFn.mockReturnValue('Inner content');
   const videoStreamState = {
-    updateProperty: () => {},
-    setPosition: () => {}
+    setProperty: () => {}
   };
   const fullscreenState = {
-    updateProperty: () => {}
+    setProperty: () => {}
   };
   shallow(
     <KeyboardShortcuts

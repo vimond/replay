@@ -195,7 +195,7 @@ In your real code, any components with data can be brought in. All Replay compon
 
 ```.jsx
 <PlayerController
-  startPaused={true}
+  initialPlaybackProps={{ isPaused: true }}
   configuration={baseConfiguration}
   render={({externalProps, configuration}) => (
     <PlayerUIContainer
@@ -251,16 +251,16 @@ This custom component in the example above is defined with the following code:
 
 ```javascript
 const MyPlayPauseOverlay = connectControl(
-  ({ isPaused, updateProperty }) => 
+  ({ isPaused, setProperty }) => 
     <div 
       style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', cursor: 'pointer'}} 
-      onClick={() => updateProperty({ isPaused: !isPaused })}
+      onClick={() => setProperty({ isPaused: !isPaused })}
     />, 
   ['isPaused']
 );
 ```
 
-Observe the `connectControl()` call wrapping it as a higher-order component. This connects the component to the player controller, whose responsibility is to expose the video streamer component and its state and API to components anywhere in the player UI tree. In this case, we specify that the `isPaused` property should be exposed as a prop to our custom React component. `connectControl()` also passes down an `updateProperty()` method to the component, allowing for manipulating the video playback.
+Observe the `connectControl()` call wrapping it as a higher-order component. This connects the component to the player controller, whose responsibility is to expose the video streamer component and its state and API to components anywhere in the player UI tree. In this case, we specify that the `isPaused` property should be exposed as a prop to our custom React component. `connectControl()` also passes down an `setProperty()` method to the component, allowing for manipulating the video playback.
 
 Note that all other Replay provided controls, operating on the playing video (video streamer), are already connected with `connectControl()`, when used in the default player UI.
 

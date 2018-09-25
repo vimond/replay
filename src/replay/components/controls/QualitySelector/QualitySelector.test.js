@@ -69,11 +69,11 @@ test('<QualitySelector/> with strategy "cap-bitrate" highlights the quality opti
 });
 
 test('<QualitySelector/> with strategy "lock-bitrate" updates property lockedBitrate with the bitrate value when its option is selected. ', () => {
-  const updateProperty = jest.fn();
+  const setPropertyCallback = jest.fn();
   const rendered = shallow(
     <QualitySelector
       {...commonProps}
-      updateProperty={updateProperty}
+      setProperty={setPropertyCallback}
       selectionStrategy="lock-bitrate"
       classNamePrefix=""
     />
@@ -81,17 +81,17 @@ test('<QualitySelector/> with strategy "lock-bitrate" updates property lockedBit
   const itemsContainer = rendered.dive().find('div.selector-items');
   const selectorItems = itemsContainer.children().map(c => c.dive());
   selectorItems[4].simulate('click');
-  expect(updateProperty.mock.calls[0][0].lockedBitrate).toBe(333);
+  expect(setPropertyCallback.mock.calls[0][0].lockedBitrate).toBe(333);
   selectorItems[5].simulate('click');
-  expect(updateProperty.mock.calls[1][0].lockedBitrate).toBe(Infinity);
+  expect(setPropertyCallback.mock.calls[1][0].lockedBitrate).toBe(Infinity);
 });
 
 test('<QualitySelector/> with strategy cap-bitrate updates property maxBitrate with the bitrate value when its option is selected.', () => {
-  const updateProperty = jest.fn();
+  const setPropertyCallback = jest.fn();
   const rendered = shallow(
     <QualitySelector
       {...commonProps}
-      updateProperty={updateProperty}
+      setProperty={setPropertyCallback}
       selectionStrategy="cap-bitrate"
       classNamePrefix=""
     />
@@ -99,7 +99,7 @@ test('<QualitySelector/> with strategy cap-bitrate updates property maxBitrate w
   const itemsContainer = rendered.dive().find('div.selector-items');
   const selectorItems = itemsContainer.children().map(c => c.dive());
   selectorItems[0].simulate('click');
-  expect(updateProperty.mock.calls[0][0].maxBitrate).toBe(4444);
+  expect(setPropertyCallback.mock.calls[0][0].maxBitrate).toBe(4444);
   selectorItems[5].simulate('click');
-  expect(updateProperty.mock.calls[1][0].maxBitrate).toBe(Infinity);
+  expect(setPropertyCallback.mock.calls[1][0].maxBitrate).toBe(Infinity);
 });

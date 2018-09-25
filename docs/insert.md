@@ -2,7 +2,7 @@
 
 *This document will enable live edit and render the code examples when run with x0 doc server.*
 
-*Note that all examples underneath with actual video include the `startPaused={true}` prop, so that the examples don't play wildly all over the page. Please remove when copying to real app code.*
+*Note that all examples underneath with actual video include the `initialPlaybackProps={{ isPaused: true }}` prop, so that the examples don't play wildly all over the page. Please remove when copying to real app code.*
 
 All props are to be documented in the [Replay component API docs](#) (TODO).
 
@@ -40,7 +40,7 @@ Include the `source` prop in order to load a video. This prop can be a string wi
 ```.jsx
 <Replay
   source="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-  startPaused={true}
+  initialPlaybackProps={{ isPaused: true }}
 />
 ```
 
@@ -58,20 +58,20 @@ Note that specifying source as a string doesn't work anymore, and an object with
     streamUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     startPosition: 13
   }}
-  startPaused={true}
+  initialPlaybackProps={{ isPaused: true }}
 />
 ```
 
 ### Setting volume and mute state for startup
 
-This video will start playing without audio. When unmuting, the volume level will be set to 20 %.
+The initialPlaybackProps prop can be used to specify a state for volume, pausing, quality selection policies, to be applied on playback startup. These properties can be changed by the playback itself or through the player's user interface. There is no persisting consistency between what being set here, and the actual state during playback, so that's why these are specified as `initialPlaybackProps` only.
+
+The following video will start paused, but when started playing it will happen without audio. When unmuting, the volume level will be set to 20 %.
 
 ```.jsx
 <Replay
   source="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-  startPaused={true}
-  startMuted={true}
-  startVolume={0.2}
+  initialPlaybackProps={{ isPaused: true, isMuted: true, volume: 0.2 }}
 />
 ```
 
@@ -97,7 +97,7 @@ Subtitle files of different languages and kinds can be specified as text tracks 
       contentType: 'text/vtt'
 	}]
   }}
-  startPaused={true}
+  initialPlaybackProps={{ isPaused: true }}
 />
 ```
 
@@ -110,19 +110,19 @@ If the text tracks are not available when starting the stream, or when a current
 ```.jsx
 <Replay
   source="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-  startPaused={true}
+  initialPlaybackProps={{ isPaused: true }}
   textTracks={[{
-	src: 'example-media/en.vtt',
-	kind: 'subtitles',
-	language: 'en',
-	label: 'English',
-	contentType: 'text/vtt'
+	  src: 'example-media/en.vtt',
+	  kind: 'subtitles',
+	  language: 'en',
+	  label: 'English',
+	  contentType: 'text/vtt'
   }, {
-	src: 'example-media/no.vtt',
-	kind: 'subtitles',
-	language: 'no',
-	label: 'Norwegian',
-	contentType: 'text/vtt'
+	  src: 'example-media/no.vtt',
+	  kind: 'subtitles',
+	  language: 'no',
+	  label: 'Norwegian',
+	  contentType: 'text/vtt'
   }]}
 />
 ```
@@ -137,7 +137,7 @@ Observe the close (×) button overlaid in the upper right corner, when the `onEx
     streamUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     startPosition: 13
   }}
-  startPaused={true}
+  initialPlaybackProps={{ isPaused: true }}
   onExit={() => alert('The player was closed.')}
 />
 ```

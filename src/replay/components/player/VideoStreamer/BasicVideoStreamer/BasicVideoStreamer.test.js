@@ -115,8 +115,7 @@ test('<BasicVideoStreamer/> invokes a callback with position manipulation method
   domRender({ ...commonProps, onReady });
   expect(spy).toHaveBeenCalled();
   const onReadyMethods = onReady.mock.calls[0][0];
-  expect(typeof onReadyMethods.gotoLive).toBe('function');
-  expect(typeof onReadyMethods.setPosition).toBe('function');
+  expect(typeof onReadyMethods.setProperty).toBe('function');
 });
 
 test('<BasicVideoStreamer/> reports playback errors.', () => {
@@ -142,11 +141,15 @@ test('<BasicVideoStreamer/> seeks to a specified startPosition upon playback sta
   expect(videoRef.current.currentTime).toBe(13);
 });
 
-test('<BasicVideoStreamer/> respects isMuted, volume, and isPaused props at playback start.', () => {
-  const { videoElement, videoRef } = domRender({ ...commonProps, isPaused: true, isMuted: true, volume: 0.5 });
+test('<BasicVideoStreamer/> respects initialPlaybackProps isMuted, volume, and isPaused at playback start.', () => {
+  const { videoElement, videoRef } = domRender({
+    ...commonProps,
+    initialPlaybackProps: { isPaused: true, isMuted: true, volume: 0.5 }
+  });
 
   const pauseSpy = jest.spyOn(videoRef.current, 'pause');
 
+  videoElement.simulate('loadstart');
   videoElement.simulate('loadedmetadata');
 
   expect(videoRef.current.muted).toBe(true);
@@ -156,7 +159,7 @@ test('<BasicVideoStreamer/> respects isMuted, volume, and isPaused props at play
 
 test('<BasicVideoStreamer/> handles changes to sources.', () => {});
 
-test('<BasicVideoStreamer/> updates stream state when video elements are invoked.', () => {
+test('<BasicVideoStreamer/> updates stream state when video element events are invoked.', () => {
   const onStreamStateChange = jest.fn();
   const { videoElement, videoRef } = domRender({ ...commonProps, onStreamStateChange });
 
@@ -181,35 +184,32 @@ test('<BasicVideoStreamer/> updates stream state when video elements are invoked
   expect(positionUpdates).toHaveLength(2);
 });
 
-test('<BasicVideoStreamer/> reacts on playback props being changed.', () => {
-  const { element, videoRef } = domRender({ ...commonProps, onStreamStateChange: () => {} });
-
-  const spy = jest.spyOn(videoRef.current, 'play');
+test('<BasicVideoStreamer/> reacts to playback props being set.', () => {
+  let setProperty;
+  const onReady = methods => {
+    setProperty = methods.setProperty;
+  };
+  const { element, videoRef } = domRender({ ...commonProps, onReady, onStreamStateChange: () => {} });
+  const playSpy = jest.spyOn(videoRef.current, 'play');
+  const pauseSpy = jest.spyOn(videoRef.current, 'pause');
 
   expect(videoRef.current.muted).toBe(false);
   expect(videoRef.current.paused).toBe(true);
 
-  element.setProps({ isMuted: true });
-  element.update();
+  setProperty({ isPaused: false });
+  setProperty({ isPaused: true });
+
+  setProperty({ isMuted: true });
   expect(videoRef.current.muted).toBe(true);
-  element.setProps({ isPaused: false });
-  element.update();
-  expect(videoRef.current.muted).toBe(true);
-
-  expect(spy).toHaveBeenCalledTimes(1);
-});
-
-test('<BasicVideoStreamer/> changes playback position when setPosition() is invoked.', () => {
-  let setPosition;
-  const onReady = methods => {
-    setPosition = methods.setPosition;
-  };
-  const { videoRef } = domRender({ ...commonProps, onReady, onStreamStateChange: () => {} });
-
-  setPosition(313);
+  setProperty({ position: 313 });
   expect(videoRef.current.currentTime).toBe(313);
-  setPosition(23);
+  setProperty({ position: 23 });
   expect(videoRef.current.currentTime).toBe(23);
+  setProperty({ volume: 0.5 });
+  expect(videoRef.current.volume).toBe(0.5);
+
+  expect(playSpy).toHaveBeenCalledTimes(1);
+  expect(pauseSpy).toHaveBeenCalledTimes(1);
 });
 
 // TODO: Remaining integration tests.
@@ -225,7 +225,7 @@ describe.skip('<BasicVideoStreamer/> live streaming (with Safari and HLS)', () =
   test('<BasicVideoStreamer/> reports playMode "live" of a live stream with a DVR window shorter than 100 seconds.', () => {});
   test('<BasicVideoStreamer/> reports true for isAtLivePosition for a live stream playing at the live edge.', () => {});
   test('<BasicVideoStreamer/> reports false for isAtLivePosition for a timeshifted live stream.', () => {});
-  test('<BasicVideoStreamer/> resumes playback at the live edge when gotoLive() is invoked on a timeshifted live stream.', () => {});
+  test('<BasicVideoStreamer/> resumes playback at the live edge when { isAtLivePosition: true } is set on a timeshifted live stream.', () => {});
   test('<BasicVideoStreamer/> reports absolutePosition and absoluteStartPosition for the current playback position of a live stream.', () => {});
 });
 

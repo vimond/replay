@@ -212,7 +212,7 @@ class PlaybackMonitor extends React.Component<Props, State> {
   handleCloseClick = () => this.setState({ isMonitorVisible: false });
 
   handleKeyDown = (keyboardEvent: KeyboardEvent) => {
-    if (keyboardEvent.ctrlKey && keyboardEvent.altKey && keyboardEvent.key === 'V') {
+    if (keyboardEvent.ctrlKey && keyboardEvent.altKey && keyboardEvent.code === 'KeyV') {
       this.setState({ isMonitorVisible: !this.state.isMonitorVisible });
     }
   };

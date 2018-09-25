@@ -35,7 +35,7 @@ const mockTracks = [
 const render = ({
   noSubtitlesLabel = 'No subtitles',
   classNamePrefix = 'v-',
-  updateProperty,
+  setProperty,
   textTracks = mockTracks,
   currentTextTrack
 }) =>
@@ -44,7 +44,7 @@ const render = ({
       noSubtitlesLabel={noSubtitlesLabel}
       classNamePrefix={classNamePrefix}
       toggleContent="T"
-      updateProperty={updateProperty}
+      setProperty={setProperty}
       label="Subtitles"
       textTracks={textTracks}
       currentTextTrack={currentTextTrack}
@@ -87,14 +87,14 @@ test('<SubtitlesSelector/> marks the option "No subtitles" as selected if no sel
 
 test('<SubtitlesSelector/> updates property selectedTextTrack with a track when its option is selected, or with null if the "No subtitles" option is selected. ', () => {
   //Should include dive() and expand of Selector?
-  const updateProperty = jest.fn();
-  const rendered = render({ updateProperty, classNamePrefix: '' });
+  const setProperty = jest.fn();
+  const rendered = render({ setProperty, classNamePrefix: '' });
   const itemsContainer = rendered.dive().find('div.selector-items');
   const selectorItems = itemsContainer.children().map(c => c.dive());
   selectorItems[3].simulate('click');
-  expect(updateProperty.mock.calls[0][0].selectedTextTrack).toBe(mockTracks[0]);
+  expect(setProperty.mock.calls[0][0].selectedTextTrack).toBe(mockTracks[0]);
   selectorItems[4].simulate('click');
-  expect(updateProperty.mock.calls[1][0].selectedTextTrack).toBe(null);
+  expect(setProperty.mock.calls[1][0].selectedTextTrack).toBe(null);
   selectorItems[0].simulate('click');
-  expect(updateProperty.mock.calls[2][0].selectedTextTrack).toBe(mockTracks[3]);
+  expect(setProperty.mock.calls[2][0].selectedTextTrack).toBe(mockTracks[3]);
 });

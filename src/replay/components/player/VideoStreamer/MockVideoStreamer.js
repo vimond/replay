@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import type { VideoStreamerProps, VideoStreamState } from './types';
+import type { PlaybackProps, VideoStreamerProps, VideoStreamState } from './types';
 import { defaultClassNamePrefix, prefixClassNames } from '../../common';
 
 type Props = VideoStreamerProps & {
@@ -67,20 +67,10 @@ const defaultValues = {
 	selectedAudioTrack?: AvailableTrack,
 */
 
-const updateableProps = {
-  volume: 'volume',
-  isMuted: 'isMuted',
-  isPaused: 'isPaused',
-  maxBitrate: 'maxBitrate',
-  lockedBitrate: 'lockedBitrate',
-  selectedTextTrack: 'currentTextTrack',
-  selectedAudioTrack: 'currentAudioTrack'
-};
-const updateableKeys = Object.keys(updateableProps);
 const className = 'video-streamer';
 const mockClassName = 'mock-video-streamer';
 
-const runAsync = (callback, arg, delay = 0) => setTimeout(() => callback && callback(arg), delay);
+const runAsync = (callback, arg, delay = 0) => { setTimeout(() => callback && callback(arg), delay) };
 
 const updateWithDefaultValues = (updater, overrides: VideoStreamState = {}) => {
   if (updater) {
@@ -96,29 +86,31 @@ class MockVideoStreamer extends React.Component<Props> {
   };
   modifiedStreamState = {};
 
-  updateStreamState = (state: VideoStreamState) => {
-    Object.entries(state).forEach(entry => {
-      this.modifiedStreamState[entry[0]] = entry[1];
-    });
+  updateStreamState = (props: PlaybackProps) => {
+    const { selectedTextTrack, selectedAudioTrack, ...unchanged } = props;
+    // $FlowFixMe Subset type and question marks don't work.
+    const newState: VideoStreamState = unchanged;
+    if ('selectedTextTrack' in props) {
+      newState.currentTextTrack = selectedTextTrack;
+    }
+    if ('selectedAudioTrack' in props) {
+      newState.currentAudioTrack = selectedAudioTrack;
+    }
+    this.modifiedStreamState = { ...this.modifiedStreamState, ...newState };
     if (this.props.onStreamStateChange != null) {
-      this.props.onStreamStateChange(state);
+      this.props.onStreamStateChange(newState);
     }
   };
 
   componentDidMount() {
+    if (this.props.initialPlaybackProps) {
+      const { isPaused, isMuted, volume, maxBitrate, lockedBitrate } = this.props.initialPlaybackProps;
+      this.updateStreamState({ isPaused, isMuted, volume, maxBitrate, lockedBitrate  });
+    }
     window.updateVideoState = this.updateStreamState;
     if (this.props.onReady) {
       this.props.onReady({
-        play: () => runAsync(this.updateStreamState, { isPaused: false }),
-        pause: () => runAsync(this.updateStreamState, { isPaused: true }),
-        setPosition: (value: number) => {
-          runAsync(this.updateStreamState, { position: value }, 500);
-          runAsync(this.updateStreamState, { isAtLivePosition: value > defaultValues.duration - 10 }, 500);
-        },
-        gotoLive: () => {
-          runAsync(this.updateStreamState, { position: defaultValues.duration }, 500);
-          runAsync(this.updateStreamState, { isAtLivePosition: true }, 1000);
-        }
+        setProperty: (props: PlaybackProps) => runAsync(this.updateStreamState, props, Math.round(Math.random()*1000))
       });
       updateWithDefaultValues(this.props.onStreamStateChange);
       /*setInterval(() => {
@@ -129,14 +121,6 @@ class MockVideoStreamer extends React.Component<Props> {
   }
 
   componentDidUpdate(prevProps: VideoStreamerProps) {
-    Object.keys(this.props)
-      .filter(key => updateableKeys.indexOf(key) >= 0)
-      .forEach(key => {
-        if (prevProps[key] !== this.props[key]) {
-          // $FlowFixMe Trying to set video streamer props on stream state. Type misalignment.
-          runAsync(this.updateStreamState, { [updateableProps[key]]: this.props[key] });
-        }
-      });
     if (this.props.onStreamStateChange !== prevProps.onStreamStateChange) {
       updateWithDefaultValues(this.props.onStreamStateChange, this.modifiedStreamState);
     }

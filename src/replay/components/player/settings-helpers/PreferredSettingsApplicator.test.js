@@ -62,28 +62,28 @@ const setup = (storageStr, props, isSession) => {
   } else {
     window.sessionStorage.getItem.mockReturnValue(storageStr);
   }
-  const updateProperty = jest.fn();
+  const setProperty = jest.fn();
   const settingsApplicator = mount(
     <UnConnectedPreferredSettingsApplicator
       {...props}
       configuration={isSession ? sessionConfig : localConfig}
-      updateProperty={updateProperty}
+      setProperty={setProperty}
     />
   );
   return {
     settingsApplicator,
-    updateProperty
+    setProperty
   };
 };
 
 test('When the playback is starting, apply settings for volume and mute.', () => {
-  const { settingsApplicator, updateProperty } = setup('{"volume": 0.3, "textTrackLanguage": "en"}', {
+  const { settingsApplicator, setProperty } = setup('{"volume": 0.3, "textTrackLanguage": "en"}', {
     isMuted: true,
     playState: 'inactive'
   });
   settingsApplicator.setProps({ playState: 'starting' });
   settingsApplicator.update();
-  expect(updateProperty).toHaveBeenCalledWith({ volume: 0.3, isMuted: true });
+  expect(setProperty).toHaveBeenCalledWith({ volume: 0.3, isMuted: true });
 });
 
 test(
@@ -91,7 +91,7 @@ test(
     'according to stored or passed subtitles language or kind.',
   () => {
     {
-      const { settingsApplicator, updateProperty } = setup('{"volume": 0.3, "textTrackLanguage": "en"}', {
+      const { settingsApplicator, setProperty } = setup('{"volume": 0.3, "textTrackLanguage": "en"}', {
         textTrackKind: 'captions'
       });
       settingsApplicator.setProps({ textTracks: [] });
@@ -100,18 +100,18 @@ test(
         textTracks: [{ kind: 'captions', language: 'no' }, { kind: 'subtitles', language: 'en' }]
       });
       settingsApplicator.update();
-      expect(updateProperty).toHaveBeenCalledWith({ selectedTextTrack: { kind: 'subtitles', language: 'en' } });
+      expect(setProperty).toHaveBeenCalledWith({ selectedTextTrack: { kind: 'subtitles', language: 'en' } });
     }
     {
-      const { settingsApplicator, updateProperty } = setup('{"textTrackKind": "captions"}', { textTracks: [] }, true);
+      const { settingsApplicator, setProperty } = setup('{"textTrackKind": "captions"}', { textTracks: [] }, true);
       settingsApplicator.setProps({ textTracks: [{ kind: 'subtitles', language: 'no' }] });
       settingsApplicator.update();
       settingsApplicator.setProps({
         textTracks: [{ kind: 'captions', language: 'no' }]
       });
       settingsApplicator.update();
-      expect(updateProperty).toHaveBeenCalledTimes(1);
-      expect(updateProperty).toHaveBeenCalledWith({ selectedTextTrack: { kind: 'captions', language: 'no' } });
+      expect(setProperty).toHaveBeenCalledTimes(1);
+      expect(setProperty).toHaveBeenCalledWith({ selectedTextTrack: { kind: 'captions', language: 'no' } });
     }
   }
 );
@@ -121,7 +121,7 @@ test(
     'stored or passed audio language and kind, if there is more than one track.',
   () => {
     {
-      const { settingsApplicator, updateProperty } = setup(
+      const { settingsApplicator, setProperty } = setup(
         '{"volume": 0.3, "audioTrackLanguage": "en"}',
         {
           audioTrackKind: 'main'
@@ -134,19 +134,19 @@ test(
         audioTracks: [{ kind: 'main', language: 'no' }, { kind: 'commentary', language: 'en' }]
       });
       settingsApplicator.update();
-      expect(updateProperty).toHaveBeenCalledTimes(1);
-      expect(updateProperty).toHaveBeenCalledWith({ selectedAudioTrack: { kind: 'commentary', language: 'en' } });
+      expect(setProperty).toHaveBeenCalledTimes(1);
+      expect(setProperty).toHaveBeenCalledWith({ selectedAudioTrack: { kind: 'commentary', language: 'en' } });
     }
     {
-      const { settingsApplicator, updateProperty } = setup('{"audioTrackKind": "commentary"}', { audioTracks: [] });
+      const { settingsApplicator, setProperty } = setup('{"audioTrackKind": "commentary"}', { audioTracks: [] });
       settingsApplicator.setProps({ audioTracks: [{ kind: 'main', language: 'no' }] });
       settingsApplicator.update();
       settingsApplicator.setProps({
         audioTracks: [{ kind: 'main', language: 'no' }, { kind: 'commentary', language: 'no' }]
       });
       settingsApplicator.update();
-      expect(updateProperty).toHaveBeenCalledTimes(1);
-      expect(updateProperty).toHaveBeenCalledWith({ selectedAudioTrack: { kind: 'commentary', language: 'no' } });
+      expect(setProperty).toHaveBeenCalledTimes(1);
+      expect(setProperty).toHaveBeenCalledWith({ selectedAudioTrack: { kind: 'commentary', language: 'no' } });
     }
   }
 );
@@ -155,18 +155,18 @@ test(
   'If user settings are configured to take precedence, the passed ' +
     'settings props are ignored for values found in the storage.',
   () => {
-    const { settingsApplicator, updateProperty } = setup('{"volume": 0.3, "textTrackLanguage": "en"}', {
+    const { settingsApplicator, setProperty } = setup('{"volume": 0.3, "textTrackLanguage": "en"}', {
       volume: 0.7,
       playState: 'inactive'
     });
     settingsApplicator.setProps({ playState: 'starting' });
     settingsApplicator.update();
-    expect(updateProperty).toHaveBeenCalledWith({ volume: 0.3 });
+    expect(setProperty).toHaveBeenCalledWith({ volume: 0.3 });
   }
 );
 
 test('If user settings are configured to not take precedence, storage settings are ignored while props settings are applied.', () => {
-  const { settingsApplicator, updateProperty } = setup(
+  const { settingsApplicator, setProperty } = setup(
     '{"volume": 0.3, "textTrackLanguage": "en"}',
     {
       volume: 0.7,
@@ -176,11 +176,11 @@ test('If user settings are configured to not take precedence, storage settings a
   );
   settingsApplicator.setProps({ playState: 'starting' });
   settingsApplicator.update();
-  expect(updateProperty).toHaveBeenCalledWith({ volume: 0.7 });
+  expect(setProperty).toHaveBeenCalledWith({ volume: 0.7 });
 });
 
 test('If no settings are saved, nothing is applied.', () => {
-  const { settingsApplicator, updateProperty } = setup(undefined, {
+  const { settingsApplicator, setProperty } = setup(undefined, {
     playState: 'inactive'
   });
   settingsApplicator.setProps({ playState: 'starting' });
@@ -189,5 +189,5 @@ test('If no settings are saved, nothing is applied.', () => {
   settingsApplicator.update();
   settingsApplicator.setProps({ audioTracks: [{ kind: 'main', language: 'no' }] });
   settingsApplicator.update();
-  expect(updateProperty).not.toHaveBeenCalled();
+  expect(setProperty).not.toHaveBeenCalled();
 });

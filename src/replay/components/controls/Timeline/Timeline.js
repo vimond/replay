@@ -11,7 +11,7 @@ type Props = CommonProps & {
   isSeeking?: boolean,
   handleContent: React.Node,
   trackContent: React.Node,
-  setPosition?: number => void,
+  setProperty?: ({ position: number }) => void,
   reduceDragGlitch?: boolean
 };
 
@@ -39,8 +39,8 @@ class Timeline extends React.Component<Props, State> {
   }
 
   handleSliderChange = (position: number) => {
-    if (this.props.setPosition) {
-      this.props.setPosition(position);
+    if (this.props.setProperty) {
+      this.props.setProperty({ position });
     }
   };
 

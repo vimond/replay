@@ -2,12 +2,10 @@
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
 import type {
-  SetPositionMethod,
-  GotoLiveMethod,
   InspectMethod,
   ObserveMethod,
   UnobserveMethod,
-  UpdatePropertyMethod
+  SetPropertyMethod
 } from './ControllerContext';
 import type { VideoStreamStateKeys } from '../VideoStreamer/types';
 import type { CommonGenericProps } from '../../common';
@@ -15,10 +13,8 @@ import type { CommonGenericProps } from '../../common';
 type HandleChangeMethod = ({ [VideoStreamStateKeys]: any }) => void;
 
 type PassdownProps = any & {
-  updateProperty: UpdatePropertyMethod,
-  gotoLive: GotoLiveMethod,
-  inspect: InspectMethod,
-  setPosition: SetPositionMethod
+  setProperty: SetPropertyMethod,
+  inspect: InspectMethod
 };
 
 type ObserverProps = {
@@ -75,18 +71,18 @@ const connectControl = <Props: {}>(
 
   const ConnectedControl: React.StatelessFunctionalComponent<Props> = (props: Props) => (
     <ControllerContext.Consumer>
-      {({ observe, unobserve, updateProperty, gotoLive, setPosition, inspect }) => {
+      {({ observe, unobserve, setProperty, inspect }) => {
         if (observe) {
           return (
             <Observer
               observe={observe}
               unobserve={unobserve}
               inspect={inspect}
-              passdownProps={{ ...props, gotoLive, setPosition, updateProperty, inspect }}
+              passdownProps={{ ...props, setProperty, inspect }}
             />
           );
         } else {
-          return <Control {...{ ...props, gotoLive, setPosition, updateProperty, inspect }} />;
+          return <Control {...{ ...props, setProperty, inspect }} />;
         }
       }}
     </ControllerContext.Consumer>

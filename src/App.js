@@ -141,8 +141,7 @@ class App extends Component<void, State> {
                 source={getSource(streamUrl)}
                 options={configOverrides}
                 onExit={this.togglePlayer}
-                startVolume={0.5}
-                startPaused={true}
+                initialPlaybackProps={{ isPaused: false, volume: 0.5 }}
               />
               <p>
                 <input type="url" value={streamUrl} onChange={this.handleStreamUrlFieldChange} />
@@ -155,13 +154,6 @@ class App extends Component<void, State> {
             </div>
           )}
         </div>
-        <h4>Remaining for tab nav</h4>
-        <ul>
-          <li>Avoid hiding the controls</li>
-          <li>Conflict for space/enter and play/pause</li>
-          <li>Code cleanup</li>
-          <li>Can keyboard shortcuts simply replace tab nav?</li>
-        </ul>
         <Persist name="app-state" data={this.state} onMount={data => this.setState(data)} />
       </div>
     );

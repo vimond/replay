@@ -11,7 +11,7 @@ import type { StreamStateKeysForObservation } from '../../player/PlayerControlle
 type Props = CommonProps & {
   audioTracks?: Array<AvailableTrack>,
   currentAudioTrack?: AvailableTrack,
-  updateProperty?: ({ selectedAudioTrack: AvailableTrack }) => void,
+  setProperty?: ({ selectedAudioTrack: AvailableTrack }) => void,
   toggleContent: React.Node
 };
 
@@ -32,8 +32,8 @@ class AudioSelector extends React.Component<Props> {
   static streamStateKeysForObservation: StreamStateKeysForObservation = ['audioTracks', 'currentAudioTrack'];
 
   handleSelect = (item: Item) => {
-    if (this.props.updateProperty && typeof item !== 'string' && item.data) {
-      this.props.updateProperty({ selectedAudioTrack: item.data });
+    if (this.props.setProperty && typeof item !== 'string' && item.data) {
+      this.props.setProperty({ selectedAudioTrack: item.data });
     }
   };
 

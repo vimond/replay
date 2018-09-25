@@ -63,7 +63,7 @@ test("<Fullscreen /> updates the isFullscreen when the document's fullscreen ele
 
 test('<Fullscreen /> invokes enterFullscreen and exitFullscreen on the referred element.', () => {
   const { renderParameters } = renderShallow();
-  const { onRef, enterFullscreen, exitFullscreen, updateProperty } = renderParameters;
+  const { onRef, enterFullscreen, exitFullscreen, setProperty } = renderParameters;
 
   const anElement = { id: 'c' };
   onRef(anElement);
@@ -74,9 +74,9 @@ test('<Fullscreen /> invokes enterFullscreen and exitFullscreen on the referred 
   exitFullscreen();
   expect(moduleExitFullscreen.mock.calls[0][0]).toBe(anElement);
 
-  updateProperty({ isFullscreen: true });
+  setProperty({ isFullscreen: true });
   expect(moduleEnterFullscreen.mock.calls[1][0]).toBe(anElement);
 
-  updateProperty({ isFullscreen: false });
+  setProperty({ isFullscreen: false });
   expect(moduleExitFullscreen.mock.calls[1][0]).toBe(anElement);
 });

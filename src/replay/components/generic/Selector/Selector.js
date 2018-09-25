@@ -74,6 +74,8 @@ class SelectorItem extends React.Component<SelectorItemProps> {
   };
 
   handleClick = () => this.props.onSelect && this.props.onSelect(this.props.item);
+  
+  // TODO: Block keyboard shortcuts!
 
   handleKeyUp = (keyboardEvent: KeyboardEvent) => {
     if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {

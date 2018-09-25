@@ -105,28 +105,31 @@ export type PlaybackSource = {
 
 /* Types for settable props */
 
-export type PlaybackProps = {
-  volume?: number,
+export type InitialPlaybackProps = {
   isMuted?: boolean,
+  volume?: number,
   isPaused?: boolean,
   maxBitrate?: number,
-  lockedBitrate?: number | string,
+  lockedBitrate?: number | string
+};
+
+export type PlaybackProps = InitialPlaybackProps & {
+  position?: number,
+  isAtLivePosition?: true, // TODO: Rename to isPlayingAtLiveEdge.
   selectedTextTrack?: AvailableTrack,
   selectedAudioTrack?: AvailableTrack
 };
 
 export type PlaybackMethods = {
-  setPosition: (value: number) => void,
-  gotoLive: () => void
+  setProperty: PlaybackProps => void
 };
 
-export type VideoStreamerProps = PlaybackProps &
-  CommonProps & {
+export type VideoStreamerProps = CommonProps & {
     configuration?: VideoStreamerConfiguration,
     source?: ?PlaybackSource,
     textTracks?: ?Array<SourceTrack>,
     className?: string,
-
+    initialPlaybackProps?: InitialPlaybackProps,
     onReady?: PlaybackMethods => void,
     onStreamStateChange?: VideoStreamState => void,
     onProgress?: ({ event: string }) => void,

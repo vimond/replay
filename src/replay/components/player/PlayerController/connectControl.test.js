@@ -44,7 +44,7 @@ const setup = () => {
     }
   }
 
-  const contextValue = { gotoLive: () => {}, setPosition: () => {}, updateProperty: () => {}, inspect: () => {} };
+  const contextValue = { setProperty: () => {}, inspect: () => {} };
   const observeMethods = { observe: mockObserve, unobserve: () => {} };
   return {
     contextValue,

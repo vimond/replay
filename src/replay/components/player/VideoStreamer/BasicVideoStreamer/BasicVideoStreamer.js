@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react';
 import { type CommonGenericProps, prefixClassNames, defaultClassNamePrefix } from '../../../common';
-import type { VideoStreamerProps } from '../types';
+import type { PlaybackProps, VideoStreamerProps } from '../types';
 import getStreamStateUpdater from './streamStateUpdater';
 import type { StreamStateUpdater } from './streamStateUpdater';
-import processPropChanges from './propsChangeHandler';
+import { applyProperties } from './propertyApplier';
 import getTextTrackManager from './textTrackManager';
 import type { TextTrackManager } from './textTrackManager';
 import type { StreamRangeHelper } from './streamRangeHelper';
@@ -52,21 +52,13 @@ class BasicVideoStreamer extends React.Component<Props> {
   streamRangeHelper: StreamRangeHelper;
   videoRef: { current: null | HTMLVideoElement };
 
-  gotoLive = () => {
-    if (this.videoRef.current) {
-      this.streamRangeHelper.gotoLive(this.videoRef.current);
-    }
-  };
-
-  setPosition = (position: number) => {
-    if (this.videoRef.current) {
-      this.streamRangeHelper.setPosition(this.videoRef.current, position);
-    }
+  setProperty = (playbackProps: PlaybackProps) => {
+    applyProperties(playbackProps, this.videoRef, this.streamRangeHelper, this.textTrackManager, this.audioTrackManager);
   };
 
   componentDidMount() {
     if (this.props.onReady) {
-      this.props.onReady({ setPosition: this.setPosition, gotoLive: this.gotoLive });
+      this.props.onReady({ setProperty: this.setProperty });
     }
     this.streamStateUpdater.startPlaybackSession();
     const videoElement = this.videoRef.current;
@@ -88,8 +80,11 @@ class BasicVideoStreamer extends React.Component<Props> {
   componentDidUpdate(prevProps: Props) {
     if (prevProps.source !== this.props.source) {
       this.streamStateUpdater.startPlaybackSession();
+      this.audioTrackManager.handleSourceChange();
     }
-    processPropChanges(this.videoRef, this.textTrackManager, this.audioTrackManager, prevProps, this.props);
+    if (prevProps.source !== this.props.source || prevProps.textTracks !== this.props.textTracks) {
+      this.textTrackManager.handleNewSourceProps(this.props);
+    }
   }
 
   render() {

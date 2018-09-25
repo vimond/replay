@@ -44,7 +44,7 @@ From this, dedicated player controls are built. These are the ones currently inc
 The different controls expose props that should be recognisable and consistent:
 
 * Props with names matching one or several playback state properties related to the control purpose.
-* Callback prop updateProperty or setPosition/gotoLive for manipulating the playback state (when connected, see below).
+* Callback prop setProperty for manipulating the playback state (when connected, see below).
 * Appearance props for control content (graphics, text) and styling/class names.
 * In some cases, simple configuration props for alternative control behaviour/appearance
 

@@ -6,9 +6,7 @@ export type ObserveCallback = ({ [VideoStreamStateKeys]: any }) => void;
 export type ObserveMethod = (VideoStreamStateKeys, ObserveCallback) => void;
 export type UnobserveMethod = ObserveMethod;
 export type InspectMethod = () => VideoStreamState;
-export type UpdatePropertyMethod = PlaybackProps => void;
-export type GotoLiveMethod = () => void;
-export type SetPositionMethod = number => void;
+export type SetPropertyMethod = PlaybackProps => void;
 
 export type StreamStateKeysForObservation = Array<VideoStreamStateKeys>;
 export type ObservingControlStaticProps = {
@@ -16,18 +14,14 @@ export type ObservingControlStaticProps = {
 };
 
 export type ControllerApi = {
-  setPosition: SetPositionMethod,
-  gotoLive: GotoLiveMethod,
-  updateProperty: UpdatePropertyMethod,
+  setProperty: SetPropertyMethod,
   observe: ?ObserveMethod,
   inspect: InspectMethod,
   videoStreamer: ?React.Element<any>,
   unobserve: ObserveMethod
 };
 const initialContextValue: ControllerApi = {
-  setPosition: () => {},
-  gotoLive: () => {},
-  updateProperty: () => {},
+  setProperty: () => {},
   videoStreamer: null,
   inspect: () => ({}),
   observe: null,

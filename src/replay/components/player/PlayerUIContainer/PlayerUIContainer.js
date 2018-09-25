@@ -13,7 +13,7 @@ import PlayerStateClassNames from '../containment-helpers/PlayerStateClassNames'
 type RenderParameters = {
   fullscreenState: {
     isFullscreen: boolean,
-    updateProperty: ({ isFullscreen: boolean }) => void,
+    setProperty: ({ isFullscreen: boolean }) => void,
     enterFullscreen: () => void,
     exitFullscreen: () => void
   },

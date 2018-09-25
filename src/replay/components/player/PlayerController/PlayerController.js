@@ -2,13 +2,13 @@
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
 import type {
+  InitialPlaybackProps,
   PlaybackMethods,
-  PlaybackProps,
   VideoStreamerProps,
   VideoStreamState,
   VideoStreamStateKeys
 } from '../VideoStreamer/types';
-import type { ObserveCallback, GotoLiveMethod, SetPositionMethod, ControllerApi } from './ControllerContext';
+import type { ObserveCallback, ControllerApi, SetPropertyMethod } from './ControllerContext';
 import { override } from '../../common';
 import memoize from 'memoize-one';
 
@@ -31,17 +31,12 @@ type PlayerControllerProps = {
   configuration?: any,
   options?: any,
   onStreamerError?: any => void,
-  startMuted?: boolean,
-  startPaused?: boolean,
-  startVolume?: number,
-  maxBitrate?: number,
-  lockedBitrate?: number | string
+  initialPlaybackProps?: InitialPlaybackProps
 };
 
 type PlayerControllerState = {
-  gotoLive: GotoLiveMethod,
-  setPosition: SetPositionMethod,
-  videoStreamerProps: VideoStreamerProps
+  videoStreamerProps: VideoStreamerProps,
+  setProperty: SetPropertyMethod
 };
 
 const passPropsToVideoStreamer = (children: React.Node, props: any): React.Element<any> => {
@@ -103,28 +98,14 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   constructor(props: PlayerControllerProps) {
     super(props);
     const videoStreamerProps: VideoStreamerProps = {
+      initialPlaybackProps: this.props.initialPlaybackProps,
       onReady: this.onVideoStreamerReady,
       onPlaybackError: this.props.onStreamerError,
       onStreamStateChange: this.onStreamStateChange
     };
-    if (props.startMuted != null) {
-      videoStreamerProps.isMuted = props.startMuted;
-    }
-    if (props.startPaused != null) {
-      videoStreamerProps.isPaused = props.startPaused;
-    }
-    if (props.startVolume != null) {
-      videoStreamerProps.volume = props.startVolume;
-    }
-    if (props.lockedBitrate != null) {
-      videoStreamerProps.lockedBitrate = props.lockedBitrate;
-    } else if (props.maxBitrate != null) {
-      videoStreamerProps.maxBitrate = props.maxBitrate;
-    }
     this.state = {
-      gotoLive: () => {},
-      setPosition: () => {},
-      videoStreamerProps
+      videoStreamerProps,
+      setProperty: () => {}
     };
   }
 
@@ -140,37 +121,30 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
 
   observeManager = getObserveManager();
 
-  onVideoStreamerReady = (methods: PlaybackMethods) => {
+  onVideoStreamerReady = ({ setProperty }: PlaybackMethods) => {
     this.inspectableStreamState = {};
-    this.setState({
-      gotoLive: methods.gotoLive,
-      setPosition: methods.setPosition
-    });
+    this.setState({ setProperty });
+    /*if (this.props.initialPlaybackProps) {
+      const { isPaused, volume, isMuted, lockedBitrate, maxBitrate } = this.props.initialPlaybackProps;
+      // Flow requires this silly reconstructions of the props object.
+      setProperty({ isPaused, volume, isMuted, lockedBitrate, maxBitrate });
+    }*/
   };
 
-  // Video stream -> UI
+  // Video streamer -> UI
   onStreamStateChange = (property: VideoStreamState) => {
     this.observeManager.update(property);
     this.inspectableStreamState = { ...this.inspectableStreamState, ...property };
   };
 
-  // UI -> video stream
-  updateProperty = (updatedProp: PlaybackProps) => {
-    // TODO: Risky one where the copied props might be outdated, upon subsequent sync updateProperty calls.
-    const videoStreamerProps = { ...this.state.videoStreamerProps, ...updatedProp };
-    this.setState({ videoStreamerProps });
-  };
-
   render() {
-    const { gotoLive, setPosition, videoStreamerProps } = this.state;
-    const { updateProperty, observeManager } = this;
+    const { setProperty, videoStreamerProps } = this.state;
+    const { observeManager } = this;
     const { render, externalProps, configuration, options } = this.props;
     const mergedConfiguration = this.mergeConfiguration(configuration, options);
     const { observe, unobserve } = observeManager;
     const controllerApi = {
-      updateProperty,
-      gotoLive,
-      setPosition,
+      setProperty,
       videoStreamer: passPropsToVideoStreamer(this.props.children, {
         ...videoStreamerProps,
         configuration: mergedConfiguration.videoStreamer

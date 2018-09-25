@@ -63,11 +63,7 @@ const createCustomPlayer = ({
     options,
     onExit,
     onError,
-    startMuted,
-    startPaused,
-    startVolume,
-    maxBitrate,
-    lockedBitrate,
+    initialPlaybackProps,
     children
   }: ReplayProps) => (
     <PlayerController
@@ -75,11 +71,7 @@ const createCustomPlayer = ({
       configuration={configuration}
       options={options}
       onStreamerError={onError}
-      startMuted={startMuted}
-      startPaused={startPaused}
-      startVolume={startVolume}
-      maxBitrate={maxBitrate}
-      lockedBitrate={lockedBitrate}
+      initialPlaybackProps={initialPlaybackProps}
       externalProps={{ onExit }}>
       {resolveVideoStreamerMethod(videoStreamerComponent, children, source, textTracks)}
     </PlayerController>

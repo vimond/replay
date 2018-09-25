@@ -18,30 +18,30 @@ test('<SkipButton/> renders with prefixed class name and DOM including children.
   expect(renderedButton2.hasClass('replay-skip-button')).toBe(true);
 });
 
-test('<SkipButton/> invokes the setPosition callback when clicked, passing the new position calculated from adding the specified offset to the current position.', () => {
-  const setPositionCallback = jest.fn();
-  const rendered = shallow(<SkipButton setPosition={setPositionCallback} position={345} offset={-13} />);
+test('<SkipButton/> invokes the setProperty callback when clicked, passing the new position calculated from adding the specified offset to the current position.', () => {
+  const setPropertyCallback = jest.fn();
+  const rendered = shallow(<SkipButton setProperty={setPropertyCallback} position={345} offset={-13} />);
   const renderedButton = rendered.dive();
   expect(renderedButton.simulate('click'));
-  expect(setPositionCallback.mock.calls.length).toBe(1);
-  expect(setPositionCallback.mock.calls[0][0]).toBe(332);
+  expect(setPropertyCallback.mock.calls.length).toBe(1);
+  expect(setPropertyCallback.mock.calls[0][0]).toEqual({ position: 332 });
   expect(renderedButton.simulate('click'));
-  expect(setPositionCallback.mock.calls.length).toBe(2);
-  expect(setPositionCallback.mock.calls[0][0]).toBe(332);
+  expect(setPropertyCallback.mock.calls.length).toBe(2);
+  expect(setPropertyCallback.mock.calls[0][0]).toEqual({ position: 332 });
 });
 
-test('<SkipButton/> does not invoke the setPosition callback upon click, if there is no valid position specified.', () => {
-  const setPositionCallback = jest.fn();
-  const rendered = shallow(<SkipButton setPosition={setPositionCallback} position={undefined} offset={-13} />);
+test('<SkipButton/> does not invoke the setProperty callback upon click, if there is no valid position specified.', () => {
+  const setPropertyCallback = jest.fn();
+  const rendered = shallow(<SkipButton setProperty={setPropertyCallback} position={undefined} offset={-13} />);
   const renderedButton = rendered.dive();
   renderedButton.simulate('click');
-  expect(setPositionCallback.mock.calls.length).toBe(0);
+  expect(setPropertyCallback.mock.calls.length).toBe(0);
 });
 
-test('<SkipButton/> does not invoke the setPosition callback upon click, if there is no valid offset specified.', () => {
-  const setPositionCallback = jest.fn();
-  const rendered = shallow(<SkipButton setPosition={setPositionCallback} position={1234} offset={NaN} />);
+test('<SkipButton/> does not invoke the setProperty callback upon click, if there is no valid offset specified.', () => {
+  const setPropertyCallback = jest.fn();
+  const rendered = shallow(<SkipButton setProperty={setPropertyCallback} position={1234} offset={NaN} />);
   const renderedButton = rendered.dive();
   expect(renderedButton.simulate('click'));
-  expect(setPositionCallback.mock.calls.length).toBe(0);
+  expect(setPropertyCallback.mock.calls.length).toBe(0);
 });

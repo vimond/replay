@@ -14,7 +14,7 @@ type Props = CommonProps & {
   lockedBitrate?: ?number,
   maxBitrate?: ?number,
   toggleContent: React.Node,
-  updateProperty?: ({ lockedBitrate: ?number } | { maxBitrate: ?number }) => void,
+  setProperty?: ({ lockedBitrate: ?number } | { maxBitrate: ?number }) => void,
   selectionStrategy?: QualitySelectionStrategy,
   autoLabel: string,
   formatBitrateLabel: (number, boolean) => string
@@ -36,11 +36,11 @@ class QualitySelector extends React.Component<Props> {
   ];
 
   handleSelect = (item: Item) => {
-    if (this.props.updateProperty && typeof item !== 'string') {
+    if (this.props.setProperty && typeof item !== 'string') {
       if (this.props.selectionStrategy === 'lock-bitrate') {
-        this.props.updateProperty({ lockedBitrate: item.data });
+        this.props.setProperty({ lockedBitrate: item.data });
       } else {
-        this.props.updateProperty({ maxBitrate: item.data });
+        this.props.setProperty({ maxBitrate: item.data });
       }
     }
   };
