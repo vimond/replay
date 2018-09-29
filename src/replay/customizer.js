@@ -61,21 +61,27 @@ const createCustomPlayer = ({
     source,
     textTracks,
     options,
+    onPlaybackMethodsReady,
+    onStreamStateChange,
     onExit,
     onError,
     initialPlaybackProps,
     children
-  }: ReplayProps) => (
-    <PlayerController
-      render={renderUI}
-      configuration={configuration}
-      options={options}
-      onStreamerError={onError}
-      initialPlaybackProps={initialPlaybackProps}
-      externalProps={{ onExit }}>
-      {resolveVideoStreamerMethod(videoStreamerComponent, children, source, textTracks)}
-    </PlayerController>
-  );
+  }: ReplayProps) => {
+    return (
+      <PlayerController
+        render={renderUI}
+        configuration={configuration}
+        options={options}
+        onStreamerError={onError}
+        onPlaybackMethodsReady={onPlaybackMethodsReady}
+        onStreamStateChange={onStreamStateChange}
+        initialPlaybackProps={initialPlaybackProps}
+        externalProps={{ onExit }}>
+        {resolveVideoStreamerMethod(videoStreamerComponent, children, source, textTracks)}
+      </PlayerController>
+    );
+  };
   if (name) {
     ComposedPlayer.displayName = name;
   }

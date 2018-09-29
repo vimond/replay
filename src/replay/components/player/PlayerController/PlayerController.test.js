@@ -108,8 +108,9 @@ test('<PlayerController /> updates observers (only) when specified stream state 
   const renderProp = jest.fn();
   const onConnectedControlRender = jest.fn();
   renderProp.mockReturnValue(getMockPlayerUi(onConnectedControlRender));
+  const handleStreamStateChange = jest.fn();
   const rendered = mount(
-    <PlayerController render={renderProp}>
+    <PlayerController render={renderProp} onStreamStateChange={handleStreamStateChange}>
       <MockVideo />
     </PlayerController>
   );
@@ -117,19 +118,23 @@ test('<PlayerController /> updates observers (only) when specified stream state 
 
   onStreamStateChange({ position: 313 });
   rendered.update();
-  expect(onConnectedControlRender.mock.calls[1][0].position).toEqual(313);
+  expect(onConnectedControlRender.mock.calls[1][0].position).toBe(313);
+  expect(handleStreamStateChange.mock.calls[0][0].position).toBe(313);
 
   onStreamStateChange({ playMode: 'ondemand' });
   rendered.update();
   expect(onConnectedControlRender.mock.calls.length).toBe(2);
+  expect(handleStreamStateChange.mock.calls[1][0].playMode).toBe('ondemand');
 
   onStreamStateChange({ duration: 4567 });
   rendered.update();
-  expect(onConnectedControlRender.mock.calls[2][0].duration).toEqual(4567);
+  expect(onConnectedControlRender.mock.calls[2][0].duration).toBe(4567);
+  expect(handleStreamStateChange.mock.calls[2][0].duration).toBe(4567);
 
   onStreamStateChange({ position: 22 });
   rendered.update();
-  expect(onConnectedControlRender.mock.calls[3][0].position).toEqual(22);
+  expect(onConnectedControlRender.mock.calls[3][0].position).toBe(22);
+  expect(handleStreamStateChange.mock.calls[3][0].position).toBe(22);
 });
 
 test("<PlayerController /> invokes videoStreamer's setProperty when setProperty() is invoked and videoStreamer is ready.", () => {
@@ -148,6 +153,45 @@ test("<PlayerController /> invokes videoStreamer's setProperty when setProperty(
   controllerApi.setProperty({ volume: 0.1 });
   controllerApi.setProperty({ volume: 0.1 });
   expect(setProperty.mock.calls[0][0].volume).toBe(0.75);
-  //expect(setProperty.mock.calls[1][0].volume).toBe(0.1);
-  //expect(setProperty.mock.calls[2][0].volume).toBe(0.1);
+  expect(setProperty.mock.calls[1][0].volume).toBe(0.1);
+  expect(setProperty.mock.calls[2][0].volume).toBe(0.1);
+});
+
+test("<PlayerController /> invokes videoStreamer's setProperty when playback methods are invoked and videoStreamer is ready.", () => {
+  let methods;
+  const renderProp = jest.fn();
+  const setProperty = jest.fn();
+  renderProp.mockReturnValue(getMockPlayerUi());
+  const handleMethods = m => (methods = m);
+  const rendered = mount(
+    <PlayerController render={renderProp} onPlaybackMethodsReady={handleMethods}>
+      <MockVideo />
+    </PlayerController>
+  );
+  const videoStreamerProps = rendered.find('MockVideo').props();
+  videoStreamerProps.onReady({ setProperty });
+  methods.play();
+  methods.pause();
+  methods.setPosition(101);
+  methods.gotoLive();
+  methods.setVolume(0.5);
+  methods.setIsMuted(true);
+  methods.lockBitrate('max');
+  methods.capBitrate(2000);
+  methods.setSelectedTextTrack({ language: 'en' });
+  methods.setSelectedAudioTrack({ language: 'de' });
+  methods.setSelectedTextTrack(null);
+  methods.setSelectedAudioTrack(null);
+  expect(setProperty.mock.calls[0][0].isPaused).toBe(false);
+  expect(setProperty.mock.calls[1][0].isPaused).toBe(true);
+  expect(setProperty.mock.calls[2][0].position).toBe(101);
+  expect(setProperty.mock.calls[3][0].isAtLivePosition).toBe(true);
+  expect(setProperty.mock.calls[4][0].volume).toBe(0.5);
+  expect(setProperty.mock.calls[5][0].isMuted).toBe(true);
+  expect(setProperty.mock.calls[6][0].lockedBitrate).toBe('max');
+  expect(setProperty.mock.calls[7][0].maxBitrate).toBe(2000);
+  expect(setProperty.mock.calls[8][0].selectedTextTrack).toEqual({ language: 'en' });
+  expect(setProperty.mock.calls[9][0].selectedAudioTrack).toEqual({ language: 'de' });
+  expect(setProperty.mock.calls[10][0].selectedTextTrack).toBe(null);
+  expect(setProperty.mock.calls[11][0].selectedAudioTrack).toBe(null);
 });

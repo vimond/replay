@@ -2,8 +2,10 @@
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
 import type {
+  AvailableTrack,
   InitialPlaybackProps,
-  PlaybackMethods,
+  VideoStreamerMethods,
+  PlaybackProps,
   VideoStreamerProps,
   VideoStreamState,
   VideoStreamStateKeys
@@ -24,12 +26,29 @@ export type RenderParameters = {
 
 export type RenderMethod = RenderParameters => React.Node;
 
+export type PlaybackMethods = {
+  play: () => void,
+  pause: () => void,
+  setPosition: number => void,
+  gotoLive: () => void,
+  setVolume: number => void,
+  setIsMuted: boolean => void,
+  setSelectedAudioTrack: AvailableTrack => void,
+  setSelectedTextTrack: AvailableTrack => void,
+  capBitrate: number => void,
+  lockBitrate: (number | 'max' | 'min') => void,
+  inspect: () => VideoStreamState,
+  setProperty: PlaybackProps => void
+};
+
 type PlayerControllerProps = {
   render: RenderMethod,
   children: React.Node,
   externalProps?: any,
   configuration?: any,
   options?: any,
+  onPlaybackMethodsReady?: PlaybackMethods => void,
+  onStreamStateChange?: VideoStreamState => void,
   onStreamerError?: any => void,
   initialPlaybackProps?: InitialPlaybackProps
 };
@@ -94,6 +113,33 @@ const getObserveManager = () => {
   };
 };
 
+const getPlaybackMethods = (inspect, setProperty: PlaybackProps => void): PlaybackMethods => {
+  const play = () => setProperty({ isPaused: false });
+  const pause = () => setProperty({ isPaused: true });
+  const setPosition = (position: number) => setProperty({ position });
+  const gotoLive = () => setProperty({ isAtLivePosition: true });
+  const setVolume = (volume: number) => setProperty({ volume });
+  const setIsMuted = (isMuted: boolean) => setProperty({ isMuted });
+  const setSelectedTextTrack = (selectedTextTrack: AvailableTrack) => setProperty({ selectedTextTrack });
+  const setSelectedAudioTrack = (selectedAudioTrack: AvailableTrack) => setProperty({ selectedAudioTrack });
+  const capBitrate = (maxBitrate: number) => setProperty({ maxBitrate });
+  const lockBitrate = (lockedBitrate: number | 'max' | 'min') => setProperty({ lockedBitrate });
+  return {
+    play,
+    pause,
+    setPosition,
+    gotoLive,
+    setVolume,
+    setIsMuted,
+    setSelectedAudioTrack,
+    setSelectedTextTrack,
+    capBitrate,
+    lockBitrate,
+    setProperty,
+    inspect
+  };
+};
+
 class PlayerController extends React.Component<PlayerControllerProps, PlayerControllerState> {
   constructor(props: PlayerControllerProps) {
     super(props);
@@ -109,32 +155,38 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
     };
   }
 
-  inspectableStreamState: VideoStreamState = {};
-
-  inspect = () => this.inspectableStreamState;
-
-  mergeConfiguration = memoize(override);
+  componentDidMount() {
+    const onReady = this.props.onPlaybackMethodsReady;
+    if (onReady) {
+      onReady(getPlaybackMethods(() => this.inspect(), props => this.setProperty(props)));
+    }
+  }
 
   componentWillUnmount() {
     this.observeManager.unobserveAll();
   }
 
+  inspectableStreamState: VideoStreamState = {};
   observeManager = getObserveManager();
 
-  onVideoStreamerReady = ({ setProperty }: PlaybackMethods) => {
+  inspect = () => this.inspectableStreamState;
+
+  mergeConfiguration = memoize(override);
+
+  setProperty = (props: PlaybackProps) => this.state.setProperty(props);
+
+  onVideoStreamerReady = ({ setProperty }: VideoStreamerMethods) => {
     this.inspectableStreamState = {};
     this.setState({ setProperty });
-    /*if (this.props.initialPlaybackProps) {
-      const { isPaused, volume, isMuted, lockedBitrate, maxBitrate } = this.props.initialPlaybackProps;
-      // Flow requires this silly reconstructions of the props object.
-      setProperty({ isPaused, volume, isMuted, lockedBitrate, maxBitrate });
-    }*/
   };
 
   // Video streamer -> UI
   onStreamStateChange = (property: VideoStreamState) => {
     this.observeManager.update(property);
     this.inspectableStreamState = { ...this.inspectableStreamState, ...property };
+    if (this.props.onStreamStateChange) {
+      this.props.onStreamStateChange(property);
+    }
   };
 
   render() {

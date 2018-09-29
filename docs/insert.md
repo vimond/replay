@@ -64,7 +64,7 @@ Note that specifying source as a string doesn't work anymore, and an object with
 
 ### Setting volume and mute state for startup
 
-The initialPlaybackProps prop can be used to specify a state for volume, pausing, quality selection policies, to be applied on playback startup. These properties can be changed by the playback itself or through the player's user interface. There is no persisting consistency between what being set here, and the actual state during playback, so that's why these are specified as `initialPlaybackProps` only.
+The `initialPlaybackProps` prop can be used to specify a state for volume, pausing, quality selection policies, to be applied on playback startup. These properties can be changed by the playback itself or through the player's user interface. There is no persisting consistency between what being set here, and the actual state during playback, so that's why these are specified as `initialPlaybackProps` only.
 
 The following video will start paused, but when started playing it will happen without audio. When unmuting, the volume level will be set to 20 %.
 
@@ -124,6 +124,85 @@ If the text tracks are not available when starting the stream, or when a current
 	  label: 'Norwegian',
 	  contentType: 'text/vtt'
   }]}
+/>
+```
+
+### Observing the stream playback state
+
+Playback state consists of playback position, duration, stream mode, pause, seek, and buffering state, available text and audio tracks, bitrate (if adaptive streaming is used).
+
+The `onStreamStateChange` callback prop is invoked when the playback state changes. The callback is invoked with an object containing the changes as keys/values.
+
+```javascript
+this.handleStreamStateChange = stateProperties => {
+  if ('position' in stateProperties) {
+    console.log('Playback position is', stateProperties.position);
+  }
+  if ('volume' in stateProperties) {
+    console.log('The volume is changed into', stateProperties.volume);
+  }
+  if (stateProperties.isPaused) {
+    console.log('The playback was paused.');
+  }
+};
+```
+
+See TODO for a full reference of state properties.
+
+### Controlling the playback programmatically
+
+Playback methods can be passed to Replay component consumers through a callback prop `onPlaybackMethodsReady`.
+
+`setProperty()` is one common method that can be used for all playback operations. This method is passed along with `play()`, `setPosition()`, `capBitrate()` etc. The latter are just sugar methods that call `setProperty()`. It accepts an object with the properties to be set.
+
+See TODO for a full reference of playback methods.
+
+See TODO for a full reference of playback properties that can be used with setProperty.
+
+Another method returned is `inspect()`. This returns an object with the current playback state, containing properties also exposed through the `onStreamStateChange` callback.
+
+It is recommended to keep track of the state through an `onStreamStateChange` callback instead of using inspect().
+
+```javascript
+const playbackMethodsReady = methods => {
+  this.playVideo = methods.play;
+  this.setPlaybackPosition = methods.setPosition;
+  this.setPlaybackProperty = methods.setProperty;
+}
+
+/// In e.g. click handlers for buttons outside the Replay player.
+
+this.handleRestartClick = () => {
+  if (this.setPlaybackPosition) {
+    this.setPlaybackPosition(0);
+  }
+};
+
+this.handleStartClick = () => {
+  if (this.playVideo) {
+    this.playVideo();
+  }
+};
+
+this.handleUnmuteClick = () => {
+  if (this.setPlaybackProperty) {
+    this.setPlaybackProperty({ isMuted: false });
+  }
+}; 
+
+```
+
+The following code excerpt illustrates how to apply the callback methods mentioned in this and the previous chapter.
+
+```jsx
+<Replay
+  source={{ 
+    streamUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    startPosition: 13
+  }}
+  initialPlaybackProps={{ isPaused: true }}
+  onStreamStateChange={this.handleStreamStateChange}
+  onPlaybackMethodsReady={this.playbackMethodsReady}
 />
 ```
 

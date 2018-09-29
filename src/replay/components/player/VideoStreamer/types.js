@@ -110,7 +110,7 @@ export type InitialPlaybackProps = {
   volume?: number,
   isPaused?: boolean,
   maxBitrate?: number,
-  lockedBitrate?: number | string
+  lockedBitrate?: number | 'max' | 'min'
 };
 
 export type PlaybackProps = InitialPlaybackProps & {
@@ -120,7 +120,7 @@ export type PlaybackProps = InitialPlaybackProps & {
   selectedAudioTrack?: AvailableTrack
 };
 
-export type PlaybackMethods = {
+export type VideoStreamerMethods = {
   setProperty: PlaybackProps => void
 };
 
@@ -130,10 +130,10 @@ export type VideoStreamerProps = CommonProps & {
     textTracks?: ?Array<SourceTrack>,
     className?: string,
     initialPlaybackProps?: InitialPlaybackProps,
-    onReady?: PlaybackMethods => void,
+    onReady?: VideoStreamerMethods => void,
     onStreamStateChange?: VideoStreamState => void,
     onProgress?: ({ event: string }) => void,
     onPlaybackError?: PlaybackError => void
   };
 
-export type PlaybackApi = PlaybackMethods & VideoStreamState;
+export type PlaybackApi = VideoStreamerMethods & VideoStreamState;
