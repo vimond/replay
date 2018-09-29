@@ -103,7 +103,7 @@ Subtitle files of different languages and kinds can be specified as text tracks 
 
 Observe that this reveals the **T** subtitles button and selector in the controls bar. Also note that the subtitles are not selected for display by default. Specifying the preferred subtitles upon inserting the player, is a planned Replay feature.
 
-### Setting (new) text tracks for an opened video source
+### Setting (new) text tracks after starting playback of video source
 
 If the text tracks are not available when starting the stream, or when a current set of tracks should be replaced without interrupting playback, specify the new track set in the `textTracks` prop.
 
