@@ -125,15 +125,13 @@ export type VideoStreamerMethods = {
 };
 
 export type VideoStreamerProps = CommonProps & {
-    configuration?: VideoStreamerConfiguration,
-    source?: ?PlaybackSource,
-    textTracks?: ?Array<SourceTrack>,
-    className?: string,
-    initialPlaybackProps?: InitialPlaybackProps,
-    onReady?: VideoStreamerMethods => void,
-    onStreamStateChange?: VideoStreamState => void,
-    onProgress?: ({ event: string }) => void,
-    onPlaybackError?: PlaybackError => void
-  };
-
-export type PlaybackApi = VideoStreamerMethods & VideoStreamState;
+  configuration?: VideoStreamerConfiguration,
+  source?: ?PlaybackSource,
+  textTracks?: ?Array<SourceTrack>,
+  className?: string,
+  initialPlaybackProps?: InitialPlaybackProps,
+  onReady?: VideoStreamerMethods => void,
+  onStreamStateChange?: VideoStreamState => void,
+  onProgress?: ({ event: string }) => void,
+  onPlaybackError?: PlaybackError => void
+};

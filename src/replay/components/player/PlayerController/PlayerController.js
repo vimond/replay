@@ -26,7 +26,7 @@ export type RenderParameters = {
 
 export type RenderMethod = RenderParameters => React.Node;
 
-export type PlaybackMethods = {
+export type PlaybackActions = {
   play: () => void,
   pause: () => void,
   setPosition: number => void,
@@ -47,7 +47,7 @@ type PlayerControllerProps = {
   externalProps?: any,
   configuration?: any,
   options?: any,
-  onPlaybackMethodsReady?: PlaybackMethods => void,
+  onPlaybackActionsReady?: PlaybackActions => void,
   onStreamStateChange?: VideoStreamState => void,
   onStreamerError?: any => void,
   initialPlaybackProps?: InitialPlaybackProps
@@ -113,7 +113,7 @@ const getObserveManager = () => {
   };
 };
 
-const getPlaybackMethods = (inspect, setProperty: PlaybackProps => void): PlaybackMethods => {
+const createPlaybackActions = (inspect, setProperty: PlaybackProps => void): PlaybackActions => {
   const play = () => setProperty({ isPaused: false });
   const pause = () => setProperty({ isPaused: true });
   const setPosition = (position: number) => setProperty({ position });
@@ -156,9 +156,9 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   }
 
   componentDidMount() {
-    const onReady = this.props.onPlaybackMethodsReady;
+    const onReady = this.props.onPlaybackActionsReady;
     if (onReady) {
-      onReady(getPlaybackMethods(() => this.inspect(), props => this.setProperty(props)));
+      onReady(createPlaybackActions(() => this.inspect(), props => this.setProperty(props)));
     }
   }
 

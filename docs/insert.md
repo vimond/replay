@@ -151,11 +151,11 @@ See TODO for a full reference of state properties.
 
 ### Controlling the playback programmatically
 
-Playback methods can be passed to Replay component consumers through a callback prop `onPlaybackMethodsReady`.
+Playback methods can be passed to Replay component consumers through a callback prop `onPlaybackActionsReady`.
 
 `setProperty()` is one common method that can be used for all playback operations. This method is passed along with `play()`, `setPosition()`, `capBitrate()` etc. The latter are just sugar methods that call `setProperty()`. It accepts an object with the properties to be set.
 
-See TODO for a full reference of playback methods.
+See TODO for a full reference of playback actions.
 
 See TODO for a full reference of playback properties that can be used with setProperty.
 
@@ -164,10 +164,10 @@ Another method returned is `inspect()`. This returns an object with the current 
 It is recommended to keep track of the state through an `onStreamStateChange` callback instead of using inspect().
 
 ```javascript
-const playbackMethodsReady = methods => {
-  this.playVideo = methods.play;
-  this.setPlaybackPosition = methods.setPosition;
-  this.setPlaybackProperty = methods.setProperty;
+const playbackActionsReady = actions => {
+  this.playVideo = actions.play;
+  this.setPlaybackPosition = actions.setPosition;
+  this.setPlaybackProperty = actions.setProperty;
 }
 
 /// In e.g. click handlers for buttons outside the Replay player.
@@ -192,7 +192,7 @@ this.handleUnmuteClick = () => {
 
 ```
 
-The following code excerpt illustrates how to apply the callback methods mentioned in this and the previous chapter.
+The following code excerpt illustrates how to apply the callback actions mentioned in this and the previous chapter.
 
 ```jsx
 <Replay
@@ -202,7 +202,7 @@ The following code excerpt illustrates how to apply the callback methods mention
   }}
   initialPlaybackProps={{ isPaused: true }}
   onStreamStateChange={this.handleStreamStateChange}
-  onPlaybackMethodsReady={this.playbackMethodsReady}
+  onPlaybackActionsReady={this.playbackActionsReady}
 />
 ```
 

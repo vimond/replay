@@ -158,30 +158,30 @@ test("<PlayerController /> invokes videoStreamer's setProperty when setProperty(
 });
 
 test("<PlayerController /> invokes videoStreamer's setProperty when playback methods are invoked and videoStreamer is ready.", () => {
-  let methods;
+  let actions;
   const renderProp = jest.fn();
   const setProperty = jest.fn();
   renderProp.mockReturnValue(getMockPlayerUi());
-  const handleMethods = m => (methods = m);
+  const handleActionsReady = m => (actions = m);
   const rendered = mount(
-    <PlayerController render={renderProp} onPlaybackMethodsReady={handleMethods}>
+    <PlayerController render={renderProp} onPlaybackActionsReady={handleActionsReady}>
       <MockVideo />
     </PlayerController>
   );
   const videoStreamerProps = rendered.find('MockVideo').props();
   videoStreamerProps.onReady({ setProperty });
-  methods.play();
-  methods.pause();
-  methods.setPosition(101);
-  methods.gotoLive();
-  methods.setVolume(0.5);
-  methods.setIsMuted(true);
-  methods.lockBitrate('max');
-  methods.capBitrate(2000);
-  methods.setSelectedTextTrack({ language: 'en' });
-  methods.setSelectedAudioTrack({ language: 'de' });
-  methods.setSelectedTextTrack(null);
-  methods.setSelectedAudioTrack(null);
+  actions.play();
+  actions.pause();
+  actions.setPosition(101);
+  actions.gotoLive();
+  actions.setVolume(0.5);
+  actions.setIsMuted(true);
+  actions.lockBitrate('max');
+  actions.capBitrate(2000);
+  actions.setSelectedTextTrack({ language: 'en' });
+  actions.setSelectedAudioTrack({ language: 'de' });
+  actions.setSelectedTextTrack(null);
+  actions.setSelectedAudioTrack(null);
   expect(setProperty.mock.calls[0][0].isPaused).toBe(false);
   expect(setProperty.mock.calls[1][0].isPaused).toBe(true);
   expect(setProperty.mock.calls[2][0].position).toBe(101);

@@ -61,7 +61,7 @@ const createCustomPlayer = ({
     source,
     textTracks,
     options,
-    onPlaybackMethodsReady,
+    onPlaybackActionsReady,
     onStreamStateChange,
     onExit,
     onError,
@@ -74,7 +74,7 @@ const createCustomPlayer = ({
         configuration={configuration}
         options={options}
         onStreamerError={onError}
-        onPlaybackMethodsReady={onPlaybackMethodsReady}
+        onPlaybackActionsReady={onPlaybackActionsReady}
         onStreamStateChange={onStreamStateChange}
         initialPlaybackProps={initialPlaybackProps}
         externalProps={{ onExit }}>

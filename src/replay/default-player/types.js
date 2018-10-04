@@ -6,7 +6,7 @@ import type { InitialPlaybackProps, PlaybackSource, SourceTrack, VideoStreamerCo
 import type { QualitySelectionStrategy } from '../components/controls/QualitySelector/QualitySelector';
 import type { LiveDisplayMode } from '../components/controls/TimeDisplay/TimeDisplay';
 import type { UserSettingsConfiguration } from '../components/player/settings-helpers/PreferredSettingsApplicator';
-import type { PlaybackMethods } from '../components/player/PlayerController/PlayerController';
+import type { PlaybackActions } from '../components/player/PlayerController/PlayerController';
 
 export type ControlNames =
   | 'playPauseButton'
@@ -73,7 +73,7 @@ export type ReplayProps = {
   options?: PlayerConfiguration,
   onExit?: () => void,
   onError?: any => void,
-  onPlaybackMethodsReady?: (PlaybackMethods) => void,
+  onPlaybackActionsReady?: (PlaybackActions) => void,
   onStreamStateChange?: VideoStreamState => void,
   children?: React.Element<any>,
   initialPlaybackProps?: InitialPlaybackProps,

@@ -7,7 +7,7 @@ import { Replay } from './replay/';
 import type { PlayerConfiguration } from './replay/default-player/types';
 import './App.css';
 import './replay/replay-default.css';
-import type { PlaybackMethods } from './replay/components/player/PlayerController/PlayerController';
+import type { PlaybackActions } from './replay/components/player/PlayerController/PlayerController';
 
 type State = {
   useMock?: boolean,
@@ -114,8 +114,8 @@ class App extends Component<void, State> {
   handleVideoButtonClick = (index: number) => this.setState({ streamUrl: videoUrls[index] });
   handleNoVideoClick = () => this.setState({ streamUrl: '' });
   
-  handlePlaybackMethods = (methods: PlaybackMethods) => {
-    window.player = methods;
+  handlePlaybackActions = (actions: PlaybackActions) => {
+    window.player = actions;
   };
 
   render() {
@@ -147,7 +147,7 @@ class App extends Component<void, State> {
                 options={configOverrides}
                 onExit={this.togglePlayer}
                 initialPlaybackProps={{ isPaused: false, volume: 0.5 }}
-                onPlaybackMethodsReady={this.handlePlaybackMethods}
+                onPlaybackActionsReady={this.handlePlaybackActions}
               />
               <p>
                 <input type="url" value={streamUrl} onChange={this.handleStreamUrlFieldChange} />
