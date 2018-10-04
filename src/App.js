@@ -113,7 +113,7 @@ class App extends Component<void, State> {
 
   handleVideoButtonClick = (index: number) => this.setState({ streamUrl: videoUrls[index] });
   handleNoVideoClick = () => this.setState({ streamUrl: '' });
-  
+
   handlePlaybackActions = (actions: PlaybackActions) => {
     window.player = actions;
   };

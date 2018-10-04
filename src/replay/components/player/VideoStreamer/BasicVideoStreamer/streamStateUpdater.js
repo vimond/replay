@@ -148,7 +148,13 @@ function getStreamStateUpdater(
       lifeCycleStage = 'starting';
       if (streamer.props.initialPlaybackProps) {
         const { isMuted, volume, lockedBitrate, maxBitrate } = streamer.props.initialPlaybackProps;
-        applyProperties({ isMuted, volume, lockedBitrate, maxBitrate }, streamer.videoRef, streamRangeHelper, streamer.textTrackManager, streamer.audioTrackManager);
+        applyProperties(
+          { isMuted, volume, lockedBitrate, maxBitrate },
+          streamer.videoRef,
+          streamRangeHelper,
+          streamer.textTrackManager,
+          streamer.audioTrackManager
+        );
       }
       withVideoElement(videoElement => {
         update({ playState: 'starting', isBuffering: true, volume: videoElement.volume, isMuted: videoElement.muted });

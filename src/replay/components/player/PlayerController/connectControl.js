@@ -1,12 +1,7 @@
 // @flow
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
-import type {
-  InspectMethod,
-  ObserveMethod,
-  UnobserveMethod,
-  SetPropertyMethod
-} from './ControllerContext';
+import type { InspectMethod, ObserveMethod, UnobserveMethod, SetPropertyMethod } from './ControllerContext';
 import type { VideoStreamStateKeys } from '../VideoStreamer/types';
 import type { CommonGenericProps } from '../../common';
 

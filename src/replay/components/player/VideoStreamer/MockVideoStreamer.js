@@ -70,7 +70,9 @@ const defaultValues = {
 const className = 'video-streamer';
 const mockClassName = 'mock-video-streamer';
 
-const runAsync = (callback, arg, delay = 0) => { setTimeout(() => callback && callback(arg), delay) };
+const runAsync = (callback, arg, delay = 0) => {
+  setTimeout(() => callback && callback(arg), delay);
+};
 
 const updateWithDefaultValues = (updater, overrides: VideoStreamState = {}) => {
   if (updater) {
@@ -105,12 +107,12 @@ class MockVideoStreamer extends React.Component<Props> {
   componentDidMount() {
     if (this.props.initialPlaybackProps) {
       const { isPaused, isMuted, volume, maxBitrate, lockedBitrate } = this.props.initialPlaybackProps;
-      this.updateStreamState({ isPaused, isMuted, volume, maxBitrate, lockedBitrate  });
+      this.updateStreamState({ isPaused, isMuted, volume, maxBitrate, lockedBitrate });
     }
     window.updateVideoState = this.updateStreamState;
     if (this.props.onReady) {
       this.props.onReady({
-        setProperty: (props: PlaybackProps) => runAsync(this.updateStreamState, props, Math.round(Math.random()*1000))
+        setProperty: (props: PlaybackProps) => runAsync(this.updateStreamState, props, Math.round(Math.random() * 1000))
       });
       updateWithDefaultValues(this.props.onStreamStateChange);
       /*setInterval(() => {

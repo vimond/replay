@@ -53,7 +53,13 @@ class BasicVideoStreamer extends React.Component<Props> {
   videoRef: { current: null | HTMLVideoElement };
 
   setProperty = (playbackProps: PlaybackProps) => {
-    applyProperties(playbackProps, this.videoRef, this.streamRangeHelper, this.textTrackManager, this.audioTrackManager);
+    applyProperties(
+      playbackProps,
+      this.videoRef,
+      this.streamRangeHelper,
+      this.textTrackManager,
+      this.audioTrackManager
+    );
   };
 
   componentDidMount() {

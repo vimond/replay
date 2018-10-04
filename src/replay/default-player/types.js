@@ -2,7 +2,13 @@
 import * as React from 'react';
 import type { InteractionDetectorConfiguration } from '../components/player/containment-helpers/InteractionDetector';
 import type { KeyboardShortcutsConfiguration } from '../components/player/containment-helpers/KeyboardShortcuts';
-import type { InitialPlaybackProps, PlaybackSource, SourceTrack, VideoStreamerConfiguration, VideoStreamState } from '../components/player/VideoStreamer/types';
+import type {
+  InitialPlaybackProps,
+  PlaybackSource,
+  SourceTrack,
+  VideoStreamerConfiguration,
+  VideoStreamState
+} from '../components/player/VideoStreamer/types';
 import type { QualitySelectionStrategy } from '../components/controls/QualitySelector/QualitySelector';
 import type { LiveDisplayMode } from '../components/controls/TimeDisplay/TimeDisplay';
 import type { UserSettingsConfiguration } from '../components/player/settings-helpers/PreferredSettingsApplicator';
@@ -73,7 +79,7 @@ export type ReplayProps = {
   options?: PlayerConfiguration,
   onExit?: () => void,
   onError?: any => void,
-  onPlaybackActionsReady?: (PlaybackActions) => void,
+  onPlaybackActionsReady?: PlaybackActions => void,
   onStreamStateChange?: VideoStreamState => void,
   children?: React.Element<any>,
   initialPlaybackProps?: InitialPlaybackProps,
