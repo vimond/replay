@@ -70,13 +70,31 @@ export type VideoStreamStateValues = $Values<VideoStreamState>;
 
 // Types used in settable props.
 
-export type VideoStreamerConfiguration =
-  | {
-      dash?: any,
-      html?: any,
-      silverlight?: any
+export type VideoStreamerConfiguration = {
+  addPolyfills?: ?boolean,
+  // TODO: What to include? Try it out.
+  licenseAcquisition?: ?{
+    widevine: {
+      serviceCertificate?: ?string,
+      withCredentials?: ?boolean
+    },
+    fairPlay: {
+      serviceCertificate?: ?string,
+      withCredentials?: ?boolean
+    },
+    playReady: {
+      withCredentials?: ?boolean
     }
-  | any;
+  },
+  manifestRequests?: ?{
+    withCredentials?: ?boolean
+  },
+  logLevel: 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG', // TODO: Generalise.
+  defaultBandwidth?: ?number,
+  crossOrigin?: ?string,
+  playsInline?: ?boolean,
+  shakaPlayer?: any // Actually the config structure that can be passed to shaka.Player::configure.
+};
 
 export type SourceTrack = {
   src: string,

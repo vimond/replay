@@ -8624,6 +8624,10 @@ sha.js@^2.4.0, sha.js@^2.4.8:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
+shaka-player@^2.5.0-beta:
+  version "2.5.0-beta"
+  resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/shaka-player/-/shaka-player-2.5.0-beta.tgz#3ee56c88178422883d39e1463508933e07b2c2a0"
+
 shebang-command@^1.2.0:
   version "1.2.0"
   resolved "http://vimond.jfrog.io/vimond/api/npm/npm-virtual/shebang-command/-/shebang-command-1.2.0.tgz#44aac65b695b03398968c39f363fee5deafdf1ea"

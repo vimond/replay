@@ -26,7 +26,8 @@
   },
   "dependencies": {
     "memoize-one": "^4.0.0",
-    "react-feather": "^1.1.0"
+    "react-feather": "^1.1.0",
+    "shaka-player": "^2.5.0-beta"
   },
   "devDependencies": {
     "@compositor/x0": "^6.0.4",
