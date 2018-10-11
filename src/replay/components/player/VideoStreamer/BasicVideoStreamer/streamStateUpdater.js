@@ -1,10 +1,10 @@
 // @flow
 import getFilteredPropertyUpdater from './filteredPropertyUpdater';
-import BasicVideoStreamer from './BasicVideoStreamer';
 import type { AvailableTrack, PlaybackSource, VideoStreamState } from '../types';
 import mapError from './errorMapper';
 import { getIntervalRunner } from '../../../common';
 import { applyProperties } from './propertyApplier';
+import BasicVideoStreamer from './BasicVideoStreamer';
 
 type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
 

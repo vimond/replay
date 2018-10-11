@@ -1,4 +1,4 @@
-import { handleSourceChange } from './helpers';
+import { handleSourceChange } from './sourceHandler';
 import shaka from 'shaka-player';
 
 function MockShakaPlayer(videoElement) {
@@ -35,7 +35,7 @@ test('Shaka helper handleSourceChange() treats a string source and an object sou
   );
 });
 
-test('Shaka helper handleSourceChange() unregisters earlier filters and (re-)registers built-in filter when a source is loaded.', () => {
+test('Shaka helper handleSourceChange() unregisters earlier filters when a source is loaded.', () => {
   const shakaPlayer = new MockShakaPlayer();
   const firstSource = { streamUrl: 'https://ok.com/puter', startPosition: 33 };
   const secondSource = { streamUrl: 'https://example.com/stream' };
@@ -43,40 +43,12 @@ test('Shaka helper handleSourceChange() unregisters earlier filters and (re-)reg
     .then(() => {
       expect(shakaPlayer.getNetworkingEngine().clearAllRequestFilters).toHaveBeenCalledTimes(1);
       expect(shakaPlayer.getNetworkingEngine().clearAllResponseFilters).toHaveBeenCalledTimes(1);
-      expect(typeof shakaPlayer.getNetworkingEngine().registerResponseFilter.mock.calls[0][0]).toBe('function');
     })
     .then(() => handleSourceChange(shakaPlayer, secondSource, firstSource))
     .then(() => {
       expect(shakaPlayer.getNetworkingEngine().clearAllRequestFilters).toHaveBeenCalledTimes(2);
       expect(shakaPlayer.getNetworkingEngine().clearAllResponseFilters).toHaveBeenCalledTimes(2);
-      expect(typeof shakaPlayer.getNetworkingEngine().registerResponseFilter.mock.calls[1][0]).toBe('function');
     });
-});
-test('The built-in filter reports back a date with the value of availabilityStartTime, if found in a manifest response.', () => {
-  const shakaPlayer = new MockShakaPlayer();
-  const firstSource = { streamUrl: 'https://ok.com/puter', startPosition: 33 };
-  const handleAvailabilityStartTime = jest.fn();
-  return handleSourceChange(shakaPlayer, firstSource, null, null, null, handleAvailabilityStartTime).then(() => {
-    const responseFilter = shakaPlayer.getNetworkingEngine().registerResponseFilter.mock.calls[0][0];
-    responseFilter(
-      shaka.net.NetworkingEngine.RequestType.MANIFEST,
-      { data: '<?xml version="1.0"?><MPD></MPD>' }
-    );
-    responseFilter(
-      shaka.net.NetworkingEngine.RequestType.MANIFEST,
-      { data: '<?xml version="1.0"?><MPD type="dynamic" availabilityStartTime="2016-09-08T13:02:55Z"></MPD>' }
-    );
-    responseFilter(
-      shaka.net.NetworkingEngine.RequestType.MANIFEST,
-      { data: '<?xml version="1.0"?><MPD type="dynamic" availabilityStartTime="2016-09-08T13:02:55Z"></MPD>' }
-    );
-    responseFilter(
-      shaka.net.NetworkingEngine.RequestType.MANIFEST,
-      { data: '<?xml version="1.0"?><MPD type="static"></MPD>' }
-    );
-    expect(handleAvailabilityStartTime).toHaveBeenCalledTimes(1);
-    expect(handleAvailabilityStartTime.mock.calls[0][0].getTime()).toBe(1473339775000);
-  });
 });
 test('Custom request or response filters are registered.', () => {
   const shakaPlayer = new MockShakaPlayer();
@@ -86,9 +58,7 @@ test('Custom request or response filters are registered.', () => {
   return handleSourceChange(shakaPlayer, firstSource, null, requestFilter, responseFilter)
     .then(() => {
       expect(shakaPlayer.getNetworkingEngine().registerRequestFilter).toHaveBeenCalledTimes(1);
-      expect(shakaPlayer.getNetworkingEngine().registerResponseFilter).toHaveBeenCalledTimes(2);
-      expect(shakaPlayer.getNetworkingEngine().registerRequestFilter).toHaveBeenCalledWith(1);
-      expect(shakaPlayer.getNetworkingEngine().registerResponseFilter).toHaveBeenCalledWith(2);
+      expect(shakaPlayer.getNetworkingEngine().registerResponseFilter).toHaveBeenCalledTimes(1);
     })
 });
 test('Shaka helper handleSourceChange() unloads the current source if changing into a nullish source prop. It also unregisters filters.', () => {
@@ -102,3 +72,9 @@ test('Shaka helper handleSourceChange() unloads the current source if changing i
       expect(shakaPlayer.unload).toHaveBeenCalledTimes(1);
     });
 });
+
+// Position
+
+// Buffering
+
+// Error

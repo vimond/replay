@@ -2,14 +2,14 @@
 import * as React from 'react';
 import { type CommonGenericProps, prefixClassNames, defaultClassNamePrefix } from '../../../common';
 import type { PlaybackProps, VideoStreamerProps } from '../types';
-import getStreamStateUpdater from './streamStateUpdater';
-import type { StreamStateUpdater } from './streamStateUpdater';
-import { applyProperties } from './propertyApplier';
-import getTextTrackManager from './textTrackManager';
 import type { TextTrackManager } from './textTrackManager';
 import type { StreamRangeHelper } from './streamRangeHelper';
-import getStreamRangeHelper from './streamRangeHelper';
+import type { StreamStateUpdater } from './streamStateUpdater';
 import type { AudioTrackManager } from './audioTrackManager';
+import getStreamStateUpdater from './streamStateUpdater';
+import { applyProperties } from './propertyApplier';
+import getTextTrackManager from './textTrackManager';
+import getStreamRangeHelper from './streamRangeHelper';
 import getAudioTrackManager from './audioTrackManager';
 
 type Props = CommonGenericProps &
@@ -43,7 +43,7 @@ class BasicVideoStreamer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
     this.videoRef = React.createRef();
-    this.streamRangeHelper = getStreamRangeHelper(); // TODO: Add configuration parameters.
+    this.streamRangeHelper = getStreamRangeHelper(this.props.configuration && this.props.configuration.liveEdgeMargin);
     this.streamStateUpdater = getStreamStateUpdater(this);
   }
   streamStateUpdater: StreamStateUpdater;

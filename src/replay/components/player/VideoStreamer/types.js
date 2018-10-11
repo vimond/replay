@@ -93,7 +93,7 @@ export type VideoStreamerConfiguration = {
   defaultBandwidth?: ?number,
   crossOrigin?: ?string,
   playsInline?: ?boolean,
-  shakaPlayer?: any // Actually the config structure that can be passed to shaka.Player::configure.
+  liveEdgeMargin?: ?number,
 };
 
 export type SourceTrack = {

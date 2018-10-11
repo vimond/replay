@@ -1,20 +1,19 @@
 // @flow
 import * as React from 'react';
-import { type CommonGenericProps, prefixClassNames, defaultClassNamePrefix } from '../../../common';
-import type { PlaybackProps, VideoStreamerProps } from '../types';
-import shaka from 'shaka-player';
-
 import getStreamStateUpdater from '../BasicVideoStreamer/streamStateUpdater';
-import type { StreamStateUpdater } from '../BasicVideoStreamer/streamStateUpdater';
 import { applyProperties } from '../BasicVideoStreamer/propertyApplier';
 import getTextTrackManager from '../BasicVideoStreamer/textTrackManager';
-import type { TextTrackManager } from '../BasicVideoStreamer/textTrackManager';
-import type { StreamRangeHelper } from '../BasicVideoStreamer/streamRangeHelper';
-import getStreamRangeHelper from '../BasicVideoStreamer/streamRangeHelper';
-import type { AudioTrackManager } from '../BasicVideoStreamer/audioTrackManager';
+import getStreamRangeHelper from './streamRangeHelper';
 import getAudioTrackManager from '../BasicVideoStreamer/audioTrackManager';
-import { handleSourceChange } from './helpers';
-import type { ShakaRequestFilter, ShakaResponseFilter } from './types';
+import { handleSourceChange } from './sourceHandler';
+import { type CommonGenericProps, prefixClassNames, defaultClassNamePrefix } from '../../../common';
+import type { PlaybackProps, VideoStreamerProps } from '../types';
+import type { StreamStateUpdater } from '../BasicVideoStreamer/streamStateUpdater';
+import type { TextTrackManager } from '../BasicVideoStreamer/textTrackManager';
+import type { StreamRangeHelper } from './streamRangeHelper';
+import type { AudioTrackManager } from '../BasicVideoStreamer/audioTrackManager';
+import type { ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter, ShakaVideoStreamerConfiguration } from './types';
+import { cleanup, setup } from './setup';
 
 type Props = CommonGenericProps &
   VideoStreamerProps & {
@@ -40,20 +39,6 @@ const styles = {
   verticalAlign: 'baseline'
 };
 
-function setup(videoElement, configuration: any) {
-  const shakaPlayer = new shaka.Player(videoElement);
-  if (configuration) {
-    shakaPlayer.configure(configuration);
-  }
-  return shakaPlayer;
-}
-
-function cleanup(shakaPlayer) {
-  if (shakaPlayer) {
-    shakaPlayer.destroy();
-  }
-}
-
 class ShakaVideoStreamer extends React.Component<Props> {
   static defaultProps = {
     classNamePrefix: defaultClassNamePrefix,
@@ -63,23 +48,18 @@ class ShakaVideoStreamer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
     this.videoRef = React.createRef();
-    this.streamRangeHelper = getStreamRangeHelper(); // TODO: Add configuration parameters.
-    this.streamStateUpdater = getStreamStateUpdater(this);
-    if (this.props.configuration) {
-      if (this.props.configuration.addPolyfills) {
-        shaka.polyfill.installAll();
-      }
-    }
+    this.streamRangeHelper = getStreamRangeHelper(this.props.configuration && this.props.configuration.liveEdgeMargin); // TODO: Inject/HOCify.
+    this.streamStateUpdater = getStreamStateUpdater(this); // TODO: Inject/HOCify.
   }
 
-  shakaPlayer: any;
+  shakaPlayer: ShakaPlayer;
   streamStateUpdater: StreamStateUpdater;
   textTrackManager: TextTrackManager;
   audioTrackManager: AudioTrackManager;
   streamRangeHelper: StreamRangeHelper;
   videoRef: { current: null | HTMLVideoElement };
 
-  setProperty = (playbackProps: PlaybackProps) => {
+  setProperty = (playbackProps: PlaybackProps) => { //TODO: Inject, probably.
     applyProperties(
       playbackProps,
       this.videoRef,
@@ -96,17 +76,14 @@ class ShakaVideoStreamer extends React.Component<Props> {
     this.streamStateUpdater.startPlaybackSession();
     const videoElement = this.videoRef.current;
     if (videoElement) {
-      this.shakaPlayer = setup(videoElement);
-      if (this.props.configuration && this.props.configuration.shakaPlayer) {
-        this.shakaPlayer.configure(this.props.configuration.shakaPlayer);
-      }
-      this.textTrackManager = getTextTrackManager(videoElement, this.streamStateUpdater.onTextTracksChanged);
-      this.audioTrackManager = getAudioTrackManager(videoElement, this.streamStateUpdater.onAudioTracksChanged);
+      this.shakaPlayer = setup(videoElement);  // TODO: Inject.
+      this.textTrackManager = getTextTrackManager(videoElement, this.streamStateUpdater.onTextTracksChanged); // TODO: Inject.
+      this.audioTrackManager = getAudioTrackManager(videoElement, this.streamStateUpdater.onAudioTracksChanged); // TODO: Inject.
     }
   }
 
   componentWillUnmount() {
-    cleanup(this.shakaPlayer);
+    cleanup(this.shakaPlayer); // TODO: Inject.
     if (this.textTrackManager) {
       this.textTrackManager.cleanup();
     }
@@ -117,17 +94,19 @@ class ShakaVideoStreamer extends React.Component<Props> {
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.source !== this.props.source) {
-      handleSourceChange(this.shakaPlayer, this.props.source, prevProps.source, this.props.shakaRequestFilter, this.props.shakaResponseFilter, this.streamStateUpdater.registerStartTime).then(() => {
+      // TODO: Inject.
+      handleSourceChange(this.shakaPlayer, this.props.source, prevProps.source, this.props.shakaRequestFilter, this.props.shakaResponseFilter).then(() => {
         this.streamStateUpdater.startPlaybackSession();
         this.audioTrackManager.handleSourceChange();
         this.textTrackManager.handleNewSourceProps(this.props);
 
-      }).catch(err => this.props.onPlaybackError && this.props.onPlaybackError(err)); // TODO: Error mapping.
+      }).catch(err => this.props.onPlaybackError && this.props.onPlaybackError(err)); // TODO: Ignore interrupted load calls. TODO: Error mapping.
     } else if (prevProps.textTracks !== this.props.textTracks) {
       this.textTrackManager.handleNewSourceProps(this.props);
     }
   }
 
+  // TODO: Render must be different for plain HTML.
   render() {
     const { className, classNamePrefix, applyBuiltInStyles }: Props = this.props;
     const classNames = prefixClassNames(classNamePrefix, baseClassName, className);

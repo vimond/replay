@@ -70,7 +70,9 @@ function getAbsolutePositions(
   }
 }
 
-const getStreamRangeHelper = (livePositionMargin: number = defaultLivePositionMargin): StreamRangeHelper => {
+const getStreamRangeHelper = (liveEdgeMargin: ?number): StreamRangeHelper => {
+  const liveMargin = liveEdgeMargin || defaultLivePositionMargin;
+
   function calculateNewState(videoElement: HTMLVideoElement) {
     const seekableRange = getSeekableNetRange(videoElement);
     const isLive = videoElement.duration === Infinity;
@@ -78,7 +80,7 @@ const getStreamRangeHelper = (livePositionMargin: number = defaultLivePositionMa
     const position = getPosition(videoElement);
     const duration = getDuration(videoElement, isLive, seekableRange);
     const playMode = resolvePlayMode(videoElement, seekableRange, isLive);
-    const isAtLivePosition = isLive && position > duration - livePositionMargin;
+    const isAtLivePosition = isLive && position > duration - liveMargin;
     const { absolutePosition, absoluteStartPosition } = getAbsolutePositions(videoElement, isLive, position);
     return {
       position,
