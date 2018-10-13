@@ -17,8 +17,8 @@ import { cleanup, setup } from './setup';
 
 type Props = CommonGenericProps &
   VideoStreamerProps & {
-    shakaRequestFilter: ShakaRequestFilter,
-    shakaResponseFilter: ShakaResponseFilter,
+    shakaRequestFilter?: ?ShakaRequestFilter,
+    shakaResponseFilter?: ?ShakaResponseFilter,
     applyBuiltInStyles?: boolean
   };
 
@@ -50,6 +50,7 @@ class ShakaVideoStreamer extends React.Component<Props> {
     this.videoRef = React.createRef();
     this.streamRangeHelper = getStreamRangeHelper(this.props.configuration && this.props.configuration.liveEdgeMargin); // TODO: Inject/HOCify.
     this.streamStateUpdater = getStreamStateUpdater(this); // TODO: Inject/HOCify.
+    // https://stackoverflow.com/questions/47453518/react-and-flowtype-inherit-class
   }
 
   shakaPlayer: ShakaPlayer;
@@ -63,6 +64,7 @@ class ShakaVideoStreamer extends React.Component<Props> {
     applyProperties(
       playbackProps,
       this.videoRef,
+      this.shakaPlayer,
       this.streamRangeHelper,
       this.textTrackManager,
       this.audioTrackManager

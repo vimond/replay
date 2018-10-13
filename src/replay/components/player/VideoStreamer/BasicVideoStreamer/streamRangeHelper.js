@@ -2,10 +2,10 @@
 import type { PlayMode, VideoStreamState } from '../types';
 
 export type StreamRangeHelper = {
-  adjustForDvrStartOffset: HTMLVideoElement => void,
-  calculateNewState: HTMLVideoElement => VideoStreamState,
-  setPosition: (HTMLVideoElement, number) => void,
-  gotoLive: HTMLVideoElement => void
+  adjustForDvrStartOffset: (HTMLVideoElement, any) => void,
+  calculateNewState: (HTMLVideoElement, any) => VideoStreamState,
+  setPosition: (number, HTMLVideoElement, any) => void,
+  gotoLive: (HTMLVideoElement, any) => void
 };
 
 const dawnOfTime = new Date(0);
@@ -101,7 +101,7 @@ const getStreamRangeHelper = (liveEdgeMargin: ?number): StreamRangeHelper => {
     }
   }
 
-  function setPosition(videoElement: HTMLVideoElement, newPosition: number) {
+  function setPosition(newPosition: number, videoElement: HTMLVideoElement) {
     if (!(isNaN(newPosition) && newPosition === Infinity)) {
       videoElement.currentTime = getStartOffset(videoElement) + newPosition;
     }

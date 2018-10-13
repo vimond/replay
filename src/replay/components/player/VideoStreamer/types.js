@@ -89,7 +89,7 @@ export type VideoStreamerConfiguration = {
   manifestRequests?: ?{
     withCredentials?: ?boolean
   },
-  logLevel: 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG', // TODO: Generalise.
+  logLevel?: 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG', // TODO: Generalise.
   defaultBandwidth?: ?number,
   crossOrigin?: ?string,
   playsInline?: ?boolean,

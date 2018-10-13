@@ -5,7 +5,7 @@ import type { ShakaPlayer } from './types';
 export type StreamRangeHelper = {
   adjustForDvrStartOffset: (HTMLVideoElement, ShakaPlayer) => void,
   calculateNewState: (HTMLVideoElement, ShakaPlayer) => VideoStreamState,
-  setPosition: (HTMLVideoElement, ShakaPlayer, number) => void,
+  setPosition: (number, HTMLVideoElement, ShakaPlayer) => void,
   gotoLive: (HTMLVideoElement, ShakaPlayer) => void
 };
 
@@ -97,7 +97,7 @@ const getStreamRangeHelper = (liveEdgeMargin: ?number): StreamRangeHelper => {
     }
   }
 
-  function setPosition(videoElement: HTMLVideoElement, shakaPlayer: ShakaPlayer, newPosition: number) {
+  function setPosition(newPosition: number, videoElement: HTMLVideoElement, shakaPlayer: ShakaPlayer) {
     if (!(isNaN(newPosition) && newPosition === Infinity)) {
       videoElement.currentTime = shakaPlayer.seekRange().start + newPosition;
     }

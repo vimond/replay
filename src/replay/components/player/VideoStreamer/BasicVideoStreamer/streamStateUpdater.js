@@ -1,10 +1,17 @@
 // @flow
 import getFilteredPropertyUpdater from './filteredPropertyUpdater';
-import type { AvailableTrack, PlaybackSource, VideoStreamState } from '../types';
+import type {
+  AvailableTrack,
+  PlaybackSource,
+  VideoStreamerProps,
+  VideoStreamState
+} from '../types';
 import mapError from './errorMapper';
 import { getIntervalRunner } from '../../../common';
 import { applyProperties } from './propertyApplier';
-import BasicVideoStreamer from './BasicVideoStreamer';
+import type { StreamRangeHelper } from './streamRangeHelper';
+import type { TextTrackManager } from './textTrackManager';
+import type { AudioTrackManager } from './audioTrackManager';
 
 type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
 
@@ -18,14 +25,14 @@ export type AudioTracksStateProps = {
   currentAudioTrack?: ?AvailableTrack
 };
 
-/*export type StreamRangeProps = {
-  playMode: PlayMode,
-  isAtLivePosition: boolean,
-  position: number,
-  duration: number,
-  absolutePosition: Date,
-  absoluteStartPosition: Date
-};*/
+type VideoStreamer<T: VideoStreamerProps> = {
+  props: T,
+  thirdPartyPlayer?: any,
+  streamRangeHelper: StreamRangeHelper,
+  videoRef: { current: null | HTMLVideoElement },
+  textTrackManager: TextTrackManager,
+  audioTrackManager: AudioTrackManager
+};
 
 export type StreamStateUpdater = {
   eventHandlers: { [string]: () => void },
@@ -68,8 +75,8 @@ function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
   return ahead;
 }
 
-function getStreamStateUpdater(
-  streamer: BasicVideoStreamer,
+function getStreamStateUpdater<T: VideoStreamerProps>(
+  streamer: VideoStreamer<T>,
   pauseUpdateInterval?: number = defaultPauseUpdateInterval
 ) {
   let lifeCycleStage: PlaybackLifeCycle = 'unknown';
@@ -151,6 +158,7 @@ function getStreamStateUpdater(
         applyProperties(
           { isMuted, volume, lockedBitrate, maxBitrate },
           streamer.videoRef,
+          streamer.thirdPartyPlayer,
           streamRangeHelper,
           streamer.textTrackManager,
           streamer.audioTrackManager
@@ -172,7 +180,7 @@ function getStreamStateUpdater(
         videoElement.pause();
       }
       seekToInitialPosition(streamer.props.source, videoElement);
-      update(streamRangeHelper.calculateNewState(videoElement));
+      update(streamRangeHelper.calculateNewState(videoElement, streamer.thirdPartyPlayer));
     });
   }
 
@@ -264,13 +272,13 @@ function getStreamStateUpdater(
   function onDurationChange() {
     log('durationchange');
     withVideoElement(videoElement => {
-      update(streamRangeHelper.calculateNewState(videoElement));
+      update(streamRangeHelper.calculateNewState(videoElement, streamer.thirdPartyPlayer));
     });
   }
 
   function onTimeUpdate() {
     withVideoElement(videoElement => {
-      update(streamRangeHelper.calculateNewState(videoElement));
+      update(streamRangeHelper.calculateNewState(videoElement, streamer.thirdPartyPlayer));
     });
   }
 
@@ -299,8 +307,8 @@ function getStreamStateUpdater(
 
   function onPauseInterval() {
     withVideoElement(videoElement => {
-      streamRangeHelper.adjustForDvrStartOffset(videoElement);
-      update(streamRangeHelper.calculateNewState(videoElement));
+      streamRangeHelper.adjustForDvrStartOffset(videoElement, streamer.thirdPartyPlayer);
+      update(streamRangeHelper.calculateNewState(videoElement, streamer.thirdPartyPlayer));
     });
   }
 

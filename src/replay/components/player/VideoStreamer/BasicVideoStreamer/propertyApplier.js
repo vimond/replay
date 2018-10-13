@@ -7,6 +7,7 @@ import type { StreamRangeHelper } from './streamRangeHelper';
 export const applyProperties = (
   playbackProps: PlaybackProps,
   videoRef: { current: null | HTMLVideoElement },
+  thirdPartyPlayer: any,
   streamRangeHelper: StreamRangeHelper,
   textTrackManager: ?TextTrackManager,
   audioTrackManager: ?AudioTrackManager
@@ -26,10 +27,11 @@ export const applyProperties = (
       videoRef.current.muted = playbackProps.isMuted;
     }
     if (playbackProps.position != null) {
-      streamRangeHelper.setPosition(videoRef.current, playbackProps.position);
+      streamRangeHelper.setPosition(playbackProps.position, videoRef.current, thirdPartyPlayer
+      );
     }
     if (playbackProps.isAtLivePosition) {
-      streamRangeHelper.gotoLive(videoRef.current);
+      streamRangeHelper.gotoLive(videoRef.current, thirdPartyPlayer);
     }
   }
   if (textTrackManager && 'selectedTextTrack' in playbackProps) {

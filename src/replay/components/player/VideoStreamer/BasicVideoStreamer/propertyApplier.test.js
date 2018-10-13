@@ -80,20 +80,20 @@ test('applyProperties() invokes setPosition or gotoLive when position or isAtLiv
   const propsUpdate3 = { isAtLivePosition: true };
   const propsUpdate4 = { isAtLivePosition: false };
 
-  applyProperties(propsUpdate1, videoRef, streamRangeHelper);
-  expect(streamRangeHelper.setPosition).toHaveBeenCalledWith(videoRef.current, 3);
+  applyProperties(propsUpdate1, videoRef, null, streamRangeHelper);
+  expect(streamRangeHelper.setPosition).toHaveBeenCalledWith(3, videoRef.current, null);
   expect(streamRangeHelper.gotoLive).not.toHaveBeenCalled();
 
-  applyProperties(propsUpdate2, videoRef, streamRangeHelper);
-  expect(streamRangeHelper.setPosition).toHaveBeenCalledWith(videoRef.current, 135);
+  applyProperties(propsUpdate2, videoRef, null, streamRangeHelper);
+  expect(streamRangeHelper.setPosition).toHaveBeenCalledWith(135, videoRef.current, null);
   expect(streamRangeHelper.setPosition).toHaveBeenCalledTimes(2);
   expect(streamRangeHelper.gotoLive).not.toHaveBeenCalled();
 
-  applyProperties(propsUpdate3, videoRef, streamRangeHelper);
+  applyProperties(propsUpdate3, videoRef, null, streamRangeHelper);
   expect(streamRangeHelper.setPosition).toHaveBeenCalledTimes(2);
   expect(streamRangeHelper.gotoLive).toHaveBeenCalledTimes(1);
 
-  applyProperties(propsUpdate4, videoRef, streamRangeHelper);
+  applyProperties(propsUpdate4, videoRef, null, streamRangeHelper);
   expect(streamRangeHelper.setPosition).toHaveBeenCalledTimes(2);
   expect(streamRangeHelper.gotoLive).toHaveBeenCalledTimes(1);
 });
@@ -137,32 +137,32 @@ test('applyProperties() invokes handleTextTrackChange or handleAudioTrackChange 
   const propsUpdate6 = { isPaused: false };
   const propsUpdate7 = { selectedTextTrack: null, selectedAudioTrack: null };
 
-  applyProperties(propsUpdate1, videoRef, null, textTrackManager, audioTrackManager);
+  applyProperties(propsUpdate1, videoRef, null, null, textTrackManager, audioTrackManager);
   expect(textTrackManager.handleSelectedTextTrackChange).toHaveBeenCalledWith(textTrack1);
   expect(audioTrackManager.handleSelectedAudioTrackChange).not.toHaveBeenCalled();
 
-  applyProperties(propsUpdate2, videoRef, null, textTrackManager, audioTrackManager);
+  applyProperties(propsUpdate2, videoRef, null, null, textTrackManager, audioTrackManager);
   expect(textTrackManager.handleSelectedTextTrackChange).toHaveBeenCalledWith(textTrack1);
   expect(textTrackManager.handleSelectedTextTrackChange).toHaveBeenCalledTimes(1);
   expect(audioTrackManager.handleSelectedAudioTrackChange).toHaveBeenCalledWith(audioTrack1);
 
-  applyProperties(propsUpdate3, videoRef, null, textTrackManager, audioTrackManager);
+  applyProperties(propsUpdate3, videoRef, null, null, textTrackManager, audioTrackManager);
   expect(textTrackManager.handleSelectedTextTrackChange.mock.calls[1][0]).toBe(textTrack2);
   expect(audioTrackManager.handleSelectedAudioTrackChange).toHaveBeenCalledTimes(1);
 
-  applyProperties(propsUpdate4, videoRef, null, textTrackManager, audioTrackManager);
+  applyProperties(propsUpdate4, videoRef, null, null, textTrackManager, audioTrackManager);
   expect(audioTrackManager.handleSelectedAudioTrackChange.mock.calls[1][0]).toBe(audioTrack2);
   expect(textTrackManager.handleSelectedTextTrackChange).toHaveBeenCalledTimes(2);
 
-  applyProperties(propsUpdate5, videoRef, null, textTrackManager, audioTrackManager);
+  applyProperties(propsUpdate5, videoRef, null, null, textTrackManager, audioTrackManager);
   expect(textTrackManager.handleSelectedTextTrackChange.mock.calls[2][0]).toBe(textTrack2);
   expect(audioTrackManager.handleSelectedAudioTrackChange).toHaveBeenCalledTimes(2);
 
-  applyProperties(propsUpdate6, videoRef, null, textTrackManager, audioTrackManager);
+  applyProperties(propsUpdate6, videoRef, null, null, textTrackManager, audioTrackManager);
   expect(textTrackManager.handleSelectedTextTrackChange).toHaveBeenCalledTimes(3);
   expect(audioTrackManager.handleSelectedAudioTrackChange).toHaveBeenCalledTimes(2);
 
-  applyProperties(propsUpdate7, videoRef, null, textTrackManager, audioTrackManager);
+  applyProperties(propsUpdate7, videoRef, null, null, textTrackManager, audioTrackManager);
   expect(textTrackManager.handleSelectedTextTrackChange.mock.calls[3][0]).toBe(null);
   expect(audioTrackManager.handleSelectedAudioTrackChange).toHaveBeenCalledTimes(2);
   expect(textTrackManager.handleSelectedTextTrackChange.mock.calls[1][0]).not.toBe(null);
