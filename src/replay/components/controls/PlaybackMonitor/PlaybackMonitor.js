@@ -16,7 +16,7 @@ type Props = CommonProps & {
   configuration?: {
     playbackMonitor?: PlaybackMonitorConfiguration
   },
-  closeButtonContent: React.Node
+  closeButtonContent: ?React.Node
 };
 
 type State = {
