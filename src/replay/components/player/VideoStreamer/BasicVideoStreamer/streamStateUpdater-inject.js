@@ -13,7 +13,7 @@ import type { StreamRangeHelper } from './streamRangeHelper';
 import type { TextTrackManager } from './textTrackManager';
 import type { AudioTrackManager } from './audioTrackManager';
 
-type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
+export type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
 
 export type TextTracksStateProps = {
   textTracks: Array<AvailableTrack>,
