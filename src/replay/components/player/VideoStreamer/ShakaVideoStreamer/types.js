@@ -1,5 +1,4 @@
 // @flow
-import type { VideoStreamerConfiguration } from '../types';
 
 export type ShakaRequest = {
   uris: Array<string>,
@@ -65,11 +64,4 @@ export type ShakaPlayer = {
   trickPlay: number => void,
   unload: (reinitializeMediaSource?: boolean) => Promise<void>,
   version: string
-};
-
-export type ShakaVideoStreamerConfiguration = VideoStreamerConfiguration & {
-  shakaPlayer?: {
-    installPolyfills?: boolean,
-    playerConfiguration?: any // Actually the config structure that can be passed to shaka.Player::configure.
-  } 
 };

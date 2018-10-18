@@ -1,12 +1,6 @@
 // @flow
-import type { PlayMode, VideoStreamState } from '../types';
-
-export type StreamRangeHelper = {
-  adjustForDvrStartOffset: (HTMLVideoElement, any) => void,
-  calculateNewState: (HTMLVideoElement, any) => VideoStreamState,
-  setPosition: (number, HTMLVideoElement, any) => void,
-  gotoLive: (HTMLVideoElement, any) => void
-};
+import type { PlayMode } from '../types';
+import type { StreamRangeHelper } from '../common/types';
 
 const dawnOfTime = new Date(0);
 const minimumDvrLength = 100; // seconds
@@ -70,10 +64,10 @@ function getAbsolutePositions(
   }
 }
 
-const getStreamRangeHelper = (liveEdgeMargin: ?number): StreamRangeHelper => {
+const getStreamRangeHelper = (videoElement: HTMLVideoElement, liveEdgeMargin: ?number): StreamRangeHelper => {
   const liveMargin = liveEdgeMargin || defaultLivePositionMargin;
 
-  function calculateNewState(videoElement: HTMLVideoElement) {
+  function calculateNewState() {
     const seekableRange = getSeekableNetRange(videoElement);
     const isLive = videoElement.duration === Infinity;
 
@@ -92,7 +86,7 @@ const getStreamRangeHelper = (liveEdgeMargin: ?number): StreamRangeHelper => {
     };
   }
 
-  function adjustForDvrStartOffset(videoElement) {
+  function adjustForDvrStartOffset() {
     if (videoElement && videoElement.paused && videoElement.duration === Infinity) {
       const seekableStart = getStartOffset(videoElement);
       if (seekableStart !== Infinity && seekableStart >= videoElement.currentTime) {
@@ -101,13 +95,13 @@ const getStreamRangeHelper = (liveEdgeMargin: ?number): StreamRangeHelper => {
     }
   }
 
-  function setPosition(newPosition: number, videoElement: HTMLVideoElement) {
+  function setPosition(newPosition: number) {
     if (!(isNaN(newPosition) && newPosition === Infinity)) {
       videoElement.currentTime = getStartOffset(videoElement) + newPosition;
     }
   }
 
-  function gotoLive(videoElement: HTMLVideoElement) {
+  function gotoLive() {
     if (videoElement.duration === Infinity && videoElement.seekable.length > 0) {
       videoElement.currentTime = videoElement.seekable.end(0);
     }

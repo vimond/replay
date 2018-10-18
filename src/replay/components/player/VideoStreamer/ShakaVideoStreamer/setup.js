@@ -1,7 +1,9 @@
-import type { ShakaPlayer, ShakaVideoStreamerConfiguration } from './types';
+// @flow
+import type { ShakaPlayer } from './types';
 import shaka from 'shaka-player';
+import type { ShakaVideoStreamerConfiguration } from './ShakaVideoStreamer';
 
-export function setup(videoElement, configuration: ShakaVideoStreamerConfiguration) : ShakaPlayer {
+export function setup(videoElement: HTMLVideoElement, configuration: ?ShakaVideoStreamerConfiguration) : ShakaPlayer {
   const shakaPlayerConfig = configuration && configuration.shakaPlayer;
   if (shakaPlayerConfig && shakaPlayerConfig.installPolyfills) {
     shaka.polyfill.installAll();
@@ -14,7 +16,7 @@ export function setup(videoElement, configuration: ShakaVideoStreamerConfigurati
   return shakaPlayer;
 }
 
-export function cleanup(shakaPlayer) {
+export function cleanup(shakaPlayer: ShakaPlayer) {
   if (shakaPlayer) {
     shakaPlayer.destroy();
   }

@@ -1,4 +1,4 @@
-// @flow
+// @xflow
 import * as React from 'react';
 import { type CommonGenericProps, prefixClassNames, defaultClassNamePrefix } from '../../../common';
 import type { PlaybackProps, VideoStreamerProps } from '../types';
@@ -7,7 +7,7 @@ import type { StreamRangeHelper } from './streamRangeHelper';
 import type { StreamStateUpdater } from './streamStateUpdater';
 import type { AudioTrackManager } from './audioTrackManager';
 import getStreamStateUpdater from './streamStateUpdater';
-import { applyProperties } from './propertyApplier';
+import { applyProperties } from '../common/propertyApplier';
 import getTextTrackManager from './textTrackManager';
 import getStreamRangeHelper from './streamRangeHelper';
 import getAudioTrackManager from './audioTrackManager';

@@ -1,5 +1,5 @@
-// @flow
-import getFilteredPropertyUpdater from './filteredPropertyUpdater';
+// @xflow
+import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
 import type {
   AvailableTrack,
   PlaybackSource,
@@ -8,7 +8,7 @@ import type {
 } from '../types';
 import mapError from './errorMapper';
 import { getIntervalRunner } from '../../../common';
-import { applyProperties } from './propertyApplier';
+import { applyProperties } from '../common/propertyApplier';
 import type { StreamRangeHelper } from './streamRangeHelper';
 import type { TextTrackManager } from './textTrackManager';
 import type { AudioTrackManager } from './audioTrackManager';

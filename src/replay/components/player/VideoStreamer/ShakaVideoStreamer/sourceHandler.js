@@ -1,7 +1,12 @@
 // @flow
-import shaka from 'shaka-player';
 import type { PlaybackSource } from '../types';
-import type { ShakaPlayer, ShakaRequestFilter, ShakaResponse, ShakaResponseFilter } from './types';
+import type { ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from './types';
+
+type Props = {
+  source?: ?PlaybackSource,
+  shakaRequestFilter?: ?ShakaRequestFilter,
+  shakaResponseFilter?: ?ShakaResponseFilter
+};
 
 function normalizeSource(source: ?(string | PlaybackSource)): ?PlaybackSource {
   return typeof source === 'string' ? { streamUrl: source } : source;
@@ -10,11 +15,6 @@ function normalizeSource(source: ?(string | PlaybackSource)): ?PlaybackSource {
 function prepareDrm(source: PlaybackSource) {
   // TODO
   return Promise.resolve();
-}
-
-function notifyAvailabilityStartTime(manifestText) {
-  const match = /availabilityStartTime="(.*?)"/.exec(manifestText);
-  return match && match[1];
 }
 
 function prepareFilters(
@@ -41,19 +41,17 @@ function prepareFilters(
   return Promise.resolve();
 }
 
-export function handleSourceChange(
-  shakaPlayer: ShakaPlayer,
-  nextSource: ?PlaybackSource,
-  prevSource: ?PlaybackSource,
-  shakaRequestFilter: ?ShakaRequestFilter,
-  shakaResponseFilter: ?ShakaResponseFilter
-) {
-  const source = normalizeSource(nextSource);
+const getSourceChangeHandler = (shakaPlayer: ShakaPlayer) => <T: Props>(
+  nextProps: T,
+  prevProps?: T
+) : Promise<any> => {
+  const { shakaRequestFilter, shakaResponseFilter } = nextProps;
+  const source = normalizeSource(nextProps.source);
   if (source) {
     return prepareFilters(shakaPlayer, shakaRequestFilter, shakaResponseFilter)
       .then(() => prepareDrm(source))
       .then(() => shakaPlayer.load(source.streamUrl, source.startPosition));
-  } else if (prevSource) { // And no new source.
+  } else if (prevProps && prevProps.source) { // And no new source.
     const networkingEngine = shakaPlayer.getNetworkingEngine();
     networkingEngine.clearAllRequestFilters();
     networkingEngine.clearAllResponseFilters();
@@ -62,3 +60,5 @@ export function handleSourceChange(
     return Promise.resolve();
   }
 }
+
+export default getSourceChangeHandler;

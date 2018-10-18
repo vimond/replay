@@ -1,13 +1,11 @@
 // @flow
-
 import mapError from './errorMapper';
-import type { StreamRangeHelper } from './streamRangeHelper';
-import type { PlaybackProps, PlaybackSource, VideoStreamerProps, VideoStreamState } from '../types';
-import type { PlaybackLifeCycle } from './streamStateUpdater-inject';
+import type { PlaybackProps, PlaybackSource, VideoStreamerImplProps, VideoStreamState } from '../types';
+import type { PlaybackLifeCycle } from '../common/streamStateUpdater-inject';
+import type { SimplifiedVideoStreamer, StreamRangeHelper } from '../common/types';
+import type { VideoStreamerConfiguration } from '../types';
 
-export type SimplifiedVideoStreamer<T: VideoStreamerProps> = {
-  props: T
-};
+
 
 function seekToInitialPosition(source: ?PlaybackSource, videoElement: HTMLVideoElement) {
   if (source && typeof source.startPosition === 'number') {
@@ -29,7 +27,7 @@ function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
   return ahead;
 }
 
-function getBasicVideoEventHandlers<T: VideoStreamerProps>({
+export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration, T: VideoStreamerImplProps<S>>({
   streamer,
   videoElement,
   thirdPartyPlayer,
@@ -40,7 +38,7 @@ function getBasicVideoEventHandlers<T: VideoStreamerProps>({
   getLifeCycle,
   setLifeCycle
 }: {
-  streamer: SimplifiedVideoStreamer<T>,
+  streamer: SimplifiedVideoStreamer<S, T>,
   videoElement: HTMLVideoElement,
   thirdPartyPlayer: any,
   streamRangeHelper: StreamRangeHelper,
@@ -88,12 +86,7 @@ function getBasicVideoEventHandlers<T: VideoStreamerProps>({
         const { isMuted, volume, lockedBitrate, maxBitrate } = streamer.props.initialPlaybackProps;
         // TODO: Apply on 'streaming' event in Shaka insted.
         applyProperties(
-          { isMuted, volume, lockedBitrate, maxBitrate },
-          streamer.videoRef,
-          thirdPartyPlayer,
-          streamRangeHelper,
-          streamer.textTrackManager,
-          streamer.audioTrackManager
+          { isMuted, volume, lockedBitrate, maxBitrate }
         );
       }
       updateStreamState({ playState: 'starting', isBuffering: true, volume: videoElement.volume, isMuted: videoElement.muted });
@@ -110,7 +103,7 @@ function getBasicVideoEventHandlers<T: VideoStreamerProps>({
     }
     // TODO: This is handled by Shaka.
     seekToInitialPosition(streamer.props.source, videoElement);
-    updateStreamState(streamRangeHelper.calculateNewState(videoElement, streamer.thirdPartyPlayer));
+    updateStreamState(streamRangeHelper.calculateNewState());
 
   }
 
@@ -201,11 +194,11 @@ function getBasicVideoEventHandlers<T: VideoStreamerProps>({
 
   function onDurationChange() {
     log('durationchange');
-    updateStreamState(streamRangeHelper.calculateNewState(videoElement, thirdPartyPlayer));
+    updateStreamState(streamRangeHelper.calculateNewState());
   }
 
   function onTimeUpdate() {
-    updateStreamState(streamRangeHelper.calculateNewState(videoElement, thirdPartyPlayer));
+    updateStreamState(streamRangeHelper.calculateNewState());
   }
 
   function onVolumeChange() {
@@ -229,8 +222,8 @@ function getBasicVideoEventHandlers<T: VideoStreamerProps>({
   }
 
   function onPauseInterval() {
-    streamRangeHelper.adjustForDvrStartOffset(videoElement, thirdPartyPlayer);
-    updateStreamState(streamRangeHelper.calculateNewState(videoElement, thirdPartyPlayer));
+    streamRangeHelper.adjustForDvrStartOffset();
+    updateStreamState(streamRangeHelper.calculateNewState());
   }
 
   function cleanup() {

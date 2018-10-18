@@ -1,13 +1,7 @@
 // @flow
-import type { PlayMode, VideoStreamState } from '../types';
+import type { PlayMode } from '../types';
 import type { ShakaPlayer } from './types';
-
-export type StreamRangeHelper = {
-  adjustForDvrStartOffset: (HTMLVideoElement, ShakaPlayer) => void,
-  calculateNewState: (HTMLVideoElement, ShakaPlayer) => VideoStreamState,
-  setPosition: (number, HTMLVideoElement, ShakaPlayer) => void,
-  gotoLive: (HTMLVideoElement, ShakaPlayer) => void
-};
+import type { StreamRangeHelper } from '../common/types';
 
 const dawnOfTime = new Date(0);
 const minimumDvrLength = 100; // seconds
@@ -54,10 +48,10 @@ function getAbsolutePositions(
   }
 }
 
-const getStreamRangeHelper = (liveEdgeMargin: ?number): StreamRangeHelper => {
-  const liveMargin = liveEdgeMargin || defaultLivePositionMargin;
+const getStreamRangeHelper = (videoElement: HTMLVideoElement, shakaPlayer: ShakaPlayer, configuration: ?{ liveEdgeMargin?: ?number }): StreamRangeHelper => {
+  const liveMargin = configuration && configuration.liveEdgeMargin || defaultLivePositionMargin;
 
-  function calculateNewState(videoElement: HTMLVideoElement, shakaPlayer: ShakaPlayer) {
+  function calculateNewState() {
     const seekRange = shakaPlayer.seekRange();
     const isLive = shakaPlayer.isLive();
     const startDateTime = isLive ? shakaPlayer.getPresentationStartTimeAsDate() : new Date();
@@ -88,7 +82,7 @@ const getStreamRangeHelper = (liveEdgeMargin: ?number): StreamRangeHelper => {
     };
   }
 
-  function adjustForDvrStartOffset(videoElement: HTMLVideoElement, shakaPlayer: ShakaPlayer) {
+  function adjustForDvrStartOffset() {
     if (videoElement && videoElement.paused && shakaPlayer.isLive()) {
       const seekableStart = shakaPlayer.seekRange().start || 0;
       if (seekableStart >= videoElement.currentTime) {
@@ -97,13 +91,13 @@ const getStreamRangeHelper = (liveEdgeMargin: ?number): StreamRangeHelper => {
     }
   }
 
-  function setPosition(newPosition: number, videoElement: HTMLVideoElement, shakaPlayer: ShakaPlayer) {
+  function setPosition(newPosition: number) {
     if (!(isNaN(newPosition) && newPosition === Infinity)) {
       videoElement.currentTime = shakaPlayer.seekRange().start + newPosition;
     }
   }
 
-  function gotoLive(videoElement: HTMLVideoElement, shakaPlayer: ShakaPlayer) {
+  function gotoLive() {
     if (shakaPlayer.isLive()) {
       videoElement.currentTime = shakaPlayer.seekRange().end;
     }

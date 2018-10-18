@@ -1,7 +1,6 @@
 // @flow
 
-import type { AvailableTrack, PlaybackSource, SourceTrack } from '../types';
-import type { TextTracksStateProps } from './streamStateUpdater';
+import type { AvailableTrack, PlaybackSource, SourceTrack, VideoStreamState } from '../types';
 
 type ManagedTextTrack = {
   isBlackListed: boolean,
@@ -15,9 +14,14 @@ type ManagedTextTrack = {
 
 type HTMLTextTrackMode = 'disabled' | 'hidden' | 'showing';
 
+/*export type TextTracksStateProps = {
+  currentTextTrack?: ?AvailableTrack,
+  textTracks?: Array<AvailableTrack>
+};*/
+
 export type TextTrackManager = {
   handleSelectedTextTrackChange: (?AvailableTrack) => void,
-  handleNewSourceProps: ({ source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) => void,
+  handleSourceChange: ({ source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) => void,
   cleanup: () => void
 };
 
@@ -88,7 +92,8 @@ function createTrackElement(sourceTrack: SourceTrack): HTMLTrackElement {
   return htmlTrackElement;
 }
 
-const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksStateProps => void) => {
+const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoStreamState>(props: T) => void) => {
+  // Should use TextTracksStateProps above.
   let managedTracks: Array<ManagedTextTrack> = [];
   let unique = 0;
   const Cue = window.VTTCue || window.TextTrackCue;
@@ -270,7 +275,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
     });
   }
 
-  function handleNewSourceProps(newProps: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
+  function handleSourceChange(newProps: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
     if ('source' in newProps) {
       cleanupTracks(true);
     } else if ('textTracks' in newProps) {
@@ -321,7 +326,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: TextTracksS
 
   return {
     handleSelectedTextTrackChange,
-    handleNewSourceProps,
+    handleSourceChange,
     cleanup
   };
 };

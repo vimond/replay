@@ -1,6 +1,5 @@
 // @flow
-import type { AvailableTrack } from '../types';
-import type { AudioTracksStateProps } from './streamStateUpdater';
+import type { AvailableTrack, VideoStreamState } from '../types';
 
 // http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8
 
@@ -9,6 +8,11 @@ export type AudioTrackManager = {
   handleSourceChange: () => void,
   cleanup: () => void
 };
+
+/*export type AudioTracksStateProps = {
+  audioTracks?: Array<AvailableTrack>,
+  currentAudioTrack?: ?AvailableTrack
+};*/
 
 type ManagedAudioTrack = {
   videoElementTrack: AudioTrack,
@@ -32,8 +36,9 @@ const createManagedTrack = (videoElementTrack: AudioTrack): ManagedAudioTrack =>
 
 const getAudioTrackManager = (
   videoElement: HTMLVideoElement,
-  update: AudioTracksStateProps => void
+  update: VideoStreamState => void
 ): AudioTrackManager => {
+  // TODO: Should use 
   let managedTracks: Array<ManagedAudioTrack> = [];
 
   function mapAudioTracks() {

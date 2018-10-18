@@ -2,7 +2,7 @@
 
 // Types for state observation
 
-import type { CommonProps } from '../../common';
+import type { CommonGenericProps, CommonProps } from '../../common';
 
 export type PlayState = 'inactive' | 'starting' | 'playing' | 'paused' | 'seeking' | 'buffering';
 export type PlayMode = 'ondemand' | 'live' | 'livedvr';
@@ -70,32 +70,6 @@ export type VideoStreamStateValues = $Values<VideoStreamState>;
 
 // Types used in settable props.
 
-export type VideoStreamerConfiguration = {
-  addPolyfills?: ?boolean,
-  // TODO: What to include? Try it out.
-  licenseAcquisition?: ?{
-    widevine: {
-      serviceCertificate?: ?string,
-      withCredentials?: ?boolean
-    },
-    fairPlay: {
-      serviceCertificate?: ?string,
-      withCredentials?: ?boolean
-    },
-    playReady: {
-      withCredentials?: ?boolean
-    }
-  },
-  manifestRequests?: ?{
-    withCredentials?: ?boolean
-  },
-  logLevel?: 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG', // TODO: Generalise.
-  defaultBandwidth?: ?number,
-  crossOrigin?: ?string,
-  playsInline?: ?boolean,
-  liveEdgeMargin?: ?number,
-};
-
 export type SourceTrack = {
   src: string,
   label?: string,
@@ -143,7 +117,7 @@ export type VideoStreamerMethods = {
 };
 
 export type VideoStreamerProps = CommonProps & {
-  configuration?: VideoStreamerConfiguration,
+  // configuration?: ?VideoStreamerConfiguration,
   source?: ?PlaybackSource,
   textTracks?: ?Array<SourceTrack>,
   className?: string,
@@ -152,4 +126,34 @@ export type VideoStreamerProps = CommonProps & {
   onStreamStateChange?: VideoStreamState => void,
   onProgress?: ({ event: string }) => void,
   onPlaybackError?: PlaybackError => void
+};
+
+export type VideoStreamerConfiguration = {
+  // TODO: What to include? Try it out.
+  licenseAcquisition?: ?{
+    widevine: {
+      serviceCertificate?: ?string,
+      withCredentials?: ?boolean
+    },
+    fairPlay: {
+      serviceCertificate?: ?string,
+      withCredentials?: ?boolean
+    },
+    playReady: {
+      withCredentials?: ?boolean
+    }
+  },
+  manifestRequests?: ?{
+    withCredentials?: ?boolean
+  },
+  logLevel?: 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG', // TODO: Generalise.
+  defaultBandwidth?: ?number,
+  crossOrigin?: ?string,
+  playsInline?: ?boolean,
+  liveEdgeMargin?: ?number
+};
+
+export type VideoStreamerImplProps<T: VideoStreamerConfiguration> = VideoStreamerProps & CommonGenericProps & {
+  configuration?: ?T,
+  applyBuiltInStyles?: boolean
 };
