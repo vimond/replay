@@ -12,6 +12,7 @@ import type { VideoStreamerConfiguration } from '../types';
 import getPlaybackLifeCycleManager from '../common/playbackLifeCycleManager';
 import getBasicVideoEventHandlers from './basicVideoEventHandlers';
 import { renderWithSource } from '../common/renderers';
+import { getArrayLogger } from '../common/logger';
 
 type BasicVideoStreamerProps = VideoStreamerImplProps<VideoStreamerConfiguration>;
 type ThirdPartyPlayer = null;
@@ -30,6 +31,7 @@ function resolveImplementation(
   const audioTrackManager = getAudioTrackManager(videoElement, updateStreamState);
 
   const applyProperties = getPropertyApplier(videoElement, streamRangeHelper, textTrackManager, audioTrackManager); // G
+  const { log } = getArrayLogger(window, 'videoEvents');
 
   const basicHandlers = getBasicVideoEventHandlers({
     streamer,
@@ -37,13 +39,15 @@ function resolveImplementation(
     streamRangeHelper,
     configuration,
     applyProperties,
-    updateStreamState
+    updateStreamState,
+    log
   });
   const { videoElementEventHandlers, setLifeCycleManager } = basicHandlers;
 
   const playbackLifeCycleManager = getPlaybackLifeCycleManager(
     updateStreamState,
-    basicHandlers.pauseStreamRangeUpdater
+    basicHandlers.pauseStreamRangeUpdater,
+    getArrayLogger(window, 'lifecycle').log
   );
   setLifeCycleManager(playbackLifeCycleManager);
 

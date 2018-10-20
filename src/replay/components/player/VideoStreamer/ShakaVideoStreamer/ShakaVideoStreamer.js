@@ -1,5 +1,4 @@
 // @flow
-import * as React from 'react';
 import type { VideoStreamerImplProps } from '../types';
 
 import createVideoStreamerComponent from '../common/createVideoStreamerComponent';
@@ -16,6 +15,7 @@ import type { VideoStreamerConfiguration } from '../types';
 import getPlaybackLifeCycleManager from '../common/playbackLifeCycleManager';
 import getShakaEventHandlers from './shakaEventHandlers';
 import { renderWithoutSource } from '../common/renderers';
+import { getArrayLogger } from '../common/logger';
 
 export type ShakaVideoStreamerConfiguration = VideoStreamerConfiguration & {
   shakaPlayer?: ?{
@@ -45,6 +45,8 @@ function resolveImplementation(
 
   const applyProperties = getPropertyApplier(videoElement, streamRangeHelper, textTrackManager, audioTrackManager); // G
 
+  const { log } = getArrayLogger(window, 'videoEvents');
+
   const shakaEventHandlers = getShakaEventHandlers({
     streamer,
     videoElement,
@@ -52,13 +54,15 @@ function resolveImplementation(
     streamRangeHelper,
     configuration,
     applyProperties,
-    updateStreamState
+    updateStreamState,
+    log
   });
   const { videoElementEventHandlers, setLifeCycleManager } = shakaEventHandlers;
 
   const playbackLifeCycleManager = getPlaybackLifeCycleManager(
     updateStreamState,
-    shakaEventHandlers.pauseStreamRangeUpdater
+    shakaEventHandlers.pauseStreamRangeUpdater,
+    getArrayLogger(window, 'lifecycle').log
   );
   setLifeCycleManager(playbackLifeCycleManager);
 

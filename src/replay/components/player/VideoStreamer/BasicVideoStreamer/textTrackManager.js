@@ -1,6 +1,7 @@
 // @flow
 
 import type { AvailableTrack, PlaybackSource, SourceTrack, VideoStreamState } from '../types';
+import { emptyTracks } from '../common/playbackLifeCycleManager';
 
 type ManagedTextTrack = {
   isBlackListed: boolean,
@@ -65,6 +66,15 @@ function isSourceTracksEqual(a: ?SourceTrack, b: ?SourceTrack): boolean {
   }
 }
 
+function isArraysEqual(arr1: Array<any>, arr2: Array<any>) {
+  if (arr1.length !== arr2.length) return false;
+  for (let i = arr1.length; i--; ) {
+    if (arr1[i] !== arr2[i]) return false;
+  }
+
+  return true;
+}
+
 function createSelectableTrack(
   id: number,
   origin: 'in-stream' | 'side-loaded',
@@ -95,6 +105,8 @@ function createTrackElement(sourceTrack: SourceTrack): HTMLTrackElement {
 const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoStreamState>(props: T) => void) => {
   // Should use TextTracksStateProps above.
   let managedTracks: Array<ManagedTextTrack> = [];
+  let currentTextTrack = null;
+  let selectableTextTracks = emptyTracks;
   let unique = 0;
   const Cue = window.VTTCue || window.TextTrackCue;
   const isDesktopSafari =
@@ -105,14 +117,24 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoSt
     navigator.userAgent.indexOf('iPad') < 0;
 
   function notifyPropertyChanges() {
-    const currentTextTrack = managedTracks
+    currentTextTrack = managedTracks
       .filter(m => m.videoElementTrack != null && getTrackMode(m.videoElementTrack) === 'showing')
       .map(m => m.selectableTrack)[0];
-    // $FlowFixMe Null props filtered away not recognised.
-    update({
-      currentTextTrack,
-      textTracks: managedTracks.filter(m => m.selectableTrack).map(m => m.selectableTrack)
-    });
+
+    const textTracks = managedTracks.filter(m => m.selectableTrack).map(m => m.selectableTrack);
+    if (isArraysEqual(textTracks, selectableTextTracks)) {
+      // $FlowFixMe Complaints about null entries, despite filter above.
+      update({
+        currentTextTrack,
+        textTracks: selectableTextTracks
+      });
+    } else {
+      selectableTextTracks = textTracks;
+      update({
+        currentTextTrack,
+        textTracks
+      });
+    }
   }
 
   function addTracks(sourceTracks?: Array<SourceTrack>) {

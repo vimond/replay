@@ -63,7 +63,7 @@ const getStreamRangeHelper = (
     const duration =
       seekRange.end !== 0 || seekRange.start !== 0
         ? seekRange.end - seekRange.start
-        : videoElement.duration === Infinity || videoElement.duration === NaN
+        : videoElement.duration === Infinity || isNaN(videoElement.duration)
           ? 0
           : videoElement.duration;
 

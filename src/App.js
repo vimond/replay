@@ -8,6 +8,7 @@ import type { PlayerConfiguration } from './replay/default-player/types';
 import './App.css';
 import './replay/replay-default.css';
 import type { PlaybackActions } from './replay/components/player/PlayerController/PlayerController';
+import ShakaVideoStreamer from './replay/components/player/VideoStreamer/ShakaVideoStreamer/ShakaVideoStreamer';
 
 type State = {
   useMock?: boolean,
@@ -48,7 +49,8 @@ const textTracks = [
 
 const videoUrls = [
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4',
-  'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-20/N_ELGBADER_200718_SIKRO_(1359389_R212MP41000).mp4'
+  'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-20/N_ELGBADER_200718_SIKRO_(1359389_R212MP41000).mp4',
+  'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1383740.smil/manifest.mpd'
 ];
 
 const getSource = memoize(streamUrl => {
@@ -147,14 +149,16 @@ class App extends Component<void, State> {
                 options={configOverrides}
                 onExit={this.togglePlayer}
                 initialPlaybackProps={{ isPaused: false, volume: 0.5 }}
-                onPlaybackActionsReady={this.handlePlaybackActions}
-              />
+                onPlaybackActionsReady={this.handlePlaybackActions}>
+                <ShakaVideoStreamer />
+              </Replay>
               <p>
                 <input type="url" value={streamUrl} onChange={this.handleStreamUrlFieldChange} />
               </p>
               <p className="buttons-row">
                 <button onClick={() => this.handleVideoButtonClick(0)}>Video 1</button>{' '}
                 <button onClick={() => this.handleVideoButtonClick(1)}>Video 2</button>
+                <button onClick={() => this.handleVideoButtonClick(2)}>Video 3</button>
                 <button onClick={this.handleNoVideoClick}>No video</button>
               </p>
             </div>

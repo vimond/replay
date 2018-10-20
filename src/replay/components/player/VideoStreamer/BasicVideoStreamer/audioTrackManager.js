@@ -35,7 +35,6 @@ const createManagedTrack = (videoElementTrack: AudioTrack): ManagedAudioTrack =>
 };
 
 const getAudioTrackManager = (videoElement: HTMLVideoElement, update: VideoStreamState => void): AudioTrackManager => {
-  // TODO: Should use
   let managedTracks: Array<ManagedAudioTrack> = [];
 
   function mapAudioTracks() {
@@ -48,6 +47,7 @@ const getAudioTrackManager = (videoElement: HTMLVideoElement, update: VideoStrea
       selectedTrack ||
       managedTracks.filter(mt => mt.videoElementTrack.enabled).map(mt => mt.selectableTrack)[0] ||
       null;
+    // TODO: Don't create a new array object every time.
     update({ audioTracks: managedTracks.map(mt => mt.selectableTrack), currentAudioTrack });
   }
 

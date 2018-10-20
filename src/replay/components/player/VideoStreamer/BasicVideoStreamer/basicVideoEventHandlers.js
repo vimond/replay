@@ -64,9 +64,6 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     window.videoElementEvents = [];
   }
 
-  const debug =
-    log || isDebugging ? (eventName: string) => window.videoElementEvents.push(eventName) : (eventName: string) => {};
-
   let lifeCycleManager = {
     setStage: (_: PlaybackLifeCycle) => {},
     getStage: () => {}
@@ -87,7 +84,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
 
   // TODO: Use shaka 'loading' event.
   function onLoadStart() {
-    debug('loadstart');
+    log && log('loadstart');
     if (lifeCycleManager.getStage() === 'new') {
       lifeCycleManager.setStage('starting');
       if (streamer.props.initialPlaybackProps) {
@@ -106,7 +103,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
 
   // TODO: Use shaka 'streaming' event. https://shaka-player-demo.appspot.com/docs/api/shaka.Player.html#.event:StreamingEvent
   function onLoadedMetadata() {
-    debug('loadedmetadata');
+    log && log('loadedmetadata');
 
     // TODO: Test! Or consider using autoplay: false.
     if (streamer.props.initialPlaybackProps && streamer.props.initialPlaybackProps.isPaused) {
@@ -119,7 +116,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
 
   // TODO: Still useful?
   function onCanPlay() {
-    debug('canplay');
+    log && log('canplay');
     // If starting as paused, we consider "canplay" as completed starting. The playState must be updated accordingly.
     // When starting as playing, the starting to started transition is handled by the onPlaying handler.
     if (lifeCycleManager.getStage() === 'starting') {
@@ -136,7 +133,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
 
   // TODO: Use Shaka buffering event.
   function onWaiting() {
-    debug('waiting');
+    log && log('waiting');
     if (lifeCycleManager.getStage() === 'started') {
       updateStreamState({ playState: 'buffering' });
     }
@@ -144,7 +141,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
 
   // TODO: Use Shaka buffering event.
   function onStalled() {
-    debug('stalled');
+    log && log('stalled');
     // The stalled event is fired also after pausing in Safari.
     if (lifeCycleManager.getStage() === 'started' && !isSafari) {
       updateStreamState({ playState: 'buffering' });
@@ -152,7 +149,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
   }
 
   function onPlaying() {
-    debug('playing');
+    log && log('playing');
     // When this is invoked, and we are not starting as paused, we consider the playback as started.
     if (lifeCycleManager.getStage() === 'starting') {
       lifeCycleManager.setStage('started');
@@ -164,7 +161,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
   }
 
   function onPause() {
-    debug('pause');
+    log && log('pause');
     if (lifeCycleManager.getStage() === 'started') {
       updateStreamState({ playState: 'paused', isPaused: true });
     }
@@ -172,7 +169,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
   }
 
   function onSeeking() {
-    debug('seeking');
+    log && log('seeking');
     pauseStreamRangeUpdater.stop();
     if (lifeCycleManager.getStage() === 'started') {
       updateStreamState({ playState: 'seeking', isSeeking: true });
@@ -180,7 +177,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
   }
 
   function onSeeked() {
-    debug('seeked');
+    log && log('seeked');
     if (isSafari) {
       if (videoElement.paused) {
         updateStreamState({ playState: 'paused', isPaused: true, isBuffering: false, isSeeking: false });
@@ -203,7 +200,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
   }
 
   function onDurationChange() {
-    debug('durationchange');
+    log && log('durationchange');
     updateStreamState(streamRangeHelper.calculateNewState());
   }
 
@@ -212,18 +209,18 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
   }
 
   function onVolumeChange() {
-    debug('volumechange');
+    log && log('volumechange');
     updateStreamState({ volume: videoElement.volume, isMuted: videoElement.muted });
   }
 
   // TODO: Test if it works as intended.
   function onProgress() {
-    debug('progress');
+    log && log('progress');
     updateStreamState({ bufferedAhead: calculateBufferedAhead(videoElement) });
   }
 
   function onEnded() {
-    debug('ended');
+    log && log('ended');
     if (lifeCycleManager.getStage() === 'started') {
       lifeCycleManager.setStage('ended');
       updateStreamState({ playState: 'inactive' });

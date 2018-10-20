@@ -2,7 +2,7 @@
 import type { AvailableTrack, VideoStreamState } from '../types';
 import type { PlaybackLifeCycle } from './types';
 
-const emptyTracks: Array<AvailableTrack> = []; // Keeping the same array instance for all updates as long as not in use.
+export const emptyTracks: Array<AvailableTrack> = []; // Keeping the same array instance for all updates as long as not in use.
 const emptyBitrates: Array<number> = [];
 const dawnOfTime = new Date(0);
 
@@ -30,7 +30,8 @@ function getPlaybackLifeCycleManager(
   pauseStreamRangeUpdater: {
     start: () => void,
     stop: () => void
-  }
+  },
+  log?: string => void
 ) {
   const isDebugging = window.location.search.indexOf('debug') > 0;
   if (isDebugging) {
@@ -38,22 +39,19 @@ function getPlaybackLifeCycleManager(
   }
 
   let lifeCycleStage: PlaybackLifeCycle = 'unknown';
-
-  const log = isDebugging
-    ? (eventName: string) => window.videoElementEvents.push(eventName)
-    : (eventName: string) => {};
+  log && log(lifeCycleStage);
 
   function getStage() {
     return lifeCycleStage;
   }
 
   function setStage(newValue: PlaybackLifeCycle) {
+    log && log(newValue);
     lifeCycleStage = newValue;
   }
 
   function startPlaybackSession() {
-    log('New session');
-    lifeCycleStage = 'new';
+    setStage('new');
     notifyInitialState(updateStreamState);
     pauseStreamRangeUpdater.stop(); // TODO: Must be started if initial isPaused.
   }

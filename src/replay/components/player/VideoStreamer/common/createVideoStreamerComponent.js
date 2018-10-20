@@ -65,10 +65,10 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
     handleSourceChange = (nextProps: P, prevProps?: P) => {
       const implementation = this.implementation;
       if (implementation) {
+        implementation.startPlaybackSession();
         return implementation
           .handleSourceChange(nextProps, prevProps)
           .then(() => {
-            implementation.startPlaybackSession();
             implementation.audioTrackManager.handleSourceChange();
             implementation.textTrackManager.handleSourceChange(nextProps);
           })
@@ -106,7 +106,7 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
     componentDidUpdate(prevProps: P) {
       const implementation = this.implementation;
       if (implementation) {
-        if (prevProps.source !== this.props.source && implementation) {
+        if (prevProps.source !== this.props.source) {
           this.handleSourceChange(this.props, prevProps);
         } else if (prevProps.textTracks !== this.props.textTracks) {
           implementation.textTrackManager.handleSourceChange(this.props);

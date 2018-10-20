@@ -3,7 +3,7 @@ import type { PlaybackLifeCycle, StreamRangeHelper } from '../common/types';
 import getBasicVideoEventHandlers from '../BasicVideoStreamer/basicVideoEventHandlers';
 import type { ShakaPlayer } from './types';
 import { PlaybackError } from '../types';
-import type { InitialPlaybackProps, PlaybackProps, PlaybackSource, VideoStreamState } from '../types';
+import type { PlaybackProps, VideoStreamState } from '../types';
 import type { BasicVideoEventHandlersProps } from '../BasicVideoStreamer/basicVideoEventHandlers';
 
 declare class Object {
@@ -44,6 +44,7 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
     thirdPartyPlayer,
     streamRangeHelper,
     configuration,
+    log,
     applyProperties,
     updateStreamState
   });
@@ -97,7 +98,7 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
       updateStreamState(streamRangeHelper.calculateNewState());
     },
     buffering: ({ buffering }: { buffering: boolean }) => {
-      log && log('shaka.error');
+      log && log('shaka.buffering.' + buffering.toString());
       updateStreamState({ isBuffering: buffering });
       if (buffering && lifeCycleManager.getStage() === 'started') {
         updateStreamState({ playState: 'buffering' });
