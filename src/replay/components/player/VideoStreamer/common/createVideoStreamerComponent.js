@@ -58,7 +58,7 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
         return implementation
           .handleSourceChange(nextProps, prevProps)
           .then(() => {
-            implementation.streamStateUpdater.startPlaybackSession();
+            implementation.startPlaybackSession();
             implementation.audioTrackManager.handleSourceChange();
             implementation.textTrackManager.handleSourceChange(nextProps);
           })
@@ -114,7 +114,7 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
             style={applyBuiltInStyles ? styles : undefined}
             className={classNames}
             ref={this.videoRef}
-            {...implementation.streamStateUpdater.eventHandlers}
+            {...implementation.videoElementEventHandlers}
           />
         );
       }

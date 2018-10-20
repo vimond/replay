@@ -7,16 +7,18 @@ import type { VideoStreamerConfiguration } from '../types';
 export type StreamRangeHelper = {
   adjustForDvrStartOffset: () => void,
   calculateNewState: () => VideoStreamState,
-  setPosition: (number) => void,
+  setPosition: number => void,
   gotoLive: () => void
 };
 
+/*
 export type StreamStateUpdater = {
   eventHandlers: { [string]: () => void },
-  //onTextTracksChanged: TextTracksStateProps => void,
-  //onAudioTracksChanged: AudioTracksStateProps => void,
+  getLifeCycle: () => PlaybackLifeCycle,
+  setLifeCycle: PlaybackLifeCycle => void,
   startPlaybackSession: () => void
 };
+*/
 
 export type SimplifiedVideoStreamer<S: VideoStreamerConfiguration, T: VideoStreamerImplProps<S>> = {
   props: T
@@ -25,9 +27,12 @@ export type SimplifiedVideoStreamer<S: VideoStreamerConfiguration, T: VideoStrea
 export type StreamerImplementationParts<C: VideoStreamerConfiguration, P: VideoStreamerImplProps<C>, T> = {
   thirdPartyPlayer: ?T,
   applyProperties: PlaybackProps => void,
-  streamStateUpdater: StreamStateUpdater,
   handleSourceChange: (nextProps: P, prevProps?: P) => Promise<any>,
   textTrackManager: TextTrackManager,
   audioTrackManager: AudioTrackManager,
+  startPlaybackSession: () => void,
+  videoElementEventHandlers: { [string]: any => void },
   cleanup: () => Promise<void>
 };
+
+export type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';

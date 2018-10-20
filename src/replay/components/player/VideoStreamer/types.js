@@ -150,7 +150,8 @@ export type VideoStreamerConfiguration = {
   defaultBandwidth?: ?number,
   crossOrigin?: ?string,
   playsInline?: ?boolean,
-  liveEdgeMargin?: ?number
+  liveEdgeMargin?: ?number,
+  pauseUpdateInterval?: ?number
 };
 
 export type VideoStreamerImplProps<T: VideoStreamerConfiguration> = VideoStreamerProps & CommonGenericProps & {

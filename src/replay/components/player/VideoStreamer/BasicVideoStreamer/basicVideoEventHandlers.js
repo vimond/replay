@@ -1,11 +1,11 @@
 // @flow
 import mapError from './errorMapper';
-import type { PlaybackProps, PlaybackSource, VideoStreamerImplProps, VideoStreamState } from '../types';
-import type { PlaybackLifeCycle } from '../common/streamStateUpdater-inject';
-import type { SimplifiedVideoStreamer, StreamRangeHelper } from '../common/types';
-import type { VideoStreamerConfiguration } from '../types';
+import type { InitialPlaybackProps, PlaybackProps, PlaybackSource, VideoStreamState } from '../types';
+import type { PlaybackLifeCycle, StreamRangeHelper } from '../common/types';
+import { PlaybackError } from '../types';
+import { getIntervalRunner } from '../../../common';
 
-
+const defaultPauseUpdateInterval = 5;
 
 function seekToInitialPosition(source: ?PlaybackSource, videoElement: HTMLVideoElement) {
   if (source && typeof source.startPosition === 'number') {
@@ -27,30 +27,33 @@ function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
   return ahead;
 }
 
-export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration, T: VideoStreamerImplProps<S>>({
+// export default function getBasicVideoEventHandlers<C: VideoStreamerConfiguration, P: VideoStreamerImplProps<C>>
+
+const getBasicVideoEventHandlers = ({
   streamer,
   videoElement,
   thirdPartyPlayer,
   streamRangeHelper,
-  pauseStreamRangeUpdater,
+  configuration,
   applyProperties,
   updateStreamState,
-  getLifeCycle,
-  setLifeCycle
+  log
 }: {
-  streamer: SimplifiedVideoStreamer<S, T>,
+  streamer: {
+    props: {
+      onPlaybackError?: PlaybackError => void,
+      initialPlaybackProps?: InitialPlaybackProps,
+      source?: ?PlaybackSource
+    }
+  },
   videoElement: HTMLVideoElement,
   thirdPartyPlayer: any,
   streamRangeHelper: StreamRangeHelper,
+  configuration: ?{ pauseUpdateInterval?: ?number },
   applyProperties: PlaybackProps => void,
-  pauseStreamRangeUpdater: {
-    start: () => void,
-    stop: () => void
-  },
   updateStreamState: VideoStreamState => void,
-  getLifeCycle: () => PlaybackLifeCycle,
-  setLifeCycle: PlaybackLifeCycle => void
-}) {
+  log?: string => void
+}) => {
   const isSafari =
     navigator.userAgent.indexOf('Safari') > 0 &&
     navigator.userAgent.indexOf('Chrome') < 0 &&
@@ -60,10 +63,16 @@ export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration
   if (isDebugging) {
     window.videoElementEvents = [];
   }
-  const log = isDebugging
+
+  const debug = log || isDebugging
     ? (eventName: string) => window.videoElementEvents.push(eventName)
     : (eventName: string) => {};
 
+  let lifeCycleManager = {
+    setStage: (_: PlaybackLifeCycle) => {},
+    getStage: () => {}
+  };
+  
   function onError() {
     const playbackError = mapError(videoElement);
     if (streamer.props.onPlaybackError) {
@@ -71,7 +80,7 @@ export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration
     }
     updateStreamState({ error: videoElement.error });
     if (playbackError.severity === 'FATAL') {
-      setLifeCycle('dead');
+      lifeCycleManager.setStage('dead');
       updateStreamState({ playState: 'inactive', isBuffering: false, isSeeking: false });
     }
     pauseStreamRangeUpdater.stop();
@@ -79,9 +88,9 @@ export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration
 
   // TODO: Use shaka 'loading' event.
   function onLoadStart() {
-    log('loadstart');
-    if (getLifeCycle() === 'new') {
-      setLifeCycle('starting');
+    debug('loadstart');
+    if (lifeCycleManager.getStage() === 'new') {
+      lifeCycleManager.setStage('starting');
       if (streamer.props.initialPlaybackProps) {
         const { isMuted, volume, lockedBitrate, maxBitrate } = streamer.props.initialPlaybackProps;
         // TODO: Apply on 'streaming' event in Shaka insted.
@@ -95,7 +104,7 @@ export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration
 
   // TODO: Use shaka 'streaming' event. https://shaka-player-demo.appspot.com/docs/api/shaka.Player.html#.event:StreamingEvent
   function onLoadedMetadata() {
-    log('loadedmetadata');
+    debug('loadedmetadata');
 
     // TODO: Test! Or consider using autoplay: false.
     if (streamer.props.initialPlaybackProps && streamer.props.initialPlaybackProps.isPaused) {
@@ -109,12 +118,12 @@ export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration
 
   // TODO: Still useful?
   function onCanPlay() {
-    log('canplay');
+    debug('canplay');
     // If starting as paused, we consider "canplay" as completed starting. The playState must be updated accordingly.
     // When starting as playing, the starting to started transition is handled by the onPlaying handler.
-    if (getLifeCycle() === 'starting') {
+    if (lifeCycleManager.getStage() === 'starting') {
       if (streamer.props.initialPlaybackProps && streamer.props.initialPlaybackProps.isPaused) {
-        setLifeCycle('started');
+        lifeCycleManager.setStage('started');
       }
     }
 
@@ -126,51 +135,51 @@ export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration
 
   // TODO: Use Shaka buffering event.
   function onWaiting() {
-    log('waiting');
-    if (getLifeCycle() === 'started') {
+    debug('waiting');
+    if (lifeCycleManager.getStage() === 'started') {
       updateStreamState({ playState: 'buffering' });
     }
   }
 
   // TODO: Use Shaka buffering event.
   function onStalled() {
-    log('stalled');
+    debug('stalled');
     // The stalled event is fired also after pausing in Safari.
-    if (getLifeCycle() === 'started' && !isSafari) {
+    if (lifeCycleManager.getStage() === 'started' && !isSafari) {
       updateStreamState({ playState: 'buffering' });
     }
   }
 
   function onPlaying() {
-    log('playing');
+    debug('playing');
     // When this is invoked, and we are not starting as paused, we consider the playback as started.
-    if (getLifeCycle() === 'starting') {
-      setLifeCycle('started');
+    if (lifeCycleManager.getStage() === 'starting') {
+      lifeCycleManager.setStage('started');
     }
-    if (getLifeCycle() === 'started') {
+    if (lifeCycleManager.getStage() === 'started') {
       updateStreamState({ playState: 'playing', isBuffering: false, isPaused: false, isSeeking: false });
     }
     pauseStreamRangeUpdater.stop();
   }
 
   function onPause() {
-    log('pause');
-    if (getLifeCycle() === 'started') {
+    debug('pause');
+    if (lifeCycleManager.getStage() === 'started') {
       updateStreamState({ playState: 'paused', isPaused: true });
     }
     pauseStreamRangeUpdater.start();
   }
 
   function onSeeking() {
-    log('seeking');
+    debug('seeking');
     pauseStreamRangeUpdater.stop();
-    if (getLifeCycle() === 'started') {
+    if (lifeCycleManager.getStage() === 'started') {
       updateStreamState({ playState: 'seeking', isSeeking: true });
     }
   }
 
   function onSeeked() {
-    log('seeked');
+    debug('seeked');
     if (isSafari) {
       if (videoElement.paused) {
         updateStreamState({ playState: 'paused', isPaused: true, isBuffering: false, isSeeking: false });
@@ -193,7 +202,7 @@ export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration
   }
 
   function onDurationChange() {
-    log('durationchange');
+    debug('durationchange');
     updateStreamState(streamRangeHelper.calculateNewState());
   }
 
@@ -202,20 +211,20 @@ export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration
   }
 
   function onVolumeChange() {
-    log('volumechange');
+    debug('volumechange');
     updateStreamState({ volume: videoElement.volume, isMuted: videoElement.muted });
   }
 
   // TODO: Test if it works as intended.
   function onProgress() {
-    log('progress');
+    debug('progress');
     updateStreamState({ bufferedAhead: calculateBufferedAhead(videoElement) });
   }
 
   function onEnded() {
-    log('ended');
-    if (getLifeCycle() === 'started') {
-      setLifeCycle('ended');
+    debug('ended');
+    if (lifeCycleManager.getStage() === 'started') {
+      lifeCycleManager.setStage('ended');
       updateStreamState({ playState: 'inactive' });
     }
     pauseStreamRangeUpdater.stop();
@@ -226,12 +235,16 @@ export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration
     updateStreamState(streamRangeHelper.calculateNewState());
   }
 
-  function cleanup() {
-    pauseStreamRangeUpdater.stop();
+  function setLifeCycleManager(manager: { setStage: PlaybackLifeCycle => void, getStage: () => PlaybackLifeCycle }) {
+    lifeCycleManager = manager;
   }
 
+  const pauseStreamRangeUpdater = getIntervalRunner(onPauseInterval, configuration && configuration.pauseUpdateInterval || defaultPauseUpdateInterval);
+    
+  function cleanup() {}
+
   return {
-    eventHandlers: {
+    videoElementEventHandlers: {
       onLoadStart,
       onLoadedMetadata,
       onCanPlay,
@@ -248,7 +261,10 @@ export default function getBasicVideoEventHandlers<S: VideoStreamerConfiguration
       onError,
       onEnded
     },
-    onPauseInterval,
+    pauseStreamRangeUpdater,
+    setLifeCycleManager,
     cleanup
   };
-}
+};
+
+export default getBasicVideoEventHandlers;

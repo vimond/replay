@@ -38,6 +38,7 @@ export type ShakaTrack = {
 };
 
 export type ShakaPlayer = {
+  addEventListener: (name: string, handler: any => void) => void,
   addTextTrack: (uri: string, language: string, kind: string, mime: string, codec?: string, label?: string) => Promise<ShakaTrack>;
   cancelTrickPlay: () => void,
   configure: any => void,
@@ -56,6 +57,7 @@ export type ShakaPlayer = {
   isLive: () => boolean,
   isTextTrackVisible: () => boolean,
   load: (assetUri: string, startPosition?: number) => Promise<void>,
+  removeEventListener: (name: string, handler: any => void) => void,
   seekRange: () => { start: number, end: number },
   selectAudioLanguage: (language: string, role?: string) => void,
   selectTextTrack: ShakaTrack => void,

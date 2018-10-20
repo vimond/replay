@@ -13,6 +13,8 @@ import getAudioTrackManager from '../BasicVideoStreamer/audioTrackManager';
 import { getPropertyApplier } from '../common/propertyApplier';
 import type { SimplifiedVideoStreamer, StreamerImplementationParts } from '../common/types';
 import type { VideoStreamerConfiguration } from '../types';
+import getPlaybackLifeCycleManager from '../common/playbackLifeCycleManager';
+import getShakaEventHandlers from './shakaEventHandlers';
 
 export type ShakaVideoStreamerConfiguration = VideoStreamerConfiguration & {
   shakaPlayer?: ?{
@@ -33,32 +35,43 @@ function resolveImplementation(
 ): Promise<StreamerImplementationParts<ShakaVideoStreamerConfiguration, ShakaVideoStreamerProps, ShakaPlayer>> {
   const shakaPlayer = setup(videoElement, configuration);
 
-  const streamRangeHelper = getStreamRangeHelper(videoElement, shakaPlayer, configuration);
-  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
-  const updateStreamState = getFilteredPropertyUpdater(streamer);
+  const streamRangeHelper = getStreamRangeHelper(videoElement, shakaPlayer, configuration); // S
+  const handleSourceChange = getSourceChangeHandler(shakaPlayer); // S
+  const updateStreamState = getFilteredPropertyUpdater(streamer); // G
 
   const textTrackManager = getTextTrackManager(videoElement, updateStreamState); //TODO: Replace with Shaka version.
-  const audioTrackManager = getAudioTrackManager(videoElement, updateStreamState);
+  const audioTrackManager = getAudioTrackManager(videoElement, updateStreamState); //TODO: Replace with Shaka version.
 
-  const applyProperties = getPropertyApplier(videoElement, streamRangeHelper, textTrackManager, audioTrackManager);
+  const applyProperties = getPropertyApplier(videoElement, streamRangeHelper, textTrackManager, audioTrackManager); // G
 
-  const streamStateUpdater = { eventHandlers: {}, startPlaybackSession: () => {}, cleanup: () => Promise.resolve() };
-
+  // $FlowFixMe streamer.props is not accepted because it contains a lot of members not defined and required by shakaEventHandlers.
+  const shakaEventHandlers = getShakaEventHandlers({ streamer, videoElement, thirdPartyPlayer: shakaPlayer, streamRangeHelper, configuration, applyProperties, updateStreamState });
+  const { videoElementEventHandlers, setLifeCycleManager } = shakaEventHandlers;
+  
+  
+  const playbackLifeCycleManager = getPlaybackLifeCycleManager(updateStreamState, shakaEventHandlers.pauseStreamRangeUpdater);
+  setLifeCycleManager(playbackLifeCycleManager);
+  
   function cleanup() {
     textTrackManager.cleanup();
     audioTrackManager.cleanup();
-    streamStateUpdater.cleanup();
+    playbackLifeCycleManager.cleanup();
+    shakaEventHandlers.cleanup();
     return shakaPlayer.destroy();
   }
 
+  const { startPlaybackSession } = playbackLifeCycleManager;
+  const thirdPartyPlayer = shakaPlayer;
+  
   return Promise.resolve({
     cleanup,
     textTrackManager,
     audioTrackManager,
-    streamStateUpdater,
-    thirdPartyPlayer: shakaPlayer,
+    thirdPartyPlayer,
     applyProperties,
-    handleSourceChange
+    handleSourceChange,
+    startPlaybackSession,
+    videoElementEventHandlers
   });
 }
 
