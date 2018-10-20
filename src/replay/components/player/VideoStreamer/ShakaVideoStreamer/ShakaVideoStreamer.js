@@ -15,6 +15,7 @@ import type { SimplifiedVideoStreamer, StreamerImplementationParts } from '../co
 import type { VideoStreamerConfiguration } from '../types';
 import getPlaybackLifeCycleManager from '../common/playbackLifeCycleManager';
 import getShakaEventHandlers from './shakaEventHandlers';
+import { renderWithoutSource } from '../common/renderers';
 
 export type ShakaVideoStreamerConfiguration = VideoStreamerConfiguration & {
   shakaPlayer?: ?{
@@ -44,14 +45,23 @@ function resolveImplementation(
 
   const applyProperties = getPropertyApplier(videoElement, streamRangeHelper, textTrackManager, audioTrackManager); // G
 
-  // $FlowFixMe streamer.props is not accepted because it contains a lot of members not defined and required by shakaEventHandlers.
-  const shakaEventHandlers = getShakaEventHandlers({ streamer, videoElement, thirdPartyPlayer: shakaPlayer, streamRangeHelper, configuration, applyProperties, updateStreamState });
+  const shakaEventHandlers = getShakaEventHandlers({
+    streamer,
+    videoElement,
+    thirdPartyPlayer: shakaPlayer,
+    streamRangeHelper,
+    configuration,
+    applyProperties,
+    updateStreamState
+  });
   const { videoElementEventHandlers, setLifeCycleManager } = shakaEventHandlers;
-  
-  
-  const playbackLifeCycleManager = getPlaybackLifeCycleManager(updateStreamState, shakaEventHandlers.pauseStreamRangeUpdater);
+
+  const playbackLifeCycleManager = getPlaybackLifeCycleManager(
+    updateStreamState,
+    shakaEventHandlers.pauseStreamRangeUpdater
+  );
   setLifeCycleManager(playbackLifeCycleManager);
-  
+
   function cleanup() {
     textTrackManager.cleanup();
     audioTrackManager.cleanup();
@@ -62,9 +72,11 @@ function resolveImplementation(
 
   const { startPlaybackSession } = playbackLifeCycleManager;
   const thirdPartyPlayer = shakaPlayer;
-  
+  const render = renderWithoutSource;
+
   return Promise.resolve({
     cleanup,
+    render,
     textTrackManager,
     audioTrackManager,
     thirdPartyPlayer,

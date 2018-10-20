@@ -1,8 +1,9 @@
 // @flow
 import * as React from 'react';
-import { defaultClassNamePrefix, prefixClassNames } from '../../../common';
+import { defaultClassNamePrefix } from '../../../common';
 import type { PlaybackProps, VideoStreamerConfiguration, VideoStreamerImplProps } from '../types';
-import type { SimplifiedVideoStreamer, StreamerImplementationParts } from './types';
+import type { SimplifiedVideoStreamer, StreamerImplementationParts, VideoStreamerRenderer } from './types';
+import { renderWithoutSource } from './renderers';
 
 const baseClassName = 'video-streamer';
 
@@ -27,11 +28,16 @@ type ResolveImplementation<C: VideoStreamerConfiguration, P: VideoStreamerImplPr
   videoElement: HTMLVideoElement
 ) => Promise<StreamerImplementationParts<C, P, T>>;
 
+type State = {
+  videoElementEventHandlers: { [string]: (any) => void },
+  render: VideoStreamerRenderer
+};
+
 function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStreamerImplProps<C>, T>(
   name: string,
   resolveImplementation: ResolveImplementation<C, P, T>
 ) {
-  class VideoStreamer extends React.Component<P> {
+  class VideoStreamer extends React.Component<P, State> {
     static defaultProps = {
       classNamePrefix: defaultClassNamePrefix,
       applyBuiltInStyles: true
@@ -40,6 +46,10 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
     constructor(props: P) {
       super(props);
       this.videoRef = React.createRef();
+      this.state = {
+        videoElementEventHandlers: {},
+        render: renderWithoutSource
+      };
     }
 
     implementation: ?StreamerImplementationParts<C, P, T>;
@@ -72,6 +82,11 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
         // $FlowFixMe
         resolveImplementation(this, this.props.configuration, videoElement).then(implementation => {
           this.implementation = implementation;
+          const { render, videoElementEventHandlers } = implementation;
+          this.setState({
+            render,
+            videoElementEventHandlers
+          });
           if (this.props.source) {
             this.handleSourceChange(this.props);
           }
@@ -98,26 +113,11 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
         }
       }
     }
-    // TODO: Render must be different for plain HTML, having empty video element on no source.
-    // Inject that part. Also consider rendering empty video element if no source.
+
     render() {
-      const { implementation } = this;
-      if (implementation == null) {
-        return null;
-      } else {
-        const { className, classNamePrefix, applyBuiltInStyles }: P = this.props;
-        const classNames = prefixClassNames(classNamePrefix, baseClassName, className);
-        return (
-          <video
-            autoPlay={true}
-            controls={false}
-            style={applyBuiltInStyles ? styles : undefined}
-            className={classNames}
-            ref={this.videoRef}
-            {...implementation.videoElementEventHandlers}
-          />
-        );
-      }
+      const { videoRef } = this;
+      const { videoElementEventHandlers, render } = this.state;
+      return render(videoRef, videoElementEventHandlers, this.props, baseClassName, styles);
     }
   }
 

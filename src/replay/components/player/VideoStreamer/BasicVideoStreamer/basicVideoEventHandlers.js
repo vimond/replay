@@ -29,10 +29,15 @@ function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
 
 // export default function getBasicVideoEventHandlers<C: VideoStreamerConfiguration, P: VideoStreamerImplProps<C>>
 
-const getBasicVideoEventHandlers = ({
+export type BasicVideoEventHandlersProps = {
+  onPlaybackError?: PlaybackError => void,
+  initialPlaybackProps?: InitialPlaybackProps,
+  source?: ?PlaybackSource
+};
+
+const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
   streamer,
   videoElement,
-  thirdPartyPlayer,
   streamRangeHelper,
   configuration,
   applyProperties,
@@ -40,14 +45,9 @@ const getBasicVideoEventHandlers = ({
   log
 }: {
   streamer: {
-    props: {
-      onPlaybackError?: PlaybackError => void,
-      initialPlaybackProps?: InitialPlaybackProps,
-      source?: ?PlaybackSource
-    }
+    props: P
   },
   videoElement: HTMLVideoElement,
-  thirdPartyPlayer: any,
   streamRangeHelper: StreamRangeHelper,
   configuration: ?{ pauseUpdateInterval?: ?number },
   applyProperties: PlaybackProps => void,
@@ -64,15 +64,14 @@ const getBasicVideoEventHandlers = ({
     window.videoElementEvents = [];
   }
 
-  const debug = log || isDebugging
-    ? (eventName: string) => window.videoElementEvents.push(eventName)
-    : (eventName: string) => {};
+  const debug =
+    log || isDebugging ? (eventName: string) => window.videoElementEvents.push(eventName) : (eventName: string) => {};
 
   let lifeCycleManager = {
     setStage: (_: PlaybackLifeCycle) => {},
     getStage: () => {}
   };
-  
+
   function onError() {
     const playbackError = mapError(videoElement);
     if (streamer.props.onPlaybackError) {
@@ -94,11 +93,14 @@ const getBasicVideoEventHandlers = ({
       if (streamer.props.initialPlaybackProps) {
         const { isMuted, volume, lockedBitrate, maxBitrate } = streamer.props.initialPlaybackProps;
         // TODO: Apply on 'streaming' event in Shaka insted.
-        applyProperties(
-          { isMuted, volume, lockedBitrate, maxBitrate }
-        );
+        applyProperties({ isMuted, volume, lockedBitrate, maxBitrate });
       }
-      updateStreamState({ playState: 'starting', isBuffering: true, volume: videoElement.volume, isMuted: videoElement.muted });
+      updateStreamState({
+        playState: 'starting',
+        isBuffering: true,
+        volume: videoElement.volume,
+        isMuted: videoElement.muted
+      });
     }
   }
 
@@ -113,7 +115,6 @@ const getBasicVideoEventHandlers = ({
     // TODO: This is handled by Shaka.
     seekToInitialPosition(streamer.props.source, videoElement);
     updateStreamState(streamRangeHelper.calculateNewState());
-
   }
 
   // TODO: Still useful?
@@ -239,8 +240,11 @@ const getBasicVideoEventHandlers = ({
     lifeCycleManager = manager;
   }
 
-  const pauseStreamRangeUpdater = getIntervalRunner(onPauseInterval, configuration && configuration.pauseUpdateInterval || defaultPauseUpdateInterval);
-    
+  const pauseStreamRangeUpdater = getIntervalRunner(
+    onPauseInterval,
+    (configuration && configuration.pauseUpdateInterval) || defaultPauseUpdateInterval
+  );
+
   function cleanup() {}
 
   return {

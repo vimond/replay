@@ -154,7 +154,8 @@ export type VideoStreamerConfiguration = {
   pauseUpdateInterval?: ?number
 };
 
-export type VideoStreamerImplProps<T: VideoStreamerConfiguration> = VideoStreamerProps & CommonGenericProps & {
-  configuration?: ?T,
-  applyBuiltInStyles?: boolean
-};
+export type VideoStreamerImplProps<T: VideoStreamerConfiguration> = VideoStreamerProps &
+  CommonGenericProps & {
+    configuration?: ?T,
+    applyBuiltInStyles?: boolean
+  };

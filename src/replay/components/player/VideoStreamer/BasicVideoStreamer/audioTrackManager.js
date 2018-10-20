@@ -34,11 +34,8 @@ const createManagedTrack = (videoElementTrack: AudioTrack): ManagedAudioTrack =>
   };
 };
 
-const getAudioTrackManager = (
-  videoElement: HTMLVideoElement,
-  update: VideoStreamState => void
-): AudioTrackManager => {
-  // TODO: Should use 
+const getAudioTrackManager = (videoElement: HTMLVideoElement, update: VideoStreamState => void): AudioTrackManager => {
+  // TODO: Should use
   let managedTracks: Array<ManagedAudioTrack> = [];
 
   function mapAudioTracks() {

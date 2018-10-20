@@ -9,7 +9,7 @@ export const getPropertyApplier = (
   streamRangeHelper: StreamRangeHelper,
   textTrackManager: ?TextTrackManager,
   audioTrackManager: ?AudioTrackManager
-) => (playbackProps: PlaybackProps) =>  {
+) => (playbackProps: PlaybackProps) => {
   if ('isPaused' in playbackProps) {
     if (playbackProps.isPaused) {
       videoElement.pause();

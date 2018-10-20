@@ -1,4 +1,3 @@
-
 export const configure = jest.fn();
 export const destroy = jest.fn();
 

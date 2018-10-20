@@ -55,11 +55,10 @@ test('Custom request or response filters are registered.', () => {
   const firstSource = { streamUrl: 'https://ok.com/puter', startPosition: 33 };
   const requestFilter = 1;
   const responseFilter = 2;
-  return handleSourceChange(shakaPlayer, firstSource, null, requestFilter, responseFilter)
-    .then(() => {
-      expect(shakaPlayer.getNetworkingEngine().registerRequestFilter).toHaveBeenCalledTimes(1);
-      expect(shakaPlayer.getNetworkingEngine().registerResponseFilter).toHaveBeenCalledTimes(1);
-    })
+  return handleSourceChange(shakaPlayer, firstSource, null, requestFilter, responseFilter).then(() => {
+    expect(shakaPlayer.getNetworkingEngine().registerRequestFilter).toHaveBeenCalledTimes(1);
+    expect(shakaPlayer.getNetworkingEngine().registerResponseFilter).toHaveBeenCalledTimes(1);
+  });
 });
 test('Shaka helper handleSourceChange() unloads the current source if changing into a nullish source prop. It also unregisters filters.', () => {
   const shakaPlayer = new MockShakaPlayer();

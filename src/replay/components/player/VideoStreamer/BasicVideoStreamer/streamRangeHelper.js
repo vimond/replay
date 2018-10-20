@@ -64,8 +64,11 @@ function getAbsolutePositions(
   }
 }
 
-const getStreamRangeHelper = (videoElement: HTMLVideoElement, liveEdgeMargin: ?number): StreamRangeHelper => {
-  const liveMargin = liveEdgeMargin || defaultLivePositionMargin;
+const getStreamRangeHelper = (
+  videoElement: HTMLVideoElement,
+  configuration: ?{ liveEdgeMargin: ?number }
+): StreamRangeHelper => {
+  const liveMargin = (configuration && configuration.liveEdgeMargin) || defaultLivePositionMargin;
 
   function calculateNewState() {
     const seekableRange = getSeekableNetRange(videoElement);

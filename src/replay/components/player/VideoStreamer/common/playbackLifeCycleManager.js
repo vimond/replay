@@ -61,7 +61,7 @@ function getPlaybackLifeCycleManager(
   function cleanup() {
     pauseStreamRangeUpdater.stop();
   }
-  
+
   return {
     startPlaybackSession,
     getStage,

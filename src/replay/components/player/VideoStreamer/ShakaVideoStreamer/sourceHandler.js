@@ -41,17 +41,15 @@ function prepareFilters(
   return Promise.resolve();
 }
 
-const getSourceChangeHandler = (shakaPlayer: ShakaPlayer) => <T: Props>(
-  nextProps: T,
-  prevProps?: T
-) : Promise<any> => {
+const getSourceChangeHandler = (shakaPlayer: ShakaPlayer) => <T: Props>(nextProps: T, prevProps?: T): Promise<any> => {
   const { shakaRequestFilter, shakaResponseFilter } = nextProps;
   const source = normalizeSource(nextProps.source);
   if (source) {
     return prepareFilters(shakaPlayer, shakaRequestFilter, shakaResponseFilter)
       .then(() => prepareDrm(source))
       .then(() => shakaPlayer.load(source.streamUrl, source.startPosition));
-  } else if (prevProps && prevProps.source) { // And no new source.
+  } else if (prevProps && prevProps.source) {
+    // And no new source.
     const networkingEngine = shakaPlayer.getNetworkingEngine();
     networkingEngine.clearAllRequestFilters();
     networkingEngine.clearAllResponseFilters();
@@ -59,6 +57,6 @@ const getSourceChangeHandler = (shakaPlayer: ShakaPlayer) => <T: Props>(
   } else {
     return Promise.resolve();
   }
-}
+};
 
 export default getSourceChangeHandler;

@@ -16,15 +16,15 @@ export type ShakaRequest = {
 };
 
 export type ShakaResponse = {
-  uri: string, 
-  data: ArrayBuffer, 
-  headers: { [string]: string }, 
-  timeMs?: number, 
+  uri: string,
+  data: ArrayBuffer,
+  headers: { [string]: string },
+  timeMs?: number,
   fromCache?: boolean
 };
 
-export type ShakaRequestFilter = (type: string, request: ShakaRequest) => (Promise<void> | void);
-export type ShakaResponseFilter = (type: string, response: ShakaResponse) => (Promise<void> | void);
+export type ShakaRequestFilter = (type: string, request: ShakaRequest) => Promise<void> | void;
+export type ShakaResponseFilter = (type: string, response: ShakaResponse) => Promise<void> | void;
 
 export type ShakaTrack = {
   id: number,
@@ -38,8 +38,15 @@ export type ShakaTrack = {
 };
 
 export type ShakaPlayer = {
-  addEventListener: (name: string, handler: any => void) => void,
-  addTextTrack: (uri: string, language: string, kind: string, mime: string, codec?: string, label?: string) => Promise<ShakaTrack>;
+  addEventListener: (name: string, handler: (any) => void) => void,
+  addTextTrack: (
+    uri: string,
+    language: string,
+    kind: string,
+    mime: string,
+    codec?: string,
+    label?: string
+  ) => Promise<ShakaTrack>,
   cancelTrickPlay: () => void,
   configure: any => void,
   destroy: () => Promise<void>,
@@ -49,7 +56,7 @@ export type ShakaPlayer = {
     clearAllResponseFilters: () => void,
     registerRequestFilter: ShakaRequestFilter => void,
     registerResponseFilter: ShakaResponseFilter => void
-  };
+  },
   getPlaybackRate: () => number,
   getPresentationStartTimeAsDate: () => Date,
   getTextTracks: () => Array<ShakaTrack>,
@@ -57,7 +64,7 @@ export type ShakaPlayer = {
   isLive: () => boolean,
   isTextTrackVisible: () => boolean,
   load: (assetUri: string, startPosition?: number) => Promise<void>,
-  removeEventListener: (name: string, handler: any => void) => void,
+  removeEventListener: (name: string, handler: (any) => void) => void,
   seekRange: () => { start: number, end: number },
   selectAudioLanguage: (language: string, role?: string) => void,
   selectTextTrack: ShakaTrack => void,

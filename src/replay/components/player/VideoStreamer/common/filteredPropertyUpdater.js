@@ -14,7 +14,7 @@ declare class Object {
 const saneNumberFilter = <T>(value: ?T) =>
   value == null || isNaN(value) || value === Infinity || typeof value !== 'number' || value < 0 ? 0 : value;
 
-const filters = {
+const defaultFilters = {
   position: saneNumberFilter,
   duration: saneNumberFilter,
   volume: saneNumberFilter
@@ -24,7 +24,7 @@ export type SanityFilter = <T: ?VideoStreamStateValues>(val: T) => T;
 
 function getFilteredPropertyUpdater<C: VideoStreamerConfiguration, P: VideoStreamerImplProps<C>>(
   videoStreamer: SimplifiedVideoStreamer<C, P>,
-  filters: { [VideoStreamStateKeys]: SanityFilter } = saneNumberFilter
+  filters: { [VideoStreamStateKeys]: SanityFilter } = defaultFilters
 ) {
   const currentValues: VideoStreamState = {};
 

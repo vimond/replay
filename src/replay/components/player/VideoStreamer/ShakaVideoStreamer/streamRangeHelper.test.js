@@ -9,11 +9,7 @@ const getSeekableRanges = (start, end) => ({
 const startDate = new Date('2018-07-30T18:49:36.120Z');
 const getStartDate = () => startDate;
 
-const getMockVideoElement = ({
-  currentTime = 0,
-  duration = NaN,
-  paused = false
-} = {}) => ({
+const getMockVideoElement = ({ currentTime = 0, duration = NaN, paused = false } = {}) => ({
   duration,
   currentTime,
   paused
@@ -26,7 +22,6 @@ const getMockShakaPlayer = (isLive = false, seekRange, startDateTime) => {
     getPresentationStartTimeAsDate: () => startDateTime
   };
 };
-
 
 const setup = (mockVideoElement = getMockVideoElement()) => {
   const streamRangeHelper = getStreamRangeHelper(10, 1);
@@ -108,7 +103,7 @@ test(
     const mockVideoElement = getMockVideoElement({
       currentTime: 30
     });
-    const mockShakaPlayer = getMockShakaPlayer(true, { start: 13, end : 123 });
+    const mockShakaPlayer = getMockShakaPlayer(true, { start: 13, end: 123 });
     const streamState = streamRangeHelper.calculateNewState(mockVideoElement, mockShakaPlayer);
     expect(streamState).toMatchObject({
       position: 17,
@@ -159,23 +154,29 @@ test('When the position for a live stream is not close to the duration (limited 
   });
 });
 
-test('For a live stream, when Shaka reports a valid date for availabilityStartTime (aka presentationStartTime), ' +
-  'report real absolutePosition and absoluteStartPosition values from it.', () => {
-  const { streamRangeHelper } = setup();
-  const mockVideoElement = getMockVideoElement({
-    currentTime: 30,
-    duration: Infinity
-  });
-  const mockShakaPlayer = getMockShakaPlayer(true, { start: 13, end: 123 }, getStartDate());
-  const { absolutePosition, absoluteStartPosition } = streamRangeHelper.calculateNewState(mockVideoElement, mockShakaPlayer);
+test(
+  'For a live stream, when Shaka reports a valid date for availabilityStartTime (aka presentationStartTime), ' +
+    'report real absolutePosition and absoluteStartPosition values from it.',
+  () => {
+    const { streamRangeHelper } = setup();
+    const mockVideoElement = getMockVideoElement({
+      currentTime: 30,
+      duration: Infinity
+    });
+    const mockShakaPlayer = getMockShakaPlayer(true, { start: 13, end: 123 }, getStartDate());
+    const { absolutePosition, absoluteStartPosition } = streamRangeHelper.calculateNewState(
+      mockVideoElement,
+      mockShakaPlayer
+    );
 
-  expect(absolutePosition.getTime()).toBe(startDate.getTime() + 30000);
-  expect(absoluteStartPosition.getTime()).toBe(startDate.getTime() + 13000);
-});
+    expect(absolutePosition.getTime()).toBe(startDate.getTime() + 30000);
+    expect(absoluteStartPosition.getTime()).toBe(startDate.getTime() + 13000);
+  }
+);
 
 test(
   'For a live stream, when Shaka does not a valid date for availabilityStartTime, ' +
-  'report absolutePosition and absoluteStartPosition values based on local clock time.',
+    'report absolutePosition and absoluteStartPosition values based on local clock time.',
   () => {
     const { streamRangeHelper } = setup();
     const mockVideoElement = getMockVideoElement({
@@ -183,7 +184,10 @@ test(
       duration: Infinity
     });
     const mockShakaPlayer = getMockShakaPlayer(true, { start: 13, end: 123 });
-    const { absolutePosition, absoluteStartPosition } = streamRangeHelper.calculateNewState(mockVideoElement, mockShakaPlayer);
+    const { absolutePosition, absoluteStartPosition } = streamRangeHelper.calculateNewState(
+      mockVideoElement,
+      mockShakaPlayer
+    );
     expect(absolutePosition.getTime() / 1000).toBeCloseTo(new Date().getTime() / 1000, 0);
     // Testing real now-dates is a risky business, since timing of tests aren't guaranteed or predictable.
     // Dividing by 3000 means that values within 3 seconds from the exact value is accepted.

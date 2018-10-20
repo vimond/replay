@@ -1,11 +1,6 @@
 // @xflow
 import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
-import type {
-  AvailableTrack,
-  PlaybackSource,
-  VideoStreamerProps,
-  VideoStreamState
-} from '../types';
+import type { AvailableTrack, PlaybackSource, VideoStreamerProps, VideoStreamState } from '../types';
 import mapError from './errorMapper';
 import { getIntervalRunner } from '../../../common';
 import { applyProperties } from '../common/propertyApplier';
@@ -185,7 +180,7 @@ function getStreamStateUpdater<T: VideoStreamerProps>(
       if (streamer.props.initialPlaybackProps && streamer.props.initialPlaybackProps.isPaused) {
         videoElement.pause();
       }
-      // TODO: This is handled by Shaka. 
+      // TODO: This is handled by Shaka.
       seekToInitialPosition(streamer.props.source, videoElement);
       update(streamRangeHelper.calculateNewState(videoElement, streamer.thirdPartyPlayer));
     });

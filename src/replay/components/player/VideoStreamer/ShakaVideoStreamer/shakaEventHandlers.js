@@ -4,17 +4,18 @@ import getBasicVideoEventHandlers from '../BasicVideoStreamer/basicVideoEventHan
 import type { ShakaPlayer } from './types';
 import { PlaybackError } from '../types';
 import type { InitialPlaybackProps, PlaybackProps, PlaybackSource, VideoStreamState } from '../types';
+import type { BasicVideoEventHandlersProps } from '../BasicVideoStreamer/basicVideoEventHandlers';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
 }
 
-const mapShakaError = (err: any): PlaybackError => { 
-  // TODO 
+const mapShakaError = (err: any): PlaybackError => {
+  // TODO
   return new PlaybackError('STREAM_ERROR', 'shaka');
 };
 
-const getShakaEventHandlers = ({
+const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
   streamer,
   videoElement,
   thirdPartyPlayer,
@@ -25,11 +26,7 @@ const getShakaEventHandlers = ({
   log
 }: {
   streamer: {
-    props: {
-      onPlaybackError?: PlaybackError => void,
-      initialPlaybackProps?: InitialPlaybackProps,
-      source?: ?PlaybackSource
-    }
+    props: P
   },
   videoElement: HTMLVideoElement,
   thirdPartyPlayer: any,
@@ -52,12 +49,12 @@ const getShakaEventHandlers = ({
   });
 
   const { videoElementEventHandlers, pauseStreamRangeUpdater } = htmlVideoHandlers;
-  
+
   let lifeCycleManager = {
     setStage: (_: PlaybackLifeCycle) => {},
     getStage: () => {}
   };
-    
+
   const shakaEventHandlers = {
     error: ({ detail }: { detail: any }) => {
       log && log('shaka.error');
@@ -83,7 +80,12 @@ const getShakaEventHandlers = ({
           // TODO: Perhaps apply on 'streaming' event in Shaka insted.
           applyProperties({ isMuted, volume, lockedBitrate, maxBitrate });
         }
-        updateStreamState({ playState: 'starting', isBuffering: true, volume: videoElement.volume, isMuted: videoElement.muted });
+        updateStreamState({
+          playState: 'starting',
+          isBuffering: true,
+          volume: videoElement.volume,
+          isMuted: videoElement.muted
+        });
       }
     },
     streaming: () => {
@@ -94,7 +96,7 @@ const getShakaEventHandlers = ({
       }
       updateStreamState(streamRangeHelper.calculateNewState());
     },
-    buffering: ({ buffering } : { buffering: boolean }) => {
+    buffering: ({ buffering }: { buffering: boolean }) => {
       log && log('shaka.error');
       updateStreamState({ isBuffering: buffering });
       if (buffering && lifeCycleManager.getStage() === 'started') {
@@ -102,14 +104,14 @@ const getShakaEventHandlers = ({
       }
     }
   };
-  
+
   function cleanup() {
     htmlVideoHandlers.cleanup();
     Object.entries(shakaEventHandlers).forEach(([name, handler]) => {
       shakaPlayer.removeEventListener(name, handler);
     });
   }
-  
+
   function setLifeCycleManager(manager: { setStage: PlaybackLifeCycle => void, getStage: () => PlaybackLifeCycle }) {
     lifeCycleManager = manager;
     htmlVideoHandlers.setLifeCycleManager(manager);
@@ -118,8 +120,7 @@ const getShakaEventHandlers = ({
   Object.entries(shakaEventHandlers).forEach(([name, handler]) => {
     shakaPlayer.addEventListener(name, handler);
   });
-  
-  
+
   const {
     onCanPlay,
     onPlaying,

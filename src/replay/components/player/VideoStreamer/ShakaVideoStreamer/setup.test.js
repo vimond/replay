@@ -15,11 +15,9 @@ test('Shaka setup() instantiates a shaka.Player.', () => {
   expect(shakaPlayer).toBeDefined();
 });
 
-
-
 test('Shaka setup() installs polyfills, if configured.', () => {
   const videoElement = {};
-  setup(videoElement, { shakaPlayer: { installPolyfills: true }});
+  setup(videoElement, { shakaPlayer: { installPolyfills: true } });
   expect(shaka.polyfill.installAll).toHaveBeenCalled();
 });
 
@@ -41,5 +39,4 @@ test('Shaka cleanup() destroys a shaka.Player.', () => {
   const shakaPlayer = setup(videoElement);
   shakaPlayer.destroy();
   expect(destroy).toHaveBeenCalled();
-  
 });

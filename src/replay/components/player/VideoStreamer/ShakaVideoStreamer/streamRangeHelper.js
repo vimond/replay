@@ -48,8 +48,12 @@ function getAbsolutePositions(
   }
 }
 
-const getStreamRangeHelper = (videoElement: HTMLVideoElement, shakaPlayer: ShakaPlayer, configuration: ?{ liveEdgeMargin?: ?number }): StreamRangeHelper => {
-  const liveMargin = configuration && configuration.liveEdgeMargin || defaultLivePositionMargin;
+const getStreamRangeHelper = (
+  videoElement: HTMLVideoElement,
+  shakaPlayer: ShakaPlayer,
+  configuration: ?{ liveEdgeMargin?: ?number }
+): StreamRangeHelper => {
+  const liveMargin = (configuration && configuration.liveEdgeMargin) || defaultLivePositionMargin;
 
   function calculateNewState() {
     const seekRange = shakaPlayer.seekRange();
