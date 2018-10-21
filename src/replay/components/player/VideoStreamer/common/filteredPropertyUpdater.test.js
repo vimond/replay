@@ -4,7 +4,7 @@ const positionFilter = (position: ?number): number => (isNaN(position) || positi
 
 test('Filtered property updater notifies when fresh values are passed for properties earlier passed.', () => {
   const callback = jest.fn();
-  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback }});
+  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback } });
   update({ duration: 0 });
   update({ duration: 313 });
   expect(callback.mock.calls[0][0]).toEqual({ duration: 0 });
@@ -13,7 +13,7 @@ test('Filtered property updater notifies when fresh values are passed for proper
 
 test('Filtered property updater does not notify when the same values as earlier are passed as properties.', () => {
   const callback = jest.fn();
-  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback }});
+  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback } });
   update({ duration: 0 });
   update({ duration: 0 });
   update({ duration: 313 });
@@ -23,7 +23,7 @@ test('Filtered property updater does not notify when the same values as earlier 
 
 test('Filtered property updater notifies each passed property individually.', () => {
   const callback = jest.fn();
-  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback }});
+  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback } });
   update({ position: 0 });
   update({ position: 3, duration: 313 });
   expect(callback).toHaveBeenCalledWith({ duration: 313 });
@@ -33,7 +33,7 @@ test('Filtered property updater notifies each passed property individually.', ()
 
 test('Filtered property updater notifies with a corrected value when default filters are used.', () => {
   const callback = jest.fn();
-  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback }});
+  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback } });
   update({ position: NaN });
   expect(callback).toHaveBeenCalledWith({ position: 0 });
 

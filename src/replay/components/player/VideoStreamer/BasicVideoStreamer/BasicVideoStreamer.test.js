@@ -93,7 +93,7 @@ const domRender = (props = commonProps) => {
           videoRef,
           domVideoElement: videoElement.getDOMNode()
         });
-      } catch(e) {
+      } catch (e) {
         reject(e);
       }
     };
@@ -152,7 +152,6 @@ test('<BasicVideoStreamer/> respects initialPlaybackProps isMuted, volume, and i
     ...commonProps,
     initialPlaybackProps: { isPaused: true, isMuted: true, volume: 0.5 }
   }).then(({ videoElement, videoRef }) => {
-
     const pauseSpy = jest.spyOn(videoRef.current, 'pause');
 
     videoElement.simulate('loadstart');

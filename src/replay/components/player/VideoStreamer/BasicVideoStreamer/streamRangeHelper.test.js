@@ -108,7 +108,6 @@ test(
 );
 
 test('When the position for a live stream is not close to the duration (limited by a threshold), report it as not playing at the live position', () => {
-
   const mockVideoElement = getMockVideoElement({
     currentTime: 100,
     duration: Infinity,
@@ -153,6 +152,5 @@ test(
     expect(absoluteStartPosition.getTime() / 3000).toBeCloseTo((new Date().getTime() - 17000) / 3000, 0);
   }
 );
-
 
 //TODO: Test gotoLive(), setPosition(), and that dvr offset method.

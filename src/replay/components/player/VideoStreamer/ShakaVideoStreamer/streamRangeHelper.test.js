@@ -23,7 +23,10 @@ const getMockShakaPlayer = (isLive = false, seekRange, startDateTime) => {
   };
 };
 
-const setup = (mockVideoElement = getMockVideoElement(), shakaPlayer = getMockShakaPlayer(true, { start: 0, end: 0 }, new Date())) => {
+const setup = (
+  mockVideoElement = getMockVideoElement(),
+  shakaPlayer = getMockShakaPlayer(true, { start: 0, end: 0 }, new Date())
+) => {
   const streamRangeHelper = getStreamRangeHelper(mockVideoElement, shakaPlayer);
   return {
     streamRangeHelper,
@@ -188,3 +191,5 @@ test(
     expect(absoluteStartPosition.getTime() / 3000).toBeCloseTo((new Date().getTime() - 17000) / 3000, 0);
   }
 );
+
+// TODO: Test the other three stream range helper methods!

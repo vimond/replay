@@ -83,7 +83,7 @@ test('applyProperties() invokes setPosition or gotoLive when position or isAtLiv
   const propsUpdate4 = { isAtLivePosition: false };
 
   const applyProperties = getPropertyApplier(videoElement, streamRangeHelper);
-  
+
   applyProperties(propsUpdate1, null, streamRangeHelper);
   expect(streamRangeHelper.setPosition).toHaveBeenCalledWith(3);
   expect(streamRangeHelper.gotoLive).not.toHaveBeenCalled();
@@ -134,7 +134,7 @@ test('applyProperties() invokes handleTextTrackChange or handleAudioTrackChange 
   const textTrackManager = getTextTrackManager();
   const audioTrackManager = getAudioTrackManager();
   const applyProperties = getPropertyApplier(videoElement, getStreamRangeHelper(), textTrackManager, audioTrackManager);
-  
+
   const propsUpdate1 = { selectedTextTrack: textTrack1 };
   const propsUpdate2 = { selectedAudioTrack: audioTrack1 };
   const propsUpdate3 = { selectedTextTrack: textTrack2 };

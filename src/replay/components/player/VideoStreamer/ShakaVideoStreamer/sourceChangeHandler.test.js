@@ -58,7 +58,7 @@ test('Custom request or response filters are registered.', () => {
   const firstSource = { streamUrl: 'https://ok.com/puter', startPosition: 33 };
   const shakaRequestFilter = 1;
   const shakaResponseFilter = 2;
-  return handleSourceChange({ source: firstSource, shakaRequestFilter, shakaResponseFilter }, {}, ).then(() => {
+  return handleSourceChange({ source: firstSource, shakaRequestFilter, shakaResponseFilter }, {}).then(() => {
     expect(shakaPlayer.getNetworkingEngine().registerRequestFilter).toHaveBeenCalledTimes(1);
     expect(shakaPlayer.getNetworkingEngine().registerResponseFilter).toHaveBeenCalledTimes(1);
   });

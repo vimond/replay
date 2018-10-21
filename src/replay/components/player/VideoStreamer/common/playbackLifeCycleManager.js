@@ -33,11 +33,6 @@ function getPlaybackLifeCycleManager(
   },
   log?: string => void
 ) {
-  const isDebugging = window.location.search.indexOf('debug') > 0;
-  if (isDebugging) {
-    window.videoElementEvents = [];
-  }
-
   let lifeCycleStage: PlaybackLifeCycle = 'unknown';
   log && log(lifeCycleStage);
 
