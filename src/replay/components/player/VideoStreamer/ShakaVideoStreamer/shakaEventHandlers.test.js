@@ -1,13 +1,7 @@
 import getShakaEventHandlers from './shakaEventHandlers';
 import { PlaybackError } from '../types';
 
-
-const getMockVideoElement = ({
-  seekable = { length: 0 },
-  currentTime = 0,
-  duration = NaN,
-  paused = false
-} = {}) => ({
+const getMockVideoElement = ({ seekable = { length: 0 }, currentTime = 0, duration = NaN, paused = false } = {}) => ({
   seekable,
   duration,
   currentTime,
@@ -20,18 +14,18 @@ const getEventHandling = () => {
 
   const addEventListener = (name, handler) => {
     if (eventHandlers[name]) {
-      throw new Exception(name + ' listener already added.')
+      throw new Exception(name + ' listener already added.');
     }
     eventHandlers[name] = handler;
   };
 
   const removeEventListener = (name, handler) => {
     if (!eventHandlers[name]) {
-      throw new Exception(name + ' listener removed or never added.')
+      throw new Exception(name + ' listener removed or never added.');
     }
     delete eventHandlers[name];
   };
-  
+
   return {
     eventHandlers,
     addEventListener,
@@ -57,14 +51,20 @@ const getLifeCycleManager = () => {
   let stage = 'new';
   return {
     getStage: () => stage,
-    setStage: newStage => stage = newStage
+    setStage: newStage => (stage = newStage)
   };
 };
 
 describe('shakaEventHandlers', () => {
   const { shakaPlayer, eventHandling } = getMockShakaPlayer();
   const params = {
-    streamer: { props: { onPlaybackError: jest.fn(), onStreamStateChange: jest.fn(), initialPlaybackProps: { isPaused: true, isMuted: true }}},
+    streamer: {
+      props: {
+        onPlaybackError: jest.fn(),
+        onStreamStateChange: jest.fn(),
+        initialPlaybackProps: { isPaused: true, isMuted: true }
+      }
+    },
     videoElement: getMockVideoElement(),
     shakaPlayer,
     streamRangeHelper: {
@@ -73,12 +73,11 @@ describe('shakaEventHandlers', () => {
     applyProperties: jest.fn(),
     updateStreamState: jest.fn()
   };
-  
+
   params.streamRangeHelper.calculateNewState.mockReturnValue({ position: 1, duration: 2, playMode: 'ondemand' });
   const lifeCycleManager = getLifeCycleManager();
   const shakaEventHandlers = getShakaEventHandlers(params);
   shakaEventHandlers.setLifeCycleManager(lifeCycleManager);
-
 
   test('handles the Shaka loading event', () => {
     eventHandling.eventHandlers.loading();
@@ -102,7 +101,7 @@ describe('shakaEventHandlers', () => {
     expect(params.updateStreamState).toHaveBeenLastCalledWith({ isBuffering: true });
     eventHandling.eventHandlers.buffering({ buffering: false });
     expect(params.updateStreamState).toHaveBeenLastCalledWith({ isBuffering: false });
-    
+
     lifeCycleManager.setStage('started');
     eventHandling.eventHandlers.buffering({ buffering: true });
     expect(params.updateStreamState).toHaveBeenLastCalledWith({ isBuffering: true, playState: 'buffering' });
@@ -113,6 +112,10 @@ describe('shakaEventHandlers', () => {
     expect(params.streamer.props.onPlaybackError.mock.calls[0][0]).toBeInstanceOf(PlaybackError);
     expect(lifeCycleManager.getStage()).toBe('dead');
     expect(params.updateStreamState).toHaveBeenCalledWith({ error: params.videoElement.error });
-    expect(params.updateStreamState).toHaveBeenLastCalledWith({ playState: 'inactive', isBuffering: false, isSeeking: false });
+    expect(params.updateStreamState).toHaveBeenLastCalledWith({
+      playState: 'inactive',
+      isBuffering: false,
+      isSeeking: false
+    });
   });
 });
