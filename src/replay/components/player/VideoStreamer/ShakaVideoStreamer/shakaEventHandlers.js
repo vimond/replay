@@ -2,18 +2,13 @@
 import type { PlaybackLifeCycle, StreamRangeHelper } from '../common/types';
 import getBasicVideoEventHandlers from '../BasicVideoStreamer/basicVideoEventHandlers';
 import type { ShakaPlayer } from './types';
-import { PlaybackError } from '../types';
 import type { PlaybackProps, VideoStreamState } from '../types';
 import type { BasicVideoEventHandlersProps } from '../BasicVideoStreamer/basicVideoEventHandlers';
+import mapShakaError from './shakaErrorMapper';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
 }
-
-const mapShakaError = (err: any): PlaybackError => {
-  // TODO
-  return new PlaybackError('STREAM_ERROR', 'shaka');
-};
 
 const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
   streamer,
@@ -57,7 +52,12 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
   const shakaEventHandlers = {
     error: ({ detail }: { detail: any }) => {
       log && log('shaka.error');
-      const playbackError = mapShakaError(detail);
+      const playbackError = mapShakaError(
+        lifeCycleManager.getStage() === 'started',
+        detail,
+        navigator.userAgent,
+        document.location
+      );
       if (streamer.props.onPlaybackError) {
         streamer.props.onPlaybackError(playbackError);
       }
@@ -96,7 +96,7 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
           videoElement.pause();
         }
       }
-      
+
       updateStreamState(streamRangeHelper.calculateNewState());
     },
     buffering: ({ buffering }: { buffering: boolean }) => {

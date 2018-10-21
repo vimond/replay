@@ -9,6 +9,7 @@ import './App.css';
 import './replay/replay-default.css';
 import type { PlaybackActions } from './replay/components/player/PlayerController/PlayerController';
 import ShakaVideoStreamer from './replay/components/player/VideoStreamer/ShakaVideoStreamer/ShakaVideoStreamer';
+import { PlaybackError } from './replay/components/player/VideoStreamer/types';
 
 type State = {
   useMock?: boolean,
@@ -16,7 +17,7 @@ type State = {
   alwaysShowDesignControls: boolean
 };
 
-const textTracks = [
+/*const textTracks = [
   {
     kind: 'subtitles',
     language: 'no',
@@ -45,20 +46,24 @@ const textTracks = [
     contentType: 'text/vtt;charset="UTF-8"',
     label: 'English captions'
   }
-];
+];*/
 
 const videoUrls = [
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4',
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-20/N_ELGBADER_200718_SIKRO_(1359389_R212MP41000).mp4',
+  'https://tv2-hls-live.telenorcdn.net/out/u/82018.mpd',
   'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1385976_ps1271_pd672348.smil/manifest.mpd'
 ];
+
+const licenseUrl =
+  'https://sumo.tv2.no/license/wvmodular/82018?timeStamp=2018-10-21T17%3A20%3A06%2B0000&contract=8aa97e9f77c2accc9ec33fb4b288dea2&account=source';
 
 const getSource = memoize(streamUrl => {
   if (streamUrl) {
     return {
       playbackTechnology: 'html',
       streamUrl,
-      textTracks
+      licenseUrl
     };
   } else {
     return null;
@@ -116,6 +121,8 @@ class App extends Component<void, State> {
   handleVideoButtonClick = (index: number) => this.setState({ streamUrl: videoUrls[index] });
   handleNoVideoClick = () => this.setState({ streamUrl: '' });
 
+  handleError = (err: PlaybackError) => console.error('[%s] %s: %s', err.severity, err.code, err.message, err);
+
   handlePlaybackActions = (actions: PlaybackActions) => {
     window.player = actions;
   };
@@ -148,6 +155,7 @@ class App extends Component<void, State> {
                 source={getSource(streamUrl)}
                 options={configOverrides}
                 onExit={this.togglePlayer}
+                onError={this.handleError}
                 initialPlaybackProps={{ isPaused: false, volume: 0.5 }}
                 onPlaybackActionsReady={this.handlePlaybackActions}>
                 <ShakaVideoStreamer />

@@ -4,8 +4,8 @@ import type { VideoStreamerImplProps } from '../types';
 import createVideoStreamerComponent from '../common/createVideoStreamerComponent';
 import type { ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from './types';
 import { setup } from './setup';
-import getStreamRangeHelper from './streamRangeHelper';
-import getSourceChangeHandler from './sourceChangeHandler';
+import getStreamRangeHelper from './shakaStreamRangeHelper';
+import getSourceChangeHandler from './shakaSourceChangeHandler';
 import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
 import getTextTrackManager from '../BasicVideoStreamer/textTrackManager';
 import getAudioTrackManager from '../BasicVideoStreamer/audioTrackManager';
@@ -43,9 +43,20 @@ function resolveImplementation(
 
   const textTrackManager = getTextTrackManager(videoElement, updateStreamState); //TODO: Replace with Shaka version.
   const audioTrackManager = getAudioTrackManager(videoElement, updateStreamState); //TODO: Replace with Shaka version.
-  const bitrateManager = getShakaBitrateManager(streamer, shakaPlayer, updateStreamState, getArrayLogger(window, 'bitrateManager').log);
+  const bitrateManager = getShakaBitrateManager(
+    streamer,
+    shakaPlayer,
+    updateStreamState,
+    getArrayLogger(window, 'bitrateManager').log
+  );
 
-  const applyProperties = getPropertyApplier(videoElement, streamRangeHelper, textTrackManager, audioTrackManager, bitrateManager); // G
+  const applyProperties = getPropertyApplier(
+    videoElement,
+    streamRangeHelper,
+    textTrackManager,
+    audioTrackManager,
+    bitrateManager
+  ); // G
 
   const { log } = getArrayLogger(window, 'videoEvents');
 
@@ -73,6 +84,7 @@ function resolveImplementation(
     audioTrackManager.cleanup();
     playbackLifeCycleManager.cleanup();
     shakaEventHandlers.cleanup();
+    bitrateManager.cleanup();
     return shakaPlayer.destroy();
   }
 

@@ -26,6 +26,8 @@ export type ShakaResponse = {
 export type ShakaRequestFilter = (type: string, request: ShakaRequest) => Promise<void> | void;
 export type ShakaResponseFilter = (type: string, response: ShakaResponse) => Promise<void> | void;
 
+export type ShakaError = { code: number, category: number, data: any, message: ?string };
+
 export type ShakaTrack = {
   id: number,
   active: boolean,

@@ -33,7 +33,7 @@ const getEventHandling = () => {
   };
 };
 
-export const getMockShakaPlayer = (variantTracks, configuration = { abr: {}}) => {
+export const getMockShakaPlayer = (variantTracks, configuration = { abr: {} }) => {
   const eventHandling = getEventHandling();
   return {
     shakaPlayer: {
@@ -47,7 +47,7 @@ export const getMockShakaPlayer = (variantTracks, configuration = { abr: {}}) =>
       addEventListener: eventHandling.addEventListener,
       removeEventListener: eventHandling.removeEventListener,
       mock: {
-        updateVariantTracks: newTracks => variantTracks = newTracks
+        updateVariantTracks: newTracks => (variantTracks = newTracks)
       }
     },
     eventHandling

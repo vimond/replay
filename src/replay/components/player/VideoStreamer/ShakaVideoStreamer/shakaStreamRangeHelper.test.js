@@ -1,4 +1,4 @@
-import getStreamRangeHelper from './streamRangeHelper';
+import getStreamRangeHelper from './shakaStreamRangeHelper';
 
 const getSeekableRanges = (start, end) => ({
   length: 1,

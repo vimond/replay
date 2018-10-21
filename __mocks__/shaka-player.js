@@ -12,6 +12,9 @@ const shaka = {
   util: {
     StringUtils: {
       fromUTF8: d => d
+    },
+    Error: {
+      Category: Object
     }
   },
   Player: jest.fn(() => ({

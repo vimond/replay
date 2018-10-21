@@ -72,7 +72,7 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
             implementation.audioTrackManager.handleSourceChange();
             implementation.textTrackManager.handleSourceChange(nextProps);
           })
-          .catch(err => nextProps.onPlaybackError && nextProps.onPlaybackError(err)); // TODO: Ignore interrupted load calls. TODO: Error mapping.
+          .catch(err => nextProps.onPlaybackError && nextProps.onPlaybackError(err)); // TODO: Ignore interrupted load calls.
       }
     };
 

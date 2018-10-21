@@ -139,7 +139,13 @@ test('applyProperties() invokes handleTextTrackChange or handleAudioTrackChange 
   const textTrackManager = getTextTrackManager();
   const audioTrackManager = getAudioTrackManager();
   const bitrateManager = getBitrateManager();
-  const applyProperties = getPropertyApplier(videoElement, getStreamRangeHelper(), textTrackManager, audioTrackManager, bitrateManager);
+  const applyProperties = getPropertyApplier(
+    videoElement,
+    getStreamRangeHelper(),
+    textTrackManager,
+    audioTrackManager,
+    bitrateManager
+  );
 
   const propsUpdate1 = { selectedTextTrack: textTrack1 };
   const propsUpdate2 = { selectedAudioTrack: audioTrack1 };
@@ -185,19 +191,25 @@ test('applyProperties() invokes lockBitrate or capBitrate when lockedBitrate or 
   const textTrackManager = getTextTrackManager();
   const audioTrackManager = getAudioTrackManager();
   const bitrateManager = getBitrateManager();
-  const applyProperties = getPropertyApplier(videoElement, getStreamRangeHelper(), textTrackManager, audioTrackManager, bitrateManager);
+  const applyProperties = getPropertyApplier(
+    videoElement,
+    getStreamRangeHelper(),
+    textTrackManager,
+    audioTrackManager,
+    bitrateManager
+  );
   applyProperties({ lockedBitrate: 123 });
-  applyProperties({ maxBitrate: 345 })
+  applyProperties({ maxBitrate: 345 });
   expect(bitrateManager.lockBitrate).toHaveBeenCalledWith(123);
   expect(bitrateManager.capBitrate).toHaveBeenCalledWith(345);
 });
 
-test('applyProperties() doesn\'t break if lockedBitrate or fixedBitrate properties are set, and there is no bitrateManager.', () => {
+test("applyProperties() doesn't break if lockedBitrate or fixedBitrate properties are set, and there is no bitrateManager.", () => {
   const videoElement = getVideoElementMock();
   const textTrackManager = getTextTrackManager();
   const audioTrackManager = getAudioTrackManager();
   const applyProperties = getPropertyApplier(videoElement, getStreamRangeHelper(), textTrackManager, audioTrackManager);
   applyProperties({ lockedBitrate: 123 });
-  applyProperties({ maxBitrate: 345 })
+  applyProperties({ maxBitrate: 345 });
   expect(true).toBe(true);
 });

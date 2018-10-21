@@ -1,6 +1,13 @@
 //@flow
 import * as React from 'react';
-import type { AvailableTrack, PlaybackProps, PlaybackSource, SourceTrack, VideoStreamerImplProps, VideoStreamState } from '../types';
+import type {
+  AvailableTrack,
+  PlaybackProps,
+  PlaybackSource,
+  SourceTrack,
+  VideoStreamerImplProps,
+  VideoStreamState
+} from '../types';
 import type { TextTrackManager } from '../BasicVideoStreamer/textTrackManager';
 import type { AudioTrackManager } from '../BasicVideoStreamer/audioTrackManager';
 import type { VideoStreamerConfiguration } from '../types';

@@ -1,4 +1,4 @@
-import getSourceChangeHandler from './sourceChangeHandler';
+import getSourceChangeHandler from './shakaSourceChangeHandler';
 
 function MockShakaPlayer() {
   const networkingEngine = {
@@ -74,4 +74,43 @@ test('Shaka helper handleSourceChange() unloads the current source if changing i
       expect(shakaPlayer.getNetworkingEngine().clearAllResponseFilters).toHaveBeenCalledTimes(2);
       expect(shakaPlayer.unload).toHaveBeenCalledTimes(1);
     });
+});
+
+test('Shaka helper handleSourceChange() configures DRM if source specifies it.', () => {
+  const shakaPlayer = new MockShakaPlayer();
+  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const firstSource = {
+    streamUrl: 'https://ok.com/puter',
+    startPosition: 33,
+    licenseUrl: 'https://example.com/license'
+  };
+  return handleSourceChange(
+    {
+      source: firstSource,
+      configuration: { licenseAcquisition: { widevine: { serviceCertificateUrl: 'https://example.com/certificate' } } }
+    },
+    {}
+  ).then(() => {
+    expect(shakaPlayer.load.mock.calls[0]).toEqual(['https://ok.com/puter', 33]);
+    const drmConfig = shakaPlayer.configure.mock.calls[0][0];
+    expect(drmConfig).toMatchObject({
+      drm: {
+        servers: {
+          'com.widevine.alpha': 'https://example.com/license',
+          'com.microsoft.playready': 'https://example.com/license'
+        },
+        advanced: {
+          'com.widevine.alpha': {
+            audioRobustness: 'SW_SECURE_CRYPTO',
+            videoRobustness: 'SW_SECURE_DECODE',
+            serverCertificate: 'https://example.com/certificate'
+          },
+          'com.microsoft.playready': {
+            videoRobustness: 'SW_SECURE_DECODE',
+            audioRobustness: 'SW_SECURE_CRYPTO'
+          }
+        }
+      }
+    });
+  });
 });

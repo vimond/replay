@@ -286,6 +286,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoSt
         setTrackMode(vt, 'disabled');
       }
       m.selectableTrack = null;
+      selectableTextTracks = emptyTracks;
     });
   }
 

@@ -132,11 +132,11 @@ export type VideoStreamerConfiguration = {
   // TODO: What to include? Try it out.
   licenseAcquisition?: ?{
     widevine: {
-      serviceCertificate?: ?string,
+      serviceCertificateUrl?: ?string,
       withCredentials?: ?boolean
     },
     fairPlay: {
-      serviceCertificate?: ?string,
+      serviceCertificateUrl?: ?string,
       withCredentials?: ?boolean
     },
     playReady: {
