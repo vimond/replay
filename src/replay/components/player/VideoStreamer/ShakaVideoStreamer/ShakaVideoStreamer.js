@@ -50,7 +50,7 @@ function resolveImplementation(
   const shakaEventHandlers = getShakaEventHandlers({
     streamer,
     videoElement,
-    thirdPartyPlayer: shakaPlayer,
+    shakaPlayer,
     streamRangeHelper,
     configuration,
     applyProperties,

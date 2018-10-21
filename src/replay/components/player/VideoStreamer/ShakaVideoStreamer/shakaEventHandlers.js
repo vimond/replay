@@ -18,7 +18,7 @@ const mapShakaError = (err: any): PlaybackError => {
 const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
   streamer,
   videoElement,
-  thirdPartyPlayer,
+  shakaPlayer,
   streamRangeHelper,
   configuration,
   applyProperties,
@@ -29,19 +29,17 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
     props: P
   },
   videoElement: HTMLVideoElement,
-  thirdPartyPlayer: any,
+  shakaPlayer: ShakaPlayer,
   streamRangeHelper: StreamRangeHelper,
   configuration: ?{ pauseUpdateInterval?: ?number },
   applyProperties: PlaybackProps => void,
   updateStreamState: VideoStreamState => void,
   log?: string => void
 }) => {
-  const shakaPlayer: ShakaPlayer = thirdPartyPlayer;
-
   const htmlVideoHandlers = getBasicVideoEventHandlers({
     streamer,
     videoElement,
-    thirdPartyPlayer,
+    thirdPartyPlayer: shakaPlayer,
     streamRangeHelper,
     configuration,
     log,
@@ -99,9 +97,10 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
     },
     buffering: ({ buffering }: { buffering: boolean }) => {
       log && log('shaka.buffering.' + buffering.toString());
-      updateStreamState({ isBuffering: buffering });
       if (buffering && lifeCycleManager.getStage() === 'started') {
-        updateStreamState({ playState: 'buffering' });
+        updateStreamState({ isBuffering: buffering, playState: 'buffering' });
+      } else {
+        updateStreamState({ isBuffering: buffering });
       }
     }
   };
