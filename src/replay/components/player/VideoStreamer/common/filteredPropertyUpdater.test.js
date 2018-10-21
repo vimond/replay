@@ -4,42 +4,42 @@ const positionFilter = (position: ?number): number => (isNaN(position) || positi
 
 test('Filtered property updater notifies when fresh values are passed for properties earlier passed.', () => {
   const callback = jest.fn();
-  const { notifyPropertyChange } = getFilteredPropertyUpdater(callback);
-  notifyPropertyChange({ duration: 0 });
-  notifyPropertyChange({ duration: 313 });
+  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback }});
+  update({ duration: 0 });
+  update({ duration: 313 });
   expect(callback.mock.calls[0][0]).toEqual({ duration: 0 });
   expect(callback.mock.calls[1][0]).toEqual({ duration: 313 });
 });
 
 test('Filtered property updater does not notify when the same values as earlier are passed as properties.', () => {
   const callback = jest.fn();
-  const { notifyPropertyChange } = getFilteredPropertyUpdater(callback);
-  notifyPropertyChange({ duration: 0 });
-  notifyPropertyChange({ duration: 0 });
-  notifyPropertyChange({ duration: 313 });
+  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback }});
+  update({ duration: 0 });
+  update({ duration: 0 });
+  update({ duration: 313 });
   expect(callback.mock.calls[0][0]).toEqual({ duration: 0 });
   expect(callback.mock.calls[1][0]).toEqual({ duration: 313 });
 });
 
 test('Filtered property updater notifies each passed property individually.', () => {
   const callback = jest.fn();
-  const { notifyPropertyChange } = getFilteredPropertyUpdater(callback);
-  notifyPropertyChange({ position: 0 });
-  notifyPropertyChange({ position: 3, duration: 313 });
+  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback }});
+  update({ position: 0 });
+  update({ position: 3, duration: 313 });
   expect(callback).toHaveBeenCalledWith({ duration: 313 });
   expect(callback).toHaveBeenCalledWith({ position: 0 });
   expect(callback).toHaveBeenCalledWith({ position: 3 });
 });
 
-test('Filtered property updater notifies a corrected value if a filter modifies it.', () => {
+test('Filtered property updater notifies with a corrected value when default filters are used.', () => {
   const callback = jest.fn();
-  const { notifyPropertyChange } = getFilteredPropertyUpdater(callback, { position: positionFilter });
-  notifyPropertyChange({ position: NaN });
+  const update = getFilteredPropertyUpdater({ props: { onStreamStateChange: callback }});
+  update({ position: NaN });
   expect(callback).toHaveBeenCalledWith({ position: 0 });
 
-  notifyPropertyChange({ position: undefined });
+  update({ position: undefined });
   expect(callback).toHaveBeenCalledTimes(1);
 
-  notifyPropertyChange({ position: 13 });
+  update({ position: 13 });
   expect(callback).toHaveBeenCalledWith({ position: 13 });
 });

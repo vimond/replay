@@ -5,7 +5,7 @@ import createVideoStreamerComponent from '../common/createVideoStreamerComponent
 import type { ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from './types';
 import { setup } from './setup';
 import getStreamRangeHelper from './streamRangeHelper';
-import getSourceChangeHandler from './sourceHandler';
+import getSourceChangeHandler from './sourceChangeHandler';
 import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
 import getTextTrackManager from '../BasicVideoStreamer/textTrackManager';
 import getAudioTrackManager from '../BasicVideoStreamer/audioTrackManager';

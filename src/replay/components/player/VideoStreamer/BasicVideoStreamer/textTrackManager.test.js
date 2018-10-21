@@ -152,7 +152,7 @@ test('textTrackManager blacklists earlier video element text tracks upon setting
   const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
   expect(m.videoElement.textTracks[0].mode).toBe('showing');
   expect(m.videoElement.textTracks[1].mode).toBe('hidden');
-  textTrackManager.handleNewSourceProps({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
+  textTrackManager.handleSourceChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
 });
 
 test('Tracks specified in the source property are added to the video element, and exposed as stream state properties.', done => {
@@ -178,7 +178,7 @@ test('Tracks specified in the source property are added to the video element, an
     }
   };
   const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
-  textTrackManager.handleNewSourceProps({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
+  textTrackManager.handleSourceChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
 });
 
 test('textTrackManager add tracks to video element when cues are specified.', done => {
@@ -206,7 +206,7 @@ test('textTrackManager add tracks to video element when cues are specified.', do
     }
   };
   const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
-  textTrackManager.handleNewSourceProps({ source: { streamUrl: '', textTracks: exampleSourceTracks3 } });
+  textTrackManager.handleSourceChange({ source: { streamUrl: '', textTracks: exampleSourceTracks3 } });
 });
 
 test('textTrackManager removes earlier tracks when a new set of tracks are specified through the textTracks prop.', done => {
@@ -223,7 +223,7 @@ test('textTrackManager removes earlier tracks when a new set of tracks are speci
       label: 'B: Swedish',
       origin: 'side-loaded'
     });
-    textTrackManager.handleNewSourceProps({ textTracks: exampleSourceTracks2 });
+    textTrackManager.handleSourceChange({ textTracks: exampleSourceTracks2 });
     //set tracks
   };
 
@@ -253,7 +253,7 @@ test('textTrackManager removes earlier tracks when a new set of tracks are speci
     updateFns.pop()(newState);
   };
   const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
-  textTrackManager.handleNewSourceProps({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
+  textTrackManager.handleSourceChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
 });
 
 test(
@@ -297,7 +297,7 @@ test(
     const m = getVideoElementMock();
     global.textTracks = m.textTracks;
     const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
-    textTrackManager.handleNewSourceProps({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
+    textTrackManager.handleSourceChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
   }
 );
 
@@ -322,7 +322,7 @@ test('textTrackManager updates the currentTextTrack stream state property accord
   const m = getVideoElementMock();
   global.textTracks = m.textTracks;
   const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
-  textTrackManager.handleNewSourceProps({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
+  textTrackManager.handleSourceChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
 });
 
 test('textTrackManager adds and removes tracks based on events from the video element.', done => {
@@ -379,5 +379,5 @@ test('textTrackManager adds and removes tracks based on events from the video el
   const m = getVideoElementMock();
   global.textTracks = m.textTracks;
   const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
-  textTrackManager.handleNewSourceProps({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
+  textTrackManager.handleSourceChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
 });

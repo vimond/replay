@@ -79,56 +79,61 @@ const styles = {
 const getPropertyUpdates = (mockFn, key) => mockFn.mock.calls.filter(call => key in call[0]).map(call => call[0]);
 
 const domRender = (props = commonProps) => {
-  const element = mount(<BasicVideoStreamer {...props} />);
-  const videoElement = element.find('video');
-  const videoRef = element.instance().videoRef;
-  return {
-    element,
-    videoElement,
-    videoRef,
-    domVideoElement: videoElement.getDOMNode()
-  };
+  return new Promise((resolve, reject) => {
+    let element;
+    const handleReady = ({ setProperty }) => {
+      try {
+        element.update();
+        const videoElement = element.find('video');
+        const videoRef = element.instance().videoRef;
+        resolve({
+          element,
+          setProperty,
+          videoElement,
+          videoRef,
+          domVideoElement: videoElement.getDOMNode()
+        });
+      } catch(e) {
+        reject(e);
+      }
+    };
+    element = mount(<BasicVideoStreamer {...props} onReady={handleReady} />);
+  });
 };
 
 test('<BasicVideoStreamer/> renders with video element if source or stream URL is specified.', () => {
-  const { videoElement } = domRender();
-  expect(videoElement.prop('src')).toBe(commonProps.source.streamUrl);
-  // TODO: Class names vs custom styles.
-  expect(videoElement.prop('style')).toMatchObject(styles);
-  expect(videoElement.hasClass('replay-video-streamer')).toBe(true);
-  expect(videoElement.hasClass('replay-test-test')).toBe(true);
-  expect(videoElement.prop('autoPlay')).toBe(true);
-  expect(videoElement.prop('controls')).toBe(false);
+  return domRender().then(({ videoElement }) => {
+    expect(videoElement.prop('src')).toBe(commonProps.source.streamUrl);
+    // TODO: Class names vs custom styles.
+    expect(videoElement.prop('style')).toMatchObject(styles);
+    expect(videoElement.hasClass('replay-video-streamer')).toBe(true);
+    expect(videoElement.hasClass('replay-test-test')).toBe(true);
+    expect(videoElement.prop('autoPlay')).toBe(true);
+    expect(videoElement.prop('controls')).toBe(false);
+  });
 });
 
 test('<BasicVideoStreamer/> shuts down cleanly when source prop is removed.', () => {
-  const { videoElement, element } = domRender();
-  expect(videoElement.prop('src')).toBe(commonProps.source.streamUrl);
-  element.setProps({ source: null });
-  element.update();
-  expect(element.find('video').prop('src')).toBe('');
-});
-
-test('<BasicVideoStreamer/> invokes a callback with position manipulation methods when ready.', () => {
-  const onReady = jest.fn();
-  const spy = jest.spyOn(BasicVideoStreamer.prototype, 'componentDidMount');
-  domRender({ ...commonProps, onReady });
-  expect(spy).toHaveBeenCalled();
-  const onReadyMethods = onReady.mock.calls[0][0];
-  expect(typeof onReadyMethods.setProperty).toBe('function');
+  return domRender().then(({ videoElement, element }) => {
+    expect(videoElement.prop('src')).toBe(commonProps.source.streamUrl);
+    element.setProps({ source: null });
+    element.update();
+    expect(element.find('video').prop('src')).toBe('');
+  });
 });
 
 test('<BasicVideoStreamer/> reports playback errors.', () => {
   const onPlaybackError = jest.fn();
-  const { videoElement, videoRef } = domRender({ ...commonProps, onPlaybackError });
-  const mockError = new Error('Decoding failed.');
-  mockError.code = 3;
-  videoRef.current.error = mockError;
-  videoElement.simulate('error');
+  return domRender({ ...commonProps, onPlaybackError }).then(({ videoElement, videoRef }) => {
+    const mockError = new Error('Decoding failed.');
+    mockError.code = 3;
+    videoRef.current.error = mockError;
+    videoElement.simulate('error');
 
-  const reportedError = onPlaybackError.mock.calls[0][0];
-  expect(reportedError).toBeInstanceOf(PlaybackError);
-  expect(reportedError.sourceError).toBe(mockError);
+    const reportedError = onPlaybackError.mock.calls[0][0];
+    expect(reportedError).toBeInstanceOf(PlaybackError);
+    expect(reportedError.sourceError).toBe(mockError);
+  });
 });
 
 test('<BasicVideoStreamer/> seeks to a specified startPosition upon playback start.', () => {
@@ -136,80 +141,79 @@ test('<BasicVideoStreamer/> seeks to a specified startPosition upon playback sta
     streamUrl: commonProps.source.streamUrl,
     startPosition: 13
   };
-  const { videoElement, videoRef } = domRender({ source });
-  videoElement.simulate('loadedmetadata');
-  expect(videoRef.current.currentTime).toBe(13);
+  return domRender({ source }).then(({ videoElement, videoRef }) => {
+    videoElement.simulate('loadedmetadata');
+    expect(videoRef.current.currentTime).toBe(13);
+  });
 });
 
 test('<BasicVideoStreamer/> respects initialPlaybackProps isMuted, volume, and isPaused at playback start.', () => {
-  const { videoElement, videoRef } = domRender({
+  return domRender({
     ...commonProps,
     initialPlaybackProps: { isPaused: true, isMuted: true, volume: 0.5 }
+  }).then(({ videoElement, videoRef }) => {
+
+    const pauseSpy = jest.spyOn(videoRef.current, 'pause');
+
+    videoElement.simulate('loadstart');
+    videoElement.simulate('loadedmetadata');
+
+    expect(videoRef.current.muted).toBe(true);
+    expect(videoRef.current.volume).toBe(0.5);
+    expect(pauseSpy).toHaveBeenCalledTimes(1);
   });
-
-  const pauseSpy = jest.spyOn(videoRef.current, 'pause');
-
-  videoElement.simulate('loadstart');
-  videoElement.simulate('loadedmetadata');
-
-  expect(videoRef.current.muted).toBe(true);
-  expect(videoRef.current.volume).toBe(0.5);
-  expect(pauseSpy).toHaveBeenCalledTimes(1);
 });
 
 test('<BasicVideoStreamer/> handles changes to sources.', () => {});
 
 test('<BasicVideoStreamer/> updates stream state when video element events are invoked.', () => {
   const onStreamStateChange = jest.fn();
-  const { videoElement, videoRef } = domRender({ ...commonProps, onStreamStateChange });
+  return domRender({ ...commonProps, onStreamStateChange }).then(({ videoElement, videoRef }) => {
+    videoRef.current.duration = 313;
+    videoElement.simulate('durationchange');
+    videoElement.simulate('loadedmetadata');
 
-  videoRef.current.duration = 313;
-  videoElement.simulate('durationchange');
-  videoElement.simulate('loadedmetadata');
+    videoRef.current.currentTime = 123;
+    videoElement.simulate('timeupdate');
+    videoElement.simulate('timeupdate');
 
-  videoRef.current.currentTime = 123;
-  videoElement.simulate('timeupdate');
-  videoElement.simulate('timeupdate');
+    const durationUpdates = getPropertyUpdates(onStreamStateChange, 'duration');
+    expect(durationUpdates).toHaveLength(2);
+    expect(durationUpdates[0]).toEqual({ duration: 0 });
+    expect(durationUpdates[1]).toEqual({ duration: 313 });
 
-  const durationUpdates = getPropertyUpdates(onStreamStateChange, 'duration');
-  expect(durationUpdates).toHaveLength(2);
-  expect(durationUpdates[0]).toEqual({ duration: 0 });
-  expect(durationUpdates[1]).toEqual({ duration: 313 });
+    const playModeUpdates = getPropertyUpdates(onStreamStateChange, 'playMode');
+    expect(playModeUpdates).toHaveLength(1);
+    expect(playModeUpdates[0]).toEqual({ playMode: 'ondemand' });
 
-  const playModeUpdates = getPropertyUpdates(onStreamStateChange, 'playMode');
-  expect(playModeUpdates).toHaveLength(1);
-  expect(playModeUpdates[0]).toEqual({ playMode: 'ondemand' });
-
-  const positionUpdates = getPropertyUpdates(onStreamStateChange, 'position');
-  expect(positionUpdates).toHaveLength(2);
+    const positionUpdates = getPropertyUpdates(onStreamStateChange, 'position');
+    expect(positionUpdates).toHaveLength(2);
+  });
 });
 
 test('<BasicVideoStreamer/> reacts to playback props being set.', () => {
-  let setProperty;
-  const onReady = methods => {
-    setProperty = methods.setProperty;
-  };
-  const { element, videoRef } = domRender({ ...commonProps, onReady, onStreamStateChange: () => {} });
-  const playSpy = jest.spyOn(videoRef.current, 'play');
-  const pauseSpy = jest.spyOn(videoRef.current, 'pause');
+  return domRender({ ...commonProps, onStreamStateChange: () => {} }).then(({ element, videoRef, setProperty }) => {
+    const playSpy = jest.spyOn(videoRef.current, 'play');
+    const pauseSpy = jest.spyOn(videoRef.current, 'pause');
 
-  expect(videoRef.current.muted).toBe(false);
-  expect(videoRef.current.paused).toBe(true);
+    expect(videoRef.current.muted).toBe(false);
+    expect(videoRef.current.paused).toBe(true);
 
-  setProperty({ isPaused: false });
-  setProperty({ isPaused: true });
+    setProperty({ isPaused: false });
+    setProperty({ isPaused: true });
 
-  setProperty({ isMuted: true });
-  expect(videoRef.current.muted).toBe(true);
-  setProperty({ position: 313 });
-  expect(videoRef.current.currentTime).toBe(313);
-  setProperty({ position: 23 });
-  expect(videoRef.current.currentTime).toBe(23);
-  setProperty({ volume: 0.5 });
-  expect(videoRef.current.volume).toBe(0.5);
+    setProperty({ isMuted: true });
+    expect(videoRef.current.muted).toBe(true);
+    setProperty({ position: 313 });
+    expect(videoRef.current.currentTime).toBe(313);
+    setProperty({ position: 23 });
+    expect(videoRef.current.currentTime).toBe(23);
+    setProperty({ volume: 0.5 });
+    expect(videoRef.current.volume).toBe(0.5);
 
-  expect(playSpy).toHaveBeenCalledTimes(1);
-  expect(pauseSpy).toHaveBeenCalledTimes(1);
+    expect(playSpy).toHaveBeenCalledTimes(1);
+    expect(pauseSpy).toHaveBeenCalledTimes(1);
+  });
 });
 
 // TODO: Remaining integration tests.
