@@ -164,6 +164,7 @@ test('streamStateUpdater reports an initial state of properties.', () => {
   expect(onStreamStateChange).toHaveBeenCalledWith({ bufferedAhead: 0 });
   expect(onStreamStateChange).toHaveBeenCalledWith({ bitrates: emptyTracks });
   expect(onStreamStateChange).toHaveBeenCalledWith({ audioTracks: emptyTracks });
+  expect(onStreamStateChange).toHaveBeenCalledWith({ textTracks: emptyTracks });
   expect(onStreamStateChange).toHaveBeenCalledWith({ absolutePosition: new Date(0) });
   expect(onStreamStateChange).toHaveBeenCalledWith({
     absoluteStartPosition: new Date(0)

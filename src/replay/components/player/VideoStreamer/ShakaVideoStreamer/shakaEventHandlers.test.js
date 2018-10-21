@@ -20,7 +20,7 @@ const getEventHandling = () => {
   };
 
   const removeEventListener = (name, handler) => {
-    if (!eventHandlers[name]) {
+    if (!eventHandlers[name] || eventHandlers[name] !== handler) {
       throw new Exception(name + ' listener removed or never added.');
     }
     delete eventHandlers[name];
@@ -33,15 +33,22 @@ const getEventHandling = () => {
   };
 };
 
-const getMockShakaPlayer = () => {
+export const getMockShakaPlayer = (variantTracks, configuration = { abr: {}}) => {
   const eventHandling = getEventHandling();
   return {
     shakaPlayer: {
+      configure: jest.fn(),
       isLive: () => isLive,
       seekRange: () => seekRange,
+      getConfiguration: () => configuration,
+      getVariantTracks: () => variantTracks,
+      selectVariantTrack: jest.fn(),
       getPresentationStartTimeAsDate: () => startDateTime,
       addEventListener: eventHandling.addEventListener,
-      removeEventListener: eventHandling.removeEventListener
+      removeEventListener: eventHandling.removeEventListener,
+      mock: {
+        updateVariantTracks: newTracks => variantTracks = newTracks
+      }
     },
     eventHandling
   };

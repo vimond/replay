@@ -51,6 +51,7 @@ export type ShakaPlayer = {
   configure: any => void,
   destroy: () => Promise<void>,
   getAudioLanguagesAndRoles: () => Array<{ language: string, role: string }>,
+  getConfiguration: () => { [string]: any },
   getNetworkingEngine: () => {
     clearAllRequestFilters: () => void,
     clearAllResponseFilters: () => void,

@@ -50,7 +50,7 @@ const textTracks = [
 const videoUrls = [
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4',
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-20/N_ELGBADER_200718_SIKRO_(1359389_R212MP41000).mp4',
-  'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1383740.smil/manifest.mpd'
+  'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1385976_ps1271_pd672348.smil/manifest.mpd'
 ];
 
 const getSource = memoize(streamUrl => {

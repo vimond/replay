@@ -75,9 +75,9 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
       if (lifeCycleManager.getStage() === 'new') {
         lifeCycleManager.setStage('starting');
         if (streamer.props.initialPlaybackProps) {
-          const { isMuted, volume, lockedBitrate, maxBitrate } = streamer.props.initialPlaybackProps;
+          const { isMuted, volume } = streamer.props.initialPlaybackProps;
           // TODO: Perhaps apply on 'streaming' event in Shaka insted.
-          applyProperties({ isMuted, volume, lockedBitrate, maxBitrate });
+          applyProperties({ isMuted, volume });
         }
         updateStreamState({
           playState: 'starting',
@@ -89,10 +89,14 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
     },
     streaming: () => {
       log && log('shaka.streaming');
-      // TODO: Test! Or consider using autoplay: false.
-      if (streamer.props.initialPlaybackProps && streamer.props.initialPlaybackProps.isPaused) {
-        videoElement.pause();
+      if (streamer.props.initialPlaybackProps) {
+        const { isPaused, lockedBitrate, maxBitrate } = streamer.props.initialPlaybackProps;
+        applyProperties({ lockedBitrate, maxBitrate });
+        if (isPaused) {
+          videoElement.pause();
+        }
       }
+      
       updateStreamState(streamRangeHelper.calculateNewState());
     },
     buffering: ({ buffering }: { buffering: boolean }) => {

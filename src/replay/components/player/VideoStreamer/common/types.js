@@ -1,6 +1,6 @@
 //@flow
 import * as React from 'react';
-import type { PlaybackProps, PlaybackSource, VideoStreamerImplProps, VideoStreamState } from '../types';
+import type { AvailableTrack, PlaybackProps, PlaybackSource, SourceTrack, VideoStreamerImplProps, VideoStreamState } from '../types';
 import type { TextTrackManager } from '../BasicVideoStreamer/textTrackManager';
 import type { AudioTrackManager } from '../BasicVideoStreamer/audioTrackManager';
 import type { VideoStreamerConfiguration } from '../types';
@@ -46,3 +46,8 @@ export type StreamerImplementationParts<C: VideoStreamerConfiguration, P: VideoS
 };
 
 export type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
+
+export type BitrateManager = {
+  lockBitrate: (lockedBitrate: number | 'max' | 'min') => void,
+  capBitrate: number => void
+};

@@ -55,8 +55,8 @@ export type VideoStreamState = {
   isMuted?: boolean,
   bufferedAhead?: number,
   currentBitrate?: number,
-  lockedBitrate?: ?number,
-  maxBitrate?: number,
+  lockedBitrate?: ?number, // TODO: Rename to fixedBitrate.
+  maxBitrate?: ?number,
   bitrates?: Array<number>,
   currentTextTrack?: ?AvailableTrack,
   textTracks?: Array<AvailableTrack>,

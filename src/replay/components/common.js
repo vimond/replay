@@ -114,6 +114,11 @@ export const isShallowEqual = (a: any, b: any): boolean => {
       return false;
     }
     return keysB.filter(key => isDifferent(b[key], a[key])).length === 0;
+  } else if (Array.isArray(a) && Array.isArray(b) && a.length === b.length) {
+    for (let i = a.length; i--; ) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
   } else {
     // No identical equality
     return false;

@@ -26,6 +26,7 @@ test('playbackLifeCycleManager', () => {
     bufferedAhead: 0,
     bitrates: [],
     audioTracks: [],
+    textTracks: [],
     absolutePosition: new Date(0),
     absoluteStartPosition: new Date(0)
   });

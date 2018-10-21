@@ -20,6 +20,7 @@ function notifyInitialState(updateStreamState: VideoStreamState => void) {
     bufferedAhead: 0,
     bitrates: emptyBitrates,
     audioTracks: emptyTracks,
+    textTracks: emptyTracks,
     absolutePosition: dawnOfTime,
     absoluteStartPosition: dawnOfTime
   });

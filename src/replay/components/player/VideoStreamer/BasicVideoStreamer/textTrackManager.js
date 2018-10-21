@@ -2,6 +2,7 @@
 
 import type { AvailableTrack, PlaybackSource, SourceTrack, VideoStreamState } from '../types';
 import { emptyTracks } from '../common/playbackLifeCycleManager';
+import { isShallowEqual } from '../../../common';
 
 type ManagedTextTrack = {
   isBlackListed: boolean,
@@ -66,15 +67,6 @@ function isSourceTracksEqual(a: ?SourceTrack, b: ?SourceTrack): boolean {
   }
 }
 
-function isArraysEqual(arr1: Array<any>, arr2: Array<any>) {
-  if (arr1.length !== arr2.length) return false;
-  for (let i = arr1.length; i--; ) {
-    if (arr1[i] !== arr2[i]) return false;
-  }
-
-  return true;
-}
-
 function createSelectableTrack(
   id: number,
   origin: 'in-stream' | 'side-loaded',
@@ -122,7 +114,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoSt
       .map(m => m.selectableTrack)[0];
 
     const textTracks = managedTracks.filter(m => m.selectableTrack).map(m => m.selectableTrack);
-    if (isArraysEqual(textTracks, selectableTextTracks)) {
+    if (isShallowEqual(textTracks, selectableTextTracks)) {
       // $FlowFixMe Complaints about null entries, despite filter above.
       update({
         currentTextTrack,
