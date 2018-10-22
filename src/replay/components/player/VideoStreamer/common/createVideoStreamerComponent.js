@@ -87,11 +87,11 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
             render,
             videoElementEventHandlers
           });
-          if (this.props.source) {
-            this.handleSourceChange(this.props);
-          }
           if (this.props.onReady) {
             this.props.onReady({ setProperty: this.setProperty });
+          }
+          if (this.props.source) {
+            this.handleSourceChange(this.props);
           }
         }); // TODO: Catch an error.
       }
