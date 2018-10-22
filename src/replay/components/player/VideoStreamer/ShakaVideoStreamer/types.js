@@ -43,10 +43,10 @@ export type ShakaPlayer = {
   addEventListener: (name: string, handler: (any) => void) => void,
   addTextTrack: (
     uri: string,
-    language: string,
-    kind: string,
-    mime: string,
-    codec?: string,
+    language: ?string,
+    kind: ?string,
+    mime: ?string,
+    codec?: ?string,
     label?: string
   ) => Promise<ShakaTrack>,
   cancelTrickPlay: () => void,

@@ -182,6 +182,7 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
 
   // Video streamer -> UI
   onStreamStateChange = (property: VideoStreamState) => {
+    // if (!('position' in property) && !('bufferedAhead' in property)) { console.log('Updating %s', Object.keys(property).join(', '), property); }
     this.observeManager.update(property);
     this.inspectableStreamState = { ...this.inspectableStreamState, ...property };
     if (this.props.onStreamStateChange) {

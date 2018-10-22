@@ -75,7 +75,7 @@ export type PreferredSettings = {
 
 export type ReplayProps = {
   source?: ?PlaybackSource,
-  textTracks?: Array<SourceTrack>,
+  textTracks?: ?Array<SourceTrack>,
   options?: PlayerConfiguration,
   onExit?: () => void,
   onError?: any => void,

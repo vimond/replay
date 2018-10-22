@@ -4,10 +4,10 @@ import type { AvailableTrack, PlaybackSource, SourceTrack, VideoStreamState } fr
 import { emptyTracks } from '../common/playbackLifeCycleManager';
 import { isShallowEqual } from '../../../common';
 
-type ManagedTextTrack = {
-  isBlackListed: boolean,
+export type ManagedTextTrack = {
+  isBlacklisted: boolean,
   sourceTrack: ?SourceTrack,
-  videoElementTrack: ?TextTrack,
+  videoElementTrack?: ?TextTrack,
   selectableTrack: ?AvailableTrack,
   loadPromise?: Promise<?TextTrack>,
   isLoaded: boolean,
@@ -136,14 +136,14 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoSt
 
       const freshSourceTracks = sourceTracks.filter(sourceTrack => {
         const managedTrackMatches = managedTracks.filter(managedTrack => {
-          return isSourceTracksEqual(managedTrack.sourceTrack, sourceTrack) && !managedTrack.isBlackListed;
+          return isSourceTracksEqual(managedTrack.sourceTrack, sourceTrack) && !managedTrack.isBlacklisted;
         });
         if (managedTrackMatches.length === 0) {
           return true;
         } else {
           const alreadyAddedTrack = managedTrackMatches[0];
           alreadyAddedTrack.sourceTrack = sourceTrack;
-          alreadyAddedTrack.isBlackListed = false;
+          alreadyAddedTrack.isBlacklisted = false;
           alreadyAddedTrack.isLoaded = true; // Is this assumption correct?
           return false;
         }
@@ -164,7 +164,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoSt
           return {
             id,
             sourceTrack,
-            isBlackListed: false,
+            isBlacklisted: false,
             videoElementTrack,
             selectableTrack: createSelectableTrack(id, 'side-loaded', videoElementTrack),
             loadPromise: Promise.resolve(videoElementTrack),
@@ -197,7 +197,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoSt
           const managedTrack = {
             id,
             sourceTrack,
-            isBlackListed: false,
+            isBlacklisted: false,
             videoElementTrack: undefined,
             selectableTrack: undefined,
             loadPromise,
@@ -258,7 +258,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoSt
           id,
           sourceTrack: null,
           videoElementTrack,
-          isBlackListed: false,
+          isBlacklisted: false,
           selectableTrack: createSelectableTrack(id, 'in-stream', videoElementTrack),
           isLoaded: true
         };
@@ -274,7 +274,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoSt
     managedTracks.forEach(m => {
       // Blacklisting and removing side-loaded tracks.
       if (isNewSession || m.sourceTrack != null) {
-        m.isBlackListed = true;
+        m.isBlacklisted = true;
       }
       if (m.videoElementTrack != null && isNewSession) {
         const vt = m.videoElementTrack;

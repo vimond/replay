@@ -42,8 +42,8 @@ const errorFromCodeMappings = {
 const defaultError = { classification: STREAM_ERROR };
 
 function reverseLookup(numeric: string | number, mappings: { [string]: string }) {
-  return Object.getOwnPropertyNames(mappings).filter(function(key) {
-    return mappings[key] === numeric.toString();
+  return Object.keys(mappings).filter(key => {
+    return mappings[key] === parseInt(numeric, 10);
   })[0];
 }
 

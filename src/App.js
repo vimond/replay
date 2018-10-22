@@ -10,14 +10,16 @@ import './replay/replay-default.css';
 import type { PlaybackActions } from './replay/components/player/PlayerController/PlayerController';
 import ShakaVideoStreamer from './replay/components/player/VideoStreamer/ShakaVideoStreamer/ShakaVideoStreamer';
 import { PlaybackError } from './replay/components/player/VideoStreamer/types';
+import type { SourceTrack } from './replay/components/player/VideoStreamer/types';
 
 type State = {
   useMock?: boolean,
   streamUrl: string,
-  alwaysShowDesignControls: boolean
+  alwaysShowDesignControls: boolean,
+  textTracks?: ?Array<SourceTrack>
 };
 
-/*const textTracks = [
+const textTracks = [
   {
     kind: 'subtitles',
     language: 'no',
@@ -46,13 +48,14 @@ type State = {
     contentType: 'text/vtt;charset="UTF-8"',
     label: 'English captions'
   }
-];*/
+];
 
 const videoUrls = [
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4',
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-20/N_ELGBADER_200718_SIKRO_(1359389_R212MP41000).mp4',
-  'https://tv2-hls-live.telenorcdn.net/out/u/82018.mpd',
-  'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1385976_ps1271_pd672348.smil/manifest.mpd'
+  'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1385976_ps1271_pd672348.smil/manifest.mpd',
+  'https://d3bwpqn4orkllw.cloudfront.net/b91c1/EG_5575_TR_47878_MEZ_(47878_ISMUSP).ism/EG_5575_TR_47878_MEZ_(47878_ISMUSP).mpd',
+  'https://tv2-hls-live.telenorcdn.net/out/u/82018.mpd'
 ];
 
 const licenseUrl =
@@ -121,14 +124,22 @@ class App extends Component<void, State> {
   handleVideoButtonClick = (index: number) => this.setState({ streamUrl: videoUrls[index] });
   handleNoVideoClick = () => this.setState({ streamUrl: '' });
 
-  handleError = (err: PlaybackError) => console.error('[%s] %s: %s', err.severity, err.code, err.message, err);
+  handleError = (err: PlaybackError) => console.error(err);
 
   handlePlaybackActions = (actions: PlaybackActions) => {
     window.player = actions;
   };
 
+  toggleTextTracks = () => {
+    if (this.state.textTracks) {
+      this.setState({ textTracks: null });
+    } else {
+      this.setState({ textTracks });
+    }
+  };
+
   render() {
-    const { alwaysShowDesignControls, streamUrl, useMock } = this.state;
+    const { alwaysShowDesignControls, streamUrl, useMock, textTracks } = this.state;
     return (
       <div className="App">
         <div className="App-player-panel">
@@ -156,6 +167,7 @@ class App extends Component<void, State> {
                 options={configOverrides}
                 onExit={this.togglePlayer}
                 onError={this.handleError}
+                textTracks={textTracks}
                 initialPlaybackProps={{ isPaused: false, volume: 0.5 }}
                 onPlaybackActionsReady={this.handlePlaybackActions}>
                 <ShakaVideoStreamer />
@@ -164,10 +176,13 @@ class App extends Component<void, State> {
                 <input type="url" value={streamUrl} onChange={this.handleStreamUrlFieldChange} />
               </p>
               <p className="buttons-row">
-                <button onClick={() => this.handleVideoButtonClick(0)}>Video 1</button>{' '}
-                <button onClick={() => this.handleVideoButtonClick(1)}>Video 2</button>
-                <button onClick={() => this.handleVideoButtonClick(2)}>Video 3</button>
+                {videoUrls.map((_, index) => (
+                  <button key={'v-' + index} onClick={() => this.handleVideoButtonClick(index)}>
+                    Video {index + 1}
+                  </button>
+                ))}
                 <button onClick={this.handleNoVideoClick}>No video</button>
+                <button onClick={this.toggleTextTracks}>Toggle text tracks</button>
               </p>
             </div>
           )}
