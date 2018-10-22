@@ -8,8 +8,6 @@ import type {
   VideoStreamerImplProps,
   VideoStreamState
 } from '../types';
-import type { TextTrackManager } from '../BasicVideoStreamer/textTrackManager';
-import type { AudioTrackManager } from '../BasicVideoStreamer/audioTrackManager';
 import type { VideoStreamerConfiguration } from '../types';
 
 export type StreamRangeHelper = {
@@ -40,6 +38,23 @@ export type VideoStreamerRenderer = (
   styles: {}
 ) => React.Node;
 
+export type AudioTrackManager = {
+  handleSelectedAudioTrackChange: (?AvailableTrack) => void,
+  handleSourceChange: () => void,
+  cleanup: () => void
+};
+
+export type TextTrackManager = {
+  handleSelectedTextTrackChange: (?AvailableTrack) => void,
+  handleSourceChange: ({ source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) => void,
+  cleanup: () => void
+};
+
+export type BitrateManager = {
+  lockBitrate: (lockedBitrate: number | 'max' | 'min') => void,
+  capBitrate: number => void
+};
+
 export type StreamerImplementationParts<C: VideoStreamerConfiguration, P: VideoStreamerImplProps<C>, T> = {
   thirdPartyPlayer?: ?T,
   applyProperties: PlaybackProps => void,
@@ -54,7 +69,3 @@ export type StreamerImplementationParts<C: VideoStreamerConfiguration, P: VideoS
 
 export type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
 
-export type BitrateManager = {
-  lockBitrate: (lockedBitrate: number | 'max' | 'min') => void,
-  capBitrate: number => void
-};

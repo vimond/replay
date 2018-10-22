@@ -4,6 +4,7 @@ import type { AvailableTrack, PlaybackSource, SourceTrack, VideoStreamState } fr
 import { emptyTracks } from '../common/playbackLifeCycleManager';
 import { isShallowEqual } from '../../../common';
 import type { ManagedTextTrack } from '../BasicVideoStreamer/textTrackManager';
+import type { TextTrackManager } from '../common/types';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
@@ -46,7 +47,7 @@ function isContentTypeSupported(sourceTrack) {
   return contentType && supportedContentTypes.filter(ct => contentType.indexOf(ct) === 0).length > 0;
 }
 
-function getShakaTextTrackManager(shakaPlayer: ShakaPlayer, updateStreamState: VideoStreamState => void) {
+function getShakaTextTrackManager(shakaPlayer: ShakaPlayer, updateStreamState: VideoStreamState => void): TextTrackManager {
   let managedTextTracks: Array<ManagedShakaTextTrack> = [];
   let selectableTextTracks = emptyTracks;
   let currentSource: ?PlaybackSource = null;

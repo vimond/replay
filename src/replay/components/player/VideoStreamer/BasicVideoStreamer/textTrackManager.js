@@ -3,6 +3,7 @@
 import type { AvailableTrack, PlaybackSource, SourceTrack, VideoStreamState } from '../types';
 import { emptyTracks } from '../common/playbackLifeCycleManager';
 import { isShallowEqual } from '../../../common';
+import type { TextTrackManager } from '../common/types';
 
 export type ManagedTextTrack = {
   isBlacklisted: boolean,
@@ -20,12 +21,6 @@ type HTMLTextTrackMode = 'disabled' | 'hidden' | 'showing';
   currentTextTrack?: ?AvailableTrack,
   textTracks?: Array<AvailableTrack>
 };*/
-
-export type TextTrackManager = {
-  handleSelectedTextTrackChange: (?AvailableTrack) => void,
-  handleSourceChange: ({ source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) => void,
-  cleanup: () => void
-};
 
 const trackModeMappings = ['disabled', 'hidden', 'showing']; // Index corresponds with "enum" value.
 
@@ -94,7 +89,7 @@ function createTrackElement(sourceTrack: SourceTrack): HTMLTrackElement {
   return htmlTrackElement;
 }
 
-const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoStreamState>(props: T) => void) => {
+const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoStreamState>(props: T) => void): TextTrackManager => {
   // Should use TextTracksStateProps above.
   let managedTracks: Array<ManagedTextTrack> = [];
   let currentTextTrack = null;

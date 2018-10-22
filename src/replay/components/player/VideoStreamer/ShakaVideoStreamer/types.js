@@ -35,8 +35,14 @@ export type ShakaTrack = {
   bandwidth: number,
   language: string,
   label: ?string,
+  roles: Array<string>,
   kind: ?string,
   mimeType: ?string
+};
+
+export type ShakaLanguageRole = {
+  language: string,
+  role: string
 };
 
 export type ShakaPlayer = {

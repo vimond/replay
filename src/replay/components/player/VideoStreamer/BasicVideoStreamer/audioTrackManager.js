@@ -1,13 +1,8 @@
 // @flow
 import type { AvailableTrack, VideoStreamState } from '../types';
+import type { AudioTrackManager } from '../common/types';
 
 // http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8
-
-export type AudioTrackManager = {
-  handleSelectedAudioTrackChange: (?AvailableTrack) => void,
-  handleSourceChange: () => void,
-  cleanup: () => void
-};
 
 /*export type AudioTracksStateProps = {
   audioTracks?: Array<AvailableTrack>,

@@ -7,7 +7,6 @@ import { setup } from './setup';
 import getStreamRangeHelper from './shakaStreamRangeHelper';
 import getSourceChangeHandler from './shakaSourceChangeHandler';
 import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
-import getAudioTrackManager from '../BasicVideoStreamer/audioTrackManager';
 import { getPropertyApplier } from '../common/propertyApplier';
 import type { SimplifiedVideoStreamer, StreamerImplementationParts } from '../common/types';
 import type { VideoStreamerConfiguration } from '../types';
@@ -17,6 +16,7 @@ import { renderWithoutSource } from '../common/renderers';
 import { getArrayLogger } from '../common/logger';
 import getShakaBitrateManager from './shakaBitrateManager';
 import getShakaTextTrackManager from './shakaTextTrackManager';
+import getShakaAudioTrackManager from './shakaAudioTrackManager';
 
 export type ShakaVideoStreamerConfiguration = VideoStreamerConfiguration & {
   shakaPlayer?: ?{
@@ -42,7 +42,7 @@ function resolveImplementation(
   const updateStreamState = getFilteredPropertyUpdater(streamer); // G
 
   const textTrackManager = getShakaTextTrackManager(shakaPlayer, updateStreamState);
-  const audioTrackManager = getAudioTrackManager(videoElement, updateStreamState); //TODO: Replace with Shaka version.
+  const audioTrackManager = getShakaAudioTrackManager(shakaPlayer, updateStreamState);
   const bitrateManager = getShakaBitrateManager(
     streamer,
     shakaPlayer,

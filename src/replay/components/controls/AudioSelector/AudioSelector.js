@@ -18,10 +18,12 @@ type Props = CommonProps & {
 const className = 'audio-selector';
 
 const buildId = (...str: Array<?string>) => str.filter(s => s).join('.');
+const buildLabel = ({ label, kind = '', language = 'unknown' }: AvailableTrack) =>
+  label || (kind ? `[${language}] ${kind}` : `[${language}]`);
 
 // TODO: This fn should be a prop on the Selector. The Selector should accept any types for items/selectedItem.
 const audioTrackToItem = (track: AvailableTrack) => {
-  return { id: track.id || buildId(track.language, track.label) || track.label, label: track.label || '', data: track };
+  return { id: track.id || buildId(track.language, track.label) || track.label, label: buildLabel(track), data: track };
 };
 
 class AudioSelector extends React.Component<Props> {

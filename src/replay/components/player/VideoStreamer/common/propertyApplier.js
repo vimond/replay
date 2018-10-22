@@ -1,8 +1,6 @@
 // @flow
 import type { PlaybackProps } from '../types';
-import type { TextTrackManager } from '../BasicVideoStreamer/textTrackManager';
-import type { AudioTrackManager } from '../BasicVideoStreamer/audioTrackManager';
-import type { BitrateManager, StreamRangeHelper } from './types';
+import type { AudioTrackManager, BitrateManager, StreamRangeHelper, TextTrackManager } from './types';
 
 export const getPropertyApplier = (
   videoElement: HTMLVideoElement, // Abstract this away?
