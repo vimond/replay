@@ -49,7 +49,7 @@ function getPlaybackLifeCycleManager(
   function startPlaybackSession() {
     setStage('new');
     notifyInitialState(updateStreamState);
-    pauseStreamRangeUpdater.stop(); // TODO: Must be started if initial isPaused.
+    pauseStreamRangeUpdater.stop();
   }
 
   function cleanup() {

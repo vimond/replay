@@ -2,6 +2,7 @@
 import type { PlaybackSource, VideoStreamerConfiguration } from '../types';
 import type { ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from './types';
 import mapShakaError from './shakaErrorMapper';
+import shaka from 'shaka-player';
 
 type Props<C: VideoStreamerConfiguration> = {
   source?: ?PlaybackSource,
@@ -100,7 +101,9 @@ const getSourceChangeHandler = (shakaPlayer: ShakaPlayer) => <C: VideoStreamerCo
       .then(() => prepareDrm(shakaPlayer, source, nextProps.configuration))
       .then(() => shakaPlayer.load(source.streamUrl, source.startPosition))
       .catch(err => {
-        throw mapShakaError(false, err, navigator.userAgent, document.location);
+        if (err && err.code !== shaka.util.Error.Code.LOAD_INTERRUPTED) {
+          throw mapShakaError(false, err, navigator.userAgent, document.location);
+        }
       });
   } else if (prevProps && prevProps.source) {
     // And no new source.

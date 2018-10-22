@@ -129,7 +129,6 @@ export type VideoStreamerProps = CommonProps & {
 };
 
 export type VideoStreamerConfiguration = {
-  // TODO: What to include? Try it out.
   licenseAcquisition?: ?{
     widevine: {
       serviceCertificateUrl?: ?string,

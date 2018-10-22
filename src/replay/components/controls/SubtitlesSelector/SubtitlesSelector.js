@@ -24,6 +24,7 @@ const className = 'subtitles-selector';
 const defaultKind = 'subtitles';
 
 const buildId = (...str: Array<?string>) => str.filter(s => s).join('.');
+// TODO: Consider injectable label mapper, and also for audio selector and bitrate selector.
 const buildLabel = ({ label, kind = defaultKind, language = 'unknown' }: AvailableTrack) =>
   label || (kind !== defaultKind ? `[${language}] ${kind}` : `[${language}]`);
 
