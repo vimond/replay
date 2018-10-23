@@ -1,4 +1,4 @@
-import { setup, cleanup } from './setup';
+import { shakaSetup, cleanup } from './shakaSetup';
 import shaka, { configure, destroy } from 'shaka-player';
 
 beforeEach(() => {
@@ -8,20 +8,20 @@ beforeEach(() => {
   shaka.polyfill.installAll.mockClear();
 });
 
-test('Shaka setup() instantiates a shaka.Player.', () => {
+test('Shaka shakaSetup() instantiates a shaka.Player.', () => {
   const videoElement = {};
-  const shakaPlayer = setup(videoElement);
+  const shakaPlayer = shakaSetup(videoElement);
   expect(shaka.Player).toHaveBeenCalledWith(videoElement);
   expect(shakaPlayer).toBeDefined();
 });
 
-test('Shaka setup() installs polyfills, if configured.', () => {
+test('Shaka shakaSetup() installs polyfills, if configured.', () => {
   const videoElement = {};
-  setup(videoElement, { shakaPlayer: { installPolyfills: true } });
+  shakaSetup(videoElement, { shakaPlayer: { installPolyfills: true } });
   expect(shaka.polyfill.installAll).toHaveBeenCalled();
 });
 
-test('Shaka setup() passes configuration to the Shaka player instance, if supplied.', () => {
+test('Shaka shakaSetup() passes configuration to the Shaka player instance, if supplied.', () => {
   const videoElement = {};
   const config = {
     shakaPlayer: {
@@ -30,13 +30,13 @@ test('Shaka setup() passes configuration to the Shaka player instance, if suppli
       }
     }
   };
-  setup(videoElement, config);
+  shakaSetup(videoElement, config);
   expect(configure).toHaveBeenCalledWith(config.shakaPlayer.playerConfiguration);
 });
 
 test('Shaka cleanup() destroys a shaka.Player.', () => {
   const videoElement = {};
-  const shakaPlayer = setup(videoElement);
+  const shakaPlayer = shakaSetup(videoElement);
   shakaPlayer.destroy();
   expect(destroy).toHaveBeenCalled();
 });

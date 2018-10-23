@@ -3,7 +3,7 @@ import type { VideoStreamerImplProps } from '../types';
 
 import createVideoStreamerComponent from '../common/createVideoStreamerComponent';
 import type { ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from './types';
-import { setup } from './setup';
+import { shakaSetup } from './shakaSetup';
 import getStreamRangeHelper from './shakaStreamRangeHelper';
 import getSourceChangeHandler from './shakaSourceChangeHandler';
 import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
@@ -35,7 +35,7 @@ function resolveImplementation(
   configuration: ?ShakaVideoStreamerConfiguration,
   videoElement: HTMLVideoElement
 ): Promise<StreamerImplementationParts<ShakaVideoStreamerConfiguration, ShakaVideoStreamerProps, ShakaPlayer>> {
-  const shakaPlayer = setup(videoElement, configuration);
+  const shakaPlayer = shakaSetup(videoElement, configuration);
 
   const streamRangeHelper = getStreamRangeHelper(videoElement, shakaPlayer, configuration); // S
   const handleSourceChange = getSourceChangeHandler(shakaPlayer); // S
