@@ -89,7 +89,10 @@ function createTrackElement(sourceTrack: SourceTrack): HTMLTrackElement {
   return htmlTrackElement;
 }
 
-const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoStreamState>(props: T) => void): TextTrackManager => {
+const getTextTrackManager = (
+  videoElement: HTMLVideoElement,
+  update: <T: VideoStreamState>(props: T) => void
+): TextTrackManager => {
   // Should use TextTracksStateProps above.
   let managedTracks: Array<ManagedTextTrack> = [];
   let currentTextTrack = null;

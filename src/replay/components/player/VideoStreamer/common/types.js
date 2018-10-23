@@ -68,4 +68,3 @@ export type StreamerImplementationParts<C: VideoStreamerConfiguration, P: VideoS
 };
 
 export type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
-

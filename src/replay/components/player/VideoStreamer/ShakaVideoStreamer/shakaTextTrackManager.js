@@ -47,7 +47,10 @@ function isContentTypeSupported(sourceTrack) {
   return contentType && supportedContentTypes.filter(ct => contentType.indexOf(ct) === 0).length > 0;
 }
 
-function getShakaTextTrackManager(shakaPlayer: ShakaPlayer, updateStreamState: VideoStreamState => void): TextTrackManager {
+function getShakaTextTrackManager(
+  shakaPlayer: ShakaPlayer,
+  updateStreamState: VideoStreamState => void
+): TextTrackManager {
   let managedTextTracks: Array<ManagedShakaTextTrack> = [];
   let selectableTextTracks = emptyTracks;
   let currentSource: ?PlaybackSource = null;

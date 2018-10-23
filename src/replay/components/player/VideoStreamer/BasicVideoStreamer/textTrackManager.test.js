@@ -223,7 +223,10 @@ test('textTrackManager removes earlier tracks when a new set of tracks are speci
       label: 'B: Swedish',
       origin: 'side-loaded'
     });
-    textTrackManager.handleSourceChange({ textTracks: exampleSourceTracks2 });
+    textTrackManager.handleSourceChange({
+      source: { streamUrl: '', textTracks: exampleSourceTracks3 },
+      textTracks: exampleSourceTracks2
+    });
     //set tracks
   };
 

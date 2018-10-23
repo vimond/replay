@@ -59,7 +59,6 @@ const getShakaAudioTrackManager = (
     trackschanged: updateAudioTracks,
     adaptation: updateCurrentAudioTrack
   };
-  
 
   function handleSelectedAudioTrackChange(selectedAudioTrack: ?AvailableTrack) {
     const managedTrack = managedTracks.filter(mt => mt.selectableTrack === selectedAudioTrack)[0];

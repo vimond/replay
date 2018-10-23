@@ -46,7 +46,12 @@ test('createVideoStreamerComponent() returns a component using the resolved impl
     render: jest.fn(),
     cleanup: jest.fn()
   };
-  implementation.handleSourceChange.mockImplementation(() => Promise.resolve());
+
+  let sourceChangePromise;
+  implementation.handleSourceChange.mockImplementation(() => {
+    sourceChangePromise = Promise.resolve();
+    return sourceChangePromise;
+  });
   implementation.render.mockImplementation(() => <video />);
 
   const resolveImplementation = jest.fn();
@@ -58,12 +63,13 @@ test('createVideoStreamerComponent() returns a component using the resolved impl
     setProperty({ isPaused: true });
     expect(implementation.applyProperties).toHaveBeenCalled();
     expect(implementation.handleSourceChange).toHaveBeenCalled();
-    expect(implementation.textTrackManager.handleSourceChange).toHaveBeenCalled();
-    expect(implementation.audioTrackManager.handleSourceChange).toHaveBeenCalled();
-    expect(implementation.startPlaybackSession).toHaveBeenCalled();
-    const lastRenderCall = implementation.render.mock.calls[implementation.render.mock.calls.length - 1];
-    expect(lastRenderCall[1]).toEqual({ onLoadedMetadata: eventHandler, onEnded: eventHandler });
-
+    return sourceChangePromise.then(() => {
+      expect(implementation.textTrackManager.handleSourceChange).toHaveBeenCalled();
+      expect(implementation.audioTrackManager.handleSourceChange).toHaveBeenCalled();
+      expect(implementation.startPlaybackSession).toHaveBeenCalled();
+      const lastRenderCall = implementation.render.mock.calls[implementation.render.mock.calls.length - 1];
+      expect(lastRenderCall[1]).toEqual({ onLoadedMetadata: eventHandler, onEnded: eventHandler });
+    });
     element.unmount();
     expect(implementation.cleanup).toHaveBeenCalled();
   });

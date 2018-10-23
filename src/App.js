@@ -171,7 +171,7 @@ class App extends Component<void, State> {
                 textTracks={textTracks}
                 initialPlaybackProps={{ isPaused: false, volume: 0.5 }}
                 onPlaybackActionsReady={this.handlePlaybackActions}>
-                {streamUrl.indexOf('.mpd') > 1 ? <ShakaVideoStreamer /> : undefined }
+                {streamUrl.indexOf('.mpd') > 1 ? <ShakaVideoStreamer /> : undefined}
               </Replay>
               <p>
                 <input type="url" value={streamUrl} onChange={this.handleStreamUrlFieldChange} />
