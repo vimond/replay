@@ -291,7 +291,7 @@ const getTextTrackManager = (videoElement: HTMLVideoElement, update: <T: VideoSt
     } else if ('textTracks' in newProps) {
       cleanupTracks(false);
     }
-    let newTracks = Array.isArray(newProps.textTracks) ? newProps.textTracks : [];
+    let newTracks = newProps.source && Array.isArray(newProps.textTracks) ? newProps.textTracks : [];
     if (newProps.source && newProps.source.textTracks) {
       addTracks(newTracks.concat(newProps.source.textTracks));
     } else {
