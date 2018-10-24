@@ -172,7 +172,7 @@ function getShakaTextTrackManager(
       }
       window.setTimeout(() => {
         // Shaka tracks contain incomplete data and an updated version needs to be looked up:
-        var fullShakaTrack = (shakaPlayer.getTextTracks() || []).filter(updatedTrack => {
+        const fullShakaTrack = (shakaPlayer.getTextTracks() || []).filter(updatedTrack => {
           return isShakaTrackEqual(updatedTrack, shakaTrack);
         })[0];
         if (fullShakaTrack) {

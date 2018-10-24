@@ -8,11 +8,11 @@ export type PlayState = 'inactive' | 'starting' | 'playing' | 'paused' | 'seekin
 export type PlayMode = 'ondemand' | 'live' | 'livedvr';
 
 export type ErrorCode =
+  | 'STREAM_ERROR_TECHNOLOGY_UNSUPPORTED'
   | 'STREAM_ERROR_DOWNLOAD'
   | 'STREAM_ERROR_DECODE'
   | 'STREAM_ERROR_DRM_OUTPUT_BLOCKED'
   | 'STREAM_ERROR_PLUGIN_UNAVAILABLE'
-  | 'PLUGIN_APP_LOAD_ERROR'
   | 'STREAM_ERROR_DRM_CLIENT_UNAVAILABLE'
   | 'STREAM_ERROR';
 

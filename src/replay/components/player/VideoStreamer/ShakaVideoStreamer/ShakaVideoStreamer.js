@@ -3,7 +3,7 @@ import type { VideoStreamerImplProps } from '../types';
 
 import createVideoStreamerComponent from '../common/createVideoStreamerComponent';
 import type { ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from './types';
-import { shakaSetup } from './shakaSetup';
+import { shakaSetup, shakaCleanup } from './shakaSetup';
 import getStreamRangeHelper from './shakaStreamRangeHelper';
 import getSourceChangeHandler from './shakaSourceChangeHandler';
 import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
@@ -21,7 +21,7 @@ import getShakaAudioTrackManager from './shakaAudioTrackManager';
 export type ShakaVideoStreamerConfiguration = VideoStreamerConfiguration & {
   shakaPlayer?: ?{
     installPolyfills?: boolean,
-    playerConfiguration?: any // Actually the config structure that can be passed to shaka.Player::configure.
+    customConfiguration?: any // Actually the config structure that can be passed to shaka.Player::configure.
   }
 };
 
@@ -30,6 +30,7 @@ export type ShakaVideoStreamerProps = VideoStreamerImplProps<ShakaVideoStreamerC
   shakaResponseFilter?: ?ShakaResponseFilter
 };
 
+// TODO: Vurder å droppe shaka i navngivningen.
 function resolveImplementation(
   streamer: SimplifiedVideoStreamer<ShakaVideoStreamerConfiguration, ShakaVideoStreamerProps>,
   configuration: ?ShakaVideoStreamerConfiguration,
@@ -85,7 +86,7 @@ function resolveImplementation(
     playbackLifeCycleManager.cleanup();
     shakaEventHandlers.cleanup();
     bitrateManager.cleanup();
-    return shakaPlayer.destroy();
+    return shakaCleanup(shakaPlayer);
   }
 
   const { startPlaybackSession } = playbackLifeCycleManager;

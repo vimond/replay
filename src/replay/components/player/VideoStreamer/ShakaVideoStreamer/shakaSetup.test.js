@@ -25,13 +25,13 @@ test('Shaka shakaSetup() passes configuration to the Shaka player instance, if s
   const videoElement = {};
   const config = {
     shakaPlayer: {
-      playerConfiguration: {
+      customConfiguration: {
         some: 'value'
       }
     }
   };
   shakaSetup(videoElement, config);
-  expect(configure).toHaveBeenCalledWith(config.shakaPlayer.playerConfiguration);
+  expect(configure).toHaveBeenCalledWith(config.shakaPlayer.customConfiguration);
 });
 
 test('Shaka cleanup() destroys a shaka.Player.', () => {

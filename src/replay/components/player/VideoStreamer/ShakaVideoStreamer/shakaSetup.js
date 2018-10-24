@@ -12,15 +12,13 @@ export function shakaSetup(
     shaka.polyfill.installAll();
   }
   const shakaPlayer = new shaka.Player(videoElement);
-  if (shakaPlayerConfig && shakaPlayerConfig.playerConfiguration) {
+  if (shakaPlayerConfig && shakaPlayerConfig.customConfiguration) {
     debugger;
-    shakaPlayer.configure(shakaPlayerConfig.playerConfiguration);
+    shakaPlayer.configure(shakaPlayerConfig.customConfiguration);
   }
   return shakaPlayer;
 }
 
-export function cleanup(shakaPlayer: ShakaPlayer) {
-  if (shakaPlayer) {
-    shakaPlayer.destroy();
-  }
+export function shakaCleanup(shakaPlayer: ShakaPlayer) {
+  return Promise.resolve(shakaPlayer && shakaPlayer.destroy());
 }
