@@ -35,11 +35,11 @@ export const getPropertyApplier = (
     audioTrackManager.handleSelectedAudioTrackChange(playbackProps.selectedAudioTrack);
   }
   if (bitrateManager) {
-    if ('lockedBitrate' in playbackProps) {
+    if (playbackProps.lockedBitrate !== undefined) {
       // $FlowFixMe undefined is OK.
       bitrateManager.lockBitrate(playbackProps.lockedBitrate);
     }
-    if ('maxBitrate' in playbackProps) {
+    if (playbackProps.maxBitrate !== undefined) {
       // $FlowFixMe undefined is OK.
       bitrateManager.capBitrate(playbackProps.maxBitrate);
     }

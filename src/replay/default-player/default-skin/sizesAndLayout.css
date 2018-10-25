@@ -30,6 +30,10 @@
     height: 50px;
 }
 
+.replay-button svg, .replay-toggle-button svg {
+    margin-top: 2px;
+}
+
 .replay-selector-items {
     position: absolute;
     bottom: 50px;
@@ -96,10 +100,15 @@
 }
 
 .replay-skip-button span {
+    margin-top: -2px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
+}
+
+.replay-skip-button span svg {
+    margin-top: 0;
 }
 
 /*
