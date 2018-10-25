@@ -10,39 +10,54 @@ declare class Object {
 
 // http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8
 
-type ManagedAudioTrack = {
-  hlsjsAudioTrack: HlsjsAudioTrack,
-  selectableTrack: AvailableTrack
+const getDistinctPseudoTracks = (audioTracks: ?Array<HlsjsAudioTrack>): Array<AvailableTrack> => {
+  const foundKeys = [];
+  return audioTracks ? audioTracks.filter(track => {
+    const key = `${track.lang || ''}!${track.name || ''}`;
+    const isNotAdded = foundKeys.indexOf(key) < 0;
+    if (isNotAdded) {
+      foundKeys.push(key);
+    }
+    return isNotAdded;
+  }).map(track => ({ id: track.id, language: track.lang || 'unknown', kind: '', label: track.name || 'unknown', origin: 'in-stream' })) : [];
 };
 
-const createManagedTrack = (hlsjsAudioTrack: HlsjsAudioTrack): ManagedAudioTrack => {
-  return {
-    selectableTrack: {
-      id: hlsjsAudioTrack.id,
-      language: hlsjsAudioTrack.lang || '',
-      kind: '',
-      label: hlsjsAudioTrack.name || '',
-      origin: 'in-stream'
-    },
-    hlsjsAudioTrack
-  };
+const equalOrNoneSpecified = (a: ?(string | number), b: ?(string | number)) => (!a && !b) || a === b;
+const equalOrNotSpecified = (a: ?(string | number), b: ?(string | number)) => (!a || !b) || a === b;
+
+const isAudioTrackListsDifferent = (a: Array<AvailableTrack>, b: Array<AvailableTrack>) => {
+  if (a.length === b.length) {
+    for (let i = 0; i < a.length; i++) {
+      if (!equalOrNoneSpecified(a[i].id, b[i].id) || !equalOrNoneSpecified(a[i].language, b[i].language) || !equalOrNoneSpecified(a[i].label, b[i].label)) {
+        return true;
+      }
+    }
+    return false;
+  } else {
+    return true;
+  }
 };
 
 const getAudioTrackManager = (hls: Hls, update: VideoStreamState => void): AudioTrackManager => {
-  let managedTracks: Array<ManagedAudioTrack> = [];
-
+  // let managedTracks: Array<ManagedAudioTrack> = [];
+  let audioTracks: Array<AvailableTrack> = [];
+  
   function mapAudioTracks() {
-    // $FlowFixMe Array.from() doesn't seem to understand iterables from the DOM API.
-    managedTracks = hls.audioTracks ? hls.audioTracks.map(createManagedTrack) : [];
+    // console.log(JSON.stringify(hls.audioTracks, (key, value) => key === 'details' ? undefined : value, 2), hls.audioTracks[0]);
+    const currentTracks = getDistinctPseudoTracks(hls.audioTracks);
+    if (isAudioTrackListsDifferent(currentTracks, audioTracks)) {
+      audioTracks = currentTracks;
+    }
   }
 
-  function updateStreamStateProps(selectedTrack?: ?AvailableTrack) {
-    const currentAudioTrack =
-      selectedTrack ||
-      managedTracks.filter(mt => mt.hlsjsAudioTrack.id === hls.audioTrack).map(mt => mt.selectableTrack)[0] ||
-      null;
-    // TODO: Don't create a new array object every time.
-    update({ audioTracks: managedTracks.map(mt => mt.selectableTrack), currentAudioTrack });
+  function updateStreamStateProps() {
+    let currentAudioTrack = null;
+    const currentHlsAudioTrack = hls.audioTracks.filter(ht => ht.id === hls.audioTrack)[0];
+    if (currentHlsAudioTrack) {
+      const { name, lang } = currentHlsAudioTrack;
+      currentAudioTrack = audioTracks.filter(({ label, language }) => label === name && language === lang)[0];
+    }
+    update({ audioTracks, currentAudioTrack });
   }
 
   function refresh() {
@@ -51,18 +66,23 @@ const getAudioTrackManager = (hls: Hls, update: VideoStreamState => void): Audio
   }
 
   function handleTrackChange() {
+    mapAudioTracks();
     updateStreamStateProps();
   }
 
   function handleSelectedAudioTrackChange(selectedAudioTrack: ?AvailableTrack) {
-    const managedTrack = managedTracks.filter(mt => mt.selectableTrack === selectedAudioTrack)[0];
-    if (managedTrack) {
-      hls.audioTrack = managedTrack.hlsjsAudioTrack.id;
+    const st = selectedAudioTrack;
+    if (hls.audioTracks && st) {
+      const groupId = (hls.audioTracks[hls.audioTrack] || {}).groupId;
+      const matchingTrack = hls.audioTracks.filter(ht => equalOrNotSpecified(ht.groupId, groupId) && equalOrNotSpecified(ht.name, st.label) && equalOrNotSpecified(ht.lang, st.language))[0];
+      if (matchingTrack) {
+        hls.audioTrack = matchingTrack.id;
+      }
     }
   }
 
   function reset() {
-    managedTracks = [];
+    audioTracks = [];
   }
 
   function handleSourceChange() {
