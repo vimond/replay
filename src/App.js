@@ -1,20 +1,19 @@
 //@flow
 import React, { Component } from 'react';
 import { Persist } from 'react-persist';
-import memoize from 'memoize-one';
 import MockPlayer from './replay/default-player/MockPlayer';
 import { Replay } from './replay/';
 import type { PlayerConfiguration } from './replay/default-player/types';
 import './App.css';
 import './replay/replay-default.css';
 import type { PlaybackActions } from './replay/components/player/PlayerController/PlayerController';
-import ShakaVideoStreamer from './replay/components/player/VideoStreamer/ShakaVideoStreamer/ShakaVideoStreamer';
 import { PlaybackError } from './replay/components/player/VideoStreamer/types';
-import type { SourceTrack } from './replay/components/player/VideoStreamer/types';
+import type { PlaybackSource, SourceTrack } from './replay/components/player/VideoStreamer/types';
+import VideoStreamerResolver from './replay/components/player/VideoStreamer/videoStreamerResolver';
 
 type State = {
   useMock?: boolean,
-  streamUrl: string,
+  source: PlaybackSource | string | null,
   alwaysShowDesignControls: boolean,
   textTracks?: ?Array<SourceTrack>
 };
@@ -50,29 +49,32 @@ const textTracks = [
   }
 ];
 
+const widevineStream = {
+  streamUrl: 'https://tv2-hls-live.telenorcdn.net/out/u/82018.mpd',
+  licenseUrl: 'https://sumo.tv2.no/license/wvmodular/82018?timeStamp=2018-10-21T17%3A20%3A06%2B0000&contract=8aa97e9f77c2accc9ec33fb4b288dea2&account=source',
+  contentType: 'application/dash+xml'
+};
+
 const videoUrls = [
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4',
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-20/N_ELGBADER_200718_SIKRO_(1359389_R212MP41000).mp4',
   'http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8',
+  'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
+  'https://tv2-stream-live-no.telenorcdn.net/out/u/1153546.m3u8',
   'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1385976_ps1271_pd672348.smil/manifest.mpd',
   'https://d3bwpqn4orkllw.cloudfront.net/b91c1/EG_5575_TR_47878_MEZ_(47878_ISMUSP).ism/EG_5575_TR_47878_MEZ_(47878_ISMUSP).mpd',
-  'https://tv2-hls-live.telenorcdn.net/out/u/82018.mpd'
+  widevineStream
 ];
 
-const licenseUrl =
-  'https://sumo.tv2.no/license/wvmodular/82018?timeStamp=2018-10-21T17%3A20%3A06%2B0000&contract=8aa97e9f77c2accc9ec33fb4b288dea2&account=source';
-
-const getSource = memoize(streamUrl => {
+/*const getSource = memoize(streamUrl => {
   if (streamUrl) {
     return {
-      playbackTechnology: 'html',
-      streamUrl,
-      licenseUrl
+      streamUrl
     };
   } else {
     return null;
   }
-});
+});*/
 
 const configOverrides: PlayerConfiguration = {
   videoStreamer: {
@@ -110,7 +112,7 @@ class App extends Component<void, State> {
     this.state = {
       useMock: true,
       alwaysShowDesignControls: true,
-      streamUrl: videoUrls[0]
+      source: videoUrls[0]
     };
     window.setState = stateProps => this.setState(stateProps);
   }
@@ -120,10 +122,10 @@ class App extends Component<void, State> {
   toggleShowDesignControls = () => this.setState({ alwaysShowDesignControls: !this.state.alwaysShowDesignControls });
 
   handleStreamUrlFieldChange = (evt: SyntheticEvent<HTMLInputElement>) =>
-    this.setState({ streamUrl: evt.currentTarget.value });
+    this.setState({ source: evt.currentTarget.value });
 
-  handleVideoButtonClick = (index: number) => this.setState({ streamUrl: videoUrls[index] });
-  handleNoVideoClick = () => this.setState({ streamUrl: '' });
+  handleVideoButtonClick = (index: number) => this.setState({ source: videoUrls[index] });
+  handleNoVideoClick = () => this.setState({ source: null });
 
   handleError = (err: PlaybackError) => console.error(err);
 
@@ -140,7 +142,7 @@ class App extends Component<void, State> {
   };
 
   render() {
-    const { alwaysShowDesignControls, streamUrl, useMock, textTracks } = this.state;
+    const { alwaysShowDesignControls, source, useMock, textTracks } = this.state;
     return (
       <div className="App">
         <div className="App-player-panel">
@@ -164,17 +166,17 @@ class App extends Component<void, State> {
           ) : (
             <div>
               <Replay
-                source={getSource(streamUrl)}
+                source={source}
                 options={configOverrides}
                 onExit={this.togglePlayer}
                 onError={this.handleError}
                 textTracks={textTracks}
                 initialPlaybackProps={{ isPaused: false, volume: 0.5 }}
                 onPlaybackActionsReady={this.handlePlaybackActions}>
-                {streamUrl.indexOf('.mpd') > 1 ? <ShakaVideoStreamer /> : undefined}
+                <VideoStreamerResolver source={source}/>
               </Replay>
               <p>
-                <input type="url" value={streamUrl} onChange={this.handleStreamUrlFieldChange} />
+                <input type="url" value={source ? (typeof source === 'string' ? source : source.streamUrl) : ''} onChange={this.handleStreamUrlFieldChange} />
               </p>
               <p className="buttons-row">
                 {videoUrls.map((_, index) => (

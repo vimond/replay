@@ -86,6 +86,7 @@ export type PlaybackSource = {
   startPosition?: number,
   isLive?: boolean,
   textTracks?: Array<SourceTrack>,
+  contentType?: string,
   metadata?: any,
   licenseRequestDetails?: {
     licenseRequestHeaders?: any,

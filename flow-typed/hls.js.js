@@ -2,7 +2,8 @@ declare module 'hls.js' {
   declare export type HlsjsAudioTrack = {
     id: number,
     lang: string,
-    name: string
+    name: string,
+    groupId: string
   };
 
   declare export type HlsjsQualityLevel = {
@@ -31,11 +32,16 @@ declare module 'hls.js' {
     audioTracks: Array<HlsjsAudioTrack>;
     autoLevelCapping: number;
     autoLevelEnabled: boolean;
-    config: any;
+    config: {
+      liveSyncDuration?: number,
+      liveSyncDurationCount?: number,
+    };
     currentLevel: number; //TODO: Is this actually fixing the bitrate?
     firstLevel: number;
     levels: Array<HlsjsQualityLevel>;
     liveSyncPosition?: number;
+    liveSyncDuration?: number,
+    liveSyncDurationCount?: number,
     loadSource(string): void;
     nextLevel: number;
     off(string, (any) => void): void;

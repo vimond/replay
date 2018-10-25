@@ -68,6 +68,12 @@ const createCustomPlayer = ({
     initialPlaybackProps,
     children
   }: ReplayProps) => {
+    // TODO: Interim handling of accepting strings and PlaybackSource type objects. Needs cleanup.
+    if (typeof source === 'string') {
+      source = {
+        streamUrl: source
+      };
+    }
     return (
       <PlayerController
         render={renderUI}
