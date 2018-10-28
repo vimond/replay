@@ -1,7 +1,12 @@
 // @flow
 import Hls from 'hls.js';
-import type { HlsjsVideoStreamerConfiguration } from './HlsjsVideoStreamer';
+import type { HlsjsInstanceKeeper, HlsjsVideoStreamerConfiguration } from './HlsjsVideoStreamer';
 import { PlaybackError } from '../types';
+
+export function broadcastHlsInstance(instanceKeeper: HlsjsInstanceKeeper, preposition: 'on' | 'off') {
+  const { hls } = instanceKeeper;
+  hls && instanceKeeper.subscribers.forEach(subscriber => subscriber(hls, preposition))
+}
 
 export function hlsjsSetup(
   videoElement: HTMLVideoElement,
@@ -28,6 +33,14 @@ export function hlsjsSetup(
   });
 }
 
-export function hlsjsCleanup(hls: Hls) {
-  return Promise.resolve(hls && hls.destroy());
+export function hlsjsCleanup(instanceKeeper: HlsjsInstanceKeeper) {
+  const { hls } = instanceKeeper;
+  if (hls) {
+    hls.stopLoad();
+    broadcastHlsInstance(instanceKeeper, 'off');
+    return Promise.resolve(hls.destroy());
+  } else {
+    return Promise.resolve();
+  }
+
 }

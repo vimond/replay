@@ -5,6 +5,7 @@ function HlsClass(config) {
   return {
     attachMedia: jest.fn(),
     detachMedia: jest.fn(),
+    stopLoad: jest.fn(),
     on,
     destroy: jest.fn()
   };

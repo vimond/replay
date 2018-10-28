@@ -5,6 +5,7 @@ import Hls, { type HlsjsErrorData } from 'hls.js';
 import type { PlaybackProps, VideoStreamState } from '../types';
 import type { BasicVideoEventHandlersProps } from '../BasicVideoStreamer/basicVideoEventHandlers';
 import { mapHlsjsError } from './hlsjsErrorMapper';
+import type { HlsjsInstanceKeeper } from './HlsjsVideoStreamer';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
@@ -13,7 +14,7 @@ declare class Object {
 const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
   streamer,
   videoElement,
-  hls,
+  instanceKeeper,
   streamRangeHelper,
   configuration,
   applyProperties,
@@ -24,7 +25,7 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
     props: P
   },
   videoElement: HTMLVideoElement,
-  hls: Hls,
+  instanceKeeper: HlsjsInstanceKeeper,
   streamRangeHelper: StreamRangeHelper,
   configuration: ?{ pauseUpdateInterval?: ?number },
   applyProperties: PlaybackProps => void,
@@ -34,7 +35,6 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
   const htmlVideoHandlers = getBasicVideoEventHandlers({
     streamer,
     videoElement,
-    thirdPartyPlayer: hls,
     streamRangeHelper,
     configuration,
     log,
@@ -43,7 +43,7 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
   });
 
   const { videoElementEventHandlers, pauseStreamRangeUpdater } = htmlVideoHandlers;
-
+  
   let lifeCycleManager = {
     setStage: (_: PlaybackLifeCycle) => {},
     getStage: () => {}
@@ -127,16 +127,15 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
     }
   };
 
-  function cleanup() {
+  function onHlsInstance(hlsInstance, preposition) {
     Object.entries(hlsjsEventHandlers).forEach(([name, handler]) => {
-      hls.off(name, handler);
+      // $FlowFixMe
+      hlsInstance[preposition](name, handler);
     });
   }
 
-  Object.entries(hlsjsEventHandlers).forEach(([name, handler]) => {
-    hls.on(name, handler);
-  });
-
+  instanceKeeper.subscribers.push(onHlsInstance);
+  
   const {
     onCanPlay,
     onPlaying,
@@ -165,8 +164,7 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
       onError
     },
     pauseStreamRangeUpdater,
-    setLifeCycleManager,
-    cleanup
+    setLifeCycleManager
   };
 };
 

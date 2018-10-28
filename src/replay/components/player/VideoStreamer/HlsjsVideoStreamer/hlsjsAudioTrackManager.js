@@ -3,6 +3,7 @@ import type { AvailableTrack, VideoStreamState } from '../types';
 import type { AudioTrackManager } from '../common/types';
 import type { HlsjsAudioTrack } from 'hls.js';
 import Hls from 'hls.js';
+import type { HlsjsInstanceKeeper } from './HlsjsVideoStreamer';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
@@ -38,24 +39,29 @@ const isAudioTrackListsDifferent = (a: Array<AvailableTrack>, b: Array<Available
   }
 };
 
-const getAudioTrackManager = (hls: Hls, update: VideoStreamState => void): AudioTrackManager => {
+const getAudioTrackManager = (instanceKeeper: HlsjsInstanceKeeper, update: VideoStreamState => void): AudioTrackManager => {
   // let managedTracks: Array<ManagedAudioTrack> = [];
   let audioTracks: Array<AvailableTrack> = [];
+  let hls;
   
   function mapAudioTracks() {
     // console.log(JSON.stringify(hls.audioTracks, (key, value) => key === 'details' ? undefined : value, 2), hls.audioTracks[0]);
-    const currentTracks = getDistinctPseudoTracks(hls.audioTracks);
-    if (isAudioTrackListsDifferent(currentTracks, audioTracks)) {
-      audioTracks = currentTracks;
+    if (hls) {
+      const currentTracks = getDistinctPseudoTracks(hls.audioTracks);
+      if (isAudioTrackListsDifferent(currentTracks, audioTracks)) {
+        audioTracks = currentTracks;
+      }
     }
   }
 
   function updateStreamStateProps() {
     let currentAudioTrack = null;
-    const currentHlsAudioTrack = hls.audioTracks.filter(ht => ht.id === hls.audioTrack)[0];
-    if (currentHlsAudioTrack) {
-      const { name, lang } = currentHlsAudioTrack;
-      currentAudioTrack = audioTracks.filter(({ label, language }) => label === name && language === lang)[0];
+    if (hls) {
+      const currentHlsAudioTrack = hls.audioTracks.filter(ht => ht.id === hls.audioTrack)[0];
+      if (currentHlsAudioTrack) {
+        const { name, lang } = currentHlsAudioTrack;
+        currentAudioTrack = audioTracks.filter(({ label, language }) => label === name && language === lang)[0];
+      }
     }
     update({ audioTracks, currentAudioTrack });
   }
@@ -72,7 +78,7 @@ const getAudioTrackManager = (hls: Hls, update: VideoStreamState => void): Audio
 
   function handleSelectedAudioTrackChange(selectedAudioTrack: ?AvailableTrack) {
     const st = selectedAudioTrack;
-    if (hls.audioTracks && st) {
+    if (hls && hls.audioTracks && st) {
       const groupId = (hls.audioTracks[hls.audioTrack] || {}).groupId;
       const matchingTrack = hls.audioTracks.filter(ht => equalOrNotSpecified(ht.groupId, groupId) && equalOrNotSpecified(ht.name, st.label) && equalOrNotSpecified(ht.lang, st.language))[0];
       if (matchingTrack) {
@@ -92,22 +98,23 @@ const getAudioTrackManager = (hls: Hls, update: VideoStreamState => void): Audio
   const hlsjsEventHandlers = {
     [Hls.Events.MANIFEST_LOADING]: () => reset,
     [Hls.Events.MANIFEST_PARSED]: refresh,
-    [Hls.Events.AUDIO_TRACK_SWITCHED]: handleTrackChange,
-    [Hls.Events.DESTROYING]: cleanup
+    [Hls.Events.AUDIO_TRACK_SWITCHED]: handleTrackChange
   };
 
-  function cleanup() {
+  function onHlsInstance(hlsInstance, preposition) {
     Object.entries(hlsjsEventHandlers).forEach(([name, handler]) => {
-      hls.off(name, handler);
+      // $FlowFixMe
+      hlsInstance[preposition](name, handler);
+      if (preposition === 'on') {
+        hls = hlsInstance;
+      }
     });
   }
 
-  Object.entries(hlsjsEventHandlers).forEach(([name, handler]) => {
-    hls.on(name, handler);
-  });
-
+  instanceKeeper.subscribers.push(onHlsInstance);
+  
   return {
-    cleanup,
+    cleanup: () => {},
     handleSourceChange,
     handleSelectedAudioTrackChange
   };

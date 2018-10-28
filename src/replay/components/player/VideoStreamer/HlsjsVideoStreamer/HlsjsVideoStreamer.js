@@ -2,7 +2,7 @@
 import type { VideoStreamerImplProps } from '../types';
 
 import createVideoStreamerComponent from '../common/createVideoStreamerComponent';
-import { hlsjsSetup, hlsjsCleanup } from './hlsjsSetup';
+import { hlsjsCleanup } from './hlsjsSetup';
 import getStreamRangeHelper from './hlsjsStreamRangeHelper';
 import getSourceChangeHandler from './hlsjsSourceChangeHandler';
 import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
@@ -18,86 +18,91 @@ import getTextTrackManager from '../BasicVideoStreamer/textTrackManager';
 import getHlsjsBitrateManager from './hlsjsBitrateManager';
 import getHlsjsEventHandlers from './hlsjsEventHandlers';
 
+export type HlsjsInstanceKeeper = {
+  hls?: Hls, 
+  videoElement: HTMLVideoElement,
+  subscribers: Array<(Hls, 'on'|'off') => void>
+};
+
 export type HlsjsVideoStreamerConfiguration = VideoStreamerConfiguration & {
   hlsjs: {
     customConfiguration?: any
   }
 };
-
 export type HlsjsVideoStreamerProps = VideoStreamerImplProps<HlsjsVideoStreamerConfiguration>;
 
 function resolveImplementation(
   streamer: SimplifiedVideoStreamer<HlsjsVideoStreamerConfiguration, HlsjsVideoStreamerProps>,
   configuration: ?HlsjsVideoStreamerConfiguration,
   videoElement: HTMLVideoElement
-): Promise<StreamerImplementationParts<HlsjsVideoStreamerConfiguration, HlsjsVideoStreamerProps, Hls>> {
-  return hlsjsSetup(videoElement, configuration).then(hls => {
-    const streamRangeHelper = getStreamRangeHelper(videoElement, hls, configuration);
-    const handleSourceChange = getSourceChangeHandler(hls);
-    const updateStreamState = getFilteredPropertyUpdater(streamer);
+): Promise<StreamerImplementationParts<HlsjsVideoStreamerConfiguration, HlsjsVideoStreamerProps, HlsjsInstanceKeeper>> {
+  const instanceKeeper = {
+    videoElement,
+    subscribers: []
+  };
+  
+  const streamRangeHelper = getStreamRangeHelper(videoElement, instanceKeeper, configuration);
+  const handleSourceChange = getSourceChangeHandler(instanceKeeper);
+  const updateStreamState = getFilteredPropertyUpdater(streamer);
 
-    const textTrackManager = getTextTrackManager(videoElement, updateStreamState);
-    const audioTrackManager = getHlsjsAudioTrackManager(hls, updateStreamState);
-    const bitrateManager = getHlsjsBitrateManager(
-      streamer,
-      hls,
-      updateStreamState,
-      getArrayLogger(window, 'bitrateManager').log
-    );
+  const textTrackManager = getTextTrackManager(videoElement, updateStreamState);
+  const audioTrackManager = getHlsjsAudioTrackManager(instanceKeeper, updateStreamState);
+  const bitrateManager = getHlsjsBitrateManager(
+    streamer,
+    instanceKeeper,
+    updateStreamState,
+    getArrayLogger(window, 'bitrateManager').log
+  );
 
-    const applyProperties = getPropertyApplier(
-      videoElement,
-      streamRangeHelper,
-      textTrackManager,
-      audioTrackManager,
-      bitrateManager
-    ); // G
+  const applyProperties = getPropertyApplier(
+    videoElement,
+    streamRangeHelper,
+    textTrackManager,
+    audioTrackManager,
+    bitrateManager
+  ); // G
 
-    const { log } = getArrayLogger(window, 'videoEvents');
+  const { log } = getArrayLogger(window, 'videoEvents');
 
-    const shakaEventHandlers = getHlsjsEventHandlers({
-      streamer,
-      videoElement,
-      hls,
-      streamRangeHelper,
-      configuration,
-      applyProperties,
-      updateStreamState,
-      log
-    });
-    const { videoElementEventHandlers, setLifeCycleManager } = shakaEventHandlers;
+  const hlsjsEventHandlers = getHlsjsEventHandlers({
+    streamer,
+    videoElement,
+    instanceKeeper,
+    streamRangeHelper,
+    configuration,
+    applyProperties,
+    updateStreamState,
+    log
+  });
+  const { videoElementEventHandlers, setLifeCycleManager } = hlsjsEventHandlers;
 
-    const playbackLifeCycleManager = getPlaybackLifeCycleManager(
-      updateStreamState,
-      shakaEventHandlers.pauseStreamRangeUpdater,
-      getArrayLogger(window, 'lifecycle').log
-    );
-    setLifeCycleManager(playbackLifeCycleManager);
+  const playbackLifeCycleManager = getPlaybackLifeCycleManager(
+    updateStreamState,
+    hlsjsEventHandlers.pauseStreamRangeUpdater,
+    getArrayLogger(window, 'lifecycle').log
+  );
+  setLifeCycleManager(playbackLifeCycleManager);
 
-    function cleanup() {
-      textTrackManager.cleanup();
-      audioTrackManager.cleanup();
-      playbackLifeCycleManager.cleanup();
-      shakaEventHandlers.cleanup();
-      bitrateManager.cleanup();
-      return hlsjsCleanup(hls);
-    }
+  function cleanup() {
+    textTrackManager.cleanup();
+    playbackLifeCycleManager.cleanup();
+    return hlsjsCleanup(instanceKeeper);
+  }
 
-    const { startPlaybackSession } = playbackLifeCycleManager;
-    const thirdPartyPlayer = hls;
-    const render = renderWithoutSource;
+  const { startPlaybackSession } = playbackLifeCycleManager;
+  const thirdPartyPlayer = instanceKeeper;
+  const render = renderWithoutSource;
 
-    return {
-      cleanup,
-      render,
-      textTrackManager,
-      audioTrackManager,
-      thirdPartyPlayer,
-      applyProperties,
-      handleSourceChange,
-      startPlaybackSession,
-      videoElementEventHandlers
-    };
+  return Promise.resolve({
+    cleanup,
+    render,
+    textTrackManager,
+    audioTrackManager,
+    thirdPartyPlayer,
+    applyProperties,
+    handleSourceChange,
+    startPlaybackSession,
+    videoElementEventHandlers
   });
 }
 

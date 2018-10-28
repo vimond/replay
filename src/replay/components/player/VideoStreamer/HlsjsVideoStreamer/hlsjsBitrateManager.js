@@ -3,6 +3,7 @@ import type { InitialPlaybackProps, VideoStreamState } from '../types';
 import { isShallowEqual } from '../../../common';
 import type { HlsjsQualityLevel } from 'hls.js';
 import Hls from 'hls.js';
+import type { HlsjsInstanceKeeper } from './HlsjsVideoStreamer';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
@@ -30,114 +31,118 @@ function getBitrateAsKbps(level: HlsjsQualityLevel) {
 
 const getHlsjsBitrateManager = <P: PropsWithInitial>(
   streamer: { props: P },
-  hls: Hls,
+  instanceKeeper: HlsjsInstanceKeeper,
   updateStreamState: VideoStreamState => void,
   log?: ?(string, any) => void
 ) => {
   let previousBitrates = [];
+  let hls;
 
   function updateBitrateProps() {
-    let bitrates = Array.isArray(hls.levels) ? hls.levels.map(getBitrateAsKbps) : [];
-    if (isShallowEqual(previousBitrates, bitrates)) {
-      bitrates = previousBitrates;
-    }
-    if (hls.currentLevel === -1) {
-      updateStreamState({
-        bitrates
-      });
-    } else {
-      const currentBitrate = getBitrateAsKbps(hls.levels[hls.currentLevel]);
-      updateStreamState({
-        currentBitrate,
-        bitrates
-      });
+    if (hls) {
+      let bitrates = Array.isArray(hls.levels) ? hls.levels.map(getBitrateAsKbps) : [];
+      if (isShallowEqual(previousBitrates, bitrates)) {
+        bitrates = previousBitrates;
+      }
+      if (hls.currentLevel === -1) {
+        updateStreamState({
+          bitrates
+        });
+      } else {
+        const currentBitrate = getBitrateAsKbps(hls.levels[hls.currentLevel]);
+        updateStreamState({
+          currentBitrate,
+          bitrates
+        });
+      }
     }
   }
 
   function capBitrate(cap: ?number) {
-    if (isNaN(cap) || cap === Infinity || cap == null || cap < 0) {
-      log && log('Resetting restrictions for bitrate.');
-      hls.autoLevelCapping = -1;
-      updateStreamState({ maxBitrate: null });
-    } else {
-      if (Array.isArray(hls.levels)) {
-        let reached = false;
-        for (let i = 0; i < hls.levels.length; i++) {
-          const bitrate = getBitrateAsKbps(hls.levels[i]);
-          if (bitrate > cap + 1) {
-            hls.autoLevelEnabled = true;
-            if (i > 0) {
-              hls.autoLevelCapping = i - 1;
-              log &&
+    if (hls) {
+      if (isNaN(cap) || cap === Infinity || cap == null || cap < 0) {
+        log && log('Resetting restrictions for bitrate.');
+        hls.autoLevelCapping = -1;
+        updateStreamState({ maxBitrate: null });
+      } else {
+        if (Array.isArray(hls.levels)) {
+          let reached = false;
+          for (let i = 0; i < hls.levels.length; i++) {
+            const bitrate = getBitrateAsKbps(hls.levels[i]);
+            if (bitrate > cap) {
+              if (i > 0) {
+                hls.autoLevelCapping = i - 1;
+                updateStreamState({ maxBitrate: getBitrateAsKbps(hls.levels[i - 1]) });
+                log &&
                 log(
                   'Desired bitrate cap corresponds to level with capping on index ' + (i - 1) + ' in hls.js.',
                   hls.levels
                 );
-            } else {
-              hls.autoLevelCapping = 0;
-              log &&
+              } else {
+                hls.autoLevelCapping = 0;
+                log &&
                 log(
                   'Desired bitrate cap appears to be lower than the lowest HLS level. Aligning to lowest level.',
                   hls.levels
                 );
+                updateStreamState({ maxBitrate: getBitrateAsKbps(hls.levels[0]) });
+              }
+              reached = true;
+              break;
             }
-            reached = true;
-            updateStreamState({ maxBitrate: bitrate });
-            break;
           }
+          if (!reached) {
+            log && log('Desired bitrate cap appears to be higher than the higher HLS level. Not applicable.', hls.levels);
+          }
+        } else {
+          log && log('Found no HLS levels from where bitrate capping can be applied.', hls.levels);
         }
-        if (!reached) {
-          log && log('Desired bitrate cap appears to be higher than the higher HLS level. Not applicable.', hls.levels);
-        }
-      } else {
-        log && log('Found no HLS levels from where bitrate capping can be applied.', hls.levels);
       }
     }
   }
 
   function lockBitrate(bitrate: ?(number | 'max' | 'min')) {
-    if (bitrate === 'min') {
-      if (Array.isArray(hls.levels) && hls.levels.length > 0) {
-        hls.nextLevel = 0;
-        hls.autoLevelEnabled = false;
-        updateStreamState({ lockedBitrate: getBitrateAsKbps(hls.levels[0]) });
-        log && log('Locking bitrate to lowest level out of ' + hls.levels.length);
-      }
-    } else if (bitrate === 'max') {
-      if (Array.isArray(hls.levels) && hls.levels.length > 0) {
-        hls.nextLevel = hls.levels.length - 1;
-        hls.autoLevelEnabled = false;
-        updateStreamState({ lockedBitrate: getBitrateAsKbps(hls.levels[hls.levels.length - 1]) });
-        log && log('Locking bitrate to highest level out of ' + hls.levels.length);
-      }
-    } else if (bitrate == null || isNaN(bitrate) || bitrate < 0 || !bitrate) {
-      log && log('Resetting locking of bitrate.');
-      hls.nextLevel = -1;
-      hls.autoLevelEnabled = true;
-      updateStreamState({ lockedBitrate: null });
-    } else if (typeof bitrate === 'string') {
-      log &&
+    if (hls) {
+      if (bitrate === 'min') {
+        if (Array.isArray(hls.levels) && hls.levels.length > 0) {
+          hls.nextLevel = 0;
+          updateStreamState({ lockedBitrate: getBitrateAsKbps(hls.levels[0]) });
+          log && log('Locking bitrate to lowest level out of ' + hls.levels.length);
+        }
+      } else if (bitrate === 'max') {
+        if (Array.isArray(hls.levels) && hls.levels.length > 0) {
+          hls.nextLevel = hls.levels.length - 1;
+          updateStreamState({ lockedBitrate: getBitrateAsKbps(hls.levels[hls.levels.length - 1]) });
+          log && log('Locking bitrate to highest level out of ' + hls.levels.length);
+        }
+      } else if (bitrate == null || isNaN(bitrate) || bitrate < 0 || !bitrate) {
+        log && log('Resetting locking of bitrate.');
+        hls.nextLevel = -1;
+        updateStreamState({ lockedBitrate: null });
+      } else if (typeof bitrate === 'string') {
+        log &&
         log(
           'Unknown string specified for bitrate lock. Please use a value of type number if a bitrate specified by kbps is intended.',
           bitrate
         );
-    } else {
-      if (Array.isArray(hls.levels)) {
-        for (var i = 0; i < hls.levels.length; i++) {
-          if (getBitrateAsKbps(hls.levels[i]) === bitrate) {
-            hls.nextLevel = i;
-            log && log('Locking bitrate to HLS level ' + i, hls.levels);
-            updateStreamState({ lockedBitrate: bitrate });
-            return;
+      } else {
+        if (Array.isArray(hls.levels)) {
+          for (var i = 0; i < hls.levels.length; i++) {
+            if (getBitrateAsKbps(hls.levels[i]) === bitrate) {
+              hls.nextLevel = i;
+              log && log('Locking bitrate to HLS level ' + i, hls.levels);
+              updateStreamState({ lockedBitrate: bitrate });
+              return;
+            }
           }
-        }
-        log &&
+          log &&
           log(
             "Desired bitrate lock didn't match any bitrates specified in the hls.levels list. Not applied.",
             hls.levels
           );
-      } else {
-        log && log('Found no HLS levels from where bitrate locking can be applied.', hls.levels);
+        } else {
+          log && log('Found no HLS levels from where bitrate locking can be applied.', hls.levels);
+        }
       }
     }
   }
@@ -148,22 +153,22 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
     },
     [Hls.Events.MANIFEST_PARSED]: updateBitrateProps,
     [Hls.Events.LEVEL_SWITCHED]: updateBitrateProps,
-    [Hls.Events.LEVEL_UPDATED]: updateBitrateProps,
-    [Hls.Events.DESTROYING]: cleanup
+    [Hls.Events.LEVEL_UPDATED]: updateBitrateProps
   };
 
-  function cleanup() {
+  function onHlsInstance(hlsInstance, preposition) {
     Object.entries(hlsjsEventHandlers).forEach(([name, handler]) => {
-      hls.off(name, handler);
+      // $FlowFixMe
+      hlsInstance[preposition](name, handler);
+      if (preposition === 'on') {
+        hls = hlsInstance;
+      }
     });
   }
 
-  Object.entries(hlsjsEventHandlers).forEach(([name, handler]) => {
-    hls.on(name, handler);
-  });
-
+  instanceKeeper.subscribers.push(onHlsInstance);
+  
   return {
-    cleanup,
     lockBitrate,
     capBitrate
   };

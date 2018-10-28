@@ -46,7 +46,7 @@ function buildMessage(data: HlsjsErrorData) {
 export function mapHlsjsError(isStarted: boolean, data: HlsjsErrorData) {
   const severity = data.fatal ? 'FATAL' : 'WARNING';
   const code =
-    (data.details && (downloadErrors.indexOf(data.details) >= 0 && 'STREAM_ERROR_DOWNLOAD')) ||
+    (data && data.details && (downloadErrors.indexOf(data.details) >= 0 && 'STREAM_ERROR_DOWNLOAD')) ||
     (decodeErrors.indexOf(data.details) >= 0 && 'STREAM_ERROR_DECODE') ||
     'STREAM_ERROR';
   return new PlaybackError(code, tech, buildMessage(data), severity, data);

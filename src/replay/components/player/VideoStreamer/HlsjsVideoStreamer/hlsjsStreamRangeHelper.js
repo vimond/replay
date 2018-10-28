@@ -2,6 +2,7 @@
 import type { PlayMode } from '../types';
 import Hls from 'hls.js';
 import type { StreamRangeHelper } from '../common/types';
+import type { HlsjsInstanceKeeper } from './HlsjsVideoStreamer';
 
 const dawnOfTime = new Date(0);
 const minimumDvrLength = 100; // seconds
@@ -50,30 +51,45 @@ function getAbsolutePositions(
   }
 }
 
+function getIsAtLivePosition(hls, videoElement, isLive, liveMargin) {
+  if (isLive) {
+    if (hls.liveSyncPosition) {
+      return videoElement.currentTime > hls.liveSyncPosition - liveMargin;
+    } else if (hls.config && hls.config.liveSyncDuration) {
+      return videoElement.currentTime > videoElement.duration - (hls.config.liveSyncDuration + liveMargin);
+    } else if (hls.config && hls.config.liveSyncDurationCount) {
+      return videoElement.currentTime > videoElement.duration - ((hls.config.liveSyncDurationCount * 10) + liveMargin);
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
 const getStreamRangeHelper = (
   videoElement: HTMLVideoElement,
-  hls: Hls,
+  instanceKeeper: HlsjsInstanceKeeper,
   configuration: ?{ liveEdgeMargin?: ?number }
 ): StreamRangeHelper => {
   const liveMargin = (configuration && configuration.liveEdgeMargin) || defaultLivePositionMargin;
-  let levelDuration: ?number;
+  let levelDuration = 0;
   let streamStartDate: ?Date;
+  let isLive = false;
+  let hls;
 
   function calculateNewState() {
-    const isLive = !!hls.liveSyncPosition;
-
     let position;
+    
     if (levelDuration) {
       position = Math.max((videoElement.currentTime || 0) - Math.max(videoElement.duration - levelDuration, 0), 0);
     } else {
       position = videoElement.currentTime || 0;
     }
     const duration = levelDuration || videoElement.duration;
-
     const { absolutePosition, absoluteStartPosition } = getAbsolutePositions(isLive, streamStartDate, position);
-
     const playMode = resolvePlayMode(duration, isLive);
-    const isAtLivePosition = isLive && position > duration - liveMargin;
+    const isAtLivePosition = hls && getIsAtLivePosition(hls, videoElement, isLive, liveMargin);
 
     return {
       position,
@@ -100,46 +116,55 @@ const getStreamRangeHelper = (
   }
 
   function gotoLive() {
-    if (hls.liveSyncPosition) {
-      videoElement.currentTime = hls.liveSyncPosition;
+    if (isLive && hls) {
+      if (hls.liveSyncPosition) {
+        videoElement.currentTime = hls.liveSyncPosition;
+      } else if (hls.config && hls.config.liveSyncDuration) {
+        videoElement.currentTime = videoElement.duration - (hls.config.liveSyncDuration + liveMargin);
+      } else if (hls.config && hls.config.liveSyncDurationCount) {
+        videoElement.currentTime = videoElement.duration - ((hls.config.liveSyncDurationCount * 10) + liveMargin);
+      } else {
+        videoElement.currentTime = videoElement.duration - liveMargin;
+      }
     }
   }
 
   function reset() {
     streamStartDate = null;
-    levelDuration = null;
+    levelDuration = 0;
+    isLive = false;
   }
 
   const hlsjsEventHandlers = {
     [Hls.Events.MANIFEST_LOADING]: () => reset,
     [Hls.Events.LEVEL_LOADED]: (evt, data) => {
-      if (hls.liveSyncPosition) {
-        levelDuration = data.details.totalduration;
-        // updateDuration();
-      }
+      isLive = data.details.live;
+      levelDuration = data.details.totalduration;
+      // updateDuration();
       const programDateTime =
         data.details &&
         data.details.fragments &&
         data.details.fragments[0] &&
         data.details.fragments[0].programDateTime;
       if (programDateTime) {
-        streamStartDate = programDateTime;
+        streamStartDate = new Date(programDateTime);
         // updatePosition();
       }
     },
-    // [Hls.Events.ERROR]: () => reset, // TODO: Is this needed?
-    [Hls.Events.DESTROYING]: cleanup
+    // [Hls.Events.ERROR]: () => reset // TODO: Is this needed?
   };
 
-  function cleanup() {
+  function onHlsInstance(hlsInstance, preposition) {
     Object.entries(hlsjsEventHandlers).forEach(([name, handler]) => {
-      hls.off(name, handler);
+      // $FlowFixMe
+      hlsInstance[preposition](name, handler);
+      if (preposition === 'on') {
+        hls = hlsInstance;
+      }
     });
   }
-
-  Object.entries(hlsjsEventHandlers).forEach(([name, handler]) => {
-    hls.on(name, handler);
-  });
+  
+  instanceKeeper.subscribers.push(onHlsInstance);
 
   return {
     adjustForDvrStartOffset,

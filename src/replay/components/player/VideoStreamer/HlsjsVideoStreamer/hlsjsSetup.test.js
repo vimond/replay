@@ -41,7 +41,11 @@ test('hlsjsCleanup() destroys the Hls instance.', () => {
   const videoElement = { src: null };
   const setupPromise = hlsjsSetup(videoElement);
   return setupPromise.then(hls => {
-    hlsjsCleanup(hls);
+    const instanceKeeper = { hls, subscribers: [jest.fn()] };
+    hlsjsCleanup(instanceKeeper);
+
+    expect(hls.stopLoad).toHaveBeenCalled();
     expect(hls.destroy).toHaveBeenCalled();
+    expect(instanceKeeper.subscribers[0]).toHaveBeenCalledWith(hls, 'off');
   });
 });
