@@ -8,7 +8,7 @@ import type { StreamStateKeysForObservation } from '../../player/PlayerControlle
 
 type Props = CommonProps & {
   isAtLiveEdge?: boolean,
-  setProperty?: ({ isAtLiveEdge: true }) => void,
+  setProperties?: ({ isAtLiveEdge: true }) => void,
   playMode?: PlayMode,
   isAtLiveEdgeContent: React.Node,
   isNotAtLiveEdgeContent: React.Node
@@ -24,8 +24,8 @@ class GotoLiveButton extends React.Component<Props> {
   static streamStateKeysForObservation: StreamStateKeysForObservation = ['isAtLiveEdge', 'playMode'];
 
   handleToggle = (value: boolean) => {
-    if (value && this.props.setProperty) {
-      this.props.setProperty({ isAtLiveEdge: true });
+    if (value && this.props.setProperties) {
+      this.props.setProperties({ isAtLiveEdge: true });
     }
   };
 

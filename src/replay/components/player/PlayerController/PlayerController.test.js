@@ -91,7 +91,7 @@ test('<PlayerController /> passes down props and merged configuration in the ren
     }
   });
   expect(renderParameters.externalProps).toEqual({ playerMode: 'full' });
-  expect(typeof controllerApi.setProperty).toBe('function');
+  expect(typeof controllerApi.setProperties).toBe('function');
   expect(typeof controllerApi.observe).toBe('function');
   expect(typeof controllerApi.unobserve).toBe('function');
   expect(controllerApi.inspect()).toEqual({});
@@ -137,9 +137,9 @@ test('<PlayerController /> updates observers (only) when specified stream state 
   expect(handleStreamStateChange.mock.calls[3][0].position).toBe(22);
 });
 
-test("<PlayerController /> invokes videoStreamer's setProperty when setProperty() is invoked and videoStreamer is ready.", () => {
+test("<PlayerController /> invokes videoStreamer's setProperties when setProperties() is invoked and videoStreamer is ready.", () => {
   const renderProp = jest.fn();
-  const setProperty = jest.fn();
+  const setProperties = jest.fn();
   renderProp.mockReturnValue(getMockPlayerUi());
   const rendered = mount(
     <PlayerController render={renderProp}>
@@ -147,20 +147,20 @@ test("<PlayerController /> invokes videoStreamer's setProperty when setProperty(
     </PlayerController>
   );
   const videoStreamerProps = rendered.find('MockVideo').props();
-  videoStreamerProps.onReady({ setProperty });
+  videoStreamerProps.onReady({ setProperties });
   const controllerApi = renderProp.mock.calls[1][0].controllerApi;
-  controllerApi.setProperty({ volume: 0.75 });
-  controllerApi.setProperty({ volume: 0.1 });
-  controllerApi.setProperty({ volume: 0.1 });
-  expect(setProperty.mock.calls[0][0].volume).toBe(0.75);
-  expect(setProperty.mock.calls[1][0].volume).toBe(0.1);
-  expect(setProperty.mock.calls[2][0].volume).toBe(0.1);
+  controllerApi.setProperties({ volume: 0.75 });
+  controllerApi.setProperties({ volume: 0.1 });
+  controllerApi.setProperties({ volume: 0.1 });
+  expect(setProperties.mock.calls[0][0].volume).toBe(0.75);
+  expect(setProperties.mock.calls[1][0].volume).toBe(0.1);
+  expect(setProperties.mock.calls[2][0].volume).toBe(0.1);
 });
 
-test("<PlayerController /> invokes videoStreamer's setProperty when playback methods are invoked and videoStreamer is ready.", () => {
+test("<PlayerController /> invokes videoStreamer's setProperties when playback methods are invoked and videoStreamer is ready.", () => {
   let actions;
   const renderProp = jest.fn();
-  const setProperty = jest.fn();
+  const setProperties = jest.fn();
   renderProp.mockReturnValue(getMockPlayerUi());
   const handleActionsReady = m => (actions = m);
   const rendered = mount(
@@ -169,7 +169,7 @@ test("<PlayerController /> invokes videoStreamer's setProperty when playback met
     </PlayerController>
   );
   const videoStreamerProps = rendered.find('MockVideo').props();
-  videoStreamerProps.onReady({ setProperty });
+  videoStreamerProps.onReady({ setProperties });
   actions.play();
   actions.pause();
   actions.setPosition(101);
@@ -182,16 +182,16 @@ test("<PlayerController /> invokes videoStreamer's setProperty when playback met
   actions.setSelectedAudioTrack({ language: 'de' });
   actions.setSelectedTextTrack(null);
   actions.setSelectedAudioTrack(null);
-  expect(setProperty.mock.calls[0][0].isPaused).toBe(false);
-  expect(setProperty.mock.calls[1][0].isPaused).toBe(true);
-  expect(setProperty.mock.calls[2][0].position).toBe(101);
-  expect(setProperty.mock.calls[3][0].isAtLiveEdge).toBe(true);
-  expect(setProperty.mock.calls[4][0].volume).toBe(0.5);
-  expect(setProperty.mock.calls[5][0].isMuted).toBe(true);
-  expect(setProperty.mock.calls[6][0].bitrateFix).toBe('max');
-  expect(setProperty.mock.calls[7][0].bitrateCap).toBe(2000);
-  expect(setProperty.mock.calls[8][0].selectedTextTrack).toEqual({ language: 'en' });
-  expect(setProperty.mock.calls[9][0].selectedAudioTrack).toEqual({ language: 'de' });
-  expect(setProperty.mock.calls[10][0].selectedTextTrack).toBe(null);
-  expect(setProperty.mock.calls[11][0].selectedAudioTrack).toBe(null);
+  expect(setProperties.mock.calls[0][0].isPaused).toBe(false);
+  expect(setProperties.mock.calls[1][0].isPaused).toBe(true);
+  expect(setProperties.mock.calls[2][0].position).toBe(101);
+  expect(setProperties.mock.calls[3][0].isAtLiveEdge).toBe(true);
+  expect(setProperties.mock.calls[4][0].volume).toBe(0.5);
+  expect(setProperties.mock.calls[5][0].isMuted).toBe(true);
+  expect(setProperties.mock.calls[6][0].bitrateFix).toBe('max');
+  expect(setProperties.mock.calls[7][0].bitrateCap).toBe(2000);
+  expect(setProperties.mock.calls[8][0].selectedTextTrack).toEqual({ language: 'en' });
+  expect(setProperties.mock.calls[9][0].selectedAudioTrack).toEqual({ language: 'de' });
+  expect(setProperties.mock.calls[10][0].selectedTextTrack).toBe(null);
+  expect(setProperties.mock.calls[11][0].selectedAudioTrack).toBe(null);
 });

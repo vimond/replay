@@ -31,8 +31,8 @@ test('<Timeline/> renders with prefixed class name and DOM including children.',
 });
 
 test('<Timeline/> updates property position when the timeline slider handle is moved.', () => {
-  const setProperty = jest.fn();
-  const rendered = shallow(<Timeline {...commonProps} setProperty={setProperty} />);
+  const setProperties = jest.fn();
+  const rendered = shallow(<Timeline {...commonProps} setProperties={setProperties} />);
   const renderedSlider = rendered.find(Slider).dive();
 
   const mockEventElement = {
@@ -53,8 +53,8 @@ test('<Timeline/> updates property position when the timeline slider handle is m
   renderedSlider.instance().renderedTrack = mockEventElement;
   renderedSlider.instance().handleHandleOrTrackClick(mockEvent1);
 
-  expect(setProperty.mock.calls.length).toBe(1);
-  expect(setProperty.mock.calls[0][0]).toEqual({ position: 66 });
+  expect(setProperties.mock.calls.length).toBe(1);
+  expect(setProperties.mock.calls[0][0]).toEqual({ position: 66 });
 });
 
 test('<Timeline/> blocks slider updates while seeking is reported, and at least half a second afterwards.', () => {

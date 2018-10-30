@@ -81,7 +81,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                 "enterFullscreen": [Function],
                 "exitFullscreen": [Function],
                 "isFullscreen": false,
-                "setProperty": [Function],
+                "setProperties": [Function],
               }
             }
             nudge={[Function]}
@@ -104,13 +104,13 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                   "enterFullscreen": [Function],
                   "exitFullscreen": [Function],
                   "isFullscreen": false,
-                  "setProperty": [Function],
+                  "setProperties": [Function],
                 }
               }
               inspect={[Function]}
               nudge={[Function]}
               render={[Function]}
-              setProperty={[Function]}
+              setProperties={[Function]}
               toggleFixedUserActive={[Function]}
             >
               <ConnectedPlayerStateClassNames
@@ -141,7 +141,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                 isFullscreen={false}
                 isUserActive={true}
                 nudge={[Function]}
-                setProperty={[Function]}
+                setProperties={[Function]}
                 toggleFixedUserActive={[Function]}
               >
                 <PlayerStateClassNames
@@ -173,7 +173,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                   isFullscreen={false}
                   isUserActive={true}
                   nudge={[Function]}
-                  setProperty={[Function]}
+                  setProperties={[Function]}
                   toggleFixedUserActive={[Function]}
                 >
                   <div
@@ -323,7 +323,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   size="24"
                                 />
                               }
-                              setProperty={[Function]}
+                              setProperties={[Function]}
                             >
                               <ToggleButton
                                 className="play-pause-button"
@@ -428,7 +428,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               label="Skip back 10 seconds"
                               offset={-20}
                               seconds="–10"
-                              setProperty={[Function]}
+                              setProperties={[Function]}
                             >
                               <Button
                                 className="skip-button"
@@ -507,7 +507,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               inspect={[Function]}
                               label="Timeline"
                               reduceDragGlitch={true}
-                              setProperty={[Function]}
+                              setProperties={[Function]}
                               trackContent={<div />}
                             >
                               <Slider
@@ -576,7 +576,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               liveDisplayMode="clock-time"
                               negativeMark="–"
                               positionLabel="Current time"
-                              setProperty={[Function]}
+                              setProperties={[Function]}
                             >
                               <div
                                 className="replay-time-display"
@@ -623,7 +623,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 </span>
                               }
                               label="Play from live position"
-                              setProperty={[Function]}
+                              setProperties={[Function]}
                             />
                           </ConnectedGotoLiveButton>
                           <ConnectedSettingsStorageVolume
@@ -674,7 +674,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   size="24"
                                 />
                               }
-                              setProperty={[Function]}
+                              setProperties={[Function]}
                               unmutedContent={
                                 <Volume2
                                   color="currentColor"
@@ -705,7 +705,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     size="24"
                                   />
                                 }
-                                setProperty={[Function]}
+                                setProperties={[Function]}
                                 unmutedContent={
                                   <Volume2
                                     color="currentColor"
@@ -855,7 +855,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               }
                               inspect={[Function]}
                               label="Audio track selector"
-                              setProperty={[Function]}
+                              setProperties={[Function]}
                               toggleContent={
                                 <MessageSquare
                                   color="currentColor"
@@ -877,7 +877,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 }
                                 inspect={[Function]}
                                 label="Audio track selector"
-                                setProperty={[Function]}
+                                setProperties={[Function]}
                                 toggleContent={
                                   <MessageSquare
                                     color="currentColor"
@@ -923,7 +923,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               inspect={[Function]}
                               label="Subtitles selector"
                               noSubtitlesLabel="No subtitles"
-                              setProperty={[Function]}
+                              setProperties={[Function]}
                               toggleContent={
                                 <Type
                                   color="currentColor"
@@ -946,7 +946,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 inspect={[Function]}
                                 label="Subtitles selector"
                                 noSubtitlesLabel="No subtitles"
-                                setProperty={[Function]}
+                                setProperties={[Function]}
                                 toggleContent={
                                   <Type
                                     color="currentColor"
@@ -976,7 +976,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               inspect={[Function]}
                               label="Video quality selector"
                               selectionStrategy="cap-bitrate"
-                              setProperty={[Function]}
+                              setProperties={[Function]}
                               toggleContent={
                                 <Settings
                                   color="currentColor"
@@ -1003,7 +1003,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 size="24"
                               />
                             }
-                            setProperty={[Function]}
+                            setProperties={[Function]}
                           >
                             <ToggleButton
                               className="fullscreen-button"
@@ -1077,7 +1077,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                         inspect={[Function]}
                         label="Video is buffering"
                         renderStrategy="always"
-                        setProperty={[Function]}
+                        setProperties={[Function]}
                       >
                         <div
                           className="replay-buffering-indicator"
@@ -1139,7 +1139,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           }
                         }
                         inspect={[Function]}
-                        setProperty={[Function]}
+                        setProperties={[Function]}
                       />
                     </ConnectedPreferredSettingsApplicator>
                   </div>

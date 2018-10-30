@@ -81,14 +81,14 @@ const getPropertyUpdates = (mockFn, key) => mockFn.mock.calls.filter(call => key
 const domRender = (props = commonProps) => {
   return new Promise((resolve, reject) => {
     let element;
-    const handleReady = ({ setProperty }) => {
+    const handleReady = ({ setProperties }) => {
       try {
         element.update();
         const videoElement = element.find('video');
         const videoRef = element.instance().videoRef;
         resolve({
           element,
-          setProperty,
+          setProperties,
           videoElement,
           videoRef,
           domVideoElement: videoElement.getDOMNode()
@@ -191,23 +191,23 @@ test('<BasicVideoStreamer/> updates stream state when video element events are i
 });
 
 test('<BasicVideoStreamer/> reacts to playback props being set.', () => {
-  return domRender({ ...commonProps, onStreamStateChange: () => {} }).then(({ element, videoRef, setProperty }) => {
+  return domRender({ ...commonProps, onStreamStateChange: () => {} }).then(({ element, videoRef, setProperties }) => {
     const playSpy = jest.spyOn(videoRef.current, 'play');
     const pauseSpy = jest.spyOn(videoRef.current, 'pause');
 
     expect(videoRef.current.muted).toBe(false);
     expect(videoRef.current.paused).toBe(true);
 
-    setProperty({ isPaused: false });
-    setProperty({ isPaused: true });
+    setProperties({ isPaused: false });
+    setProperties({ isPaused: true });
 
-    setProperty({ isMuted: true });
+    setProperties({ isMuted: true });
     expect(videoRef.current.muted).toBe(true);
-    setProperty({ position: 313 });
+    setProperties({ position: 313 });
     expect(videoRef.current.currentTime).toBe(313);
-    setProperty({ position: 23 });
+    setProperties({ position: 23 });
     expect(videoRef.current.currentTime).toBe(23);
-    setProperty({ volume: 0.5 });
+    setProperties({ volume: 0.5 });
     expect(videoRef.current.volume).toBe(0.5);
 
     expect(playSpy).toHaveBeenCalledTimes(1);

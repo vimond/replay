@@ -6,7 +6,7 @@ import type { CommonProps } from '../../common';
 
 type Props = CommonProps & {
   isFullscreen?: boolean,
-  setProperty?: ({ isFullscreen: boolean }) => void,
+  setProperties?: ({ isFullscreen: boolean }) => void,
   fullscreenContent: React.Node,
   normalContent: React.Node
 };
@@ -19,8 +19,8 @@ class FullscreenButton extends React.Component<Props> {
   };
 
   handleToggle = (value: boolean) => {
-    if (this.props.setProperty) {
-      this.props.setProperty({ isFullscreen: value });
+    if (this.props.setProperties) {
+      this.props.setProperties({ isFullscreen: value });
     }
   };
 

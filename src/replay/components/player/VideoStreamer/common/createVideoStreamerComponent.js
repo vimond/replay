@@ -55,7 +55,7 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
     implementation: ?StreamerImplementationParts<C, P, T>;
     videoRef: { current: null | HTMLVideoElement };
 
-    setProperty = (playbackProps: PlaybackProps) => {
+    setProperties = (playbackProps: PlaybackProps) => {
       const applyProperties = this.implementation && this.implementation.applyProperties;
       if (applyProperties) {
         applyProperties(playbackProps);
@@ -88,7 +88,7 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
             videoElementEventHandlers
           });
           if (this.props.onReady) {
-            this.props.onReady({ setProperty: this.setProperty });
+            this.props.onReady({ setProperties: this.setProperties });
           }
           if (this.props.source) {
             this.handleSourceChange(this.props);

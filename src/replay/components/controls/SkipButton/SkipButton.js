@@ -10,7 +10,7 @@ type Props = CommonProps & {
   offset: number,
   content: React.Node,
   inspect?: InspectMethod,
-  setProperty?: ({ position: number }) => void
+  setProperties?: ({ position: number }) => void
 };
 
 const className = 'skip-button';
@@ -22,13 +22,13 @@ class SkipButton extends React.Component<Props> {
   };
 
   handleClick = () => {
-    const setProperty = this.props.setProperty;
-    if (setProperty) {
+    const setProperties = this.props.setProperties;
+    if (setProperties) {
       const currentPosition =
         typeof this.props.inspect === 'function' ? this.props.inspect().position : this.props.position;
       const position = currentPosition + this.props.offset;
       if (!isNaN(position)) {
-        setProperty({ position });
+        setProperties({ position });
       }
     }
   };

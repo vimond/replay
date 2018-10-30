@@ -44,7 +44,7 @@ const setup = () => {
     }
   }
 
-  const contextValue = { setProperty: () => {}, inspect: () => {} };
+  const contextValue = { setProperties: () => {}, inspect: () => {} };
   const observeMethods = { observe: mockObserve, unobserve: () => {} };
   return {
     contextValue,

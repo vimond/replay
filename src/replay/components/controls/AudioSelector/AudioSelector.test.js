@@ -23,12 +23,12 @@ const mockTracks = [
   }
 ];
 
-const render = ({ classNamePrefix = 'v-', setProperty, audioTracks = mockTracks, currentAudioTrack }) =>
+const render = ({ classNamePrefix = 'v-', setProperties, audioTracks = mockTracks, currentAudioTrack }) =>
   shallow(
     <AudioSelector
       classNamePrefix={classNamePrefix}
       toggleContent="A"
-      setProperty={setProperty}
+      setProperties={setProperties}
       label="Audio tracks"
       audioTracks={audioTracks}
       currentAudioTrack={currentAudioTrack}
@@ -62,12 +62,12 @@ test('<AudioSelector/> marks the specified track as selected.', () => {
 
 test('<AudioSelector/> updates property selectedTextTrack with a track when its option is selected. ', () => {
   //Should include dive() and expand of Selector?
-  const setProperty = jest.fn();
-  const rendered = render({ setProperty, classNamePrefix: '' });
+  const setProperties = jest.fn();
+  const rendered = render({ setProperties, classNamePrefix: '' });
   const itemsContainer = rendered.dive().find('div.selector-items');
   const selectorItems = itemsContainer.children().map(c => c.dive());
   selectorItems[3].simulate('click');
-  expect(setProperty.mock.calls[0][0].selectedAudioTrack).toBe(mockTracks[0]);
+  expect(setProperties.mock.calls[0][0].selectedAudioTrack).toBe(mockTracks[0]);
   selectorItems[0].simulate('click');
-  expect(setProperty.mock.calls[1][0].selectedAudioTrack).toBe(mockTracks[3]);
+  expect(setProperties.mock.calls[1][0].selectedAudioTrack).toBe(mockTracks[3]);
 });

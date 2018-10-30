@@ -60,16 +60,16 @@ test('<Volume/> renders with prefixed class name and DOM including children.', (
 });
 
 test('<Volume/> updates property isMuted when mute toggle is clicked.', () => {
-  const setPropertyCallback = jest.fn();
-  const rendered = shallow(<Volume {...commonProps} setProperty={setPropertyCallback} />);
+  const setPropertiesCallback = jest.fn();
+  const rendered = shallow(<Volume {...commonProps} setProperties={setPropertiesCallback} />);
   const renderedMuteToggle = rendered.find(ToggleButton).dive();
   renderedMuteToggle.simulate('click');
-  expect(setPropertyCallback.mock.calls.length).toBe(1);
-  expect(setPropertyCallback.mock.calls[0][0]).toEqual({ isMuted: false });
+  expect(setPropertiesCallback.mock.calls.length).toBe(1);
+  expect(setPropertiesCallback.mock.calls[0][0]).toEqual({ isMuted: false });
 });
 test('<Volume/> updates property volume when volume slider handle is moved. isMuted is also set to false.', () => {
-  const setPropertyCallback = jest.fn();
-  const rendered = shallow(<Volume {...commonProps} setProperty={setPropertyCallback} />);
+  const setPropertiesCallback = jest.fn();
+  const rendered = shallow(<Volume {...commonProps} setProperties={setPropertiesCallback} />);
   const renderedVolumeSlider = rendered.find(Slider).dive();
 
   const mockEventElement = {
@@ -90,6 +90,6 @@ test('<Volume/> updates property volume when volume slider handle is moved. isMu
   renderedVolumeSlider.instance().renderedTrack = mockEventElement;
   renderedVolumeSlider.instance().handleHandleOrTrackClick(mockEvent1);
 
-  expect(setPropertyCallback.mock.calls.length).toBe(1);
-  expect(setPropertyCallback.mock.calls[0][0]).toEqual({ volume: 0.33, isMuted: false });
+  expect(setPropertiesCallback.mock.calls.length).toBe(1);
+  expect(setPropertiesCallback.mock.calls[0][0]).toEqual({ volume: 0.33, isMuted: false });
 });

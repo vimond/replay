@@ -80,7 +80,7 @@ const MyCustomPlayer = createCustomPlayer({
 });
 
 const MyPlayPauseOverlay = connectControl(
-  ({ isPaused, setProperty }) => (
+  ({ isPaused, setProperties }) => (
     <div
       style={{
         position: 'absolute',
@@ -90,7 +90,7 @@ const MyPlayPauseOverlay = connectControl(
         height: '100%',
         cursor: 'pointer'
       }}
-      onClick={() => setProperty({ isPaused: !isPaused })}
+      onClick={() => setProperties({ isPaused: !isPaused })}
     />
   ),
   ['isPaused']

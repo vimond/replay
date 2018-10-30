@@ -10,7 +10,7 @@ import type {
   VideoStreamState,
   VideoStreamStateKeys
 } from '../VideoStreamer/types';
-import type { ObserveCallback, ControllerApi, SetPropertyMethod } from './ControllerContext';
+import type { ObserveCallback, ControllerApi, SetPropertiesMethod } from './ControllerContext';
 import { override } from '../../common';
 import memoize from 'memoize-one';
 
@@ -38,7 +38,7 @@ export type PlaybackActions = {
   capBitrate: number => void,
   fixBitrate: (number | 'max' | 'min') => void,
   inspect: () => VideoStreamState,
-  setProperty: PlaybackProps => void
+  setProperties: PlaybackProps => void
 };
 
 type PlayerControllerProps = {
@@ -55,7 +55,7 @@ type PlayerControllerProps = {
 
 type PlayerControllerState = {
   videoStreamerProps: VideoStreamerProps,
-  setProperty: SetPropertyMethod
+  setProperties: SetPropertiesMethod
 };
 
 const passPropsToVideoStreamer = (children: React.Node, props: any): React.Element<any> => {
@@ -113,17 +113,17 @@ const getObserveManager = () => {
   };
 };
 
-const createPlaybackActions = (inspect, setProperty: PlaybackProps => void): PlaybackActions => {
-  const play = () => setProperty({ isPaused: false });
-  const pause = () => setProperty({ isPaused: true });
-  const setPosition = (position: number) => setProperty({ position });
-  const gotoLive = () => setProperty({ isAtLiveEdge: true });
-  const setVolume = (volume: number) => setProperty({ volume });
-  const setIsMuted = (isMuted: boolean) => setProperty({ isMuted });
-  const setSelectedTextTrack = (selectedTextTrack: AvailableTrack) => setProperty({ selectedTextTrack });
-  const setSelectedAudioTrack = (selectedAudioTrack: AvailableTrack) => setProperty({ selectedAudioTrack });
-  const capBitrate = (bitrateCap: number) => setProperty({ bitrateCap });
-  const fixBitrate = (bitrateFix: number | 'max' | 'min') => setProperty({ bitrateFix });
+const createPlaybackActions = (inspect, setProperties: PlaybackProps => void): PlaybackActions => {
+  const play = () => setProperties({ isPaused: false });
+  const pause = () => setProperties({ isPaused: true });
+  const setPosition = (position: number) => setProperties({ position });
+  const gotoLive = () => setProperties({ isAtLiveEdge: true });
+  const setVolume = (volume: number) => setProperties({ volume });
+  const setIsMuted = (isMuted: boolean) => setProperties({ isMuted });
+  const setSelectedTextTrack = (selectedTextTrack: AvailableTrack) => setProperties({ selectedTextTrack });
+  const setSelectedAudioTrack = (selectedAudioTrack: AvailableTrack) => setProperties({ selectedAudioTrack });
+  const capBitrate = (bitrateCap: number) => setProperties({ bitrateCap });
+  const fixBitrate = (bitrateFix: number | 'max' | 'min') => setProperties({ bitrateFix });
   return {
     play,
     pause,
@@ -135,7 +135,7 @@ const createPlaybackActions = (inspect, setProperty: PlaybackProps => void): Pla
     setSelectedTextTrack,
     capBitrate,
     fixBitrate,
-    setProperty,
+    setProperties,
     inspect
   };
 };
@@ -151,14 +151,14 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
     };
     this.state = {
       videoStreamerProps,
-      setProperty: () => {}
+      setProperties: () => {}
     };
   }
 
   componentDidMount() {
     const onReady = this.props.onPlaybackActionsReady;
     if (onReady) {
-      onReady(createPlaybackActions(() => this.inspect(), props => this.setProperty(props)));
+      onReady(createPlaybackActions(() => this.inspect(), props => this.setProperties(props)));
     }
   }
 
@@ -173,11 +173,11 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
 
   mergeConfiguration = memoize(override);
 
-  setProperty = (props: PlaybackProps) => this.state.setProperty(props);
+  setProperties = (props: PlaybackProps) => this.state.setProperties(props);
 
-  onVideoStreamerReady = ({ setProperty }: VideoStreamerMethods) => {
+  onVideoStreamerReady = ({ setProperties }: VideoStreamerMethods) => {
     this.inspectableStreamState = {};
-    this.setState({ setProperty });
+    this.setState({ setProperties });
   };
 
   // Video streamer -> UI
@@ -191,13 +191,13 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   };
 
   render() {
-    const { setProperty, videoStreamerProps } = this.state;
+    const { setProperties, videoStreamerProps } = this.state;
     const { observeManager } = this;
     const { render, externalProps, configuration, options } = this.props;
     const mergedConfiguration = this.mergeConfiguration(configuration, options);
     const { observe, unobserve } = observeManager;
     const controllerApi = {
-      setProperty,
+      setProperties,
       videoStreamer: passPropsToVideoStreamer(this.props.children, {
         ...videoStreamerProps,
         configuration: mergedConfiguration.videoStreamer

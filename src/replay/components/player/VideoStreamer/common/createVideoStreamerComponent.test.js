@@ -7,14 +7,14 @@ Enzyme.configure({ adapter: new Adapter() });
 const domRender = (Component, props = { source: { streamUrl: 'abc' } }) => {
   return new Promise((resolve, reject) => {
     let element;
-    const handleReady = ({ setProperty }) => {
+    const handleReady = ({ setProperties }) => {
       try {
         element.update();
         const videoElement = element.find('video');
         const videoRef = element.instance().videoRef;
         resolve({
           element,
-          setProperty,
+          setProperties,
           videoElement,
           videoRef,
           domVideoElement: videoElement.getDOMNode()
@@ -59,8 +59,8 @@ test('createVideoStreamerComponent() returns a component using the resolved impl
 
   const TestVideoStreamer = createVideoStreamerComponent('TestVideoStreamer', resolveImplementation);
   expect(TestVideoStreamer.displayName).toBe('TestVideoStreamer');
-  return domRender(TestVideoStreamer).then(({ videoRef, element, setProperty }) => {
-    setProperty({ isPaused: true });
+  return domRender(TestVideoStreamer).then(({ videoRef, element, setProperties }) => {
+    setProperties({ isPaused: true });
     expect(implementation.applyProperties).toHaveBeenCalled();
     expect(implementation.handleSourceChange).toHaveBeenCalled();
     return sourceChangePromise.then(() => {

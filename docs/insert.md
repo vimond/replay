@@ -153,11 +153,11 @@ See TODO for a full reference of state properties.
 
 Playback methods can be passed to Replay component consumers through a callback prop `onPlaybackActionsReady`.
 
-`setProperty()` is one common method that can be used for all playback operations. This method is passed along with `play()`, `setPosition()`, `capBitrate()` etc. The latter are just sugar methods that call `setProperty()`. It accepts an object with the properties to be set.
+`setProperties()` is one common method that can be used for all playback operations. This method is passed along with `play()`, `setPosition()`, `capBitrate()` etc. The latter are just sugar methods that call `setProperties()`. It accepts an object with the properties to be set.
 
 See TODO for a full reference of playback actions.
 
-See TODO for a full reference of playback properties that can be used with setProperty.
+See TODO for a full reference of playback properties that can be used with setProperties.
 
 Another method returned is `inspect()`. This returns an object with the current playback state, containing properties also exposed through the `onStreamStateChange` callback.
 
@@ -167,7 +167,7 @@ It is recommended to keep track of the state through an `onStreamStateChange` ca
 const playbackActionsReady = actions => {
   this.playVideo = actions.play;
   this.setPlaybackPosition = actions.setPosition;
-  this.setPlaybackProperty = actions.setProperty;
+  this.setPlaybackProperty = actions.setProperties;
 }
 
 /// In e.g. click handlers for buttons outside the Replay player.

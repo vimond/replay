@@ -3,7 +3,7 @@ import * as React from 'react';
 import connectControl from '../PlayerController/connectControl';
 
 import type { AvailableTrack, PlayState } from '../VideoStreamer/types';
-import type { StreamStateKeysForObservation, SetPropertyMethod } from '../PlayerController/ControllerContext';
+import type { StreamStateKeysForObservation, SetPropertiesMethod } from '../PlayerController/ControllerContext';
 import type { PreferredSettings } from '../../../default-player/types';
 
 type SettingsStorageKind = 'none' | 'local' | 'session';
@@ -27,7 +27,7 @@ type Props = PreferredSettings & {
   textTracks?: Array<AvailableTrack>,
   audioTracks?: Array<AvailableTrack>,
   playState?: PlayState,
-  setProperty: SetPropertyMethod,
+  setProperties: SetPropertiesMethod,
   configuration?: ?UserSettingsConfiguration
 };
 
@@ -150,7 +150,7 @@ const onPropsChanged = (prevProps: Props, nextProps: Props) => {
     textTrackKind,
     audioTrackLanguage,
     audioTrackKind,
-    setProperty
+    setProperties
   } = nextProps;
 
   const programmaticSettings = {};
@@ -185,7 +185,7 @@ const onPropsChanged = (prevProps: Props, nextProps: Props) => {
   );
 
   if (Object.keys(propsToBeUpdated).length > 0) {
-    setProperty(propsToBeUpdated);
+    setProperties(propsToBeUpdated);
   }
 };
 
@@ -193,7 +193,7 @@ const onPropsChanged = (prevProps: Props, nextProps: Props) => {
 export const UnConnectedPreferredSettingsApplicator = class PreferredSettingsApplicator extends React.Component<Props> {
   static streamStateKeysForObservation: StreamStateKeysForObservation = ['playState', 'textTracks', 'audioTracks'];
   componentDidMount() {
-    onPropsChanged({ setProperty: noop }, this.props);
+    onPropsChanged({ setProperties: noop }, this.props);
   }
   componentDidUpdate(prevProps: Props) {
     onPropsChanged(prevProps, this.props);

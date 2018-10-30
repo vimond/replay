@@ -10,7 +10,7 @@ import type { StreamStateKeysForObservation } from '../../player/PlayerControlle
 type Props = CommonProps & {
   textTracks?: Array<AvailableTrack>,
   currentTextTrack?: AvailableTrack,
-  setProperty?: ({ selectedTextTrack: ?AvailableTrack }) => void,
+  setProperties?: ({ selectedTextTrack: ?AvailableTrack }) => void,
   noSubtitlesLabel: string,
   toggleContent: React.Node
 };
@@ -52,11 +52,11 @@ class SubtitlesSelector extends React.Component<Props, State> {
   }
 
   handleSelect = (item: Item) => {
-    if (this.props.setProperty && typeof item !== 'string') {
+    if (this.props.setProperties && typeof item !== 'string') {
       if (item.id === 0) {
-        this.props.setProperty({ selectedTextTrack: null });
+        this.props.setProperties({ selectedTextTrack: null });
       } else {
-        this.props.setProperty({ selectedTextTrack: item.data });
+        this.props.setProperties({ selectedTextTrack: item.data });
       }
     }
   };

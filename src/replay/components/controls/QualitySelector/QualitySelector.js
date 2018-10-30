@@ -14,7 +14,7 @@ type Props = CommonProps & {
   bitrateFix?: ?number,
   bitrateCap?: ?number,
   toggleContent: React.Node,
-  setProperty?: ({ bitrateFix: ?number } | { bitrateCap: ?number }) => void,
+  setProperties?: ({ bitrateFix: ?number } | { bitrateCap: ?number }) => void,
   selectionStrategy?: QualitySelectionStrategy,
   autoLabel: string,
   formatBitrateLabel: (number, boolean) => string
@@ -36,11 +36,11 @@ class QualitySelector extends React.Component<Props> {
   ];
 
   handleSelect = (item: Item) => {
-    if (this.props.setProperty && typeof item !== 'string') {
+    if (this.props.setProperties && typeof item !== 'string') {
       if (this.props.selectionStrategy === 'fix-bitrate') {
-        this.props.setProperty({ bitrateFix: item.data });
+        this.props.setProperties({ bitrateFix: item.data });
       } else {
-        this.props.setProperty({ bitrateCap: item.data });
+        this.props.setProperties({ bitrateCap: item.data });
       }
     }
   };

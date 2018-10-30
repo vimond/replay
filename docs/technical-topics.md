@@ -161,7 +161,7 @@ For custom controls or UI components consuming the video playback state, use `co
 
 It also passes down a couple of methods as props to the component:
 
-* `setProperty()`: Use this for setting/updating video streamer props, changing position, volume, current text track, pause, etc.
+* `setProperties()`: Use this for setting/updating video streamer props, changing position, volume, current text track, pause, etc.
 * `inspect()`: This returns all state properties of the video streamer and their latest value. It is useful when initialising a component after playback starts, or when observation and frequently updates of specific props are not necessary.
 
 More info:
@@ -175,14 +175,14 @@ TODO: Link to API reference for all API members below.
 
 ### Positions, clock times, durations, DVR
 
-Current playback `position` and `duration` of the stream or video file are exposed in properties with these two names. Both for live DVR streams and on demand streams, the range limitation `0 ≤ position ≤ duration` applies. The position can be changed within the same range with `setProperty({ position: newPosition })`, and again both with live DVR and on demand streams.
+Current playback `position` and `duration` of the stream or video file are exposed in properties with these two names. Both for live DVR streams and on demand streams, the range limitation `0 ≤ position ≤ duration` applies. The position can be changed within the same range with `setProperties({ position: newPosition })`, and again both with live DVR and on demand streams.
 
 For live streams, duration constitutes the DVR seekable range, and can change during playback. When playing at the live edge, `position ≈ duration`.
 
 Note that for live streams with a sliding DVR window, the position might remain constant even if playback progresses. For this, live streams also expose clock time for the current stream position, through `absolutePosition`. Use this for indicating actual playback progress, since position might be unchanging when the offset or seekable range is not changing.
 
 * State properties: `position: number`, `duration: number`, `absolutePosition: Date`, `absoluteStartPosition: Date`.
-* Playback manipulation: `setProperty({ position: number })`, `setProperty({ isAtLiveEdge: true })`.
+* Playback manipulation: `setProperties({ position: number })`, `setProperties({ isAtLiveEdge: true })`.
 
 ### Play state as phases of a video playback
 
@@ -193,13 +193,13 @@ An "enum" or set of different strings are exposed in the `playState: PlayState` 
 When `playState` is only indicating one of possibly two or three concurrent states, the following boolean state properties are updated independently, and more than one can be `true` at a time:
 
 * State properties: `isBuffering: boolean`, `isSeeking: boolean`, `isPaused: boolean`.
-* Playback manipulation: `setProperty({ isPaused: boolean })`
+* Playback manipulation: `setProperties({ isPaused: boolean })`
 
 ### Stream mode: On demand, live. Timeshifting availability
 
 The state property `playMode: PlayMode` can contain three string values, `'ondemand'`, `'livedvr'`, `'live'`. The latter indicates a live stream which is not seekable.  `'livedvr'` indicates a live stream which can be timeshifted, i.e. allows for seeking. On demand streams can always be seeked.
 
-`isAtLiveEdge: boolean` is set to false when a live playback is timeshifted. Use `setProperty({ isAtLiveEdge: true })` in order to change this property into true`.
+`isAtLiveEdge: boolean` is set to false when a live playback is timeshifted. Use `setProperties({ isAtLiveEdge: true })` in order to change this property into true`.
 
 ### Current bitrate and available qualities for a stream
 
@@ -209,7 +209,7 @@ All numbers are in kbps.
 
 * State properties: `bitrates: Array<number>`, `currentBitrate: number`.
 * State properties indicating overrides to full automatic adaptive quality switching: `bitrateFix: number` or `bitrateCap: number`.
-* Overrides to adaptive quality selection: `setProperty({ bitrateFix: number | string })`, `setProperty({ bitrateCap: number })`
+* Overrides to adaptive quality selection: `setProperties({ bitrateFix: number | string })`, `setProperties({ bitrateCap: number })`
 
 ### Buffer level
 
@@ -224,21 +224,21 @@ The properties for `AvailableTrack` expose presentational and technical metadata
 As indicated by the question mark in the definition below, `currentTextTrack` can have the value `null`, or the `selectedTextTrack` property can be set to `null`. This indicates that no subtitles are selected for display.
 
 * State properties: `textTracks: Array<AvailableTrack>`, `currentTextTrack: ?AvailableTrack`. 
-* Playback manipulation: `setProperty({ selectedTextTrack: ?AvailableTrack })`
+* Playback manipulation: `setProperties({ selectedTextTrack: ?AvailableTrack })`
 
 ### Current audio track playing and all available audio tracks
 
 Audio tracks are often representing different audible languages. The two audio track properties works similarly to the text tracks properties. Note that it is not possible to not select any audio track. However, it is not guaranteed that the `currentAudioTrack` property is not `null`.
 
 * State properties: `audioTracks: Array<AvailableTrack>` and `currentAudioTrack: ?AvailableTrack` 
-* Playback manipulation: `setProperty({ selectedAudioTrack: AvailableTrack })`
+* Playback manipulation: `setProperties({ selectedAudioTrack: AvailableTrack })`
 
 ### Volume level and mute state
 
 These simple rules apply: `0 ≤ volume ≤ 1`, and the two properties are updated independently, so that `volume` can e.g. have the value `0.33`, while `isMuted` is `true`.
 
 * State properties: `volume: number`, `isMuted: boolean`.
-* Playback manipulation: `setProperty({ volume: number })`, `setProperty({ isMuted: boolean })`
+* Playback manipulation: `setProperties({ volume: number })`, `setProperties({ isMuted: boolean })`
 
 ## Containment for the player UI
 
@@ -274,7 +274,7 @@ There are two helpers facilitating storage and reapplication of the user's selec
 
 `<PreferredSettingsApplicator/>` applies the stored settings when the playback is starting. This includes finding the text or audio track with the best match for the stored language and kind codes.
 
-`withSettingsStorage(Component: React.Component)` creates a higher order component from any control, monitoring the user's selections propagated through the `setProperty({ prop: value })` callback. I.e. when `setProperty({ isMuted: true })` is called from the wrapped component, it will be stored to the settings storage, before propagated to the controller (assuming the HOC is connected to the player controller).
+`withSettingsStorage(Component: React.Component)` creates a higher order component from any control, monitoring the user's selections propagated through the `setProperties({ prop: value })` callback. I.e. when `setProperties({ isMuted: true })` is called from the wrapped component, it will be stored to the settings storage, before propagated to the controller (assuming the HOC is connected to the player controller).
 
 The different settings can be configured individually to be stored in either the browser's `localStorage` or `sessionStorage`. It is also possible to pass props with the same name as the different settings to the ´<PreferredSettingsApplicator/>´ component, which allows for having a different source or outside source for the preferences.
 

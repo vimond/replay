@@ -15,7 +15,7 @@ type Props = CommonProps & {
   unmutedContent: React.Node,
   volumeSliderHandleContent: React.Node,
   volumeSliderTrackContent: React.Node,
-  setProperty?: ({ volume: number } | { isMuted: boolean }) => void
+  setProperties?: ({ volume: number } | { isMuted: boolean }) => void
 };
 
 const className = 'volume';
@@ -33,15 +33,15 @@ class Volume extends React.Component<Props> {
   static streamStateKeysForObservation: StreamStateKeysForObservation = ['volume', 'isMuted'];
 
   handleMuteToggleClick = (isMuted: boolean) => {
-    if (this.props.setProperty) {
-      this.props.setProperty({ isMuted });
+    if (this.props.setProperties) {
+      this.props.setProperties({ isMuted });
     }
   };
 
   handleVolumeSliderChange = (volume: number) => {
-    const setProperty = this.props.setProperty;
-    if (setProperty) {
-      setProperty({ isMuted: false, volume });
+    const setProperties = this.props.setProperties;
+    if (setProperties) {
+      setProperties({ isMuted: false, volume });
     }
   };
 

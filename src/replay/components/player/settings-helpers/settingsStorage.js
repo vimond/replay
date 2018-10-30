@@ -1,17 +1,17 @@
 // @flow
 import * as React from 'react';
 import type { PlaybackProps } from '../VideoStreamer/types';
-import type { StreamStateKeysForObservation, SetPropertyMethod } from '../PlayerController/ControllerContext';
+import type { StreamStateKeysForObservation, SetPropertiesMethod } from '../PlayerController/ControllerContext';
 import type { UserSettingsConfiguration } from './PreferredSettingsApplicator';
 import type { PreferredSettings } from '../../../default-player/types';
 
 type SettingsStorageProps = {
   configuration?: ?UserSettingsConfiguration,
-  setProperty?: SetPropertyMethod
+  setProperties?: SetPropertiesMethod
 };
 
 type TargetProps = {
-  setProperty?: SetPropertyMethod
+  setProperties?: SetPropertiesMethod
 };
 
 const isEnabled = (configuration: ?UserSettingsConfiguration) => {
@@ -60,9 +60,9 @@ const withSettingsStorage = (Component: React.ComponentType<TargetProps>) => {
     // $FlowFixMe What's the best practices for extending component types with static properties?
     static streamStateKeysForObservation: StreamStateKeysForObservation = Component.streamStateKeysForObservation;
 
-    setProperty = (userSetProps: PlaybackProps) => {
-      if (this.props.setProperty) {
-        this.props.setProperty(userSetProps);
+    setProperties = (userSetProps: PlaybackProps) => {
+      if (this.props.setProperties) {
+        this.props.setProperties(userSetProps);
       }
       const userSettingsConfig = this.props.configuration && this.props.configuration.userSettings;
       if (userSettingsConfig) {
@@ -135,7 +135,7 @@ const withSettingsStorage = (Component: React.ComponentType<TargetProps>) => {
 
     render() {
       if (isEnabled(this.props.configuration)) {
-        return <Component {...this.props} setProperty={this.setProperty} />;
+        return <Component {...this.props} setProperties={this.setProperties} />;
       } else {
         return <Component {...this.props} />;
       }

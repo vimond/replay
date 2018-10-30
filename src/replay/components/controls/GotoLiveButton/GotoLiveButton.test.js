@@ -64,25 +64,25 @@ test('<GotoLiveButton/> renders button state when live correctly.', () => {
   expect(renderedToggleButton.text()).toBe('A');
 });
 
-test('<GotoLiveButton/> invokes the setProperty({ isAtLiveEdge: true }) callback when clicked, and not at live position.', () => {
-  const setPropertyCallback = jest.fn();
+test('<GotoLiveButton/> invokes the setProperties({ isAtLiveEdge: true }) callback when clicked, and not at live position.', () => {
+  const setPropertiesCallback = jest.fn();
   const rendered = shallow(
-    <GotoLiveButton setProperty={setPropertyCallback} playMode="livedvr" isAtLiveEdge={false} />
+    <GotoLiveButton setProperties={setPropertiesCallback} playMode="livedvr" isAtLiveEdge={false} />
   );
   expect(rendered.props().isOn).toBe(false);
   const renderedToggleButton = rendered.dive();
   expect(renderedToggleButton.simulate('click'));
-  expect(setPropertyCallback.mock.calls.length).toBe(1);
-  expect(setPropertyCallback.mock.calls[0][0]).toEqual({ isAtLiveEdge: true });
+  expect(setPropertiesCallback.mock.calls.length).toBe(1);
+  expect(setPropertiesCallback.mock.calls[0][0]).toEqual({ isAtLiveEdge: true });
 });
 
-test('<GotoLiveButton/> does not invoke the setProperty({ isAtLiveEdge: true }) callback when clicked, if already at live position.', () => {
-  const setPropertyCallback = jest.fn();
+test('<GotoLiveButton/> does not invoke the setProperties({ isAtLiveEdge: true }) callback when clicked, if already at live position.', () => {
+  const setPropertiesCallback = jest.fn();
   const rendered = shallow(
-    <GotoLiveButton setProperty={setPropertyCallback} playMode="livedvr" isAtLiveEdge={true} />
+    <GotoLiveButton setProperties={setPropertiesCallback} playMode="livedvr" isAtLiveEdge={true} />
   );
   expect(rendered.props().isOn).toBe(true);
   const renderedToggleButton = rendered.dive();
   expect(renderedToggleButton.simulate('click'));
-  expect(setPropertyCallback.mock.calls.length).toBe(0);
+  expect(setPropertiesCallback.mock.calls.length).toBe(0);
 });

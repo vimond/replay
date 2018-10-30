@@ -112,7 +112,7 @@ class MockVideoStreamer extends React.Component<Props> {
     window.updateVideoState = this.updateStreamState;
     if (this.props.onReady) {
       this.props.onReady({
-        setProperty: (props: PlaybackProps) => runAsync(this.updateStreamState, props, Math.round(Math.random() * 1000))
+        setProperties: (props: PlaybackProps) => runAsync(this.updateStreamState, props, Math.round(Math.random() * 1000))
       });
       updateWithDefaultValues(this.props.onStreamStateChange);
       /*setInterval(() => {

@@ -10,7 +10,7 @@ import {
 
 export type FullscreenState = {
   isFullscreen: boolean,
-  setProperty: ({ isFullscreen: boolean }) => void,
+  setProperties: ({ isFullscreen: boolean }) => void,
   enterFullscreen: () => void,
   exitFullscreen: () => void
 };
@@ -63,7 +63,7 @@ class Fullscreen extends React.Component<Props, State> {
     }
   };
 
-  setProperty = ({ isFullscreen }: { isFullscreen: boolean } = {}) => {
+  setProperties = ({ isFullscreen }: { isFullscreen: boolean } = {}) => {
     if (isFullscreen) {
       this.enterFullscreen();
     } else {
@@ -74,8 +74,8 @@ class Fullscreen extends React.Component<Props, State> {
   render() {
     const { render } = this.props;
     const { isFullscreen } = this.state;
-    const { enterFullscreen, exitFullscreen, onRef, setProperty } = this;
-    return render({ isFullscreen, enterFullscreen, exitFullscreen, setProperty: setProperty, onRef });
+    const { enterFullscreen, exitFullscreen, onRef, setProperties } = this;
+    return render({ isFullscreen, enterFullscreen, exitFullscreen, setProperties, onRef });
   }
 }
 export default Fullscreen;

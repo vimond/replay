@@ -29,10 +29,10 @@ test('<PlayPauseButton/> renders paused state correctly.', () => {
 });
 
 test('<PlayPauseButton/> updates property isPaused with opposite boolean value on click.', () => {
-  const setPropertyCallback = jest.fn();
+  const setPropertiesCallback = jest.fn();
   const rendered = shallow(
     <PlayPauseButton
-      setProperty={setPropertyCallback}
+      setProperties={setPropertiesCallback}
       classNamePrefix="a-"
       isPaused={true}
       pausedContent="A"
@@ -41,6 +41,6 @@ test('<PlayPauseButton/> updates property isPaused with opposite boolean value o
   );
   const renderedToggleButton = rendered.dive();
   expect(renderedToggleButton.simulate('click'));
-  expect(setPropertyCallback.mock.calls.length).toBe(1);
-  expect(setPropertyCallback.mock.calls[0][0]).toEqual({ isPaused: false });
+  expect(setPropertiesCallback.mock.calls.length).toBe(1);
+  expect(setPropertiesCallback.mock.calls[0][0]).toEqual({ isPaused: false });
 });
