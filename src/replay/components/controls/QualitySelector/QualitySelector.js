@@ -55,7 +55,7 @@ class QualitySelector extends React.Component<Props> {
     const { lockedBitrate, maxBitrate, selectionStrategy } = this.props;
     const matchValue =
       lockedBitrate != null && maxBitrate != null
-        ? selectionStrategy === 'locked-bitrate'
+        ? selectionStrategy === 'lock-bitrate'
           ? lockedBitrate
           : maxBitrate
         : lockedBitrate || maxBitrate;
