@@ -6,6 +6,7 @@ import BasicVideoStreamer from './BasicVideoStreamer/BasicVideoStreamer';
 import HlsjsVideoStreamer from './HlsjsVideoStreamer/HlsjsVideoStreamer';
 import ShakaVideoStreamer from './ShakaVideoStreamer/ShakaVideoStreamer';
 import type { PlaybackSource } from './types';
+import HtmlVideoStreamer from './HtmlVideoStreamer/HtmlVideoStreamer';
 
 type StreamType = {
   name: string,
@@ -63,7 +64,7 @@ const selectVideoStreamerComponent = (source: PlaybackSource | string | null): ?
           navigator.userAgent.indexOf('Chrome') < 0 &&
           navigator.userAgent.indexOf('Firefox') < 0;
         if (isSafari) {
-          return BasicVideoStreamer;
+          return HtmlVideoStreamer;
         } else {
           return HlsjsVideoStreamer;
         }

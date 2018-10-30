@@ -9,7 +9,7 @@ import './replay/replay-default.css';
 import type { PlaybackActions } from './replay/components/player/PlayerController/PlayerController';
 import { PlaybackError } from './replay/components/player/VideoStreamer/types';
 import type { PlaybackSource, SourceTrack } from './replay/components/player/VideoStreamer/types';
-import VideoStreamerResolver from './replay/components/player/VideoStreamer/videoStreamerResolver';
+import VideoStreamerResolver from './replay/components/player/VideoStreamer/VideoStreamerResolver';
 
 type State = {
   useMock?: boolean,
@@ -49,10 +49,20 @@ const textTracks = [
   }
 ];
 
-const widevineStream = {
+const widevineStream: PlaybackSource = {
   streamUrl: 'https://tv2-hls-live.telenorcdn.net/out/u/82018.mpd',
-  licenseUrl: 'https://sumo.tv2.no/license/wvmodular/82018?timeStamp=2018-10-21T17%3A20%3A06%2B0000&contract=8aa97e9f77c2accc9ec33fb4b288dea2&account=source',
+  licenseUrl:
+    'https://sumo.tv2.no/license/wvmodular/82018?timeStamp=2018-10-21T17%3A20%3A06%2B0000&contract=8aa97e9f77c2accc9ec33fb4b288dea2&account=source',
   contentType: 'application/dash+xml'
+};
+
+const fairPlayStream: PlaybackSource = {
+  streamUrl: 'https://tv2-hls-live.telenorcdn.net/out/u/82018.m3u8',
+  licenseUrl:
+    'http://localhost:3002/proxy/stream/license/https%3A//sumo.tv2.no/license/fairplay/82018%3FtimeStamp%3D2018-10-30T14%253A25%253A33%252B0000%26contract%3Db639d62fcb132fc7d7f6f7abec3318fe%26account%3Dsource',
+  licenseRequestDetails: {
+    fairPlayCertificateUrl: 'http://localhost:3002/proxy/stream/http%3A//sumo.tv2.no/atvapp/assets/TV2_certificate.der'
+  }
 };
 
 const videoUrls = [
@@ -63,6 +73,7 @@ const videoUrls = [
   'https://tv2-stream-live-no.telenorcdn.net/out/u/1153546.m3u8',
   'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1385976_ps1271_pd672348.smil/manifest.mpd',
   'https://d3bwpqn4orkllw.cloudfront.net/b91c1/EG_5575_TR_47878_MEZ_(47878_ISMUSP).ism/EG_5575_TR_47878_MEZ_(47878_ISMUSP).mpd',
+  fairPlayStream,
   widevineStream
 ];
 
@@ -173,10 +184,14 @@ class App extends Component<void, State> {
                 textTracks={textTracks}
                 initialPlaybackProps={{ isPaused: false, volume: 0.5 }}
                 onPlaybackActionsReady={this.handlePlaybackActions}>
-                <VideoStreamerResolver source={source}/>
+                <VideoStreamerResolver source={source} />
               </Replay>
               <p>
-                <input type="url" value={source ? (typeof source === 'string' ? source : source.streamUrl) : ''} onChange={this.handleStreamUrlFieldChange} />
+                <input
+                  type="url"
+                  value={source ? (typeof source === 'string' ? source : source.streamUrl) : ''}
+                  onChange={this.handleStreamUrlFieldChange}
+                />
               </p>
               <p className="buttons-row">
                 {videoUrls.map((_, index) => (
