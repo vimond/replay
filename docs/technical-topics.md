@@ -208,8 +208,8 @@ Does not apply to `<BasicVideoStreamer/>`, due to missing capabilities of the `H
 All numbers are in kbps.
 
 * State properties: `bitrates: Array<number>`, `currentBitrate: number`.
-* State properties indicating overrides to full automatic adaptive quality switching: `lockedBitrate: number` or `maxBitrate: number`.
-* Overrides to adaptive quality selection: `setProperty({ lockedBitrate: number | string })`, `setProperty({ maxBitrate: number })`
+* State properties indicating overrides to full automatic adaptive quality switching: `bitrateFix: number` or `maxBitrate: number`.
+* Overrides to adaptive quality selection: `setProperty({ bitrateFix: number | string })`, `setProperty({ maxBitrate: number })`
 
 ### Buffer level
 

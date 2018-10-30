@@ -220,7 +220,7 @@ In your real code, any components with data can be brought in. All Replay compon
             <QualitySelector
               {...strings.qualitySelector}
               {...graphics.qualitySelector}
-              selectionStrategy={"lock-bitrate"}
+              selectionStrategy={"fix-bitrate"}
               classNamePrefix={classNamePrefix}
             />
             <FullscreenButton {...fullscreenState} {...strings.fullscreenButton} {...graphics.fullscreenButton} classNamePrefix={classNamePrefix} />

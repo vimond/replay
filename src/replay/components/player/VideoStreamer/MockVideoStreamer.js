@@ -48,7 +48,7 @@ const defaultValues = {
   bufferedAhead: 12,
   bitrates: [512, 1024, 2048, 4096],
   currentBitrate: 2048,
-  lockedBitrate: NaN,
+  bitrateFix: NaN,
   maxBitrate: Infinity,
   textTracks: defaultTextTracks,
   currentTextTrack: defaultTextTracks[0],
@@ -62,7 +62,7 @@ const defaultValues = {
 	isMuted?: boolean,
 	isPaused?: boolean,
 	maxBitrate?: number,
-	lockedBitrate?: number | string,
+	bitrateFix?: number | string,
 	selectedTextTrack?: AvailableTrack,
 	selectedAudioTrack?: AvailableTrack,
 */
@@ -106,8 +106,8 @@ class MockVideoStreamer extends React.Component<Props> {
 
   componentDidMount() {
     if (this.props.initialPlaybackProps) {
-      const { isPaused, isMuted, volume, maxBitrate, lockedBitrate } = this.props.initialPlaybackProps;
-      this.updateStreamState({ isPaused, isMuted, volume, maxBitrate, lockedBitrate });
+      const { isPaused, isMuted, volume, maxBitrate, bitrateFix } = this.props.initialPlaybackProps;
+      this.updateStreamState({ isPaused, isMuted, volume, maxBitrate, bitrateFix });
     }
     window.updateVideoState = this.updateStreamState;
     if (this.props.onReady) {

@@ -51,7 +51,7 @@ export type TextTrackManager = {
 };
 
 export type BitrateManager = {
-  lockBitrate: (lockedBitrate: number | 'max' | 'min') => void,
+  fixBitrate: (bitrateFix: number | 'max' | 'min') => void,
   capBitrate: number => void
 };
 

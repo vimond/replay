@@ -88,9 +88,9 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     if (lifeCycleManager.getStage() === 'new') {
       lifeCycleManager.setStage('starting');
       if (streamer.props.initialPlaybackProps) {
-        const { isMuted, volume, lockedBitrate, maxBitrate } = streamer.props.initialPlaybackProps;
+        const { isMuted, volume, bitrateFix, maxBitrate } = streamer.props.initialPlaybackProps;
         // TODO: Apply on 'streaming' event in Shaka insted.
-        applyProperties({ isMuted, volume, lockedBitrate, maxBitrate });
+        applyProperties({ isMuted, volume, bitrateFix: bitrateFix, maxBitrate });
       }
       updateStreamState({
         playState: 'starting',

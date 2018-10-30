@@ -36,7 +36,7 @@ export type PlaybackActions = {
   setSelectedAudioTrack: AvailableTrack => void,
   setSelectedTextTrack: AvailableTrack => void,
   capBitrate: number => void,
-  lockBitrate: (number | 'max' | 'min') => void,
+  fixBitrate: (number | 'max' | 'min') => void,
   inspect: () => VideoStreamState,
   setProperty: PlaybackProps => void
 };
@@ -123,7 +123,7 @@ const createPlaybackActions = (inspect, setProperty: PlaybackProps => void): Pla
   const setSelectedTextTrack = (selectedTextTrack: AvailableTrack) => setProperty({ selectedTextTrack });
   const setSelectedAudioTrack = (selectedAudioTrack: AvailableTrack) => setProperty({ selectedAudioTrack });
   const capBitrate = (maxBitrate: number) => setProperty({ maxBitrate });
-  const lockBitrate = (lockedBitrate: number | 'max' | 'min') => setProperty({ lockedBitrate });
+  const fixBitrate = (bitrateFix: number | 'max' | 'min') => setProperty({ bitrateFix });
   return {
     play,
     pause,
@@ -134,7 +134,7 @@ const createPlaybackActions = (inspect, setProperty: PlaybackProps => void): Pla
     setSelectedAudioTrack,
     setSelectedTextTrack,
     capBitrate,
-    lockBitrate,
+    fixBitrate,
     setProperty,
     inspect
   };

@@ -102,7 +102,7 @@ const getShakaBitrateManager = <P: PropsWithInitial>(
     }
   }
 
-  function lockBitrate(bitrate: ?(number | 'max' | 'min')) {
+  function fixBitrate(bitrate: ?(number | 'max' | 'min')) {
     if (typeof bitrate === 'string') {
       try {
         const sortedTracks = shakaPlayer
@@ -114,10 +114,10 @@ const getShakaBitrateManager = <P: PropsWithInitial>(
         if (desiredVariantTrack) {
           shakaPlayer.configure({ abr: { enabled: false, restrictions: { maxBandwidth: Infinity } } });
           shakaPlayer.selectVariantTrack(desiredVariantTrack);
-          updateStreamState({ lockedBitrate: getBitrateAsKbps(desiredVariantTrack) });
+          updateStreamState({ bitrateFix: getBitrateAsKbps(desiredVariantTrack) });
         } else {
           shakaPlayer.configure(resetConfiguration);
-          updateStreamState({ lockedBitrate: null });
+          updateStreamState({ bitrateFix: null });
           log &&
             log(
               'Unknown string specified for bitrate lock. Please use a value of type number if a bitrate specified by kbps is intended.',
@@ -126,7 +126,7 @@ const getShakaBitrateManager = <P: PropsWithInitial>(
         }
       } catch (e) {
         shakaPlayer.configure(resetConfiguration);
-        updateStreamState({ lockedBitrate: null });
+        updateStreamState({ bitrateFix: null });
         log &&
           log(
             'Attempting to set ' + bitrate + 'imum bitrate, but no tracks found. A bit too early, maybe?',
@@ -135,7 +135,7 @@ const getShakaBitrateManager = <P: PropsWithInitial>(
       }
     } else if (isNaN(bitrate) || bitrate == null || bitrate < 0 || !bitrate) {
       shakaPlayer.configure(resetConfiguration);
-      updateStreamState({ lockedBitrate: null });
+      updateStreamState({ bitrateFix: null });
       log && log('Resetting bitrate locking.');
     } else {
       const matchingTrack = shakaPlayer.getVariantTracks().filter(function(track) {
@@ -144,11 +144,11 @@ const getShakaBitrateManager = <P: PropsWithInitial>(
       if (matchingTrack) {
         shakaPlayer.configure({ abr: { enabled: false, restrictions: { maxBandwidth: Infinity } } });
         shakaPlayer.selectVariantTrack(matchingTrack);
-        updateStreamState({ lockedBitrate: getBitrateAsKbps(matchingTrack) });
+        updateStreamState({ bitrateFix: getBitrateAsKbps(matchingTrack) });
         log && log('Locking at bitrate ' + bitrate + '.', matchingTrack);
       } else {
         shakaPlayer.configure(resetConfiguration);
-        updateStreamState({ lockedBitrate: null });
+        updateStreamState({ bitrateFix: null });
         log &&
           log(
             'Could not finding matching track for specified lock bitrate ' + bitrate + '.',
@@ -179,7 +179,7 @@ const getShakaBitrateManager = <P: PropsWithInitial>(
 
   return {
     cleanup,
-    lockBitrate,
+    fixBitrate,
     capBitrate
   };
 };

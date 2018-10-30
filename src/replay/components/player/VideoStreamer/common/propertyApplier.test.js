@@ -25,7 +25,7 @@ const getAudioTrackManager = () => ({
 });
 
 const getBitrateManager = () => ({
-  lockBitrate: jest.fn(),
+  fixBitrate: jest.fn(),
   capBitrate: jest.fn()
 });
 
@@ -186,7 +186,7 @@ test('applyProperties() invokes handleTextTrackChange or handleAudioTrackChange 
   expect(textTrackManager.handleSelectedTextTrackChange.mock.calls[1][0]).not.toBe(null);
 });
 
-test('applyProperties() invokes lockBitrate or capBitrate when lockedBitrate or fixedBitrate properties are set.', () => {
+test('applyProperties() invokes fixBitrate or capBitrate when bitrateFix or fixedBitrate properties are set.', () => {
   const videoElement = getVideoElementMock();
   const textTrackManager = getTextTrackManager();
   const audioTrackManager = getAudioTrackManager();
@@ -198,18 +198,18 @@ test('applyProperties() invokes lockBitrate or capBitrate when lockedBitrate or 
     audioTrackManager,
     bitrateManager
   );
-  applyProperties({ lockedBitrate: 123 });
+  applyProperties({ bitrateFix: 123 });
   applyProperties({ maxBitrate: 345 });
-  expect(bitrateManager.lockBitrate).toHaveBeenCalledWith(123);
+  expect(bitrateManager.fixBitrate).toHaveBeenCalledWith(123);
   expect(bitrateManager.capBitrate).toHaveBeenCalledWith(345);
 });
 
-test("applyProperties() doesn't break if lockedBitrate or fixedBitrate properties are set, and there is no bitrateManager.", () => {
+test("applyProperties() doesn't break if bitrateFix or fixedBitrate properties are set, and there is no bitrateManager.", () => {
   const videoElement = getVideoElementMock();
   const textTrackManager = getTextTrackManager();
   const audioTrackManager = getAudioTrackManager();
   const applyProperties = getPropertyApplier(videoElement, getStreamRangeHelper(), textTrackManager, audioTrackManager);
-  applyProperties({ lockedBitrate: 123 });
+  applyProperties({ bitrateFix: 123 });
   applyProperties({ maxBitrate: 345 });
   expect(true).toBe(true);
 });

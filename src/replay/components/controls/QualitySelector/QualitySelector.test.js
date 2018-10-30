@@ -38,20 +38,20 @@ test('<QualitySelector/> does not render if no or only an invalid bitrate option
   expect(rendered3.getElement()).toBe(null);
 });
 
-test('<QualitySelector/> with strategy "lock-bitrate" highlights the quality option corresponding with the reported locked bitrate as selected.', () => {
-  const rendered = shallow(<QualitySelector {...commonProps} selectionStrategy="lock-bitrate" lockedBitrate={999} />);
+test('<QualitySelector/> with strategy "fix-bitrate" highlights the quality option corresponding with the reported locked bitrate as selected.', () => {
+  const rendered = shallow(<QualitySelector {...commonProps} selectionStrategy="fix-bitrate" bitrateFix={999} />);
   const selectedItem = rendered.prop('selectedItem');
   expect(selectedItem).toEqual({ id: 999, label: '999 kbps', data: 999 });
 });
 
-test('<QualitySelector/> with strategy "lock-bitrate" highlights the lowest quality option when locked bitrate is set to "min".', () => {
-  const rendered = shallow(<QualitySelector {...commonProps} selectionStrategy="lock-bitrate" lockedBitrate="min" />);
+test('<QualitySelector/> with strategy "fix-bitrate" highlights the lowest quality option when locked bitrate is set to "min".', () => {
+  const rendered = shallow(<QualitySelector {...commonProps} selectionStrategy="fix-bitrate" bitrateFix="min" />);
   const selectedItem = rendered.prop('selectedItem');
   expect(selectedItem).toEqual({ id: 333, label: '333 kbps', data: 333 });
 });
 
-test('<QualitySelector/> with strategy "lock-bitrate" highlights the highest quality option when locked bitrate is set to "max".', () => {
-  const rendered = shallow(<QualitySelector {...commonProps} selectionStrategy="lock-bitrate" lockedBitrate="max" />);
+test('<QualitySelector/> with strategy "fix-bitrate" highlights the highest quality option when locked bitrate is set to "max".', () => {
+  const rendered = shallow(<QualitySelector {...commonProps} selectionStrategy="fix-bitrate" bitrateFix="max" />);
   const selectedItem = rendered.prop('selectedItem');
   expect(selectedItem).toEqual({ id: 4444, label: '4444 kbps', data: 4444 });
 });
@@ -68,22 +68,22 @@ test('<QualitySelector/> with strategy "cap-bitrate" highlights the quality opti
   expect(selectedItem).toEqual({ id: 666, label: '666 kbps', data: 666 });
 });
 
-test('<QualitySelector/> with strategy "lock-bitrate" updates property lockedBitrate with the bitrate value when its option is selected. ', () => {
+test('<QualitySelector/> with strategy "fix-bitrate" updates property bitrateFix with the bitrate value when its option is selected. ', () => {
   const setPropertyCallback = jest.fn();
   const rendered = shallow(
     <QualitySelector
       {...commonProps}
       setProperty={setPropertyCallback}
-      selectionStrategy="lock-bitrate"
+      selectionStrategy="fix-bitrate"
       classNamePrefix=""
     />
   );
   const itemsContainer = rendered.dive().find('div.selector-items');
   const selectorItems = itemsContainer.children().map(c => c.dive());
   selectorItems[4].simulate('click');
-  expect(setPropertyCallback.mock.calls[0][0].lockedBitrate).toBe(333);
+  expect(setPropertyCallback.mock.calls[0][0].bitrateFix).toBe(333);
   selectorItems[5].simulate('click');
-  expect(setPropertyCallback.mock.calls[1][0].lockedBitrate).toBe(Infinity);
+  expect(setPropertyCallback.mock.calls[1][0].bitrateFix).toBe(Infinity);
 });
 
 test('<QualitySelector/> with strategy cap-bitrate updates property maxBitrate with the bitrate value when its option is selected.', () => {

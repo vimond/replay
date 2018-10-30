@@ -101,24 +101,24 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
     }
   }
 
-  function lockBitrate(bitrate: ?(number | 'max' | 'min')) {
+  function fixBitrate(bitrate: ?(number | 'max' | 'min')) {
     if (hls) {
       if (bitrate === 'min') {
         if (Array.isArray(hls.levels) && hls.levels.length > 0) {
           hls.nextLevel = 0;
-          updateStreamState({ lockedBitrate: getBitrateAsKbps(hls.levels[0]) });
-          log && log('Locking bitrate to lowest level out of ' + hls.levels.length);
+          updateStreamState({ bitrateFix: getBitrateAsKbps(hls.levels[0]) });
+          log && log('Fixing bitrate to lowest level out of ' + hls.levels.length);
         }
       } else if (bitrate === 'max') {
         if (Array.isArray(hls.levels) && hls.levels.length > 0) {
           hls.nextLevel = hls.levels.length - 1;
-          updateStreamState({ lockedBitrate: getBitrateAsKbps(hls.levels[hls.levels.length - 1]) });
-          log && log('Locking bitrate to highest level out of ' + hls.levels.length);
+          updateStreamState({ bitrateFix: getBitrateAsKbps(hls.levels[hls.levels.length - 1]) });
+          log && log('Fixing bitrate to highest level out of ' + hls.levels.length);
         }
       } else if (bitrate == null || isNaN(bitrate) || bitrate < 0 || !bitrate) {
-        log && log('Resetting locking of bitrate.');
+        log && log('Resetting fixing of bitrate.');
         hls.nextLevel = -1;
-        updateStreamState({ lockedBitrate: null });
+        updateStreamState({ bitrateFix: null });
       } else if (typeof bitrate === 'string') {
         log &&
         log(
@@ -130,8 +130,8 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
           for (var i = 0; i < hls.levels.length; i++) {
             if (getBitrateAsKbps(hls.levels[i]) === bitrate) {
               hls.nextLevel = i;
-              log && log('Locking bitrate to HLS level ' + i, hls.levels);
-              updateStreamState({ lockedBitrate: bitrate });
+              log && log('Fixing bitrate to HLS level ' + i, hls.levels);
+              updateStreamState({ bitrateFix: bitrate });
               return;
             }
           }
@@ -141,7 +141,7 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
             hls.levels
           );
         } else {
-          log && log('Found no HLS levels from where bitrate locking can be applied.', hls.levels);
+          log && log('Found no HLS levels from where bitrate fixing can be applied.', hls.levels);
         }
       }
     }
@@ -169,7 +169,7 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
   instanceKeeper.subscribers.push(onHlsInstance);
   
   return {
-    lockBitrate,
+    fixBitrate,
     capBitrate
   };
 };

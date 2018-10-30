@@ -35,9 +35,9 @@ export const getPropertyApplier = (
     audioTrackManager.handleSelectedAudioTrackChange(playbackProps.selectedAudioTrack);
   }
   if (bitrateManager) {
-    if (playbackProps.lockedBitrate !== undefined) {
+    if (playbackProps.bitrateFix !== undefined) {
       // $FlowFixMe undefined is OK.
-      bitrateManager.lockBitrate(playbackProps.lockedBitrate);
+      bitrateManager.fixBitrate(playbackProps.bitrateFix);
     }
     if (playbackProps.maxBitrate !== undefined) {
       // $FlowFixMe undefined is OK.

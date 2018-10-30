@@ -6,15 +6,15 @@ import type { CommonProps } from '../../common';
 import type { Item } from '../../generic/Selector/Selector';
 import type { StreamStateKeysForObservation } from '../../player/PlayerController/ControllerContext';
 
-export type QualitySelectionStrategy = 'cap-bitrate' | 'lock-bitrate';
+export type QualitySelectionStrategy = 'cap-bitrate' | 'fix-bitrate';
 
 type Props = CommonProps & {
   bitrates?: Array<number>,
   currentBitrate?: number,
-  lockedBitrate?: ?number,
+  bitrateFix?: ?number,
   maxBitrate?: ?number,
   toggleContent: React.Node,
-  setProperty?: ({ lockedBitrate: ?number } | { maxBitrate: ?number }) => void,
+  setProperty?: ({ bitrateFix: ?number } | { maxBitrate: ?number }) => void,
   selectionStrategy?: QualitySelectionStrategy,
   autoLabel: string,
   formatBitrateLabel: (number, boolean) => string
@@ -31,14 +31,14 @@ class QualitySelector extends React.Component<Props> {
   static streamStateKeysForObservation: StreamStateKeysForObservation = [
     'bitrates',
     'currentBitrate',
-    'lockedBitrate',
+    'bitrateFix',
     'maxBitrate'
   ];
 
   handleSelect = (item: Item) => {
     if (this.props.setProperty && typeof item !== 'string') {
-      if (this.props.selectionStrategy === 'lock-bitrate') {
-        this.props.setProperty({ lockedBitrate: item.data });
+      if (this.props.selectionStrategy === 'fix-bitrate') {
+        this.props.setProperty({ bitrateFix: item.data });
       } else {
         this.props.setProperty({ maxBitrate: item.data });
       }
@@ -52,13 +52,13 @@ class QualitySelector extends React.Component<Props> {
   });
 
   isSelected = (item: Item, index: number, arr: Array<Item>) => {
-    const { lockedBitrate, maxBitrate, selectionStrategy } = this.props;
+    const { bitrateFix, maxBitrate, selectionStrategy } = this.props;
     const matchValue =
-      lockedBitrate != null && maxBitrate != null
-        ? selectionStrategy === 'lock-bitrate'
-          ? lockedBitrate
+      bitrateFix != null && maxBitrate != null
+        ? selectionStrategy === 'fix-bitrate'
+          ? bitrateFix
           : maxBitrate
-        : lockedBitrate || maxBitrate;
+        : bitrateFix || maxBitrate;
     if (matchValue === 'min') {
       return index === 1;
     } else if (matchValue === 'max') {

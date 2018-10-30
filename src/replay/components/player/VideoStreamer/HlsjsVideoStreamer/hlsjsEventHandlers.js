@@ -117,8 +117,8 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
     [Hls.Events.MANIFEST_PARSED]: () => {
       log && log('hlsjs.parsed');
       if (streamer.props.initialPlaybackProps) {
-        const { isPaused, lockedBitrate, maxBitrate } = streamer.props.initialPlaybackProps;
-        applyProperties({ lockedBitrate, maxBitrate });
+        const { isPaused, bitrateFix, maxBitrate } = streamer.props.initialPlaybackProps;
+        applyProperties({ bitrateFix: bitrateFix, maxBitrate });
         if (isPaused) {
           videoElement.pause();
         }

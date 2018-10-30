@@ -55,7 +55,7 @@ export type VideoStreamState = {
   isMuted?: boolean,
   bufferedAhead?: number,
   currentBitrate?: number,
-  lockedBitrate?: ?number, // TODO: Rename to fixedBitrate.
+  bitrateFix?: ?number,
   maxBitrate?: ?number,
   bitrates?: Array<number>,
   currentTextTrack?: ?AvailableTrack,
@@ -103,7 +103,7 @@ export type InitialPlaybackProps = {
   volume?: number,
   isPaused?: boolean,
   maxBitrate?: number,
-  lockedBitrate?: number | 'max' | 'min'
+  bitrateFix?: number | 'max' | 'min'
 };
 
 export type PlaybackProps = InitialPlaybackProps & {

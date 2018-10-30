@@ -53,7 +53,7 @@ const orderedPropertyNames = [
   'absoluteStartPosition',
   'isAtLivePosition',
   'bufferedAhead',
-  'lockedBitrate',
+  'bitrateFix',
   'maxBitrate',
   'currentBitrate',
   'bitrates',

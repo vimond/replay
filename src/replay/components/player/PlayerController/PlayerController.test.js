@@ -176,7 +176,7 @@ test("<PlayerController /> invokes videoStreamer's setProperty when playback met
   actions.gotoLive();
   actions.setVolume(0.5);
   actions.setIsMuted(true);
-  actions.lockBitrate('max');
+  actions.fixBitrate('max');
   actions.capBitrate(2000);
   actions.setSelectedTextTrack({ language: 'en' });
   actions.setSelectedAudioTrack({ language: 'de' });
@@ -188,7 +188,7 @@ test("<PlayerController /> invokes videoStreamer's setProperty when playback met
   expect(setProperty.mock.calls[3][0].isAtLivePosition).toBe(true);
   expect(setProperty.mock.calls[4][0].volume).toBe(0.5);
   expect(setProperty.mock.calls[5][0].isMuted).toBe(true);
-  expect(setProperty.mock.calls[6][0].lockedBitrate).toBe('max');
+  expect(setProperty.mock.calls[6][0].bitrateFix).toBe('max');
   expect(setProperty.mock.calls[7][0].maxBitrate).toBe(2000);
   expect(setProperty.mock.calls[8][0].selectedTextTrack).toEqual({ language: 'en' });
   expect(setProperty.mock.calls[9][0].selectedAudioTrack).toEqual({ language: 'de' });
