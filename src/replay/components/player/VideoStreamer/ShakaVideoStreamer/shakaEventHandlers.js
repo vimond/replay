@@ -90,8 +90,8 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
     streaming: () => {
       log && log('shaka.streaming');
       if (streamer.props.initialPlaybackProps) {
-        const { isPaused, bitrateFix, maxBitrate } = streamer.props.initialPlaybackProps;
-        applyProperties({ bitrateFix: bitrateFix, maxBitrate });
+        const { isPaused, bitrateFix, bitrateCap } = streamer.props.initialPlaybackProps;
+        applyProperties({ bitrateFix: bitrateFix, bitrateCap: bitrateCap });
         if (isPaused) {
           videoElement.pause();
         }

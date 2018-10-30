@@ -63,7 +63,7 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
       if (isNaN(cap) || cap === Infinity || cap == null || cap < 0) {
         log && log('Resetting restrictions for bitrate.');
         hls.autoLevelCapping = -1;
-        updateStreamState({ maxBitrate: null });
+        updateStreamState({ bitrateCap: null });
       } else {
         if (Array.isArray(hls.levels)) {
           let reached = false;
@@ -72,7 +72,7 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
             if (bitrate > cap) {
               if (i > 0) {
                 hls.autoLevelCapping = i - 1;
-                updateStreamState({ maxBitrate: getBitrateAsKbps(hls.levels[i - 1]) });
+                updateStreamState({ bitrateCap: getBitrateAsKbps(hls.levels[i - 1]) });
                 log &&
                 log(
                   'Desired bitrate cap corresponds to level with capping on index ' + (i - 1) + ' in hls.js.',
@@ -85,7 +85,7 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
                   'Desired bitrate cap appears to be lower than the lowest HLS level. Aligning to lowest level.',
                   hls.levels
                 );
-                updateStreamState({ maxBitrate: getBitrateAsKbps(hls.levels[0]) });
+                updateStreamState({ bitrateCap: getBitrateAsKbps(hls.levels[0]) });
               }
               reached = true;
               break;

@@ -76,7 +76,7 @@ const getShakaBitrateManager = <P: PropsWithInitial>(
     if (isNaN(cap) || cap === Infinity || cap == null || cap < 0) {
       log && log('Resetting restrictions for bitrate.');
       shakaPlayer.configure(resetConfiguration);
-      updateStreamState({ maxBitrate: null });
+      updateStreamState({ bitrateCap: null });
     } else {
       const lowestBitrate = shakaPlayer
         .getVariantTracks()
@@ -86,7 +86,7 @@ const getShakaBitrateManager = <P: PropsWithInitial>(
         const maxBandwidth = Math.max(cap * 1000, lowestBitrate);
         const restrictions = { maxBandwidth };
         shakaPlayer.configure({ abr: { enabled: true, restrictions: restrictions } });
-        updateStreamState({ maxBitrate: Math.ceil(maxBandwidth / 1000) });
+        updateStreamState({ bitrateCap: Math.ceil(maxBandwidth / 1000) });
         if (restrictions.maxBandwidth === lowestBitrate) {
           log && log('Applying restrictions for bitrate, but aligning to lowest available bitrate.', restrictions);
         } else {

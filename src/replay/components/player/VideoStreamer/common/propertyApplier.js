@@ -39,9 +39,9 @@ export const getPropertyApplier = (
       // $FlowFixMe undefined is OK.
       bitrateManager.fixBitrate(playbackProps.bitrateFix);
     }
-    if (playbackProps.maxBitrate !== undefined) {
+    if (playbackProps.bitrateCap !== undefined) {
       // $FlowFixMe undefined is OK.
-      bitrateManager.capBitrate(playbackProps.maxBitrate);
+      bitrateManager.capBitrate(playbackProps.bitrateCap);
     }
   }
 };

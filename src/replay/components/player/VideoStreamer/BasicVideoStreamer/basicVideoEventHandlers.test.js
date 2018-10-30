@@ -438,8 +438,8 @@ test('streamStateUpdater reports an empty bitrates array, and no current bitrate
   setProps({ bitrateFix: 13 });
   expect(getPropertyUpdates(onStreamStateChange, 'bitrateFix')).toHaveLength(0);
 
-  setProps({ maxBitrate: 13 });
-  expect(getPropertyUpdates(onStreamStateChange, 'maxBitrate')).toHaveLength(0);
+  setProps({ bitrateCap: 13 });
+  expect(getPropertyUpdates(onStreamStateChange, 'bitrateCap')).toHaveLength(0);
 
   expect(getPropertyUpdates(onStreamStateChange, 'currentBitrate')).toHaveLength(0);
 });

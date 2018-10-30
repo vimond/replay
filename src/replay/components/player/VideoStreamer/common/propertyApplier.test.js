@@ -199,7 +199,7 @@ test('applyProperties() invokes fixBitrate or capBitrate when bitrateFix or fixe
     bitrateManager
   );
   applyProperties({ bitrateFix: 123 });
-  applyProperties({ maxBitrate: 345 });
+  applyProperties({ bitrateCap: 345 });
   expect(bitrateManager.fixBitrate).toHaveBeenCalledWith(123);
   expect(bitrateManager.capBitrate).toHaveBeenCalledWith(345);
 });
@@ -210,6 +210,6 @@ test("applyProperties() doesn't break if bitrateFix or fixedBitrate properties a
   const audioTrackManager = getAudioTrackManager();
   const applyProperties = getPropertyApplier(videoElement, getStreamRangeHelper(), textTrackManager, audioTrackManager);
   applyProperties({ bitrateFix: 123 });
-  applyProperties({ maxBitrate: 345 });
+  applyProperties({ bitrateCap: 345 });
   expect(true).toBe(true);
 });

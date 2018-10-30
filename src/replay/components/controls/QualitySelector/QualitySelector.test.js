@@ -63,7 +63,7 @@ test('<QualitySelector/> marks the currently playing bitrate next to the option 
 });
 
 test('<QualitySelector/> with strategy "cap-bitrate" highlights the quality option corresponding with the reported max bitrate as selected.', () => {
-  const rendered = shallow(<QualitySelector {...commonProps} selectionStrategy="cap-bitrate" maxBitrate={666} />);
+  const rendered = shallow(<QualitySelector {...commonProps} selectionStrategy="cap-bitrate" bitrateCap={666} />);
   const selectedItem = rendered.prop('selectedItem');
   expect(selectedItem).toEqual({ id: 666, label: '666 kbps', data: 666 });
 });
@@ -86,7 +86,7 @@ test('<QualitySelector/> with strategy "fix-bitrate" updates property bitrateFix
   expect(setPropertyCallback.mock.calls[1][0].bitrateFix).toBe(Infinity);
 });
 
-test('<QualitySelector/> with strategy cap-bitrate updates property maxBitrate with the bitrate value when its option is selected.', () => {
+test('<QualitySelector/> with strategy cap-bitrate updates property bitrateCap with the bitrate value when its option is selected.', () => {
   const setPropertyCallback = jest.fn();
   const rendered = shallow(
     <QualitySelector
@@ -99,7 +99,7 @@ test('<QualitySelector/> with strategy cap-bitrate updates property maxBitrate w
   const itemsContainer = rendered.dive().find('div.selector-items');
   const selectorItems = itemsContainer.children().map(c => c.dive());
   selectorItems[0].simulate('click');
-  expect(setPropertyCallback.mock.calls[0][0].maxBitrate).toBe(4444);
+  expect(setPropertyCallback.mock.calls[0][0].bitrateCap).toBe(4444);
   selectorItems[5].simulate('click');
-  expect(setPropertyCallback.mock.calls[1][0].maxBitrate).toBe(Infinity);
+  expect(setPropertyCallback.mock.calls[1][0].bitrateCap).toBe(Infinity);
 });

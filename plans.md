@@ -269,7 +269,7 @@ Need to find strategy for player state class names. Will probably eliminate the 
 Specific improvements and things to verify
 
 * ✓ Test with subtitles and audio tracks...
-* ✓ Make bitrateFix and maxBitrate props.
+* ✓ Make bitrateFix and bitrateCap props.
 * ✓ Make sure setting different sources subsequently works. Also test that an empty source shuts down video in a clean way.
 * ✓ Make sure Dash.js works in Streamlab.
 * ✓ Look into setting volume, mute, and pause state on startup. Needs to be explicit start values. Full outbound API via updateProperty/onStreamPropertyChange.

@@ -12,9 +12,9 @@ type Props = CommonProps & {
   bitrates?: Array<number>,
   currentBitrate?: number,
   bitrateFix?: ?number,
-  maxBitrate?: ?number,
+  bitrateCap?: ?number,
   toggleContent: React.Node,
-  setProperty?: ({ bitrateFix: ?number } | { maxBitrate: ?number }) => void,
+  setProperty?: ({ bitrateFix: ?number } | { bitrateCap: ?number }) => void,
   selectionStrategy?: QualitySelectionStrategy,
   autoLabel: string,
   formatBitrateLabel: (number, boolean) => string
@@ -32,7 +32,7 @@ class QualitySelector extends React.Component<Props> {
     'bitrates',
     'currentBitrate',
     'bitrateFix',
-    'maxBitrate'
+    'bitrateCap'
   ];
 
   handleSelect = (item: Item) => {
@@ -40,7 +40,7 @@ class QualitySelector extends React.Component<Props> {
       if (this.props.selectionStrategy === 'fix-bitrate') {
         this.props.setProperty({ bitrateFix: item.data });
       } else {
-        this.props.setProperty({ maxBitrate: item.data });
+        this.props.setProperty({ bitrateCap: item.data });
       }
     }
   };
@@ -52,13 +52,13 @@ class QualitySelector extends React.Component<Props> {
   });
 
   isSelected = (item: Item, index: number, arr: Array<Item>) => {
-    const { bitrateFix, maxBitrate, selectionStrategy } = this.props;
+    const { bitrateFix, bitrateCap, selectionStrategy } = this.props;
     const matchValue =
-      bitrateFix != null && maxBitrate != null
+      bitrateFix != null && bitrateCap != null
         ? selectionStrategy === 'fix-bitrate'
           ? bitrateFix
-          : maxBitrate
-        : bitrateFix || maxBitrate;
+          : bitrateCap
+        : bitrateFix || bitrateCap;
     if (matchValue === 'min') {
       return index === 1;
     } else if (matchValue === 'max') {

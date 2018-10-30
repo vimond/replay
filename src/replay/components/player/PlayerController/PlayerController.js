@@ -122,7 +122,7 @@ const createPlaybackActions = (inspect, setProperty: PlaybackProps => void): Pla
   const setIsMuted = (isMuted: boolean) => setProperty({ isMuted });
   const setSelectedTextTrack = (selectedTextTrack: AvailableTrack) => setProperty({ selectedTextTrack });
   const setSelectedAudioTrack = (selectedAudioTrack: AvailableTrack) => setProperty({ selectedAudioTrack });
-  const capBitrate = (maxBitrate: number) => setProperty({ maxBitrate });
+  const capBitrate = (bitrateCap: number) => setProperty({ bitrateCap });
   const fixBitrate = (bitrateFix: number | 'max' | 'min') => setProperty({ bitrateFix });
   return {
     play,

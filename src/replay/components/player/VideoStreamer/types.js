@@ -56,7 +56,7 @@ export type VideoStreamState = {
   bufferedAhead?: number,
   currentBitrate?: number,
   bitrateFix?: ?number,
-  maxBitrate?: ?number,
+  bitrateCap?: ?number,
   bitrates?: Array<number>,
   currentTextTrack?: ?AvailableTrack,
   textTracks?: Array<AvailableTrack>,
@@ -102,7 +102,7 @@ export type InitialPlaybackProps = {
   isMuted?: boolean,
   volume?: number,
   isPaused?: boolean,
-  maxBitrate?: number,
+  bitrateCap?: number,
   bitrateFix?: number | 'max' | 'min'
 };
 

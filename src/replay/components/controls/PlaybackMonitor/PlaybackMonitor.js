@@ -54,7 +54,7 @@ const orderedPropertyNames = [
   'isAtLivePosition',
   'bufferedAhead',
   'bitrateFix',
-  'maxBitrate',
+  'bitrateCap',
   'currentBitrate',
   'bitrates',
   'currentTextTrack',
