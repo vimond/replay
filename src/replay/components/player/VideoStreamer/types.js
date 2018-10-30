@@ -89,10 +89,10 @@ export type PlaybackSource = {
   contentType?: string,
   metadata?: any,
   licenseRequestDetails?: {
-    licenseRequestHeaders?: any,
+    licenseRequestHeaders?: { [string]: string },
     fairPlayCertificateUrl?: string,
     widevineServiceCertificateUrl?: string,
-    contentId?: any
+    contentId?: string
   }
 };
 
@@ -137,7 +137,9 @@ export type VideoStreamerConfiguration = {
     },
     fairPlay: {
       serviceCertificateUrl?: ?string,
-      withCredentials?: ?boolean
+      withCredentials?: ?boolean,
+      requestFormat?: ?('binary' | 'base64'),
+      contentIdExtractMatch?: ?(RegExp | string)
     },
     playReady: {
       withCredentials?: ?boolean

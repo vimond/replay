@@ -102,8 +102,8 @@ const domRender = (props = commonProps) => {
 };
 
 test('<BasicVideoStreamer/> renders with video element if source or stream URL is specified.', () => {
-  return domRender().then(({ videoElement }) => {
-    expect(videoElement.prop('src')).toBe(commonProps.source.streamUrl);
+  return domRender().then(({ videoElement, domVideoElement }) => {
+    expect(domVideoElement.src).toBe(commonProps.source.streamUrl);
     // TODO: Class names vs custom styles.
     expect(videoElement.prop('style')).toMatchObject(styles);
     expect(videoElement.hasClass('replay-video-streamer')).toBe(true);
@@ -114,11 +114,11 @@ test('<BasicVideoStreamer/> renders with video element if source or stream URL i
 });
 
 test('<BasicVideoStreamer/> shuts down cleanly when source prop is removed.', () => {
-  return domRender().then(({ videoElement, element }) => {
-    expect(videoElement.prop('src')).toBe(commonProps.source.streamUrl);
+  return domRender().then(({ videoElement, element, domVideoElement }) => {
+    expect(domVideoElement.src).toBe(commonProps.source.streamUrl);
     element.setProps({ source: null });
     element.update();
-    expect(element.find('video').prop('src')).toBe('');
+    expect(domVideoElement.getAttribute('src')).toBe(null);
   });
 });
 
