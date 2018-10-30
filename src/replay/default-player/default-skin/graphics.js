@@ -36,8 +36,8 @@ const graphics = {
     trackContent: <div />
   },
   gotoLiveButton: {
-    isAtLivePositionContent: <span>{strings.gotoLiveButton.isLive}</span>,
-    isNotAtLivePositionContent: <span>{strings.gotoLiveButton.gotoLive}</span>
+    isAtLiveEdgeContent: <span>{strings.gotoLiveButton.isLive}</span>,
+    isNotAtLiveEdgeContent: <span>{strings.gotoLiveButton.gotoLive}</span>
   },
   volume: {
     unmutedContent: <Volume2 />,

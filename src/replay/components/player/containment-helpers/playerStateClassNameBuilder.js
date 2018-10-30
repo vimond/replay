@@ -10,7 +10,7 @@ export type ClassNameKeys =
   | 'isPaused'
   | 'isSeeking'
   | 'isMuted'
-  | 'isAtLivePosition'
+  | 'isAtLiveEdge'
   | 'isLive'
   | 'isOnDemand'
   | 'isDvrEnabled'
@@ -27,7 +27,7 @@ export type RecognizedPlayerStateProperties = {
   isBuffering?: boolean,
   isMuted?: boolean,
   volume?: number,
-  isAtLivePosition?: boolean,
+  isAtLiveEdge?: boolean,
   playState?: PlayState,
   playMode?: PlayMode,
   error?: any,
@@ -47,7 +47,7 @@ const playerStateClassNameBuilder = (
     isBuffering,
     isMuted,
     volume,
-    isAtLivePosition,
+    isAtLiveEdge,
     playState,
     playMode,
     error,
@@ -79,8 +79,8 @@ const playerStateClassNameBuilder = (
   if (isMuted) {
     resultingClassNames.push(cd.isMuted);
   }
-  if (isAtLivePosition) {
-    resultingClassNames.push(cd.isAtLivePosition);
+  if (isAtLiveEdge) {
+    resultingClassNames.push(cd.isAtLiveEdge);
   }
   if (playState === 'starting') {
     resultingClassNames.push(cd.isStarting);

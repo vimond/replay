@@ -185,7 +185,7 @@ test("<PlayerController /> invokes videoStreamer's setProperty when playback met
   expect(setProperty.mock.calls[0][0].isPaused).toBe(false);
   expect(setProperty.mock.calls[1][0].isPaused).toBe(true);
   expect(setProperty.mock.calls[2][0].position).toBe(101);
-  expect(setProperty.mock.calls[3][0].isAtLivePosition).toBe(true);
+  expect(setProperty.mock.calls[3][0].isAtLiveEdge).toBe(true);
   expect(setProperty.mock.calls[4][0].volume).toBe(0.5);
   expect(setProperty.mock.calls[5][0].isMuted).toBe(true);
   expect(setProperty.mock.calls[6][0].bitrateFix).toBe('max');

@@ -79,13 +79,13 @@ test('applyProperties() mutes, unmutes, and adjusts the volume according to isMu
   expect(videoElement.muted).toBe(false);
 });
 
-test('applyProperties() invokes setPosition or gotoLive when position or isAtLivePosition: true properties are set .', () => {
+test('applyProperties() invokes setPosition or gotoLive when position or isAtLiveEdge: true properties are set .', () => {
   const videoElement = getVideoElementMock();
   const streamRangeHelper = getStreamRangeHelper();
   const propsUpdate1 = { position: 3 };
   const propsUpdate2 = { position: 135 };
-  const propsUpdate3 = { isAtLivePosition: true };
-  const propsUpdate4 = { isAtLivePosition: false };
+  const propsUpdate3 = { isAtLiveEdge: true };
+  const propsUpdate4 = { isAtLiveEdge: false };
 
   const applyProperties = getPropertyApplier(videoElement, streamRangeHelper);
 

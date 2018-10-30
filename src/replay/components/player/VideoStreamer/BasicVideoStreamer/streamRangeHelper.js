@@ -4,7 +4,7 @@ import type { StreamRangeHelper } from '../common/types';
 
 const dawnOfTime = new Date(0);
 const minimumDvrLength = 100; // seconds
-const defaultLivePositionMargin = 10; // seconds
+const defaultLiveEdgeMargin = 10; // seconds
 const dvrStartCorrection = 10; // yep, seconds
 
 function getSeekableNetRange(videoElement: HTMLVideoElement): number {
@@ -68,7 +68,7 @@ const getStreamRangeHelper = (
   videoElement: HTMLVideoElement,
   configuration: ?{ liveEdgeMargin: ?number }
 ): StreamRangeHelper => {
-  const liveMargin = (configuration && configuration.liveEdgeMargin) || defaultLivePositionMargin;
+  const liveMargin = (configuration && configuration.liveEdgeMargin) || defaultLiveEdgeMargin;
 
   function calculateNewState() {
     const seekableRange = getSeekableNetRange(videoElement);
@@ -77,13 +77,13 @@ const getStreamRangeHelper = (
     const position = getPosition(videoElement);
     const duration = getDuration(videoElement, isLive, seekableRange);
     const playMode = resolvePlayMode(videoElement, seekableRange, isLive);
-    const isAtLivePosition = isLive && position > duration - liveMargin;
+    const isAtLiveEdge = isLive && position > duration - liveMargin;
     const { absolutePosition, absoluteStartPosition } = getAbsolutePositions(videoElement, isLive, position);
     return {
       position,
       duration,
       playMode,
-      isAtLivePosition,
+      isAtLiveEdge,
       absolutePosition,
       absoluteStartPosition
     };

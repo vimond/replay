@@ -226,9 +226,9 @@ describe.skip('<BasicVideoStreamer/> subtitles support', () => {
 describe.skip('<BasicVideoStreamer/> live streaming (with Safari and HLS)', () => {
   test('<BasicVideoStreamer/> reports playMode "livedvr" and the DVR duration of a live stream with a DVR window longer than 100 seconds.', () => {});
   test('<BasicVideoStreamer/> reports playMode "live" of a live stream with a DVR window shorter than 100 seconds.', () => {});
-  test('<BasicVideoStreamer/> reports true for isAtLivePosition for a live stream playing at the live edge.', () => {});
-  test('<BasicVideoStreamer/> reports false for isAtLivePosition for a timeshifted live stream.', () => {});
-  test('<BasicVideoStreamer/> resumes playback at the live edge when { isAtLivePosition: true } is set on a timeshifted live stream.', () => {});
+  test('<BasicVideoStreamer/> reports true for isAtLiveEdge for a live stream playing at the live edge.', () => {});
+  test('<BasicVideoStreamer/> reports false for isAtLiveEdge for a timeshifted live stream.', () => {});
+  test('<BasicVideoStreamer/> resumes playback at the live edge when { isAtLiveEdge: true } is set on a timeshifted live stream.', () => {});
   test('<BasicVideoStreamer/> reports absolutePosition and absoluteStartPosition for the current playback position of a live stream.', () => {});
 });
 

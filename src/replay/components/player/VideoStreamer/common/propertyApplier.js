@@ -25,7 +25,7 @@ export const getPropertyApplier = (
   if (playbackProps.position != null) {
     streamRangeHelper.setPosition(playbackProps.position);
   }
-  if (playbackProps.isAtLivePosition) {
+  if (playbackProps.isAtLiveEdge) {
     streamRangeHelper.gotoLive();
   }
   if (textTrackManager && 'selectedTextTrack' in playbackProps) {

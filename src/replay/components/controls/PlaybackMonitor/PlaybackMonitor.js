@@ -51,7 +51,7 @@ const orderedPropertyNames = [
   'duration',
   'absolutePosition',
   'absoluteStartPosition',
-  'isAtLivePosition',
+  'isAtLiveEdge',
   'bufferedAhead',
   'bitrateFix',
   'bitrateCap',

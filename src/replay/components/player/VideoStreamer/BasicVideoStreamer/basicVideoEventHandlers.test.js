@@ -27,7 +27,7 @@ function setup(onStreamStateChange = jest.fn(), getStreamRangeHelper) {
     : {
         calculateNewState: () => ({
           playMode: 'ondemand',
-          isAtLivePosition: false,
+          isAtLiveEdge: false,
           position: videoElement.currentTime,
           duration: videoElement.duration,
           absolutePosition: new Date(0),

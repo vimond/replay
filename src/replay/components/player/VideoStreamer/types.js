@@ -48,7 +48,7 @@ export type VideoStreamState = {
   duration?: number,
   absolutePosition?: Date,
   absoluteStartPosition?: Date,
-  isAtLivePosition?: boolean,
+  isAtLiveEdge?: boolean,
   playState?: PlayState,
   playMode?: PlayMode,
   volume?: number,
@@ -108,7 +108,7 @@ export type InitialPlaybackProps = {
 
 export type PlaybackProps = InitialPlaybackProps & {
   position?: number,
-  isAtLivePosition?: true, // TODO: Rename to isPlayingAtLiveEdge.
+  isAtLiveEdge?: true, // TODO: Rename to isPlayingAtLiveEdge.
   selectedTextTrack?: AvailableTrack,
   selectedAudioTrack?: AvailableTrack
 };

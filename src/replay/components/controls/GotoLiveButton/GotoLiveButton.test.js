@@ -10,8 +10,8 @@ test('<GotoLiveButton/> renders with prefixed class name and DOM including child
     <GotoLiveButton
       playMode="livedvr"
       classNamePrefix="a-"
-      isAtLivePositionContent="A"
-      isNotAtLivePositionContent="B"
+      isAtLiveEdgeContent="A"
+      isNotAtLiveEdgeContent="B"
       label="C"
     />
   );
@@ -31,8 +31,8 @@ test('<GotoLiveButton/> does not render if stream is stream is on demand or has 
     <GotoLiveButton
       playMode="ondemand"
       classNamePrefix="a-"
-      isAtLivePositionContent="A"
-      isNotAtLivePositionContent="B"
+      isAtLiveEdgeContent="A"
+      isNotAtLiveEdgeContent="B"
       label="C"
     />
   );
@@ -41,8 +41,8 @@ test('<GotoLiveButton/> does not render if stream is stream is on demand or has 
     <GotoLiveButton
       playMode="live"
       classNamePrefix="a-"
-      isAtLivePositionContent="A"
-      isNotAtLivePositionContent="B"
+      isAtLiveEdgeContent="A"
+      isNotAtLiveEdgeContent="B"
       label="C"
     />
   );
@@ -54,9 +54,9 @@ test('<GotoLiveButton/> renders button state when live correctly.', () => {
     <GotoLiveButton
       classNamePrefix="a-"
       playMode="livedvr"
-      isAtLivePosition={true}
-      isAtLivePositionContent="A"
-      isNotAtLivePositionContent="B"
+      isAtLiveEdge={true}
+      isAtLiveEdgeContent="A"
+      isNotAtLiveEdgeContent="B"
     />
   );
   const renderedToggleButton = rendered.dive();
@@ -64,22 +64,22 @@ test('<GotoLiveButton/> renders button state when live correctly.', () => {
   expect(renderedToggleButton.text()).toBe('A');
 });
 
-test('<GotoLiveButton/> invokes the setProperty({ isAtLivePosition: true }) callback when clicked, and not at live position.', () => {
+test('<GotoLiveButton/> invokes the setProperty({ isAtLiveEdge: true }) callback when clicked, and not at live position.', () => {
   const setPropertyCallback = jest.fn();
   const rendered = shallow(
-    <GotoLiveButton setProperty={setPropertyCallback} playMode="livedvr" isAtLivePosition={false} />
+    <GotoLiveButton setProperty={setPropertyCallback} playMode="livedvr" isAtLiveEdge={false} />
   );
   expect(rendered.props().isOn).toBe(false);
   const renderedToggleButton = rendered.dive();
   expect(renderedToggleButton.simulate('click'));
   expect(setPropertyCallback.mock.calls.length).toBe(1);
-  expect(setPropertyCallback.mock.calls[0][0]).toEqual({ isAtLivePosition: true });
+  expect(setPropertyCallback.mock.calls[0][0]).toEqual({ isAtLiveEdge: true });
 });
 
-test('<GotoLiveButton/> does not invoke the setProperty({ isAtLivePosition: true }) callback when clicked, if already at live position.', () => {
+test('<GotoLiveButton/> does not invoke the setProperty({ isAtLiveEdge: true }) callback when clicked, if already at live position.', () => {
   const setPropertyCallback = jest.fn();
   const rendered = shallow(
-    <GotoLiveButton setProperty={setPropertyCallback} playMode="livedvr" isAtLivePosition={true} />
+    <GotoLiveButton setProperty={setPropertyCallback} playMode="livedvr" isAtLiveEdge={true} />
   );
   expect(rendered.props().isOn).toBe(true);
   const renderedToggleButton = rendered.dive();

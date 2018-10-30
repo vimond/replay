@@ -117,7 +117,7 @@ const createPlaybackActions = (inspect, setProperty: PlaybackProps => void): Pla
   const play = () => setProperty({ isPaused: false });
   const pause = () => setProperty({ isPaused: true });
   const setPosition = (position: number) => setProperty({ position });
-  const gotoLive = () => setProperty({ isAtLivePosition: true });
+  const gotoLive = () => setProperty({ isAtLiveEdge: true });
   const setVolume = (volume: number) => setProperty({ volume });
   const setIsMuted = (isMuted: boolean) => setProperty({ isMuted });
   const setSelectedTextTrack = (selectedTextTrack: AvailableTrack) => setProperty({ selectedTextTrack });

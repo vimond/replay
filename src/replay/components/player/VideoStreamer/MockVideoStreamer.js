@@ -54,7 +54,7 @@ const defaultValues = {
   currentTextTrack: defaultTextTracks[0],
   audioTracks: defaultAudioTracks,
   currentAudioTrack: defaultAudioTracks[0],
-  isAtLivePosition: false,
+  isAtLiveEdge: false,
   error: undefined
 };
 /*

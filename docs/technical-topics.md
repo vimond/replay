@@ -182,7 +182,7 @@ For live streams, duration constitutes the DVR seekable range, and can change du
 Note that for live streams with a sliding DVR window, the position might remain constant even if playback progresses. For this, live streams also expose clock time for the current stream position, through `absolutePosition`. Use this for indicating actual playback progress, since position might be unchanging when the offset or seekable range is not changing.
 
 * State properties: `position: number`, `duration: number`, `absolutePosition: Date`, `absoluteStartPosition: Date`.
-* Playback manipulation: `setProperty({ position: number })`, `setProperty({ isAtLivePosition: true })`.
+* Playback manipulation: `setProperty({ position: number })`, `setProperty({ isAtLiveEdge: true })`.
 
 ### Play state as phases of a video playback
 
@@ -199,7 +199,7 @@ When `playState` is only indicating one of possibly two or three concurrent stat
 
 The state property `playMode: PlayMode` can contain three string values, `'ondemand'`, `'livedvr'`, `'live'`. The latter indicates a live stream which is not seekable.  `'livedvr'` indicates a live stream which can be timeshifted, i.e. allows for seeking. On demand streams can always be seeked.
 
-`isAtLivePosition: boolean` is set to false when a live playback is timeshifted. Use `setProperty({ isAtLivePosition: true })` in order to change this property into true`.
+`isAtLiveEdge: boolean` is set to false when a live playback is timeshifted. Use `setProperty({ isAtLiveEdge: true })` in order to change this property into true`.
 
 ### Current bitrate and available qualities for a stream
 

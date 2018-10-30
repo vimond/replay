@@ -1,7 +1,7 @@
 import playerStateClassNameBuilder from './playerStateClassNameBuilder';
 import type { RecognizedPlayerStateProperties } from './playerStateClassNameBuilder';
 
-const plainBooleanProps = ['isSeeking', 'isBuffering', 'isMuted', 'isAtLivePosition', 'isFullscreen'];
+const plainBooleanProps = ['isSeeking', 'isBuffering', 'isMuted', 'isAtLiveEdge', 'isFullscreen'];
 const classNamePrefix = 'v-';
 
 const allProps: RecognizedPlayerStateProperties = {
@@ -10,7 +10,7 @@ const allProps: RecognizedPlayerStateProperties = {
   isBuffering: true,
   isMuted: false,
   volume: 0.2,
-  isAtLivePosition: true,
+  isAtLiveEdge: true,
   playState: 'buffering',
   playMode: 'livedvr',
   error: null,
@@ -31,7 +31,7 @@ const classNameDefs = {
   isPaused: 'is-paused',
   isStarting: 'is-starting',
   isMuted: 'is-muted',
-  isAtLivePosition: 'is-at-live-position',
+  isAtLiveEdge: 'is-at-live-edge',
   isLive: 'is-live',
   isOnDemand: 'is-on-demand',
   isDvrEnabled: 'is-dvr-enabled',

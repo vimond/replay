@@ -50,7 +50,7 @@ const classNameDefinitions = {
   isPaused: 'is-paused',
   isStarting: 'is-starting',
   isMuted: 'is-muted',
-  isAtLivePosition: 'is-at-live-position',
+  isAtLiveEdge: 'is-at-live-edge',
   isLive: 'is-live',
   isOnDemand: 'is-on-demand',
   isDvrEnabled: 'is-dvr-enabled',

@@ -23,7 +23,7 @@ class PlayerStateClassNames extends React.Component<Props> {
     'isBuffering',
     'isMuted',
     'volume',
-    'isAtLivePosition',
+    'isAtLiveEdge',
     'playState',
     'error',
     'playMode'

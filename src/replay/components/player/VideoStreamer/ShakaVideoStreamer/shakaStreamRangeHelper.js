@@ -5,7 +5,7 @@ import type { StreamRangeHelper } from '../common/types';
 
 const dawnOfTime = new Date(0);
 const minimumDvrLength = 100; // seconds
-const defaultLivePositionMargin = 10; // seconds
+const defaultLiveEdgeMargin = 10; // seconds
 const dvrStartCorrection = 10; // yep, seconds
 
 function resolvePlayMode(duration: number, isLive: boolean): PlayMode {
@@ -53,7 +53,7 @@ const getStreamRangeHelper = (
   shakaPlayer: ShakaPlayer,
   configuration: ?{ liveEdgeMargin?: ?number }
 ): StreamRangeHelper => {
-  const liveMargin = (configuration && configuration.liveEdgeMargin) || defaultLivePositionMargin;
+  const liveMargin = (configuration && configuration.liveEdgeMargin) || defaultLiveEdgeMargin;
 
   function calculateNewState() {
     const seekRange = shakaPlayer.seekRange();
@@ -68,7 +68,7 @@ const getStreamRangeHelper = (
           : videoElement.duration;
 
     const playMode = resolvePlayMode(duration, isLive);
-    const isAtLivePosition = isLive && position > duration - liveMargin;
+    const isAtLiveEdge = isLive && position > duration - liveMargin;
 
     const { absolutePosition, absoluteStartPosition } = getAbsolutePositions(
       isLive,
@@ -80,7 +80,7 @@ const getStreamRangeHelper = (
       position,
       duration,
       playMode,
-      isAtLivePosition,
+      isAtLiveEdge,
       absolutePosition,
       absoluteStartPosition
     };

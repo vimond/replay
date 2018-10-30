@@ -40,7 +40,7 @@ test('When Shaka reports a live stream, but no valid duration, report the stream
   const streamState = streamRangeHelper.calculateNewState();
   expect(streamState).toMatchObject({
     playMode: 'live',
-    isAtLivePosition: true
+    isAtLiveEdge: true
   });
 });
 
@@ -54,7 +54,7 @@ test('When Shaka reports a live stream, and there is a seekable range shorter th
   const streamState = streamRangeHelper.calculateNewState();
   expect(streamState).toMatchObject({
     playMode: 'live',
-    isAtLivePosition: true
+    isAtLiveEdge: true
   });
 });
 
@@ -76,7 +76,7 @@ test('When Shaka reports an on demand stream, report the stream as on demand, an
   const streamState = streamRangeHelper.calculateNewState();
   expect(streamState).toMatchObject({
     playMode: 'ondemand',
-    isAtLivePosition: false,
+    isAtLiveEdge: false,
     duration: 242
   });
   const mockShakaPlayer2 = getMockShakaPlayer(false, { start: 13, end: 57 });
@@ -139,7 +139,7 @@ test('When the position for a live stream is close to the duration (within a thr
   const { streamRangeHelper } = setup(mockVideoElement, mockShakaPlayer);
   const streamState = streamRangeHelper.calculateNewState();
   expect(streamState).toMatchObject({
-    isAtLivePosition: true
+    isAtLiveEdge: true
   });
 });
 
@@ -153,7 +153,7 @@ test('When the position for a live stream is not close to the duration (limited 
   const streamState = streamRangeHelper.calculateNewState();
   expect(streamState).toMatchObject({
     playMode: 'livedvr',
-    isAtLivePosition: false
+    isAtLiveEdge: false
   });
 });
 

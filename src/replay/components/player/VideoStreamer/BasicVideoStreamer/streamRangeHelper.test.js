@@ -37,7 +37,7 @@ test('When the video element duration is Infinity and there are no seekable rang
   const streamState = streamRangeHelper.calculateNewState();
   expect(streamState).toMatchObject({
     playMode: 'live',
-    isAtLivePosition: true
+    isAtLiveEdge: true
   });
 });
 
@@ -51,7 +51,7 @@ test('When duration is Infinity and there are seekable ranges longer than 100 se
   const streamState = streamRangeHelper.calculateNewState();
   expect(streamState).toMatchObject({
     playMode: 'livedvr',
-    isAtLivePosition: true
+    isAtLiveEdge: true
   });
 });
 
@@ -61,7 +61,7 @@ test('When duration is a normal number, report the stream as on demand.', () => 
   const streamState = streamRangeHelper.calculateNewState();
   expect(streamState).toMatchObject({
     playMode: 'ondemand',
-    isAtLivePosition: false
+    isAtLiveEdge: false
   });
 });
 
@@ -117,7 +117,7 @@ test('When the position for a live stream is not close to the duration (limited 
   const streamState = streamRangeHelper.calculateNewState();
   expect(streamState).toMatchObject({
     playMode: 'livedvr',
-    isAtLivePosition: false
+    isAtLiveEdge: false
   });
 });
 

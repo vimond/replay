@@ -7,11 +7,11 @@ import type { CommonProps } from '../../common';
 import type { StreamStateKeysForObservation } from '../../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
-  isAtLivePosition?: boolean,
-  setProperty?: ({ isAtLivePosition: true }) => void,
+  isAtLiveEdge?: boolean,
+  setProperty?: ({ isAtLiveEdge: true }) => void,
   playMode?: PlayMode,
-  isAtLivePositionContent: React.Node,
-  isNotAtLivePositionContent: React.Node
+  isAtLiveEdgeContent: React.Node,
+  isNotAtLiveEdgeContent: React.Node
 };
 
 const className = 'goto-live-button';
@@ -21,32 +21,32 @@ class GotoLiveButton extends React.Component<Props> {
     classNamePrefix: defaultClassNamePrefix
   };
 
-  static streamStateKeysForObservation: StreamStateKeysForObservation = ['isAtLivePosition', 'playMode'];
+  static streamStateKeysForObservation: StreamStateKeysForObservation = ['isAtLiveEdge', 'playMode'];
 
   handleToggle = (value: boolean) => {
     if (value && this.props.setProperty) {
-      this.props.setProperty({ isAtLivePosition: true });
+      this.props.setProperty({ isAtLiveEdge: true });
     }
   };
 
   render() {
     const {
       playMode,
-      isAtLivePosition,
-      isAtLivePositionContent,
-      isNotAtLivePositionContent,
+      isAtLiveEdge,
+      isAtLiveEdgeContent,
+      isNotAtLiveEdgeContent,
       label,
       classNamePrefix
     } = this.props;
     return playMode === 'livedvr' ? (
       <ToggleButton
         classNamePrefix={classNamePrefix}
-        isOn={isAtLivePosition}
+        isOn={isAtLiveEdge}
         className={className}
         label={label}
         onToggle={this.handleToggle}
-        toggledOnContent={isAtLivePositionContent}
-        toggledOffContent={isNotAtLivePositionContent}
+        toggledOnContent={isAtLiveEdgeContent}
+        toggledOffContent={isNotAtLiveEdgeContent}
       />
     ) : null;
   }

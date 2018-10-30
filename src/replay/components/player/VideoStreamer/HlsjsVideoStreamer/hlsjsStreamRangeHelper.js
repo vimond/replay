@@ -6,7 +6,7 @@ import type { HlsjsInstanceKeeper } from './HlsjsVideoStreamer';
 
 const dawnOfTime = new Date(0);
 const minimumDvrLength = 100; // seconds
-const defaultLivePositionMargin = 10; // seconds
+const defaultLiveEdgeMargin = 10; // seconds
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
@@ -51,7 +51,7 @@ function getAbsolutePositions(
   }
 }
 
-function getIsAtLivePosition(hls, videoElement, isLive, liveMargin) {
+function getIsAtLiveEdge(hls, videoElement, isLive, liveMargin) {
   if (isLive) {
     if (hls.liveSyncPosition) {
       return videoElement.currentTime > hls.liveSyncPosition - liveMargin;
@@ -72,7 +72,7 @@ const getStreamRangeHelper = (
   instanceKeeper: HlsjsInstanceKeeper,
   configuration: ?{ liveEdgeMargin?: ?number }
 ): StreamRangeHelper => {
-  const liveMargin = (configuration && configuration.liveEdgeMargin) || defaultLivePositionMargin;
+  const liveMargin = (configuration && configuration.liveEdgeMargin) || defaultLiveEdgeMargin;
   let levelDuration = 0;
   let streamStartDate: ?Date;
   let isLive = false;
@@ -89,13 +89,13 @@ const getStreamRangeHelper = (
     const duration = levelDuration || videoElement.duration;
     const { absolutePosition, absoluteStartPosition } = getAbsolutePositions(isLive, streamStartDate, position);
     const playMode = resolvePlayMode(duration, isLive);
-    const isAtLivePosition = hls && getIsAtLivePosition(hls, videoElement, isLive, liveMargin);
+    const isAtLiveEdge = hls && getIsAtLiveEdge(hls, videoElement, isLive, liveMargin);
 
     return {
       position,
       duration,
       playMode,
-      isAtLivePosition,
+      isAtLiveEdge,
       absolutePosition,
       absoluteStartPosition
     };

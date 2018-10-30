@@ -117,7 +117,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                 className="ui-container"
                 classNameDefinitions={
                   Object {
-                    "isAtLivePosition": "is-at-live-position",
+                    "isAtLiveEdge": "is-at-live-edge",
                     "isBuffering": "is-buffering",
                     "isDvrEnabled": "is-dvr-enabled",
                     "isFailed": "is-failed",
@@ -148,7 +148,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                   className="ui-container"
                   classNameDefinitions={
                     Object {
-                      "isAtLivePosition": "is-at-live-position",
+                      "isAtLiveEdge": "is-at-live-edge",
                       "isBuffering": "is-buffering",
                       "isDvrEnabled": "is-dvr-enabled",
                       "isFailed": "is-failed",
@@ -594,13 +594,13 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           <ConnectedGotoLiveButton
                             classNamePrefix="replay-"
                             gotoLive="Go live"
-                            isAtLivePositionContent={
+                            isAtLiveEdgeContent={
                               <span>
                                 Live
                               </span>
                             }
                             isLive="Live"
-                            isNotAtLivePositionContent={
+                            isNotAtLiveEdgeContent={
                               <span>
                                 Go live
                               </span>
@@ -611,13 +611,13 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               classNamePrefix="replay-"
                               gotoLive="Go live"
                               inspect={[Function]}
-                              isAtLivePositionContent={
+                              isAtLiveEdgeContent={
                                 <span>
                                   Live
                                 </span>
                               }
                               isLive="Live"
-                              isNotAtLivePositionContent={
+                              isNotAtLiveEdgeContent={
                                 <span>
                                   Go live
                                 </span>
