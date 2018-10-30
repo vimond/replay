@@ -38,13 +38,7 @@ test('<GotoLiveButton/> does not render if stream is stream is on demand or has 
   );
   expect(rendered.getElement()).toBe(null);
   const rendered2 = shallow(
-    <GotoLiveButton
-      playMode="live"
-      classNamePrefix="a-"
-      isAtLiveEdgeContent="A"
-      isNotAtLiveEdgeContent="B"
-      label="C"
-    />
+    <GotoLiveButton playMode="live" classNamePrefix="a-" isAtLiveEdgeContent="A" isNotAtLiveEdgeContent="B" label="C" />
   );
   expect(rendered2.getElement()).toBe(null);
 });

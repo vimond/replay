@@ -19,9 +19,9 @@ import getHlsjsBitrateManager from './hlsjsBitrateManager';
 import getHlsjsEventHandlers from './hlsjsEventHandlers';
 
 export type HlsjsInstanceKeeper = {
-  hls?: Hls, 
+  hls?: Hls,
   videoElement: HTMLVideoElement,
-  subscribers: Array<(Hls, 'on'|'off') => void>
+  subscribers: Array<(Hls, 'on' | 'off') => void>
 };
 
 export type HlsjsVideoStreamerConfiguration = VideoStreamerConfiguration & {
@@ -40,7 +40,7 @@ function resolveImplementation(
     videoElement,
     subscribers: []
   };
-  
+
   const streamRangeHelper = getStreamRangeHelper(videoElement, instanceKeeper, configuration);
   const handleSourceChange = getSourceChangeHandler(instanceKeeper);
   const updateStreamState = getFilteredPropertyUpdater(streamer);

@@ -418,10 +418,7 @@ function getSourceChangeHandler(videoElement: HTMLVideoElement) {
     }
     const acquisitionDetails = hydrateLicenseAquisitionDetails(nextProps.source, nextProps.configuration);
     if (acquisitionDetails) {
-      previousSession = getFairPlayLicenseAcquirer(
-        videoElement,
-        acquisitionDetails,
-        nextProps.onPlaybackError);
+      previousSession = getFairPlayLicenseAcquirer(videoElement, acquisitionDetails, nextProps.onPlaybackError);
     }
     return handleBasicSourceChange(nextProps, prevProps);
   };

@@ -43,7 +43,7 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
   });
 
   const { videoElementEventHandlers, pauseStreamRangeUpdater } = htmlVideoHandlers;
-  
+
   let lifeCycleManager = {
     setStage: (_: PlaybackLifeCycle) => {},
     getStage: () => {}
@@ -135,7 +135,7 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
   }
 
   instanceKeeper.subscribers.push(onHlsInstance);
-  
+
   const {
     onCanPlay,
     onPlaying,

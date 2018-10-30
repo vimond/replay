@@ -58,7 +58,7 @@ function getIsAtLiveEdge(hls, videoElement, isLive, liveMargin) {
     } else if (hls.config && hls.config.liveSyncDuration) {
       return videoElement.currentTime > videoElement.duration - (hls.config.liveSyncDuration + liveMargin);
     } else if (hls.config && hls.config.liveSyncDurationCount) {
-      return videoElement.currentTime > videoElement.duration - ((hls.config.liveSyncDurationCount * 10) + liveMargin);
+      return videoElement.currentTime > videoElement.duration - (hls.config.liveSyncDurationCount * 10 + liveMargin);
     } else {
       return false;
     }
@@ -80,7 +80,7 @@ const getStreamRangeHelper = (
 
   function calculateNewState() {
     let position;
-    
+
     if (levelDuration) {
       position = Math.max((videoElement.currentTime || 0) - Math.max(videoElement.duration - levelDuration, 0), 0);
     } else {
@@ -122,7 +122,7 @@ const getStreamRangeHelper = (
       } else if (hls.config && hls.config.liveSyncDuration) {
         videoElement.currentTime = videoElement.duration - (hls.config.liveSyncDuration + liveMargin);
       } else if (hls.config && hls.config.liveSyncDurationCount) {
-        videoElement.currentTime = videoElement.duration - ((hls.config.liveSyncDurationCount * 10) + liveMargin);
+        videoElement.currentTime = videoElement.duration - (hls.config.liveSyncDurationCount * 10 + liveMargin);
       } else {
         videoElement.currentTime = videoElement.duration - liveMargin;
       }
@@ -150,7 +150,7 @@ const getStreamRangeHelper = (
         streamStartDate = new Date(programDateTime);
         // updatePosition();
       }
-    },
+    }
     // [Hls.Events.ERROR]: () => reset // TODO: Is this needed?
   };
 
@@ -163,7 +163,7 @@ const getStreamRangeHelper = (
       }
     });
   }
-  
+
   instanceKeeper.subscribers.push(onHlsInstance);
 
   return {

@@ -5,7 +5,7 @@ import { PlaybackError } from '../types';
 
 export function broadcastHlsInstance(instanceKeeper: HlsjsInstanceKeeper, preposition: 'on' | 'off') {
   const { hls } = instanceKeeper;
-  hls && instanceKeeper.subscribers.forEach(subscriber => subscriber(hls, preposition))
+  hls && instanceKeeper.subscribers.forEach(subscriber => subscriber(hls, preposition));
 }
 
 export function hlsjsSetup(
@@ -42,5 +42,4 @@ export function hlsjsCleanup(instanceKeeper: HlsjsInstanceKeeper) {
   } else {
     return Promise.resolve();
   }
-
 }

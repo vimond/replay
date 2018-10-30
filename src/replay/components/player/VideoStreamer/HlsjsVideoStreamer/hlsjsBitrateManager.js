@@ -74,17 +74,17 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
                 hls.autoLevelCapping = i - 1;
                 updateStreamState({ bitrateCap: getBitrateAsKbps(hls.levels[i - 1]) });
                 log &&
-                log(
-                  'Desired bitrate cap corresponds to level with capping on index ' + (i - 1) + ' in hls.js.',
-                  hls.levels
-                );
+                  log(
+                    'Desired bitrate cap corresponds to level with capping on index ' + (i - 1) + ' in hls.js.',
+                    hls.levels
+                  );
               } else {
                 hls.autoLevelCapping = 0;
                 log &&
-                log(
-                  'Desired bitrate cap appears to be lower than the lowest HLS level. Aligning to lowest level.',
-                  hls.levels
-                );
+                  log(
+                    'Desired bitrate cap appears to be lower than the lowest HLS level. Aligning to lowest level.',
+                    hls.levels
+                  );
                 updateStreamState({ bitrateCap: getBitrateAsKbps(hls.levels[0]) });
               }
               reached = true;
@@ -92,7 +92,8 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
             }
           }
           if (!reached) {
-            log && log('Desired bitrate cap appears to be higher than the higher HLS level. Not applicable.', hls.levels);
+            log &&
+              log('Desired bitrate cap appears to be higher than the higher HLS level. Not applicable.', hls.levels);
           }
         } else {
           log && log('Found no HLS levels from where bitrate capping can be applied.', hls.levels);
@@ -121,10 +122,10 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
         updateStreamState({ bitrateFix: null });
       } else if (typeof bitrate === 'string') {
         log &&
-        log(
-          'Unknown string specified for bitrate lock. Please use a value of type number if a bitrate specified by kbps is intended.',
-          bitrate
-        );
+          log(
+            'Unknown string specified for bitrate lock. Please use a value of type number if a bitrate specified by kbps is intended.',
+            bitrate
+          );
       } else {
         if (Array.isArray(hls.levels)) {
           for (var i = 0; i < hls.levels.length; i++) {
@@ -136,10 +137,10 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
             }
           }
           log &&
-          log(
-            "Desired bitrate lock didn't match any bitrates specified in the hls.levels list. Not applied.",
-            hls.levels
-          );
+            log(
+              "Desired bitrate lock didn't match any bitrates specified in the hls.levels list. Not applied.",
+              hls.levels
+            );
         } else {
           log && log('Found no HLS levels from where bitrate fixing can be applied.', hls.levels);
         }
@@ -167,7 +168,7 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
   }
 
   instanceKeeper.subscribers.push(onHlsInstance);
-  
+
   return {
     fixBitrate,
     capBitrate

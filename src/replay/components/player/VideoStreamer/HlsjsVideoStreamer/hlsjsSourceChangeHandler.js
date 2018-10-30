@@ -14,7 +14,10 @@ function normalizeSource(source: ?(string | PlaybackSource)): ?PlaybackSource {
   return typeof source === 'string' ? { streamUrl: source } : source;
 }
 
-const getSourceChangeHandler = (instanceKeeper: HlsjsInstanceKeeper) => <C: HlsjsVideoStreamerConfiguration, P: Props<C>>(
+const getSourceChangeHandler = (instanceKeeper: HlsjsInstanceKeeper) => <
+  C: HlsjsVideoStreamerConfiguration,
+  P: Props<C>
+>(
   nextProps: P,
   prevProps?: P
 ): Promise<any> => {
@@ -48,7 +51,7 @@ const getSourceChangeHandler = (instanceKeeper: HlsjsInstanceKeeper) => <C: Hlsj
         }
       });
     });
-  }/* else if (prevProps && prevProps.source) {
+  } /* else if (prevProps && prevProps.source) {
     // And no new source.
     return Promise.resolve(instanceKeeper.hls && instanceKeeper.hls.stopLoad());
   }*/ else {

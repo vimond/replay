@@ -34,14 +34,14 @@ declare module 'hls.js' {
     autoLevelEnabled: boolean;
     config: {
       liveSyncDuration?: number,
-      liveSyncDurationCount?: number,
+      liveSyncDurationCount?: number
     };
     currentLevel: number; //TODO: Is this actually fixing the bitrate?
     firstLevel: number;
     levels: Array<HlsjsQualityLevel>;
     liveSyncPosition?: number;
-    liveSyncDuration?: number,
-    liveSyncDurationCount?: number,
+    liveSyncDuration?: number;
+    liveSyncDurationCount?: number;
     loadSource(string): void;
     nextLevel: number;
     off(string, (any) => void): void;

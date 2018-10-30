@@ -30,14 +30,7 @@ class GotoLiveButton extends React.Component<Props> {
   };
 
   render() {
-    const {
-      playMode,
-      isAtLiveEdge,
-      isAtLiveEdgeContent,
-      isNotAtLiveEdgeContent,
-      label,
-      classNamePrefix
-    } = this.props;
+    const { playMode, isAtLiveEdge, isAtLiveEdgeContent, isNotAtLiveEdgeContent, label, classNamePrefix } = this.props;
     return playMode === 'livedvr' ? (
       <ToggleButton
         classNamePrefix={classNamePrefix}
