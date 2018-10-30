@@ -421,9 +421,7 @@ function getSourceChangeHandler(videoElement: HTMLVideoElement) {
       previousSession = getFairPlayLicenseAcquirer(
         videoElement,
         acquisitionDetails,
-        nextProps.onPlaybackError,
-        (message, details) => console.log(message, details)
-      );
+        nextProps.onPlaybackError);
     }
     return handleBasicSourceChange(nextProps, prevProps);
   };
