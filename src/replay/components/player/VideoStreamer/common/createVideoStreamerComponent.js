@@ -91,15 +91,15 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
             this.props.onReady({ setProperties: this.setProperties, thirdPartyPlayer });
           }
           if (this.props.source) {
-            this.handleSourceChange(this.props);
+            return this.handleSourceChange(this.props);
           }
-        }); // TODO: Catch an error.
+        }).catch(err => { throw err });
       }
     }
 
     componentWillUnmount() {
       if (this.implementation && this.implementation) {
-        this.implementation.cleanup(); // TODO: Catch an error.
+        this.implementation.cleanup().catch(err => { throw err });
       }
     }
 

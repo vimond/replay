@@ -151,7 +151,6 @@ const getStreamRangeHelper = (
         // updatePosition();
       }
     }
-    // [Hls.Events.ERROR]: () => reset // TODO: Is this needed?
   };
 
   function onHlsInstance(hlsInstance, preposition) {

@@ -36,7 +36,7 @@ declare module 'hls.js' {
       liveSyncDuration?: number,
       liveSyncDurationCount?: number
     };
-    currentLevel: number; //TODO: Is this actually fixing the bitrate?
+    currentLevel: number;
     firstLevel: number;
     levels: Array<HlsjsQualityLevel>;
     liveSyncPosition?: number;

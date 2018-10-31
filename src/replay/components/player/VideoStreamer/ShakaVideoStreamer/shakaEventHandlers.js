@@ -76,7 +76,6 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
         lifeCycleManager.setStage('starting');
         if (streamer.props.initialPlaybackProps) {
           const { isMuted, volume } = streamer.props.initialPlaybackProps;
-          // TODO: Perhaps apply on 'streaming' event in Shaka insted.
           applyProperties({ isMuted, volume });
         }
         updateStreamState({

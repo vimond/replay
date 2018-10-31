@@ -73,17 +73,13 @@ function prepareFilters(
 ) {
   const networkingEngine = shakaPlayer.getNetworkingEngine();
   if (networkingEngine) {
-    try {
-      networkingEngine.clearAllRequestFilters();
-      networkingEngine.clearAllResponseFilters();
-      if (shakaRequestFilter) {
-        networkingEngine.registerRequestFilter(shakaRequestFilter);
-      }
-      if (shakaResponseFilter) {
-        networkingEngine.registerResponseFilter(shakaResponseFilter);
-      }
-    } catch (e) {
-      // TODO: Logging?
+    networkingEngine.clearAllRequestFilters();
+    networkingEngine.clearAllResponseFilters();
+    if (shakaRequestFilter) {
+      networkingEngine.registerRequestFilter(shakaRequestFilter);
+    }
+    if (shakaResponseFilter) {
+      networkingEngine.registerResponseFilter(shakaResponseFilter);
     }
   }
   // To be leaved for plugging in: Credentials, request headers, license request headers, manifest modification, manifest corrections.

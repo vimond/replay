@@ -110,10 +110,6 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
     [Hls.Events.FRAG_BUFFERED]: () => {
       updateStreamState({ isBuffering: false });
     },
-    [Hls.Events.LEVEL_LOADED]: () => {
-      // TODO - how to pass levelDuration and start date here? Can it be read from level?
-      // updateStreamState(streamRangeHelper.calculateNewState());
-    },
     [Hls.Events.MANIFEST_PARSED]: () => {
       log && log('hlsjs.parsed');
       if (streamer.props.initialPlaybackProps) {

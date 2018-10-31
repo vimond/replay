@@ -30,7 +30,6 @@ export type ShakaVideoStreamerProps = VideoStreamerImplProps<ShakaVideoStreamerC
   shakaResponseFilter?: ?ShakaResponseFilter
 };
 
-// TODO: Vurder å droppe shaka i navngivningen.
 function resolveImplementation(
   streamer: SimplifiedVideoStreamer<ShakaVideoStreamerConfiguration, ShakaVideoStreamerProps>,
   configuration: ?ShakaVideoStreamerConfiguration,

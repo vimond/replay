@@ -42,7 +42,7 @@ const getAudioTrackManager = (videoElement: HTMLVideoElement, update: VideoStrea
       selectedTrack ||
       managedTracks.filter(mt => mt.videoElementTrack.enabled).map(mt => mt.selectableTrack)[0] ||
       null;
-    // TODO: Don't create a new array object every time.
+    // TODO: Don't create a new array with new items every time. A deep equal comparison on availableTracks is needed.
     update({ audioTracks: managedTracks.map(mt => mt.selectableTrack), currentAudioTrack });
   }
 
