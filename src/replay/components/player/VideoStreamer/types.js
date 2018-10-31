@@ -114,7 +114,8 @@ export type PlaybackProps = InitialPlaybackProps & {
 };
 
 export type VideoStreamerMethods = {
-  setProperties: PlaybackProps => void
+  setProperties: PlaybackProps => void,
+  thirdPartyPlayer: any
 };
 
 export type VideoStreamerProps = CommonProps & {

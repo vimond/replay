@@ -82,13 +82,13 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
         // $FlowFixMe
         resolveImplementation(this, this.props.configuration, videoElement).then(implementation => {
           this.implementation = implementation;
-          const { render, videoElementEventHandlers } = implementation;
+          const { render, videoElementEventHandlers, thirdPartyPlayer } = implementation;
           this.setState({
             render,
             videoElementEventHandlers
           });
           if (this.props.onReady) {
-            this.props.onReady({ setProperties: this.setProperties });
+            this.props.onReady({ setProperties: this.setProperties, thirdPartyPlayer });
           }
           if (this.props.source) {
             this.handleSourceChange(this.props);
