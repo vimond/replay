@@ -38,7 +38,7 @@ function getEmeAttributes(userAgent, serviceCertificate) {
 function prepareDrm(shakaPlayer: ShakaPlayer, source: PlaybackSource, configuration: ?VideoStreamerConfiguration) {
   const licenseUrl = source.licenseUrl;
   const serviceCertificate =
-    (source.licenseRequestDetails && source.licenseRequestDetails.widevineServiceCertificateUrl) ||
+    (source.licenseAcquisitionDetails && source.licenseAcquisitionDetails.widevineServiceCertificateUrl) ||
     (configuration &&
       configuration.licenseAcquisition &&
       configuration.licenseAcquisition.widevine &&

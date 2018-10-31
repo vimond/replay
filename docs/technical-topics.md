@@ -133,7 +133,7 @@ const source = {
   playbackTechnology: 'dash',
   streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mpd',
   licenseUrl: 'https://license.example.com/BigBuckBunny/drmLicense',
-  licenseRequestDetails: {
+  licenseAcquisitionDetails: {
     widevineServiceCertificateUrl: 'https://license.example.com/drmCertificate'
   },
   startPosition: 313,

@@ -88,7 +88,7 @@ export type PlaybackSource = {
   textTracks?: Array<SourceTrack>,
   contentType?: string,
   metadata?: any,
-  licenseRequestDetails?: {
+  licenseAcquisitionDetails?: {
     licenseRequestHeaders?: { [string]: string },
     fairPlayCertificateUrl?: string,
     widevineServiceCertificateUrl?: string,
@@ -108,7 +108,7 @@ export type InitialPlaybackProps = {
 
 export type PlaybackProps = InitialPlaybackProps & {
   position?: number,
-  isAtLiveEdge?: true, // TODO: Rename to isPlayingAtLiveEdge.
+  isAtLiveEdge?: true,
   selectedTextTrack?: AvailableTrack,
   selectedAudioTrack?: AvailableTrack
 };

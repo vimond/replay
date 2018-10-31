@@ -372,10 +372,10 @@ function hydrateLicenseAquisitionDetails(source: ?PlaybackSource, configuration:
     let contentId;
     let contentIdExtractMatch;
     const config = configuration && configuration.licenseAcquisition && configuration.licenseAcquisition.fairPlay;
-    if (source.licenseRequestDetails) {
-      fairPlayCertificateUrl = source.licenseRequestDetails.fairPlayCertificateUrl;
-      licenseRequestHeaders = source.licenseRequestDetails.licenseRequestHeaders;
-      contentId = source.licenseRequestDetails.contentId;
+    if (source.licenseAcquisitionDetails) {
+      fairPlayCertificateUrl = source.licenseAcquisitionDetails.fairPlayCertificateUrl;
+      licenseRequestHeaders = source.licenseAcquisitionDetails.licenseRequestHeaders;
+      contentId = source.licenseAcquisitionDetails.contentId;
     } else if (config) {
       fairPlayCertificateUrl = config.serviceCertificateUrl;
       contentIdExtractMatch = config.contentIdExtractMatch;

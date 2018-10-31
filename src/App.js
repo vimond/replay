@@ -60,7 +60,7 @@ const fairPlayStream: PlaybackSource = {
   streamUrl: 'https://tv2-hls-live.telenorcdn.net/out/u/82018.m3u8',
   licenseUrl:
     'http://localhost:3002/proxy/stream/license/https%3A//sumo.tv2.no/license/fairplay/82018%3FtimeStamp%3D2018-10-30T14%253A25%253A33%252B0000%26contract%3Db639d62fcb132fc7d7f6f7abec3318fe%26account%3Dsource',
-  licenseRequestDetails: {
+  licenseAcquisitionDetails: {
     fairPlayCertificateUrl: 'http://localhost:3002/proxy/stream/http%3A//sumo.tv2.no/atvapp/assets/TV2_certificate.der'
   }
 };
