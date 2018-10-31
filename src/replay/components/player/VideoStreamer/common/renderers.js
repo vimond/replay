@@ -48,13 +48,7 @@ export const renderWithSource: VideoStreamerRenderer = (
     );
   } else {
     return (
-      <video
-        className={classNames}
-        ref={videoRef}
-        src={''}
-        controls={false}
-        style={styles ? styles : undefined}
-      />
+      <video className={classNames} ref={videoRef} src={''} controls={false} style={styles ? styles : undefined} />
     );
   }
 };

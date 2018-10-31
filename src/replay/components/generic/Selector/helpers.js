@@ -43,7 +43,16 @@ export class SelectorItem extends React.Component<SelectorItemProps> {
   };
 
   render() {
-    const { className, classNamePrefix, classes, defaultItemClassName, item, isSelected, canReceiveFocus, selectedClassName } = this.props;
+    const {
+      className,
+      classNamePrefix,
+      classes,
+      defaultItemClassName,
+      item,
+      isSelected,
+      canReceiveFocus,
+      selectedClassName
+    } = this.props;
     const label = getLabel(item);
     const classNames = hydrateClassNames({
       classes,

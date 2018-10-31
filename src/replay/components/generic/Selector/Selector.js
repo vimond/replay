@@ -48,7 +48,6 @@ const getId = (item: Item): string => {
   }
 };
 
-
 function isEqual(itemA: Item, itemB: ?Item, itemBId: ?Id): boolean {
   if (itemB != null) {
     return itemA === itemB;

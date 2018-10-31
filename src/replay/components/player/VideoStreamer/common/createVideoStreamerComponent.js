@@ -64,26 +64,32 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
       const videoElement = this.videoRef.current;
       if (videoElement) {
         // $FlowFixMe
-        resolveImplementation(this, this.props.configuration, videoElement).then(implementation => {
-          this.implementation = implementation;
-          const { render, videoElementEventHandlers, thirdPartyPlayer } = implementation;
-          this.setState({
-            render,
-            videoElementEventHandlers
+        resolveImplementation(this, this.props.configuration, videoElement)
+          .then(implementation => {
+            this.implementation = implementation;
+            const { render, videoElementEventHandlers, thirdPartyPlayer } = implementation;
+            this.setState({
+              render,
+              videoElementEventHandlers
+            });
+            if (this.props.onReady) {
+              this.props.onReady({ setProperties: this.setProperties, thirdPartyPlayer });
+            }
+            if (this.props.source) {
+              return this.handleSourceChange(this.props);
+            }
+          })
+          .catch(err => {
+            throw err;
           });
-          if (this.props.onReady) {
-            this.props.onReady({ setProperties: this.setProperties, thirdPartyPlayer });
-          }
-          if (this.props.source) {
-            return this.handleSourceChange(this.props);
-          }
-        }).catch(err => { throw err });
       }
     }
 
     componentWillUnmount() {
       if (this.implementation && this.implementation) {
-        this.implementation.cleanup().catch(err => { throw err });
+        this.implementation.cleanup().catch(err => {
+          throw err;
+        });
       }
     }
 

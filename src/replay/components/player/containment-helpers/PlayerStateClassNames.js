@@ -8,7 +8,7 @@ import type { StreamStateKeysForObservation } from '../PlayerController/Controll
 
 type Props = RecognizedPlayerStateProperties &
   CommonGenericProps & {
-    render: (string) => React.Node,
+    render: string => React.Node,
     classNameDefinitions: { [ClassNameKeys]: string }
   };
 
@@ -31,12 +31,14 @@ class PlayerStateClassNames extends React.Component<Props> {
 
   render() {
     const { render, classNamePrefix, classNameDefinitions, className, ...playerStateProps } = this.props;
-    return render(playerStateClassNameBuilder(
-      playerStateProps,
-      classNameDefinitions,
-      classNamePrefix,
-      className ? [className] : undefined
-    ));
+    return render(
+      playerStateClassNameBuilder(
+        playerStateProps,
+        classNameDefinitions,
+        classNamePrefix,
+        className ? [className] : undefined
+      )
+    );
   }
 }
 

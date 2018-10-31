@@ -81,7 +81,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     }
     pauseStreamRangeUpdater.stop();
   }
-  
+
   function onLoadStart() {
     log && log('loadstart');
     if (lifeCycleManager.getStage() === 'new') {
@@ -98,7 +98,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
       });
     }
   }
-  
+
   function onLoadedMetadata() {
     log && log('loadedmetadata');
     if (streamer.props.initialPlaybackProps && streamer.props.initialPlaybackProps.isPaused) {

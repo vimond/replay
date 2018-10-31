@@ -10,13 +10,9 @@ test('renderWithoutSource()', () => {
     current: null
   };
   const result = shallow(
-    renderWithoutSource(
-      videoRef,
-      { onPlaying: 1, onError: 2 },
-      { className: 'my-video' },
-      'my-base-class-name',
-      { c: 3 }
-    )
+    renderWithoutSource(videoRef, { onPlaying: 1, onError: 2 }, { className: 'my-video' }, 'my-base-class-name', {
+      c: 3
+    })
   );
   const videoElement = result.find('video');
   expect(videoElement.hasClass('my-base-class-name')).toBe(true);
@@ -49,13 +45,7 @@ test('renderWithoutSource() with source specified.', () => {
   expect(videoElement.prop('onError')).toEqual(2);
 
   const result2 = shallow(
-    renderWithSource(
-      videoRef,
-      {},
-      { source: 'http://example.com/stream' },
-      'my-base-class-name',
-      { c: 3 }
-    )
+    renderWithSource(videoRef, {}, { source: 'http://example.com/stream' }, 'my-base-class-name', { c: 3 })
   );
   const videoElement2 = result2.find('video');
   expect(videoElement2.prop('src')).toBe('http://example.com/stream');
@@ -67,13 +57,7 @@ test('renderWithoutSource() with no source specified.', () => {
     current: null
   };
   const result = shallow(
-    renderWithSource(
-      videoRef,
-      { onPlaying: 1, onError: 2 },
-      { className: 'my-video' },
-      'my-base-class-name',
-      { c: 3 }
-    )
+    renderWithSource(videoRef, { onPlaying: 1, onError: 2 }, { className: 'my-video' }, 'my-base-class-name', { c: 3 })
   );
   const videoElement = result.find('video');
   expect(videoElement.hasClass('my-base-class-name')).toBe(true);
