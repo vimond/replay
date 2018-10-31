@@ -18,7 +18,7 @@ export const baseConfiguration: PlayerConfiguration = {
   },
   keyboardShortcuts: {
     keyMap: {
-      togglePause: [' ', 'Enter'],
+      togglePause: [' ', 'Enter', 'P'],
       toggleFullscreen: 'F',
       decreaseVolume: '-',
       increaseVolume: '+',

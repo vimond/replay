@@ -1,7 +1,8 @@
 // @flow
 import * as React from 'react';
-import { hydrateClassNames, type CommonGenericProps, type Id } from '../../common';
+import { type CommonGenericProps, hydrateClassNames, type Id } from '../../common';
 import ToggleButton from '../ToggleButton/ToggleButton';
+import { focusElement, SelectorItem } from './helpers';
 
 export type Item =
   | string
@@ -27,15 +28,6 @@ type SelectorState = {
   isExpanded: boolean
 };
 
-type SelectorItemProps = CommonGenericProps & {
-  item: Item,
-  index: number,
-  isSelected: boolean,
-  canReceiveFocus: boolean,
-  onSelect?: Item => void,
-  onRef: (?HTMLElement, number) => void
-};
-
 const defaultSelectorClassName = 'selector';
 const expandToggleClassName = 'selector-toggle';
 const selectorItemsClassName = 'selector-items';
@@ -47,16 +39,6 @@ const selectedClassName = 'selected';
 const selectCollapsedClasses = classes => classes.selectorCollapsed || classes.selector;
 const selectExpandedClasses = classes => classes.selectorExpanded || classes.selector;
 const selectItemsContainerClasses = classes => classes.selectorItemsContainer;
-const selectItemClasses = classes => classes.selectorItem;
-const selectItemSelectedClasses = classes => classes.selectorItemSelected || classes.selectorItem;
-
-const getLabel = (item: Item): string => {
-  if (typeof item === 'string') {
-    return item;
-  } else {
-    return item.label;
-  }
-};
 
 const getId = (item: Item): string => {
   if (typeof item === 'string') {
@@ -66,48 +48,6 @@ const getId = (item: Item): string => {
   }
 };
 
-//TODO: Move into separate file.
-
-class SelectorItem extends React.Component<SelectorItemProps> {
-  handleRef = (element: ?HTMLElement) => {
-    this.props.onRef(element, this.props.index);
-  };
-
-  handleClick = () => this.props.onSelect && this.props.onSelect(this.props.item);
-
-  // TODO: Block keyboard shortcuts!
-
-  handleKeyUp = (keyboardEvent: KeyboardEvent) => {
-    if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
-      keyboardEvent.preventDefault();
-      this.handleClick();
-    }
-  };
-
-  render() {
-    const { className, classNamePrefix, classes, item, isSelected, canReceiveFocus } = this.props;
-    const label = getLabel(item);
-    const classNames = hydrateClassNames({
-      classes,
-      classNamePrefix,
-      selectClasses: isSelected ? selectItemSelectedClasses : selectItemClasses,
-      classNames: [className, defaultItemClassName, isSelected ? selectedClassName : null]
-    });
-    const tabIndex = canReceiveFocus ? 0 : undefined;
-    return (
-      <div
-        role="option"
-        aria-selected={isSelected}
-        className={classNames}
-        ref={this.handleRef}
-        onClick={this.handleClick}
-        onKeyUp={this.handleKeyUp}
-        tabIndex={tabIndex}>
-        <div tabIndex={-1}>{label}</div>
-      </div>
-    );
-  }
-}
 
 function isEqual(itemA: Item, itemB: ?Item, itemBId: ?Id): boolean {
   if (itemB != null) {
@@ -116,42 +56,6 @@ function isEqual(itemA: Item, itemB: ?Item, itemBId: ?Id): boolean {
     return typeof itemA !== 'string' && itemA.id === itemBId;
   } else {
     return false;
-  }
-}
-
-//TODO: Move into separate file.
-
-function focusElement(
-  upwards: boolean,
-  isReverseOrder: boolean,
-  items: Array<?HTMLElement>,
-  baseElement: ?HTMLElement
-) {
-  const elements = (isReverseOrder ? items.slice(0).reverse() : items).concat(baseElement);
-  for (let i = 0; i < elements.length; i++) {
-    if (elements[i] === document.activeElement) {
-      if (upwards) {
-        if (i > 0) {
-          for (let j = i - 1; j >= 0; j--) {
-            const element = elements[j];
-            if (element) {
-              element.focus();
-              return element;
-            }
-          }
-        }
-      } else {
-        if (i < elements.length - 1) {
-          for (let j = i + 1; j < elements.length; j++) {
-            const element = elements[j];
-            if (element) {
-              element.focus();
-              return element;
-            }
-          }
-        }
-      }
-    }
   }
 }
 
@@ -189,6 +93,8 @@ class Selector extends React.Component<Props, SelectorState> {
       onRef={this.handleItemRef}
       isSelected={isEqual(item, this.props.selectedItem, this.props.selectedItemId)}
       canReceiveFocus={this.state.isExpanded}
+      selectedClassName={selectedClassName}
+      defaultItemClassName={defaultItemClassName}
       className={this.props.itemClassName}
       classes={this.props.classes}
       classNamePrefix={this.props.classNamePrefix}
