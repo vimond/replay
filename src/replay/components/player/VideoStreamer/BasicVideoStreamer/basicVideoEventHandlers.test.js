@@ -2,7 +2,7 @@ import { PlaybackError } from '../types';
 import getBasicVideoEventHandlers from './basicVideoEventHandlers';
 import getPlaybackLifeCycleManager, { emptyTracks } from '../common/playbackLifeCycleManager';
 import { getArrayLogger } from '../common/logger';
-import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
+import getFilteredStreamStateUpdater from '../common/filteredStreamStateUpdater';
 import getStreamRangeHelper from './streamRangeHelper';
 
 const getPropertyUpdates = (mockFn, key) => mockFn.mock.calls.filter(call => key in call[0]).map(call => call[0]);
@@ -20,7 +20,7 @@ function setup(onStreamStateChange = jest.fn(), getStreamRangeHelper) {
   };
 
   const applyProperties = jest.fn();
-  const updateStreamState = getFilteredPropertyUpdater(streamer);
+  const updateStreamState = getFilteredStreamStateUpdater(streamer);
 
   const streamRangeHelper = getStreamRangeHelper
     ? getStreamRangeHelper(videoElement)

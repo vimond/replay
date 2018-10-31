@@ -22,7 +22,7 @@ const defaultFilters = {
 
 export type SanityFilter = <T: ?VideoStreamStateValues>(val: T) => T;
 
-function getFilteredPropertyUpdater<C: VideoStreamerConfiguration, P: VideoStreamerImplProps<C>>(
+function getFilteredStreamStateUpdater<C: VideoStreamerConfiguration, P: VideoStreamerImplProps<C>>(
   videoStreamer: SimplifiedVideoStreamer<C, P>,
   filters: { [VideoStreamStateKeys]: SanityFilter } = defaultFilters
 ) {
@@ -45,4 +45,4 @@ function getFilteredPropertyUpdater<C: VideoStreamerConfiguration, P: VideoStrea
   return update;
 }
 
-export default getFilteredPropertyUpdater;
+export default getFilteredStreamStateUpdater;

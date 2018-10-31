@@ -3,7 +3,7 @@ import type { VideoStreamerImplProps } from '../types';
 
 import createVideoStreamerComponent from '../common/createVideoStreamerComponent';
 import getStreamRangeHelper from './streamRangeHelper';
-import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
+import getFilteredStreamStateUpdater from '../common/filteredStreamStateUpdater';
 import getTextTrackManager from './textTrackManager';
 import getAudioTrackManager from './audioTrackManager';
 import { getPropertyApplier } from '../common/propertyApplier';
@@ -31,7 +31,7 @@ export function getImplementationResolver(
     const streamRangeHelper = getStreamRangeHelper(videoElement, configuration); // S
     const handleSourceChange = sourceChangeHandlerFactory(videoElement);
 
-    const updateStreamState = getFilteredPropertyUpdater(streamer); // G
+    const updateStreamState = getFilteredStreamStateUpdater(streamer); // G
 
     const textTrackManager = getTextTrackManager(videoElement, updateStreamState);
     const audioTrackManager = getAudioTrackManager(videoElement, updateStreamState);

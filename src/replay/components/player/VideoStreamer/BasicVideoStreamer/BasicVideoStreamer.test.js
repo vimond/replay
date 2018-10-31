@@ -68,14 +68,6 @@ const commonProps = {
   className: 'test-test'
 };
 
-const styles = {
-  position: 'absolute',
-  top: '0',
-  display: 'inline-block',
-  width: '100%',
-  height: '100%'
-};
-
 const getPropertyUpdates = (mockFn, key) => mockFn.mock.calls.filter(call => key in call[0]).map(call => call[0]);
 
 const domRender = (props = commonProps) => {
@@ -104,8 +96,6 @@ const domRender = (props = commonProps) => {
 test('<BasicVideoStreamer/> renders with video element if source or stream URL is specified.', () => {
   return domRender().then(({ videoElement, domVideoElement }) => {
     expect(domVideoElement.src).toBe(commonProps.source.streamUrl);
-    // TODO [TEST]: Class names vs custom styles.
-    expect(videoElement.prop('style')).toMatchObject(styles);
     expect(videoElement.hasClass('replay-video-streamer')).toBe(true);
     expect(videoElement.hasClass('replay-test-test')).toBe(true);
     expect(videoElement.prop('autoPlay')).toBe(true);

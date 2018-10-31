@@ -1,6 +1,6 @@
 import getShakaBitrateManager from './shakaBitrateManager';
 import { getMockShakaPlayer } from './shakaEventHandlers.test';
-import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
+import getFilteredStreamStateUpdater from '../common/filteredStreamStateUpdater';
 
 let id = 0;
 
@@ -29,7 +29,7 @@ const setup = (bitrates = [], currentBitrate, initialPlaybackProps) => {
     props: { onStreamStateChange, initialPlaybackProps }
   };
 
-  const updateStreamState = getFilteredPropertyUpdater(streamer);
+  const updateStreamState = getFilteredStreamStateUpdater(streamer);
 
   const bitrateManager = getShakaBitrateManager(streamer, shakaPlayer, updateStreamState);
 
@@ -174,7 +174,7 @@ test('Shaka bitrate manager fixBitrate() with no valid number resets max bandwid
   shakaPlayer.configure.mockClear();
   onStreamStateChange.mockClear();
   expect(shakaPlayer.selectVariantTrack).not.toHaveBeenCalled();
-  bitrateManager.fixBitrate(3457); // Just to get a different value in filteredPropertyUpdater.
+  bitrateManager.fixBitrate(3457); // Just to get a different value in filteredStreamStateUpdater.
   shakaPlayer.selectVariantTrack.mockClear();
   bitrateManager.fixBitrate(null);
   expect(shakaPlayer.configure).toHaveBeenCalledWith({

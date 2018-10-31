@@ -6,7 +6,7 @@ import type { ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from './typ
 import { shakaSetup, shakaCleanup } from './shakaSetup';
 import getStreamRangeHelper from './shakaStreamRangeHelper';
 import getSourceChangeHandler from './shakaSourceChangeHandler';
-import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
+import getFilteredStreamStateUpdater from '../common/filteredStreamStateUpdater';
 import { getPropertyApplier } from '../common/propertyApplier';
 import type { SimplifiedVideoStreamer, StreamerImplementationParts } from '../common/types';
 import type { VideoStreamerConfiguration } from '../types';
@@ -39,7 +39,7 @@ function resolveImplementation(
 
   const streamRangeHelper = getStreamRangeHelper(videoElement, shakaPlayer, configuration); // S
   const handleSourceChange = getSourceChangeHandler(shakaPlayer); // S
-  const updateStreamState = getFilteredPropertyUpdater(streamer); // G
+  const updateStreamState = getFilteredStreamStateUpdater(streamer); // G
 
   const textTrackManager = getShakaTextTrackManager(shakaPlayer, updateStreamState);
   const audioTrackManager = getShakaAudioTrackManager(shakaPlayer, updateStreamState);

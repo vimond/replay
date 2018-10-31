@@ -5,7 +5,7 @@ import createVideoStreamerComponent from '../common/createVideoStreamerComponent
 import { hlsjsCleanup } from './hlsjsSetup';
 import getStreamRangeHelper from './hlsjsStreamRangeHelper';
 import getSourceChangeHandler from './hlsjsSourceChangeHandler';
-import getFilteredPropertyUpdater from '../common/filteredPropertyUpdater';
+import getFilteredStreamStateUpdater from '../common/filteredStreamStateUpdater';
 import { getPropertyApplier } from '../common/propertyApplier';
 import type { SimplifiedVideoStreamer, StreamerImplementationParts } from '../common/types';
 import type { VideoStreamerConfiguration } from '../types';
@@ -43,7 +43,7 @@ function resolveImplementation(
 
   const streamRangeHelper = getStreamRangeHelper(videoElement, instanceKeeper, configuration);
   const handleSourceChange = getSourceChangeHandler(instanceKeeper);
-  const updateStreamState = getFilteredPropertyUpdater(streamer);
+  const updateStreamState = getFilteredStreamStateUpdater(streamer);
 
   const textTrackManager = getTextTrackManager(videoElement, updateStreamState);
   const audioTrackManager = getHlsjsAudioTrackManager(instanceKeeper, updateStreamState);
