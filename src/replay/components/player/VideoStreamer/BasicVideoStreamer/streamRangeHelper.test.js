@@ -153,4 +153,4 @@ test(
   }
 );
 
-//TODO: Test gotoLive(), setPosition(), and that dvr offset method.
+//TODO [TEST]: Test gotoLive(), setPosition(), and that dvr offset method.

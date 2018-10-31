@@ -104,7 +104,7 @@ const domRender = (props = commonProps) => {
 test('<BasicVideoStreamer/> renders with video element if source or stream URL is specified.', () => {
   return domRender().then(({ videoElement, domVideoElement }) => {
     expect(domVideoElement.src).toBe(commonProps.source.streamUrl);
-    // TODO: Class names vs custom styles.
+    // TODO [TEST]: Class names vs custom styles.
     expect(videoElement.prop('style')).toMatchObject(styles);
     expect(videoElement.hasClass('replay-video-streamer')).toBe(true);
     expect(videoElement.hasClass('replay-test-test')).toBe(true);
@@ -215,7 +215,7 @@ test('<BasicVideoStreamer/> reacts to playback props being set.', () => {
   });
 });
 
-// TODO: Remaining integration tests.
+// TODO [TEST]: Remaining integration tests.
 
 describe.skip('<BasicVideoStreamer/> subtitles support', () => {
   test('<BasicVideoStreamer/> adds text tracks with cues when VTT file is specified as source track.', () => {});
