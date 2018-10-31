@@ -112,10 +112,13 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     log && log('canplay');
     // If starting as paused, we consider "canplay" as completed starting. The playState must be updated accordingly.
     // When starting as playing, the starting to started transition is handled by the onPlaying handler.
-    if (lifeCycleManager.getStage() === 'starting') {
+    const stage = lifeCycleManager.getStage();
+    if (stage === 'starting') {
       if (streamer.props.initialPlaybackProps && streamer.props.initialPlaybackProps.isPaused) {
         lifeCycleManager.setStage('started');
       }
+    } else if (stage === 'started') {
+      updateStreamState({ isBuffering: false, playState: videoElement.paused ? 'paused' : 'playing' });
     }
 
     if (videoElement.paused) {
@@ -209,7 +212,6 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
   }
 
   function onProgress() {
-    log && log('progress');
     updateStreamState({ bufferedAhead: calculateBufferedAhead(videoElement) });
   }
 
