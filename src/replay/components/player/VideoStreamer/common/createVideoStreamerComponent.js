@@ -7,21 +7,6 @@ import { renderWithoutSource } from './renderers';
 
 const baseClassName = 'video-streamer';
 
-const styles = {
-  position: 'absolute',
-  top: '0',
-  left: '0',
-  right: '0',
-  bottom: '0',
-  width: '100%',
-  height: '100%',
-  margin: '0',
-  padding: '0',
-  backgroundColor: 'black',
-  display: 'inline-block',
-  verticalAlign: 'baseline'
-};
-
 type ResolveImplementation<C: VideoStreamerConfiguration, P: VideoStreamerImplProps<C>, T> = (
   component: SimplifiedVideoStreamer<C, P>,
   configuration: ?C,
@@ -39,8 +24,7 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
 ) {
   class VideoStreamer extends React.Component<P, State> {
     static defaultProps = {
-      classNamePrefix: defaultClassNamePrefix,
-      applyBuiltInStyles: true
+      classNamePrefix: defaultClassNamePrefix
     };
 
     constructor(props: P) {
@@ -117,7 +101,7 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
     render() {
       const { videoRef } = this;
       const { videoElementEventHandlers, render } = this.state;
-      return render(videoRef, videoElementEventHandlers, this.props, baseClassName, styles);
+      return render(videoRef, videoElementEventHandlers, this.props, baseClassName);
     }
   }
 

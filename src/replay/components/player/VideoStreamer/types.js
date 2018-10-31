@@ -149,7 +149,7 @@ export type VideoStreamerConfiguration = {
   manifestRequests?: ?{
     withCredentials?: ?boolean
   },
-  logLevel?: 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG', // TODO: Generalise.
+  logLevel?: 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG',
   defaultBandwidth?: ?number,
   crossOrigin?: ?string,
   playsInline?: ?boolean,
@@ -159,6 +159,5 @@ export type VideoStreamerConfiguration = {
 
 export type VideoStreamerImplProps<T: VideoStreamerConfiguration> = VideoStreamerProps &
   CommonGenericProps & {
-    configuration?: ?T,
-    applyBuiltInStyles?: boolean
+    configuration?: ?T
   };

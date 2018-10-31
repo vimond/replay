@@ -10,13 +10,13 @@ export const renderWithoutSource: VideoStreamerRenderer = (
   baseClassName,
   styles
 ) => {
-  const { className, classNamePrefix, applyBuiltInStyles } = props;
+  const { className, classNamePrefix } = props;
   const classNames = prefixClassNames(classNamePrefix, baseClassName, className);
   return (
     <video
       autoPlay={true}
       controls={false}
-      style={applyBuiltInStyles ? styles : undefined}
+      style={styles ? styles : undefined}
       className={classNames}
       ref={videoRef}
       {...videoElementEventHandlers}
@@ -31,7 +31,7 @@ export const renderWithSource: VideoStreamerRenderer = (
   baseClassName,
   styles
 ) => {
-  const { className, classNamePrefix, source, applyBuiltInStyles } = props;
+  const { className, classNamePrefix, source } = props;
   const classNames = prefixClassNames(classNamePrefix, baseClassName, className);
   const streamUrl = source && (typeof source === 'string' && source.length > 0 ? source : source.streamUrl);
   if (streamUrl) {
@@ -39,7 +39,7 @@ export const renderWithSource: VideoStreamerRenderer = (
       <video
         autoPlay={true}
         controls={false}
-        style={applyBuiltInStyles ? styles : undefined}
+        style={styles ? styles : undefined}
         className={classNames}
         src={streamUrl}
         ref={videoRef}
@@ -53,7 +53,7 @@ export const renderWithSource: VideoStreamerRenderer = (
         ref={videoRef}
         src={''}
         controls={false}
-        style={applyBuiltInStyles ? styles : undefined}
+        style={styles ? styles : undefined}
       />
     );
   }

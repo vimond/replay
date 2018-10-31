@@ -33,9 +33,9 @@ export type SimplifiedVideoStreamer<S: VideoStreamerConfiguration, T: VideoStrea
 export type VideoStreamerRenderer = (
   videoRef: { current: null | HTMLVideoElement },
   videoElementEventHandlers: { [string]: (any) => void },
-  props: { source?: ?PlaybackSource, className?: string, classNamePrefix?: string, applyBuiltInStyles?: boolean },
+  props: { source?: ?PlaybackSource, className?: string, classNamePrefix?: string },
   baseClassName: string,
-  styles: {}
+  styles?: {}
 ) => React.Node;
 
 export type AudioTrackManager = {

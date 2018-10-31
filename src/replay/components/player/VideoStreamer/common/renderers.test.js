@@ -13,7 +13,7 @@ test('renderWithoutSource()', () => {
     renderWithoutSource(
       videoRef,
       { onPlaying: 1, onError: 2 },
-      { className: 'my-video', applyBuiltInStyles: true },
+      { className: 'my-video' },
       'my-base-class-name',
       { c: 3 }
     )
@@ -35,7 +35,7 @@ test('renderWithoutSource() with source specified.', () => {
     renderWithSource(
       videoRef,
       { onPlaying: 1, onError: 2 },
-      { source: { streamUrl: 'http://example.com' }, className: 'my-video', applyBuiltInStyles: true },
+      { source: { streamUrl: 'http://example.com' }, className: 'my-video' },
       'my-base-class-name',
       { c: 3 }
     )
@@ -52,7 +52,7 @@ test('renderWithoutSource() with source specified.', () => {
     renderWithSource(
       videoRef,
       {},
-      { source: 'http://example.com/stream', applyBuiltInStyles: false },
+      { source: 'http://example.com/stream' },
       'my-base-class-name',
       { c: 3 }
     )
@@ -70,7 +70,7 @@ test('renderWithoutSource() with no source specified.', () => {
     renderWithSource(
       videoRef,
       { onPlaying: 1, onError: 2 },
-      { className: 'my-video', applyBuiltInStyles: true },
+      { className: 'my-video' },
       'my-base-class-name',
       { c: 3 }
     )
