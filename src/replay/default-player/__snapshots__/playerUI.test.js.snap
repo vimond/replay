@@ -141,6 +141,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                 isFullscreen={false}
                 isUserActive={true}
                 nudge={[Function]}
+                render={[Function]}
                 setProperties={[Function]}
                 toggleFixedUserActive={[Function]}
               >
@@ -173,6 +174,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                   isFullscreen={false}
                   isUserActive={true}
                   nudge={[Function]}
+                  render={[Function]}
                   setProperties={[Function]}
                   toggleFixedUserActive={[Function]}
                 >

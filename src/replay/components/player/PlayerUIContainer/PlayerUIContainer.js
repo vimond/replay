@@ -100,18 +100,21 @@ export const getConnectedPlayerUIContainer = (connector: any => React.ComponentT
                           {...interactionState}
                           classNameDefinitions={classNameDefinitions}
                           className={className}
-                          classNamePrefix={classNamePrefix}>
-                          <div
-                            tabIndex={0}
-                            ref={onRef}
-                            onMouseMove={handleMouseMove}
-                            onTouchStart={handleTouchStart}
-                            onTouchEnd={handleTouchEnd}
-                            onKeyDown={handleKeyDown}
-                            onFocus={handleFocus}>
-                            {render({ fullscreenState, interactionState })}
-                          </div>
-                        </ConnectedPlayerStateClassNames>
+                          classNamePrefix={classNamePrefix}
+                          render={className => (
+                            <div
+                              className={className}
+                              tabIndex={0}
+                              ref={onRef}
+                              onMouseMove={handleMouseMove}
+                              onTouchStart={handleTouchStart}
+                              onTouchEnd={handleTouchEnd}
+                              onKeyDown={handleKeyDown}
+                              onFocus={handleFocus}>
+                              {render({ fullscreenState, interactionState })}
+                            </div>
+                          )}
+                        />
                       )}
                     />
                   )}

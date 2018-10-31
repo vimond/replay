@@ -8,7 +8,7 @@ import type { StreamStateKeysForObservation } from '../PlayerController/Controll
 
 type Props = RecognizedPlayerStateProperties &
   CommonGenericProps & {
-    children: React.Element<any>,
+    render: (string) => React.Node,
     classNameDefinitions: { [ClassNameKeys]: string }
   };
 
@@ -30,16 +30,13 @@ class PlayerStateClassNames extends React.Component<Props> {
   ];
 
   render() {
-    const { children, classNamePrefix, classNameDefinitions, className, ...playerStateProps } = this.props;
-    // TODO: Consider render prop instead of cloneElement for consistency.
-    return React.cloneElement(children, {
-      className: playerStateClassNameBuilder(
-        playerStateProps,
-        classNameDefinitions,
-        classNamePrefix,
-        className ? [className] : undefined
-      )
-    });
+    const { render, classNamePrefix, classNameDefinitions, className, ...playerStateProps } = this.props;
+    return render(playerStateClassNameBuilder(
+      playerStateProps,
+      classNameDefinitions,
+      classNamePrefix,
+      className ? [className] : undefined
+    ));
   }
 }
 
