@@ -33,7 +33,7 @@ export type SimplifiedVideoStreamer<S: VideoStreamerConfiguration, T: VideoStrea
 export type VideoStreamerRenderer = (
   videoRef: { current: null | HTMLVideoElement },
   videoElementEventHandlers: { [string]: (any) => void },
-  props: { source?: ?PlaybackSource, className?: string, classNamePrefix?: string },
+  props: { source?: ?PlaybackSource, className?: string, classNamePrefix?: string, style?: any },
   baseClassName: string,
   styles?: {}
 ) => React.Node;

@@ -45,7 +45,7 @@ test('renderWithoutSource() with source specified.', () => {
   expect(videoElement.prop('onError')).toEqual(2);
 
   const result2 = shallow(
-    renderWithSource(videoRef, {}, { source: 'http://example.com/stream' }, 'my-base-class-name', { c: 3 })
+    renderWithSource(videoRef, {}, { source: 'http://example.com/stream' }, 'my-base-class-name')
   );
   const videoElement2 = result2.find('video');
   expect(videoElement2.prop('src')).toBe('http://example.com/stream');
