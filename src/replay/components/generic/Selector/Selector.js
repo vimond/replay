@@ -1,27 +1,20 @@
 // @flow
 import * as React from 'react';
-import { type CommonGenericProps, hydrateClassNames, type Id } from '../../common';
+import { type CommonGenericProps, hydrateClassNames } from '../../common';
 import ToggleButton from '../ToggleButton/ToggleButton';
 import { focusElement, SelectorItem } from './helpers';
-
-export type Item =
-  | string
-  | {
-      label: string,
-      id?: Id,
-      data?: any
-    };
+import type { ItemData } from './helpers';
 
 type Props = CommonGenericProps & {
-  items: Array<Item>,
-  selectedItem?: Item,
-  selectedItemId?: Id,
+  items: Array<any>,
+  selectedItem?: any,
   reverseOrder?: boolean,
   itemClassName?: string,
   collapsedToggleContent?: React.Node,
   expandedToggleContent?: React.Node,
   label?: string,
-  onSelect?: Item => void
+  itemMapper: any => ItemData,
+  onSelect?: any => void
 };
 
 type SelectorState = {
@@ -39,24 +32,6 @@ const selectedClassName = 'selected';
 const selectCollapsedClasses = classes => classes.selectorCollapsed || classes.selector;
 const selectExpandedClasses = classes => classes.selectorExpanded || classes.selector;
 const selectItemsContainerClasses = classes => classes.selectorItemsContainer;
-
-const getId = (item: Item): string => {
-  if (typeof item === 'string') {
-    return item;
-  } else {
-    return (item.id == null ? item.label : item.id).toString();
-  }
-};
-
-function isEqual(itemA: Item, itemB: ?Item, itemBId: ?Id): boolean {
-  if (itemB != null) {
-    return itemA === itemB;
-  } else if (itemBId != null) {
-    return typeof itemA !== 'string' && itemA.id === itemBId;
-  } else {
-    return false;
-  }
-}
 
 class Selector extends React.Component<Props, SelectorState> {
   static defaultProps = {
@@ -83,22 +58,25 @@ class Selector extends React.Component<Props, SelectorState> {
     this.focusableItems[index] = itemElement;
   };
 
-  renderSelectorItem = (item: Item, index: number) => (
-    <SelectorItem
-      key={getId(item)}
-      item={item}
-      index={index}
-      onSelect={this.props.onSelect}
-      onRef={this.handleItemRef}
-      isSelected={isEqual(item, this.props.selectedItem, this.props.selectedItemId)}
-      canReceiveFocus={this.state.isExpanded}
-      selectedClassName={selectedClassName}
-      defaultItemClassName={defaultItemClassName}
-      className={this.props.itemClassName}
-      classes={this.props.classes}
-      classNamePrefix={this.props.classNamePrefix}
-    />
-  );
+  renderSelectorItem = (item: any, index: number) => {
+    const itemData = this.props.itemMapper(item);
+    return (
+      <SelectorItem
+        key={itemData.id}
+        item={itemData}
+        index={index}
+        onSelect={this.props.onSelect}
+        onRef={this.handleItemRef}
+        isSelected={item === this.props.selectedItem}
+        canReceiveFocus={this.state.isExpanded}
+        selectedClassName={selectedClassName}
+        defaultItemClassName={defaultItemClassName}
+        className={this.props.itemClassName}
+        classes={this.props.classes}
+        classNamePrefix={this.props.classNamePrefix}
+      />
+    );
+  };
 
   handleKeyDown = (keyboardEvent: KeyboardEvent) => {
     switch (keyboardEvent.key) {

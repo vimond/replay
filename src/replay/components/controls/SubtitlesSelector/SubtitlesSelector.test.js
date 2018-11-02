@@ -60,12 +60,8 @@ test('<SubtitlesSelector/> renders with all available tracks plus "No subtitles"
   expect(items.length).toBe(5);
   expect(rendered.prop('expandedToggleContent')).toBe('T');
   expect(rendered.prop('collapsedToggleContent')).toBe('T');
-  expect(items[4]).toEqual({
-    id: 'is.captions.side-loaded',
-    label: 'Icelandic for hearing impaired',
-    data: mockTracks[3]
-  });
-  expect(items[0]).toEqual({ id: 0, label: 'No subtitles' });
+  expect(items[4]).toEqual(mockTracks[3]);
+  expect(items[0]).toEqual({ noTrack: true, label: 'No subtitles' });
 });
 
 test('<SubtitlesSelector/> does not render, if no tracks are available.', () => {
@@ -76,13 +72,13 @@ test('<SubtitlesSelector/> does not render, if no tracks are available.', () => 
 test('<SubtitlesSelector/> marks the specified track as selected.', () => {
   const rendered = render({ currentTextTrack: mockTracks[2] });
   const selectedItem = rendered.prop('selectedItem');
-  expect(selectedItem).toEqual({ id: 'sv.subtitles.in-stream', label: 'Swedish', data: mockTracks[2] });
+  expect(selectedItem).toEqual(mockTracks[2]);
 });
 
 test('<SubtitlesSelector/> marks the option "No subtitles" as selected if no selected track is specified.', () => {
   const rendered = render({ currentTextTrack: null });
   const selectedItem = rendered.prop('selectedItem');
-  expect(selectedItem).toEqual({ id: 0, label: 'No subtitles' });
+  expect(selectedItem).toEqual({ label: 'No subtitles', noTrack: true });
 });
 
 test('<SubtitlesSelector/> updates property selectedTextTrack with a track when its option is selected, or with null if the "No subtitles" option is selected. ', () => {

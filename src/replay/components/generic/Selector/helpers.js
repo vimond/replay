@@ -1,37 +1,34 @@
 // @flow
 import * as React from 'react';
 import { getKeyboardShortcutBlocker, hydrateClassNames } from '../../common';
-import type { Item } from './Selector';
-import type { CommonGenericProps } from '../../common';
+import type { CommonGenericProps, Id } from '../../common';
+
+export type ItemData = {
+  label: string,
+  id?: Id,
+  data?: any
+};
 
 type SelectorItemProps = CommonGenericProps & {
-  item: Item,
+  item: ItemData,
   index: number,
   isSelected: boolean,
   canReceiveFocus: boolean,
   defaultItemClassName: string,
   selectedClassName: string,
-  onSelect?: Item => void,
+  onSelect?: any => void,
   onRef: (?HTMLElement, number) => void
 };
 
 const selectItemClasses = classes => classes.selectorItem;
 const selectItemSelectedClasses = classes => classes.selectorItemSelected || classes.selectorItem;
 
-const getLabel = (item: Item): string => {
-  if (typeof item === 'string') {
-    return item;
-  } else {
-    return item.label;
-  }
-};
-
 export class SelectorItem extends React.Component<SelectorItemProps> {
   handleRef = (element: ?HTMLElement) => {
     this.props.onRef(element, this.props.index);
   };
 
-  handleClick = () => this.props.onSelect && this.props.onSelect(this.props.item);
+  handleClick = () => this.props.onSelect && this.props.onSelect(this.props.item.data);
 
   handleKeyDown = getKeyboardShortcutBlocker(['Enter', ' ']);
 
@@ -53,7 +50,7 @@ export class SelectorItem extends React.Component<SelectorItemProps> {
       canReceiveFocus,
       selectedClassName
     } = this.props;
-    const label = getLabel(item);
+    const { label } = item;
     const classNames = hydrateClassNames({
       classes,
       classNamePrefix,

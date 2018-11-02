@@ -3,8 +3,7 @@ import * as React from 'react';
 import Selector from '../../generic/Selector/Selector';
 import { defaultClassNamePrefix } from '../../common';
 import type { AvailableTrack } from '../../player/VideoStreamer/types';
-import type { CommonProps, Id } from '../../common';
-import type { Item } from '../../generic/Selector/Selector';
+import type { CommonProps } from '../../common';
 import type { StreamStateKeysForObservation } from '../../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
@@ -16,7 +15,7 @@ type Props = CommonProps & {
 };
 
 type State = {
-  noSubtitlesItem: { id?: Id, label: string, data?: {} }
+  noSubtitlesItem: { noTrack: true, label: string }
 };
 
 const className = 'subtitles-selector';
@@ -26,15 +25,23 @@ const defaultKind = 'subtitles';
 const buildId = (...str: Array<?string>) => str.filter(s => s).join('.');
 // TODO: Consider injectable label mapper, and also for audio selector and bitrate selector.
 const buildLabel = ({ label, kind = defaultKind, language = 'unknown' }: AvailableTrack) =>
-  label || (kind !== defaultKind ? `[${language}] ${kind}` : `[${language}]`);
+  label || (kind !== defaultKind ? `[${language}] ${kind}` : `[${language}]`) || '';
 
-// TODO: This fn should be a prop on the Selector. The Selector should accept any types for items/selectedItem.
-const textTrackToItem = (track: AvailableTrack) => {
-  return {
-    id: track.id || buildId(track.language, track.kind, track.origin) || track.label,
-    label: buildLabel(track),
-    data: track
-  };
+const textTrackToItem = (track: AvailableTrack | { noTrack: true, label: string }) => {
+  if (track.noTrack) {
+    const label = track.label || '';
+    return {
+      id: 0,
+      label,
+      data: track
+    };
+  } else {
+    return {
+      id: track.id || buildId(track.language, track.kind, track.origin) || track.label,
+      label: buildLabel(track),
+      data: track
+    };
+  }
 };
 
 class SubtitlesSelector extends React.Component<Props, State> {
@@ -47,16 +54,16 @@ class SubtitlesSelector extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      noSubtitlesItem: { id: 0, label: this.props.noSubtitlesLabel }
+      noSubtitlesItem: { noTrack: true, label: this.props.noSubtitlesLabel }
     };
   }
 
-  handleSelect = (item: Item) => {
-    if (this.props.setProperties && typeof item !== 'string') {
-      if (item.id === 0) {
+  handleSelect = (item: any) => {
+    if (this.props.setProperties) {
+      if (item.noTrack) {
         this.props.setProperties({ selectedTextTrack: null });
       } else {
-        this.props.setProperties({ selectedTextTrack: item.data });
+        this.props.setProperties({ selectedTextTrack: item });
       }
     }
   };
@@ -64,8 +71,8 @@ class SubtitlesSelector extends React.Component<Props, State> {
   render() {
     const { textTracks, currentTextTrack, label, toggleContent, classNamePrefix } = this.props;
     if (Array.isArray(textTracks) && textTracks.length > 0) {
-      // Needs optimisation. See TODO related to textTrackToItem.
-      const items = [this.state.noSubtitlesItem].concat(textTracks.map(textTrackToItem));
+      // TODO: Consider optimization, memoizing the array and all props involved in rendering.
+      const items = [this.state.noSubtitlesItem].concat(textTracks);
       let selectedItem = this.state.noSubtitlesItem;
       if (currentTextTrack) {
         const selectedIndex = textTracks.indexOf(currentTextTrack) + 1; // Nasty detail. Including "no subtitles" when counting.
@@ -76,6 +83,7 @@ class SubtitlesSelector extends React.Component<Props, State> {
       return (
         <Selector
           items={items}
+          itemMapper={textTrackToItem}
           classNamePrefix={classNamePrefix}
           className={className}
           selectedItem={selectedItem}

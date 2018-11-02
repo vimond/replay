@@ -3,7 +3,6 @@ import * as React from 'react';
 import Selector from '../../generic/Selector/Selector';
 import { defaultClassNamePrefix } from '../../common';
 import type { CommonProps } from '../../common';
-import type { Item } from '../../generic/Selector/Selector';
 import type { StreamStateKeysForObservation } from '../../player/PlayerController/ControllerContext';
 
 export type QualitySelectionStrategy = 'cap-bitrate' | 'fix-bitrate';
@@ -35,23 +34,26 @@ class QualitySelector extends React.Component<Props> {
     'bitrateCap'
   ];
 
-  handleSelect = (item: Item) => {
-    if (this.props.setProperties && typeof item !== 'string') {
+  handleSelect = (bitrate: number) => {
+    if (this.props.setProperties) {
       if (this.props.selectionStrategy === 'fix-bitrate') {
-        this.props.setProperties({ bitrateFix: item.data });
+        this.props.setProperties({ bitrateFix: bitrate });
       } else {
-        this.props.setProperties({ bitrateCap: item.data });
+        this.props.setProperties({ bitrateCap: bitrate });
       }
     }
   };
 
-  bitrateToItem = (bitrate: number): Item => ({
+  bitrateToItem = (bitrate: number) => ({
     id: bitrate,
-    label: this.props.formatBitrateLabel(bitrate, bitrate === this.props.currentBitrate),
+    label:
+      bitrate === Infinity
+        ? this.props.autoLabel
+        : this.props.formatBitrateLabel(bitrate, bitrate === this.props.currentBitrate),
     data: bitrate
   });
 
-  isSelected = (item: Item, index: number, arr: Array<Item>) => {
+  isSelected = (bitrate: number, index: number, arr: Array<number>) => {
     const { bitrateFix, bitrateCap, selectionStrategy } = this.props;
     const matchValue =
       bitrateFix != null && bitrateCap != null
@@ -64,19 +66,20 @@ class QualitySelector extends React.Component<Props> {
     } else if (matchValue === 'max') {
       return index === arr.length - 1;
     } else {
-      return typeof item !== 'string' && item.id === matchValue;
+      return bitrate === matchValue;
     }
   };
 
   render() {
-    const { bitrates, label, autoLabel, toggleContent, classNamePrefix } = this.props;
+    const { bitrates, label, toggleContent, classNamePrefix } = this.props;
     if (Array.isArray(bitrates) && bitrates.length > 1) {
-      const items = [{ id: 0, label: autoLabel, data: Infinity }].concat(bitrates.map(this.bitrateToItem));
+      const items = [Infinity].concat(bitrates);
       const selectedItem = items.filter(this.isSelected)[0] || items[0];
 
       return (
         <Selector
           items={items}
+          itemMapper={this.bitrateToItem}
           classNamePrefix={classNamePrefix}
           className={className}
           selectedItem={selectedItem}

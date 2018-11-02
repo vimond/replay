@@ -44,7 +44,7 @@ test('<AudioSelector/> renders with all available tracks.', () => {
   expect(rendered.prop('collapsedToggleContent')).toBe('A');
   const items = rendered.prop('items');
   expect(items.length).toBe(4);
-  expect(items[3]).toEqual({ id: 'is.Icelandic', label: 'Icelandic', data: mockTracks[3] });
+  expect(items[3]).toEqual({ language: 'is', label: 'Icelandic' });
 });
 
 test('<AudioSelector/> does not render, if no tracks or only one track is reported as available.', () => {
@@ -57,7 +57,7 @@ test('<AudioSelector/> does not render, if no tracks or only one track is report
 test('<AudioSelector/> marks the specified track as selected.', () => {
   const rendered = render({ currentAudioTrack: mockTracks[2] });
   const selectedItem = rendered.prop('selectedItem');
-  expect(selectedItem).toEqual({ id: 'sv.Swedish', label: 'Swedish', data: mockTracks[2] });
+  expect(selectedItem).toEqual({ language: 'sv', label: 'Swedish' });
 });
 
 test('<AudioSelector/> updates property selectedTextTrack with a track when its option is selected. ', () => {

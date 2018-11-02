@@ -6,17 +6,17 @@ import Selector from './Selector';
 Enzyme.configure({ adapter: new Adapter() });
 
 const itemsWithIds = [
-  { label: 'None of them' /* No id */ },
-  { label: 'Kim', id: '001', data: { firstName: 'Kim', lastName: 'Jong-il', birthYear: 1983 } },
-  { label: 'Angela', id: '002' },
-  { label: 'Donald', id: '003' }
+  { name: 'None of them' /* No id */ },
+  { name: 'Kim', id: '001', details: { firstName: 'Kim', lastName: 'Jong-il', birthYear: 1983 } },
+  { name: 'Angela', id: '002' },
+  { name: 'Donald', id: '003' }
 ];
-const itemsWithoutIds = [
-  'None of them' /* Just a string :-o */,
-  { label: 'Jeff' },
-  { label: 'Sundar' },
-  { label: 'Satya' }
-];
+
+const itemMapper = item => ({
+  id: item.id || 0,
+  label: item.name,
+  data: item
+});
 
 function shallowRenderSelector({
   items = itemsWithIds,
@@ -35,6 +35,7 @@ function shallowRenderSelector({
   return shallow(
     <Selector
       items={items}
+      itemMapper={itemMapper}
       classNamePrefix={classNamePrefix}
       className={className}
       classes={classes}
@@ -170,30 +171,6 @@ test('<Selector/> marks pre-selected item (specified by object) with class name.
   const selectedItems = shallowSelectorItems.filter(c => c.hasClass('selected'));
   expect(selectedItems.length).toBe(1);
   expect(selectedItems[0].text()).toBe('Donald');
-});
-
-test('<Selector/> marks pre-selected item (specified by its ID) with class name.', () => {
-  const shallowElement = shallowRenderSelector({ selectedItemId: '002' });
-  const shallowItemsContainer = shallowElement.find('div.selector-items');
-
-  const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
-  expect(shallowSelectorItems.filter(c => c.hasClass('selector-item') && c.hasClass('myitemclassname')).length).toBe(4);
-  const selectedItems = shallowSelectorItems.filter(c => c.hasClass('selected'));
-  expect(selectedItems.length).toBe(1);
-  expect(selectedItems[0].text()).toBe('Angela');
-});
-
-test('<Selector/> with items missing IDs marks pre-selected item (specified by object) with class name.', () => {
-  const shallowElement = shallowRenderSelector({ items: itemsWithoutIds, selectedItem: itemsWithoutIds[2] });
-
-  const shallowItemsContainer = shallowElement.find('div.selector-items');
-  expect(shallowItemsContainer.children().length).toBe(4);
-
-  const shallowSelectorItems = shallowItemsContainer.children().map(c => c.dive());
-  expect(shallowSelectorItems.filter(c => c.hasClass('selector-item') && c.hasClass('myitemclassname')).length).toBe(4);
-  const selectedItems = shallowSelectorItems.filter(c => c.hasClass('selected'));
-  expect(selectedItems.length).toBe(1);
-  expect(selectedItems[0].text()).toBe('Sundar');
 });
 
 test('<Selector/> toggles an "expanded" class name when clicking on base toggle button, and also displays different content in the toggle button.', () => {
