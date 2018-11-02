@@ -11,4 +11,16 @@
     background-color: black;
     display: inline-block;
     vertical-align: baseline;
-} 
+}
+
+.replay-mock-video-streamer {
+    background: #444;
+}
+
+.replay-mock-video-streamer > div {
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    padding-top: 20px;
+}
+

@@ -8,10 +8,6 @@
   margin: 0 auto;
 }
 
-.replay-mock-video-streamer {
-    text-align: center;
-}
-
 .App-player-panel input[type=url] {
   width: 100%;
   box-sizing: border-box;

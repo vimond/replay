@@ -132,10 +132,8 @@ class MockVideoStreamer extends React.Component<Props> {
 
   render() {
     return (
-      <div
-        className={prefixClassNames(this.props.classNamePrefix, className, mockClassName, this.props.className)}
-        style={{ background: '#444', color: 'white', fontWeight: 'bold', paddingTop: '20px' }}>
-        {this.props.children || 'Mock video player'}
+      <div className={prefixClassNames(this.props.classNamePrefix, className, mockClassName, this.props.className)}>
+        <div>{this.props.children || 'Mock video player'}</div>
       </div>
     );
   }

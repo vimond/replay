@@ -138,7 +138,8 @@ class App extends Component<void, State> {
   handleVideoButtonClick = (index: number) => this.setState({ source: videoUrls[index] });
   handleNoVideoClick = () => this.setState({ source: null });
 
-  handleError = (err: PlaybackError) => console.error(err);
+  handleError = (err: PlaybackError) =>
+    console.error('%s [%s] %s: %s', err.severity, err.technology, err.code, err.message, err.sourceError);
 
   handlePlaybackActions = (actions: PlaybackActions) => {
     window.player = actions;
