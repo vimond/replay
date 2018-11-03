@@ -30,7 +30,7 @@ function getAbsolutePositions(
   position: number
 ): { absolutePosition: Date, absoluteStartPosition: Date } {
   if (isLive) {
-    if (startDateTime == null || typeof startDateTime !== Date || isNaN(startDateTime)) {
+    if (!(startDateTime instanceof Date) || isNaN(startDateTime)) {
       const absolutePosition = new Date();
       const absoluteStartPosition = new Date(absolutePosition.getTime() - position * 1000);
       return {
