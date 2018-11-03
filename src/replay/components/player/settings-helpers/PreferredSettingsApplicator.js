@@ -62,7 +62,9 @@ const getTrackToSelect = (
 
 const mergePreferredSettings = (
   configuration: ?UserSettingsConfiguration,
-  programmaticSettings: PreferredSettings
+  programmaticSettings: PreferredSettings,
+  localStorage: Storage,
+  sessionStorage: Storage
 ): PreferredSettings => {
   const userSettingsConfig = configuration && configuration.userSettings;
   const storageKey = userSettingsConfig && userSettingsConfig.storageKey;
@@ -138,7 +140,7 @@ const getPropsToBeUpdated = (
   return updates;
 };
 
-const onPropsChanged = (prevProps: Props, nextProps: Props) => {
+const onPropsChanged = (prevProps: Props, nextProps: Props, localStorage: Storage, sessionStorage: Storage) => {
   const {
     configuration,
     playState,
@@ -173,7 +175,7 @@ const onPropsChanged = (prevProps: Props, nextProps: Props) => {
     programmaticSettings.audioTrackKind = audioTrackKind;
   }
 
-  const mergedSettings = mergePreferredSettings(configuration, programmaticSettings);
+  const mergedSettings = mergePreferredSettings(configuration, programmaticSettings, localStorage, sessionStorage);
   const propsToBeUpdated = getPropsToBeUpdated(
     prevProps.playState,
     playState,
@@ -189,20 +191,24 @@ const onPropsChanged = (prevProps: Props, nextProps: Props) => {
   }
 };
 
-// https://twitter.com/t045tbr0t/status/972275166611898368
-export const UnConnectedPreferredSettingsApplicator = class PreferredSettingsApplicator extends React.Component<Props> {
-  static streamStateKeysForObservation: StreamStateKeysForObservation = ['playState', 'textTracks', 'audioTracks'];
-  componentDidMount() {
-    onPropsChanged({ setProperties: noop }, this.props);
-  }
-  componentDidUpdate(prevProps: Props) {
-    onPropsChanged(prevProps, this.props);
-  }
-  render() {
-    return null;
-  }
-};
+// Testable version:
+export const getPreferredSettingsApplicator = (
+  localStorage: Storage = window.localStorage,
+  sessionStorage: Storage = window.sessionStorage
+) =>
+  class PreferredSettingsApplicator extends React.Component<Props> {
+    static streamStateKeysForObservation: StreamStateKeysForObservation = ['playState', 'textTracks', 'audioTracks'];
+    componentDidMount() {
+      onPropsChanged({ setProperties: noop }, this.props, localStorage, sessionStorage);
+    }
+    componentDidUpdate(prevProps: Props) {
+      onPropsChanged(prevProps, this.props, localStorage, sessionStorage);
+    }
+    render() {
+      return null;
+    }
+  };
 
-const PreferredSettingsApplicator = connectControl(UnConnectedPreferredSettingsApplicator);
+const PreferredSettingsApplicator = connectControl(getPreferredSettingsApplicator());
 
 export default PreferredSettingsApplicator;

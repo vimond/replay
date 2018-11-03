@@ -1,5 +1,12 @@
 import getSourceChangeHandler from './sourceChangeHandler';
 
+window.HTMLMediaElement.prototype.play = function() {};
+window.HTMLMediaElement.prototype.pause = function() {};
+window.HTMLMediaElement.prototype.load = function() {};
+HTMLMediaElement.prototype.play = function() {};
+HTMLMediaElement.prototype.pause = function() {};
+HTMLMediaElement.prototype.load = function() {};
+
 test("Source handler applies the stream URL to the video element's src attribute/property.", () => {
   const videoElement = document.createElement('video');
   const handleSourceChange = getSourceChangeHandler(videoElement);

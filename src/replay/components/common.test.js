@@ -376,6 +376,7 @@ test('getIntervalRunner() returns start and stop methods, and invokes the callba
 });
 
 // TODO [TEST]: Write tests.
+/*
 test('override() merges two objects deeply, also when branches are unspecified in one of them.');
 
 test('override() does not include base properties or branches when key is set to null in override.');
@@ -383,3 +384,4 @@ test('override() does not include base properties or branches when key is set to
 test('override() accepts null as parameters for both base and override.');
 
 test('override() does not return mutated parts of base or override object, but a deeply cloned fresh object.');
+*/

@@ -55,7 +55,11 @@ const withStorage = (
   }
 };
 
-const withSettingsStorage = (Component: React.ComponentType<TargetProps>) => {
+const withSettingsStorage = (
+  Component: React.ComponentType<TargetProps>,
+  localStorage: Storage = window.localStorage,
+  sessionStorage: Storage = window.sessionStorage
+) => {
   class SettingsStorage extends React.Component<SettingsStorageProps> {
     // $FlowFixMe What's the best practices for extending component types with static properties?
     static streamStateKeysForObservation: StreamStateKeysForObservation = Component.streamStateKeysForObservation;

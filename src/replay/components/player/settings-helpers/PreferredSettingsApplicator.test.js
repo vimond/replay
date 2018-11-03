@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { UnConnectedPreferredSettingsApplicator } from './PreferredSettingsApplicator';
+import { getPreferredSettingsApplicator } from './PreferredSettingsApplicator';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -43,28 +43,28 @@ const noPolicyConfig = {
   }
 };
 
-const setupStorageMocks = () => {
-  window.localStorage = {
+const getStorageMocks = () => ({
+  localStorage: {
     getItem: jest.fn(),
     setItem: jest.fn()
-  };
-
-  window.sessionStorage = {
+  },
+  sessionStorage: {
     getItem: jest.fn(),
     setItem: jest.fn()
-  };
-};
+  }
+});
 
 const setup = (storageStr, props, isSession) => {
-  setupStorageMocks();
+  const { localStorage, sessionStorage } = getStorageMocks();
   if (isSession) {
-    window.localStorage.getItem.mockReturnValue(storageStr);
+    localStorage.getItem.mockReturnValue(storageStr);
   } else {
-    window.sessionStorage.getItem.mockReturnValue(storageStr);
+    sessionStorage.getItem.mockReturnValue(storageStr);
   }
   const setProperties = jest.fn();
+  const PreferredSettingsApplicator = getPreferredSettingsApplicator(localStorage, sessionStorage);
   const settingsApplicator = mount(
-    <UnConnectedPreferredSettingsApplicator
+    <PreferredSettingsApplicator
       {...props}
       configuration={isSession ? sessionConfig : localConfig}
       setProperties={setProperties}

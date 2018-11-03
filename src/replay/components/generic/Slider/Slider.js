@@ -193,7 +193,7 @@ class Slider extends React.Component<Props, State> {
       }
     }
   };
-  
+
   setRenderedHandle = (handle: ?HTMLDivElement) => {
     this.renderedHandle = handle;
   };

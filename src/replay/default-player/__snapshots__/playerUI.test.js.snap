@@ -187,7 +187,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                     onTouchStart={[Function]}
                     tabIndex={0}
                   >
-                    <Component
+                    <ControlledVideoStreamer
                       classNamePrefix="replay-"
                     />
                     <RenderIfEnabled>
@@ -200,7 +200,19 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           />
                         }
                         label="Exit"
-                        onClick={[Function]}
+                        onClick={
+                          [MockFunction] {
+                            "calls": Array [
+                              Array [],
+                            ],
+                            "results": Array [
+                              Object {
+                                "isThrow": false,
+                                "value": undefined,
+                              },
+                            ],
+                          }
+                        }
                       >
                         <Button
                           className="exit-button"
@@ -212,7 +224,19 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                             />
                           }
                           label="Exit"
-                          onClick={[Function]}
+                          onClick={
+                            [MockFunction] {
+                              "calls": Array [
+                                Array [],
+                              ],
+                              "results": Array [
+                                Object {
+                                  "isThrow": false,
+                                  "value": undefined,
+                                },
+                              ],
+                            }
+                          }
                           useDefaultClassNaming={true}
                         >
                           <div
@@ -395,7 +419,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           <ConnectedSkipButton
                             classNamePrefix="replay-"
                             content={
-                              <Unknown>
+                              <React.Fragment>
                                 <span>
                                   <RotateCcw
                                     color="currentColor"
@@ -405,7 +429,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 <span>
                                   –10
                                 </span>
-                              </Unknown>
+                              </React.Fragment>
                             }
                             label="Skip back 10 seconds"
                             offset={-20}
@@ -414,7 +438,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                             <SkipButton
                               classNamePrefix="replay-"
                               content={
-                                <Unknown>
+                                <React.Fragment>
                                   <span>
                                     <RotateCcw
                                       color="currentColor"
@@ -424,7 +448,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   <span>
                                     –10
                                   </span>
-                                </Unknown>
+                                </React.Fragment>
                               }
                               inspect={[Function]}
                               label="Skip back 10 seconds"
@@ -436,7 +460,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 className="skip-button"
                                 classNamePrefix="replay-"
                                 content={
-                                  <Unknown>
+                                  <React.Fragment>
                                     <span>
                                       <RotateCcw
                                         color="currentColor"
@@ -446,7 +470,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     <span>
                                       –10
                                     </span>
-                                  </Unknown>
+                                  </React.Fragment>
                                 }
                                 label="Skip back 10 seconds"
                                 onClick={[Function]}

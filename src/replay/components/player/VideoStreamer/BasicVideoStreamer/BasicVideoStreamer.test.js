@@ -61,6 +61,17 @@ Object.defineProperty(window.HTMLMediaElement.prototype, 'audioTracks', {
   get: getAudioTracks
 });
 
+window.HTMLMediaElement.prototype.play = function() {};
+window.HTMLMediaElement.prototype.pause = function() {};
+window.HTMLMediaElement.prototype.load = function() {};
+HTMLMediaElement.prototype.play = function() {};
+HTMLMediaElement.prototype.pause = function() {};
+HTMLMediaElement.prototype.load = function() {};
+
+//Object.defineProperty(window.HTMLMediaElement.prototype, 'play', function() {});
+//Object.defineProperty(window.HTMLMediaElement.prototype, 'pause', function() {});
+//Object.defineProperty(window.HTMLMediaElement.prototype, 'load', function() {});
+
 const commonProps = {
   source: {
     streamUrl: 'http://example.com/path/file.mp4'
