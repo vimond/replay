@@ -173,7 +173,7 @@ export const formatTimeComponent = (
 export const formatTime = (seconds: number, negativeMark: string = '-') => {
   let rounded = Math.round(seconds);
   let includedNegativeMark = '';
-  if (seconds === true || isNaN(seconds) || seconds === Infinity) {
+  if (typeof seconds !== 'number' || isNaN(seconds) || seconds === Infinity) {
     rounded = 0;
   } else if (rounded < 0) {
     rounded = -rounded;

@@ -27,6 +27,6 @@ const initialContextValue: ControllerApi = {
   observe: null,
   unobserve: () => {}
 };
-const ControllerContext = React.createContext(initialContextValue);
+const ControllerContext = React.createContext<ControllerApi>(initialContextValue);
 
 export default ControllerContext;
