@@ -20,6 +20,7 @@ import {
   SettingsStorage,
   SkipButton,
   TimeDisplay,
+  TimelineInformation,
   Timeline
 } from '../components/player/PlayerController/connectedControls';
 import { ControlledVideoStreamer } from '../components/player/PlayerController/connectControl';
@@ -73,7 +74,9 @@ const getPlayerUIRenderer = (
                 {...graphics.skipButton}
                 classNamePrefix={classNamePrefix}
               />
-              <Timeline {...strings.timeline} {...graphics.timeline} classNamePrefix={classNamePrefix} />
+              <Timeline {...strings.timeline} {...graphics.timeline} classNamePrefix={classNamePrefix}>
+                <TimelineInformation classNamePrefix={classNamePrefix} />
+              </Timeline>
               <TimeDisplay
                 liveDisplayMode={getLiveDisplayMode(configuration)}
                 {...strings.timeDisplay}

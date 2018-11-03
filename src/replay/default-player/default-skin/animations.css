@@ -71,6 +71,20 @@
     transition: background-color 0.5s;
 }
 
+.replay-timeline-information .replay-timeline-tooltip {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.replay-timeline-information .replay-timeline-tooltip-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.replay-timeline-information .replay-timeline-tooltip {
+    transition: visibility 0.2s, opacity 0.2s;
+}
+
 .replay-exit-button.replay-button {
     transition: visibility 0.5s, opacity 0.5s, color 0.5s;
 }

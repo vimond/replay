@@ -11,12 +11,14 @@ import UnconnectedVolume from '../../controls/Volume/Volume';
 import UnconnectedGotoLiveButton from '../../controls/GotoLiveButton/GotoLiveButton';
 import UnconnectedTimeline from '../../controls/Timeline/Timeline';
 import withSettingsStorage from '../settings-helpers/settingsStorage';
+import UnconnectedTimelineInformation from '../../controls/TimelineInformation/TimelineInformation';
 
 export const PlayerUIContainer = getConnectedPlayerUIContainer(connectControl);
 export const PlayPauseButton = connectControl(UnconnectedPlayPauseButton);
 export const SkipButton = connectControl(UnconnectedSkipButton);
 export const Timeline = connectControl(UnconnectedTimeline);
 export const TimeDisplay = connectControl(UnconnectedTimeDisplay);
+export const TimelineInformation = connectControl(UnconnectedTimelineInformation);
 export const GotoLiveButton = connectControl(UnconnectedGotoLiveButton);
 export const Volume = connectControl(UnconnectedVolume);
 export const AudioSelector = connectControl(UnconnectedAudioSelector);

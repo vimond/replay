@@ -62,6 +62,12 @@
     flex-grow: 3;
 }
 
+.replay-timeline-information .replay-timeline-tooltip {
+    bottom: 100%;
+    padding: 3px 8px;
+    transform: translateX(-50%);
+}
+
 .replay-time-display {
     margin: 0 10px;
     font-size: 10px;

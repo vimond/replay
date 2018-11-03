@@ -9,8 +9,9 @@ type Props = CommonProps & {
   position?: number,
   duration?: number,
   isSeeking?: boolean,
-  handleContent: React.Node,
-  trackContent: React.Node,
+  children: React.Node,
+  handleContent?: React.Node,
+  trackContent?: React.Node,
   setProperties?: ({ position: number }) => void,
   reduceDragGlitch?: boolean
 };
@@ -69,6 +70,7 @@ class Timeline extends React.Component<Props, State> {
       isSeeking,
       label,
       classNamePrefix,
+      children,
       handleContent,
       trackContent,
       reduceDragGlitch
@@ -86,8 +88,9 @@ class Timeline extends React.Component<Props, State> {
         classNamePrefix={classNamePrefix}
         className={className}
         trackClassName={trackClassName}
-        handleClassName={handleClassName}
-      />
+        handleClassName={handleClassName}>
+        {children}
+      </Slider>
     );
   }
 }

@@ -535,6 +535,8 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   onKeyDown={[Function]}
                                   onKeyUp={[Function]}
                                   onMouseDown={[Function]}
+                                  onMouseEnter={[Function]}
+                                  onMouseLeave={[Function]}
                                   onMouseMove={[Function]}
                                   onMouseUp={[Function]}
                                   role="slider"
@@ -546,6 +548,29 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   >
                                     <div />
                                   </div>
+                                  <ConnectedTimelineInformation
+                                    classNamePrefix="replay-"
+                                    key=".0"
+                                  >
+                                    <TimelineInformation
+                                      classNamePrefix="replay-"
+                                      inspect={[Function]}
+                                      setProperties={[Function]}
+                                    >
+                                      <div
+                                        className="replay-timeline-information"
+                                      >
+                                        <div
+                                          className="replay-timeline-tooltip"
+                                          style={
+                                            Object {
+                                              "left": "0.00%",
+                                            }
+                                          }
+                                        />
+                                      </div>
+                                    </TimelineInformation>
+                                  </ConnectedTimelineInformation>
                                   <div
                                     className="replay-slider-handle replay-timeline-handle"
                                     role="button"
@@ -798,6 +823,8 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                       onKeyDown={[Function]}
                                       onKeyUp={[Function]}
                                       onMouseDown={[Function]}
+                                      onMouseEnter={[Function]}
+                                      onMouseLeave={[Function]}
                                       onMouseMove={[Function]}
                                       onMouseUp={[Function]}
                                       role="slider"

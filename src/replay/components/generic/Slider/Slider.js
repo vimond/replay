@@ -24,7 +24,15 @@ type Props = CommonGenericProps & {
 
 type State = {
   dragValue?: number,
-  isDragging?: boolean
+  isDragging?: boolean,
+  previewValue?: number,
+  isPointerInside?: boolean
+};
+
+type UpdateConditions = {
+  isDragging?: boolean,
+  isEnded?: boolean,
+  isPreviewing?: boolean
 };
 
 const baseClassName = 'slider';
@@ -83,45 +91,51 @@ class Slider extends React.Component<Props, State> {
 
   updateValueFromCoordinates = (
     evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent,
-    isDragging?: boolean,
-    isEnded?: boolean
+    conditions: UpdateConditions
   ) => {
     if (this.renderedTrack) {
       const clickCoordinates = getBoundingEventCoordinates(evt, this.renderedTrack);
       if (this.props.isVertical) {
         const relativeVerticalValue = (clickCoordinates.height - clickCoordinates.y) / clickCoordinates.height;
-        this.updateValue(relativeVerticalValue, isDragging, isEnded);
+        this.updateValue(relativeVerticalValue, conditions);
       } else {
         const relativeHorizontalValue = clickCoordinates.x / clickCoordinates.width;
-        this.updateValue(relativeHorizontalValue, isDragging, isEnded);
+        this.updateValue(relativeHorizontalValue, conditions);
       }
     }
   };
 
-  updateValue = (relativeValue: number, isDragging?: boolean, isEnded?: boolean) => {
+  updateValue = (relativeValue: number, { isDragging, isEnded, isPreviewing }: UpdateConditions) => {
     const value = relativeValue * this.props.maxValue;
-    if (this.state.isDragging) {
+    if (isPreviewing) {
       this.setState({
-        dragValue: value
+        previewValue: value
       });
-      if (this.props.onDrag) {
-        this.props.onDrag(value);
+    } else {
+      if (this.state.isDragging) {
+        this.setState({
+          dragValue: value,
+          previewValue: value
+        });
+        if (this.props.onDrag) {
+          this.props.onDrag(value);
+        }
       }
-    }
-    if (this.props.onValueChange && (isEnded || !(this.state.isDragging || isDragging))) {
-      this.props.onValueChange(value);
+      if (this.props.onValueChange && (isEnded || !(this.state.isDragging || isDragging))) {
+        this.props.onValueChange(value);
+      }
     }
   };
 
   handleHandleOrTrackClick = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
-    this.updateValueFromCoordinates(evt);
+    this.updateValueFromCoordinates(evt, {});
   };
 
   handleHandleStartDrag = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
     evt.stopPropagation();
     if (!this.state.isDragging) {
       this.setState({ isDragging: true });
-      this.updateValueFromCoordinates(evt, true);
+      this.updateValueFromCoordinates(evt, { isDragging: true });
       // We are OK with no position updates yet.
       if (this.isTouchSupported) {
         document.addEventListener('touchmove', this.handleHandleDrag);
@@ -137,13 +151,15 @@ class Slider extends React.Component<Props, State> {
 
   handleHandleDrag = (evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent) => {
     if (this.state.isDragging) {
-      this.updateValueFromCoordinates(evt);
+      this.updateValueFromCoordinates(evt, {});
+    } else {
+      this.updateValueFromCoordinates(evt, { isPreviewing: true });
     }
   };
 
   handleHandleEndDrag = (evt: SyntheticMouseEvent<HTMLDivElement> | MouseEvent | TouchEvent) => {
     if (this.state.isDragging) {
-      this.updateValueFromCoordinates(evt, true, true);
+      this.updateValueFromCoordinates(evt, { isDragging: true, isEnded: true });
     }
     if (this.isTouchSupported) {
       document.removeEventListener('touchmove', this.handleHandleDrag);
@@ -157,20 +173,27 @@ class Slider extends React.Component<Props, State> {
     this.setState({ isDragging: false });
   };
 
+  handleMouseEnter = () => {
+    this.setState({ isPointerInside: true });
+  };
+  handleMouseLeave = () => {
+    this.setState({ isPointerInside: false });
+  };
+
   handleKeyDown = getKeyboardShortcutBlocker(allCaptureKeys);
 
   handleKeyUp = (keyboardEvent: KeyboardEvent) => {
     if (!isNaN(this.props.value) && !isNaN(this.props.maxValue)) {
       const relativeValue = this.props.value / this.props.maxValue;
       if (decreaseKeys.indexOf(keyboardEvent.key) >= 0) {
-        this.updateValue(Math.max(0, relativeValue - keyPressValueStep));
+        this.updateValue(Math.max(0, relativeValue - keyPressValueStep), {});
       }
       if (increaseKeys.indexOf(keyboardEvent.key) >= 0) {
-        this.updateValue(Math.min(1, relativeValue + keyPressValueStep));
+        this.updateValue(Math.min(1, relativeValue + keyPressValueStep), {});
       }
     }
   };
-
+  
   setRenderedHandle = (handle: ?HTMLDivElement) => {
     this.renderedHandle = handle;
   };
@@ -195,7 +218,7 @@ class Slider extends React.Component<Props, State> {
       maxValue,
       isUpdateBlocked
     } = this.props;
-    const { dragValue, isDragging } = this.state;
+    const { dragValue, previewValue, isDragging, isPointerInside } = this.state;
     const displayValue = (isDragging || isUpdateBlocked) && dragValue != null ? dragValue : value;
     const selectClasses = isDragging ? selectDraggingClasses : selectDefaultClasses;
     const sliderClassNames = hydrateClassNames({
@@ -222,6 +245,8 @@ class Slider extends React.Component<Props, State> {
         onMouseDown={this.handleHandleStartDrag}
         onMouseUp={this.handleHandleEndDrag}
         onMouseMove={this.handleHandleDrag}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
         onKeyDown={this.handleKeyDown}
         onKeyUp={this.handleKeyUp}
         title={label}
@@ -234,7 +259,9 @@ class Slider extends React.Component<Props, State> {
         <div className={trackClassNames} ref={this.setRenderedTrack}>
           {trackContent}
         </div>
-        {children}
+        {React.Children.map(children, child =>
+          React.cloneElement(child, { previewValue, isDragging, isPointerInside })
+        )}
         <div
           className={handleClassNames}
           style={{ [isVertical ? verticalProp : horizontalProp]: toPercentString(displayValue, maxValue) }}
