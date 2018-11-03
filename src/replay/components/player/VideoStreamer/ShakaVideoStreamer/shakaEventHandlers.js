@@ -90,10 +90,18 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
       log && log('shaka.streaming');
       if (streamer.props.initialPlaybackProps) {
         const { isPaused, bitrateFix, bitrateCap } = streamer.props.initialPlaybackProps;
-        applyProperties({ bitrateFix: bitrateFix, bitrateCap: bitrateCap });
+        applyProperties({ bitrateFix, bitrateCap });
         if (isPaused) {
           videoElement.pause();
         }
+        if (bitrateFix == null) {
+          updateStreamState({ bitrateFix: null });
+        }
+        if (bitrateCap == null) {
+          updateStreamState({ bitrateCap: null });
+        }
+      } else {
+        updateStreamState({ bitrateFix: null, bitrateCap: null });
       }
 
       updateStreamState(streamRangeHelper.calculateNewState());

@@ -114,10 +114,18 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
       log && log('hlsjs.parsed');
       if (streamer.props.initialPlaybackProps) {
         const { isPaused, bitrateFix, bitrateCap } = streamer.props.initialPlaybackProps;
-        applyProperties({ bitrateFix: bitrateFix, bitrateCap: bitrateCap });
         if (isPaused) {
           videoElement.pause();
         }
+        applyProperties({ bitrateFix, bitrateCap });
+        if (bitrateFix == null) {
+          updateStreamState({ bitrateFix: null });
+        }
+        if (bitrateCap == null) {
+          updateStreamState({ bitrateCap: null });
+        }
+      } else {
+        updateStreamState({ bitrateFix: null, bitrateCap: null });
       }
       updateStreamState(streamRangeHelper.calculateNewState());
     }
