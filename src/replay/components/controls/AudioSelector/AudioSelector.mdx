@@ -1,0 +1,42 @@
+---
+name: Audio selector
+route: /controls/audio-selector
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import AudioSelector from './AudioSelector';
+import ShowCase from '../ShowCase';
+import { MessageSquare } from 'react-feather';
+
+# AudioSelector
+
+## Summary
+
+Control bar widget for controlling audio languages and tracks. The audio selector lists the stream's available audio tracks, and updates the selection. It only displays if there is more than one selectable audio track.
+
+The audio selector uses the `<Selector />` generic component, and is implemented similar patterns to `<SubtitlesSelector />` and partly `<QualitySelector />`. Upon clicking on one selector item, it invokes `setProperties({ selectedAudioTrack: track })` where `track` is the clicked selector item.
+
+<Playground>
+  {() => {
+    const audioTracks = [{ label: 'English' , language: 'en' }, { label: 'French' , language: 'fr' }];
+    return (
+      <ShowCase render={({ setProperties, currentAudioTrack }) => (
+        <AudioSelector 
+          setProperties={setProperties}
+          currentAudioTrack={currentAudioTrack}
+          toggleContent={<MessageSquare/>}
+          audioTracks={audioTracks}
+        />
+      )}/>
+    );
+  }}
+</Playground>
+
+## Props
+
+<PropsTable of={AudioSelector} />
+
+## Class names for DOM and states
+
+(Table)

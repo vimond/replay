@@ -7,9 +7,13 @@ import type { CommonProps } from '../../common';
 import type { StreamStateKeysForObservation } from '../../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
+  /** The list of audio tracks available for selection. */
   audioTracks?: Array<AvailableTrack>,
+  /** The currently playing audio track (if known). Must be strict equal one of the items in the audio track list, or null. */
   currentAudioTrack?: AvailableTrack,
+  /** When one item is clicked, this callback is invoked with an object having an selectedAudioTrack property with the audioTrack object corresponding to the selection. */
   setProperties?: ({ selectedAudioTrack: AvailableTrack }) => void,
+  /** Element displayed in the control bar for expanding/collapsing the selector items. */
   toggleContent: React.Node
 };
 

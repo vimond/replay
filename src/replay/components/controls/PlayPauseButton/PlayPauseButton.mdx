@@ -1,0 +1,32 @@
+---
+name: Play/pause button
+route: /controls/play-pause-button
+menu: 'Controls reference'
+---
+
+import '../../../replay-default.css'
+
+import { Playground, PropsTable } from 'docz'
+import PlayPauseButton from './PlayPauseButton'
+import ShowCase from '../ShowCase';
+import { Play, Pause } from 'react-feather';
+
+# PlayPauseButton
+
+## Summary
+
+Control bar button for pausing or resuming playback. It sets the property `isPaused` on clicks, with the opposite value of the `isPaused` prop passed into the component.
+
+<Playground>
+  <ShowCase render={({ setProperties, isPaused }) => (
+    <PlayPauseButton playingContent={<Pause/>} pausedContent={<Play/>} isPaused={isPaused} setProperties={setProperties} />
+  )}/>
+</Playground>
+
+## Props
+
+<PropsTable of={PlayPauseButton} />
+
+## Class names for DOM and states
+
+(Table)

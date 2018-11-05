@@ -1,0 +1,30 @@
+---
+name: Selector
+route: /generic-components/Selector
+menu: 'Generic components reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import Selector from './Selector';
+
+# Selector
+
+## Summary
+
+## The Selector pattern
+
+It operates on a list of items which can be objects or primitive values. The AudioSelector and SubtitlesSelector uses a Selector with a list of AvailableTrack. The QualitySelector makes the Selector operate on a list of numbers.
+
+When marking an item as selected, it depends on strict equality between the specified selectedItem, and one of the items in the list. This means an object, e.g. AvailableTrack, cannot be cloned or recreated.
+
+When an item is selected, the onSelect callback is invoked with the item object from the list as an argument.
+
+An item mapper must be used for making the list items presentable in the selector. This converts the item object of the specific type into an object with ID, label, and the original item as a data property.
+
+<Playground>
+    <Selector/>
+</Playground>
+
+## Props
+
+<PropsTable of={Selector} />
