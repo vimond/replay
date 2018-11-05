@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: /tmp/replay
   docker:
-    - image: circleci/node:8.11-browsers
+    - image: circleci/node:10.12-browsers
 version: 2
 
 jobs:
@@ -50,7 +50,7 @@ jobs:
           at: /tmp
       - run:
           name: Build
-          command: yarn build-lib
+          command: yarn build:lib
       - persist_to_workspace:
           root: /tmp
           paths: replay/*

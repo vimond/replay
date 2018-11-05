@@ -13,15 +13,14 @@
     "README.md"
   ],
   "scripts": {
-    "start": "PORT=3033 react-scripts start",
-    "build": "react-scripts build",
-    "build-lib": "npm run build-es5 && npm run build-flow && npm run build-css",
-    "build-es5": "babel src/replay -d lib --copy-files --source-maps",
-    "build-flow": "flow-copy-source src/replay lib",
-    "build-css": "postcss src/replay/replay-default.css -o lib/index.css",
-    "docs": "x0 docs --webpack webpack.x0.config.js",
-    "build-docs": "x0 build docs --webpack webpack.x0.config.js",
-    "test": "react-scripts test --env=jsdom"
+    "start": "PORT=3033 SKIP_PREFLIGHT_CHECK=true react-scripts start",
+    "build:lib": "npm run build:es5 && npm run build:flow && npm run build:css",
+    "build:es5": "babel src/replay -d lib --copy-files --source-maps",
+    "build:flow": "flow-copy-source src/replay lib",
+    "build:css": "postcss src/replay/replay-default.css -o lib/index.css",
+    "docz:dev": "docz dev",
+    "docz:build": "docz build",
+    "test": "SKIP_PREFLIGHT_CHECK=true react-scripts test --env=jsdom"
   },
   "dependencies": {
     "hls.js": "^0.11.0",
@@ -37,7 +36,6 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@compositor/x0": "^6.0.4",
     "css-loader": "^1.0.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "1.5.0",
@@ -67,9 +65,6 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ]
-  },
-  "x0": {
-    "title": "Replay docs"
   },
   "browserslist": [
     ">0.2%",
