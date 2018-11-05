@@ -29,7 +29,7 @@ export const baseConfiguration: PlayerConfiguration = {
     }
   },
   userSettings: {
-    hasPrecedence: true,
+    hasPrecedence: false,
     storageKey: 'replay-settings',
     settingsStoragePolicy: {
       volume: 'local',

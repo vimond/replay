@@ -183,7 +183,7 @@ class App extends Component<void, State> {
                 onExit={this.togglePlayer}
                 onError={this.handleError}
                 textTracks={textTracks}
-                initialPlaybackProps={{ isPaused: false, volume: 0.5 }}
+                initialPlaybackProps={{ isPaused: true, volume: 0.2 }}
                 onPlaybackActionsReady={this.handlePlaybackActions}>
                 <VideoStreamerResolver source={source} />
               </Replay>

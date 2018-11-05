@@ -83,7 +83,7 @@ const createCustomPlayer = ({
         onPlaybackActionsReady={onPlaybackActionsReady}
         onStreamStateChange={onStreamStateChange}
         initialPlaybackProps={initialPlaybackProps}
-        externalProps={{ onExit }}>
+        externalProps={{ onExit, initialPlaybackProps }}>
         {resolveVideoStreamerMethod(videoStreamerComponent, children, source, textTracks) || null}
       </PlayerController>
     );

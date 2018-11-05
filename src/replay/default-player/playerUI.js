@@ -119,7 +119,7 @@ const getPlayerUIRenderer = (
             {...graphics.bufferingIndicator}
             classNamePrefix={classNamePrefix}
           />
-          <PreferredSettingsApplicator configuration={configuration} {...externalProps.preferredSettings} />
+          <PreferredSettingsApplicator configuration={configuration} {...externalProps.initialPlaybackProps} />
         </React.Fragment>
       )}
     />

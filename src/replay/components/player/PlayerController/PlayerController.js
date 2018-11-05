@@ -33,6 +33,8 @@ export type PlaybackActions = {
   gotoLive: () => void,
   setVolume: number => void,
   setIsMuted: boolean => void,
+  mute: () => void,
+  unmute: () => void,
   setSelectedAudioTrack: AvailableTrack => void,
   setSelectedTextTrack: AvailableTrack => void,
   capBitrate: number => void,
@@ -120,6 +122,8 @@ const createPlaybackActions = (inspect, setProperties: PlaybackProps => void): P
   const gotoLive = () => setProperties({ isAtLiveEdge: true });
   const setVolume = (volume: number) => setProperties({ volume });
   const setIsMuted = (isMuted: boolean) => setProperties({ isMuted });
+  const mute = () => setProperties({ isMuted: true });
+  const unmute = () => setProperties({ isMuted: false });
   const setSelectedTextTrack = (selectedTextTrack: AvailableTrack) => setProperties({ selectedTextTrack });
   const setSelectedAudioTrack = (selectedAudioTrack: AvailableTrack) => setProperties({ selectedAudioTrack });
   const capBitrate = (bitrateCap: number) => setProperties({ bitrateCap });
@@ -131,6 +135,8 @@ const createPlaybackActions = (inspect, setProperties: PlaybackProps => void): P
     gotoLive,
     setVolume,
     setIsMuted,
+    mute,
+    unmute,
     setSelectedAudioTrack,
     setSelectedTextTrack,
     capBitrate,
@@ -144,7 +150,7 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   constructor(props: PlayerControllerProps) {
     super(props);
     const videoStreamerProps: VideoStreamerProps = {
-      initialPlaybackProps: this.props.initialPlaybackProps,
+      initialPlaybackProps: this.props.initialPlaybackProps, //TODO: This is overwritten by preferred settings. Reconsider.
       onReady: this.onVideoStreamerReady,
       onPlaybackError: this.props.onStreamerError,
       onStreamStateChange: this.onStreamStateChange
