@@ -9,10 +9,15 @@ import type { ObservingControlStaticProps } from '../../player/PlayerController/
 export type LiveDisplayMode = 'clock-time' | 'live-offset';
 
 type Props = CommonProps & {
+  /** ⇘︎ The relative playback position, used for on demand position and timeshift offset display. */
   position: number,
+  /** ⇘︎ The duration of the stream, used for on demand position and timeshift offset display. */
   duration?: number,
+  /** ⇘︎ The clock time, used for live streams and DVR streams when liveDisplayMode is set to 'live-offset'. */
   absolutePosition?: ?Date,
+  /** ⇘︎ Play mode is used to decide what times to display. */
   playMode?: PlayMode,
+  /** When set to 'live-offset', DVR times will be displayed as offsets from the live edge. Default is 'clock-time'. */
   liveDisplayMode: LiveDisplayMode,
   negativeMark?: string,
   positionLabel?: string,
@@ -38,14 +43,14 @@ const TimeDisplay: TimeDisplayType = ({
   duration,
   absolutePosition,
   playMode,
-  liveDisplayMode,
+  liveDisplayMode = 'clock-time',
   negativeMark,
   label,
   positionLabel,
   durationLabel,
   clockTimeLabel,
   classNamePrefix = defaultClassNamePrefix
-}) => {
+}: Props) => {
   if (playMode === 'ondemand') {
     return (
       <div className={prefixClassNames(classNamePrefix, className)} title={label}>

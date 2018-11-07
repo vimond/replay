@@ -11,17 +11,21 @@ import { MessageSquare } from 'react-feather';
 
 # AudioSelector
 
+Control bar widget for controlling audio languages and tracks.
+
 ## Summary
 
-Control bar widget for controlling audio languages and tracks. The audio selector lists the stream's available audio tracks, and updates the selection. It only displays if there is more than one selectable audio track.
+The audio selector lists the stream's available audio tracks, and updates the selection. It only displays if there is more than one selectable audio track.
 
 The audio selector uses the `<Selector />` generic component, and is implemented similar patterns to `<SubtitlesSelector />` and partly `<QualitySelector />`. Upon clicking on one selector item, it invokes `setProperties({ selectedAudioTrack: track })` where `track` is the clicked selector item.
+
+## Example
 
 <Playground>
   {() => {
     const audioTracks = [{ label: 'English' , language: 'en' }, { label: 'French' , language: 'fr' }];
     return (
-      <ShowCase render={({ setProperties, currentAudioTrack }) => (
+      <ShowCase height="60px" render={({ setProperties, currentAudioTrack }) => (
         <AudioSelector 
           setProperties={setProperties}
           currentAudioTrack={currentAudioTrack}
@@ -36,6 +40,8 @@ The audio selector uses the `<Selector />` generic component, and is implemented
 ## Props
 
 <PropsTable of={AudioSelector} />
+
+Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC. The ︎`setProperties()` callback prop is marked with ︎⇗ because it is connected for changing the playback state.
 
 ## Class names for DOM and states
 

@@ -1,0 +1,42 @@
+---
+name: Time and duration display
+route: /controls/time-display
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import TimeDisplay from './TimeDisplay';
+import ShowCase from '../ShowCase';
+
+# Time and duration display
+
+Presents the current position within the duration of a playback. For live streams, displays clock time or timeshift offset.
+
+## Summary
+
+The display switches mode based on the `playMode` property. When this has a value of `'ondemand'`, both `duration` and `position` props are formatted and displayed. If it has a value of `'livedvr'`, it can either display only time-of-day clock time based on the prop `absolutePosition`, or 00:00 when playing at the live edge, or negative times when timeshifted. By setting the value `'live-offset'` on the prop `liveDisplayMode`, the latter option with 00:00 and negative times is selected. When displaying time-of-day clock times, duration is not displayed.
+
+## Example
+
+<Playground>
+  <ShowCase render={({ setProperties, position }) => (
+    <>
+      <TimeDisplay playMode="ondemand" position={123.4} duration={234.5}/>
+      <TimeDisplay playMode="livedvr" liveDisplayMode="live-offset" position={123} duration={234}/>
+      <TimeDisplay playMode="livedvr" liveDisplayMode="live-offset" position={234} duration={234}/>
+      <TimeDisplay playMode="livedvr" absolutePosition={new Date('2018-11-07T05:14:13Z')} position={234} duration={234}/>
+    </>
+  )}/>
+</Playground>
+
+This example shows four different display modes.
+
+## Props
+
+<PropsTable of={TimeDisplay} />
+
+Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC. The ︎`setProperties()` callback prop is marked with ︎⇗ because it is connected for changing the playback state.
+
+## Class names for DOM and states
+
+(TODO: table)

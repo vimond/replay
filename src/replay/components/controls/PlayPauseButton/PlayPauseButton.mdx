@@ -13,9 +13,13 @@ import { Play, Pause } from 'react-feather';
 
 # PlayPauseButton
 
+Control bar button for pausing or resuming playback. 
+
 ## Summary
 
-Control bar button for pausing or resuming playback. It sets the property `isPaused` on clicks, with the opposite value of the `isPaused` prop passed into the component.
+It sets the property `isPaused` on clicks, with the opposite value of the `isPaused` prop passed into the component.
+
+## Example
 
 <Playground>
   <ShowCase render={({ setProperties, isPaused }) => (
@@ -27,6 +31,8 @@ Control bar button for pausing or resuming playback. It sets the property `isPau
 
 <PropsTable of={PlayPauseButton} />
 
+Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC. The ︎`setProperties()` callback prop is marked with ︎⇗ because it is connected for changing the playback state.
+
 ## Class names for DOM and states
 
-(Table)
+(TODO: table)

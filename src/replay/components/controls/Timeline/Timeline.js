@@ -6,13 +6,21 @@ import Slider from '../../generic/Slider/Slider';
 import type { StreamStateKeysForObservation } from '../../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
+  /** ⇘︎ The current playback position in seconds (with decimals). A value between 0 and duration. */
   position?: number,
+  /** ⇘︎ The stream's duration or seekable range in seconds (with decimals). */
   duration?: number,
+  /** ⇘︎ True if a seeking operation is ongoing. This prop is used by the component to avoid glitching while dragging. */
   isSeeking?: boolean,
+  /** Elements that will display on top of the timeline slider track, but below the timeline handle. */
   children: React.Node,
+  /** Can be set for custom graphics or content in the slider handle. */
   handleContent?: React.Node,
+  /** Can be set for custom graphics or content representing the slider track. */
   trackContent?: React.Node,
+  /** ⇗ If the volume slider handle position is changed, this callback is invoked with { position: newPosition } */
   setProperties?: ({ position: number }) => void,
+  /** If set to false, glitches after dragging completes will occur, while the stream reports a position before seeking is performed. When true glitches are prevented by activating a timer for a small time after dragging has completed.*/
   reduceDragGlitch?: boolean
 };
 

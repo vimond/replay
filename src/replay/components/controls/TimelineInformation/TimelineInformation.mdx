@@ -1,0 +1,45 @@
+---
+name: Timeline position tooltip
+route: /controls/timeline-information
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import TimelineInformation from './TimelineInformation';
+import Timeline from '../Timeline/Timeline';
+import ShowCase from '../ShowCase';
+
+# Position preview tooltip for timeline
+
+When the mouse pointer is over the timeline, displays the corresponding stream position or time-of-day clock time for the pointer position.
+
+## Summary
+
+This component is used as a child to the `<Timeline/>` component. It gets a `previewValue` prop set by the parent Timeline, containing a relative position between 0 and the `duration` prop value. The parent control is responsible for tracking mouse positions, and to report the target seek position while dragging. Like `<TimeDisplay/>`, the tooltip presents a clock time preview in the tooltip for live streams. For this, it needs the `absoluteStartPosition` of the stream to be specified.
+
+The tooltip only displays if at least one of the props `isPointerInside` or `isDragging` is set to `true` by the parent Timeline.
+
+## Example
+
+<Playground>
+  <ShowCase height="20px" render={({ setProperties, position }) => {
+    const duration = 333;
+    return (
+      <Timeline position={position} duration={duration} setProperties={setProperties}>
+        <TimelineInformation playMode="ondemand" duration={duration} />
+      </Timeline>
+    );  
+  }}/>
+</Playground>
+
+The component is here shown within a timeline.
+
+## Props
+
+<PropsTable of={TimelineInformation} />
+
+Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC. The ︎`setProperties()` callback prop is marked with ︎⇗ because it is connected for changing the playback state.
+
+## Class names for DOM and states
+
+(TODO: table)

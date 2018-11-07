@@ -4,9 +4,20 @@ route: /
 order: 1
 ---
 
+import { Playground } from 'docz';
+import Replay from './default-player/Replay';
+import './replay-default.css';
+
 # Replay
 
-A video player embracing modern React patterns while wrapping advanced streaming libraries.
+A React video player wrapping advanced streaming libraries while embracing modern React patterns.
+
+<Playground>
+  <Replay
+    source="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    initialPlaybackProps={{ isPaused: true }}
+  />
+</Playground>
 
 ## What is Replay?
 
@@ -18,7 +29,7 @@ A video player embracing modern React patterns while wrapping advanced streaming
 
 **A common React video playback API** for the HTML5 video element and integrated third party libraries. This means:
 
-* Consistent and predictable behaviour across browsers and stream technologies.
+* Consistent and predictable behaviour across browsers and stream technologies, to a practical extent.
 * The UI components and player component consumers don't need to relate to the different browsers or player libraries way of expressing the playback state or manipulating it.
 * Everything can be observed through state properties, and any operation can be performed by setting properties.
 
@@ -27,7 +38,7 @@ A video player embracing modern React patterns while wrapping advanced streaming
 **Replay is customisable** through two approaches:
 
 * With the default Replay player: Set configuration and properties, replace CSS, replace texts and graphics, remove controls.
-* With the components library: Take full control and build a custom player. Add features like overlays and controls.  Combine those with the Replay controller, VideoStreamer components, and the Replay controls library.
+* With the components library: Take full control and assemble a custom player. Add features like overlays and controls. Combine those with the Replay controller, VideoStreamer components, and a selection of controls from the Replay controls library.
 
 **Designed with optimalisation in mind.** Avoid including code not being used. Avoid rerendering the player UI all the time when the playback progresses.
 
@@ -67,7 +78,7 @@ All features are programmatically accessible. The controls listed underneath ind
 * Specifying DRM license acquisition details.
 * Configuring the third party player libraries.
 
-See also the chapter Streaming technology suppport underneath.
+See also the chapter Streaming technology support underneath.
 
 ### Components library
 
@@ -106,6 +117,11 @@ All controls and components are included and utilised in the default Replay play
 * Configurable keyboard shortcuts
 * Player state conversion to class names for CSS rules
 
+#### Development and debugging convenience components
+
+* Mock video streamer, simulating a video playback. Useful when developing controls.
+* Playback state monitor. Overlay that displays all video stream state properties and their changes.
+
 ## Streaming technology support
 
 ### MPEG-DASH
@@ -136,4 +152,4 @@ The main Replay project is not intended to contain and maintain any feature. Her
 * A REST client, integrated with any online video platform. Wrap it in your data layer with a container component or HOC.
 * Customisations and workarounds/tweaks to the integrated player libraries. Might come up as a short-sighted need if streams don't play well. Address this in the third party player projects, inject your customizations where enabled (e.g. Shaka player), or create a custom VideoStreamer.
 
-Replay is not a Vimond product.
+Finally, Replay is built by Vimond developers, but is not a Vimond product.

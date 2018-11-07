@@ -1,0 +1,50 @@
+---
+name: Timeline
+route: /controls/timeline
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import Timeline from './Timeline';
+import TimeDisplay from '../TimeDisplay/TimeDisplay';
+import ShowCase from '../ShowCase';
+
+# Timeline control
+
+A `<Slider/>` displaying the playback progress from start to end. It can be used for seeking in the stream.
+
+## Summary
+
+Technically, it presenting the seekable range of the open stream, and changing the handle position by click or dragging, changes the playback position (i.e. seeks). It operates both on live DVR streams and on demand streams. Regardless of the stream type, the video streamer exposes stream state properties for `position` and `duration`. Correspondingly, the `<Timeline/>` component has two props with the same names. The rule for those values is `0` ≤ `position` ≤ `duration`. I.e. the position is relative to the first available position in the seekable range, and the value will not exceed the duration value.
+
+When playing live streams with a sliding DVR window, the relative position and duration will stay constant, and the slider handle will be positioned at the same location. If playing at the live edge, the handle will stay at the right end of the slider, also for live stream events where the DVR window expands, i.e. duration increases.
+
+When dragging/clicking the slider, `setProperties({ position value })` will be called with the value corresponding to the relative position according to the rule above.
+
+The component accepts children for putting more content on the timeline. The slider handle will typically stay on top. For now, `<TimelineInformation/>` is such relevant extra content. Chapters and markers might be added later.
+
+## Example
+
+<Playground>
+  <ShowCase render={({ setProperties, position }) => {
+    const duration = 333;
+    return (
+      <>
+        <Timeline position={position} duration={duration} setProperties={setProperties}/>
+        <TimeDisplay position={position} duration={duration} playMode="ondemand" />
+      </>
+    );  
+  }}/>
+</Playground>
+
+The example includes also `<TimeDisplay/>` in order to illustrate the `position` and `duration` values and changes.
+
+## Props
+
+<PropsTable of={Timeline} />
+
+Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC. The ︎`setProperties()` callback prop is marked with ︎⇗ because it is connected for changing the playback state.
+
+## Class names for DOM and states
+
+(TODO: table)

@@ -4,7 +4,8 @@ import type { PlaybackProps, VideoStreamState } from '../player/VideoStreamer/ty
 import '../../replay-default.css';
 
 type Props = {
-  render: (VideoStreamState & { setProperties: PlaybackProps => void }) => React.Node //TODO: Render prop instead.
+  render: (VideoStreamState & { setProperties: PlaybackProps => void }) => React.Node,
+  height?: string
 };
 
 const convertPropsToState = (props: PlaybackProps): VideoStreamState => {
@@ -40,11 +41,13 @@ class ShowCase extends React.Component<Props, VideoStreamState> {
 
   render() {
     const { setProperties, state } = this;
+    const { render, height } = this.props;
+    const style = height ? { width: '100%', height } : { width: '100%' };
     return (
       <div>
-        <div style={{ width: '100%', height: '100px' }} />
+        <div style={style} />
         <div className="replay-controls-bar" style={{ justifyContent: 'center' }}>
-          {this.props.render({ ...state, setProperties })}
+          {render({ ...state, setProperties })}
         </div>
       </div>
     );
