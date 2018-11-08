@@ -6,10 +6,15 @@ import type { CommonProps } from '../../common';
 import type { InspectMethod } from '../../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
+  /** The position from which the skipped position is computed. Not recommended to set this, but rather provide inspect(). */
   position?: number,
+  /** Configures the offset that will be added to the current position when clicking the button. Negative values mean skipping backward. */
   offset: number,
+  /** Button content, e.g. icon. */
   content: React.Node,
+  /** ⇘︎ A callback returning the current video stream state with a position property when invoked. Invoked on clicking the button, and the position property is used for computing the new position. */
   inspect?: InspectMethod,
+  /** ⇗ When the button is clicked, this callback is invoked with an object having an position property with the computed new position based on the skip offset. */
   setProperties?: ({ position: number }) => void
 };
 

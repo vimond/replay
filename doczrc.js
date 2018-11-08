@@ -25,7 +25,7 @@ export default {
     'Architecture and patterns',
     'Building a custom player',
     'Controls reference',
-    'Generic components reference'
+    'Generic controls reference'
   ],
   debug: false
 };

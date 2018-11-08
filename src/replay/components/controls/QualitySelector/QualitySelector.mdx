@@ -1,0 +1,65 @@
+---
+name: Quality selector
+route: /controls/quality-selector
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import QualitySelector from './QualitySelector';
+import ShowCase from '../ShowCase';
+import { Settings } from 'react-feather';
+
+# QualitySelector
+
+Control bar widget for controlling adaptive streaming quality and strategy.
+
+## Summary
+
+The quality selector lists the stream's bitrates. It also indicates what bitrate currently playing. According to configuration, selecting one of the listed items, can either fix the bitrate selection to this bitrate, or cap the range for adaptive bitrate selection. Fixing means that the adaptive bitrate selection will be deactivated. Capping does not deactivate it, but means that no higher bitrates than the selected one will be selected adaptively. The selector displays one item for reverting to full adaptive bitrate selection without fixing or capping.
+
+The stream's available bitrates are specified in the prop `bitrates`, and the currently playing or loading bitrate is specified with `currentBitrate`. Bitrates are specified in kbps.
+
+The control is only rendered if there are more than one bitrate reported. The item text will be based on the bitrate numbers, but formatted with the `formatBitrateLabel` callback prop.
+
+The quality selector uses the `<Selector />` generic component. It can be configured through the prop `selectionStrategy` into the two mentioned modes with `'fix-bitrate'` or `'cap-bitrate''`.
+
+With `'fix-bitrate'`, upon clicking on one selector item representing a track, it invokes `setProperties({ bitrateFix: value })` where value is the bitrate of the clicked selector item. 
+
+With `'cap-bitrate'`, upon clicking on one selector item representing a track, it invokes `setProperties({ bitrateCap: value })` where value is the bitrate of the clicked selector item.
+
+For the selector item resetting fixed or capped bitrate, the item text must be provided in the `autoLabel` prop. If this item is selected, `setProperties({ bitrateFix: Infinity })` or `setProperties({ bitrateCap: Infinity })` is invoked.
+
+## Example
+
+<Playground>
+  {() => {
+    const bitrates = [800, 1000, 2500, 3600];
+    const formatBitrateLabel = (bitrate, isPlaying) => bitrate + ' kbps' + (isPlaying ? ' •' : '');
+    return (
+      <ShowCase height="160px" render={({ setProperties, bitrateCap }) => (
+        <QualitySelector 
+          setProperties={setProperties}
+          bitrates={bitrates}
+          currentBitrate={1000}
+          bitrateCap={bitrateCap}
+          autoLabel="Auto quality"
+          toggleContent={<Settings/>}
+          selectionStrategy="cap-bitrate"
+          formatBitrateLabel={formatBitrateLabel}
+        />
+      )}/>
+    );
+  }}
+</Playground>
+
+The example doesn't show the `currentBitrate` adapting to the new setting.
+
+## Props
+
+<PropsTable of={QualitySelector}/>
+
+Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC. The ︎`setProperties()` callback prop is marked with ︎⇗ because it is connected for changing the playback state.
+
+## Class names for DOM and states
+
+(Table)

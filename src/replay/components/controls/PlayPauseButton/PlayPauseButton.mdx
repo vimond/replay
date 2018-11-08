@@ -4,8 +4,6 @@ route: /controls/play-pause-button
 menu: 'Controls reference'
 ---
 
-import '../../../replay-default.css'
-
 import { Playground, PropsTable } from 'docz'
 import PlayPauseButton from './PlayPauseButton'
 import ShowCase from '../ShowCase';
@@ -17,7 +15,7 @@ Control bar button for pausing or resuming playback.
 
 ## Summary
 
-It sets the property `isPaused` on clicks, with the opposite value of the `isPaused` prop passed into the component.
+The prop `isPaused` indicates to the button if the playback is paused, or playing (`false`). Through the callback prop `setProperties` in invokes `setProperties({ isPaused: value })` on clicks, with the opposite value of the `isPaused` prop passed as value.
 
 ## Example
 

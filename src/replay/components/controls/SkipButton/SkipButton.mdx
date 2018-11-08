@@ -1,0 +1,55 @@
+---
+name: Skip backward/forward button
+route: /controls/skip-button
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import TimeDisplay from '../TimeDisplay/TimeDisplay'
+import SkipButton from './SkipButton';
+import ShowCase from '../ShowCase';
+import { RotateCcw, RotateCw } from 'react-feather';
+
+# SkipButton
+
+Control bar button for seeking by offsets. 
+
+## Summary
+
+The offset in seconds and direction can be configured, and this control can be used for both seeking forward and backward by relatively small intervals, e.g. 20 seconds, which is often more convenient than using the timeline slider.
+
+When clicking the button, `setProperties({ position: value })` will be called, with the value computed by adding the current position with the configured `offset` prop. This means negative configured offsets will make the button skip backward.
+
+When clicking the button, the current relative position is read by invoking the callback prop `inspect()`. This is a method of the player controller (TODO link) that exposes the current video streamer state. The button could also read the prop `position`. However, this would require continuous updates to the button during playback of the position value, and would be unnecessary as long as the button is not clicked.
+
+## Example
+
+<Playground>    
+  <ShowCase render={({ setProperties, position = 180 }) => {
+    // Preferrably only fetch the position upon clicks, instead of updating a position prop.
+    // The PlayerController provides an inspect() method to connected controls, which is mocked here:
+    const duration = 600;
+    const inspect = () => {
+      return { position: Math.min(position, duration) };
+    };
+    return (
+      <>
+        <SkipButton offset={-20} inspect={inspect} content={<RotateCcw/>} setProperties={setProperties} />
+        <TimeDisplay position={position} duration={duration} playMode={'ondemand'} />
+        <SkipButton offset={40} inspect={inspect} content={<RotateCw/>} setProperties={setProperties} />
+      </>
+    );
+  }}/>
+</Playground>
+
+This example demonstrates both forward and backward skip buttons configured with different intervals. It uses `<TimeDisplay/>` for showing the effect of button clicks.
+
+## Props
+
+<PropsTable of={SkipButton} />
+
+Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC. The ︎`setProperties()` callback prop is marked with ︎⇗ because it is connected for changing the playback state.
+
+## Class names for DOM and states
+
+(TODO: table)

@@ -1,0 +1,53 @@
+---
+name: Subtitles selector
+route: /controls/subtitles-selector
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import SubtitlesSelector from './SubtitlesSelector';
+import ShowCase from '../ShowCase';
+import { Type } from 'react-feather';
+
+# SubtitlesSelector
+
+Control bar widget for controlling subtitle display and language selections.
+
+## Summary
+
+The subtitles selector lists the stream's available text tracks, and controls what track to display, if any. The control is only rendered if there are one or more text tracks.
+
+The subtitles selector uses the `<Selector />` generic component, and is implemented similar patterns to `<AudioSelector />` and partly `<QualitySelector />`. Upon clicking on one selector item representing a track, it invokes `setProperties({ selectedTextTrack: track })` where `track` is the clicked selector item. The selector also contains one item for turning off display of subtitles. This item must be given a label through the `noSubtitlesLabel` prop. If the "No subtitles" item is selected, `setProperties({ selectedTextTrack: null })` is invoked.
+
+## Example
+
+<Playground>
+  {() => {
+    const textTracks = [
+        { label: 'Finnish' , language: 'fi', kind: 'subtitles' }, 
+        { label: 'German' , language: 'de', kind: 'subtitles' },
+        { label: 'Spanish', languag: 'es', kind: 'subtitles' }
+      ];
+    return (
+      <ShowCase height="90px" render={({ setProperties, currentTextTrack }) => (
+        <SubtitlesSelector 
+          setProperties={setProperties}
+          currentTextTrack={currentTextTrack}
+          noSubtitlesLabel="No subtitles"
+          toggleContent={<Type/>}
+          textTracks={textTracks}
+        />
+      )}/>
+    );
+  }}
+</Playground>
+
+## Props
+
+<PropsTable of={SubtitlesSelector}/>
+
+Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC. The ︎`setProperties()` callback prop is marked with ︎⇗ because it is connected for changing the playback state.
+
+## Class names for DOM and states
+
+(Table)

@@ -7,10 +7,15 @@ import type { CommonProps } from '../../common';
 import type { StreamStateKeysForObservation } from '../../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
+  /** ⇘︎ The list of text tracks available for selection. */
   textTracks?: Array<AvailableTrack>,
+  /** ⇘ The currently displaying text track. Must be strict equal one of the items in the text track list. Set to null if no subtitles are displayed. */
   currentTextTrack?: AvailableTrack,
+  /** ⇗ When one item is clicked, this callback is invoked with an object having an selectedTextTrack property with the textTrack object corresponding to the selection. */
   setProperties?: ({ selectedTextTrack: ?AvailableTrack }) => void,
+  /** The label to use on the selector option for not displaying subtitles. */
   noSubtitlesLabel: string,
+  /** Element displayed in the control bar for expanding/collapsing the selector items. */
   toggleContent: React.Node
 };
 
