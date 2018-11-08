@@ -117,6 +117,12 @@
     margin-top: 0;
 }
 
+.replay-goto-live-button {
+    white-space: nowrap;
+    min-width: 50px;
+    width: auto;
+}
+
 /*
 .replay-goto-live-button {
     min-width: 50px;

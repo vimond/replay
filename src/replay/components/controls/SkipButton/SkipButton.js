@@ -14,7 +14,7 @@ type Props = CommonProps & {
   content: React.Node,
   /** ⇘︎ A callback returning the current video stream state with a position property when invoked. Invoked on clicking the button, and the position property is used for computing the new position. */
   inspect?: InspectMethod,
-  /** ⇗ When the button is clicked, this callback is invoked with an object having an position property with the computed new position based on the skip offset. */
+  /** ⇗ When the button is clicked, this callback is invoked with an object having a position property with the computed new position based on the skip offset. */
   setProperties?: ({ position: number }) => void
 };
 

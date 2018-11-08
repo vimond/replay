@@ -1,0 +1,33 @@
+---
+name: Exit button
+route: /controls/exit-button
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import ExitButton from './ExitButton';
+import { XCircle } from 'react-feather';
+
+# ExitButton
+
+Standalone overlay button for closing the player.
+
+## Summary
+
+Intended to be placed in one of the upper corners of the player. Is used in the default player for providing a way to shut down the player.
+
+## Example
+
+<Playground>
+  <div style={{ backgroundColor: 'gray', height: '120px', position: 'relative' }}>
+    <ExitButton content={<XCircle/>} onClick={() => console.log('Exit clicked.')} />
+  </div>
+</Playground>
+
+## Props
+
+<PropsTable of={ExitButton} />
+
+## Class names for DOM and states
+
+(TODO: table)

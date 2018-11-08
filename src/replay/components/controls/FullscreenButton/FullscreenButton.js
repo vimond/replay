@@ -5,9 +5,13 @@ import { defaultClassNamePrefix } from '../../common';
 import type { CommonProps } from '../../common';
 
 type Props = CommonProps & {
+  /** The current fullscreen state, as reported in the render method of the Fullscreen helper component. */
   isFullscreen?: boolean,
+  /** Intended for the setProperties method passed in the render method of the Fullscreen helper component. When the button is clicked, this callback is invoked with an object having an isFullscreen property with the opposite boolean value as the isFullscreen prop. */
   setProperties?: ({ isFullscreen: boolean }) => void,
+  /** The button content to be displayed while isFullscreen is true. */
   fullscreenContent: React.Node,
+  /** The button content to be displayed while isFullscreen is false. */
   normalContent: React.Node
 };
 

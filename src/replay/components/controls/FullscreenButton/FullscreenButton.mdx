@@ -1,0 +1,42 @@
+---
+name: Fullscreen toggle button
+route: /controls/fullscreen-button
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import FullscreenButton from './FullscreenButton';
+import Fullscreen from '../../player/containment-helpers/Fullscreen';
+import ShowCase from '../ShowCase';
+import { Maximize, Minimize } from 'react-feather';
+
+# FullscreenButton
+
+Control bar button for toggling fullscreen mode.
+
+## Summary
+
+The current fullscreen state is specified in the prop `isFullscreen`.
+
+When clicking the button, `setProperties({ isFullscreen: value })` will be called with value being the opposite of the prop `isFullscreen`.
+
+## Example
+
+<Playground>
+  <Fullscreen render={({ isFullscreen, setProperties, onRef }) => (
+    <div ref={onRef}>
+      <ShowCase render={() => <FullscreenButton isFullscreen={isFullscreen} fullscreenContent={<Minimize/>} normalContent={<Maximize/>} setProperties={setProperties} />}/>
+    </div>
+  )}/>  
+</Playground>
+
+This example shows real fullscreen toggling together with the containment helper component `<Fullscreen/>`.
+
+## Props
+
+<PropsTable of={FullscreenButton} />
+
+
+## Class names for DOM and states
+
+(TODO: table)

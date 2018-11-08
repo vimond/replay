@@ -13,9 +13,11 @@ type PlaybackMonitorConfiguration = {
 };
 
 type Props = CommonProps & {
+  /** Optional object containing the property playbackMonitor: { visibleAtStart: true } in order to display it immediately. */
   configuration?: {
     playbackMonitor?: PlaybackMonitorConfiguration
   },
+  /** The content of the overlay's close button. */
   closeButtonContent: ?React.Node
 };
 

@@ -3,6 +3,7 @@ import * as React from 'react';
 import { hydrateClassNames, type CommonGenericProps, defaultClassNamePrefix } from '../../common';
 
 type Props = CommonGenericProps & {
+  /** The controls to be included in the container. */
   children: React.Node
 };
 

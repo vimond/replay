@@ -1,0 +1,35 @@
+---
+name: Go to live button
+route: /controls/goto-live-button
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz'
+import GotoLiveButton from './GotoLiveButton'
+import ShowCase from '../ShowCase';
+
+# GotoLiveButton
+
+Control bar button for resuming after timeshifting to the live edge of the stream. Only rendering/relevant for live DVR streams.
+
+## Summary
+
+The GotoLiveButton is a toggle button, but it can only toggle if the prop `isAtLiveEdge` is `false`. When clicking the button in this case, it invokes `setProperties({ isAtLiveEdge: true })`. If the button prop `isAtLiveEdge` is `true`, the button can present a different state, and clicking it has no effect.
+
+## Example
+
+<Playground>
+  <ShowCase render={({ setProperties, isAtLiveEdge }) => (
+    <GotoLiveButton isAtLiveEdge={isAtLiveEdge} isAtLiveEdgeContent="Live" isNotAtLiveEdgeContent="Go to live" playMode="livedvr" setProperties={setProperties} />
+  )}/>
+</Playground>
+
+## Props
+
+<PropsTable of={GotoLiveButton} />
+
+Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC. The ︎`setProperties()` callback prop is marked with ︎⇗ because it is connected for changing the playback state.
+
+## Class names for DOM and states
+
+(TODO: table)

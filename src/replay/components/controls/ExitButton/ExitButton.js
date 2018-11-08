@@ -5,7 +5,9 @@ import { defaultClassNamePrefix } from '../../common';
 import type { CommonProps } from '../../common';
 
 type Props = CommonProps & {
+  /** The graphics or similar for the button. */
   content: React.Node,
+  /** Callback invoked when the button is clicked. */
   onClick: () => void
 };
 

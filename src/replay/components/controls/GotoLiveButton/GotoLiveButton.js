@@ -7,10 +7,15 @@ import type { CommonProps } from '../../common';
 import type { StreamStateKeysForObservation } from '../../player/PlayerController/ControllerContext';
 
 type Props = CommonProps & {
+  /** ⇘︎ The current timeshift state of the playback. False means timeshifting. */
   isAtLiveEdge?: boolean,
-  setProperties?: ({ isAtLiveEdge: true }) => void,
+  /** ⇘︎ The stream mode. Must be 'livedvr' in order for this control to render. */
   playMode?: PlayMode,
+  /** ⇗ When the button is clicked, and the isAtLiveEdge prop is false, this callback is invoked with an object containing an isAtLiveEdge property with the value true. */
+  setProperties?: ({ isAtLiveEdge: true }) => void,
+  /** The button content to be displayed while isAtLiveEdge is true. */
   isAtLiveEdgeContent: React.Node,
+  /** The button content to be displayed while isAtLiveEdge is false, i.e. when timeshifting. */
   isNotAtLiveEdgeContent: React.Node
 };
 
