@@ -31,7 +31,7 @@
 }
 
 .replay-button svg, .replay-toggle-button svg {
-    margin-top: 2px;
+    transform: translateY(3px);
 }
 
 .replay-selector-items {
@@ -106,7 +106,7 @@
 }
 
 .replay-skip-button span {
-    margin-top: -2px;
+    margin-top: 0px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -114,7 +114,7 @@
 }
 
 .replay-skip-button span svg {
-    margin-top: 0;
+    margin-top: -5px;
 }
 
 .replay-goto-live-button {
