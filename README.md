@@ -2,13 +2,11 @@
 
 This is a personal training project coded outside office hours.
 
-Replay is a **Re**act **play**er controls component library and a full player component, planned to be independent to Vimond environments and earlier projects.
+Replay is a **Re**act **play**er controls component library and a full player component, independent to Vimond environments and earlier player projects.
 
-It is also a **replay**cement (pun intended) for the legacy and non-React Vimond **Re**ference **Play**er currently used for testing streams in [Streamlab](http://streamlab.ops.vmp.vimondtv.com/). 
+It is also intended to be a **replay**cement for the legacy and non-React Vimond **Re**ference **Play**er currently used for testing streams in [Streamlab](http://streamlab.ops.vmp.vimondtv.com/).
 
-The player component allows for wrapping and plugging in advanced streaming and playback technologies as first-class React components. The goal is "thinking in React" as much as possible.
-
-With a modular approach, all of Vimond's earlier playback technology integrations known as [vimond-uniplayer-videoengine](https://github.com/vimond/vimond-uniplayer-videoengine), including Silverlight and HLS/DASH player libraries, can be utilised with this player. This is a legacy approach to be replaced with some fresh components.
+It constitutes a tiny framework that allows for wrapping and plugging in advanced streaming and playback technologies as first-class React components. The goal is "thinking in React" as much as possible.
 
 The Replay player also aims to "get the job done" when it comes to simply embedding a video file to be played in a React app, and with custom controls.
 
@@ -23,7 +21,7 @@ One goal has been to learn and use quite new technologies and patterns in the Re
 * ✓ Automated code formatting with [Prettier](https://prettier.io/).
 * ✓ Accessibility compliance through tab navigation in player controls and proper markup.
 * ✓ [GitHub issues](https://github.com/vimond/replay/issues/).
-* [x0](https://compositor.io/x0/) doc guides with live code examples displaying React components.
+* [Docz](https://docz.site) doc guides with live code examples displaying React components.
 * Reference documentation generation based on Flow types.
 * Full player tests with [Puppeteer](https://developers.google.com/web/tools/puppeteer/).
 * CSS in JS approach to design and theming, with e.g. [emotion](https://emotion.sh/).
