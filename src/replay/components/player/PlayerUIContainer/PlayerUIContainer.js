@@ -36,7 +36,7 @@ type Props = CommonProps & {
   className?: string
 };
 
-const className = 'ui-container';
+const uiContainerClassName = 'ui-container';
 
 const classNameDefinitions = {
   responsivenessPrefix: 'player-size-',
@@ -77,8 +77,8 @@ export const getConnectedPlayerUIContainer = (connector: any => React.ComponentT
     };
 
     render() {
-      const { classNamePrefix, render, configuration, aspectRatio } = this.props;
-      const playerClassName = this.props.className;
+      const { classNamePrefix, render, configuration, aspectRatio, className } = this.props;
+      const playerClassName = classNamePrefix ? classNamePrefix.substr(0, classNamePrefix.length - 1) : className;
       return (
         <AspectRatio
           className={playerClassName}
@@ -99,11 +99,11 @@ export const getConnectedPlayerUIContainer = (connector: any => React.ComponentT
                           {...fullscreenState}
                           {...interactionState}
                           classNameDefinitions={classNameDefinitions}
-                          className={className}
                           classNamePrefix={classNamePrefix}
-                          render={className => (
+                          className={uiContainerClassName}
+                          render={classNames => (
                             <div
-                              className={className}
+                              className={classNames}
                               tabIndex={0}
                               ref={onRef}
                               onMouseMove={handleMouseMove}

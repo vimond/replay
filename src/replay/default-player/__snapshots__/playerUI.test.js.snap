@@ -678,6 +678,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                             />
                           </ConnectedGotoLiveButton>
                           <ConnectedSettingsStorageVolume
+                            classNamePrefix="replay-"
                             configuration={
                               Object {
                                 "setting": "value",
@@ -706,6 +707,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                             volumeSliderLabel="Volume setting"
                           >
                             <SettingsStorageVolume
+                              classNamePrefix="replay-"
                               configuration={
                                 Object {
                                   "setting": "value",
