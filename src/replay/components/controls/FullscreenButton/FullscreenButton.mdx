@@ -7,8 +7,9 @@ menu: 'Controls reference'
 import { Playground, PropsTable } from 'docz';
 import FullscreenButton from './FullscreenButton';
 import Fullscreen from '../../player/containment-helpers/Fullscreen';
-import ShowCase from '../ShowCase';
+import ShowCase from '../../../docs/mdx-helpers/ShowCase';
 import { Maximize, Minimize } from 'react-feather';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
 
 # FullscreenButton
 
@@ -36,7 +37,20 @@ This example shows real fullscreen toggling together with the containment helper
 
 <PropsTable of={FullscreenButton} />
 
+## Component DOM with class names
 
-## Class names for DOM and states
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
 
-(TODO: table)
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'fullscreen-button',
+  'Generic class name': 'toggle-button',
+  'States': 'toggled-off, toggled-on',
+  'Parent': ''
+},{
+  'Element': 'div',
+  'Class name': '',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.fullscreen-button'
+}]}/>

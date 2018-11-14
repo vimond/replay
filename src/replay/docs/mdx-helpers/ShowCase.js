@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import type { PlaybackProps, VideoStreamState } from '../player/VideoStreamer/types';
+import type { PlaybackProps, VideoStreamState } from '../../components/player/VideoStreamer/types';
 import '../../replay-default.css';
 
 type Props = {

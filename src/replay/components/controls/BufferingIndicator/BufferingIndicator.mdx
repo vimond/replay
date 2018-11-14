@@ -4,7 +4,8 @@ route: /controls/buffering-indicator
 menu: 'Controls reference'
 ---
 
-import '../../../replay-default.css'
+import '../../../replay-default.css';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
 import { Playground, PropsTable } from 'docz';
 import BufferingIndicator from './BufferingIndicator';
 import LoadingAnimation from '../../../default-player/default-skin/LoadingAnimation';
@@ -28,7 +29,7 @@ The state of buffering is set when one or both of the props `isBuffering` or `is
 ## Example
 
 <Playground>
-  <div style={{ backgroundColor: 'gray', height: '120px', padding: '25px' }}>
+  <div style={{ backgroundColor: 'gray', height: '100px', position: 'relative' }}>
     <BufferingIndicator 
       renderStrategy="always"
       isBuffering={false}
@@ -48,6 +49,16 @@ In this example, the animation is showing because `playState="starting""`. Try e
 
 Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC.
 
-## Class names for DOM and states
+## Component DOM with class names
 
-(TODO: table)
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'buffering-indicator',
+  'Generic class name': '',
+  'States': 'buffering',
+  'Parent': ''
+}]}/>
+
+Note that the state class name `buffering` is only present when buffering is reported, and the render strategy is set to `'always'`.

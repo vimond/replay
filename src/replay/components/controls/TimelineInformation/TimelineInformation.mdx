@@ -7,7 +7,8 @@ menu: 'Controls reference'
 import { Playground, PropsTable } from 'docz';
 import TimelineInformation from './TimelineInformation';
 import Timeline from '../Timeline/Timeline';
-import ShowCase from '../ShowCase';
+import ShowCase from '../../../docs/mdx-helpers/ShowCase';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
 
 # TimelineInformation component
 
@@ -40,6 +41,20 @@ The component is here shown within a timeline.
 
 Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC.
 
-## Class names for DOM and states
+## Component DOM with class names
 
-(TODO: table)
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'timeline-information',
+  'Generic class name': '',
+  'States': '',
+  'Parent': ''
+},{
+  'Element': 'div',
+  'Class name': 'timeline-tooltip',
+  'Generic class name': '',
+  'States': 'timeline-tooltip-visible',
+  'Parent': '.timeline-information'
+}]}/>

@@ -7,6 +7,7 @@ menu: 'Controls reference'
 import '../../../replay-default.css'
 import { Playground, PropsTable } from 'docz';
 import ControlsBar from './ControlsBar';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
 
 # ControlsBar component
 
@@ -28,6 +29,14 @@ The example shows an empty controls bar.
 
 <PropsTable of={ControlsBar} />
 
-## Class names for DOM and states
+## Component DOM with class names
 
-(TODO: table)
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'controls-bar',
+  'Generic class name': '',
+  'States': '',
+  'Parent': ''
+}]}/>

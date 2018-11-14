@@ -7,3 +7,10 @@ menu: 'Customising Replay'
 import { Playground, PropsTable } from 'docz';
 
 # Custom skins and styles
+
+
+* All class names are prefixed for the prevention of style conflicts or coexisting page styles interfering with player styles. By default the prefix is `replay-`. E.g. `audio-selector` is in practice `replay-audio-selector`.
+* Many controls are just concrete usages of generic components. E.g. both the fullscreen and play/pause button is a ToggleButton. These share behaviour and also have common generic class names listed in the DOM and class name table.
+* The DOM and style table does not include children or content elements.
+* The DOM and style table only represents the "rendered" state.
+* When the DOM and style table's state column only contains one class name, there is also a state without the class name.

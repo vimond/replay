@@ -7,6 +7,8 @@ menu: 'Controls reference'
 import { Playground, PropsTable } from 'docz';
 import ExitButton from './ExitButton';
 import { XCircle } from 'react-feather';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+import '../../../replay-default.css';
 
 # ExitButton
 
@@ -28,6 +30,20 @@ Intended to be placed in one of the upper corners of the player. Is used in the 
 
 <PropsTable of={ExitButton} />
 
-## Class names for DOM and states
+## Component DOM with class names
 
-(TODO: table)
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'exit-button',
+  'Generic class name': 'button',
+  'States': '',
+  'Parent': ''
+},{
+  'Element': 'div',
+  'Class name': '',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.exit-button'
+}]}/>
