@@ -10,7 +10,7 @@ import './replay-default.css';
 
 # Replay
 
-A React video player wrapping advanced streaming libraries while embracing modern React patterns.
+A modern React approach to a video player with advanced streaming support.
 
 <Playground>
   <Replay
@@ -40,16 +40,19 @@ A React video player wrapping advanced streaming libraries while embracing moder
 * With the default Replay player: Set configuration and properties, replace CSS, replace texts and graphics, remove controls.
 * With the components library: Take full control and assemble a custom player. Add features like overlays and controls. Combine those with the Replay controller, VideoStreamer components, and a selection of controls from the Replay controls library.
 
-**Designed with optimalisation in mind.** Avoid including code not being used. Avoid rerendering the player UI all the time when the playback progresses.
+**Designed with optimalisation in mind.** Avoid including code not being used. Avoid rerendering the player UI continuously when playback goes on.
+
+**Coded with consistency and predictability in mind.** Programmers working with Replay should be able to discover patterns and see how they can be applied regularly when integrating or extending the player. The library is static typed with Flow, contributing to consistency and code quality.
 
 ## Features list
 
-All features are programmatically accessible. The controls listed underneath indicate what's accessible by the end user.
+All features are programmatically accessible. The controls listed underneath indicate what's appearing as end user features.
 
 #### Controlling the playback
 
+* Setting video or stream URLs, specifying start position, adding side-loaded subtitles (text tracks).
 * Transport control: Play, pause, set position, timeshift, go to live edge.
-* Listing and selecting audio tracks and text tracks. Text tracks can be side-loaded or embedded in the stream.
+* Listing and selecting audio tracks and text tracks. The listed ext tracks can be side-loaded or embedded in the stream.
 * Specifying side-loaded text tracks.
 * Controlling volume and mute.
 * Controlling bitrate/selected quality or quality range (only with third party player library integrations).
@@ -67,7 +70,7 @@ All features are programmatically accessible. The controls listed underneath ind
 
 #### Player UX
 
-* Fullscreen.
+* Fullscreen management.
 * Keyboard shortcuts. Key mapping is configurable.
 * Remembering user's preferences for volume, and languages. Configurable policies.
 * Responsive sizing, adapting to container width, and keeping aspect ratio.
@@ -95,7 +98,7 @@ All controls and components are included and utilised in the default Replay play
 #### Sliders:
 
 * Volume
-* Timeline (playback progress), including position preview
+* Timeline (playback progress), including position preview and timeshifting
 
 #### Selectors:
 

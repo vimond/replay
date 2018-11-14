@@ -9,7 +9,7 @@ import { css } from 'docz-plugin-css';
 });*/
 
 export default {
-  title: '››Replay‹‹',
+  title: '◂REPLAY▸',
   description: 'A video player built while thinking in React',
   src: './src/replay',
   plugins: [
@@ -18,9 +18,28 @@ export default {
       cssmodules: false
     })
   ],
+  htmlContext: {
+    head: {
+      links: [{
+        rel: 'stylesheet',
+        href: 'https://codemirror.net/theme/dracula.css'
+      }]
+    }
+  },
+  themeConfig: {
+    showPlaygroundEditor: true,
+    codemirrorTheme: 'dracula'
+  },
   menu: [
     'Replay',
-    'Using the Replay player',
+    { 
+      name: 'Using the Replay player', 
+      menu: [
+        'Inserting Replay',
+        'Setting startup options',
+        'Controlling playback programmatically'
+      ]
+    },
     'Customising Replay',
     'Architecture and patterns',
     'Building a custom player',

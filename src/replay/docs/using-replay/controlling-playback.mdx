@@ -1,0 +1,163 @@
+---
+name:  Controlling playback programmatically
+route: /replay/controlling-playback
+menu: 'Using the Replay player'
+---
+
+import { Playground, PropsTable } from 'docz';
+import Replay from '../../default-player/Replay';
+import '../../replay-default.css';
+
+# Controlling the playback programmatically
+
+## Prerequisites
+
+For the following examples, the same prerequisites apply as in the [Inserting Replay](/replay/insert#prerequisites) chapter.
+
+## Playback operations
+
+Replay provides methods for controlling the playback, like `play()`, `pause()`, `setVolume()`, `mute()`, `setPosition()`, `setSelectedTextTrack()`, and more.
+
+Playback methods are exposed to Replay component consumers through a callback prop `onPlaybackActionsReady`. Specify a method as this property in order to get hold of these methods. Besides the straightforward operations above, there are two special methods provided in the callback.
+
+`setProperties()` is one common method that can be used for all playback operations. This method is passed along with `play()`, `setPosition()`, `capBitrate()` etc. The latter are just sugar methods that call `setProperties()` with different keys and values. `setProperties()` accepts an object with the properties to be set.
+
+See TODO: link for a full reference of playback actions.
+
+See TODO: link for a full reference of playback properties that can be used with setProperties.
+
+Another method returned is `inspect()`. This returns an object with the current playback state, containing properties also exposed through the `onStreamStateChange` callback. 
+
+Observing the playback state properties is discussed thoroughly in the next chapter. It is recommended to keep track of the state reactively, through an `onStreamStateChange` callback instead of using inspect().
+
+The next chapter contains a full code example for controlling and observing the playback outside the Replay player.
+
+```javascript
+const playbackActionsReady = actions => {
+  this.playVideo = actions.play;
+  this.setPlaybackPosition = actions.setPosition;
+  this.setPlaybackProperties = actions.setProperties;
+}
+
+/// In e.g. click handlers for buttons outside the Replay player.
+
+this.handleRestartClick = () => {
+  if (this.setPlaybackPosition) {
+    this.setPlaybackPosition(0);
+  }
+};
+
+this.handleStartClick = () => {
+  if (this.playVideo) {
+    this.playVideo();
+  }
+};
+
+// The alternative way, setting properties instead of calling a dedicated method, e.g. unmute().
+
+this.handleUnmuteClick = () => {
+  if (this.setPlaybackProperties) {
+    this.setPlaybackProperties({ isMuted: false });
+  }
+}; 
+
+```
+
+## Observing the stream playback state
+
+Playback state consists of playback position, duration, stream mode, pause, seek, and buffering state, available text and audio tracks, bitrate (if adaptive streaming is used).
+
+The `onStreamStateChange` callback prop is invoked when any of these playback state properties changes. The callback is invoked with an object containing the changes as keys/values.
+
+```javascript
+this.handleStreamStateChange = stateProperties => {
+  if ('position' in stateProperties) {
+    console.log('Playback position is', stateProperties.position);
+  }
+  if ('volume' in stateProperties) {
+    console.log('The volume is changed into', stateProperties.volume);
+  }
+  if (stateProperties.isPaused) {
+    console.log('The playback was paused.');
+  }
+};
+```
+
+See TODO: link for a full reference of state properties.
+
+
+## Full example showing control and observation of the playback
+
+<Playground>
+  {() => {
+    let playVideo, setPlaybackPosition, setPlaybackProperties;
+    
+    const playbackActionsReady = actions => {
+      playVideo = actions.play;
+      setPlaybackPosition = actions.setPosition;
+      setPlaybackProperties = actions.setProperties;
+    }
+
+    const handleRestartClick = () => {
+      if (setPlaybackPosition) {
+        setPlaybackPosition(0);
+      }
+    };
+    
+    const handleStartClick = () => {
+      if (playVideo) {
+        playVideo();
+      }
+    };
+    
+    // The alternative way, setting properties instead of calling a dedicated method, e.g. unmute().
+    const handleUnmuteClick = () => {
+      if (setPlaybackProperties) {
+        setPlaybackProperties({ isMuted: false });
+      }
+    };
+
+    // Check the Dev tools console for the log output from this handler:    
+    const handleStreamStateChange = stateProperties => {
+      if (stateProperties) {
+        if ('position' in stateProperties) {
+          console.log('Stream observation example: Playback position is ' + stateProperties.position.toFixed(1));
+        }
+        if ('volume' in stateProperties) {
+          console.log('Stream observation example: Playback position is ' + Math.round(stateProperties.volume * 100));
+        }
+        if (stateProperties.isPaused) {
+          console.log('Stream observation example: The playback was paused.');
+        }
+        if (stateProperties.isPaused === false) {
+          console.log('Stream observation example: The playback was resumed.');
+        }
+        if (stateProperties.playState === 'inactive') {
+          console.log('Stream observation example: The playback has ended.');
+        }
+      }
+    };
+        
+    return ( 
+      <div>
+        <Replay
+          source={{ 
+            streamUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            startPosition: 13
+          }}
+          initialPlaybackProps={{ isPaused: true, isMuted: true }}
+          onStreamStateChange={handleStreamStateChange}
+          onPlaybackActionsReady={playbackActionsReady}
+        />
+        <p>
+          <button onClick={handleStartClick}>Start</button>
+          <button onClick={handleRestartClick}>Restart</button>
+          <button onClick={handleUnmuteClick}>Unmute</button>
+        </p>
+      </div>
+    );
+  }}
+</Playground>
+
+
+
