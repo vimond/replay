@@ -1,6 +1,10 @@
 
-.replay-controls-bar, .replay-selector-items, .replay-exit-button, .replay-playback-monitor-close-button, .replay-buffering-indicator {
+.replay-controls-bar, .replay-selector-items, .replay-exit-button, .replay-playback-monitor-close-button, .replay-buffering-indicator, .replay-goto-live-button.replay-toggled-on:hover {
     color: #bbb;
+}
+
+.replay-slider-handle {
+    background-color: #bbb;
 }
 
 .replay {
@@ -17,10 +21,6 @@
 
 .replay-selector-item:focus > * {
     background-color: #888;
-}
-
-.replay-slider-handle {
-    background-color: #bbb;
 }
 
 .replay-slider-handle:hover {
@@ -49,7 +49,6 @@
 }
 
 .replay-goto-live-button.replay-toggled-on:hover {
-    color: #bbb;
     cursor: default;
 }
 

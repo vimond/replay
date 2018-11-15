@@ -4,14 +4,7 @@ import type { PlayerConfiguration } from './types';
 
 export const baseConfiguration: PlayerConfiguration = {
   videoStreamer: {
-    dash: {
-      shaka: {
-        logLevel: 'ERROR'
-      }
-    },
-    logging: {
-      global: 'WARN'
-    }
+    logLevel: 'WARNING'
   },
   interactionDetector: {
     inactivityDelay: 2
