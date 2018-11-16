@@ -1,0 +1,214 @@
+---
+name: Replay component API
+route: /replay/api
+menu: 'Using the Replay player'
+---
+
+# API reference for `<Replay/>`
+
+## Props
+
+### `source: PlaybackSource | string | null`
+
+Specifies what to play in Replay.
+
+Set `source` to null or omit this prop if the player should be rendered without loading any video stream (yet), or in order to stop and unload a playing video.
+
+For playing a video file or stream without needing to specify anything else except the stream URL, set source to a string containing the stream URL.
+
+For more advanced needs, specify an object mathcing the `PlaybackSource` type:
+
+```typescript
+type PlaybackSource = {
+  streamUrl: string,
+  licenseUrl?: string,
+  startPosition?: number,
+  textTracks?: Array<SourceTrack>,
+  contentType?: string,
+  metadata?: any,
+  licenseAcquisitionDetails?: {
+    licenseRequestHeaders?: { [string]: string },
+    fairPlayCertificateUrl?: string,
+    widevineServiceCertificateUrl?: string,
+    contentId?: string
+  }
+};
+```
+
+### `textTracks: Array<SourceTrack>`
+
+Side-loaded text tracks (subtitles) can be specified as part of the PlaybackSource object described above, or independently through the `textTracks` prop. An array is expected, with objects matching the `SourceTrack` type.
+
+```typescript
+type SourceTrack = {
+  src: string,
+  label?: string,
+  kind?: string,
+  language?: string,
+  contentType?: string,
+  cues?: Array<{ start: number, end: number, content: string }>
+};
+```
+
+### `options: PlayerConfiguration`
+
+Pass an object to `options` if with any [configuration overrides](/custom-replay/configuration). The object should match the `PlayerConfiguration` type. Note that almost every property is optional, so that only custom settings need to be included in the object. Also note that specifying a property with the value `null`, nullifies the corresponding property in the default configuration.
+
+```
+type PlayerConfiguration = {
+  videoStreamer?: ?VideoStreamerConfiguration,
+  interactionDetector?: ?{
+    inactivityDelay: number
+  },
+  keyboardShortcuts?: ?{
+    keyMap: {
+      togglePause?: string | Array<string>,
+      toggleMute?: string | Array<string>,
+      toggleFullscreen?: string | Array<string>,
+      skipBack?: string | Array<string>,
+      skipForward?: string | Array<string>,
+      increaseVolume?: string | Array<string>,
+      decreaseVolume?: string | Array<string>
+    },
+    volumeStep?: number,
+    skipOffset?: number
+  },
+  userSettings?: {
+    hasPrecedence?: ?boolean,
+    storageKey?: string,
+    settingsStoragePolicy: {
+      volume?: ?('none' | 'local' | 'session'),
+      isMuted?: ?('none' | 'local' | 'session'),
+      textTrackLanguage?: ?('none' | 'local' | 'session'),
+      textTrackKind?: ?('none' | 'local' | 'session'),
+      audioTrackLanguage?: ?('none' | 'local' | 'session'),
+      audioTrackKind?: ?('none' | 'local' | 'session')
+    }
+  },
+  ui?: ?{
+    classNamePrefix?: ?string,
+    includeControls?: ?Array<('playPauseButton' | 'skipButton' | 'timeline' | 'timeDisplay' | 'gotoLiveButton' | 'volume' | 'audioSelector' | 'subtitlesSelector' | 'qualitySelector' | 'fullscreenButton' | 'exitButton' | 'playbackMonitor' | 'bufferingIndicator')>,
+    skipButtonOffset?: number,
+    liveDisplayMode?: 'clock-time' | 'live-offset',
+    qualitySelectionStrategy?: 'cap-bitrate' | 'fix-bitrate'
+  }
+};
+```
+
+### `initialPlaybackProps: InitialPlaybackProps`
+
+When a video source is loaded, the playback startup will have any of these properties applied, if they are specified:
+
+```typescript
+type InitialPlaybackProps = {
+  isMuted?: boolean,
+  volume?: number,
+  isPaused?: boolean,
+  bitrateCap?: number,
+  bitrateFix?: number | 'max' | 'min'
+};
+```
+
+## Callback props
+
+### `onExit: () => void`
+
+If specified, displays a close button in the upper right corner of the player. When clicking the button, this callback will be invoked. It is the responsibility of the parent elements of the Replay element to remove the player from the rendered element hierarchy.
+
+### `onError?: any => void`
+
+Invoked upon playback/stream errors and possibly other errors.
+
+### `onPlaybackActionsReady?: PlaybackActions => void`
+
+Provides the API for controlling the playback. Invoked when the player is ready to be controlled. The argument is an object with the methods listed in the "Methods" chapter below.
+
+See 
+
+### `onStreamStateChange?: VideoStreamState => void`
+
+Through this callback, all aspects of the video playback state is reported. This includes volume changes, bitrate changes, position updates, durations, live stream states, audio and text track selections. Each state change to any property is reported by an individual invocation of this callback, with an argument containing the property (key and value) with an updated state. 
+
+## Video stream state properties, reported through `onStreamStateChange`
+
+Please see the [Stream state properties reference](custom-player/observable-stream-state).
+
+## Methods, available through `onPlaybackActionsReady`
+
+### `inspect: () => VideoStreamState`
+
+Returns all the current properties of the video stream state. The return value is one object combining all state property keys and values that are reported from the playback.
+
+### `setProperties: PlaybackProps => void`
+
+Manipulates properties of the playback. The object argument can contain one or more of the properties found in `PlaybackProps`.
+
+```
+type PlaybackProps = {
+  isMuted?: boolean,
+  volume?: number,
+  isPaused?: boolean,
+  bitrateCap?: number,
+  bitrateFix?: number | 'max' | 'min',
+  position?: number,
+  isAtLiveEdge?: true,
+  selectedTextTrack?: ?AvailableTrack,
+  selectedAudioTrack?: AvailableTrack
+};
+```
+
+Instead of passing regular props to the Replay component, such properties need to be applied through a method call. This is because what's specified through React props might get out of sync with the actual playback state. If the component is rendered as `<Replay isPaused={true}/>`, and the playback resumes due to events or operations inside the player (e.g. by using the player controls), it will not have an effect replaying the `true` value for an `isPaused` prop. It will be considered unchanged. 
+
+The methods listed below are simply sugar methods corresponding to setting the different properties listed above.
+
+### `play: () => void`
+
+Resumes playback after pausing.
+
+### `pause: () => void`
+
+Pauses playback.
+
+### `setPosition: number => void`
+
+Seeks to a different playback position. The number argument is the relative position between 0 as the start of the stream, and the duration of the stream. For live streams, 0 is the earliest timeshifting position available, while a position equal to duration is the live edge.
+
+### `gotoLive: () => void`
+
+Seeks to the live edge of a live stream, reverting a timeshifted playback.
+
+### `setVolume: number => void`
+
+Updates the volume specified as a number within the range 0 (muted) to 1 (maximum).
+
+### `setIsMuted: boolean => void`
+
+Changes the mute state without affecting the volume setting. Use `true` for muting, and `false` for unmuting.
+
+### `mute: () => void`
+
+Mutes the playback.
+
+### `unmute: () => void`
+
+Unmutes the playback.
+
+### `setSelectedAudioTrack: AvailableTrack => void`
+
+Used for switching audio tracks when e.g. more than one language is available in the stream. The argument to this method must be one of the track objects reported in the video stream state property `audioTracks`. It can not be a cloned track object or an object containing the same properties.
+
+### `setSelectedTextTrack: (AvailableTrack | null) => void`
+
+Used for switching subtitle track display when available. The object argument to this method must be one of the track objects reported in the video stream state property `textTracks`. It can not be a cloned track object or an object containing the same properties. Passing `null` to this method deselects any currently displaying text tracks.
+
+### `capBitrate: number => void`
+
+Only relevant for adaptive streaming. Specifies a maximum bitrate to be considered for adaptive bitrate switching. The number states such a bitrate in kbps.
+
+### `fixBitrate: (number | 'max' | 'min') => void`
+
+Only relevant for adaptive streaming. Deactivates adaptive bitrate switching and fixes the bitrate selection. The number is given as an integer of kbps, and must correspond exactly to one of the bitrates reported in the video stream state property `bitrates`. E.g. if the reported bitrates are `[923, 1254, 3211]`, this method only has effect when invoked with either `923`,`1254`, or `3211` as numbers. If specifying `'max'`, the highest bitrate will be selected, regardless of its reported kbps. Correspondingly `'min''` selects the lowest bitrate.
+
+
+
+

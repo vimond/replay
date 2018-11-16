@@ -35,10 +35,10 @@ Observing the playback state properties is discussed thoroughly in the next chap
 The next chapter contains a full code example for controlling and observing the playback outside the Replay player.
 
 ```javascript
-const playbackActionsReady = actions => {
-  this.playVideo = actions.play;
-  this.setPlaybackPosition = actions.setPosition;
-  this.setPlaybackProperties = actions.setProperties;
+const playbackActionsReady = ({ play, setPosition, setProperties }) => {
+  this.playVideo = play;
+  this.setPlaybackPosition = setPosition;
+  this.setPlaybackProperties = setProperties;
 }
 
 /// In e.g. click handlers for buttons outside the Replay player.
@@ -87,17 +87,16 @@ this.handleStreamStateChange = stateProperties => {
 
 See TODO: link for a full reference of state properties.
 
-
 ## Full example showing control and observation of the playback
 
 <Playground>
   {() => {
     let playVideo, setPlaybackPosition, setPlaybackProperties;
     
-    const playbackActionsReady = actions => {
-      playVideo = actions.play;
-      setPlaybackPosition = actions.setPosition;
-      setPlaybackProperties = actions.setProperties;
+    const playbackActionsReady = ({ play, setPosition, setProperties }) => {
+      playVideo = play;
+      setPlaybackPosition = setPosition;
+      setPlaybackProperties = setProperties;
     }
 
     const handleRestartClick = () => {
@@ -113,6 +112,12 @@ See TODO: link for a full reference of state properties.
     };
     
     // The alternative way, setting properties instead of calling a dedicated method, e.g. unmute().
+    const handleMuteClick = () => {
+      if (setPlaybackProperties) {
+        setPlaybackProperties({ isMuted: true });
+      }
+    };
+
     const handleUnmuteClick = () => {
       if (setPlaybackProperties) {
         setPlaybackProperties({ isMuted: false });
@@ -154,6 +159,7 @@ See TODO: link for a full reference of state properties.
         <p>
           <button onClick={handleStartClick}>Start</button>
           <button onClick={handleRestartClick}>Restart</button>
+          <button onClick={handleMuteClick}>Mute</button>
           <button onClick={handleUnmuteClick}>Unmute</button>
         </p>
       </div>

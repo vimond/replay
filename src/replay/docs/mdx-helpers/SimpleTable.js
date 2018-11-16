@@ -27,7 +27,7 @@ const theadStyles = {
   textAlign: 'left',
   fontSize: '14px',
   borderSpacing: 0,
-  borderCollapse: 'collapse',
+  borderCollapse: 'collapse'
 };
 
 const trStyles = {
@@ -58,7 +58,7 @@ const applyStyles = content => {
   } else {
     return tdCodeStyles;
   }
-}
+};
 
 const formatContent = content => {
   if (content === '') {
@@ -74,15 +74,15 @@ const SimpleTable = ({ rows }: Props) => {
     return (
       <table style={tableStyles}>
         <thead style={theadStyles}>
-          <tr style={trStyles}>
-            {headers.map(header => (<th style={tdStyles}>{header}</th>))}
-          </tr>
+          <tr style={trStyles}>{headers.map(header => <th style={tdStyles}>{header}</th>)}</tr>
         </thead>
         <tbody>
-        {
-          // $FlowFixMe Object.values is not understood.
-          rows.map(row => (<tr style={trStyles}>{Object.values(row).map(value => <td style={applyStyles(value)}>{formatContent(value)}</td>)}</tr>))
-        }
+          {rows.map(row => (
+            <tr style={trStyles}>
+              {// $FlowFixMe Object.values is not understood.
+              Object.values(row).map(value => <td style={applyStyles(value)}>{formatContent(value)}</td>)}
+            </tr>
+          ))}
         </tbody>
       </table>
     );
