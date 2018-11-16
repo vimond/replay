@@ -37,8 +37,8 @@ export type PlayerConfiguration = {
   keyboardShortcuts?: ?KeyboardShortcutsConfiguration,
   userSettings?: ?UserSettingsConfiguration,
   ui?: ?{
-    classNamePrefix?: ?string, // Not implemented.
-    includeControls?: ?Array<ControlNames>, // Not implemented.
+    classNamePrefix?: ?string,
+    includeControls?: ?Array<ControlNames>,
     skipButtonOffset?: number,
     liveDisplayMode?: LiveDisplayMode,
     qualitySelectionStrategy?: QualitySelectionStrategy

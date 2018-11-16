@@ -45,8 +45,7 @@ class TimelineInformation extends React.Component<Props> {
   static defaultProps = {
     classNamePrefix: defaultClassNamePrefix
   };
-  
-  
+
   render() {
     const {
       absoluteStartPosition,

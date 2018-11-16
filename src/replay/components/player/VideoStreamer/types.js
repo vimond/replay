@@ -109,7 +109,7 @@ export type InitialPlaybackProps = {
 export type PlaybackProps = InitialPlaybackProps & {
   position?: number,
   isAtLiveEdge?: true,
-  selectedTextTrack?: AvailableTrack,
+  selectedTextTrack?: ?AvailableTrack,
   selectedAudioTrack?: AvailableTrack
 };
 

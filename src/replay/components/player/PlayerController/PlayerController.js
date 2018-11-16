@@ -36,7 +36,7 @@ export type PlaybackActions = {
   mute: () => void,
   unmute: () => void,
   setSelectedAudioTrack: AvailableTrack => void,
-  setSelectedTextTrack: AvailableTrack => void,
+  setSelectedTextTrack: (AvailableTrack | null) => void,
   capBitrate: number => void,
   fixBitrate: (number | 'max' | 'min') => void,
   inspect: () => VideoStreamState,
@@ -124,7 +124,7 @@ const createPlaybackActions = (inspect, setProperties: PlaybackProps => void): P
   const setIsMuted = (isMuted: boolean) => setProperties({ isMuted });
   const mute = () => setProperties({ isMuted: true });
   const unmute = () => setProperties({ isMuted: false });
-  const setSelectedTextTrack = (selectedTextTrack: AvailableTrack) => setProperties({ selectedTextTrack });
+  const setSelectedTextTrack = (selectedTextTrack: AvailableTrack | null) => setProperties({ selectedTextTrack });
   const setSelectedAudioTrack = (selectedAudioTrack: AvailableTrack) => setProperties({ selectedAudioTrack });
   const capBitrate = (bitrateCap: number) => setProperties({ bitrateCap });
   const fixBitrate = (bitrateFix: number | 'max' | 'min') => setProperties({ bitrateFix });
