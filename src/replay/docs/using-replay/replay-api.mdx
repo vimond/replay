@@ -21,19 +21,31 @@ For more advanced needs, specify an object mathcing the `PlaybackSource` type:
 ```typescript
 type PlaybackSource = {
   streamUrl: string,
+  contentType?: string,
   licenseUrl?: string,
   startPosition?: number,
   textTracks?: Array<SourceTrack>,
-  contentType?: string,
-  metadata?: any,
   licenseAcquisitionDetails?: {
     licenseRequestHeaders?: { [string]: string },
     fairPlayCertificateUrl?: string,
-    widevineServiceCertificateUrl?: string,
-    contentId?: string
+    contentId?: string,
+    widevineServiceCertificateUrl?: string
   }
 };
 ```
+
+| Property | Description |
+|----------|-------------|
+| streamUrl | URL to a video file, or to a stream manifest/playlist when using adaptive streams (see the advanced streaming chapter TODO: link). |
+| contentType | The mime type of the stream. Only relevant if using a VideoStreamer broking/resolving correct playback technology based on stream technologies. |
+| licenseUrl | When the stream is DRM encrypted, specify the license acquisition URL through this property. |
+| startPosition | A number specifying the offset where playback should start upon loading the video. Given in seconds from the start of the stream. |
+| textTracks | An array with objects specifying any subtitle files to be side-loaded as text tracks. See the prop `textTracks` below for more information on the object shape. |
+| licenseAcquisitionDetails | Additional data if needed for performing DRM license acquisition. |
+| licenseRequestHeaders | Header names/values to be included in the license request. Commonly used for passing auth tokens etc. |
+| fairPlayCertificateUrl | URL to the certificate file needed to for performing FairPlay license requests. |
+| contentId | The FairPlay asset/content ID, if not to be extracted from the HLS stream metadata. |
+| widevineServiceCertificateUrl | URL to the Widevine service certificate, if not using the license endpoint. |
 
 ### `textTracks: Array<SourceTrack>`
 
@@ -50,9 +62,18 @@ type SourceTrack = {
 };
 ```
 
+| Property | Description |
+|----------|-------------|
+| src | The URL of the subtitle file. |
+| label | A human friendly description of the subtitle track. Will be displayed in the subtitle selector item. |
+| kind | Corresponds to the HTML text track kind property, and is commonly either 'captions' or 'subtitles'. |
+| language | The language of the subtitle file content. |
+| contentType | The mime type of the subtitle file, e.g. `text/vtt`. |
+| cues | Instead of providing a subtitle file URL as the source, parsed and prepared text cues can be specified directly. This makes it possible to support other subtitle file formats. |
+
 ### `options: PlayerConfiguration`
 
-Pass an object to `options` if with any [configuration overrides](/custom-replay/configuration). The object should match the `PlayerConfiguration` type. Note that almost every property is optional, so that only custom settings need to be included in the object. Also note that specifying a property with the value `null`, nullifies the corresponding property in the default configuration.
+Pass an object to `options` with any [configuration overrides](/custom-replay/configuration). The object should match the `PlayerConfiguration` type. Note that almost every property is optional, so that only custom settings need to be included in the object. Also note that specifying a property with the value `null`, nullifies the corresponding property in the default configuration.
 
 ```
 type PlayerConfiguration = {
@@ -95,9 +116,11 @@ type PlayerConfiguration = {
 };
 ```
 
+The mentioned configuration chapter discusses most of the configuration settings.
+
 ### `initialPlaybackProps: InitialPlaybackProps`
 
-When a video source is loaded, the playback startup will have any of these properties applied, if they are specified:
+When a video source is loaded, the playback startup will have any of these properties applied, if specified:
 
 ```typescript
 type InitialPlaybackProps = {
@@ -108,6 +131,14 @@ type InitialPlaybackProps = {
   bitrateFix?: number | 'max' | 'min'
 };
 ```
+
+| Property | Description |
+|----------|-------------|
+| isMuted | If specified with a `true`, the playback will start muted. |
+| volume | Specifies an initial volume setting. |
+| isPaused | If specified with a `true`, the playback will start paused. |
+| bitrateCap | Only relevant for adaptive streaming. Specifies a maximum bitrate to be considered for adaptive bitrate switching. The number specifies the bitrate in kbps. |
+| bitrateFix | Only relevant for adaptive streaming. Deactivates adaptive bitrate switching and fixes the bitrate selection. The number is given as an integer of kbps, and must correspond exactly to one of the bitrates reported in the video stream state property `bitrates`. |
 
 ## Callback props
 

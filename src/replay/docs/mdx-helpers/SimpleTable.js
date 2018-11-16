@@ -79,8 +79,7 @@ const SimpleTable = ({ rows }: Props) => {
         <tbody>
           {rows.map(row => (
             <tr style={trStyles}>
-              {// $FlowFixMe Object.values is not understood.
-              Object.values(row).map(value => <td style={applyStyles(value)}>{formatContent(value)}</td>)}
+              {(Object.values(row): any).map(value => <td style={applyStyles(value)}>{formatContent(value)}</td>)}
             </tr>
           ))}
         </tbody>
