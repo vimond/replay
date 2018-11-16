@@ -4,7 +4,90 @@ route: /custom-player/observable-stream-state
 menu: 'Building a custom player'
 ---
 
-import { Playground, PropsTable } from 'docz';
-
 # Stream state properties reference
 
+The set of video stream state properties is a React-friendly way of expressing anything happening during playback, and the current state of all aspects of the playback or open stream.
+
+Programmatically, state changes for any individual property can be observed. The current state for all properties can further be retrieved.
+
+State updates are reported only one property at a time. When getting the current state, a few or most of the properties will be present in the returned object. It is not guaranteed that a property is ever updated with a value during playback of a video source.
+
+When writing React code consuming properties of the current playback, working reactively with the stream state is most convenient. This means being notified of state changes outside Replay (or in a custom Replay user interface).
+
+In some other cases, when reacting on other events (like button presses), it might be better retrieving the current state of a property.
+
+For Replay component users, the current state can be fetched through the `inspect()` [method](/replay/api#methods-available-through-onplaybackactionsready). Observing stream state changes is done through a `onStreamStateChange` [callback prop](/replay/api#callback-props).
+
+The set of state properties are defined with these types:
+
+```
+type VideoStreamState = {
+  isPaused?: boolean,
+  isBuffering?: boolean,
+  isSeeking?: boolean,
+  position?: number,
+  duration?: number,
+  absolutePosition?: Date,
+  absoluteStartPosition?: Date,
+  isAtLiveEdge?: boolean,
+  playState?: 'inactive' | 'starting' | 'playing' | 'paused' | 'seeking' | 'buffering',
+  playMode?: 'ondemand' | 'live' | 'livedvr',
+  volume?: number,
+  isMuted?: boolean,
+  bufferedAhead?: number,
+  currentBitrate?: number,
+  bitrateFix?: ?number,
+  bitrateCap?: ?number,
+  bitrates?: Array<number>,
+  currentTextTrack?: ?AvailableTrack,
+  textTracks?: Array<AvailableTrack>,
+  currentAudioTrack?: ?AvailableTrack,
+  audioTracks?: Array<AvailableTrack>,
+  error?: any
+};
+```
+
+| Property | Description |
+|----------|-------------|
+| isPaused | `true` if playback is paused, otherwise `false`. |
+| isBuffering | `true` if playback is stalled or starting, and buffering video data is ongoing. Otherwise `false`. |
+| isSeeking | `true` if a seeking (position change) operation is ongoing, otherwise `false`. |
+| position | The current playback position, reported as a number offset from the earliest stream position. This also applies to live DVR streams, where a position ≈ duration means playing at the live edge. |
+| duration | The duration of a stream. Also applies to live DVR streams, expressing the length of the timeshift window. |
+| absolutePosition | A timestamp (clock time) for the current playback position. Relevant for live streams. |
+| absoluteStartPosition | A timestamp for the earliest available playback position in a live DVR stream. When playing at the live edge, absouteStartPosition + duration ≈ absolutePosition. |
+| isAtLiveEdge | `false` if playback is timeshifted, otherwise true. Only relevant for live streams. |
+| playState | A one-dimensional way of expressing the different states of playback. One-dimensional means that it doesn't cover more than one state concurrently being active. For instance can `'buffering'` and `'seeking'` overlap. For full control over individual buffering, seeking, and paused states, see the corresponding boolean properties above. |
+| playMode | Indicates if the stream is on demand, live, or live with a DVR window. |
+| volume | A value between 0 and 1 representing the current volume setting. |
+| isMuted | `true` if playback audio is muted, otherwise `false`. |
+| bufferedAhead | The number of seconds ahead of the playback position being present in the video buffer. |
+| currentBitrate | Only relevant for adaptive streams. Expresses the currently selected bitrate in kpbs. |
+| bitrateFix | A currently fixed bitrate in kbps, if set. This means adaptive bitrate switching is deactivated. |
+| bitrateCap | A currently set cap on adpative bitrate selection, if set. |
+| currentTextTrack | If null, no text tracks are selected for display. Otherwise reports the currently displaying subtitles track. This object will be identical to one of the object in the `textTracks` array. The object shape is described as `AvailableTrack` underneath. |
+| textTracks | An array of subtitle tracks available for display. The object shape is described as `AvailableTrack` underneath. Items in this array can represent both side-loaded subtitle files, and text tracks embedded in the stream. |
+| currentAudioTrack | Reports the currently audible track, if more than one audio track is available. This object will be identical to one of the object in the `audioTracks` array. The object shape is described as `AvailableTrack` underneath. |
+| audioTracks | An array of audio tracks available for selection. Typically corresponds to different language options. If only one audio track is available, this array might be empty. The object shape is described as `AvailableTrack` underneath. |
+| error | An error object exposed by the underlying video streamer technology, if any errors have occurred. |
+
+
+The `AvailableTrack` objects are found in the state property arrays for audio tracks and text tracks. Note that it is different compared to the `SourceTrack` type used when specifying side-loaded subtitle files.
+
+```
+type AvailableTrack = {
+  kind?: string,
+  label?: string,
+  language?: string,
+  origin?: 'side-loaded' | 'in-stream',
+  id?: string | number
+};
+```
+
+| Property | Description |
+|----------|-------------|
+| kind | Corresponds to the HTML text track kind property, and is commonly either `'captions'` or `'subtitles'`. |
+| label | A human friendly description of the subtitle track, if available. |
+| language | The language code of the subtitle file content. |
+| origin | `'in-stream'` if the track is embedded in the stream, otherwise `'side-loaded'`. |
+| id | An unique identifier, if available. Note that referring tracks uniquely should be done by referring the track objects reported in `textTracks`/`audioTracks`. |

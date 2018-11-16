@@ -66,8 +66,8 @@ type SourceTrack = {
 |----------|-------------|
 | src | The URL of the subtitle file. |
 | label | A human friendly description of the subtitle track. Will be displayed in the subtitle selector item. |
-| kind | Corresponds to the HTML text track kind property, and is commonly either 'captions' or 'subtitles'. |
-| language | The language of the subtitle file content. |
+| kind | Corresponds to the HTML text track kind property, and is commonly either `'captions'` or `'subtitles'`. |
+| language | The language code of the subtitle file content. |
 | contentType | The mime type of the subtitle file, e.g. `text/vtt`. |
 | cues | Instead of providing a subtitle file URL as the source, parsed and prepared text cues can be specified directly. This makes it possible to support other subtitle file formats. |
 
@@ -172,23 +172,7 @@ Returns all the current properties of the video stream state. The return value i
 
 ### `setProperties: PlaybackProps => void`
 
-Manipulates properties of the playback. The object argument can contain one or more of the properties found in `PlaybackProps`.
-
-```
-type PlaybackProps = {
-  isMuted?: boolean,
-  volume?: number,
-  isPaused?: boolean,
-  bitrateCap?: number,
-  bitrateFix?: number | 'max' | 'min',
-  position?: number,
-  isAtLiveEdge?: true,
-  selectedTextTrack?: ?AvailableTrack,
-  selectedAudioTrack?: AvailableTrack
-};
-```
-
-Instead of passing regular props to the Replay component, such properties need to be applied through a method call. This is because what's specified through React props might get out of sync with the actual playback state. If the component is rendered as `<Replay isPaused={true}/>`, and the playback resumes due to events or operations inside the player (e.g. by using the player controls), it will not have an effect replaying the `true` value for an `isPaused` prop. It will be considered unchanged. 
+Manipulates properties of the playback, i.e. performs playback operations by setting properties. See the [settable properties](/custom-player/settable-properties) for what properties that are recognised in the object argument of this method, and how it can be used to control all aspects of the playback. 
 
 The methods listed below are simply sugar methods corresponding to setting the different properties listed above.
 
