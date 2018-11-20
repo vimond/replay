@@ -13,18 +13,6 @@ type PropsWithInitial = {
   initialPlaybackProps?: InitialPlaybackProps
 };
 
-/*function getBitrateAsBps(track) {
-  return (track && track.bandwidth) || 0;
-}
-
-function numericSort(a, b) {
-  return a - b;
-}
-
-function bandwidthSort(a: HlsjsQualityLevel, b: HlsjsQualityLevel) {
-  return a.bitrate - b.bitrate;
-}*/
-
 function getBitrateAsKbps(level: HlsjsQualityLevel) {
   return (level && Math.ceil(level.bitrate / 1000)) || 0;
 }

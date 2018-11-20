@@ -57,12 +57,10 @@ const getAudioTrackManager = (
   instanceKeeper: HlsjsInstanceKeeper,
   update: VideoStreamState => void
 ): AudioTrackManager => {
-  // let managedTracks: Array<ManagedAudioTrack> = [];
   let audioTracks: Array<AvailableTrack> = [];
   let hls;
 
   function mapAudioTracks() {
-    // console.log(JSON.stringify(hls.audioTracks, (key, value) => key === 'details' ? undefined : value, 2), hls.audioTracks[0]);
     if (hls) {
       const currentTracks = getDistinctPseudoTracks(hls.audioTracks);
       if (isAudioTrackListsDifferent(currentTracks, audioTracks)) {

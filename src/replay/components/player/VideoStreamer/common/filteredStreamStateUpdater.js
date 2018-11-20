@@ -9,8 +9,6 @@ declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
 }
 
-// const emptyFilters = {};
-
 const saneNumberFilter = <T>(value: ?T) =>
   value == null || isNaN(value) || value === Infinity || typeof value !== 'number' || value < 0 ? 0 : value;
 
