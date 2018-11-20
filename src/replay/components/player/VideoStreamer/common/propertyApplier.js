@@ -5,8 +5,8 @@ import type { AudioTrackManager, BitrateManager, StreamRangeHelper, TextTrackMan
 export const getPropertyApplier = (
   videoElement: HTMLVideoElement, // Abstract this away?
   streamRangeHelper: StreamRangeHelper,
-  textTrackManager: TextTrackManager,
-  audioTrackManager: AudioTrackManager,
+  textTrackManager?: TextTrackManager,
+  audioTrackManager?: AudioTrackManager,
   bitrateManager?: ?BitrateManager
 ) => (playbackProps: PlaybackProps) => {
   if ('isPaused' in playbackProps) {
