@@ -11,7 +11,7 @@ import getPlaybackLifeCycleManager from '../common/playbackLifeCycleManager';
 import getRxEventHandlers from './rxEventHandlers';
 import { renderWithoutSource } from '../common/renderers';
 import { getArrayLogger } from '../common/logger';
-import RxPlayer from "rx-player";
+import RxPlayer from 'rx-player';
 
 export type RxVideoStreamerConfiguration = VideoStreamerConfiguration & {
   rxPlayer?: ?{
@@ -27,7 +27,7 @@ function resolveImplementation(
   videoElement: HTMLVideoElement
 ): Promise<StreamerImplementationParts<RxVideoStreamerConfiguration, RxVideoStreamerProps, any>> {
   const options = configuration && configuration.rxPlayer && configuration.rxPlayer.customConfiguration;
-  
+
   const rxPlayer = new RxPlayer({ stopAtEnd: true, ...options, videoElement });
   videoElement.autoplay = false;
 
@@ -35,10 +35,7 @@ function resolveImplementation(
   const handleSourceChange = getSourceChangeHandler(rxPlayer);
   const updateStreamState = getFilteredStreamStateUpdater(streamer);
 
-  const applyProperties = getPropertyApplier(
-    videoElement,
-    streamRangeHelper
-  );
+  const applyProperties = getPropertyApplier(videoElement, streamRangeHelper);
 
   const { log } = getArrayLogger(window, 'videoEvents');
 
@@ -81,8 +78,8 @@ function resolveImplementation(
     handleSourceChange,
     startPlaybackSession,
     videoElementEventHandlers,
-    textTrackManager: { handleSourceChange: () => {}, cleanup: () => {}, handleSelectedTextTrackChange: () => {}},
-    audioTrackManager: { handleSourceChange: () => {}, cleanup: () => {}, handleSelectedAudioTrackChange: () => {}},
+    textTrackManager: { handleSourceChange: () => {}, cleanup: () => {}, handleSelectedTextTrackChange: () => {} },
+    audioTrackManager: { handleSourceChange: () => {}, cleanup: () => {}, handleSelectedAudioTrackChange: () => {} }
   });
 }
 

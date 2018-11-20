@@ -50,20 +50,20 @@ const getRxEventHandlers = <P: BasicVideoEventHandlersProps>({
   });
 
   const { videoElementEventHandlers, pauseStreamRangeUpdater } = htmlVideoHandlers;
-  
+
   const rxEventHandlers = {
     playerStateChange: playerState => {
       log && log(playerState);
-      switch(playerState) {
+      switch (playerState) {
         case 'LOADING':
-            lifeCycleManager.setStage('starting');
+          lifeCycleManager.setStage('starting');
 
-            updateStreamState({
-              playState: 'starting',
-              isBuffering: true,
-              volume: videoElement.volume,
-              isMuted: videoElement.muted
-            });
+          updateStreamState({
+            playState: 'starting',
+            isBuffering: true,
+            volume: videoElement.volume,
+            isMuted: videoElement.muted
+          });
           break;
         case 'LOADED':
           if (streamer.props.initialPlaybackProps) {
@@ -74,7 +74,8 @@ const getRxEventHandlers = <P: BasicVideoEventHandlersProps>({
             }
           }
           lifeCycleManager.setStage('started');
-          if (videoElement.paused) { // TODO: Verify this is not true if going to play!
+          if (videoElement.paused) {
+            // TODO: Verify this is not true if going to play!
             updateStreamState({ playState: 'paused', isPaused: true, isBuffering: false, isSeeking: false });
             pauseStreamRangeUpdater.start();
           }
@@ -131,7 +132,7 @@ const getRxEventHandlers = <P: BasicVideoEventHandlersProps>({
     lifeCycleManager = manager;
     htmlVideoHandlers.setLifeCycleManager(manager);
   }
-  
+
   function cleanup() {
     htmlVideoHandlers.cleanup();
     Object.entries(rxEventHandlers).forEach(([name, handler]) => {
@@ -142,7 +143,7 @@ const getRxEventHandlers = <P: BasicVideoEventHandlersProps>({
   Object.entries(rxEventHandlers).forEach(([name, handler]) => {
     rxPlayer.addEventListener(name, handler);
   });
-  
+
   const { onVolumeChange } = videoElementEventHandlers;
   return {
     videoElementEventHandlers: {

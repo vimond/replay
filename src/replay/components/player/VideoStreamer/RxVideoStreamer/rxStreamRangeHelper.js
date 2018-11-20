@@ -19,6 +19,7 @@ const getStreamRangeHelper = (rxPlayer: any, configuration: ?{ liveEdgeMargin?: 
     const isAtLiveEdge = isLive && rxPlayer.getPosition() > rxPlayer.getMaximumPosition() - liveMargin;
     const absolutePosition = isLive ? new Date(rxPlayer.getWallClockTime() * 1000) : dawnOfTime;
     const absoluteStartPosition = isLive ? new Date((rxPlayer.getWallClockTime() - position) * 1000) : dawnOfTime;
+    // console.log('Minimum position %s, position %s, maximum position %s', Math.floor(rxPlayer.getMinimumPosition()), Math.floor(rxPlayer.getPosition()), Math.floor(rxPlayer.getMaximumPosition()));
     return {
       position,
       duration,

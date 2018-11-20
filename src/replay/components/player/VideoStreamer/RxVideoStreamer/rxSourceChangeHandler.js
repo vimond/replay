@@ -17,7 +17,10 @@ const acquireLicense = (url: string, headers: ?{ [string]: string }, body: Array
   ).then(response => response.ok && response.arrayBuffer());
 
 export default function getSourceChangeHandler(rxPlayer: any) {
-  return <P: { source?: ?PlaybackSource, initialPlaybackProps?: InitialPlaybackProps }>({ source, initialPlaybackProps }: P, prevProps: ?P): Promise<void> => {
+  return <P: { source?: ?PlaybackSource, initialPlaybackProps?: InitialPlaybackProps }>(
+    { source, initialPlaybackProps }: P,
+    prevProps: ?P
+  ): Promise<void> => {
     if (source) {
       const licenseUrl = source.licenseUrl;
       const startPosition = source.startPosition;

@@ -42,7 +42,7 @@ test('handleSourceChange() invokes loadVideo() on Rx-player when a source is spe
     startAt: { position: 123 },
     autoPlay: true
   });
-  handleSourceChange({ source: source1, initialPlaybackProps:{ isPaused: true }});
+  handleSourceChange({ source: source1, initialPlaybackProps: { isPaused: true } });
   expect(mockRxPlayer.loadVideo).toHaveBeenCalledWith({
     transport: 'smooth',
     url: 'https://example.com/smooth-stream',
