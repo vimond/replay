@@ -8,6 +8,22 @@ menu: 'Using the Replay player'
 
 ## Props
 
+### Children
+
+Replay can take 0 or 1 child elements. If present, a child should implement the [video streamer](/architecture/video-streamers) component API, most commonly by using one of the alternatives provided by this library.
+
+When using basic HTML playback of video files, the child video streamer element can be omitted. Replay will then insert the `<BasicVideoStreamer/>`. For advanced streaming playback, specify a video streamer component supporting the streaming technology the child element. This element should not have props specified that could interfere with the prop set passed down from the controller. One example is the `source` prop.
+
+When needing to toggle different video streamer components for different stream formats and/or browsers, a composite video streamer should be created and inserted as the only child. This could contain logic for selecting the video streamer implementation currently needed. Such a component should pass down props to the actual video streamer.
+
+```jsx
+  <Replay
+    source="https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8"
+    initialPlaybackProps={{ isPaused: true }}>
+    <HlsjsVideoStreamer/>
+  </Replay>
+```
+
 ### `source: PlaybackSource | string | null`
 
 Specifies what to play in Replay.
@@ -36,7 +52,7 @@ type PlaybackSource = {
 
 | Property | Description |
 |----------|-------------|
-| streamUrl | URL to a video file, or to a stream manifest/playlist when using adaptive streams (see the advanced streaming chapter TODO: link). |
+| streamUrl | URL to a video file, or to a stream manifest/playlist when using adaptive streams. |
 | contentType | The mime type of the stream. Only relevant if using a VideoStreamer broking/resolving correct playback technology based on stream technologies. |
 | licenseUrl | When the stream is DRM encrypted, specify the license acquisition URL through this property. |
 | startPosition | A number specifying the offset where playback should start upon loading the video. Given in seconds from the start of the stream. |

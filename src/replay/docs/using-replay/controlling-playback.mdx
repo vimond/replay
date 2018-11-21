@@ -24,9 +24,9 @@ Playback methods are exposed to Replay component consumers through a callback pr
 
 `setProperties()` is one common method that can be used for all playback operations. This method is passed along with `play()`, `setPosition()`, `capBitrate()` etc. The latter are just sugar methods that call `setProperties()` with different keys and values. `setProperties()` accepts an object with the properties to be set.
 
-See TODO: link for a full reference of playback actions.
+See the [Replay API methods](/replay/api#methods-available-through-onplaybackactionsready) for a full reference of playback actions.
 
-See TODO: link for a full reference of playback properties that can be used with setProperties.
+See [Settable properties](/reference/settable-properties) for a full reference of playback properties that can be used with `setProperties`.
 
 Another method returned is `inspect()`. This returns an object with the current playback state, containing properties also exposed through the `onStreamStateChange` callback. 
 
@@ -85,7 +85,7 @@ this.handleStreamStateChange = stateProperties => {
 };
 ```
 
-See TODO: link for a full reference of state properties.
+See the [full reference of state propertie](/reference/observable-stream-state) for all keys/value types passed in this callback.
 
 ## Full example showing control and observation of the playback
 

@@ -9,6 +9,7 @@ import PlayPauseButton from './PlayPauseButton';
 import ShowCase from '../../../docs/mdx-helpers/ShowCase';
 import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
 import { Play, Pause } from 'react-feather';
+import Footnote from '../../../docs/props-footnote.md';
 
 # PlayPauseButton
 
@@ -30,7 +31,7 @@ The prop `isPaused` indicates to the button if the playback is paused, or playin
 
 <PropsTable of={PlayPauseButton} />
 
-Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC. The ︎`setProperties()` callback prop is marked with ︎⇗ because it is connected for changing the playback state.
+<Footnote/>
 
 ## Component DOM with class names
 

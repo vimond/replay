@@ -9,6 +9,7 @@ import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
 import { Playground, PropsTable } from 'docz';
 import BufferingIndicator from './BufferingIndicator';
 import LoadingAnimation from '../../../default-player/default-skin/LoadingAnimation';
+import Footnote from '../../../docs/props-footnote.md';
 
 # BufferingIndicator component
 
@@ -47,7 +48,7 @@ In this example, the animation is showing because `playState="starting""`. Try e
 
 <PropsTable of={BufferingIndicator} />
 
-Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC.
+<Footnote/>
 
 ## Component DOM with class names
 

@@ -57,7 +57,7 @@ When reading the DOM and class name table in the controls reference, please keep
 
 ## Skin toggling and CSS scoping with prefixed class names
 
-All class names applied to DOM elements of controls and container components are prefixed. The default prefix is `replay-`, and a full class name will then for instance be `replay-play-pause-button`. The prefix can be changed when creating custom players, or simply by including a configuration override (TODO: link). In this way, the player can get different skins coexisting in the same CSS scope. 
+All class names applied to DOM elements of controls and container components are prefixed. The default prefix is `replay-`, and a full class name will then for instance be `replay-play-pause-button`. The prefix can be changed when creating custom players, or simply by including a [configuration override](/custom-replay/configuration). In this way, the player can get different skins coexisting in the same CSS scope. 
 
 I.e. a common site-wide CSS bundle can contain different skins for Replay players branded differently according to e.g. content category. The prefix also ensures that frequently used class names, like `expanded`, `selected`, are not in conflict because being used both in the player and in the page. The Replay class names will be `replay-expanded` and `replay-selected` with the default prefix.
 

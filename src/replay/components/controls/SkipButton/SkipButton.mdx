@@ -10,6 +10,7 @@ import SkipButton from './SkipButton';
 import ShowCase from '../../../docs/mdx-helpers/ShowCase';
 import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
 import { RotateCcw, RotateCw } from 'react-feather';
+import Footnote from '../../../docs/props-footnote.md';
 
 # SkipButton
 
@@ -21,7 +22,7 @@ The offset in seconds and direction can be configured, and this control can be u
 
 When clicking the button, `setProperties({ position: value })` will be called, with the value computed by adding the current position with the configured `offset` prop. This means negative configured offsets will make the button skip backward.
 
-When clicking the button, the current relative position is read by invoking the callback prop `inspect()`. This is a method of the player controller (TODO link) that exposes the current video streamer state. The button could also read the prop `position`. However, this would require continuous updates to the button during playback of the position value, and would be unnecessary as long as the button is not clicked.
+When clicking the button, the current relative position is read by invoking the callback prop `inspect()`. This is a method of the player controller, passed down when [connecting the control](/architecture/connected-controls#connecting-the-controls). It exposes the current video streamer state. The button could also read the prop `position`. However, this would require continuous updates to the button during playback of the position value, and would be unnecessary as long as the button is not clicked.
 
 ## Example
 
@@ -49,7 +50,7 @@ This example demonstrates both forward and backward skip buttons configured with
 
 <PropsTable of={SkipButton} />
 
-Props marked with ⇘ are updated with the video streamer's state property having the same name, when connected by the `connectControl()` HOC. The ︎`setProperties()` callback prop is marked with ︎⇗ because it is connected for changing the playback state.
+<Footnote/>
 
 ## Component DOM with class names
 

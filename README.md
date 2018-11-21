@@ -8,7 +8,7 @@ It is also intended to be a **replay**cement for the legacy and non-React Vimond
 
 It constitutes a tiny framework that allows for wrapping and plugging in advanced streaming and playback technologies as first-class React components. The goal is "thinking in React" as much as possible.
 
-So far it integrates with [Shaka Player](https://github.com/google/shaka-player) and [HLS.js](https://github.com/video-dev/hls.js).
+So far it integrates with [Shaka Player](https://github.com/google/shaka-player), partly [Rx-player](https://github.com/canalplus/rx-player), and [HLS.js](https://github.com/video-dev/hls.js). That covers MPEG-DASH, HLS, and smooth streams.
 
 The Replay player also aims to "get the job done" when it comes to simply embedding a video file to be played in a React app, and with custom controls.
 
