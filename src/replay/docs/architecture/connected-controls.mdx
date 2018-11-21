@@ -4,6 +4,43 @@ route: /architecture/connected-controls
 menu: 'Architecture and patterns'
 ---
 
-import { Playground, PropsTable } from 'docz';
+# Connected player controls
 
-# Connected controls
+## Generic components and specialised player controls
+
+The core building blocks are a few generic components: `<Button/>`, `<ToggleButton/>`, `<Selector/>`, `<Slider/>`, and `<Container/>`.
+
+From this, dedicated player controls are built. These are the ones currently included in the Replay component library, and also in the defult player:
+
+`<PlayPauseButton/>`, `<SkipButton/>`, `<GotoLiveButton/>`, `<ExitButton/>`, `<FullscreenButton/>`, `<Volume/>`, `<Timeline/>`, `<TimeDisplay/>`, `<QualitySelector/>`, `<SubtitlesSelector/>`, `<AudioSelector/>`.
+
+## Containers and helpers
+
+In addition to this, several helper components and container components, are essential when building a player UI:
+
+`<AspectRatio/>`, `<Fullscreen/>`, `<InteractionDetector/>`, `<KeyboardShortcuts/>`, `<PlayerStateClassNames/>`, `<PreferredSettingsApplicator/>`.
+
+## A common control API pattern
+
+The different controls expose props that should be recognisable and consistent:
+
+* Props with names matching one or several playback state properties related to the control purpose.
+* Callback prop setProperties for manipulating the playback state (when connected, see below).
+* Appearance props for control content (graphics, text) and styling/class names.
+* In some cases, simple configuration props for alternative control behaviour/appearance
+
+## Connecting the controls
+
+The controls are on its own not communicating wiht the video streamer performing the playback. Through a higher order component (HOC), all Replay controls are connected to the player controller context. Custom controls can also get connected by applying the same higher order component, `ConnectControl`.
+
+The player controller provides the context, and also connects the video streamer so that there can be two-way updates between controls and the video streamer.
+
+What playback state properties a component is consuming, is specified when applying the HOC. This ensures that the rendered component is only updated when the desired properties are changed. This prevents frequent updates coming mainly from playback position updates.
+
+In addition to passing down the video stream state properties registered for consumption when connecting the control, this HOC passes down a couple of methods (callback props): `setProperties()`, `inspect()`. 
+
+The first one enables a control to, eh, control the playback. For instance can playback be paused by the control through invoking `setProperties({ isPaused: true })`. In other words, this is the communication or state updates going back to the video streamer.
+
+`inspect()` can be used to get all the latest state properties reported from the playback. This is an alternative to registering for state property updates when the control isn't needing a rerender on every change of that state property.
+
+Not all controls and containersY/helpers need to be connected, but most of them are.

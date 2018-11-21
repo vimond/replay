@@ -1,0 +1,60 @@
+---
+name: Overview
+route: /architecture/overview
+menu: 'Architecture and patterns'
+---
+
+import { ReactComponent as Diagram } from './concept-diagram.svg';
+import { Playground } from 'docz';
+
+# Overview
+
+## The holy trinity
+
+Replay is built on three main concepts constituted in React components.
+
+* The **video streamer**.
+* The **player controller**.
+* **Controls** and components composed to player UI, being **connected** to the player controller.
+
+Replay aims to provide a streamlined and consistent way of letting data flow between the playing stream and the UI.
+
+## Arrows and boxes
+
+<Diagram/>
+
+The diagram presents only a selection of the full Replay DOM tree.
+
+## Data (property) flow
+
+### From the playing stream to player controls
+
+The video streamer downloads and renders the stream. 
+
+The player controller gets notified on playback progress and video stream state updates. By being a React context provider, the state properties are passed down from the player controller to player controls and other UI components.
+
+The controls can observe such state updates by being wrapped in a HOC connecting to the React context provided by the player controller.
+
+### From player controls to the playing stream
+
+The HOC/React context connector provides a callback for setting playback properties. Such properties can affect all sides of playback, e.g. pausing, changing volume, selecting subtitles.
+
+When the user interacts with the control, e.g. selecting a subtitle language, the property setter callback is invoked with the changed property being the deseired subtitle track. This incovation is propagated back to the video streamer, which effectuates the selection.
+
+## Cardinality of components
+
+In the Replay player, either the default one, or a custom one, the following applies:
+
+#### Video streamer
+
+* There are many **_implementations_** of this concept. They currently cover different streaming technologies, like Shaka Player, HLS.js. Later they might also wrap different functions (e.g. 360°/VR) or full players (e.g. Vimeo).
+* In a component tree of a complete Replay player, there is exactly one **_instance_** of a video streamer currently used.
+
+#### Player controller
+
+* There is only one current **_implementation_** of this concept. 
+* In a component tree of a complete Replay player, there is exactly one **_instance_** of a player controller.
+
+#### Connected controls
+* There are **_many components_** following the "connected control" pattern, and more can easily be created. It is only one current **_implementation_** of this pattern using the connectControl() HOC.
+* In a component tree of a complete Replay player, there are usually one **_instance_** of each component implementing this pattern. However it is not a problem having more instances added. For instance, a SkipButton can be added twice in order to set up both skip backward and skip forward buttons.

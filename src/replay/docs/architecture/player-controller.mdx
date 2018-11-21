@@ -1,0 +1,13 @@
+---
+name: Player controller
+route: /architecture/player-controller
+menu: 'Architecture and patterns'
+---
+
+# Player controller
+
+This is one specific component, `<PlayerController/>`, inserted once near the root of the React player element tree in the Replay player. The same is recommended for custom players. It takes a video streamer as a child component, and excepts a render method prop taking care of the player UI. 
+
+The video streamer child is targeted for observation and manipulation by the player controller. It uses the controller React context for exposing the video streamer state and possible operations to the React element tree rendered in the render prop.
+
+[More about the considerations behind, and the concerns covered by the player controller](/architecture/background#the-player-controller-and-its-nice-react-fit).

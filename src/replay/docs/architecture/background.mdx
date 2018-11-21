@@ -1,3 +1,9 @@
+---
+name: Background
+route: /architecture/background
+menu: 'Architecture and patterns'
+---
+
 # Background: The challenges and requirements
 
 ## Defining the video player
@@ -18,24 +24,24 @@ Part of reaching these goal is extensively adopting modern React patterns giving
 
 A video being played has a state with a lot of properties. Throughout playback, the state is set or changes because of 1) events coming from the stream and stream delivery itself, 2) the nature/lifecycle of video playback, and 3) as a result of outer manipulation of the playback state, from e.g. end users or external integrations.
 
-Examples of 1):
+#### Examples of 1):
 
-* The bitrate changes adaptively because of varying 
-* The stream appears to have several audio tracks
-* A live stream increases its DVR window length
+* The bitrate changes adaptively because of varying. 
+* The stream appears to have several audio tracks.
+* A live stream increases its DVR window length.
 
-Examples of 2):
+#### Examples of 2):
 
-* Video starts or ends
-* Playback position changes
+* Video starts or ends.
+* Playback position changes.
 
-Example of 3), operations leading to state changes.
+#### Example of 3), operations leading to state changes:
 
 * The user selects a subtitles track to be displayed.
 * The user changes the playback position (seeks) through the timeline control
 * A site-wide volume setting mutes the audio of the playback
 
-## The multi-faceted and complex task of rendering and playing the video
+## The multi-faceted and complex task of rendering and playing a video stream
 
 When inserting a `<video>` element to a web page, today's browsers with some exceptions are only capable of playing a video file provided from a URL specified in the `src` attribute. The browsers don't handle the following concerns: Adaptive streaming achieving continuous playback adapting to varying bandwidth conditions. Live streaming with or without timeshifting, DRM (a concern only for premium content providers), multiple audio tracks, multiple subtitles formats.
 
@@ -63,7 +69,7 @@ Further, Redux state works best with "singletons" in a page. Contrary, quite com
 
 For simple/flat player UI trees this could be useful. Still the state and playback API needs to be "lifted up" from the video streamer component so it can be exposed downwards to player UI components, and significant amounts of "plumbing" is needed. Besides, it is hard to design this with optimal performance in mind. Every time the playback position is updated, the prop set is changed, and from the top of the player UI tree, a rerender will be required down to the components actually consuming the playback position. This does have a performance impact.
 
-## The player controller and its React fit
+## The player controller and its nice React fit
 
 The Context API, introduced with React 16.3, is on the other hand a good fit. It makes it easy to share and scope state in a branch/part of the rendered React element tree. Any player instance will keep data private between instances, other parts of the React app don't need to deal with playback state (unless it is desired). The player becomes an isolated component abstracting its inner concerns.
 

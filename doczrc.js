@@ -41,9 +41,20 @@ export default {
       ]
     },
     'Customising Replay',
-    'Architecture and patterns',
+    {
+      name: 'Architecture and patterns',
+      menu: [
+        'Overview',
+        'Video streamers',
+        'Player controller',
+        'Connected controls',
+        'Background'
+      ]
+    },
     'Building a custom player',
+    'Reference',
     'Controls reference',
+    'Containers/helpers reference',
     'Generic controls reference'
   ],
   debug: false
