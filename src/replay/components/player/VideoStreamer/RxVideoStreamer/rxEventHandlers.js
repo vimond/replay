@@ -75,7 +75,6 @@ const getRxEventHandlers = <P: BasicVideoEventHandlersProps>({
           }
           lifeCycleManager.setStage('started');
           if (videoElement.paused) {
-            // TODO: Verify this is not true if going to play!
             updateStreamState({ playState: 'paused', isPaused: true, isBuffering: false, isSeeking: false });
             pauseStreamRangeUpdater.start();
           }

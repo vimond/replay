@@ -185,16 +185,6 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
         pauseStreamRangeUpdater.stop();
       }
     }
-    /*if (lifeCycleStage === 'started') {
-      withVideoElement(videoElement => {
-        // TODO: The video element is always paused from before seek start to after seek end. Might need a workaround.
-        if (videoElement.paused) {
-          update({ playState: 'paused', isPaused: true });
-        } else {
-          update({ playState: 'playing', isPaused: false });
-        }
-      });
-    }*/
   }
 
   function onDurationChange() {
