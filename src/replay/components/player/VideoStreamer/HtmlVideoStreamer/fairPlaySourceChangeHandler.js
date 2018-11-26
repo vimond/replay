@@ -1,6 +1,6 @@
 // @flow
 import { PlaybackError } from '../types';
-import type { PlaybackSource, VideoStreamerConfiguration } from '../types';
+import type { FairPlayRequestFormat, PlaybackSource, VideoStreamerConfiguration } from '../types';
 import getBasicSourceChangeHandler from '../BasicVideoStreamer/sourceChangeHandler';
 
 declare class Object {
@@ -11,8 +11,8 @@ type LicenseAcquisitionDetails = {
   licenseUrl: string,
   licenseRequestHeaders?: { [string]: string },
   fairPlayCertificateUrl: string,
-  requestFormat: 'binary' | 'base64',
-  contentId: ?(string | number | Uint16Array),
+  requestFormat: FairPlayRequestFormat,
+  contentId: ?(string | number),
   contentIdExtractMatch: ?(RegExp | string)
 };
 
@@ -96,12 +96,14 @@ function extractContentId(initData, contentIdExtractMatch: ?(string | RegExp)) {
       ? new RegExp(contentIdExtractMatch)
       : contentIdExtractMatch
     : /([0-9]+)$/;
-  const matches = regex.exec(url);
-  return matches && matches[0];
+  if (regex.exec) {
+    const matches = regex.exec(url);
+    return matches && matches[0];
+  }
 }
 
 function concatInitDataIdAndCertificate(
-  isBinary: boolean,
+  isBase64: boolean,
   initData: Uint8Array,
   contentId: Uint16Array | string | number,
   cert: Uint8Array
@@ -123,9 +125,9 @@ function concatInitDataIdAndCertificate(
   dataView.setUint32(offset, contentId.byteLength, true);
   offset += 4;
 
-  const idArray = isBinary
-    ? new Uint16Array(buffer, offset, contentId.length)
-    : new Uint8Array(buffer, offset, contentId.byteLength);
+  const idArray = isBase64
+    ? new Uint8Array(buffer, offset, contentId.byteLength)
+    : new Uint16Array(buffer, offset, contentId.length);
   idArray.set(contentId);
   offset += idArray.byteLength;
 
@@ -136,6 +138,14 @@ function concatInitDataIdAndCertificate(
   certArray.set(cert);
 
   return new Uint8Array(buffer, 0, buffer.byteLength);
+}
+
+function formatRequestPayloadAsPostParameters(spc, contentId?: ?(string | number)) {
+  if (contentId) {
+    return  'contentId=' + encodeURIComponent(contentId.toString()) + 'spc=' + encodeURIComponent(base64EncodeUint8Array(spc));
+  } else {
+    return 'spc=' + encodeURIComponent(base64EncodeUint8Array(spc));
+  }
 }
 
 const getFairPlayLicenseAcquirer = (
@@ -157,6 +167,7 @@ const getFairPlayLicenseAcquirer = (
       }))) ||
     [];
   const isBinary = acquisitionDetails.requestFormat === 'binary';
+  const isBase64 = acquisitionDetails.requestFormat === 'base64';
   let certificate = null;
   let { contentId, licenseUrl } = acquisitionDetails;
 
@@ -192,7 +203,7 @@ const getFairPlayLicenseAcquirer = (
     }
     if (idString) {
       if (certificate) {
-        if (!createKeySession(idString, concatInitDataIdAndCertificate(isBinary, initData, idString, certificate))) {
+        if (!createKeySession(idString, concatInitDataIdAndCertificate(isBase64, initData, idString, certificate))) {
           handleError(
             new PlaybackError('STREAM_ERROR_DRM_CLIENT_UNAVAILABLE', technology, 'Could not create key session.')
           );
@@ -205,7 +216,7 @@ const getFairPlayLicenseAcquirer = (
         request.addEventListener('load', () => {
           if (request.status && request.status < 400) {
             certificate = new Uint8Array(request.response);
-            if (createKeySession(idString, concatInitDataIdAndCertificate(isBinary, initData, idString, certificate))) {
+            if (createKeySession(idString, concatInitDataIdAndCertificate(isBase64, initData, idString, certificate))) {
               handleError(
                 new PlaybackError('STREAM_ERROR_DRM_CLIENT_UNAVAILABLE', technology, 'Could not create key session.')
               );
@@ -269,10 +280,9 @@ const getFairPlayLicenseAcquirer = (
 
     request.addEventListener('load', () => {
       if (request.status && request.status < 400) {
-        let key;
         if (isBinary) {
           const arrayBuffer = request.response;
-          key = new Uint8Array(arrayBuffer);
+          session.update(new Uint8Array(arrayBuffer));
         } else {
           // response can be of the form: '\n<ckc>base64encoded</ckc>\n'
           // so trim the excess:
@@ -280,9 +290,8 @@ const getFairPlayLicenseAcquirer = (
           if (keyText.substr(0, 5) === '<ckc>' && keyText.substr(-6) === '</ckc>') {
             keyText = keyText.slice(5, -6);
           }
-          key = base64DecodeUint8Array(keyText);
+          session.update(base64DecodeUint8Array(keyText));
         }
-        session.update(key);
       } else {
         handleError(getRequestError(request, licenseUrl, 'Acquisition of FairPlay license failed.', 'POST'));
       }
@@ -306,8 +315,11 @@ const getFairPlayLicenseAcquirer = (
     if (isBinary) {
       request.setRequestHeader('Content-type', 'application/octet-stream');
       request.send(message);
-    } else {
+    } else if (isBase64) {
       request.send(base64EncodeUint8Array(message));
+    } else {
+      request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      request.send(formatRequestPayloadAsPostParameters(message, contentId));
     }
   }
 
@@ -366,23 +378,16 @@ const getFairPlayLicenseAcquirer = (
 function hydrateLicenseAquisitionDetails(source: ?PlaybackSource, configuration: ?VideoStreamerConfiguration) {
   if (source && typeof source !== 'string' && source.licenseUrl) {
     const licenseUrl = source.licenseUrl;
-    let fairPlayCertificateUrl;
-    let licenseRequestHeaders;
-    let requestFormat = 'base64';
-    let contentId;
-    let contentIdExtractMatch;
-    const config = configuration && configuration.licenseAcquisition && configuration.licenseAcquisition.fairPlay;
-    if (source.licenseAcquisitionDetails) {
-      fairPlayCertificateUrl = source.licenseAcquisitionDetails.fairPlayCertificateUrl;
-      licenseRequestHeaders = source.licenseAcquisitionDetails.licenseRequestHeaders;
-      contentId = source.licenseAcquisitionDetails.contentId;
-    } else if (config) {
-      fairPlayCertificateUrl = config.serviceCertificateUrl;
-      contentIdExtractMatch = config.contentIdExtractMatch;
-      if (config.requestFormat) {
-        requestFormat = config.requestFormat;
-      }
-    }
+    const config = (configuration && configuration.licenseAcquisition && configuration.licenseAcquisition.fairPlay) || {};
+    const licenseAcquisitionDetails = source.licenseAcquisitionDetails || {};
+    
+    const fairPlayCertificateUrl = licenseAcquisitionDetails.fairPlayCertificateUrl || config.serviceCertificateUrl;
+    const contentIdExtractMatch = licenseAcquisitionDetails.contentIdExtractMatch || config.contentIdExtractMatch;
+
+    const requestFormat = licenseAcquisitionDetails.fairPlayRequestFormat || config.requestFormat || 'formdata';
+    const licenseRequestHeaders = licenseAcquisitionDetails.licenseRequestHeaders;
+    const contentId = licenseAcquisitionDetails.contentId;
+
     if (!fairPlayCertificateUrl) {
       return null;
     }

@@ -24,6 +24,7 @@ One goal has been to learn and use quite new technologies and patterns in the Re
 * ✓ Accessibility compliance through tab navigation in player controls and proper markup.
 * ✓ [GitHub issues](https://github.com/vimond/replay/issues/).
 * [Docz](https://docz.site) doc guides with live code examples displaying React components.
+* [React.lazy](https://reactjs.org/blog/2018/10/23/react-v-16-6.html) for splitting out heavy third party streaming dependencies.
 * Reference documentation generation based on Flow types.
 * Full player tests with [Puppeteer](https://developers.google.com/web/tools/puppeteer/).
 * CSS in JS approach to design and theming, with e.g. [emotion](https://emotion.sh/).
@@ -34,3 +35,10 @@ Curiosity about the code, the technologies explored, and problems to be solved, 
 Except bug fixes, the project has a finite set of tasks to be done, all listed as [issues](https://github.com/vimond/replay/issues). Replay can be tested in [Streamlab through a feature toggle](https://streamlab.ops.vmp.vimondtv.com/?features=replay). Note that the latest changes are manually integrated.
 
 For questions about this repo, contact [Tor Erik Alræk](mailto:torerik@vimond.com).
+
+#### Music used in demo video
+
+The Low Seas by The 126ers  
+Creative Commons — Attribution 3.0 Unported— CC BY 3.0  
+https://creativecommons.org/licenses/by/3.0/  
+Music provided by FreeMusic109 https://youtube.com/FreeMusic109

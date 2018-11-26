@@ -79,6 +79,8 @@ export type SourceTrack = {
   cues?: Array<{ start: number, end: number, content: string }>
 };
 
+export type FairPlayRequestFormat = 'formdata' | 'binary' | 'base64';
+
 export type PlaybackSource = {
   playbackTechnology?: 'html' | 'shaka-legacy' | 'shaka-player' | 'dash.js' | 'hls.js' | 'silverlight' | 'flash',
   streamUrl: string,
@@ -92,6 +94,8 @@ export type PlaybackSource = {
     licenseRequestHeaders?: { [string]: string },
     fairPlayCertificateUrl?: string,
     widevineServiceCertificateUrl?: string,
+    fairPlayRequestFormat?: FairPlayRequestFormat,
+    contentIdExtractMatch?: RegExp | string,
     contentId?: string
   }
 };
@@ -139,7 +143,7 @@ export type VideoStreamerConfiguration = {
     fairPlay: {
       serviceCertificateUrl?: ?string,
       withCredentials?: ?boolean,
-      requestFormat?: ?('binary' | 'base64'),
+      requestFormat?: ?FairPlayRequestFormat,
       contentIdExtractMatch?: ?(RegExp | string)
     },
     playReady: {
