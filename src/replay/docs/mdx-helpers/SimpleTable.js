@@ -69,17 +69,18 @@ const formatContent = content => {
 };
 
 const SimpleTable = ({ rows }: Props) => {
+  const keyBase = rows ? rows.map(row => (Object.values(row): any).join('-')).join('-') : '';
   if (rows && rows.length) {
     const headers = Object.keys(rows[0]);
     return (
       <table style={tableStyles}>
         <thead style={theadStyles}>
-          <tr style={trStyles}>{headers.map(header => <th style={tdStyles}>{header}</th>)}</tr>
+          <tr style={trStyles}>{headers.map(header => <th key={'header-' + header} style={tdStyles}>{header}</th>)}</tr>
         </thead>
         <tbody>
-          {rows.map(row => (
-            <tr style={trStyles}>
-              {(Object.values(row): any).map(value => <td style={applyStyles(value)}>{formatContent(value)}</td>)}
+          {rows.map((row, i) => (
+            <tr key={keyBase + '-row-' + i} style={trStyles}>
+              {(Object.values(row): any).map((value, j) => <td key={keyBase + '-cell-' + i + '-' + j} style={applyStyles(value)}>{formatContent(value)}</td>)}
             </tr>
           ))}
         </tbody>

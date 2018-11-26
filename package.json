@@ -38,7 +38,7 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "css-loader": "^1.0.0",
-    "docz": "0.12.9",
+    "docz": "^0.12.13",
     "docz-plugin-css": "^0.11.0",
     "docz-theme-default": "0.12.9",
     "enzyme": "^3.3.0",
@@ -52,12 +52,15 @@
     "postcss-preset-env": "^5.1.0",
     "postcss-url": "^7.3.2",
     "prettier": "^1.12.1",
-    "react": "16.5.0",
-    "react-dom": "16.5.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
     "react-persist": "^1.0.2",
     "react-scripts": "^2.1.1",
     "style-loader": "^0.22.1",
     "test-cli": "^0.1.0"
+  },
+  "resolutions": {
+    "docz-plugin-css/docz-core": "^0.12.13"
   },
   "prettier": {
     "printWidth": 120,

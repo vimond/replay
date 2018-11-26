@@ -45,8 +45,6 @@ The following video will start paused, but when started playing it will happen w
 
 ## Specifying text tracks along with the video source
 
-*This example does not currently work due to documentation system not serving the referred subtitle files.*
-
 Subtitle files of different languages and kinds can be specified as text tracks along with the stream URL. There are requirements to the metadata fields following the subtitle file URLs.
 
 <Playground>
@@ -54,13 +52,13 @@ Subtitle files of different languages and kinds can be specified as text tracks 
     source={{ 
       streamUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
       textTracks: [{
-        src: 'en.vtt',
+        src: '/docs/public/subtitles/en.vtt',
         kind: 'subtitles',
         language: 'en',
         label: 'English',
         contentType: 'text/vtt'
       }, {
-        src: 'no.vtt',
+        src: '/docs/public/subtitles/no.vtt',
         kind: 'subtitles',
         language: 'no',
         label: 'Norwegian',
@@ -77,8 +75,6 @@ Text track support relies on the browser's subtitle parsing and display. This me
 
 ### Setting (new) text tracks after starting playback of video source
 
-*Also this example does not currently work due to documentation system not serving the referred subtitle files.*
-
 If the text tracks are not available when starting the stream, or when a current set of tracks should be replaced without interrupting playback, specify the new track set in the `textTracks` prop.
 
 <Playground>
@@ -86,13 +82,13 @@ If the text tracks are not available when starting the stream, or when a current
     source="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
     initialPlaybackProps={{ isPaused: true }}
     textTracks={[{
-      src: 'en.vtt',
+      src: '/docs/public/subtitles/en.vtt',
       kind: 'subtitles',
       language: 'en',
       label: 'English',
       contentType: 'text/vtt'
     }, {
-      src: 'no.vtt',
+      src: '/docs/public/subtitles/no.vtt',
       kind: 'subtitles',
       language: 'no',
       label: 'Norwegian',

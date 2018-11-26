@@ -4,7 +4,8 @@ import type { PlaybackProps, VideoStreamerProps, VideoStreamState } from './type
 import { defaultClassNamePrefix, prefixClassNames } from '../../common';
 
 type Props = VideoStreamerProps & {
-  children?: React.Node
+  children?: React.Node,
+  initialMockState?: VideoStreamState
 };
 
 const defaultTextTracks = [
@@ -34,15 +35,15 @@ const defaultAudioTracks = [
 ];
 
 const defaultValues = {
-  playMode: 'livedvr',
+  playMode: 'ondemand',
   playState: 'playing',
   isPaused: false,
   isBuffering: false,
   isSeeking: false,
   position: 123,
   duration: 456,
-  absolutePosition: undefined,
-  absoluteStartPosition: undefined,
+  absolutePosition: new Date(0),
+  absoluteStartPosition: new Date(0),
   volume: 0.7,
   isMuted: false,
   bufferedAhead: 12,
@@ -116,7 +117,7 @@ class MockVideoStreamer extends React.Component<Props> {
           runAsync(this.updateStreamState, props, Math.round(Math.random() * 1000)),
         thirdPartyPlayer: null
       });
-      updateWithDefaultValues(this.props.onStreamStateChange);
+      updateWithDefaultValues(this.props.onStreamStateChange, this.props.initialMockState);
       /*setInterval(() => {
         this.props.onStreamStateChange({ isBuffering: this.isBuffering });
         this.isBuffering = !this.isBuffering;

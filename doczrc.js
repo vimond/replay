@@ -13,6 +13,7 @@ export default {
   description: 'A video player built while thinking in React',
   src: './src/replay',
   base: '/docs/',
+  public: '/public',
   plugins: [
     css({
       preprocessor: 'postcss',
