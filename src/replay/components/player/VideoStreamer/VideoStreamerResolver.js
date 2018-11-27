@@ -52,7 +52,7 @@ const detectStreamType = (streamUrl: string, contentType: ?string): StreamType =
     }
   })[0] || streamTypes[streamTypes.length - 1];
 
-const selectVideoStreamerComponent = (source: PlaybackSource | string | null): ?React.ComponentType<any> => {
+const selectVideoStreamerComponent = (source?: PlaybackSource | string | null): ?React.ComponentType<any> => {
   if (source) {
     const contentType = typeof source === 'string' ? null : source.contentType;
     const streamUrl = typeof source === 'string' ? source : source.streamUrl;
@@ -78,7 +78,7 @@ const selectVideoStreamerComponent = (source: PlaybackSource | string | null): ?
   }
 };
 
-const VideoStreamerResolver = (props: { source: PlaybackSource | string | null }) => {
+const VideoStreamerResolver = (props: { source?: PlaybackSource | string | null }) => {
   const VideoStreamer = selectVideoStreamerComponent(props.source);
   if (VideoStreamer) {
     // $FlowFixMe

@@ -67,6 +67,9 @@ const fairPlayStream: PlaybackSource = {
 };
 
 const videoUrls = [
+  'https://s3.amazonaws.com/expo-first-vpc-vod-videofiles/786e3/master64ee(12903_R21MP41000).mp4',
+  'https://s3.amazonaws.com/expo-first-vpc-vod-fragments/786e3/master_12903_64ee(12903_ISMUSP).ism/master_12903_64ee(12903_ISMUSP).m3u8',
+  'https://s3.amazonaws.com/expo-first-vpc-vod-fragments/786e3/master_12903_64ee(12903_ISMUSP).ism/master_12903_64ee(12903_ISMUSP).mpd',
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4',
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-20/N_ELGBADER_200718_SIKRO_(1359389_R212MP41000).mp4',
   'http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8',
@@ -93,9 +96,7 @@ const configOverrides: PlayerConfiguration = {
     dash: {
       //dashImpl: 'dashjs'
     },
-    logging: {
-      global: 'DEBUG'
-    }
+    logLevel: 'WARNING'
   },
   playbackMonitor: {
     visibleAtStart: false
@@ -186,7 +187,7 @@ class App extends Component<void, State> {
                 textTracks={textTracks}
                 initialPlaybackProps={{ isPaused: true, volume: 0.2 }}
                 onPlaybackActionsReady={this.handlePlaybackActions}>
-                <VideoStreamerResolver source={source} />
+                <VideoStreamerResolver />
               </Replay>
               <p>
                 <input

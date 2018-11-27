@@ -27,6 +27,10 @@ function resolveImplementation(
   videoElement: HTMLVideoElement
 ): Promise<StreamerImplementationParts<RxVideoStreamerConfiguration, RxVideoStreamerProps, any>> {
   const options = configuration && configuration.rxPlayer && configuration.rxPlayer.customConfiguration;
+  const logLevel = configuration && configuration.logLevel;
+  if (logLevel) {
+    RxPlayer.LogLevel = logLevel; // 1:1 mapping on possible values between Replay and RxPlayer. How nice!
+  }
 
   const rxPlayer = new RxPlayer({ stopAtEnd: true, ...options, videoElement });
   videoElement.autoplay = false;
