@@ -7,6 +7,7 @@
     "registry": "https://vimond.jfrog.io/vimond/api/npm/npm-local/"
   },
   "main": "lib/index.js",
+  "style": "lib/index.css",
   "files": [
     "lib",
     "guide.md",
@@ -15,8 +16,8 @@
   "scripts": {
     "start": "PORT=3033 SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build:lib": "npm run build:es5 && npm run build:flow && npm run build:css",
-    "build:es5": "babel src/replay -d lib --copy-files --source-maps",
-    "build:flow": "flow-copy-source src/replay lib",
+    "build:es5": "babel src/replay -d lib --ignore \"src/**/*.test.js\" --source-maps",
+    "build:flow": "flow-copy-source src/replay lib --ignore **/*.test.js",
     "build:css": "postcss src/replay/replay-default.css -o lib/index.css",
     "docz:dev": "docz dev",
     "docz:build": "docz build",
