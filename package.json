@@ -8,6 +8,11 @@
   },
   "main": "lib/index.js",
   "style": "lib/index.css",
+  "directories": {
+    "video-streamer": "lib/video-streamer",
+    "components": "lib/components",
+    "css": "lib"
+  },
   "files": [
     "lib",
     "guide.md",
