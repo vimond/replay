@@ -10,6 +10,7 @@ import type { PlaybackActions } from './replay/components/player/PlayerControlle
 import { PlaybackError } from './replay/components/player/VideoStreamer/types';
 import type { PlaybackSource, SourceTrack } from './replay/components/player/VideoStreamer/types';
 import VideoStreamerResolver from './replay/components/player/VideoStreamer/VideoStreamerResolver';
+// import RxVideoStreamer from './replay/components/player/VideoStreamer/RxVideoStreamer/RxVideoStreamer';
 
 type State = {
   useMock?: boolean,
@@ -67,35 +68,38 @@ const fairPlayStream: PlaybackSource = {
 };
 
 const videoUrls = [
+  // 'example-media/adaptive.m3u8',
   'https://s3.amazonaws.com/expo-first-vpc-vod-videofiles/786e3/master64ee(12903_R21MP41000).mp4',
   'https://s3.amazonaws.com/expo-first-vpc-vod-fragments/786e3/master_12903_64ee(12903_ISMUSP).ism/master_12903_64ee(12903_ISMUSP).m3u8',
-  'https://s3.amazonaws.com/expo-first-vpc-vod-fragments/786e3/master_12903_64ee(12903_ISMUSP).ism/master_12903_64ee(12903_ISMUSP).mpd',
+  {
+    streamUrl:
+      'https://s3.amazonaws.com/expo-first-vpc-vod-fragments/786e3/master_12903_64ee(12903_ISMUSP).ism/master_12903_64ee(12903_ISMUSP).mpd',
+    contentType: 'application/dash+xml'
+  },
+  {
+    streamUrl: 'https://tv2-stream-live-no.telenorcdn.net/out/u/1153546.mpd',
+    contentType: 'application/dash+xml'
+  },
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4',
   'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-20/N_ELGBADER_200718_SIKRO_(1359389_R212MP41000).mp4',
   'http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8',
   'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
   'https://tv2-stream-live-no.telenorcdn.net/out/u/1153546.m3u8',
-  'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1385976_ps1271_pd672348.smil/manifest.mpd',
-  'https://d3bwpqn4orkllw.cloudfront.net/b91c1/EG_5575_TR_47878_MEZ_(47878_ISMUSP).ism/EG_5575_TR_47878_MEZ_(47878_ISMUSP).mpd',
+  {
+    streamUrl: 'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1385976_ps1271_pd672348.smil/manifest.mpd',
+    contentType: 'application/dash+xml'
+  },
+  {
+    streamUrl:
+      'https://d3bwpqn4orkllw.cloudfront.net/b91c1/EG_5575_TR_47878_MEZ_(47878_ISMUSP).ism/EG_5575_TR_47878_MEZ_(47878_ISMUSP).mpd',
+    contentType: 'application/dash+xml'
+  },
   fairPlayStream,
   widevineStream
 ];
 
-/*const getSource = memoize(streamUrl => {
-  if (streamUrl) {
-    return {
-      streamUrl
-    };
-  } else {
-    return null;
-  }
-});*/
-
 const configOverrides: PlayerConfiguration = {
   videoStreamer: {
-    dash: {
-      //dashImpl: 'dashjs'
-    },
     logLevel: 'WARNING'
   },
   playbackMonitor: {
