@@ -39,7 +39,9 @@ export default {
       menu: [
         'Inserting Replay',
         'Setting startup options',
-        'Controlling playback programmatically'
+        'Controlling playback programmatically',
+        'Replay component API',
+        'Advanced playback'
       ]
     },
     'Customising Replay',
