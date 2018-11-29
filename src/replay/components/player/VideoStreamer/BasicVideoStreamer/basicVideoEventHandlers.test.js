@@ -14,7 +14,7 @@ const addProperties = (obj, properties) => {
 };
 
 function setup(onStreamStateChange = jest.fn(), getStreamRangeHelper) {
-  const videoElement = { volume: 1, muted: false, play: () => {}, pause: () => {} };
+  const videoElement = { volume: 1, muted: false, play: () => {}, pause: () => {}, buffered: { length: 0 } };
   const streamer = {
     props: { onStreamStateChange }
   };
