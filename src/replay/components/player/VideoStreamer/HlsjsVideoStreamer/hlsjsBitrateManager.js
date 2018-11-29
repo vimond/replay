@@ -36,8 +36,8 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
         hlsEvent === Hls.Events.LEVEL_SWITCHED
           ? eventData.level
           : hls.currentLevel === -1
-          ? hls.startLevel
-          : hls.currentLevel;
+            ? hls.startLevel
+            : hls.currentLevel;
       if (currentLevel === -1) {
         log && log('No hls.js level reported currently or selected for start.');
         updateStreamState({

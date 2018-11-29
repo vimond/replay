@@ -142,7 +142,9 @@ function concatInitDataIdAndCertificate(
 
 function formatRequestPayloadAsPostParameters(spc, contentId?: ?(string | number)) {
   if (contentId) {
-    return  'contentId=' + encodeURIComponent(contentId.toString()) + 'spc=' + encodeURIComponent(base64EncodeUint8Array(spc));
+    return (
+      'contentId=' + encodeURIComponent(contentId.toString()) + 'spc=' + encodeURIComponent(base64EncodeUint8Array(spc))
+    );
   } else {
     return 'spc=' + encodeURIComponent(base64EncodeUint8Array(spc));
   }
@@ -318,7 +320,7 @@ const getFairPlayLicenseAcquirer = (
     } else if (isBase64) {
       request.send(base64EncodeUint8Array(message));
     } else {
-      request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       request.send(formatRequestPayloadAsPostParameters(message, contentId));
     }
   }
@@ -378,9 +380,10 @@ const getFairPlayLicenseAcquirer = (
 function hydrateLicenseAquisitionDetails(source: ?PlaybackSource, configuration: ?VideoStreamerConfiguration) {
   if (source && typeof source !== 'string' && source.licenseUrl) {
     const licenseUrl = source.licenseUrl;
-    const config = (configuration && configuration.licenseAcquisition && configuration.licenseAcquisition.fairPlay) || {};
+    const config =
+      (configuration && configuration.licenseAcquisition && configuration.licenseAcquisition.fairPlay) || {};
     const licenseAcquisitionDetails = source.licenseAcquisitionDetails || {};
-    
+
     const fairPlayCertificateUrl = licenseAcquisitionDetails.fairPlayCertificateUrl || config.serviceCertificateUrl;
     const contentIdExtractMatch = licenseAcquisitionDetails.contentIdExtractMatch || config.contentIdExtractMatch;
 
