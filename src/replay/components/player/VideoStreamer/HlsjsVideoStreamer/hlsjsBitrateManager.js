@@ -26,18 +26,25 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
   let previousBitrates = [];
   let hls;
 
-  function updateBitrateProps() {
+  function updateBitrateProps(hlsEvent, eventData) {
     if (hls) {
       let bitrates = Array.isArray(hls.levels) ? hls.levels.map(getBitrateAsKbps) : [];
       if (isShallowEqual(previousBitrates, bitrates)) {
         bitrates = previousBitrates;
       }
-      if (hls.currentLevel === -1) {
+      const currentLevel =
+        hlsEvent === Hls.Events.LEVEL_SWITCHED
+          ? eventData.level
+          : hls.currentLevel === -1
+          ? hls.startLevel
+          : hls.currentLevel;
+      if (currentLevel === -1) {
+        log && log('No hls.js level reported currently or selected for start.');
         updateStreamState({
           bitrates
         });
       } else {
-        const currentBitrate = getBitrateAsKbps(hls.levels[hls.currentLevel]);
+        const currentBitrate = getBitrateAsKbps(hls.levels[currentLevel]);
         updateStreamState({
           currentBitrate,
           bitrates
@@ -57,20 +64,28 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
           let reached = false;
           for (let i = 0; i < hls.levels.length; i++) {
             const bitrate = getBitrateAsKbps(hls.levels[i]);
-            if (bitrate > cap) {
+            if (bitrate === cap) {
+              hls.autoLevelCapping = i;
+              updateStreamState({ bitrateCap: getBitrateAsKbps(hls.levels[i]) });
+              log && log('Desired bitrate cap ' + cap + ' is equal to level on index ' + i + ' in hls.js.', hls.levels);
+              reached = true;
+              break;
+            } else if (bitrate > cap) {
               if (i > 0) {
                 hls.autoLevelCapping = i - 1;
                 updateStreamState({ bitrateCap: getBitrateAsKbps(hls.levels[i - 1]) });
                 log &&
                   log(
-                    'Desired bitrate cap corresponds to level with capping on index ' + (i - 1) + ' in hls.js.',
+                    'Desired bitrate cap ' + cap + ' is closest to level on index ' + (i - 1) + ' in hls.js.',
                     hls.levels
                   );
               } else {
                 hls.autoLevelCapping = 0;
                 log &&
                   log(
-                    'Desired bitrate cap appears to be lower than the lowest HLS level. Aligning to lowest level.',
+                    'Desired bitrate cap ' +
+                      cap +
+                      ' appears to be lower than the lowest HLS level. Aligning to lowest level.',
                     hls.levels
                   );
                 updateStreamState({ bitrateCap: getBitrateAsKbps(hls.levels[0]) });
