@@ -143,10 +143,11 @@ const getRxEventHandlers = <P: BasicVideoEventHandlersProps>({
     rxPlayer.addEventListener(name, handler);
   });
 
-  const { onVolumeChange } = videoElementEventHandlers;
+  const { onVolumeChange, onProgress } = videoElementEventHandlers;
   return {
     videoElementEventHandlers: {
-      onVolumeChange
+      onVolumeChange,
+      onProgress
     },
     pauseStreamRangeUpdater,
     setLifeCycleManager,

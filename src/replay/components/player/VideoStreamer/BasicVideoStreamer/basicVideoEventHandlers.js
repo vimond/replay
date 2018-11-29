@@ -19,7 +19,7 @@ function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
   let ahead = 0;
 
   for (let i = 0; i < buffered.length; ++i) {
-    if (buffered.start(i) <= currentTime && buffered.end(i) >= currentTime) {
+    if (buffered.start(i) - 2 <= currentTime && buffered.end(i) + 2 >= currentTime) {
       ahead = buffered.end(i) - currentTime;
       break;
     }
@@ -120,6 +120,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     } else if (stage === 'started') {
       updateStreamState({ isBuffering: false, playState: videoElement.paused ? 'paused' : 'playing' });
     }
+    updateStreamState({ bufferedAhead: calculateBufferedAhead(videoElement) });
 
     if (videoElement.paused) {
       updateStreamState({ playState: 'paused', isPaused: true, isBuffering: false, isSeeking: false });
