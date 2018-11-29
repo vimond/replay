@@ -5,8 +5,9 @@ import * as React from 'react';
 import BasicVideoStreamer from './BasicVideoStreamer/BasicVideoStreamer';
 import HlsjsVideoStreamer from './HlsjsVideoStreamer/HlsjsVideoStreamer';
 import ShakaVideoStreamer from './ShakaVideoStreamer/ShakaVideoStreamer';
-import type { PlaybackSource } from './types';
 import HtmlVideoStreamer from './HtmlVideoStreamer/HtmlVideoStreamer';
+
+import type { PlaybackSource } from './types';
 
 type StreamType = {
   name: string,

@@ -6,7 +6,6 @@ menu: 'Using the Replay player'
 
 import { Playground, PropsTable } from 'docz';
 import Replay from '../../default-player/Replay';
-import HlsjsVideoStreamer from '../../components/player/VideoStreamer/HlsjsVideoStreamer/HlsjsVideoStreamer';
 import '../../replay-default.css';
 
 # Inserting Replay into your React app
@@ -46,16 +45,7 @@ Or substitute the CSS `import` statement with your desired CSS inclusion mechani
 
 Out of the box, Replay supports video files that can be played natively in the browser. That typically means MP4 or WebM videos progressively downloaded from a web server location.
 
-By including alternative [VideoStreamer](/architecture/video-streamers) components, Replay can be used for adaptive streams. These cover HLS and DASH streams with live, DVR, embedded text tracks, and DRM if needed. Docs yet to be written, but here is an [HLS.js](https://github.com/video-dev/hls.js/) example:
-
-<Playground>
-  <Replay
-    source="https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8"
-    initialPlaybackProps={{ isPaused: true }}>
-    <HlsjsVideoStreamer/>
-  </Replay>
-</Playground>
-
+The [Advanced playback](/replay/advanced-playback) chapter explains how to add support for adaptive streaming.
 
 ## Inserting the player with a progressive video source
 
