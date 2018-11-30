@@ -6,8 +6,8 @@
   "publishConfig": {
     "registry": "https://vimond.jfrog.io/vimond/api/npm/npm-local/"
   },
-  "main": "lib/index.js",
-  "style": "lib/index.css",
+  "main": "index.js",
+  "style": "index.css",
   "files": [
     "components",
     "default-player",
