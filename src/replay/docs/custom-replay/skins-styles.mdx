@@ -21,7 +21,7 @@ Replay is at this time not prepared for CSS-in-JS solutions, and requires tradit
 For small changes, some extra style rules placed on top of the cascade (i.e. having selectors taking precedence) is the simplest approach. E.g. after referring the default Replay stylesheet, add your own:
 
 ```javascript
-import 'vimond-replay/lib/index.css';
+import 'vimond-replay/index.css';
 import './my-skin.css';
 ```
 
@@ -41,7 +41,7 @@ This would change the "primary colour" (icon and button surfaces) into green.
 
 ### Building a new stylesheet
 
-The default stylesheet can be completely replaced. For this, either reuse individual modules from the Replay library and substitute others (like colors.css) with your own, or create a copy of the file found at the npm path `'vimond-replay/lib/index.css'`. If reusing individual modules, they need to be referred individually by either a preprocessor (e.g. SASS, PostCSS, Webpack) or the browser.
+The default stylesheet can be completely replaced. For this, either reuse individual modules from the Replay library and substitute others (like colors.css) with your own, or create a copy of the file found at the npm path `'vimond-replay/index.css'`. If reusing individual modules, they need to be referred individually by either a preprocessor (e.g. SASS, PostCSS, Webpack) or the browser.
 
 Please see the chapter below, "CSS module organisation", and refer the source code, in order to look into individual CSS modules.
 

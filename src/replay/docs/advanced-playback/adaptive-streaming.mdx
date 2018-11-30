@@ -29,8 +29,8 @@ Add an import statement for the HLS.js video streamer component:
 
 ```javascript
 import { Replay } from 'vimond-replay';
-import 'vimond-replay/lib/index.css';
-import HlsjsVideoStreamer from 'vimond-replay/lib/video-streamer/hlsjs';
+import 'vimond-replay/index.css';
+import HlsjsVideoStreamer from 'vimond-replay/video-streamer/hlsjs';
 ```
 
 Add the `<HlsjsVideoStreamer/>` component as the child of `<Replay/>`. This simply includes the HLS.js library through the VideoStreamer wrapping component.
@@ -76,8 +76,8 @@ The Shaka Player video streamer component can be imported with the import statem
 
 ```javascript
 import { Replay } from 'vimond-replay';
-import 'vimond-replay/lib/index.css';
-import ShakaVideoStreamer from 'vimond-replay/lib/video-streamer/shaka-player';
+import 'vimond-replay/index.css';
+import ShakaVideoStreamer from 'vimond-replay/video-streamer/shaka-player';
 ```
 
 Add the `<ShakaVideoStreamer/>` component as the child of `<Replay/>`. This simply includes the Shaka Player library through the VideoStreamer wrapping component.
@@ -144,8 +144,8 @@ If the source is only specified as a string containing the URL to the manifest, 
 ```javascript
 import React from 'react';
 import { Replay } from 'vimond-replay';
-import 'vimond-replay/lib/index.css';
-import VideoStreamerResolver from 'vimond-replay/lib/video-streamer/resolver';
+import 'vimond-replay/index.css';
+import VideoStreamerResolver from 'vimond-replay/video-streamer/resolver';
 ```
 
 The following example resolves to inserting the HlsjsVideoStreamer for the specified source, unless this page is viewed in Safari, where HtmlVideoStreamer is selected.
