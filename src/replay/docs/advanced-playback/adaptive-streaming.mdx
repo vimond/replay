@@ -1,0 +1,196 @@
+---
+name: Adaptive streaming
+route: /advanced-playback/adaptive-streaming
+menu: 'Advanced playback'
+---
+
+import { Playground, PropsTable } from 'docz';
+import Replay from '../../default-player/Replay';
+import HlsjsVideoStreamer from '../../components/player/VideoStreamer/HlsjsVideoStreamer/HlsjsVideoStreamer';
+import ShakaVideoStreamer from '../../components/player/VideoStreamer/ShakaVideoStreamer/ShakaVideoStreamer';
+import VideoStreamerResolver from '../../components/player/VideoStreamer/VideoStreamerResolver';
+import '../../replay-default.css';
+
+# Playing adaptive streams
+
+Adaptive streaming in Replay is supported through third party player integrations, namely several different `<...VideoStreamer/>` components included in the Replay package. Two of these integrate the most common and mature open source alternatives, HLS.js and Shaka Player. They correspondingly cover HLS and MPEG-DASH technologies (however the development appears to extend beyond the original target technology). These two components are named `<HlsjsVideoStreamer/>` and `<ShakaVideoStreamer/>`.
+
+Unless DRM encryption is needed for the adaptive streams to be played with Replay, the best strategy is to have all streams in one of the formats (HLS and MPEG-DASH). Unencrypted, either of these can play with the corresponding third party integration in all modern browsers.
+
+If DRM playback must be supported, or if the different streams to be played have different formats, then Replay provides a helper component resolving what `VideoStreamer` that fits the stream. 
+
+Examples of the different stream formats use case might be some DASH streams and MP4 files, or perhaps both HLS and DASH streams.
+
+## Enabling playback for a single adaptive streaming technology
+
+### HLS with HLS.js
+
+Add an import statement for the HLS.js video streamer component:
+
+```javascript
+import { Replay } from 'vimond-replay';
+import 'vimond-replay/lib/index.css';
+import HlsjsVideoStreamer from 'vimond-replay/lib/video-streamer/hlsjs';
+```
+
+Add the `<HlsjsVideoStreamer/>` component as the child of `<Replay/>`. This simply includes the HLS.js library through the VideoStreamer wrapping component.
+
+<Playground>
+  <Replay
+    source="https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8"
+    initialPlaybackProps={{ isPaused: true }}>
+    <HlsjsVideoStreamer/>
+  </Replay>
+</Playground>
+
+Remember that the HLS.js library is actually playing the stream. Refer to the [project homepage](https://github.com/video-dev/hls.js/) for documentation on what's supported, troubleshooting playback, expected behaviour, etc.
+
+Note that with this code, Replay's support for progressively downloaded MP4/WebM files is substituted, and such files are not supported.
+
+If specific HLS.js configuration settings need to be set, they can be added like this:
+
+```javascript
+const replayOptions = {
+  videoStreamer: {
+    hlsjs: {
+      customConfiguration: {
+        capLevelToPlayerSize: true,
+        maxBufferLength: 45
+      }
+    }
+  }
+};
+// Pass this object to Replay as a configuration override:
+const render = () => (
+  <Replay
+    source="https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8"
+    options={replayOptions}>
+    <HlsjsVideoStreamer/>
+  </Replay>
+);
+```
+
+### MPEG-DASH with Shaka Player
+
+The Shaka Player video streamer component can be imported with the import statement added at the end:
+
+```javascript
+import { Replay } from 'vimond-replay';
+import 'vimond-replay/lib/index.css';
+import ShakaVideoStreamer from 'vimond-replay/lib/video-streamer/shaka-player';
+```
+
+Add the `<ShakaVideoStreamer/>` component as the child of `<Replay/>`. This simply includes the Shaka Player library through the VideoStreamer wrapping component.
+
+<Playground>
+  <Replay
+    source="https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd"
+    initialPlaybackProps={{ isPaused: true }}>
+    <ShakaVideoStreamer/>
+  </Replay>
+</Playground>
+
+Remember that Shaka Player is actually playing the stream. Refer to the [project homepage](https://github.com/google/shaka-player/) for documentation on what's supported, troubleshooting playback, expected behaviour, etc.
+
+Note that with this code, Replay's support for progressively downloaded MP4/WebM files is substituted, and such files are not supported.
+
+If specific Shaka Player configuration settings need to be set, they can be added like this:
+
+```javascript
+const replayOptions = {
+  videoStreamer: {
+    shaka: {
+      customConfiguration: {
+        streaming: {
+          bufferingGoal: 120
+        }
+      }
+    }
+  }
+};
+// Pass this object to Replay as a configuration override:
+const render = () => (
+  <Replay
+    source="https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd"
+    options={replayOptions}>
+    <ShakaVideoStreamer/>
+  </Replay>
+);
+```
+
+## Enabling playback for multiple streaming technologies based on stream technology resolution
+
+The helper commponent `<VideoStreamerResolver/>`'s task is to select a compatible video streamer for Replay based on the stream type, and in a special case, also taking the browser into consideration. 
+
+For HLS, it inserts `<HlsjsVideoStreamer/>`, for MPEG-DASH `<ShakaVideoStreamer/>`. A progressive video source resolves to `<HtmlVideoStreamer/>`. The mentioned special case is the combination of Safari and HLS streams. Safari and the Apple operating systems support HLS natively, and the HTML video element play these streams optimally without any third party library. For this combination, the video streamer resolver then selects `<HtmlVideoStreamer/>`. It includes support for FairPlay DRM.
+
+The stream type is resolved based on the source prop. The source prop should then ideally be an object containing the mime type associated with the resource specified by the stream URL. This is an example for HLS:
+
+```javascript
+const hlsSource = {
+  streamUrl: 'https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8',
+  contentType: 'application/x-mpegurl'
+};
+```
+
+The recognised mime types are as follows:
+
+* MPEG-DASH: `application/dash+xml`
+* HLS: `application/x-mpegurl`, alternatively `vnd.apple.mpegurl`
+* Progressive MP4 or WebM: `video/mp4`, `video/webm`
+
+If the source is only specified as a string containing the URL to the manifest, playlist, or video file, the video streamer resolver attempts detecting the stream type based on URL content.
+
+```javascript
+import React from 'react';
+import { Replay } from 'vimond-replay';
+import 'vimond-replay/lib/index.css';
+import VideoStreamerResolver from 'vimond-replay/lib/video-streamer/resolver';
+```
+
+The following example resolves to inserting the HlsjsVideoStreamer for the specified source, unless this page is viewed in Safari, where HtmlVideoStreamer is selected.
+
+<Playground>
+  <Replay
+    source={{
+             streamUrl: 'https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8',
+             contentType: 'application/x-mpegurl'
+           }}
+    initialPlaybackProps={{ isPaused: true }}>
+    <VideoStreamerResolver/>
+  </Replay>
+</Playground>
+
+The following example selects the ShakaVideoStreamer for the specified source string. The manifest URL contains `.mpd`, which makes the video streamer resolver guess that this is a MPEG-DASH manifest.
+
+<Playground>
+  <Replay
+    source="https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd"
+    initialPlaybackProps={{ isPaused: true }}>
+    <VideoStreamerResolver/>
+  </Replay>
+</Playground>
+
+As for individual video streamer components, `<VideoStreamerResolver/>` should be inserted as `<Replay/>`'s child element. It renders the resolved video streamer component based on the source prop passed down from Replay.
+
+Configuration for all video streamer components (inserted individually or through the video streamer resolver) can be specified in the same override object.
+
+```javascript
+const replayOptions = {
+  videoStreamer: {
+    hlsjs: {
+      customConfiguration: {
+        capLevelToPlayerSize: true,
+        maxBufferLength: 45
+      }
+    },
+    shaka: {
+      customConfiguration: {
+        streaming: {
+          bufferingGoal: 120
+        }
+      }
+    }
+  }
+};
+```

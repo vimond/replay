@@ -12,7 +12,7 @@ export default {
   title: '‹Replay»',
   description: 'A video player built while thinking in React',
   src: './src/replay',
-  base: '/docs/',
+  dest: './docs',
   public: '/public',
   plugins: [
     css({
@@ -40,8 +40,16 @@ export default {
         'Inserting Replay',
         'Setting startup options',
         'Controlling playback programmatically',
-        'Replay component API',
-        'Advanced playback'
+        'Replay component API'
+      ]
+    },
+    {
+      name: 'Advanced playback',
+      menu: [
+        'Adaptive streaming',
+        'DRM',
+        'Subtitles and audio tracks',
+        'Bitrates and adaptive quality selection'
       ]
     },
     'Customising Replay',

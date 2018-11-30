@@ -6,6 +6,7 @@ order: 1
 
 import { Playground } from 'docz';
 import Replay from './default-player/Replay';
+import HlsjsVideoStreamer from './components/player/VideoStreamer/HlsjsVideoStreamer/HlsjsVideoStreamer';
 import './replay-default.css';
 
 # Replay
@@ -14,9 +15,11 @@ A modern React approach to a video player with advanced streaming support.
 
 <Playground>
   <Replay
-    source="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    source="https://s3.amazonaws.com/expo-first-vpc-vod-fragments/786e3/master_12903_64ee(12903_ISMUSP).ism/master_12903_64ee(12903_ISMUSP).m3u8"
     initialPlaybackProps={{ isPaused: true }}
-  />
+    options={{ videoStreamer: { hlsjs: { customConfiguration: { startLevel: 3 }}}}}>
+    <HlsjsVideoStreamer/>
+  </Replay>
 </Playground>
 
 ## What is Replay?
@@ -25,14 +28,14 @@ A modern React approach to a video player with advanced streaming support.
 
 **A prebuilt full React player component** ready for being inserted into any React app.
 
-**Third party player library integrations for advanced streaming**. Currently covered: [Shaka Player](https://shaka-player-demo.appspot.com/) and [HLS.js](https://github.com/video-dev/hls.js/), along with native HTML5 video playback. These are all wrapped in "first-class" React components.
+**Components integrating third party player libraries for advanced streaming**. Currently covered: [Shaka Player](https://shaka-player-demo.appspot.com/) and [HLS.js](https://github.com/video-dev/hls.js/), along with native HTML5 video playback. These are all wrapped in "first-class" React components.
 
 ## What does Replay aim to be?
 
 **One common React-oriented video playback API** for both the HTML video element and all integrated third party streaming libraries. This means:
 
-* Consistent and predictable behaviour across browsers and stream technologies, to a practical extent.
-* The UI components and player component consumers don't need to relate to the different browsers or player libraries way of expressing the playback state or manipulating it.
+* Consistent and predictable API behaviour across browsers and stream technologies, as far as possible.
+* The UI components and player component consumers don't need to relate to the different browsers' or player libraries' way of expressing the playback state or manipulating it.
 * Everything can be observed through state properties, and any operation can be performed by setting properties.
 
 **Ready to meet advanced/professional requirements** including DRM from all browser vendors, live streaming with DVR, multiple audio tracks, embedded text tracks. The third party player integrations mostly facilitate this.
@@ -150,7 +153,7 @@ The video file formats and codecs supported natively by the browser can be playe
 
 The main Replay project is not intended to contain and maintain any feature. Here are some features and capabilities out of scope:
 
-* Non-playback related controls and overlays. No social sharing, no poster, no related video recommendations. Can be included when building a custom player. 
+* Non-playback related controls and overlays. No social sharing, no poster, no related video recommendations. Can be added when building a custom player. 
 * 360˚/VR-enabled playback. Might be enabled through custom controls and custom VideoStreamers.
 * Ad integrations. Should be added in a custom-built player, or wrapped around the default player.
 * Analytics integrations. Hook up stream state observer callbacks and add your metadata to a custom integration inside a custom defined player or when inserting the default Replay player.
