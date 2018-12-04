@@ -1,13 +1,12 @@
 // @flow
-import * as React from 'react';
-
-// TODO: React Suspense!
-import BasicVideoStreamer from './BasicVideoStreamer/BasicVideoStreamer';
-import HlsjsVideoStreamer from './HlsjsVideoStreamer/HlsjsVideoStreamer';
-import ShakaVideoStreamer from './ShakaVideoStreamer/ShakaVideoStreamer';
-import HtmlVideoStreamer from './HtmlVideoStreamer/HtmlVideoStreamer';
-
+//$FlowFixMe Flow React types are not up to date.
+import React, { lazy, Suspense, type ComponentType } from 'react';
 import type { PlaybackSource } from './types';
+
+const HlsjsVideoStreamer = lazy(() => import('./HlsjsVideoStreamer/HlsjsVideoStreamer'));
+const ShakaVideoStreamer = lazy(() => import('./ShakaVideoStreamer/ShakaVideoStreamer'));
+const HtmlVideoStreamer = lazy(() => import('./HtmlVideoStreamer/HtmlVideoStreamer'));
+const BasicVideoStreamer = lazy(() => import('./BasicVideoStreamer/BasicVideoStreamer'));
 
 type StreamType = {
   name: string,
@@ -53,7 +52,7 @@ const detectStreamType = (streamUrl: string, contentType: ?string): StreamType =
     }
   })[0] || streamTypes[streamTypes.length - 1];
 
-const selectVideoStreamerComponent = (source?: PlaybackSource | string | null): ?React.ComponentType<any> => {
+const selectVideoStreamerImporter = (source?: PlaybackSource | string | null): ComponentType<any> => {
   if (source) {
     const contentType = typeof source === 'string' ? null : source.contentType;
     const streamUrl = typeof source === 'string' ? source : source.streamUrl;
@@ -75,15 +74,18 @@ const selectVideoStreamerComponent = (source?: PlaybackSource | string | null): 
         return BasicVideoStreamer;
     }
   } else {
-    return null;
+    return () => BasicVideoStreamer;
   }
 };
 
 const VideoStreamerResolver = (props: { source?: PlaybackSource | string | null }) => {
-  const VideoStreamer = selectVideoStreamerComponent(props.source);
-  if (VideoStreamer) {
-    // $FlowFixMe
-    return <VideoStreamer {...props} />;
+  const VideoStreamer = selectVideoStreamerImporter(props.source);
+  if (props.source) {
+    return (
+      <Suspense fallback={<div />}>
+        <VideoStreamer {...props} />
+      </Suspense>
+    );
   } else {
     return null;
   }

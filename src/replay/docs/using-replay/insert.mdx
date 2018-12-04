@@ -10,16 +10,20 @@ import '../../replay-default.css';
 
 # Inserting Replay into your React app
 
-This chapter demonstrates how you can:
+This and the following pages demonstrates how you can:
 
 * Include the player in your own code.
 * Specify what to play.
 * Applying some playback settings.
 * Control and observe the playback state.
 
-*Note that all examples underneath with actual video include the [`initialPlaybackProps={{ isPaused: true }}` property](/replay/api#initialplaybackprops-initialplaybackprops), so that the examples don't play wildly all over this page. Please remove when copying to real app code.*
+*Note that all examples with actual video include the [`initialPlaybackProps={{ isPaused: true }}` property](/replay/api#initialplaybackprops-initialplaybackprops), so that the examples don't play wildly all over the pages. Please remove this prop when copying to real app code.*
 
 ## Prerequisites
+
+### Requirements
+
+Minimum React version for Replay is 16.3. If using the [video streamer resolver](/advanced-playback/adaptive-streaming#enabling-playback-for-multiple-streaming-technologies-based-on-stream-technology-resolution), React 16.6 is required. In this case, a bundler supporting dynamic `import()` statements, is also required.
 
 ### Installing the Replay npm package
 

@@ -124,6 +124,8 @@ The helper commponent `<VideoStreamerResolver/>`'s task is to select a compatibl
 
 For HLS, it inserts `<HlsjsVideoStreamer/>`, for MPEG-DASH `<ShakaVideoStreamer/>`. A progressive video source resolves to `<HtmlVideoStreamer/>`. The mentioned special case is the combination of Safari and HLS streams. Safari and the Apple operating systems support HLS natively, and the HTML video element play these streams optimally without any third party library. For this combination, the video streamer resolver then selects `<HtmlVideoStreamer/>`. It includes support for FairPlay DRM.
 
+The mentioned third party player libraries are quite big, and adds several hundred kilobytes to the script bundle. Because of this, `<VideoStreamerResolver/>` uses [React.lazy](https://reactjs.org/docs/code-splitting.html#reactlazy) and [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports). It loads only one video streamer and its integrated third party library when needed.
+
 The stream type is resolved based on the source prop. The source prop should then ideally be an object containing the mime type associated with the resource specified by the stream URL. This is an example for HLS:
 
 ```javascript

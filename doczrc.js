@@ -9,7 +9,7 @@ import { css } from 'docz-plugin-css';
 });*/
 
 export default {
-  title: '‹Replay»',
+  title: 'Replay»',
   description: 'A video player built while thinking in React',
   src: './src/replay',
   dest: './docs',
