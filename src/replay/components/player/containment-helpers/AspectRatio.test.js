@@ -16,7 +16,7 @@ test('<AspectRatio /> renders with DOM, class names, and styles.', () => {
       .find('div')
       .at(0)
       .props().style
-  ).toEqual({ position: 'relative' });
+  ).toEqual({ position: 'relative', maxHeight: '100vh' });
   expect(
     rendered
       .find('div')

@@ -36,6 +36,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
       className="replay"
       style={
         Object {
+          "maxHeight": "100vh",
           "position": "relative",
         }
       }
