@@ -8,9 +8,11 @@ It is also intended to be a **replay**cement for the legacy and non-React Vimond
 
 It constitutes a tiny framework that allows for wrapping and plugging in advanced streaming and playback technologies as first-class React components. The goal is "thinking in React" as much as possible.
 
-So far it integrates with [Shaka Player](https://github.com/google/shaka-player), partly [Rx-player](https://github.com/canalplus/rx-player), and [HLS.js](https://github.com/video-dev/hls.js). That covers MPEG-DASH, HLS, and smooth streams.
+So far it integrates with [Shaka Player](https://github.com/google/shaka-player), partly [Rx-player](https://github.com/canalplus/rx-player), and [HLS.js](https://github.com/video-dev/hls.js). That covers MPEG-DASH, HLS, and smooth streams, besides MP4 files that can be played natively in the browser.
 
 The Replay player also aims to "get the job done" when it comes to simply embedding a video file to be played in a React app, and with custom controls.
+
+Documentation is written but not published yet.
 
 One goal has been to learn and use quite new technologies and patterns in the React and Javascript ecosystem. The following is studied, applied or planned applied:
 
@@ -23,12 +25,11 @@ One goal has been to learn and use quite new technologies and patterns in the Re
 * ✓ Automated code formatting with [Prettier](https://prettier.io/).
 * ✓ Accessibility compliance through tab navigation in player controls and proper markup.
 * ✓ [GitHub issues](https://github.com/vimond/replay/issues/).
-* [Docz](https://docz.site) doc guides with live code examples displaying React components.
-* [React.lazy](https://reactjs.org/blog/2018/10/23/react-v-16-6.html) for splitting out heavy third party streaming dependencies.
+* ✓ [Docz](https://docz.site) doc guides with live code examples displaying React components.
+* ✓ [React.lazy](https://reactjs.org/blog/2018/10/23/react-v-16-6.html) for splitting out heavy third party streaming dependencies.
 * Reference documentation generation based on Flow types.
 * Full player tests with [Puppeteer](https://developers.google.com/web/tools/puppeteer/).
 * CSS in JS approach to design and theming, with e.g. [emotion](https://emotion.sh/).
-* Code splitting and dynamic imports (for VideoStreamer integrations including big third party libs).
 
 Curiosity about the code, the technologies explored, and problems to be solved, are all welcome.
 

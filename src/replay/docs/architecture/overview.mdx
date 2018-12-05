@@ -19,7 +19,7 @@ Replay is built on three main concepts constituted in React components.
 
 Replay aims to provide a streamlined and consistent way of letting data flow between the playing stream and the UI.
 
-## Arrows and boxes
+## Some arrows and boxes
 
 <Diagram/>
 
@@ -58,3 +58,25 @@ In the Replay player, either the default one, or a custom one, the following app
 #### Connected controls
 * There are **_many components_** following the "connected control" pattern, and more can easily be created. It is only one current **_implementation_** of this pattern using the connectControl() HOC.
 * In a component tree of a complete Replay player, there are usually one **_instance_** of each component implementing this pattern. However it is not a problem having more instances added. For instance, a SkipButton can be added twice in order to set up both skip backward and skip forward buttons.
+
+## Technologies and tools used in this project
+
+#### For npm package consumers
+
+* Statical [Flow typing](https://flow.org). As a npm package consumer with Flow enabled and enforced (through `// @flow`), the Replay player or components should all appear as typed, and the usage will be type checked.
+
+#### For project contributors
+
+* [Jest](https://jestjs.io/)/[Enzyme](https://airbnb.io/enzyme/) tests.
+* React [context](https://reactjs.org/docs/context.html) and [lazy](https://reactjs.org/blog/2018/10/23/react-v-16-6.html) APIs.
+* Code formatting with [Prettier](https://prettier.io/), linting with [ESLint](https://eslint.org/).
+* [Docz](https://www.docz.site/) documentation with live code examples through [MDX](https://mdxjs.com).
+* [Babel](https://babeljs.io/) and [PostCSS](https://postcss.org/) is used for building the packaged files.
+* Currently automatically built with [CircleCI](https://circleci.com).
+
+#### Some design principles on top of this:
+
+* Utilising common ES2019 language features.
+* Performant UI, avoiding updates to the full element UI tree when any of the properties changes.
+* Reduce code bloat for npm package users, only including code parts and assets being required.
+* Avoid using React APIs subject to deprecation, e.g. `componentWillReceiveProps()`.
