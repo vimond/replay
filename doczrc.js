@@ -14,6 +14,7 @@ export default {
   src: './src/replay',
   dest: './docs',
   public: '/public',
+  base: '/docs/replay/latest/',
   plugins: [
     css({
       preprocessor: 'postcss',
