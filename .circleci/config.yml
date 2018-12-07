@@ -71,7 +71,7 @@ jobs:
       - run:
           name: Publishing documentation to files.vimond.com.
           command: |
-            scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -docs/* ubuntu@ci.vimond.com:/var/www/default/htdocs/files/docs/replay/latest
+            scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r docs/* ubuntu@ci.vimond.com:/var/www/default/htdocs/files/docs/replay/latest
 
 workflows:
   version: 2
