@@ -43,7 +43,7 @@
     opacity: 0;
 }
 
-.replay-controls-bar:hover {
+.replay-controls-bar:hover, .replay-is-paused .replay-controls-bar {
     cursor: default;
     visibility: visible;
     opacity: 1;

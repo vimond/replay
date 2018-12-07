@@ -15,8 +15,10 @@ A modern React approach to a video player with advanced streaming support.
 
 <Playground>
   <Replay
-    source="https://s3.amazonaws.com/expo-first-vpc-vod-videofiles/786e3/master64ee(12903_R21MP41000).mp4"
-    initialPlaybackProps={{ isPaused: true }} />
+    source={{ streamUrl: 'https://d3sifrqo4fwaek.cloudfront.net/1920x1080/manifest.m3u8', startPosition: 2 }}
+    initialPlaybackProps={{ isPaused: true }} >
+    <HlsjsVideoStreamer/>
+  </Replay>
 </Playground>
 
 ## What is Replay?
