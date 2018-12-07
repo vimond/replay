@@ -4,6 +4,8 @@ This is a personal training project coded outside office hours.
 
 Replay is a **Re**act **play**er controls component library and a full player component, independent to Vimond environments and earlier player projects.
 
+[Documentation with live examples](http://files.vimond.com/docs/replay/latest/).
+
 It is also intended to be a **replay**cement for the legacy and non-React Vimond **Re**ference **Play**er currently used for testing streams in [Streamlab](http://streamlab.ops.vmp.vimondtv.com/).
 
 It constitutes a tiny framework that allows for wrapping and plugging in advanced streaming and playback technologies as first-class React components. The goal is "thinking in React" as much as possible.
@@ -11,8 +13,6 @@ It constitutes a tiny framework that allows for wrapping and plugging in advance
 So far it integrates with [Shaka Player](https://github.com/google/shaka-player), partly [Rx-player](https://github.com/canalplus/rx-player), and [HLS.js](https://github.com/video-dev/hls.js). That covers MPEG-DASH, HLS, and smooth streams, besides MP4 files that can be played natively in the browser.
 
 The Replay player also aims to "get the job done" when it comes to simply embedding a video file to be played in a React app, and with custom controls.
-
-Documentation is written but not published yet.
 
 One goal has been to learn and use quite new technologies and patterns in the React and Javascript ecosystem. The following is studied, applied or planned applied:
 
@@ -33,7 +33,7 @@ One goal has been to learn and use quite new technologies and patterns in the Re
 
 Curiosity about the code, the technologies explored, and problems to be solved, are all welcome.
 
-Except bug fixes, the project has a finite set of tasks to be done, all listed as [issues](https://github.com/vimond/replay/issues). Replay can be tested in [Streamlab through a feature toggle](https://streamlab.ops.vmp.vimondtv.com/?features=replay). Note that the latest changes are manually integrated.
+Except bug fixes, the project has a finite set of tasks to be done, all listed as [issues](https://github.com/vimond/replay/issues). Except for the documentation examples, Replay can be tested in [Streamlab through a feature toggle](https://streamlab.ops.vmp.vimondtv.com/?features=replay). Note that the latest changes are manually integrated.
 
 For questions about this repo, contact [Tor Erik Alræk](mailto:torerik@vimond.com).
 
