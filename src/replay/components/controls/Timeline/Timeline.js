@@ -13,7 +13,7 @@ type Props = CommonProps & {
   /** ⇘︎ True if a seeking operation is ongoing. This prop is used by the component to avoid glitching while dragging. */
   isSeeking?: boolean,
   /** Elements that will display on top of the timeline slider track, but below the timeline handle. */
-  children: React.Node,
+  children?: React.Node,
   /** Can be set for custom graphics or content in the slider handle. */
   handleContent?: React.Node,
   /** Can be set for custom graphics or content representing the slider track. */

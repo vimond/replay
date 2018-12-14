@@ -15,7 +15,8 @@ const AspectRatio = ({ aspectRatio = { horizontal: 16, vertical: 9 }, render, cl
   const beforeStyle = {
     display: 'block',
     width: '100%',
-    paddingTop: ((aspectRatio.vertical * 100) / aspectRatio.horizontal).toFixed(2) + '%'
+    paddingTop: ((aspectRatio.vertical * 100) / aspectRatio.horizontal).toFixed(2) + '%',
+    pointerEvents: 'none'
   };
   return (
     <div className={className} style={outerStyle}>
