@@ -25,6 +25,7 @@ type Props = CommonGenericProps & {
 type State = {
   dragValue?: number,
   isDragging?: boolean,
+  wasClicked?: boolean,
   previewValue?: number,
   isPointerInside?: boolean
 };
@@ -37,6 +38,7 @@ type UpdateConditions = {
 
 const baseClassName = 'slider';
 const isDraggingClassName = 'dragging';
+const wasClickedClassName = 'clicked';
 const baseTrackClassName = 'slider-track';
 const baseHandleClassName = 'slider-handle';
 const zeroStyle = '0%';
@@ -134,7 +136,8 @@ class Slider extends React.Component<Props, State> {
   handleHandleStartDrag = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
     evt.stopPropagation();
     if (!this.state.isDragging) {
-      this.setState({ isDragging: true });
+      setTimeout(() => this.setState({ wasClicked: false }), 1000);
+      this.setState({ isDragging: true, wasClicked: true });
       this.updateValueFromCoordinates(evt, { isDragging: true });
       // We are OK with no position updates yet.
       if (this.isTouchSupported) {
@@ -218,14 +221,14 @@ class Slider extends React.Component<Props, State> {
       maxValue,
       isUpdateBlocked
     } = this.props;
-    const { dragValue, previewValue, isDragging, isPointerInside } = this.state;
+    const { dragValue, previewValue, isDragging, isPointerInside, wasClicked } = this.state;
     const displayValue = (isDragging || isUpdateBlocked) && dragValue != null ? dragValue : value;
     const selectClasses = isDragging ? selectDraggingClasses : selectDefaultClasses;
     const sliderClassNames = hydrateClassNames({
       classes,
       selectClasses,
       classNamePrefix,
-      classNames: [baseClassName, className, isDragging ? isDraggingClassName : null]
+      classNames: [baseClassName, className, isDragging ? isDraggingClassName : null, wasClicked ? wasClickedClassName : null]
     });
     const handleClassNames = hydrateClassNames({
       classes,

@@ -71,6 +71,14 @@
     transition: background-color 0.5s;
 }
 
+.replay-is-playing.replay-is-user-active .replay-timeline-handle {
+    transition: left 0.25s;
+}
+
+.replay-timeline.replay-dragging .replay-timeline-handle, .replay-timeline.replay-clicked .replay-timeline-handle  {
+    transition: left 0s;
+}
+
 .replay-timeline-information .replay-timeline-tooltip {
     visibility: hidden;
     opacity: 0;
