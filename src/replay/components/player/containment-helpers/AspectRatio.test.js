@@ -31,7 +31,8 @@ test('<AspectRatio /> renders with DOM, class names, and styles.', () => {
   ).toEqual({
     display: 'block',
     width: '100%',
-    paddingTop: '56.25%'
+    paddingTop: '56.25%',
+    pointerEvents: 'none'
   });
   expect(rendered.childAt(0).type()).toBe('div');
   expect(rendered.childAt(1).type()).toBe('figure');
@@ -51,6 +52,7 @@ test('<AspectRatio /> respects other aspect ratios than the default (16:9).', ()
   ).toEqual({
     display: 'block',
     width: '100%',
-    paddingTop: '42.86%'
+    paddingTop: '42.86%',
+    pointerEvents: 'none'
   });
 });
