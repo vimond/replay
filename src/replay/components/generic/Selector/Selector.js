@@ -121,6 +121,10 @@ class Selector extends React.Component<Props, SelectorState> {
     }
   };
 
+  handleMouseLeave = () => {
+    this.setState({ isExpanded: false });
+  };
+
   render() {
     const {
       className,
@@ -157,7 +161,11 @@ class Selector extends React.Component<Props, SelectorState> {
       : null;
 
     return (
-      <div className={classNames} onKeyUp={this.handleKeyUp} onKeyDown={this.handleKeyDown}>
+      <div
+        className={classNames}
+        onKeyUp={this.handleKeyUp}
+        onKeyDown={this.handleKeyDown}
+        onMouseLeave={this.handleMouseLeave}>
         <ToggleButton
           isOn={this.state.isExpanded}
           className={expandToggleClassName}
