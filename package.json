@@ -33,6 +33,7 @@
     "test": "SKIP_PREFLIGHT_CHECK=true react-scripts test --env=jsdom"
   },
   "dependencies": {
+    "babel-plugin-version-inline": "^1.0.0",
     "hls.js": "^0.11.0",
     "memoize-one": "^4.0.0",
     "react-feather": "^1.1.0",

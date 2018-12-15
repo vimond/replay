@@ -7,6 +7,7 @@ import { defaultClassNamePrefix, isDifferent, prefixClassNames } from '../../com
 import Button from '../../generic/Button/Button';
 import connectControl from '../../player/PlayerController/connectControl';
 import type { InspectMethod } from '../../player/PlayerController/ControllerContext';
+import replayVersion from '../../../version';
 
 type PlaybackMonitorConfiguration = {
   visibleAtStart?: boolean
@@ -75,6 +76,8 @@ const propNameClassName = 'playback-monitor-property-name';
 const currentValueClassName = 'playback-monitor-current-value';
 const previousValueClassName = 'playback-monitor-previous-value';
 const closeButtonClassName = 'playback-monitor-close-button';
+const headerClassName = 'playback-monitor-header';
+const versionClassName = 'playback-monitor-version';
 
 const closeButtonLabel = 'Close';
 
@@ -214,7 +217,7 @@ class PlaybackMonitor extends React.Component<Props, State> {
   handleCloseClick = () => this.setState({ isMonitorVisible: false });
 
   handleKeyDown = (keyboardEvent: KeyboardEvent) => {
-    if (keyboardEvent.ctrlKey && keyboardEvent.altKey && keyboardEvent.code === 'KeyV') {
+    if (keyboardEvent.ctrlKey && keyboardEvent.altKey && keyboardEvent.code === 'KeyM') {
       this.setState({ isMonitorVisible: !this.state.isMonitorVisible });
     }
   };
@@ -232,13 +235,16 @@ class PlaybackMonitor extends React.Component<Props, State> {
     if (this.state.isMonitorVisible) {
       return (
         <div title={label} className={prefixClassNames(classNamePrefix, className)}>
-          <Button
-            className={closeButtonClassName}
-            classNamePrefix={classNamePrefix}
-            content={closeButtonContent}
-            label={closeButtonLabel}
-            onClick={this.handleCloseClick}
-          />
+          <div className={prefixClassNames(classNamePrefix, headerClassName)}>
+            <Button
+              className={closeButtonClassName}
+              classNamePrefix={classNamePrefix}
+              content={closeButtonContent}
+              label={closeButtonLabel}
+              onClick={this.handleCloseClick}
+            />
+            <p className={prefixClassNames(classNamePrefix, versionClassName)}>Replay v{replayVersion}</p>
+          </div>
           <table className={prefixClassNames(classNamePrefix, tableClassName)}>
             <tbody>{renderTableRows(classNamePrefix)}</tbody>
           </table>

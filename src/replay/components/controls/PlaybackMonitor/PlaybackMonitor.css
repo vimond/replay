@@ -5,10 +5,24 @@
     overflow-x: hidden;
 }
 
-.replay-playback-monitor-close-button {
+.replay-playback-monitor-header {
     position: sticky;
     top: 0;
+    left: 0;
+    right: 0;
+}
+
+.replay-playback-monitor-close-button {
+    position: absolute;
     left: 0.8em;
+}
+
+.replay-playback-monitor-version {
+    text-align: right;
+    position: absolute;
+    right: 1.6em;
+    top: 1em;
+    opacity: 0.6;
 }
 
 .replay-playback-monitor-stream-state {

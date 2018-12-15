@@ -46,6 +46,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
           Object {
             "display": "block",
             "paddingTop": "56.25%",
+            "pointerEvents": "none",
             "width": "100%",
           }
         }

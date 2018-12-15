@@ -9,6 +9,7 @@ import { baseConfiguration } from './default-player/baseConfiguration';
 import type { GraphicResources, StringResources, UIResources } from './default-player/types';
 import getPlayerUIRenderer from './default-player/playerUI';
 import { defaultClassNamePrefix } from './components/common';
+import replayVersion from './version';
 
 export type ResolveVideoStreamerMethod = (
   Component: ?React.ComponentType<VideoStreamerProps>,
@@ -23,6 +24,7 @@ type Customization = {
   graphics?: UIResources<GraphicResources>,
   strings?: UIResources<StringResources>,
   classNamePrefix?: string,
+  version?: string,
   uiRenderMethod?: RenderMethod,
   resolveVideoStreamerMethod?: ResolveVideoStreamerMethod,
   // future: styles: { [string]: any },
@@ -47,7 +49,8 @@ const createCustomPlayer = ({
   uiRenderMethod,
   resolveVideoStreamerMethod = defaultVideoStreamerResolver,
   classNamePrefix = defaultClassNamePrefix,
-  configuration = baseConfiguration
+  configuration = baseConfiguration,
+  version = replayVersion
 }: Customization): React.ComponentType<ReplayProps> => {
   const renderUI = uiRenderMethod || (graphics && strings && getPlayerUIRenderer(graphics, strings, classNamePrefix));
   if (!renderUI) {
@@ -91,6 +94,7 @@ const createCustomPlayer = ({
   if (name) {
     ComposedPlayer.displayName = name;
   }
+  ComposedPlayer.version = version;
   return ComposedPlayer;
 };
 

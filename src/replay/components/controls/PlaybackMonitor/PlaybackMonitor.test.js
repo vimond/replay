@@ -148,10 +148,10 @@ test('<PlaybackMonitor /> should remove its rendering if the close button is pre
   expect(rendered.find('div').length).toBe(0);
 });
 
-test('<PlaybackMonitor /> should render if Ctrl+Alt+V is pressed.', () => {
+test('<PlaybackMonitor /> should render if Ctrl+Alt+M is pressed.', () => {
   const rendered = mount(<PlaybackMonitor {...commonProps} configuration={null} />);
   expect(rendered.find('div').length).toBe(0);
-  rendered.instance().handleKeyDown({ ctrlKey: true, altKey: true, code: 'KeyV' });
+  rendered.instance().handleKeyDown({ ctrlKey: true, altKey: true, code: 'KeyM' });
   rendered.update();
   const freshRendered = rendered.find('div').at(0);
   expect(freshRendered.name()).toEqual('div');

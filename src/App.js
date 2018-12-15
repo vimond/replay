@@ -103,7 +103,7 @@ const configOverrides: PlayerConfiguration = {
     logLevel: 'WARNING'
   },
   playbackMonitor: {
-    visibleAtStart: false
+    visibleAtStart: true
   },
   ui: {
     //includeControls: ['playPauseButton', 'timeline', 'timeDisplay', 'gotoLiveButton', 'volume', 'fullscreenButton', 'exitButton']

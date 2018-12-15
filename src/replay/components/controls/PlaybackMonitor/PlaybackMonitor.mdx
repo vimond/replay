@@ -9,7 +9,7 @@ import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
 
 # PlaybackMonitor component
 
-An overlay for displaying all current and previous video stream state properties. Can be used for debugging and monitoring.
+An overlay displaying all current and previous video stream state properties. Can be used for debugging and monitoring.
 
 ## Summary
 
@@ -17,7 +17,7 @@ This is a convenience component not intended for end user cases. It is by itself
 
 ## Example
 
-The playback monitor can be displayed by pressing **Ctrl+Alt+V** in an actual rendering of the Replay player.
+The playback monitor can be displayed by pressing **Ctrl+Alt+M** in an actual rendering of the Replay player.
 
 ## Props
 
@@ -65,16 +65,28 @@ Please read the [general principles](/custom-replay/skins-styles) for Replay cla
   'Parent': '.playback-monitor-stream-state tr'
 },{
   'Element': 'div',
+  'Class name': 'playback-monitor-header',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.playback-monitor'
+},{
+  'Element': 'div',
   'Class name': 'playback-monitor-close-button',
   'Generic class name': 'button',
   'States': '',
-  'Parent': '.playback-monitor'
+  'Parent': '.playback-monitor-header'
 },{
   'Element': 'div',
   'Class name': '',
   'Generic class name': '',
   'States': '',
   'Parent': '.playback-monitor-close-button'
+},{
+  'Element': 'p',
+  'Class name': 'playback-monitor-version',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.playback-monitor-header'
 }]}/>
- 
+
  
