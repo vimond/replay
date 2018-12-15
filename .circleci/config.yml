@@ -43,6 +43,9 @@ jobs:
       - run:
           name: Type checks
           command: yarn flow
+      - run:
+          name: ESLint
+          command: yarn eslint src/replay --ignore-pattern '*.test.js'
   build:
     <<: *defaults
     steps:
