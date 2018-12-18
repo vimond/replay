@@ -27,8 +27,6 @@ function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
   return ahead;
 }
 
-// export default function getBasicVideoEventHandlers<C: VideoStreamerConfiguration, P: VideoStreamerImplProps<C>>
-
 export type BasicVideoEventHandlersProps = {
   onPlaybackError?: PlaybackError => void,
   initialPlaybackProps?: InitialPlaybackProps,
@@ -69,6 +67,15 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     getStage: () => {}
   };
 
+  function isPipAvailable() {
+    return (
+      // $FlowFixMe: Too exotic for React's HTML element typedefs.
+      (document.pictureInPictureEnabled && !videoElement.disablePictureInPicture) || // $FlowFixMe
+      (videoElement.webkitSupportsPresentationMode && typeof videoElement.webkitSetPresentationMode === 'function') ||
+      false
+    );
+  }
+
   function onError() {
     const playbackError = mapError(videoElement);
     if (streamer.props.onPlaybackError) {
@@ -94,7 +101,8 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
         playState: 'starting',
         isBuffering: true,
         volume: videoElement.volume,
-        isMuted: videoElement.muted
+        isMuted: videoElement.muted,
+        isPipAvailable: isPipAvailable()
       });
     }
   }
@@ -215,6 +223,41 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     pauseStreamRangeUpdater.stop();
   }
 
+  function handleEnterPictureInPicture() {
+    updateStreamState({ isPipActive: true });
+  }
+
+  function handleLeavePictureInPicture() {
+    updateStreamState({ isPipActive: false });
+  }
+
+  // START Ugly Safari custom events and properties section
+
+  function handlePlaybackTargetAvailabilityChanged(evt: { availability: 'available' | 'not-available' }) {
+    if (evt.availability === 'available') {
+      updateStreamState({ isAirPlayAvailable: true });
+    } else {
+      updateStreamState({ isAirPlayAvailable: false });
+    }
+  }
+
+  function handleCurrentPlaybackTargetIsWirelessChanged(evt) {
+    // We don't know the current state, and need to guess based on a toggle.
+    // $FlowFixMe: Typedefs not up-to-date.
+    updateStreamState({ isAirPlayActive: videoElement.webkitCurrentPlaybackTargetIsWireless });
+  }
+
+  function handlePresentationModeChanged() {
+    // $FlowFixMe: Too exotic for Safari typedefs.
+    if (videoElement.webkitPresentationMode === 'picture-in-picture') {
+      updateStreamState({ isPipActive: true });
+    } else {
+      updateStreamState({ isPipActive: false });
+    }
+  }
+
+  // END Ugly Safari custom events and properties section
+
   function onPauseInterval() {
     streamRangeHelper.adjustForDvrStartOffset();
     updateStreamState(streamRangeHelper.calculateNewState());
@@ -229,7 +272,30 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     (configuration && configuration.pauseUpdateInterval) || defaultPauseUpdateInterval
   );
 
-  function cleanup() {}
+  videoElement.addEventListener('enterpictureinpicture', handleEnterPictureInPicture);
+  videoElement.addEventListener('leavepictureinpicture', handleLeavePictureInPicture);
+  videoElement.addEventListener(
+    'webkitcurrentplaybacktargetiswirelesschanged',
+    handleCurrentPlaybackTargetIsWirelessChanged
+  );
+  // $FlowFixMe: evt.availability is unknown to React.
+  videoElement.addEventListener('webkitplaybacktargetavailabilitychanged', handlePlaybackTargetAvailabilityChanged);
+  videoElement.addEventListener('webkitpresentationmodechanged', handlePresentationModeChanged);
+
+  function cleanup() {
+    videoElement.removeEventListener('enterpictureinpicture', handleEnterPictureInPicture);
+    videoElement.removeEventListener('leavepictureinpicture', handleLeavePictureInPicture);
+    videoElement.removeEventListener(
+      'webkitcurrentplaybacktargetiswirelesschanged',
+      handleCurrentPlaybackTargetIsWirelessChanged
+    );
+    // $FlowFixMe: evt.availability is unknown to React.
+    videoElement.removeEventListener(
+      'webkitplaybacktargetavailabilitychanged',
+      handlePlaybackTargetAvailabilityChanged
+    );
+    videoElement.removeEventListener('webkitpresentationmodechanged', handlePresentationModeChanged);
+  }
 
   return {
     videoElementEventHandlers: {
@@ -251,6 +317,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     },
     pauseStreamRangeUpdater,
     setLifeCycleManager,
+    isPipAvailable,
     cleanup
   };
 };

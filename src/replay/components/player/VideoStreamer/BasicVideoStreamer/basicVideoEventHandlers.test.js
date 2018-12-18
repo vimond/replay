@@ -13,8 +13,30 @@ const addProperties = (obj, properties) => {
   });
 };
 
-function setup(onStreamStateChange = jest.fn(), getStreamRangeHelper) {
-  const videoElement = { volume: 1, muted: false, play: () => {}, pause: () => {}, buffered: { length: 0 } };
+function setup(onStreamStateChange = jest.fn(), getStreamRangeHelper, videoElementProps) {
+  const handlers = {};
+  const videoElement = {
+    volume: 1,
+    muted: false,
+    play: () => {},
+    pause: () => {},
+    buffered: { length: 0 },
+    addEventListener: (eventName, listener) => {
+      if (handlers[eventName]) {
+        throw new Error('Already added event listener.');
+      } else {
+        handlers[eventName] = listener;
+      }
+    },
+    removeEventListener: (eventName, listener) => {
+      if (handlers[eventName] !== listener) {
+        throw new Error('Event listener not added.');
+      } else {
+        delete handlers[eventName];
+      }
+    },
+    ...videoElementProps
+  };
   const streamer = {
     props: { onStreamStateChange }
   };
@@ -60,6 +82,7 @@ function setup(onStreamStateChange = jest.fn(), getStreamRangeHelper) {
     playbackLifeCycleManager,
     streamer,
     videoElement,
+    handlers,
     onStreamStateChange,
     setProps: function(newProps) {
       addProperties(streamer.props, newProps);
@@ -160,6 +183,9 @@ test('streamStateUpdater reports an initial state of properties.', () => {
   expect(onStreamStateChange).toHaveBeenCalledWith({ isPaused: false });
   expect(onStreamStateChange).toHaveBeenCalledWith({ isSeeking: false });
   expect(onStreamStateChange).toHaveBeenCalledWith({ volume: 1 });
+  expect(onStreamStateChange).toHaveBeenCalledWith({ muted: false });
+  expect(onStreamStateChange).toHaveBeenCalledWith({ isPipActive: false });
+  expect(onStreamStateChange).toHaveBeenCalledWith({ isAirPlayActive: false });
   expect(onStreamStateChange).toHaveBeenCalledWith({ muted: false });
   expect(onStreamStateChange).toHaveBeenCalledWith({ bufferedAhead: 0 });
   expect(onStreamStateChange).toHaveBeenCalledWith({ bitrates: emptyTracks });
@@ -395,6 +421,83 @@ test('streamStateUpdater reports volume and mute changes.', () => {
   const mutedUpdates = getPropertyUpdates(onStreamStateChange, 'isMuted');
   expect(volumeUpdates.map(u => u.volume)).toEqual([1, 0.3, 0.7]);
   expect(mutedUpdates.map(u => u.isMuted)).toEqual([false, true]);
+});
+
+test('streamStateUpdater reports picture-in-picture feature availability changes.', () => {
+  {
+    document.pictureInPictureEnabled = true;
+    const { onStreamStateChange, videoElement } = setup();
+    runStartToLoadedSequence(videoElement);
+    const pipAvailabilityUpdates = getPropertyUpdates(onStreamStateChange, 'isPipAvailable');
+    expect(pipAvailabilityUpdates[1]).toEqual({ isPipAvailable: true });
+  }
+  {
+    document.pictureInPictureEnabled = true;
+    const { onStreamStateChange, videoElement } = setup(undefined, undefined, { disablePictureInPicture: true });
+    runStartToLoadedSequence(videoElement);
+    const pipAvailabilityUpdates = getPropertyUpdates(onStreamStateChange, 'isPipAvailable');
+    expect(pipAvailabilityUpdates.length).toEqual(1);
+  }
+  {
+    document.pictureInPictureEnabled = undefined;
+    const { onStreamStateChange, videoElement } = setup(undefined, undefined, {
+      webkitSupportsPresentationMode: true,
+      webkitSetPresentationMode: jest.fn()
+    });
+    runStartToLoadedSequence(videoElement);
+    const pipAvailabilityUpdates = getPropertyUpdates(onStreamStateChange, 'isPipAvailable');
+    expect(pipAvailabilityUpdates[1]).toEqual({ isPipAvailable: true });
+  }
+  {
+    document.pictureInPictureEnabled = undefined;
+    const { onStreamStateChange, videoElement } = setup();
+    runStartToLoadedSequence(videoElement);
+    const pipAvailabilityUpdates = getPropertyUpdates(onStreamStateChange, 'isPipAvailable');
+    expect(pipAvailabilityUpdates.length).toEqual(1);
+  }
+});
+
+test('streamStateUpdater reports AirPlay feature availability changes.', () => {
+  const { onStreamStateChange, handlers } = setup();
+  handlers.webkitplaybacktargetavailabilitychanged({ availability: 'available' });
+  handlers.webkitplaybacktargetavailabilitychanged({ availability: 'not-available' });
+  const airPlayAvailabilityUpdates = getPropertyUpdates(onStreamStateChange, 'isAirPlayAvailable');
+  expect(airPlayAvailabilityUpdates[1]).toEqual({ isAirPlayAvailable: true });
+  expect(airPlayAvailabilityUpdates[2]).toEqual({ isAirPlayAvailable: false });
+});
+
+test('streamStateUpdater reports picture-in-picture state changes.', () => {
+  {
+    const { onStreamStateChange, handlers } = setup();
+    handlers.enterpictureinpicture();
+    handlers.leavepictureinpicture();
+    const pipUpdates = getPropertyUpdates(onStreamStateChange, 'isPipActive');
+    expect(pipUpdates[1]).toEqual({ isPipActive: true });
+    expect(pipUpdates[2]).toEqual({ isPipActive: false });
+  }
+  {
+    const { onStreamStateChange, handlers, videoElement } = setup();
+    videoElement.webkitPresentationMode = 'picture-in-picture';
+    handlers.webkitpresentationmodechanged();
+    videoElement.webkitPresentationMode = 'fullscreen';
+    handlers.webkitpresentationmodechanged();
+    videoElement.webkitPresentationMode = 'inline';
+    const pipUpdates = getPropertyUpdates(onStreamStateChange, 'isPipActive');
+    expect(pipUpdates[1]).toEqual({ isPipActive: true });
+    expect(pipUpdates[2]).toEqual({ isPipActive: false });
+    expect(pipUpdates.length).toBe(3);
+  }
+});
+
+test('streamStateUpdater reports AirPlay state changes.', () => {
+  const { onStreamStateChange, handlers, videoElement } = setup();
+  videoElement.webkitCurrentPlaybackTargetIsWireless = true;
+  handlers.webkitcurrentplaybacktargetiswirelesschanged();
+  videoElement.webkitCurrentPlaybackTargetIsWireless = false;
+  handlers.webkitcurrentplaybacktargetiswirelesschanged();
+  const airPlayUpdates = getPropertyUpdates(onStreamStateChange, 'isAirPlayActive');
+  expect(airPlayUpdates[1]).toEqual({ isAirPlayActive: true });
+  expect(airPlayUpdates[2]).toEqual({ isAirPlayActive: false });
 });
 
 test('streamStateUpdater reports bufferedAhead.', () => {

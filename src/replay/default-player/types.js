@@ -59,6 +59,8 @@ export type UIResources<T> = {
   subtitlesSelector?: T,
   qualitySelector?: T,
   fullscreenButton?: T,
+  pipButton?: T,
+  airPlayButton?: T,
   bufferingIndicator?: T,
   playbackMonitor?: T,
   exitButton?: T

@@ -53,6 +53,10 @@ export type VideoStreamState = {
   playMode?: PlayMode,
   volume?: number,
   isMuted?: boolean,
+  isPipAvailable?: boolean,
+  isPipActive?: boolean,
+  isAirPlayAvailable?: boolean,
+  isAirPlayActive?: boolean,
   bufferedAhead?: number,
   currentBitrate?: number,
   bitrateFix?: ?number,
@@ -113,6 +117,9 @@ export type InitialPlaybackProps = {
 export type PlaybackProps = InitialPlaybackProps & {
   position?: number,
   isAtLiveEdge?: true,
+  isPipActive?: boolean,
+  isAirPlayTargetPickerVisible?: true, // TODO: Consider renaming to isAirPlayTargetPickerVisible
+  isAirPlayTargetPickerVisible?: true, // TODO: Consider renaming to isAirPlayTargetPickerVisible
   selectedTextTrack?: ?AvailableTrack,
   selectedAudioTrack?: AvailableTrack
 };

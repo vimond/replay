@@ -82,7 +82,8 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
           playState: 'starting',
           isBuffering: true,
           volume: videoElement.volume,
-          isMuted: videoElement.muted
+          isMuted: videoElement.muted,
+          isPipAvailable: htmlVideoHandlers.isPipAvailable()
         });
       }
     },

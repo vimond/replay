@@ -9,6 +9,9 @@ import {
   MessageSquare,
   Type,
   Settings,
+  Copy,
+  Square,
+  Airplay,
   Maximize,
   Minimize,
   XCircle
@@ -52,6 +55,14 @@ const graphics = {
   },
   qualitySelector: {
     toggleContent: <Settings />
+  },
+  pipButton: {
+    pipActiveContent: <Square />,
+    pipInactiveContent: <Copy />
+  },
+  airPlayButton: {
+    airPlayActiveContent: <Airplay />,
+    airPlayInactiveContent: <Airplay />
   },
   fullscreenButton: {
     normalContent: <Maximize />,

@@ -23,6 +23,8 @@ type PlaybackProps = {
   bitrateFix?: number | 'max' | 'min',
   position?: number,
   isAtLiveEdge?: true,
+  isPipActive?: boolean,
+  isAirPlayTargetPickerVisible?: true,
   selectedTextTrack?: ?AvailableTrack,
   selectedAudioTrack?: AvailableTrack
 };
@@ -37,5 +39,7 @@ type PlaybackProps = {
 | bitrateFix | Only relevant for adaptive streaming. Deactivates adaptive bitrate switching and fixes the bitrate selection. The number is given as an integer of kbps, and must correspond exactly to one of the bitrates reported in the video stream state property `bitrates`. |
 | position | Sets a different playback position. The number argument is the relative position between 0 as the start of the stream, and the duration of the stream. For live streams, 0 is the earliest timeshifting position available, while a position equal to duration is the live edge. |
 | isAtLiveEdge | Only the value `true` has effect for this property, and only when playback is timeshifted. Setting `{ isAtLiveEdge: true }` cancels timeshifting and resumes playback from the live edge. |
+| isPipActive | Setting `{ isPipActive: true }` requests the browser's picture-in-picture mode for the video playback. The corresponding video stream state property `isPipActive` will be updated with the value `true` if entering Pip mode was successful. The value `false` reverts an ongoing picture-in-picture video display back to normal mode. Before attempting setting this property to true, use the browser's feature detection for Pip. |
+| isAirPlayTargetPickerVisible | Setting `{ isAirPlayTargetPickerVisible: true }` invokes Safari's AirPlay target device picker. The corresponding video stream state property `isAirPlayActive` will be updated with the value `true` if the video playback was transferred to an AirPlay device. The value `false` has no effect, as the AirPlay picker only can be hidden by direct user gestures. Before attempting setting this property to true, use the browser's feature detection for AirPlay. |
 | selectedTextTrack | Set this property with a value identical to one of the items in the `textTracks` stream state property, in order to display that subtitle track. Set this property to `null` to not display any subtitles. |
 | selectedAudioTrack | With more than one audio track available, the one to be audible can be selected by setting this property with a value identical to one of the items in the `audioTracks` stream state property. |

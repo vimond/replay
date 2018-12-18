@@ -100,7 +100,7 @@ test('<PlaybackMonitor /> should render with table rows for each property, if co
 
   const tableRows = playbackMonitor.find('tbody').children();
   //.map(row => row.dive());
-  expect(tableRows.length).toBe(23);
+  expect(tableRows.length).toBe(27);
   const headerRow = tableRows.at(0).find('tr');
   expect(headerRow.hasClass('v-playback-monitor-table-header')).toBe(true);
   const child0 = headerRow.childAt(0);

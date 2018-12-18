@@ -228,7 +228,12 @@ class Slider extends React.Component<Props, State> {
       classes,
       selectClasses,
       classNamePrefix,
-      classNames: [baseClassName, className, isDragging ? isDraggingClassName : null, wasClicked ? wasClickedClassName : null]
+      classNames: [
+        baseClassName,
+        className,
+        isDragging ? isDraggingClassName : null,
+        wasClicked ? wasClickedClassName : null
+      ]
     });
     const handleClassNames = hydrateClassNames({
       classes,

@@ -38,6 +38,12 @@ const strings = {
     autoLabel: 'Automatic',
     formatBitrateLabel: (bitrate, isPlaying) => `${bitrate} kbps${isPlaying ? ' •' : ''}`
   },
+  pipButton: {
+    label: 'Toggle picture-in-picture mode'
+  },
+  airPlayButton: {
+    label: 'Select AirPlay device'
+  },
   fullscreenButton: {
     label: 'Toggle fullscreen'
   },

@@ -7,7 +7,9 @@ const getMockVideoElement = ({ seekable = { length: 0 }, currentTime = 0, durati
   paused,
   pause: jest.fn(),
   volume: 0.5,
-  muted: false
+  muted: false,
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn()
 });
 
 const getEventHandling = () => {
@@ -75,7 +77,8 @@ test("Handling of Rx-player's playerStateChange event containing LOADING.", () =
     playState: 'starting',
     isBuffering: true,
     volume: 0.5,
-    isMuted: false
+    isMuted: false,
+    isPipAvailable: false
   });
 });
 

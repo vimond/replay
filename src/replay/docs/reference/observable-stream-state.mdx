@@ -34,6 +34,10 @@ type VideoStreamState = {
   playMode?: 'ondemand' | 'live' | 'livedvr',
   volume?: number,
   isMuted?: boolean,
+  isPipAvailable?: boolean,
+  isPipActive?: boolean,
+  isAirPlayAvailable?: boolean,
+  isAirPlayActive?: boolean,
   bufferedAhead?: number,
   currentBitrate?: number,
   bitrateFix?: ?number,
@@ -61,6 +65,10 @@ type VideoStreamState = {
 | playMode | Indicates if the stream is on demand, live, or live with a DVR window. |
 | volume | A value between 0 and 1 representing the current volume setting. |
 | isMuted | `true` if playback audio is muted, otherwise `false`. |
+| isPipAvailable | `true` if there is a picture-in-picture feature available for the video playback, otherwise `false`. |
+| isPipActive | `true` if the browser's picture-in-picture mode is activated for the video, otherwise `false`. |
+| isAirPlayAvailable | `true` if Apple's AirPlay feature available for the video playback, otherwise `false`. |
+| isAirPlayActive | `true` if the video is playing on an AirPlay device, otherwise `false`. AirPlay is only available in Apple Safari. |
 | bufferedAhead | The number of seconds ahead of the playback position being present in the video buffer. |
 | currentBitrate | Only relevant for adaptive streams. Expresses the currently selected bitrate in kpbs. |
 | bitrateFix | A currently fixed bitrate in kbps, if set. This means adaptive bitrate switching is deactivated. |

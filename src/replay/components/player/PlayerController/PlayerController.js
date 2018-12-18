@@ -35,6 +35,9 @@ export type PlaybackActions = {
   setIsMuted: boolean => void,
   mute: () => void,
   unmute: () => void,
+  requestPictureInPicture: () => void,
+  exitPictureInPicture: () => void,
+  showAirPlayTargetPicker: () => void,
   setSelectedAudioTrack: AvailableTrack => void,
   setSelectedTextTrack: (AvailableTrack | null) => void,
   capBitrate: number => void,
@@ -124,6 +127,9 @@ const createPlaybackActions = (inspect, setProperties: PlaybackProps => void): P
   const setIsMuted = (isMuted: boolean) => setProperties({ isMuted });
   const mute = () => setProperties({ isMuted: true });
   const unmute = () => setProperties({ isMuted: false });
+  const requestPictureInPicture = () => setProperties({ isPipActive: true });
+  const exitPictureInPicture = () => setProperties({ isPipActive: false });
+  const showAirPlayTargetPicker = () => setProperties({ isAirPlayTargetPickerVisible: true });
   const setSelectedTextTrack = (selectedTextTrack: AvailableTrack | null) => setProperties({ selectedTextTrack });
   const setSelectedAudioTrack = (selectedAudioTrack: AvailableTrack) => setProperties({ selectedAudioTrack });
   const capBitrate = (bitrateCap: number) => setProperties({ bitrateCap });
@@ -137,6 +143,9 @@ const createPlaybackActions = (inspect, setProperties: PlaybackProps => void): P
     setIsMuted,
     mute,
     unmute,
+    requestPictureInPicture,
+    exitPictureInPicture,
+    showAirPlayTargetPicker,
     setSelectedAudioTrack,
     setSelectedTextTrack,
     capBitrate,

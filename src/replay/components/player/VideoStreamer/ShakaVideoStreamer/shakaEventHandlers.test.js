@@ -6,7 +6,9 @@ const getMockVideoElement = ({ seekable = { length: 0 }, currentTime = 0, durati
   duration,
   currentTime,
   paused,
-  pause: jest.fn()
+  pause: jest.fn(),
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn()
 });
 
 const getEventHandling = () => {
@@ -93,7 +95,8 @@ describe('shakaEventHandlers', () => {
       playState: 'starting',
       isBuffering: true,
       volume: params.videoElement.volume,
-      isMuted: params.videoElement.muted
+      isMuted: params.videoElement.muted,
+      isPipAvailable: false
     });
     expect(params.applyProperties).toHaveBeenCalledWith({ isMuted: true });
   });

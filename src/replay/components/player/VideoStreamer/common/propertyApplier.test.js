@@ -6,7 +6,10 @@ const getVideoElementMock = () => ({
   currentTime: 0,
   duration: NaN,
   volume: 0.8,
-  muted: false
+  muted: false,
+  requestPictureInPicture: jest.fn(),
+  webkitSetPresentationMode: jest.fn(),
+  webkitShowPlaybackTargetPicker: jest.fn()
 });
 
 const getStreamRangeHelper = () => ({
@@ -212,4 +215,34 @@ test("applyProperties() doesn't break if bitrateFix or fixedBitrate properties a
   applyProperties({ bitrateFix: 123 });
   applyProperties({ bitrateCap: 345 });
   expect(true).toBe(true);
+});
+
+test('applyProperties() invokes webkitSetPresentationMode() in Safari when isPipActive is changed to true or false.', () => {
+  const videoElement = getVideoElementMock();
+  const applyProperties = getPropertyApplier(videoElement);
+  delete videoElement.requestPictureInPicture;
+  applyProperties({ isPipActive: true });
+  videoElement.webkitPresentationMode = 'picture-in-picture';
+  applyProperties({ isPipActive: false });
+  expect(videoElement.webkitSetPresentationMode.mock.calls[0][0]).toBe('picture-in-picture');
+  expect(videoElement.webkitSetPresentationMode.mock.calls[1][0]).toBe('inline');
+});
+
+test('applyProperties() invokes requestPictureInPicture() or exitPictureInPicture() when isPipActive is set to true or false.', () => {
+  const videoElement = getVideoElementMock();
+  const applyProperties = getPropertyApplier(videoElement);
+  applyProperties({ isPipActive: true });
+  document.pictureInPictureElement = videoElement;
+  document.exitPictureInPicture = jest.fn();
+  applyProperties({ isPipActive: false });
+  expect(videoElement.requestPictureInPicture).toHaveBeenCalledTimes(1);
+  expect(document.exitPictureInPicture).toHaveBeenCalledTimes(1);
+});
+
+test('applyProperties() invokes webkitShowPlaybackTargetPicker() when isAirPlayTargetPickerVisible is set to true.', () => {
+  const videoElement = getVideoElementMock();
+  const applyProperties = getPropertyApplier(videoElement);
+  applyProperties({ isAirPlayTargetPickerVisible: true });
+  applyProperties({ isAirPlayTargetPickerVisible: false }); // Not to be recognised.
+  expect(videoElement.webkitShowPlaybackTargetPicker).toHaveBeenCalledTimes(1);
 });

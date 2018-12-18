@@ -21,7 +21,9 @@ import {
   SkipButton,
   TimeDisplay,
   TimelineInformation,
-  Timeline
+  Timeline,
+  PipButton,
+  AirPlayButton
 } from '../components/player/PlayerController/connectedControls';
 import { ControlledVideoStreamer } from '../components/player/PlayerController/connectControl';
 import RenderIfEnabled from '../components/player/RenderIfEnabled';
@@ -105,6 +107,8 @@ const getPlayerUIRenderer = (
                   selectionStrategy={getQualitySelectionStrategy(configuration)}
                   classNamePrefix={prefix}
                 />
+                <PipButton {...strings.pipButton} {...graphics.pipButton} classNamePrefix={prefix} />
+                <AirPlayButton {...strings.airPlayButton} {...graphics.airPlayButton} classNamePrefix={prefix} />
                 <FullscreenButton
                   {...fullscreenState}
                   {...strings.fullscreenButton}

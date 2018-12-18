@@ -86,18 +86,68 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
     }
 
     componentWillUnmount() {
-      if (this.implementation && this.implementation) {
-        this.implementation.cleanup().catch(err => {
+      const videoElement = this.videoRef.current;
+      // $FlowFixMe
+      if (videoElement === document.pictureInPictureElement) {
+        // $FlowFixMe
+        return document.exitPictureInPicture();
+        // $FlowFixMe
+      } else if (
+        // $FlowFixMe
+        videoElement.webkitPresentationMode === 'picture-in-picture' && // $FlowFixMe
+        typeof videoElement.webkitSetPresentationMode === 'function'
+      ) {
+        // $FlowFixMe
+        videoElement.webkitSetPresentationMode('inline');
+      }
+      if (this.implementation && this.implementation.cleanup) {
+        return this.implementation.cleanup().catch(err => {
           throw err;
         });
       }
     }
 
-    componentDidUpdate(prevProps: P) {
+    getSnapshotBeforeUpdate() {
+      const previousVideoElement = this.videoRef.current;
+      // $FlowFixMe: Type defs not up-to-date.
+      const pipElement = document.pictureInPictureElement;
+      // $FlowFixMe
+      const presentationMode = previousVideoElement.webkitPresentationMode;
+      const wasPipActive = previousVideoElement === pipElement || presentationMode === 'picture-in-picture'; // $FlowFixMe
+      return {
+        wasPipActive,
+        previousVideoElement: this.videoRef.current
+      };
+    }
+
+    componentDidUpdate(
+      prevProps: P,
+      prevState: State,
+      snapshot?: { wasPipActive: boolean, previousVideoElement: HTMLVideoElement }
+    ) {
       const implementation = this.implementation;
       if (implementation) {
         if (prevProps.source !== this.props.source) {
-          this.handleSourceChange(this.props, prevProps);
+          if (snapshot && snapshot.wasPipActive) {
+            // $FlowFixMe
+            if (document.exitPictureInPicture) {
+              document
+                .exitPictureInPicture()
+                .then(
+                  () => this.handleSourceChange(this.props, prevProps),
+                  () => this.handleSourceChange(this.props, prevProps)
+                );
+            } else if (
+              snapshot.previousVideoElement &&
+              // $FlowFixMe
+              typeof snapshot.previousVideoElement.webkitSetPresentationMode === 'function'
+            ) {
+              snapshot.previousVideoElement.webkitSetPresentationMode('inline');
+              this.handleSourceChange(this.props, prevProps);
+            }
+          } else {
+            this.handleSourceChange(this.props, prevProps);
+          }
         } else if (prevProps.textTracks !== this.props.textTracks) {
           implementation.textTrackManager.handleSourceChange(this.props);
         }

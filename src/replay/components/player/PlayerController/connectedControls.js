@@ -10,8 +10,10 @@ import UnconnectedSubtitlesSelector from '../../controls/SubtitlesSelector/Subti
 import UnconnectedVolume from '../../controls/Volume/Volume';
 import UnconnectedGotoLiveButton from '../../controls/GotoLiveButton/GotoLiveButton';
 import UnconnectedTimeline from '../../controls/Timeline/Timeline';
-import withSettingsStorage from '../settings-helpers/settingsStorage';
+import UnconnectedPipButton from '../../controls/PipButton/PipButton';
+import UnconnectedAirPlayButton from '../../controls/AirPlayButton/AirPlayButton';
 import UnconnectedTimelineInformation from '../../controls/TimelineInformation/TimelineInformation';
+import withSettingsStorage from '../settings-helpers/settingsStorage';
 
 export const PlayerUIContainer = getConnectedPlayerUIContainer(connectControl);
 export const PlayPauseButton = connectControl(UnconnectedPlayPauseButton);
@@ -20,6 +22,8 @@ export const Timeline = connectControl(UnconnectedTimeline);
 export const TimeDisplay = connectControl(UnconnectedTimeDisplay);
 export const TimelineInformation = connectControl(UnconnectedTimelineInformation);
 export const GotoLiveButton = connectControl(UnconnectedGotoLiveButton);
+export const PipButton = connectControl(UnconnectedPipButton);
+export const AirPlayButton = connectControl(UnconnectedAirPlayButton);
 export const Volume = connectControl(UnconnectedVolume);
 export const AudioSelector = connectControl(UnconnectedAudioSelector);
 export const SubtitlesSelector = connectControl(UnconnectedSubtitlesSelector);

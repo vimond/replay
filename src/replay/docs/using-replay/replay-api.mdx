@@ -224,6 +224,18 @@ Mutes the playback.
 
 Unmutes the playback.
 
+### `requestPictureInPicture() => void`
+
+Attempts starting the browser's picture-in-picture mode. Feature detection of picture-in-picture should be performed before calling this function. The video stream state property `isPipAvailable` will have a value of `true` if the feature is available. Successful Pip activation will be reported through the video stream state property `isPipActive`. This method needs to be invoked in the call stack of a user gesture (e.g. button click).
+
+### `exitPictureInPicture() => void`
+
+Stops the picture-in-picture mode if active. See above.
+
+### `showAirPlayTargetPicker() => void`
+
+Initiates a possible transfer of the video playback to an AirPlay device. Feature detection of AirPlay should be performed before calling this function. The video stream state property `isAirPlayAvailable` will have a value of `true` if the feature is available. Successful AirPlay video playback is reported through the video stream state property `isAirPlayActive` being set to true.
+
 ### `setSelectedAudioTrack: AvailableTrack => void`
 
 Used for switching audio tracks when e.g. more than one language is available in the stream. The argument to this method must be one of the track objects reported in the video stream state property `audioTracks`. It can not be a cloned track object or an object containing the same properties.

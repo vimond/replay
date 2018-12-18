@@ -1042,6 +1042,76 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               }
                             />
                           </ConnectedQualitySelector>
+                          <ConnectedPipButton
+                            classNamePrefix="replay-"
+                            label="Toggle picture-in-picture mode"
+                            pipActiveContent={
+                              <Square
+                                color="currentColor"
+                                size="24"
+                              />
+                            }
+                            pipInactiveContent={
+                              <Copy
+                                color="currentColor"
+                                size="24"
+                              />
+                            }
+                          >
+                            <PipButton
+                              classNamePrefix="replay-"
+                              inspect={[Function]}
+                              label="Toggle picture-in-picture mode"
+                              pipActiveContent={
+                                <Square
+                                  color="currentColor"
+                                  size="24"
+                                />
+                              }
+                              pipInactiveContent={
+                                <Copy
+                                  color="currentColor"
+                                  size="24"
+                                />
+                              }
+                              setProperties={[Function]}
+                            />
+                          </ConnectedPipButton>
+                          <ConnectedAirPlayButton
+                            airPlayActiveContent={
+                              <Airplay
+                                color="currentColor"
+                                size="24"
+                              />
+                            }
+                            airPlayInactiveContent={
+                              <Airplay
+                                color="currentColor"
+                                size="24"
+                              />
+                            }
+                            classNamePrefix="replay-"
+                            label="Select AirPlay device"
+                          >
+                            <AirPlayButton
+                              airPlayActiveContent={
+                                <Airplay
+                                  color="currentColor"
+                                  size="24"
+                                />
+                              }
+                              airPlayInactiveContent={
+                                <Airplay
+                                  color="currentColor"
+                                  size="24"
+                                />
+                              }
+                              classNamePrefix="replay-"
+                              inspect={[Function]}
+                              label="Select AirPlay device"
+                              setProperties={[Function]}
+                            />
+                          </ConnectedAirPlayButton>
                           <FullscreenButton
                             classNamePrefix="replay-"
                             enterFullscreen={[Function]}

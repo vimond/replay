@@ -103,7 +103,7 @@ const configOverrides: PlayerConfiguration = {
     logLevel: 'WARNING'
   },
   playbackMonitor: {
-    visibleAtStart: true
+    visibleAtStart: false
   },
   ui: {
     //includeControls: ['playPauseButton', 'timeline', 'timeDisplay', 'gotoLiveButton', 'volume', 'fullscreenButton', 'exitButton']
@@ -159,6 +159,11 @@ class App extends Component<void, State> {
     }
   };
 
+  exitPip = () => {
+    // $FlowFixMe
+    document.exitPictureInPicture();
+  };
+  
   render() {
     const { alwaysShowDesignControls, source, useMock, textTracks } = this.state;
     return (
@@ -208,6 +213,7 @@ class App extends Component<void, State> {
                 ))}
                 <button onClick={this.handleNoVideoClick}>No video</button>
                 <button onClick={this.toggleTextTracks}>Toggle text tracks</button>
+                <button onClick={this.exitPip}>Exit PiP</button>
               </p>
             </div>
           )}

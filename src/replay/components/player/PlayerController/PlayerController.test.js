@@ -182,6 +182,9 @@ test("<PlayerController /> invokes videoStreamer's setProperties when playback m
   actions.setSelectedAudioTrack({ language: 'de' });
   actions.setSelectedTextTrack(null);
   actions.setSelectedAudioTrack(null);
+  actions.showAirPlayTargetPicker();
+  actions.requestPictureInPicture();
+  actions.exitPictureInPicture();
   expect(setProperties.mock.calls[0][0].isPaused).toBe(false);
   expect(setProperties.mock.calls[1][0].isPaused).toBe(true);
   expect(setProperties.mock.calls[2][0].position).toBe(101);
@@ -194,4 +197,7 @@ test("<PlayerController /> invokes videoStreamer's setProperties when playback m
   expect(setProperties.mock.calls[9][0].selectedAudioTrack).toEqual({ language: 'de' });
   expect(setProperties.mock.calls[10][0].selectedTextTrack).toBe(null);
   expect(setProperties.mock.calls[11][0].selectedAudioTrack).toBe(null);
+  expect(setProperties.mock.calls[12][0].isAirPlayTargetPickerVisible).toBe(true);
+  expect(setProperties.mock.calls[13][0].isPipActive).toBe(true);
+  expect(setProperties.mock.calls[14][0].isPipActive).toBe(false);
 });

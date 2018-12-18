@@ -44,4 +44,28 @@ export const getPropertyApplier = (
       bitrateManager.capBitrate(playbackProps.bitrateCap);
     }
   }
+  // $FlowFixMe: Type defs not up-to-date.
+  if ('isPipActive' in playbackProps) {
+    if (playbackProps.isPipActive) {
+      // $FlowFixMe
+      if (typeof videoElement.requestPictureInPicture === 'function') {
+        videoElement.requestPictureInPicture();
+        // $FlowFixMe
+      } else if (typeof videoElement.webkitSetPresentationMode === 'function') {
+        videoElement.webkitSetPresentationMode('picture-in-picture');
+      }
+      // $FlowFixMe
+    } else if (document.pictureInPictureElement === videoElement) {
+      // $FlowFixMe
+      document.exitPictureInPicture();
+      // $FlowFixMe
+    } else if (videoElement.webkitPresentationMode === 'picture-in-picture') {
+      // $FlowFixMe
+      videoElement.webkitSetPresentationMode('inline');
+    }
+  }
+  // $FlowFixMe: Type defs not up-to-date.
+  if (playbackProps.isAirPlayTargetPickerVisible && typeof videoElement.webkitShowPlaybackTargetPicker === 'function') {
+    videoElement.webkitShowPlaybackTargetPicker();
+  }
 };
