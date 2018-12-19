@@ -20,7 +20,8 @@
     "index.js",
     "index.js.map",
     "index.js.flow",
-    "README.md"
+    "README.md",
+    "version.js"
   ],
   "scripts": {
     "start": "PORT=3033 SKIP_PREFLIGHT_CHECK=true react-scripts start",
