@@ -10,6 +10,8 @@ import type {
 } from '../types';
 import type { VideoStreamerConfiguration } from '../types';
 
+export type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
+
 export type StreamRangeHelper = {
   adjustForDvrStartOffset: () => void,
   calculateNewState: () => VideoStreamState,
@@ -62,9 +64,8 @@ export type StreamerImplementationParts<C: VideoStreamerConfiguration, P: VideoS
   textTrackManager: TextTrackManager,
   audioTrackManager: AudioTrackManager,
   startPlaybackSession: () => void,
+  endPlaybackSession: (stage?: PlaybackLifeCycle) => void,
   videoElementEventHandlers: { [string]: (any) => void },
   render: VideoStreamerRenderer,
   cleanup: () => Promise<void>
 };
-
-export type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';

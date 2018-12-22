@@ -69,13 +69,6 @@ const fairPlayStream: PlaybackSource = {
 
 const videoUrls = [
   // 'example-media/adaptive.m3u8',
-  'https://s3.amazonaws.com/expo-first-vpc-vod-videofiles/786e3/master64ee(12903_R21MP41000).mp4',
-  'https://s3.amazonaws.com/expo-first-vpc-vod-fragments/786e3/master_12903_64ee(12903_ISMUSP).ism/master_12903_64ee(12903_ISMUSP).m3u8',
-  {
-    streamUrl:
-      'https://s3.amazonaws.com/expo-first-vpc-vod-fragments/786e3/master_12903_64ee(12903_ISMUSP).ism/master_12903_64ee(12903_ISMUSP).mpd',
-    contentType: 'application/dash+xml'
-  },
   {
     streamUrl: 'https://tv2-stream-live-no.telenorcdn.net/out/u/1153546.mpd',
     contentType: 'application/dash+xml'
@@ -163,7 +156,7 @@ class App extends Component<void, State> {
     // $FlowFixMe
     document.exitPictureInPicture();
   };
-  
+
   render() {
     const { alwaysShowDesignControls, source, useMock, textTracks } = this.state;
     return (

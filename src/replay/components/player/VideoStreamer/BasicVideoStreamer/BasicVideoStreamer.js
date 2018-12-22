@@ -65,7 +65,7 @@ export function getImplementationResolver(
       return Promise.resolve();
     }
 
-    const { startPlaybackSession } = playbackLifeCycleManager;
+    const { startPlaybackSession, endPlaybackSession } = playbackLifeCycleManager;
     const render = renderWithoutSource;
 
     return Promise.resolve({
@@ -76,6 +76,7 @@ export function getImplementationResolver(
       applyProperties,
       handleSourceChange,
       startPlaybackSession,
+      endPlaybackSession,
       videoElementEventHandlers
     });
   };

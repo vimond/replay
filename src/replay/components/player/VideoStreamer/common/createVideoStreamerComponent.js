@@ -56,14 +56,16 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
             implementation.audioTrackManager.handleSourceChange();
             implementation.textTrackManager.handleSourceChange(nextProps);
           })
-          .catch(err => nextProps.onPlaybackError && nextProps.onPlaybackError(err));
+          .catch(err => {
+            implementation.endPlaybackSession('dead');
+            return nextProps.onPlaybackError && nextProps.onPlaybackError(err);
+          });
       }
     };
 
     componentDidMount() {
       const videoElement = this.videoRef.current;
       if (videoElement) {
-        // $FlowFixMe
         resolveImplementation(this, this.props.configuration, videoElement)
           .then(implementation => {
             this.implementation = implementation;

@@ -70,7 +70,7 @@ function resolveImplementation(
     return Promise.resolve();
   }
 
-  const { startPlaybackSession } = playbackLifeCycleManager;
+  const { startPlaybackSession, endPlaybackSession } = playbackLifeCycleManager;
   const thirdPartyPlayer = rxPlayer;
   const render = renderWithoutSource;
 
@@ -81,6 +81,7 @@ function resolveImplementation(
     applyProperties,
     handleSourceChange,
     startPlaybackSession,
+    endPlaybackSession,
     videoElementEventHandlers,
     textTrackManager: { handleSourceChange: () => {}, cleanup: () => {}, handleSelectedTextTrackChange: () => {} },
     audioTrackManager: { handleSourceChange: () => {}, cleanup: () => {}, handleSelectedAudioTrackChange: () => {} }

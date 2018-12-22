@@ -105,7 +105,11 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
         updateStreamState({ bitrateFix: null, bitrateCap: null });
       }
 
-      updateStreamState(streamRangeHelper.calculateNewState());
+      updateStreamState({
+        isMuted: videoElement.muted,
+        volume: videoElement.volume,
+        ...streamRangeHelper.calculateNewState()
+      });
     },
     buffering: ({ buffering }: { buffering: boolean }) => {
       log && log('shaka.buffering.' + buffering.toString());

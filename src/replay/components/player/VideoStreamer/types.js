@@ -118,8 +118,7 @@ export type PlaybackProps = InitialPlaybackProps & {
   position?: number,
   isAtLiveEdge?: true,
   isPipActive?: boolean,
-  isAirPlayTargetPickerVisible?: true, // TODO: Consider renaming to isAirPlayTargetPickerVisible
-  isAirPlayTargetPickerVisible?: true, // TODO: Consider renaming to isAirPlayTargetPickerVisible
+  isAirPlayTargetPickerVisible?: true,
   selectedTextTrack?: ?AvailableTrack,
   selectedAudioTrack?: AvailableTrack
 };

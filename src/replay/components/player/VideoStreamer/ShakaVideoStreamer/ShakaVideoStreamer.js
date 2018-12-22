@@ -88,7 +88,7 @@ function resolveImplementation(
     return shakaCleanup(shakaPlayer);
   }
 
-  const { startPlaybackSession } = playbackLifeCycleManager;
+  const { startPlaybackSession, endPlaybackSession } = playbackLifeCycleManager;
   const thirdPartyPlayer = shakaPlayer;
   const render = renderWithoutSource;
 
@@ -101,6 +101,7 @@ function resolveImplementation(
     applyProperties,
     handleSourceChange,
     startPlaybackSession,
+    endPlaybackSession,
     videoElementEventHandlers
   });
 }

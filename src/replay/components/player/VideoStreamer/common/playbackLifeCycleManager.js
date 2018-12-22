@@ -30,6 +30,30 @@ function notifyInitialState(updateStreamState: VideoStreamState => void) {
   });
 }
 
+function notifyTerminalState(updateStreamState: VideoStreamState => void) {
+  updateStreamState({
+    // duration: 0,
+    // position: 0,
+    // playMode: 'ondemand',
+    playState: 'inactive', // Different
+    isBuffering: false,
+    isPaused: false,
+    isSeeking: false,
+    // volume: 1,
+    // muted: false,
+    // bufferedAhead: 0,
+    isPipAvailable: false,
+    isAirPlayAvailable: false
+    // isPipActive: false,
+    // isAirPlayActive: false,
+    // bitrates: emptyBitrates,
+    // audioTracks: emptyTracks,
+    // textTracks: emptyTracks,
+    // absolutePosition: dawnOfTime,
+    // absoluteStartPosition: dawnOfTime
+  });
+}
+
 function getPlaybackLifeCycleManager(
   updateStreamState: VideoStreamState => void,
   pauseStreamRangeUpdater: {
@@ -56,12 +80,21 @@ function getPlaybackLifeCycleManager(
     pauseStreamRangeUpdater.stop();
   }
 
+  function endPlaybackSession(endStage?: PlaybackLifeCycle) {
+    if (endStage) {
+      setStage(endStage);
+    }
+    notifyTerminalState(updateStreamState);
+    pauseStreamRangeUpdater.stop();
+  }
+
   function cleanup() {
     pauseStreamRangeUpdater.stop();
   }
 
   return {
     startPlaybackSession,
+    endPlaybackSession,
     getStage,
     setStage,
     cleanup

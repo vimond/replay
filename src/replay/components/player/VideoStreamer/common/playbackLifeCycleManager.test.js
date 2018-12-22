@@ -6,7 +6,7 @@ test('playbackLifeCycleManager', () => {
     start: jest.fn(),
     stop: jest.fn()
   };
-  const { startPlaybackSession, getStage, setStage, cleanup } = getPlaybackLifeCycleManager(
+  const { startPlaybackSession, endPlaybackSession, getStage, setStage, cleanup } = getPlaybackLifeCycleManager(
     updateStreamState,
     pauseStreamRangeUpdater
   );
@@ -37,7 +37,17 @@ test('playbackLifeCycleManager', () => {
 
   setStage('started');
   expect(getStage()).toBe('started');
+  endPlaybackSession('dead');
+  expect(getStage()).toBe('dead');
+  expect(updateStreamState).toHaveBeenCalledWith({
+    playState: 'inactive',
+    isBuffering: false,
+    isPaused: false,
+    isSeeking: false,
+    isPipAvailable: false,
+    isAirPlayAvailable: false
+  });
 
   cleanup();
-  expect(pauseStreamRangeUpdater.stop).toHaveBeenCalledTimes(2);
+  expect(pauseStreamRangeUpdater.stop).toHaveBeenCalledTimes(3);
 });

@@ -89,7 +89,7 @@ function resolveImplementation(
     return hlsjsCleanup(instanceKeeper);
   }
 
-  const { startPlaybackSession } = playbackLifeCycleManager;
+  const { startPlaybackSession, endPlaybackSession } = playbackLifeCycleManager;
   const thirdPartyPlayer = instanceKeeper;
   const render = renderWithoutSource;
 
@@ -102,6 +102,7 @@ function resolveImplementation(
     applyProperties,
     handleSourceChange,
     startPlaybackSession,
+    endPlaybackSession,
     videoElementEventHandlers
   });
 }
