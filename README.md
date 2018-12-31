@@ -33,13 +33,6 @@ One goal has been to learn and use quite new technologies and patterns in the Re
 
 Curiosity about the code, the technologies explored, and problems to be solved, are all welcome.
 
-Except bug fixes, the project has a finite set of tasks to be done, all listed as [issues](https://github.com/vimond/replay/issues). Except for the documentation examples, Replay can be tested in [Streamlab through a feature toggle](https://streamlab.ops.vmp.vimondtv.com/?features=replay). Note that the latest changes are manually integrated.
+Except bug fixes, the project has a finite set of tasks to be done, all listed as [issues](https://github.com/vimond/replay/issues). Except for the documentation examples, Replay can be tested in [Streamlab through a feature toggle](https://streamlab.ops.vmp.vimondtv.com/?features=replay). Note that the deployed Streamlab service might not contain the latest Replay version. The version number can be revealed in an open player by pressing Ctrl+Alt+M.
 
 For questions about this repo, contact [Tor Erik Alræk](mailto:torerik@vimond.com).
-
-#### Music used in demo video
-
-The Low Seas by The 126ers  
-Creative Commons — Attribution 3.0 Unported— CC BY 3.0  
-https://creativecommons.org/licenses/by/3.0/  
-Music provided by FreeMusic109 https://youtube.com/FreeMusic109
