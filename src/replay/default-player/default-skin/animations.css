@@ -71,6 +71,7 @@
     transition: background-color 0.5s;
 }
 
+/* Only interesting if handle movement per 0.25s interval update is > 1 pixel. I.e. duration < timeline width / 4  */
 .replay-is-playing.replay-is-user-active .replay-timeline-handle {
     transition: left 0.25s;
 }

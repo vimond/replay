@@ -23,6 +23,8 @@
     position: absolute;
     right: 1.6em;
     top: 1em;
+    margin: 0;
+    padding: 0;
     opacity: 0.6;
 }
 

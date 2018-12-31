@@ -24,6 +24,8 @@ export type ControlNames =
   | 'audioSelector'
   | 'subtitlesSelector'
   | 'qualitySelector'
+  | 'airPlayButton'
+  | 'pipButton'
   | 'fullscreenButton'
   | 'exitButton'
   | 'playbackMonitor'
