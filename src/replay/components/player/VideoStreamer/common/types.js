@@ -10,7 +10,7 @@ import type {
 } from '../types';
 import type { VideoStreamerConfiguration } from '../types';
 
-export type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'ended' | 'dead' | 'unknown';
+export type PlaybackLifeCycle = 'new' | 'starting' | 'started' | 'dead' | 'unknown';
 
 export type StreamRangeHelper = {
   adjustForDvrStartOffset: () => void,

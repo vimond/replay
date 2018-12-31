@@ -217,7 +217,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
   function onEnded() {
     log && log('ended');
     if (lifeCycleManager.getStage() === 'started') {
-      lifeCycleManager.setStage('ended');
+      //lifeCycleManager.setStage('ended');
       updateStreamState({ playState: 'inactive' });
     }
     pauseStreamRangeUpdater.stop();

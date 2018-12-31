@@ -98,9 +98,9 @@ const getRxEventHandlers = <P: BasicVideoEventHandlersProps>({
           break;
         case 'ENDED':
         case 'STOPPED':
-          if (lifeCycleManager.getStage() === 'started') {
-            lifeCycleManager.setStage('ended');
-          }
+          //if (lifeCycleManager.getStage() === 'started') {
+          //  lifeCycleManager.setStage('ended');
+          //}
           updateStreamState({ playState: 'inactive', isBuffering: false, isSeeking: false });
           pauseStreamRangeUpdater.stop();
           break;
