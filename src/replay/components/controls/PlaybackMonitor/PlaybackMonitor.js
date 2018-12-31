@@ -88,7 +88,7 @@ const closeButtonLabel = 'Close';
 const formatValue = (val: any): string => {
   if (val instanceof Date) {
     if (isNaN(val.getTime())) {
-      return val;
+      return val.toString();
     } else {
       return val.toISOString();
     }
