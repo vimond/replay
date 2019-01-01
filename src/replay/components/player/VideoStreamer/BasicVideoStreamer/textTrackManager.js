@@ -4,6 +4,7 @@ import type { AvailableTrack, PlaybackSource, SourceTrack, VideoStreamState } fr
 import { emptyTracks } from '../common/playbackLifeCycleManager';
 import { isShallowEqual } from '../../../common';
 import type { TextTrackManager } from '../common/types';
+import normalizeSource from '../common/sourceNormalizer';
 
 export type ManagedTextTrack = {
   isBlacklisted: boolean,
@@ -295,8 +296,9 @@ const getTextTrackManager = (
       cleanupTracks(false);
     }
     let newTracks = newProps.source && Array.isArray(newProps.textTracks) ? newProps.textTracks : [];
-    if (newProps.source && newProps.source.textTracks) {
-      addTracks(newTracks.concat(newProps.source.textTracks));
+    const source = normalizeSource(newProps.source);
+    if (source && source.textTracks) {
+      addTracks(newTracks.concat(source.textTracks));
     } else {
       addTracks(newTracks);
     }

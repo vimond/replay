@@ -52,7 +52,7 @@ const detectStreamType = (streamUrl: string, contentType: ?string): StreamType =
     }
   })[0] || streamTypes[streamTypes.length - 1];
 
-const selectVideoStreamerImporter = (source?: PlaybackSource | string | null): ComponentType<any> => {
+const selectVideoStreamerImporter = (source?: PlaybackSource | null): ComponentType<any> => {
   if (source) {
     const contentType = typeof source === 'string' ? null : source.contentType;
     const streamUrl = typeof source === 'string' ? source : source.streamUrl;
@@ -78,7 +78,7 @@ const selectVideoStreamerImporter = (source?: PlaybackSource | string | null): C
   }
 };
 
-const VideoStreamerResolver = (props: { source?: PlaybackSource | string | null }) => {
+const VideoStreamerResolver = (props: { source?: PlaybackSource | null }) => {
   const VideoStreamer = selectVideoStreamerImporter(props.source);
   if (props.source) {
     return (

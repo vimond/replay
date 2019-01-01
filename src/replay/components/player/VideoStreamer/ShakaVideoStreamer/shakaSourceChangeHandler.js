@@ -1,8 +1,9 @@
 // @flow
-import type { PlaybackSource, VideoStreamerConfiguration } from '../types';
+import type { AdvancedPlaybackSource, PlaybackSource, VideoStreamerConfiguration } from '../types';
 import type { ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from './types';
 import mapShakaError from './shakaErrorMapper';
 import shaka from 'shaka-player';
+import normalizeSource from '../common/sourceNormalizer';
 
 type Props<C: VideoStreamerConfiguration> = {
   source?: ?PlaybackSource,
@@ -10,10 +11,6 @@ type Props<C: VideoStreamerConfiguration> = {
   shakaResponseFilter?: ?ShakaResponseFilter,
   configuration?: ?C
 };
-
-function normalizeSource(source: ?(string | PlaybackSource)): ?PlaybackSource {
-  return typeof source === 'string' ? { streamUrl: source } : source;
-}
 
 function getEmeAttributes(userAgent, serviceCertificate) {
   // For now, only deals with Chrome and Android Chrome distinctions.
@@ -35,7 +32,11 @@ function getEmeAttributes(userAgent, serviceCertificate) {
   }
 }
 
-function prepareDrm(shakaPlayer: ShakaPlayer, source: PlaybackSource, configuration: ?VideoStreamerConfiguration) {
+function prepareDrm(
+  shakaPlayer: ShakaPlayer,
+  source: AdvancedPlaybackSource,
+  configuration: ?VideoStreamerConfiguration
+) {
   const licenseUrl = source.licenseUrl;
   const serviceCertificate =
     (source.licenseAcquisitionDetails && source.licenseAcquisitionDetails.widevineServiceCertificateUrl) ||

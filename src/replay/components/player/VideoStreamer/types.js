@@ -85,14 +85,14 @@ export type SourceTrack = {
 
 export type FairPlayRequestFormat = 'formdata' | 'binary' | 'base64';
 
-export type PlaybackSource = {
-  playbackTechnology?: 'html' | 'shaka-legacy' | 'shaka-player' | 'dash.js' | 'hls.js' | 'silverlight' | 'flash',
+export type AdvancedPlaybackSource = {
   streamUrl: string,
+  contentType?: string,
   licenseUrl?: string,
+  drmType?: string,
   startPosition?: number,
   isLive?: boolean,
   textTracks?: Array<SourceTrack>,
-  contentType?: string,
   metadata?: any,
   licenseAcquisitionDetails?: {
     licenseRequestHeaders?: { [string]: string },
@@ -103,6 +103,8 @@ export type PlaybackSource = {
     contentId?: string
   }
 };
+
+export type PlaybackSource = string | AdvancedPlaybackSource;
 
 /* Types for settable props */
 

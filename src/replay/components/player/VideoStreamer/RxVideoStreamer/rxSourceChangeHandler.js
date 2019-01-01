@@ -1,6 +1,7 @@
 // @flow
 import type { InitialPlaybackProps, PlaybackSource } from '../types';
 import { PlaybackError } from '../types';
+import normalizeSource from '../common/sourceNormalizer';
 
 const fetchServiceCertificate = (url: string) => fetch(url).then(response => response.ok && response.arrayBuffer());
 
@@ -22,15 +23,18 @@ export default function getSourceChangeHandler(rxPlayer: any) {
     prevProps: ?P
   ): Promise<void> => {
     if (source) {
-      const licenseUrl = source.licenseUrl;
-      const startPosition = source.startPosition;
+      const normalizedSource = normalizeSource(source);
+      const licenseUrl = normalizedSource.licenseUrl;
+      const startPosition = normalizedSource.startPosition;
       const autoPlay = !(initialPlaybackProps && initialPlaybackProps.isPaused);
       const options: any = {
-        url: source.streamUrl,
+        url: normalizedSource.streamUrl,
         autoPlay
       };
       if (licenseUrl) {
-        const headers = source.licenseAcquisitionDetails && source.licenseAcquisitionDetails.licenseRequestHeaders;
+        const headers =
+          normalizedSource.licenseAcquisitionDetails &&
+          normalizedSource.licenseAcquisitionDetails.licenseRequestHeaders;
         const getLicense = (message: ArrayBuffer, messageType: string) => {
           if (messageType !== 'license-release') {
             return acquireLicense(licenseUrl, headers, message);
@@ -51,7 +55,7 @@ export default function getSourceChangeHandler(rxPlayer: any) {
         options.startAt = { position: startPosition };
       }
 
-      switch (source.contentType) {
+      switch (normalizedSource.contentType) {
         case 'application/vnd.ms-sstr+xml':
           options.transport = 'smooth';
           break;
@@ -74,10 +78,12 @@ export default function getSourceChangeHandler(rxPlayer: any) {
         navigator.userAgent.indexOf('Edge') < 0 &&
         (navigator.userAgent.indexOf('Chrome') >= 0 || navigator.userAgent.indexOf('Firefox') >= 0)
       ) {
-        return fetchServiceCertificate(source.licenseAcquisitionDetails.widevineServiceCertificateUrl).then(cert => {
-          options.keySystems[1].serverCertificate = cert;
-          rxPlayer.loadVideo(options);
-        });
+        return fetchServiceCertificate(normalizedSource.licenseAcquisitionDetails.widevineServiceCertificateUrl).then(
+          cert => {
+            options.keySystems[1].serverCertificate = cert;
+            rxPlayer.loadVideo(options);
+          }
+        );
       } else {
         rxPlayer.loadVideo(options);
         return Promise.resolve();

@@ -24,7 +24,7 @@ When needing to toggle different video streamer components for different stream 
   </Replay>
 ```
 
-### `source: PlaybackSource | string | null`
+### `source: PlaybackSource | null`
 
 Specifies what to play in Replay.
 
@@ -32,13 +32,14 @@ Set `source` to null or omit this prop if the player should be rendered without 
 
 For playing a video file or stream without needing to specify anything else except the stream URL, set source to a string containing the stream URL.
 
-For more advanced needs, specify an object mathcing the `PlaybackSource` type:
+For more advanced needs, specify an object mathcing the `AdvancedPlaybackSource` type:
 
 ```typescript
-type PlaybackSource = {
+type AdvancedPlaybackSource = {
   streamUrl: string,
   contentType?: string,
   licenseUrl?: string,
+  drmType?: string,
   startPosition?: number,
   textTracks?: Array<SourceTrack>,
   licenseAcquisitionDetails?: {

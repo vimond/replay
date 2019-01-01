@@ -2,6 +2,7 @@
 import { PlaybackError } from '../types';
 import type { FairPlayRequestFormat, PlaybackSource, VideoStreamerConfiguration } from '../types';
 import getBasicSourceChangeHandler from '../BasicVideoStreamer/sourceChangeHandler';
+import normalizeSource from '../common/sourceNormalizer';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
@@ -378,11 +379,12 @@ const getFairPlayLicenseAcquirer = (
 };
 
 function hydrateLicenseAquisitionDetails(source: ?PlaybackSource, configuration: ?VideoStreamerConfiguration) {
-  if (source && typeof source !== 'string' && source.licenseUrl) {
-    const licenseUrl = source.licenseUrl;
+  const normalizedSource = normalizeSource(source);
+  if (normalizedSource && normalizedSource.licenseUrl) {
+    const licenseUrl = normalizedSource.licenseUrl;
     const config =
       (configuration && configuration.licenseAcquisition && configuration.licenseAcquisition.fairPlay) || {};
-    const licenseAcquisitionDetails = source.licenseAcquisitionDetails || {};
+    const licenseAcquisitionDetails = normalizedSource.licenseAcquisitionDetails || {};
 
     const fairPlayCertificateUrl = licenseAcquisitionDetails.fairPlayCertificateUrl || config.serviceCertificateUrl;
     const contentIdExtractMatch = licenseAcquisitionDetails.contentIdExtractMatch || config.contentIdExtractMatch;

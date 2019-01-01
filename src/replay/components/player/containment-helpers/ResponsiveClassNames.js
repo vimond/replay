@@ -2,8 +2,6 @@
 import * as React from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 
-// todo: Check use of native ResizeObserver when available!
-
 export type ResponsiveRange = {
   className: string,
   width?: {

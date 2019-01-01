@@ -5,6 +5,7 @@ import { emptyTracks } from '../common/playbackLifeCycleManager';
 import { isShallowEqual } from '../../../common';
 import type { ManagedTextTrack } from '../BasicVideoStreamer/textTrackManager';
 import type { TextTrackManager } from '../common/types';
+import normalizeSource from '../common/sourceNormalizer';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
@@ -304,8 +305,9 @@ function getShakaTextTrackManager(
     currentSource = props.source;
 
     let newTracks = Array.isArray(props.textTracks) ? props.textTracks : [];
-    if (props.source && props.source.textTracks && !isTextTracksChangeOnly) {
-      addTracks(newTracks.concat(props.source.textTracks));
+    const source = normalizeSource(props.source);
+    if (source && source.textTracks && !isTextTracksChangeOnly) {
+      addTracks(newTracks.concat(source.textTracks));
     } else {
       addTracks(newTracks);
     }

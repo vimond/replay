@@ -33,7 +33,7 @@ export const renderWithSource: VideoStreamerRenderer = (
 ) => {
   const { className, classNamePrefix, source } = props;
   const classNames = prefixClassNames(classNamePrefix, baseClassName, className);
-  const streamUrl = source && (typeof source === 'string' && source.length > 0 ? source : source.streamUrl);
+  const streamUrl = source && (typeof source === 'string' ? source : source.streamUrl);
   if (streamUrl) {
     return (
       <video

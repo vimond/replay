@@ -14,7 +14,7 @@ import VideoStreamerResolver from './replay/components/player/VideoStreamer/Vide
 
 type State = {
   useMock?: boolean,
-  source: PlaybackSource | string | null,
+  source: PlaybackSource | null,
   alwaysShowDesignControls: boolean,
   textTracks?: ?Array<SourceTrack>
 };

@@ -4,15 +4,12 @@ import Hls from 'hls.js';
 import { PlaybackError } from '../types';
 import { broadcastHlsInstance, hlsjsCleanup, hlsjsSetup } from './hlsjsSetup';
 import type { HlsjsInstanceKeeper, HlsjsVideoStreamerConfiguration } from './HlsjsVideoStreamer';
+import normalizeSource from '../common/sourceNormalizer';
 
 type Props<C: VideoStreamerConfiguration> = {
   source?: ?PlaybackSource,
   configuration?: ?C
 };
-
-function normalizeSource(source: ?(string | PlaybackSource)): ?PlaybackSource {
-  return typeof source === 'string' ? { streamUrl: source } : source;
-}
 
 const getSourceChangeHandler = (instanceKeeper: HlsjsInstanceKeeper) => <
   C: HlsjsVideoStreamerConfiguration,
