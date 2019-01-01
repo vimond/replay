@@ -18,7 +18,6 @@ export type ClassNameKeys =
   | 'isFullscreen'
   | 'isUserActive'
   | 'isUserInactive'
-  | 'responsivenessPrefix'
   | 'volumePrefix';
 
 export type RecognizedPlayerStateProperties = {
@@ -32,8 +31,7 @@ export type RecognizedPlayerStateProperties = {
   playMode?: PlayMode,
   error?: any,
   isUserActive?: boolean,
-  isFullscreen?: boolean,
-  responsivenessRanges?: Array<string>
+  isFullscreen?: boolean
 };
 
 const volumeMappings = ['low', 'medium', 'high'];
@@ -52,8 +50,7 @@ const playerStateClassNameBuilder = (
     playMode,
     error,
     isUserActive,
-    isFullscreen,
-    responsivenessRanges
+    isFullscreen
   }: RecognizedPlayerStateProperties,
   classNameDefinitions: { [ClassNameKeys]: string },
   classNamePrefix?: string,
@@ -106,9 +103,6 @@ const playerStateClassNameBuilder = (
     } else {
       resultingClassNames.push(cd.isUserInactive);
     }
-  }
-  if (Array.isArray(responsivenessRanges) && cd.responsivenessPrefix != null) {
-    responsivenessRanges.forEach(r => resultingClassNames.push(cd.responsivenessPrefix + r));
   }
   if (error) {
     resultingClassNames.push(cd.isFailed);

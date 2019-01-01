@@ -154,7 +154,7 @@ class App extends Component<void, State> {
 
   exitPip = () => {
     // $FlowFixMe
-    document.exitPictureInPicture();
+    document.exitPictureInPicture && document.exitPictureInPicture();
   };
 
   render() {

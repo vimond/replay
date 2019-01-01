@@ -115,39 +115,21 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
               setProperties={[Function]}
               toggleFixedUserActive={[Function]}
             >
-              <ConnectedPlayerStateClassNames
-                className="ui-container"
-                classNameDefinitions={
+              <ResponsiveClassNames
+                configuration={
                   Object {
-                    "isAtLiveEdge": "is-at-live-edge",
-                    "isBuffering": "is-buffering",
-                    "isDvrEnabled": "is-dvr-enabled",
-                    "isFailed": "is-failed",
-                    "isFullscreen": "is-fullscreen",
-                    "isLive": "is-live",
-                    "isMuted": "is-muted",
-                    "isOnDemand": "is-on-demand",
-                    "isPaused": "is-paused",
-                    "isPlaying": "is-playing",
-                    "isSeeking": "is-seeking",
-                    "isStarting": "is-starting",
-                    "isUserActive": "is-user-active",
-                    "isUserInactive": "is-user-inactive",
-                    "responsivenessPrefix": "player-size-",
-                    "volumePrefix": "volume-level-",
+                    "setting": "value",
+                    "ui": Object {
+                      "liveDisplayMode": "clock-time",
+                      "qualitySelectionStrategy": "cap-bitrate",
+                      "skipButtonOffset": -20,
+                    },
                   }
                 }
-                classNamePrefix="replay-"
-                enterFullscreen={[Function]}
-                exitFullscreen={[Function]}
-                isFullscreen={false}
-                isUserActive={true}
-                nudge={[Function]}
+                onRef={[Function]}
                 render={[Function]}
-                setProperties={[Function]}
-                toggleFixedUserActive={[Function]}
               >
-                <PlayerStateClassNames
+                <ConnectedPlayerStateClassNames
                   className="ui-container"
                   classNameDefinitions={
                     Object {
@@ -172,7 +154,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                   classNamePrefix="replay-"
                   enterFullscreen={[Function]}
                   exitFullscreen={[Function]}
-                  inspect={[Function]}
+                  extraClassNames={Array []}
                   isFullscreen={false}
                   isUserActive={true}
                   nudge={[Function]}
@@ -180,44 +162,54 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                   setProperties={[Function]}
                   toggleFixedUserActive={[Function]}
                 >
-                  <div
-                    className="replay-is-user-active replay-ui-container"
-                    onFocus={[Function]}
-                    onKeyDown={[Function]}
-                    onMouseMove={[Function]}
-                    onTouchEnd={[Function]}
-                    onTouchStart={[Function]}
-                    tabIndex={0}
+                  <PlayerStateClassNames
+                    className="ui-container"
+                    classNameDefinitions={
+                      Object {
+                        "isAtLiveEdge": "is-at-live-edge",
+                        "isBuffering": "is-buffering",
+                        "isDvrEnabled": "is-dvr-enabled",
+                        "isFailed": "is-failed",
+                        "isFullscreen": "is-fullscreen",
+                        "isLive": "is-live",
+                        "isMuted": "is-muted",
+                        "isOnDemand": "is-on-demand",
+                        "isPaused": "is-paused",
+                        "isPlaying": "is-playing",
+                        "isSeeking": "is-seeking",
+                        "isStarting": "is-starting",
+                        "isUserActive": "is-user-active",
+                        "isUserInactive": "is-user-inactive",
+                        "responsivenessPrefix": "player-size-",
+                        "volumePrefix": "volume-level-",
+                      }
+                    }
+                    classNamePrefix="replay-"
+                    enterFullscreen={[Function]}
+                    exitFullscreen={[Function]}
+                    extraClassNames={Array []}
+                    inspect={[Function]}
+                    isFullscreen={false}
+                    isUserActive={true}
+                    nudge={[Function]}
+                    render={[Function]}
+                    setProperties={[Function]}
+                    toggleFixedUserActive={[Function]}
                   >
-                    <ControlledVideoStreamer
-                      classNamePrefix="replay-"
-                    />
-                    <RenderIfEnabled>
-                      <ExitButton
+                    <div
+                      className="replay-is-user-active replay-ui-container"
+                      onFocus={[Function]}
+                      onKeyDown={[Function]}
+                      onMouseMove={[Function]}
+                      onTouchEnd={[Function]}
+                      onTouchStart={[Function]}
+                      tabIndex={0}
+                    >
+                      <ControlledVideoStreamer
                         classNamePrefix="replay-"
-                        content={
-                          <XCircle
-                            color="currentColor"
-                            size="24"
-                          />
-                        }
-                        label="Exit"
-                        onClick={
-                          [MockFunction] {
-                            "calls": Array [
-                              Array [],
-                            ],
-                            "results": Array [
-                              Object {
-                                "isThrow": false,
-                                "value": undefined,
-                              },
-                            ],
-                          }
-                        }
-                      >
-                        <Button
-                          className="exit-button"
+                      />
+                      <RenderIfEnabled>
+                        <ExitButton
                           classNamePrefix="replay-"
                           content={
                             <XCircle
@@ -239,105 +231,112 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               ],
                             }
                           }
-                          useDefaultClassNaming={true}
                         >
-                          <div
-                            className="replay-button replay-exit-button"
-                            onClick={[Function]}
-                            onKeyDown={[Function]}
-                            onKeyUp={[Function]}
-                            role="button"
-                            tabIndex={0}
-                            title="Exit"
-                          >
-                            <div
-                              tabIndex={-1}
-                            >
+                          <Button
+                            className="exit-button"
+                            classNamePrefix="replay-"
+                            content={
                               <XCircle
                                 color="currentColor"
                                 size="24"
-                              >
-                                <svg
-                                  fill="none"
-                                  height="24"
-                                  stroke="currentColor"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <circle
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                  />
-                                  <line
-                                    x1="15"
-                                    x2="9"
-                                    y1="9"
-                                    y2="15"
-                                  />
-                                  <line
-                                    x1="9"
-                                    x2="15"
-                                    y1="9"
-                                    y2="15"
-                                  />
-                                </svg>
-                              </XCircle>
-                            </div>
-                          </div>
-                        </Button>
-                      </ExitButton>
-                      <PlaybackMonitor
-                        classNamePrefix="replay-"
-                        closeButtonContent={
-                          <XCircle
-                            color="currentColor"
-                            size="24"
-                          />
-                        }
-                        configuration={
-                          Object {
-                            "setting": "value",
-                            "ui": Object {
-                              "liveDisplayMode": "clock-time",
-                              "qualitySelectionStrategy": "cap-bitrate",
-                              "skipButtonOffset": -20,
-                            },
-                          }
-                        }
-                      />
-                    </RenderIfEnabled>
-                    <ControlsBar
-                      classNamePrefix="replay-"
-                      useDefaultClassNaming={true}
-                    >
-                      <div
-                        className="replay-controls-bar"
-                      >
-                        <RenderIfEnabled>
-                          <ConnectedPlayPauseButton
-                            classNamePrefix="replay-"
-                            label="Toggle play/pause"
-                            pausedContent={
-                              <Play
-                                color="currentColor"
-                                size="24"
                               />
                             }
-                            playingContent={
-                              <Pause
-                                color="currentColor"
-                                size="24"
-                              />
+                            label="Exit"
+                            onClick={
+                              [MockFunction] {
+                                "calls": Array [
+                                  Array [],
+                                ],
+                                "results": Array [
+                                  Object {
+                                    "isThrow": false,
+                                    "value": undefined,
+                                  },
+                                ],
+                              }
                             }
+                            useDefaultClassNaming={true}
                           >
-                            <PlayPauseButton
+                            <div
+                              className="replay-button replay-exit-button"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              onKeyUp={[Function]}
+                              role="button"
+                              tabIndex={0}
+                              title="Exit"
+                            >
+                              <div
+                                tabIndex={-1}
+                              >
+                                <XCircle
+                                  color="currentColor"
+                                  size="24"
+                                >
+                                  <svg
+                                    fill="none"
+                                    height="24"
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <circle
+                                      cx="12"
+                                      cy="12"
+                                      r="10"
+                                    />
+                                    <line
+                                      x1="15"
+                                      x2="9"
+                                      y1="9"
+                                      y2="15"
+                                    />
+                                    <line
+                                      x1="9"
+                                      x2="15"
+                                      y1="9"
+                                      y2="15"
+                                    />
+                                  </svg>
+                                </XCircle>
+                              </div>
+                            </div>
+                          </Button>
+                        </ExitButton>
+                        <PlaybackMonitor
+                          classNamePrefix="replay-"
+                          closeButtonContent={
+                            <XCircle
+                              color="currentColor"
+                              size="24"
+                            />
+                          }
+                          configuration={
+                            Object {
+                              "setting": "value",
+                              "ui": Object {
+                                "liveDisplayMode": "clock-time",
+                                "qualitySelectionStrategy": "cap-bitrate",
+                                "skipButtonOffset": -20,
+                              },
+                            }
+                          }
+                        />
+                      </RenderIfEnabled>
+                      <ControlsBar
+                        classNamePrefix="replay-"
+                        useDefaultClassNaming={true}
+                      >
+                        <div
+                          className="replay-controls-bar"
+                        >
+                          <RenderIfEnabled>
+                            <ConnectedPlayPauseButton
                               classNamePrefix="replay-"
-                              inspect={[Function]}
                               label="Toggle play/pause"
                               pausedContent={
                                 <Play
@@ -351,147 +350,57 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   size="24"
                                 />
                               }
-                              setProperties={[Function]}
                             >
-                              <ToggleButton
-                                className="play-pause-button"
+                              <PlayPauseButton
                                 classNamePrefix="replay-"
+                                inspect={[Function]}
                                 label="Toggle play/pause"
-                                onToggle={[Function]}
-                                toggledOffContent={
-                                  <Pause
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
-                                toggledOnContent={
+                                pausedContent={
                                   <Play
                                     color="currentColor"
                                     size="24"
                                   />
                                 }
-                                useDefaultClassNaming={true}
-                              >
-                                <div
-                                  className="replay-play-pause-button replay-toggle-button replay-toggled-off"
-                                  onClick={[Function]}
-                                  onKeyDown={[Function]}
-                                  onKeyUp={[Function]}
-                                  role="button"
-                                  tabIndex={0}
-                                  title="Toggle play/pause"
-                                >
-                                  <div
-                                    tabIndex={-1}
-                                  >
-                                    <Pause
-                                      color="currentColor"
-                                      size="24"
-                                    >
-                                      <svg
-                                        fill="none"
-                                        height="24"
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        viewBox="0 0 24 24"
-                                        width="24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <rect
-                                          height="16"
-                                          width="4"
-                                          x="6"
-                                          y="4"
-                                        />
-                                        <rect
-                                          height="16"
-                                          width="4"
-                                          x="14"
-                                          y="4"
-                                        />
-                                      </svg>
-                                    </Pause>
-                                  </div>
-                                </div>
-                              </ToggleButton>
-                            </PlayPauseButton>
-                          </ConnectedPlayPauseButton>
-                          <ConnectedSkipButton
-                            classNamePrefix="replay-"
-                            content={
-                              <React.Fragment>
-                                <span>
-                                  <RotateCcw
+                                playingContent={
+                                  <Pause
                                     color="currentColor"
                                     size="24"
                                   />
-                                </span>
-                                <span>
-                                  –10
-                                </span>
-                              </React.Fragment>
-                            }
-                            label="Skip back 10 seconds"
-                            offset={-20}
-                            seconds="–10"
-                          >
-                            <SkipButton
-                              classNamePrefix="replay-"
-                              content={
-                                <React.Fragment>
-                                  <span>
-                                    <RotateCcw
+                                }
+                                setProperties={[Function]}
+                              >
+                                <ToggleButton
+                                  className="play-pause-button"
+                                  classNamePrefix="replay-"
+                                  label="Toggle play/pause"
+                                  onToggle={[Function]}
+                                  toggledOffContent={
+                                    <Pause
                                       color="currentColor"
                                       size="24"
                                     />
-                                  </span>
-                                  <span>
-                                    –10
-                                  </span>
-                                </React.Fragment>
-                              }
-                              inspect={[Function]}
-                              label="Skip back 10 seconds"
-                              offset={-20}
-                              seconds="–10"
-                              setProperties={[Function]}
-                            >
-                              <Button
-                                className="skip-button"
-                                classNamePrefix="replay-"
-                                content={
-                                  <React.Fragment>
-                                    <span>
-                                      <RotateCcw
-                                        color="currentColor"
-                                        size="24"
-                                      />
-                                    </span>
-                                    <span>
-                                      –10
-                                    </span>
-                                  </React.Fragment>
-                                }
-                                label="Skip back 10 seconds"
-                                onClick={[Function]}
-                                useDefaultClassNaming={true}
-                              >
-                                <div
-                                  className="replay-button replay-skip-button"
-                                  onClick={[Function]}
-                                  onKeyDown={[Function]}
-                                  onKeyUp={[Function]}
-                                  role="button"
-                                  tabIndex={0}
-                                  title="Skip back 10 seconds"
+                                  }
+                                  toggledOnContent={
+                                    <Play
+                                      color="currentColor"
+                                      size="24"
+                                    />
+                                  }
+                                  useDefaultClassNaming={true}
                                 >
                                   <div
-                                    tabIndex={-1}
+                                    className="replay-play-pause-button replay-toggle-button replay-toggled-off"
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
+                                    onKeyUp={[Function]}
+                                    role="button"
+                                    tabIndex={0}
+                                    title="Toggle play/pause"
                                   >
-                                    <span>
-                                      <RotateCcw
+                                    <div
+                                      tabIndex={-1}
+                                    >
+                                      <Pause
                                         color="currentColor"
                                         size="24"
                                       >
@@ -506,164 +415,254 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                           width="24"
                                           xmlns="http://www.w3.org/2000/svg"
                                         >
-                                          <polyline
-                                            points="1 4 1 10 7 10"
+                                          <rect
+                                            height="16"
+                                            width="4"
+                                            x="6"
+                                            y="4"
                                           />
-                                          <path
-                                            d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"
+                                          <rect
+                                            height="16"
+                                            width="4"
+                                            x="14"
+                                            y="4"
                                           />
                                         </svg>
-                                      </RotateCcw>
+                                      </Pause>
+                                    </div>
+                                  </div>
+                                </ToggleButton>
+                              </PlayPauseButton>
+                            </ConnectedPlayPauseButton>
+                            <ConnectedSkipButton
+                              classNamePrefix="replay-"
+                              content={
+                                <React.Fragment>
+                                  <span>
+                                    <RotateCcw
+                                      color="currentColor"
+                                      size="24"
+                                    />
+                                  </span>
+                                  <span>
+                                    –10
+                                  </span>
+                                </React.Fragment>
+                              }
+                              label="Skip back 10 seconds"
+                              offset={-20}
+                              seconds="–10"
+                            >
+                              <SkipButton
+                                classNamePrefix="replay-"
+                                content={
+                                  <React.Fragment>
+                                    <span>
+                                      <RotateCcw
+                                        color="currentColor"
+                                        size="24"
+                                      />
                                     </span>
                                     <span>
                                       –10
                                     </span>
-                                  </div>
-                                </div>
-                              </Button>
-                            </SkipButton>
-                          </ConnectedSkipButton>
-                          <ConnectedTimeline
-                            classNamePrefix="replay-"
-                            handleContent=""
-                            label="Timeline"
-                            trackContent={<div />}
-                          >
-                            <Timeline
-                              classNamePrefix="replay-"
-                              handleContent=""
-                              inspect={[Function]}
-                              label="Timeline"
-                              reduceDragGlitch={true}
-                              setProperties={[Function]}
-                              trackContent={<div />}
-                            >
-                              <Slider
-                                className="timeline"
-                                classNamePrefix="replay-"
-                                handleClassName="timeline-handle"
-                                handleContent=""
-                                isUpdateBlocked={false}
-                                label="Timeline"
-                                maxValue={1}
-                                onDrag={[Function]}
-                                onValueChange={[Function]}
-                                trackClassName="timeline-track"
-                                trackContent={<div />}
-                                value={0}
+                                  </React.Fragment>
+                                }
+                                inspect={[Function]}
+                                label="Skip back 10 seconds"
+                                offset={-20}
+                                seconds="–10"
+                                setProperties={[Function]}
                               >
-                                <div
-                                  aria-valuemax={1}
-                                  aria-valuemin={0}
-                                  aria-valuenow={0}
-                                  className="replay-slider replay-timeline"
+                                <Button
+                                  className="skip-button"
+                                  classNamePrefix="replay-"
+                                  content={
+                                    <React.Fragment>
+                                      <span>
+                                        <RotateCcw
+                                          color="currentColor"
+                                          size="24"
+                                        />
+                                      </span>
+                                      <span>
+                                        –10
+                                      </span>
+                                    </React.Fragment>
+                                  }
+                                  label="Skip back 10 seconds"
                                   onClick={[Function]}
-                                  onKeyDown={[Function]}
-                                  onKeyUp={[Function]}
-                                  onMouseDown={[Function]}
-                                  onMouseEnter={[Function]}
-                                  onMouseLeave={[Function]}
-                                  onMouseMove={[Function]}
-                                  onMouseUp={[Function]}
-                                  role="slider"
-                                  tabIndex={0}
-                                  title="Timeline"
+                                  useDefaultClassNaming={true}
                                 >
                                   <div
-                                    className="replay-slider-track replay-timeline-track"
+                                    className="replay-button replay-skip-button"
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
+                                    onKeyUp={[Function]}
+                                    role="button"
+                                    tabIndex={0}
+                                    title="Skip back 10 seconds"
                                   >
-                                    <div />
-                                  </div>
-                                  <ConnectedTimelineInformation
-                                    classNamePrefix="replay-"
-                                    key=".0"
-                                  >
-                                    <TimelineInformation
-                                      classNamePrefix="replay-"
-                                      inspect={[Function]}
-                                      setProperties={[Function]}
+                                    <div
+                                      tabIndex={-1}
                                     >
-                                      <div
-                                        className="replay-timeline-information"
+                                      <span>
+                                        <RotateCcw
+                                          color="currentColor"
+                                          size="24"
+                                        >
+                                          <svg
+                                            fill="none"
+                                            height="24"
+                                            stroke="currentColor"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <polyline
+                                              points="1 4 1 10 7 10"
+                                            />
+                                            <path
+                                              d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"
+                                            />
+                                          </svg>
+                                        </RotateCcw>
+                                      </span>
+                                      <span>
+                                        –10
+                                      </span>
+                                    </div>
+                                  </div>
+                                </Button>
+                              </SkipButton>
+                            </ConnectedSkipButton>
+                            <ConnectedTimeline
+                              classNamePrefix="replay-"
+                              handleContent=""
+                              label="Timeline"
+                              trackContent={<div />}
+                            >
+                              <Timeline
+                                classNamePrefix="replay-"
+                                handleContent=""
+                                inspect={[Function]}
+                                label="Timeline"
+                                reduceDragGlitch={true}
+                                setProperties={[Function]}
+                                trackContent={<div />}
+                              >
+                                <Slider
+                                  className="timeline"
+                                  classNamePrefix="replay-"
+                                  handleClassName="timeline-handle"
+                                  handleContent=""
+                                  isUpdateBlocked={false}
+                                  label="Timeline"
+                                  maxValue={1}
+                                  onDrag={[Function]}
+                                  onValueChange={[Function]}
+                                  trackClassName="timeline-track"
+                                  trackContent={<div />}
+                                  value={0}
+                                >
+                                  <div
+                                    aria-valuemax={1}
+                                    aria-valuemin={0}
+                                    aria-valuenow={0}
+                                    className="replay-slider replay-timeline"
+                                    onClick={[Function]}
+                                    onKeyDown={[Function]}
+                                    onKeyUp={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseEnter={[Function]}
+                                    onMouseLeave={[Function]}
+                                    onMouseMove={[Function]}
+                                    onMouseUp={[Function]}
+                                    role="slider"
+                                    tabIndex={0}
+                                    title="Timeline"
+                                  >
+                                    <div
+                                      className="replay-slider-track replay-timeline-track"
+                                    >
+                                      <div />
+                                    </div>
+                                    <ConnectedTimelineInformation
+                                      classNamePrefix="replay-"
+                                      key=".0"
+                                    >
+                                      <TimelineInformation
+                                        classNamePrefix="replay-"
+                                        inspect={[Function]}
+                                        setProperties={[Function]}
                                       >
                                         <div
-                                          className="replay-timeline-tooltip"
-                                          style={
-                                            Object {
-                                              "left": "0.00%",
+                                          className="replay-timeline-information"
+                                        >
+                                          <div
+                                            className="replay-timeline-tooltip"
+                                            style={
+                                              Object {
+                                                "left": "0.00%",
+                                              }
                                             }
-                                          }
-                                        />
-                                      </div>
-                                    </TimelineInformation>
-                                  </ConnectedTimelineInformation>
-                                  <div
-                                    className="replay-slider-handle replay-timeline-handle"
-                                    role="button"
-                                    style={
-                                      Object {
-                                        "left": "0%",
+                                          />
+                                        </div>
+                                      </TimelineInformation>
+                                    </ConnectedTimelineInformation>
+                                    <div
+                                      className="replay-slider-handle replay-timeline-handle"
+                                      role="button"
+                                      style={
+                                        Object {
+                                          "left": "0%",
+                                        }
                                       }
-                                    }
-                                    tabIndex={-1}
-                                  />
-                                </div>
-                              </Slider>
-                            </Timeline>
-                          </ConnectedTimeline>
-                          <ConnectedTimeDisplay
-                            classNamePrefix="replay-"
-                            clockTimeLabel="Clock time"
-                            durationLabel="Duration"
-                            label="Video times"
-                            liveDisplayMode="clock-time"
-                            negativeMark="–"
-                            positionLabel="Current time"
-                          >
-                            <TimeDisplay
+                                      tabIndex={-1}
+                                    />
+                                  </div>
+                                </Slider>
+                              </Timeline>
+                            </ConnectedTimeline>
+                            <ConnectedTimeDisplay
                               classNamePrefix="replay-"
                               clockTimeLabel="Clock time"
                               durationLabel="Duration"
-                              inspect={[Function]}
                               label="Video times"
                               liveDisplayMode="clock-time"
                               negativeMark="–"
                               positionLabel="Current time"
-                              setProperties={[Function]}
                             >
-                              <div
-                                className="replay-time-display"
-                                title="Video times"
+                              <TimeDisplay
+                                classNamePrefix="replay-"
+                                clockTimeLabel="Clock time"
+                                durationLabel="Duration"
+                                inspect={[Function]}
+                                label="Video times"
+                                liveDisplayMode="clock-time"
+                                negativeMark="–"
+                                positionLabel="Current time"
+                                setProperties={[Function]}
                               >
-                                <span
-                                  className="replay-time-display-position"
-                                  title="Current time"
+                                <div
+                                  className="replay-time-display"
+                                  title="Video times"
                                 >
-                                  00:00
-                                </span>
-                              </div>
-                            </TimeDisplay>
-                          </ConnectedTimeDisplay>
-                          <ConnectedGotoLiveButton
-                            classNamePrefix="replay-"
-                            gotoLive="Go live"
-                            isAtLiveEdgeContent={
-                              <span>
-                                Live
-                              </span>
-                            }
-                            isLive="Live"
-                            isNotAtLiveEdgeContent={
-                              <span>
-                                Go live
-                              </span>
-                            }
-                            label="Play from live position"
-                          >
-                            <GotoLiveButton
+                                  <span
+                                    className="replay-time-display-position"
+                                    title="Current time"
+                                  >
+                                    00:00
+                                  </span>
+                                </div>
+                              </TimeDisplay>
+                            </ConnectedTimeDisplay>
+                            <ConnectedGotoLiveButton
                               classNamePrefix="replay-"
                               gotoLive="Go live"
-                              inspect={[Function]}
                               isAtLiveEdgeContent={
                                 <span>
                                   Live
@@ -676,39 +675,27 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 </span>
                               }
                               label="Play from live position"
-                              setProperties={[Function]}
-                            />
-                          </ConnectedGotoLiveButton>
-                          <ConnectedSettingsStorageVolume
-                            classNamePrefix="replay-"
-                            configuration={
-                              Object {
-                                "setting": "value",
-                                "ui": Object {
-                                  "liveDisplayMode": "clock-time",
-                                  "qualitySelectionStrategy": "cap-bitrate",
-                                  "skipButtonOffset": -20,
-                                },
-                              }
-                            }
-                            label="Volume and mute"
-                            muteToggleLabel="Toggle mute"
-                            mutedContent={
-                              <VolumeX
-                                color="currentColor"
-                                size="24"
+                            >
+                              <GotoLiveButton
+                                classNamePrefix="replay-"
+                                gotoLive="Go live"
+                                inspect={[Function]}
+                                isAtLiveEdgeContent={
+                                  <span>
+                                    Live
+                                  </span>
+                                }
+                                isLive="Live"
+                                isNotAtLiveEdgeContent={
+                                  <span>
+                                    Go live
+                                  </span>
+                                }
+                                label="Play from live position"
+                                setProperties={[Function]}
                               />
-                            }
-                            unmutedContent={
-                              <Volume2
-                                color="currentColor"
-                                size="24"
-                              />
-                            }
-                            volumeSliderHandleContent=""
-                            volumeSliderLabel="Volume setting"
-                          >
-                            <SettingsStorageVolume
+                            </ConnectedGotoLiveButton>
+                            <ConnectedSettingsStorageVolume
                               classNamePrefix="replay-"
                               configuration={
                                 Object {
@@ -720,7 +707,6 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   },
                                 }
                               }
-                              inspect={[Function]}
                               label="Volume and mute"
                               muteToggleLabel="Toggle mute"
                               mutedContent={
@@ -729,7 +715,6 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   size="24"
                                 />
                               }
-                              setProperties={[Function]}
                               unmutedContent={
                                 <Volume2
                                   color="currentColor"
@@ -739,7 +724,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               volumeSliderHandleContent=""
                               volumeSliderLabel="Volume setting"
                             >
-                              <Volume
+                              <SettingsStorageVolume
                                 classNamePrefix="replay-"
                                 configuration={
                                   Object {
@@ -770,135 +755,146 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 volumeSliderHandleContent=""
                                 volumeSliderLabel="Volume setting"
                               >
-                                <div
-                                  className="replay-volume"
-                                  title="Volume and mute"
+                                <Volume
+                                  classNamePrefix="replay-"
+                                  configuration={
+                                    Object {
+                                      "setting": "value",
+                                      "ui": Object {
+                                        "liveDisplayMode": "clock-time",
+                                        "qualitySelectionStrategy": "cap-bitrate",
+                                        "skipButtonOffset": -20,
+                                      },
+                                    }
+                                  }
+                                  inspect={[Function]}
+                                  label="Volume and mute"
+                                  muteToggleLabel="Toggle mute"
+                                  mutedContent={
+                                    <VolumeX
+                                      color="currentColor"
+                                      size="24"
+                                    />
+                                  }
+                                  setProperties={[Function]}
+                                  unmutedContent={
+                                    <Volume2
+                                      color="currentColor"
+                                      size="24"
+                                    />
+                                  }
+                                  volumeSliderHandleContent=""
+                                  volumeSliderLabel="Volume setting"
                                 >
-                                  <ToggleButton
-                                    className="mute-toggle"
-                                    classNamePrefix="replay-"
-                                    label="Toggle mute"
-                                    onToggle={[Function]}
-                                    toggledOffContent={
-                                      <Volume2
-                                        color="currentColor"
-                                        size="24"
-                                      />
-                                    }
-                                    toggledOnContent={
-                                      <VolumeX
-                                        color="currentColor"
-                                        size="24"
-                                      />
-                                    }
-                                    useDefaultClassNaming={true}
+                                  <div
+                                    className="replay-volume"
+                                    title="Volume and mute"
                                   >
-                                    <div
-                                      className="replay-mute-toggle replay-toggle-button replay-toggled-off"
-                                      onClick={[Function]}
-                                      onKeyDown={[Function]}
-                                      onKeyUp={[Function]}
-                                      role="button"
-                                      tabIndex={0}
-                                      title="Toggle mute"
-                                    >
-                                      <div
-                                        tabIndex={-1}
-                                      >
+                                    <ToggleButton
+                                      className="mute-toggle"
+                                      classNamePrefix="replay-"
+                                      label="Toggle mute"
+                                      onToggle={[Function]}
+                                      toggledOffContent={
                                         <Volume2
                                           color="currentColor"
                                           size="24"
-                                        >
-                                          <svg
-                                            fill="none"
-                                            height="24"
-                                            stroke="currentColor"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            viewBox="0 0 24 24"
-                                            width="24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <polygon
-                                              points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"
-                                            />
-                                            <path
-                                              d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
-                                            />
-                                          </svg>
-                                        </Volume2>
-                                      </div>
-                                    </div>
-                                  </ToggleButton>
-                                  <Slider
-                                    className="volume-slider"
-                                    classNamePrefix="replay-"
-                                    handleClassName="volume-slider-handle"
-                                    handleContent=""
-                                    label="Volume setting"
-                                    maxValue={1}
-                                    onValueChange={[Function]}
-                                    trackClassName="volume-slider-track"
-                                    value={0}
-                                  >
-                                    <div
-                                      aria-valuemax={1}
-                                      aria-valuemin={0}
-                                      aria-valuenow={0}
-                                      className="replay-slider replay-volume-slider"
-                                      onClick={[Function]}
-                                      onKeyDown={[Function]}
-                                      onKeyUp={[Function]}
-                                      onMouseDown={[Function]}
-                                      onMouseEnter={[Function]}
-                                      onMouseLeave={[Function]}
-                                      onMouseMove={[Function]}
-                                      onMouseUp={[Function]}
-                                      role="slider"
-                                      tabIndex={0}
-                                      title="Volume setting"
+                                        />
+                                      }
+                                      toggledOnContent={
+                                        <VolumeX
+                                          color="currentColor"
+                                          size="24"
+                                        />
+                                      }
+                                      useDefaultClassNaming={true}
                                     >
                                       <div
-                                        className="replay-slider-track replay-volume-slider-track"
-                                      />
-                                      <div
-                                        className="replay-slider-handle replay-volume-slider-handle"
+                                        className="replay-mute-toggle replay-toggle-button replay-toggled-off"
+                                        onClick={[Function]}
+                                        onKeyDown={[Function]}
+                                        onKeyUp={[Function]}
                                         role="button"
-                                        style={
-                                          Object {
-                                            "left": "0%",
+                                        tabIndex={0}
+                                        title="Toggle mute"
+                                      >
+                                        <div
+                                          tabIndex={-1}
+                                        >
+                                          <Volume2
+                                            color="currentColor"
+                                            size="24"
+                                          >
+                                            <svg
+                                              fill="none"
+                                              height="24"
+                                              stroke="currentColor"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                              strokeWidth="2"
+                                              viewBox="0 0 24 24"
+                                              width="24"
+                                              xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                              <polygon
+                                                points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+                                              />
+                                              <path
+                                                d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+                                              />
+                                            </svg>
+                                          </Volume2>
+                                        </div>
+                                      </div>
+                                    </ToggleButton>
+                                    <Slider
+                                      className="volume-slider"
+                                      classNamePrefix="replay-"
+                                      handleClassName="volume-slider-handle"
+                                      handleContent=""
+                                      label="Volume setting"
+                                      maxValue={1}
+                                      onValueChange={[Function]}
+                                      trackClassName="volume-slider-track"
+                                      value={0}
+                                    >
+                                      <div
+                                        aria-valuemax={1}
+                                        aria-valuemin={0}
+                                        aria-valuenow={0}
+                                        className="replay-slider replay-volume-slider"
+                                        onClick={[Function]}
+                                        onKeyDown={[Function]}
+                                        onKeyUp={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseEnter={[Function]}
+                                        onMouseLeave={[Function]}
+                                        onMouseMove={[Function]}
+                                        onMouseUp={[Function]}
+                                        role="slider"
+                                        tabIndex={0}
+                                        title="Volume setting"
+                                      >
+                                        <div
+                                          className="replay-slider-track replay-volume-slider-track"
+                                        />
+                                        <div
+                                          className="replay-slider-handle replay-volume-slider-handle"
+                                          role="button"
+                                          style={
+                                            Object {
+                                              "left": "0%",
+                                            }
                                           }
-                                        }
-                                        tabIndex={-1}
-                                      />
-                                    </div>
-                                  </Slider>
-                                </div>
-                              </Volume>
-                            </SettingsStorageVolume>
-                          </ConnectedSettingsStorageVolume>
-                          <ConnectedSettingsStorageAudioSelector
-                            classNamePrefix="replay-"
-                            configuration={
-                              Object {
-                                "setting": "value",
-                                "ui": Object {
-                                  "liveDisplayMode": "clock-time",
-                                  "qualitySelectionStrategy": "cap-bitrate",
-                                  "skipButtonOffset": -20,
-                                },
-                              }
-                            }
-                            label="Audio track selector"
-                            toggleContent={
-                              <MessageSquare
-                                color="currentColor"
-                                size="24"
-                              />
-                            }
-                          >
-                            <SettingsStorageAudioSelector
+                                          tabIndex={-1}
+                                        />
+                                      </div>
+                                    </Slider>
+                                  </div>
+                                </Volume>
+                              </SettingsStorageVolume>
+                            </ConnectedSettingsStorageVolume>
+                            <ConnectedSettingsStorageAudioSelector
                               classNamePrefix="replay-"
                               configuration={
                                 Object {
@@ -910,9 +906,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   },
                                 }
                               }
-                              inspect={[Function]}
                               label="Audio track selector"
-                              setProperties={[Function]}
                               toggleContent={
                                 <MessageSquare
                                   color="currentColor"
@@ -920,7 +914,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 />
                               }
                             >
-                              <AudioSelector
+                              <SettingsStorageAudioSelector
                                 classNamePrefix="replay-"
                                 configuration={
                                   Object {
@@ -941,31 +935,32 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     size="24"
                                   />
                                 }
-                              />
-                            </SettingsStorageAudioSelector>
-                          </ConnectedSettingsStorageAudioSelector>
-                          <ConnectedSettingsStorageSubtitlesSelector
-                            classNamePrefix="replay-"
-                            configuration={
-                              Object {
-                                "setting": "value",
-                                "ui": Object {
-                                  "liveDisplayMode": "clock-time",
-                                  "qualitySelectionStrategy": "cap-bitrate",
-                                  "skipButtonOffset": -20,
-                                },
-                              }
-                            }
-                            label="Subtitles selector"
-                            noSubtitlesLabel="No subtitles"
-                            toggleContent={
-                              <Type
-                                color="currentColor"
-                                size="24"
-                              />
-                            }
-                          >
-                            <SettingsStorageSubtitlesSelector
+                              >
+                                <AudioSelector
+                                  classNamePrefix="replay-"
+                                  configuration={
+                                    Object {
+                                      "setting": "value",
+                                      "ui": Object {
+                                        "liveDisplayMode": "clock-time",
+                                        "qualitySelectionStrategy": "cap-bitrate",
+                                        "skipButtonOffset": -20,
+                                      },
+                                    }
+                                  }
+                                  inspect={[Function]}
+                                  label="Audio track selector"
+                                  setProperties={[Function]}
+                                  toggleContent={
+                                    <MessageSquare
+                                      color="currentColor"
+                                      size="24"
+                                    />
+                                  }
+                                />
+                              </SettingsStorageAudioSelector>
+                            </ConnectedSettingsStorageAudioSelector>
+                            <ConnectedSettingsStorageSubtitlesSelector
                               classNamePrefix="replay-"
                               configuration={
                                 Object {
@@ -977,10 +972,8 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   },
                                 }
                               }
-                              inspect={[Function]}
                               label="Subtitles selector"
                               noSubtitlesLabel="No subtitles"
-                              setProperties={[Function]}
                               toggleContent={
                                 <Type
                                   color="currentColor"
@@ -988,7 +981,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 />
                               }
                             >
-                              <SubtitlesSelector
+                              <SettingsStorageSubtitlesSelector
                                 classNamePrefix="replay-"
                                 configuration={
                                   Object {
@@ -1010,57 +1003,63 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     size="24"
                                   />
                                 }
-                              />
-                            </SettingsStorageSubtitlesSelector>
-                          </ConnectedSettingsStorageSubtitlesSelector>
-                          <ConnectedQualitySelector
-                            autoLabel="Automatic"
-                            classNamePrefix="replay-"
-                            formatBitrateLabel={[Function]}
-                            label="Video quality selector"
-                            selectionStrategy="cap-bitrate"
-                            toggleContent={
-                              <Settings
-                                color="currentColor"
-                                size="24"
-                              />
-                            }
-                          >
-                            <QualitySelector
+                              >
+                                <SubtitlesSelector
+                                  classNamePrefix="replay-"
+                                  configuration={
+                                    Object {
+                                      "setting": "value",
+                                      "ui": Object {
+                                        "liveDisplayMode": "clock-time",
+                                        "qualitySelectionStrategy": "cap-bitrate",
+                                        "skipButtonOffset": -20,
+                                      },
+                                    }
+                                  }
+                                  inspect={[Function]}
+                                  label="Subtitles selector"
+                                  noSubtitlesLabel="No subtitles"
+                                  setProperties={[Function]}
+                                  toggleContent={
+                                    <Type
+                                      color="currentColor"
+                                      size="24"
+                                    />
+                                  }
+                                />
+                              </SettingsStorageSubtitlesSelector>
+                            </ConnectedSettingsStorageSubtitlesSelector>
+                            <ConnectedQualitySelector
                               autoLabel="Automatic"
                               classNamePrefix="replay-"
                               formatBitrateLabel={[Function]}
-                              inspect={[Function]}
                               label="Video quality selector"
                               selectionStrategy="cap-bitrate"
-                              setProperties={[Function]}
                               toggleContent={
                                 <Settings
                                   color="currentColor"
                                   size="24"
                                 />
                               }
-                            />
-                          </ConnectedQualitySelector>
-                          <ConnectedPipButton
-                            classNamePrefix="replay-"
-                            label="Toggle picture-in-picture mode"
-                            pipActiveContent={
-                              <Square
-                                color="currentColor"
-                                size="24"
+                            >
+                              <QualitySelector
+                                autoLabel="Automatic"
+                                classNamePrefix="replay-"
+                                formatBitrateLabel={[Function]}
+                                inspect={[Function]}
+                                label="Video quality selector"
+                                selectionStrategy="cap-bitrate"
+                                setProperties={[Function]}
+                                toggleContent={
+                                  <Settings
+                                    color="currentColor"
+                                    size="24"
+                                  />
+                                }
                               />
-                            }
-                            pipInactiveContent={
-                              <Copy
-                                color="currentColor"
-                                size="24"
-                              />
-                            }
-                          >
-                            <PipButton
+                            </ConnectedQualitySelector>
+                            <ConnectedPipButton
                               classNamePrefix="replay-"
-                              inspect={[Function]}
                               label="Toggle picture-in-picture mode"
                               pipActiveContent={
                                 <Square
@@ -1074,26 +1073,27 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   size="24"
                                 />
                               }
-                              setProperties={[Function]}
-                            />
-                          </ConnectedPipButton>
-                          <ConnectedAirPlayButton
-                            airPlayActiveContent={
-                              <Airplay
-                                color="currentColor"
-                                size="24"
+                            >
+                              <PipButton
+                                classNamePrefix="replay-"
+                                inspect={[Function]}
+                                label="Toggle picture-in-picture mode"
+                                pipActiveContent={
+                                  <Square
+                                    color="currentColor"
+                                    size="24"
+                                  />
+                                }
+                                pipInactiveContent={
+                                  <Copy
+                                    color="currentColor"
+                                    size="24"
+                                  />
+                                }
+                                setProperties={[Function]}
                               />
-                            }
-                            airPlayInactiveContent={
-                              <Airplay
-                                color="currentColor"
-                                size="24"
-                              />
-                            }
-                            classNamePrefix="replay-"
-                            label="Select AirPlay device"
-                          >
-                            <AirPlayButton
+                            </ConnectedPipButton>
+                            <ConnectedAirPlayButton
                               airPlayActiveContent={
                                 <Airplay
                                   color="currentColor"
@@ -1107,154 +1107,158 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 />
                               }
                               classNamePrefix="replay-"
-                              inspect={[Function]}
                               label="Select AirPlay device"
-                              setProperties={[Function]}
-                            />
-                          </ConnectedAirPlayButton>
-                          <FullscreenButton
-                            classNamePrefix="replay-"
-                            enterFullscreen={[Function]}
-                            exitFullscreen={[Function]}
-                            fullscreenContent={
-                              <Minimize
-                                color="currentColor"
-                                size="24"
+                            >
+                              <AirPlayButton
+                                airPlayActiveContent={
+                                  <Airplay
+                                    color="currentColor"
+                                    size="24"
+                                  />
+                                }
+                                airPlayInactiveContent={
+                                  <Airplay
+                                    color="currentColor"
+                                    size="24"
+                                  />
+                                }
+                                classNamePrefix="replay-"
+                                inspect={[Function]}
+                                label="Select AirPlay device"
+                                setProperties={[Function]}
                               />
-                            }
-                            isFullscreen={false}
-                            label="Toggle fullscreen"
-                            normalContent={
-                              <Maximize
-                                color="currentColor"
-                                size="24"
-                              />
-                            }
-                            setProperties={[Function]}
-                          >
-                            <ToggleButton
-                              className="fullscreen-button"
+                            </ConnectedAirPlayButton>
+                            <FullscreenButton
                               classNamePrefix="replay-"
-                              isOn={false}
-                              label="Toggle fullscreen"
-                              onToggle={[Function]}
-                              toggledOffContent={
-                                <Maximize
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
-                              toggledOnContent={
+                              enterFullscreen={[Function]}
+                              exitFullscreen={[Function]}
+                              fullscreenContent={
                                 <Minimize
                                   color="currentColor"
                                   size="24"
                                 />
                               }
-                              useDefaultClassNaming={true}
+                              isFullscreen={false}
+                              label="Toggle fullscreen"
+                              normalContent={
+                                <Maximize
+                                  color="currentColor"
+                                  size="24"
+                                />
+                              }
+                              setProperties={[Function]}
                             >
-                              <div
-                                aria-pressed={false}
-                                className="replay-fullscreen-button replay-toggle-button replay-toggled-off"
-                                onClick={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyUp={[Function]}
-                                role="button"
-                                tabIndex={0}
-                                title="Toggle fullscreen"
-                              >
-                                <div
-                                  tabIndex={-1}
-                                >
+                              <ToggleButton
+                                className="fullscreen-button"
+                                classNamePrefix="replay-"
+                                isOn={false}
+                                label="Toggle fullscreen"
+                                onToggle={[Function]}
+                                toggledOffContent={
                                   <Maximize
                                     color="currentColor"
                                     size="24"
+                                  />
+                                }
+                                toggledOnContent={
+                                  <Minimize
+                                    color="currentColor"
+                                    size="24"
+                                  />
+                                }
+                                useDefaultClassNaming={true}
+                              >
+                                <div
+                                  aria-pressed={false}
+                                  className="replay-fullscreen-button replay-toggle-button replay-toggled-off"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  onKeyUp={[Function]}
+                                  role="button"
+                                  tabIndex={0}
+                                  title="Toggle fullscreen"
+                                >
+                                  <div
+                                    tabIndex={-1}
                                   >
-                                    <svg
-                                      fill="none"
-                                      height="24"
-                                      stroke="currentColor"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      viewBox="0 0 24 24"
-                                      width="24"
-                                      xmlns="http://www.w3.org/2000/svg"
+                                    <Maximize
+                                      color="currentColor"
+                                      size="24"
                                     >
-                                      <path
-                                        d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
-                                      />
-                                    </svg>
-                                  </Maximize>
+                                      <svg
+                                        fill="none"
+                                        height="24"
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+                                        />
+                                      </svg>
+                                    </Maximize>
+                                  </div>
                                 </div>
-                              </div>
-                            </ToggleButton>
-                          </FullscreenButton>
-                        </RenderIfEnabled>
-                      </div>
-                    </ControlsBar>
-                    <ConnectedBufferingIndicator
-                      classNamePrefix="replay-"
-                      content={<LoadingAnimation />}
-                      label="Video is buffering"
-                      renderStrategy="always"
-                    >
-                      <BufferingIndicator
+                              </ToggleButton>
+                            </FullscreenButton>
+                          </RenderIfEnabled>
+                        </div>
+                      </ControlsBar>
+                      <ConnectedBufferingIndicator
                         classNamePrefix="replay-"
                         content={<LoadingAnimation />}
-                        inspect={[Function]}
                         label="Video is buffering"
                         renderStrategy="always"
-                        setProperties={[Function]}
                       >
-                        <div
-                          className="replay-buffering-indicator"
+                        <BufferingIndicator
+                          classNamePrefix="replay-"
+                          content={<LoadingAnimation />}
+                          inspect={[Function]}
+                          label="Video is buffering"
+                          renderStrategy="always"
+                          setProperties={[Function]}
                         >
-                          <LoadingAnimation>
-                            <svg
-                              height="100%"
-                              stroke="currentColor"
-                              viewBox="0 0 38 38"
-                              width="100%"
-                            >
-                              <g
-                                fill="none"
-                                fillRule="evenodd"
+                          <div
+                            className="replay-buffering-indicator"
+                          >
+                            <LoadingAnimation>
+                              <svg
+                                height="100%"
+                                stroke="currentColor"
+                                viewBox="0 0 38 38"
+                                width="100%"
                               >
                                 <g
-                                  strokeWidth="2"
-                                  transform="translate(1 1)"
+                                  fill="none"
+                                  fillRule="evenodd"
                                 >
-                                  <circle
-                                    cx="18"
-                                    cy="18"
-                                    r="18"
-                                    stroke="currentColor"
-                                    strokeOpacity="0.5"
-                                  />
-                                  <path
-                                    className="animated"
-                                    d="M36 18c0-9.94-8.06-18-18-18"
-                                  />
+                                  <g
+                                    strokeWidth="2"
+                                    transform="translate(1 1)"
+                                  >
+                                    <circle
+                                      cx="18"
+                                      cy="18"
+                                      r="18"
+                                      stroke="currentColor"
+                                      strokeOpacity="0.5"
+                                    />
+                                    <path
+                                      className="animated"
+                                      d="M36 18c0-9.94-8.06-18-18-18"
+                                    />
+                                  </g>
                                 </g>
-                              </g>
-                            </svg>
-                          </LoadingAnimation>
-                        </div>
-                      </BufferingIndicator>
-                    </ConnectedBufferingIndicator>
-                    <ConnectedPreferredSettingsApplicator
-                      configuration={
-                        Object {
-                          "setting": "value",
-                          "ui": Object {
-                            "liveDisplayMode": "clock-time",
-                            "qualitySelectionStrategy": "cap-bitrate",
-                            "skipButtonOffset": -20,
-                          },
-                        }
-                      }
-                    >
-                      <PreferredSettingsApplicator
+                              </svg>
+                            </LoadingAnimation>
+                          </div>
+                        </BufferingIndicator>
+                      </ConnectedBufferingIndicator>
+                      <ConnectedPreferredSettingsApplicator
                         configuration={
                           Object {
                             "setting": "value",
@@ -1265,13 +1269,26 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                             },
                           }
                         }
-                        inspect={[Function]}
-                        setProperties={[Function]}
-                      />
-                    </ConnectedPreferredSettingsApplicator>
-                  </div>
-                </PlayerStateClassNames>
-              </ConnectedPlayerStateClassNames>
+                      >
+                        <PreferredSettingsApplicator
+                          configuration={
+                            Object {
+                              "setting": "value",
+                              "ui": Object {
+                                "liveDisplayMode": "clock-time",
+                                "qualitySelectionStrategy": "cap-bitrate",
+                                "skipButtonOffset": -20,
+                              },
+                            }
+                          }
+                          inspect={[Function]}
+                          setProperties={[Function]}
+                        />
+                      </ConnectedPreferredSettingsApplicator>
+                    </div>
+                  </PlayerStateClassNames>
+                </ConnectedPlayerStateClassNames>
+              </ResponsiveClassNames>
             </KeyboardShortcuts>
           </ConnectedKeyboardShortcuts>
         </InteractionDetector>

@@ -13,6 +13,7 @@ import type { QualitySelectionStrategy } from '../components/controls/QualitySel
 import type { LiveDisplayMode } from '../components/controls/TimeDisplay/TimeDisplay';
 import type { UserSettingsConfiguration } from '../components/player/settings-helpers/PreferredSettingsApplicator';
 import type { PlaybackActions } from '../components/player/PlayerController/PlayerController';
+import type { ResponsiveRanges } from '../components/player/containment-helpers/ResponsiveClassNames';
 
 export type ControlNames =
   | 'playPauseButton'
@@ -38,6 +39,7 @@ export type PlayerConfiguration = {
   interactionDetector?: ?InteractionDetectorConfiguration,
   keyboardShortcuts?: ?KeyboardShortcutsConfiguration,
   userSettings?: ?UserSettingsConfiguration,
+  responsivenessRules?: ?ResponsiveRanges,
   ui?: ?{
     classNamePrefix?: ?string,
     includeControls?: ?Array<ControlNames>,

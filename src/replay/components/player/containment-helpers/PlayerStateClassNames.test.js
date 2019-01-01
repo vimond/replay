@@ -6,7 +6,6 @@ import PlayerStateClassNames from './PlayerStateClassNames';
 Enzyme.configure({ adapter: new Adapter() });
 
 const classNameDefinitions = {
-  responsivenessPrefix: 'player-size-',
   volumePrefix: 'volume-level-',
   isFullscreen: 'is-fullscreen',
   isUserInactive: 'is-user-inactive',
@@ -18,8 +17,7 @@ const state = {
   playState: 'buffering',
   volume: 0.2,
   isFullscreen: true,
-  isUserActive: false,
-  responsivenessRanges: ['medium', 'max']
+  isUserActive: false
 };
 
 test('<PlayerStateClassNames/> renders with the child control having className filled based on the state.', () => {
@@ -45,6 +43,4 @@ test('<PlayerStateClassNames/> renders with the child control having className f
   expect(rendered.hasClass('a-volume-level-low')).toBe(true);
   expect(rendered.hasClass('a-is-fullscreen')).toBe(true);
   expect(rendered.hasClass('a-is-user-inactive')).toBe(true);
-  expect(rendered.hasClass('a-player-size-medium')).toBe(true);
-  expect(rendered.hasClass('a-player-size-max')).toBe(true);
 });

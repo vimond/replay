@@ -9,6 +9,8 @@ import KeyboardShortcuts from '../containment-helpers/KeyboardShortcuts';
 import type { InteractionDetectorConfiguration } from '../containment-helpers/InteractionDetector';
 import type { KeyboardShortcutsConfiguration } from '../containment-helpers/KeyboardShortcuts';
 import PlayerStateClassNames from '../containment-helpers/PlayerStateClassNames';
+import ResponsiveClassNames from '../containment-helpers/ResponsiveClassNames';
+import type { ResponsiveRanges } from '../containment-helpers/ResponsiveClassNames';
 
 type RenderParameters = {
   fullscreenState: {
@@ -30,7 +32,8 @@ type Props = CommonProps & {
   },
   configuration?: {
     interactionDetector?: InteractionDetectorConfiguration,
-    keyboardShortcuts?: KeyboardShortcutsConfiguration
+    keyboardShortcuts?: KeyboardShortcutsConfiguration,
+    responsivenessRules?: ?ResponsiveRanges
   },
   render: RenderParameters => React.Node,
   className?: string
@@ -95,24 +98,31 @@ export const getConnectedPlayerUIContainer = (connector: any => React.ComponentT
                       nudge={interactionState.nudge}
                       toggleFixedUserActive={interactionState.toggleFixedUserActive}
                       render={({ handleKeyDown }) => (
-                        <ConnectedPlayerStateClassNames
-                          {...fullscreenState}
-                          {...interactionState}
-                          classNameDefinitions={classNameDefinitions}
-                          classNamePrefix={classNamePrefix}
-                          className={uiContainerClassName}
-                          render={classNames => (
-                            <div
-                              className={classNames}
-                              tabIndex={0}
-                              ref={onRef}
-                              onMouseMove={handleMouseMove}
-                              onTouchStart={handleTouchStart}
-                              onTouchEnd={handleTouchEnd}
-                              onKeyDown={handleKeyDown}
-                              onFocus={handleFocus}>
-                              {render({ fullscreenState, interactionState })}
-                            </div>
+                        <ResponsiveClassNames
+                          onRef={onRef}
+                          configuration={configuration}
+                          render={({ onRef, responsiveClassNames }) => (
+                            <ConnectedPlayerStateClassNames
+                              {...fullscreenState}
+                              {...interactionState}
+                              classNameDefinitions={classNameDefinitions}
+                              classNamePrefix={classNamePrefix}
+                              className={uiContainerClassName}
+                              extraClassNames={responsiveClassNames}
+                              render={classNames => (
+                                <div
+                                  className={classNames}
+                                  tabIndex={0}
+                                  ref={onRef}
+                                  onMouseMove={handleMouseMove}
+                                  onTouchStart={handleTouchStart}
+                                  onTouchEnd={handleTouchEnd}
+                                  onKeyDown={handleKeyDown}
+                                  onFocus={handleFocus}>
+                                  {render({ fullscreenState, interactionState })}
+                                </div>
+                              )}
+                            />
                           )}
                         />
                       )}

@@ -21,6 +21,27 @@ export const baseConfiguration: PlayerConfiguration = {
       toggleMute: 'M'
     }
   },
+  responsivenessRules: [
+    {
+      className: 'narrow',
+      width: {
+        max: 640
+      }
+    },
+    {
+      className: 'medium-width',
+      width: {
+        min: 640,
+        max: 1024
+      }
+    },
+    {
+      className: 'wide',
+      width: {
+        min: 1024
+      }
+    }
+  ],
   userSettings: {
     hasPrecedence: false,
     storageKey: 'replay-settings',

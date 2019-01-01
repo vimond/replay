@@ -54,6 +54,23 @@ export const baseConfiguration: PlayerConfiguration = {
       isMuted: 'local'
     }
   },
+  responsivenessRules: [{
+    className: 'narrow',
+    width: {
+      max: 640
+    }
+  }, {
+    className: 'medium-width',
+    width: {
+      min: 640,
+      max: 1024
+    }
+  }, {
+    className: 'wide',
+    width: {
+      min: 1024
+    }
+  }],
   ui: {
     skipButtonOffset: -10,
     qualitySelectionStrategy: 'cap-bitrate',
@@ -62,7 +79,7 @@ export const baseConfiguration: PlayerConfiguration = {
 };
 ```
 
-The object above specifies behaviours for controls, maps keyboard shortcuts, and enables storing the user's preferences in the brower's local storage. 
+The object above specifies behaviours for controls, maps keyboard shortcuts, enables responsive designs according to player size rules, and enables storing the user's preferences in the brower's local storage. 
 
 ## Examples of overriding the base configuration
 
@@ -91,6 +108,7 @@ From a simple configuration setting being overridden, over to a more complex liv
           isMuted: 'session'
         }
       },
+      responsivenessRules: [{ className: 'small', width: { max: 500 }}, { className: 'big', width: { min: 750 }}],
       keyboardShortcuts: { 
         keyMap: {
           togglePause: ['Y', 'Enter']
@@ -107,6 +125,7 @@ The overrides in this example changes the following, compared to the base config
 * For a live stream, the position will be displayed as an offset from the live edge, instead of time-of-day clock time (if applicable).
 * When selecting a bitrate in the quality selector, the playback will fix to this bitrate, instead of capping the adaptive quality selection range.
 * The user's volume and mute settings will only be remembered during the current browser session, as opposed to later sessions.
+* It replaces the rules for player-size responsive class names. With the overridden rule set, the inner player container will get a class name of `replay-small`, if the player width is below 500 pixels, and if the player width is greater than 750 pixels, `replay-big` will be present as a class name. For widths in-between, none of these names will be present. The effect of the responsiveness rules. can be observed by inspecting the player container div containing a lot of `replay-`prefixed class names, and resizing the browser window repeatedly. Note that the player DOM element width is being measured, not the browser window width.
 * The keyboard keys Y and Enter can be used to toggle pause/playing. In the base configuration `P`, `Enter` and `Space` were defined as shortcuts for this operation.
 
 This example can be live edited, in order to observe effects of changing the options object.

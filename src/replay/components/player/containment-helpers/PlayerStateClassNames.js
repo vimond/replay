@@ -9,12 +9,14 @@ import type { StreamStateKeysForObservation } from '../PlayerController/Controll
 type Props = RecognizedPlayerStateProperties &
   CommonGenericProps & {
     render: string => React.Node,
-    classNameDefinitions: { [ClassNameKeys]: string }
+    classNameDefinitions: { [ClassNameKeys]: string },
+    extraClassNames: Array<string>
   };
 
 class PlayerStateClassNames extends React.Component<Props> {
   static defaultProps = {
-    classNamePrefix: defaultClassNamePrefix
+    classNamePrefix: defaultClassNamePrefix,
+    extraClassNames: []
   };
 
   static streamStateKeysForObservation: StreamStateKeysForObservation = [
@@ -30,13 +32,20 @@ class PlayerStateClassNames extends React.Component<Props> {
   ];
 
   render() {
-    const { render, classNamePrefix, classNameDefinitions, className, ...playerStateProps } = this.props;
+    const {
+      render,
+      classNamePrefix,
+      classNameDefinitions,
+      className,
+      extraClassNames,
+      ...playerStateProps
+    } = this.props;
     return render(
       playerStateClassNameBuilder(
         playerStateProps,
         classNameDefinitions,
         classNamePrefix,
-        className ? [className] : undefined
+        className ? [className, ...extraClassNames] : extraClassNames
       )
     );
   }

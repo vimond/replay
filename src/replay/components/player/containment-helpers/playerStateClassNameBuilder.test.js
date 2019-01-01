@@ -15,12 +15,10 @@ const allProps: RecognizedPlayerStateProperties = {
   playMode: 'livedvr',
   error: null,
   isFullscreen: true,
-  isUserActive: false,
-  responsivenessRanges: ['medium', 'max']
+  isUserActive: false
 };
 
 const classNameDefs = {
-  responsivenessPrefix: 'player-size-',
   volumePrefix: 'volume-',
   isFullscreen: 'is-fullscreen',
   isUserActive: 'is-user-active',
@@ -141,15 +139,6 @@ test('playerStateClassNameBuilder() sets the prefixed volume class names also fo
   expect(oneResult.indexOf('v-volume-low')).toBeLessThan(0);
   expect(oneResult.indexOf('v-volume-medium')).toBeLessThan(0);
   expect(oneResult.indexOf('v-volume-high')).toBeGreaterThanOrEqual(0);
-});
-
-test('playerStateClassNameBuilder() sets prefixed responsiveness range class names.', () => {
-  const responsivenessResult = playerStateClassNameBuilder(allProps, classNameDefs, classNamePrefix);
-  expect(responsivenessResult.indexOf('v-player-size-max')).toBeGreaterThanOrEqual(0);
-  expect(responsivenessResult.indexOf('v-player-size-medium')).toBeGreaterThanOrEqual(0);
-
-  const emptyResult = playerStateClassNameBuilder({ responsivenessRanges: [] }, classNameDefs, classNamePrefix);
-  expect(emptyResult).toBe('');
 });
 
 test('playerStateClassNameBuilder() always includes and prefixes extra class names.', () => {
