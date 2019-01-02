@@ -22,8 +22,8 @@ export default function getSourceChangeHandler(rxPlayer: any) {
     { source, initialPlaybackProps }: P,
     prevProps: ?P
   ): Promise<void> => {
-    if (source) {
-      const normalizedSource = normalizeSource(source);
+    const normalizedSource = normalizeSource(source);
+    if (normalizedSource) {
       const licenseUrl = normalizedSource.licenseUrl;
       const startPosition = normalizedSource.startPosition;
       const autoPlay = !(initialPlaybackProps && initialPlaybackProps.isPaused);
@@ -73,8 +73,8 @@ export default function getSourceChangeHandler(rxPlayer: any) {
       }
       if (
         options.keySystems &&
-        source.licenseAcquisitionDetails &&
-        source.licenseAcquisitionDetails.widevineServiceCertificateUrl &&
+        normalizedSource.licenseAcquisitionDetails &&
+        normalizedSource.licenseAcquisitionDetails.widevineServiceCertificateUrl &&
         navigator.userAgent.indexOf('Edge') < 0 &&
         (navigator.userAgent.indexOf('Chrome') >= 0 || navigator.userAgent.indexOf('Firefox') >= 0)
       ) {

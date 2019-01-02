@@ -9,7 +9,8 @@ import './replay/replay-default.css';
 import type { PlaybackActions } from './replay/components/player/PlayerController/PlayerController';
 import { PlaybackError } from './replay/components/player/VideoStreamer/types';
 import type { PlaybackSource, SourceTrack } from './replay/components/player/VideoStreamer/types';
-import VideoStreamerResolver from './replay/components/player/VideoStreamer/VideoStreamerResolver';
+import VideoStreamerResolver from './replay/components/player/VideoStreamer/VideoStreamerResolver/VideoStreamerResolver';
+import type { MultiTechPlaybackSource } from './replay/components/player/VideoStreamer/VideoStreamerResolver/VideoStreamerResolver';
 // import RxVideoStreamer from './replay/components/player/VideoStreamer/RxVideoStreamer/RxVideoStreamer';
 
 type State = {
@@ -18,6 +19,8 @@ type State = {
   alwaysShowDesignControls: boolean,
   textTracks?: ?Array<SourceTrack>
 };
+
+const initialPlaybackProps = { isPaused: true, volume: 0.2 };
 
 const textTracks = [
   {
@@ -50,11 +53,17 @@ const textTracks = [
   }
 ];
 
-const widevineStream: PlaybackSource = {
+const widevineStream = {
   streamUrl: 'https://tv2-hls-live.telenorcdn.net/out/u/82018.mpd',
   licenseUrl:
     'https://sumo.tv2.no/license/wvmodular/82018?timeStamp=2018-10-21T17%3A20%3A06%2B0000&contract=8aa97e9f77c2accc9ec33fb4b288dea2&account=source',
-  contentType: 'application/dash+xml'
+  contentType: 'application/dash+xml',
+  drmType: 'com.widevine.alpha'
+};
+
+const multiSource: MultiTechPlaybackSource = {
+  streamUrl: '', // For now, streamUrl must always be specified.
+  alternativeStreamResources: [widevineStream]
 };
 
 const fairPlayStream: PlaybackSource = {
@@ -88,7 +97,8 @@ const videoUrls = [
     contentType: 'application/dash+xml'
   },
   fairPlayStream,
-  widevineStream
+  widevineStream,
+  multiSource
 ];
 
 const configOverrides: PlayerConfiguration = {
@@ -187,7 +197,7 @@ class App extends Component<void, State> {
                 onExit={this.togglePlayer}
                 onError={this.handleError}
                 textTracks={textTracks}
-                initialPlaybackProps={{ isPaused: true, volume: 0.2 }}
+                initialPlaybackProps={initialPlaybackProps}
                 onPlaybackActionsReady={this.handlePlaybackActions}>
                 <VideoStreamerResolver />
               </Replay>

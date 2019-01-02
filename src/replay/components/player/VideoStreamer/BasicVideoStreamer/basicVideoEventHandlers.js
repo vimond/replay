@@ -4,12 +4,14 @@ import type { InitialPlaybackProps, PlaybackProps, PlaybackSource, VideoStreamSt
 import type { PlaybackLifeCycle, StreamRangeHelper } from '../common/types';
 import { PlaybackError } from '../types';
 import { getIntervalRunner } from '../../../common';
+import normalizeSource from '../common/sourceNormalizer';
 
 const defaultPauseUpdateInterval = 5;
 
 function seekToInitialPosition(source: ?PlaybackSource, videoElement: HTMLVideoElement) {
-  if (source && typeof source.startPosition === 'number') {
-    videoElement.currentTime = source.startPosition;
+  const normalizedSource = normalizeSource(source);
+  if (normalizedSource && typeof normalizedSource.startPosition === 'number') {
+    videoElement.currentTime = normalizedSource.startPosition;
   }
 }
 
