@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "start": "PORT=3033 SKIP_PREFLIGHT_CHECK=true react-scripts start",
-    "build:lib": "npm run build:es5 && npm run build:flow && npm run build:css && npm run docz:build",
+    "build:lib": "yarn build:es5 && yarn build:flow && yarn build:css && yarn docz:build",
     "build:es5": "babel src/replay -d . --ignore \"src/replay/docs/**/*.js\",\"src/**/*.test.js\" --source-maps",
     "build:flow": "flow-copy-source src/replay . --ignore **/*.test.js --ignore **/mdx-helpers/*",
     "build:css": "postcss src/replay/replay-default.css -o ./index.css",
@@ -34,7 +34,6 @@
     "test": "SKIP_PREFLIGHT_CHECK=true react-scripts test --env=jsdom"
   },
   "dependencies": {
-    "babel-plugin-version-inline": "^1.0.0",
     "hls.js": "^0.11.0",
     "memoize-one": "^4.0.0",
     "react-feather": "^1.1.0",
@@ -51,6 +50,7 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "babel-plugin-version-inline": "^1.0.0",
     "css-loader": "^1.0.0",
     "docz": "^0.12.13",
     "docz-plugin-css": "^0.11.0",
@@ -70,8 +70,7 @@
     "react-dom": "^16.6.3",
     "react-persist": "^1.0.2",
     "react-scripts": "^2.1.1",
-    "style-loader": "^0.22.1",
-    "test-cli": "^0.1.0"
+    "style-loader": "^0.22.1"
   },
   "resolutions": {
     "docz-plugin-css/docz-core": "^0.12.13"

@@ -13089,11 +13089,6 @@ terser@^3.8.1:
     source-map "~0.6.1"
     source-map-support "~0.5.6"
 
-test-cli@^0.1.0:
-  version "0.1.0"
-  resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/test-cli/-/test-cli-0.1.0.tgz#65ef622e129c1a306753d09ed17a60bfeb7a5196"
-  integrity sha1-Ze9iLhKcGjBnU9Ce0Xpgv+t6UZY=
-
 test-exclude@^4.2.1:
   version "4.2.3"
   resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/test-exclude/-/test-exclude-4.2.3.tgz#a9a5e64474e4398339245a0a769ad7c2f4a97c20"

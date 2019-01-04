@@ -128,10 +128,14 @@ const withSettingsStorage = (
             });
           }
           if (Object.keys(localSettings).length > 0) {
-            localStorage.setItem(storageKey, JSON.stringify(localSettings));
+            try {
+              localStorage.setItem(storageKey, JSON.stringify(localSettings));
+            } catch (e) {}
           }
           if (Object.keys(sessionSettings).length > 0) {
-            sessionStorage.setItem(storageKey, JSON.stringify(sessionSettings));
+            try {
+              sessionStorage.setItem(storageKey, JSON.stringify(sessionSettings));
+            } catch (e) {}
           }
         }
       }
