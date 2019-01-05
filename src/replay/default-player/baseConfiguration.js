@@ -54,7 +54,7 @@ export const baseConfiguration: PlayerConfiguration = {
       audioTrackKind: 'local'
     }
   },
-  ui: {
+  controls: {
     skipButtonOffset: -10,
     qualitySelectionStrategy: 'cap-bitrate',
     liveDisplayMode: 'clock-time'

@@ -12,12 +12,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
   classNamePrefix="replay-"
   configuration={
     Object {
-      "setting": "value",
-      "ui": Object {
+      "controls": Object {
         "liveDisplayMode": "clock-time",
         "qualitySelectionStrategy": "cap-bitrate",
         "skipButtonOffset": -20,
       },
+      "setting": "value",
     }
   }
   render={[Function]}
@@ -57,12 +57,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
         <InteractionDetector
           configuration={
             Object {
-              "setting": "value",
-              "ui": Object {
+              "controls": Object {
                 "liveDisplayMode": "clock-time",
                 "qualitySelectionStrategy": "cap-bitrate",
                 "skipButtonOffset": -20,
               },
+              "setting": "value",
             }
           }
           render={[Function]}
@@ -70,12 +70,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
           <ConnectedKeyboardShortcuts
             configuration={
               Object {
-                "setting": "value",
-                "ui": Object {
+                "controls": Object {
                   "liveDisplayMode": "clock-time",
                   "qualitySelectionStrategy": "cap-bitrate",
                   "skipButtonOffset": -20,
                 },
+                "setting": "value",
               }
             }
             fullscreenState={
@@ -93,12 +93,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
             <KeyboardShortcuts
               configuration={
                 Object {
-                  "setting": "value",
-                  "ui": Object {
+                  "controls": Object {
                     "liveDisplayMode": "clock-time",
                     "qualitySelectionStrategy": "cap-bitrate",
                     "skipButtonOffset": -20,
                   },
+                  "setting": "value",
                 }
               }
               fullscreenState={
@@ -118,12 +118,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
               <ResponsiveClassNames
                 configuration={
                   Object {
-                    "setting": "value",
-                    "ui": Object {
+                    "controls": Object {
                       "liveDisplayMode": "clock-time",
                       "qualitySelectionStrategy": "cap-bitrate",
                       "skipButtonOffset": -20,
                     },
+                    "setting": "value",
                   }
                 }
                 onRef={[Function]}
@@ -317,12 +317,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           }
                           configuration={
                             Object {
-                              "setting": "value",
-                              "ui": Object {
+                              "controls": Object {
                                 "liveDisplayMode": "clock-time",
                                 "qualitySelectionStrategy": "cap-bitrate",
                                 "skipButtonOffset": -20,
                               },
+                              "setting": "value",
                             }
                           }
                         />
@@ -699,12 +699,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               classNamePrefix="replay-"
                               configuration={
                                 Object {
-                                  "setting": "value",
-                                  "ui": Object {
+                                  "controls": Object {
                                     "liveDisplayMode": "clock-time",
                                     "qualitySelectionStrategy": "cap-bitrate",
                                     "skipButtonOffset": -20,
                                   },
+                                  "setting": "value",
                                 }
                               }
                               label="Volume and mute"
@@ -728,12 +728,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 classNamePrefix="replay-"
                                 configuration={
                                   Object {
-                                    "setting": "value",
-                                    "ui": Object {
+                                    "controls": Object {
                                       "liveDisplayMode": "clock-time",
                                       "qualitySelectionStrategy": "cap-bitrate",
                                       "skipButtonOffset": -20,
                                     },
+                                    "setting": "value",
                                   }
                                 }
                                 inspect={[Function]}
@@ -759,12 +759,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   classNamePrefix="replay-"
                                   configuration={
                                     Object {
-                                      "setting": "value",
-                                      "ui": Object {
+                                      "controls": Object {
                                         "liveDisplayMode": "clock-time",
                                         "qualitySelectionStrategy": "cap-bitrate",
                                         "skipButtonOffset": -20,
                                       },
+                                      "setting": "value",
                                     }
                                   }
                                   inspect={[Function]}
@@ -898,12 +898,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               classNamePrefix="replay-"
                               configuration={
                                 Object {
-                                  "setting": "value",
-                                  "ui": Object {
+                                  "controls": Object {
                                     "liveDisplayMode": "clock-time",
                                     "qualitySelectionStrategy": "cap-bitrate",
                                     "skipButtonOffset": -20,
                                   },
+                                  "setting": "value",
                                 }
                               }
                               label="Audio track selector"
@@ -918,12 +918,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 classNamePrefix="replay-"
                                 configuration={
                                   Object {
-                                    "setting": "value",
-                                    "ui": Object {
+                                    "controls": Object {
                                       "liveDisplayMode": "clock-time",
                                       "qualitySelectionStrategy": "cap-bitrate",
                                       "skipButtonOffset": -20,
                                     },
+                                    "setting": "value",
                                   }
                                 }
                                 inspect={[Function]}
@@ -940,12 +940,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   classNamePrefix="replay-"
                                   configuration={
                                     Object {
-                                      "setting": "value",
-                                      "ui": Object {
+                                      "controls": Object {
                                         "liveDisplayMode": "clock-time",
                                         "qualitySelectionStrategy": "cap-bitrate",
                                         "skipButtonOffset": -20,
                                       },
+                                      "setting": "value",
                                     }
                                   }
                                   inspect={[Function]}
@@ -964,12 +964,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               classNamePrefix="replay-"
                               configuration={
                                 Object {
-                                  "setting": "value",
-                                  "ui": Object {
+                                  "controls": Object {
                                     "liveDisplayMode": "clock-time",
                                     "qualitySelectionStrategy": "cap-bitrate",
                                     "skipButtonOffset": -20,
                                   },
+                                  "setting": "value",
                                 }
                               }
                               label="Subtitles selector"
@@ -985,12 +985,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 classNamePrefix="replay-"
                                 configuration={
                                   Object {
-                                    "setting": "value",
-                                    "ui": Object {
+                                    "controls": Object {
                                       "liveDisplayMode": "clock-time",
                                       "qualitySelectionStrategy": "cap-bitrate",
                                       "skipButtonOffset": -20,
                                     },
+                                    "setting": "value",
                                   }
                                 }
                                 inspect={[Function]}
@@ -1008,12 +1008,12 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   classNamePrefix="replay-"
                                   configuration={
                                     Object {
-                                      "setting": "value",
-                                      "ui": Object {
+                                      "controls": Object {
                                         "liveDisplayMode": "clock-time",
                                         "qualitySelectionStrategy": "cap-bitrate",
                                         "skipButtonOffset": -20,
                                       },
+                                      "setting": "value",
                                     }
                                   }
                                   inspect={[Function]}
@@ -1261,24 +1261,24 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                       <ConnectedPreferredSettingsApplicator
                         configuration={
                           Object {
-                            "setting": "value",
-                            "ui": Object {
+                            "controls": Object {
                               "liveDisplayMode": "clock-time",
                               "qualitySelectionStrategy": "cap-bitrate",
                               "skipButtonOffset": -20,
                             },
+                            "setting": "value",
                           }
                         }
                       >
                         <PreferredSettingsApplicator
                           configuration={
                             Object {
-                              "setting": "value",
-                              "ui": Object {
+                              "controls": Object {
                                 "liveDisplayMode": "clock-time",
                                 "qualitySelectionStrategy": "cap-bitrate",
                                 "skipButtonOffset": -20,
                               },
+                              "setting": "value",
                             }
                           }
                           inspect={[Function]}

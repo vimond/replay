@@ -108,7 +108,7 @@ const configOverrides: PlayerConfiguration = {
   playbackMonitor: {
     visibleAtStart: false
   },
-  ui: {
+  controls: {
     //includeControls: ['playPauseButton', 'timeline', 'timeDisplay', 'gotoLiveButton', 'volume', 'fullscreenButton', 'exitButton']
   }
 };

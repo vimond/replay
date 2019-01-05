@@ -1,7 +1,13 @@
 // @flow
 import * as React from 'react';
 import type { RenderMethod } from '../components/player/PlayerController/PlayerController';
-import type { GraphicResources, PlayerConfiguration, StringResources, UIResources } from './types';
+import type {
+  GraphicAndStringResources,
+  GraphicResources,
+  PlayerConfiguration,
+  StringResources,
+  UIResources
+} from './types';
 import { defaultClassNamePrefix } from '../components/common';
 
 // Non-connected controls
@@ -30,100 +36,71 @@ import RenderIfEnabled from '../components/player/RenderIfEnabled';
 import PreferredSettingsApplicator from '../components/player/settings-helpers/PreferredSettingsApplicator';
 
 const { AudioSelector, SubtitlesSelector, Volume } = SettingsStorage;
-const getSkipBackOffset = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.skipButtonOffset;
-const getLiveDisplayMode = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.liveDisplayMode;
-const getQualitySelectionStrategy = (conf: PlayerConfiguration) => conf && conf.ui && conf.ui.qualitySelectionStrategy;
+const getSkipBackOffset = (conf: PlayerConfiguration) => conf && conf.controls && conf.controls.skipButtonOffset;
+const getLiveDisplayMode = (conf: PlayerConfiguration) => conf && conf.controls && conf.controls.liveDisplayMode;
+const getQSStrategy = (conf: PlayerConfiguration) => conf && conf.controls && conf.controls.qualitySelectionStrategy;
 
-// In this file, all custom parts making up a player UI are assembled. Create a copy for assembling custom player UIs.
+declare class Object {
+  static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
+}
+
+const merge = (
+  strings: UIResources<StringResources>,
+  graphics: UIResources<GraphicResources>
+): UIResources<GraphicAndStringResources> => {
+  const merged = {};
+  Object.entries(strings).forEach(([control, props]) => {
+    merged[control] = { ...merged[control], ...props };
+  });
+  Object.entries(graphics).forEach(([control, props]) => {
+    merged[control] = { ...merged[control], ...props };
+  });
+  return merged;
+};
+
+// The following method is assembling all controls into the player UI. Create a copy for assembling custom player UIs.
 
 const getPlayerUIRenderer = (
   graphics: UIResources<GraphicResources>,
   strings: UIResources<StringResources>,
   classNamePrefix?: string = defaultClassNamePrefix
 ) => {
+  const u = merge(strings, graphics);
   const renderPlayerUI: RenderMethod = ({ configuration, externalProps }) => {
-    const prefix = (configuration.ui && configuration.ui.classNamePrefix) || classNamePrefix;
+    const prefix = { classNamePrefix: (configuration && configuration.classNamePrefix) || classNamePrefix };
+    const includedControlsList = configuration.controls && configuration.controls.includeControls;
     return (
       <PlayerUIContainer
-        classNamePrefix={prefix}
         configuration={configuration}
+        {...prefix}
         render={({ fullscreenState }) => (
-          <React.Fragment>
-            <ControlledVideoStreamer classNamePrefix={prefix} />
-            <RenderIfEnabled configuration={configuration.ui && configuration.ui.includeControls}>
-              {externalProps &&
-                externalProps.onExit && (
-                  <ExitButton
-                    {...strings.exitButton}
-                    {...graphics.exitButton}
-                    onClick={externalProps.onExit}
-                    classNamePrefix={prefix}
-                  />
-                )}
-              <PlaybackMonitor
-                configuration={configuration}
-                closeButtonContent={graphics.playbackMonitor && graphics.playbackMonitor.closeButtonContent}
-              />
+          <>
+            <ControlledVideoStreamer {...prefix} />
+            <RenderIfEnabled configuration={includedControlsList}>
+              <ExitButton {...u.exitButton} {...prefix} onClick={externalProps && externalProps.onExit} />
+              <PlaybackMonitor {...u.playbackMonitor} configuration={configuration} />
             </RenderIfEnabled>
-            <ControlsBar classNamePrefix={prefix}>
-              <RenderIfEnabled configuration={configuration.ui && configuration.ui.includeControls}>
-                <PlayPauseButton {...strings.playPauseButton} {...graphics.playPauseButton} classNamePrefix={prefix} />
-                <SkipButton
-                  offset={getSkipBackOffset(configuration)}
-                  {...strings.skipButton}
-                  {...graphics.skipButton}
-                  classNamePrefix={prefix}
-                />
-                <Timeline {...strings.timeline} {...graphics.timeline} classNamePrefix={prefix}>
-                  <TimelineInformation classNamePrefix={prefix} />
+            <ControlsBar {...prefix}>
+              <RenderIfEnabled configuration={includedControlsList}>
+                <PlayPauseButton {...u.playPauseButton} {...prefix} />
+                <SkipButton {...u.skipButton} {...prefix} offset={getSkipBackOffset(configuration)} />
+                <Timeline {...u.timeline} {...prefix}>
+                  <TimelineInformation {...prefix} />
                 </Timeline>
-                <TimeDisplay
-                  liveDisplayMode={getLiveDisplayMode(configuration)}
-                  {...strings.timeDisplay}
-                  classNamePrefix={prefix}
-                />
-                <GotoLiveButton {...strings.gotoLiveButton} {...graphics.gotoLiveButton} classNamePrefix={prefix} />
-                <Volume
-                  {...strings.volume}
-                  {...graphics.volume}
-                  configuration={configuration}
-                  classNamePrefix={prefix}
-                />
-                <AudioSelector
-                  {...strings.audioSelector}
-                  {...graphics.audioSelector}
-                  classNamePrefix={prefix}
-                  configuration={configuration}
-                />
-                <SubtitlesSelector
-                  {...strings.subtitlesSelector}
-                  {...graphics.subtitlesSelector}
-                  classNamePrefix={prefix}
-                  configuration={configuration}
-                />
-                <QualitySelector
-                  {...strings.qualitySelector}
-                  {...graphics.qualitySelector}
-                  selectionStrategy={getQualitySelectionStrategy(configuration)}
-                  classNamePrefix={prefix}
-                />
-                <PipButton {...strings.pipButton} {...graphics.pipButton} classNamePrefix={prefix} />
-                <AirPlayButton {...strings.airPlayButton} {...graphics.airPlayButton} classNamePrefix={prefix} />
-                <FullscreenButton
-                  {...fullscreenState}
-                  {...strings.fullscreenButton}
-                  {...graphics.fullscreenButton}
-                  classNamePrefix={prefix}
-                />
+                <TimeDisplay {...u.timeDisplay} {...prefix} liveDisplayMode={getLiveDisplayMode(configuration)} />
+                <GotoLiveButton {...u.gotoLiveButton} {...prefix} />
+                <Volume {...u.volume} {...prefix} configuration={configuration} />
+                <AudioSelector {...u.audioSelector} {...prefix} configuration={configuration} />
+                <SubtitlesSelector {...u.subtitlesSelector} {...prefix} configuration={configuration} />
+                <QualitySelector {...u.qualitySelector} {...prefix} selectionStrategy={getQSStrategy(configuration)} />
+                <PipButton {...u.pipButton} {...prefix} />
+                <AirPlayButton {...u.airPlayButton} {...prefix} />
+                <FullscreenButton {...u.fullscreenButton} {...prefix} {...fullscreenState} />
               </RenderIfEnabled>
             </ControlsBar>
-            <BufferingIndicator
-              {...strings.bufferingIndicator}
-              {...graphics.bufferingIndicator}
-              classNamePrefix={prefix}
-            />
+            <BufferingIndicator {...u.bufferingIndicator} {...prefix} />
             <PreferredSettingsApplicator configuration={configuration} {...externalProps.initialPlaybackProps} />
-          </React.Fragment>
+          </>
         )}
       />
     );

@@ -21,19 +21,19 @@ Replay aims to provide a streamlined and consistent way of letting data flow bet
 
 ## Some arrows and boxes
 
+This diagram illustrates how the video stream playback is controlled, via the player controller, from UI components (fat arrows). The player controller provides a [React.Context](https://reactjs.org/docs/context.html). Regardless of how the UI component tree is built (thin arrows), any UI components can connect directly to the controllable video playback through the `connectControl()` [HOC](https://reactjs.org/docs/higher-order-components.html) in correspondence with the player controller. The HOC consumes the context and observes relevant video stream state properties to be passed to the control as props.
+
 <Diagram/>
 
-The diagram presents only a selection of the full Replay DOM tree.
+The diagram presents only a selection of a full Replay DOM tree.
 
 ## Data (property) flow
 
 ### From the playing stream to player controls
 
-The video streamer downloads and renders the stream. 
-
-The player controller gets notified on playback progress and video stream state updates. By being a React context provider, the state properties are passed down from the player controller to player controls and other UI components.
-
-The controls can observe such state updates by being wrapped in a HOC connecting to the React context provided by the player controller.
+1. The video streamer's responsibility is to download and render the stream. It exposes updates to the stream playback state through callback notifications.
+2. The player controller gets notified on playback progress and video stream state updates. By being a React context provider, the state properties are passed down from the player controller to player controls and other UI components.
+3. The controls can observe such state updates by being wrapped in a HOC connecting to the React context provided by the player controller.
 
 ### From player controls to the playing stream
 

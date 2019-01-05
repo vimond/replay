@@ -71,7 +71,7 @@ export const baseConfiguration: PlayerConfiguration = {
       min: 1024
     }
   }],
-  ui: {
+  controls: {
     skipButtonOffset: -10,
     qualitySelectionStrategy: 'cap-bitrate',
     liveDisplayMode: 'clock-time'
@@ -97,11 +97,11 @@ From a simple configuration setting being overridden, over to a more complex liv
       interactionDetector: { 
         inactivityDelay: 10 
       }, 
-      ui: {
+      controls: {
         liveDisplayMode: 'live-offset',
         qualitySelectionStrategy: 'fix-bitrate',
-        _deactivated_classNamePrefix: 'my-player-'
       },
+      _deactivated_classNamePrefix: 'my-player-',
       userSettings: {
         settingsStoragePolicy: {
           volume: 'session',
@@ -142,12 +142,12 @@ Replay components can be used to build a fully custom player with controls remov
 
 However, for simpler customisations, individual controls can be included or excluded by adding a configuration override.
 
-The array `{ ui: { includeControls: [] }}` can be used to specify what controls to include. If this configuration setting is omitted, all controls will be included. Otherwise, only the ones listed in the array will be listed.
+The array `{ controls: { includeControls: [] }}` can be used to specify what controls to include. If this configuration setting is omitted, all controls will be included. Otherwise, only the ones listed in the array will be listed.
 
 <Playground>
   <Replay 
     options={{ 
-      ui: { 
+      controls: { 
         includeControls: ['playPauseButton', 'timeline', 'timeDisplay', 'volume', 'fullscreenButton']
       },
       interactionDetector: { 

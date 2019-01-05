@@ -123,8 +123,8 @@ type PlayerConfiguration = {
       audioTrackKind?: ?('none' | 'local' | 'session')
     }
   },
-  ui?: ?{
-    classNamePrefix?: ?string,
+  classNamePrefix?: ?string,
+  controls?: ?{
     includeControls?: ?Array<('playPauseButton' | 'skipButton' | 'timeline' | 'timeDisplay' | 'gotoLiveButton' | 'volume' | 'audioSelector' | 'subtitlesSelector' | 'qualitySelector' | 'fullscreenButton' | 'exitButton' | 'playbackMonitor' | 'bufferingIndicator')>,
     skipButtonOffset?: number,
     liveDisplayMode?: 'clock-time' | 'live-offset',

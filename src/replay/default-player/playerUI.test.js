@@ -12,7 +12,7 @@ test('getPlayerUIRenderer() returns a full method which when called renders and 
   const renderParameters = {
     configuration: {
       setting: 'value',
-      ui: {
+      controls: {
         skipButtonOffset: -20,
         qualitySelectionStrategy: 'cap-bitrate',
         liveDisplayMode: 'clock-time'

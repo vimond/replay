@@ -20,15 +20,19 @@ class ExitButton extends React.Component<Props> {
 
   render() {
     const { content, label, classNamePrefix, onClick } = this.props;
-    return (
-      <Button
-        classNamePrefix={classNamePrefix}
-        className={className}
-        label={label}
-        onClick={onClick}
-        content={content}
-      />
-    );
+    if (onClick) {
+      return (
+        <Button
+          classNamePrefix={classNamePrefix}
+          className={className}
+          label={label}
+          onClick={onClick}
+          content={content}
+        />
+      );
+    } else {
+      return null;
+    }
   }
 }
 

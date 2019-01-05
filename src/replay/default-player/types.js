@@ -40,8 +40,8 @@ export type PlayerConfiguration = {
   keyboardShortcuts?: ?KeyboardShortcutsConfiguration,
   userSettings?: ?UserSettingsConfiguration,
   responsivenessRules?: ?ResponsiveRanges,
-  ui?: ?{
-    classNamePrefix?: ?string,
+  classNamePrefix?: ?string,
+  controls?: ?{
     includeControls?: ?Array<ControlNames>,
     skipButtonOffset?: number,
     liveDisplayMode?: LiveDisplayMode,
@@ -51,6 +51,7 @@ export type PlayerConfiguration = {
 
 export type GraphicResources = { [string]: React.Node };
 export type StringResources = { [string]: string };
+export type GraphicAndStringResources = { [string]: React.Node | string };
 
 export type UIResources<T> = {
   playPauseButton?: T,
