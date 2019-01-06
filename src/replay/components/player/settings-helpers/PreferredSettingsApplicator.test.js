@@ -34,14 +34,14 @@ const sessionConfig = {
   }
 };
 
-const noPolicyConfig = {
+/*const noPolicyConfig = {
   userSettings: {
     storageKey: 'replay-settings',
     settingsStoragePolicy: {
       textTrackLanguage: 'none'
     }
   }
-};
+};*/
 
 const getStorageMocks = () => ({
   localStorage: {

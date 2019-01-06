@@ -17,14 +17,14 @@ const getEventHandling = () => {
 
   const addEventListener = (name, handler) => {
     if (eventHandlers[name]) {
-      throw new Exception(name + ' listener already added.');
+      throw new Error(name + ' listener already added.');
     }
     eventHandlers[name] = handler;
   };
 
   const removeEventListener = (name, handler) => {
     if (!eventHandlers[name] || eventHandlers[name] !== handler) {
-      throw new Exception(name + ' listener removed or never added.');
+      throw new Error(name + ' listener removed or never added.');
     }
     delete eventHandlers[name];
   };
@@ -166,14 +166,14 @@ test("Handling of Rx-player's playerStateChange event containing SEEKING.", () =
 });
 
 test("Handling of Rx-player's playerStateChange event containing ENDED.", () => {
-  const { rxPlayer, updateStreamState, lifeCycleManager } = setup({ lifeCycleStage: 'started' });
+  const { rxPlayer, updateStreamState } = setup({ lifeCycleStage: 'started' });
   rxPlayer.eventHandlers.playerStateChange('ENDED');
   // expect(lifeCycleManager.setStage).toHaveBeenCalledWith('ended');
   expect(updateStreamState).toHaveBeenCalledWith({ playState: 'inactive', isBuffering: false, isSeeking: false });
 });
 
 test("Handling of Rx-player's playerStateChange event containing STOPPED.", () => {
-  const { rxPlayer, updateStreamState, lifeCycleManager } = setup({ lifeCycleStage: 'started' });
+  const { rxPlayer, updateStreamState } = setup({ lifeCycleStage: 'started' });
   rxPlayer.eventHandlers.playerStateChange('STOPPED');
   // expect(lifeCycleManager.setStage).toHaveBeenCalledWith('ended');
   expect(updateStreamState).toHaveBeenCalledWith({ playState: 'inactive', isBuffering: false, isSeeking: false });

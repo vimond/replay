@@ -360,7 +360,7 @@ test('getIntervalRunner() returns start and stop methods, and invokes the callba
   let counter = 0;
   const updateFn = () => {
     try {
-      if (counter == 2) {
+      if (counter === 2) {
         expect(typeof stop).toBe('function');
         stop();
         done();

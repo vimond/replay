@@ -35,7 +35,7 @@ const noDurationClassName = 'time-display-no-duration';
 
 const isReasonableDateTime = date => date instanceof Date && !isNaN(date.getTime()) && date.getTime() > 1514761200000;
 
-const formatAndLimitTime = (time?: number, negativeMark?: string, zeroAndBelow: boolean = false) =>
+const formatAndLimitTime = (time: ?number, negativeMark?: string, zeroAndBelow: boolean = false) =>
   formatTime(time == null ? 0 : Math[zeroAndBelow ? 'min' : 'max'](0, time), negativeMark);
 
 const TimeDisplay: TimeDisplayType = ({
@@ -67,7 +67,7 @@ const TimeDisplay: TimeDisplayType = ({
       return (
         <div className={prefixClassNames(classNamePrefix, className)} title={label}>
           <span className={prefixClassNames(classNamePrefix, positionClassName)} title={positionLabel}>
-            {formatAndLimitTime((position || 0) - (duration || 0), negativeMark, true)}
+            {formatAndLimitTime((position || duration || 0) - (duration || 0), negativeMark, true)}
           </span>
           {playMode === 'livedvr' && (
             <span className={prefixClassNames(classNamePrefix, durationClassName)} title={durationLabel}>

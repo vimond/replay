@@ -13,7 +13,7 @@ const mockSimpleSource = {
   contentType: 'video/mp4',
   startPosition: 123
 };
-const mockMultiTechSource = {
+/*const mockMultiTechSource = {
   alternativeStreamResources: [
     {
       streamUrl: 'https://example.com/stream.mpd',
@@ -25,7 +25,7 @@ const mockMultiTechSource = {
     }
   ],
   startPosition: 123
-};
+};*/
 
 test.skip('VideoStreamerResolver renders a selected video streamer when a source is specified.', () => {
   const VideoStreamerResolver = createVideoStreamerResolver(mockSelectCompatibleStream, mockSelectLazyVideoStreamer);

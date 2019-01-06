@@ -89,18 +89,20 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
 
     componentWillUnmount() {
       const videoElement = this.videoRef.current;
-      // $FlowFixMe
-      if (videoElement === document.pictureInPictureElement) {
+      if (videoElement) {
         // $FlowFixMe
-        return document.exitPictureInPicture();
-        // $FlowFixMe
-      } else if (
-        // $FlowFixMe
-        videoElement.webkitPresentationMode === 'picture-in-picture' && // $FlowFixMe
-        typeof videoElement.webkitSetPresentationMode === 'function'
-      ) {
-        // $FlowFixMe
-        videoElement.webkitSetPresentationMode('inline');
+        if (videoElement === document.pictureInPictureElement) {
+          // $FlowFixMe
+          return document.exitPictureInPicture();
+          // $FlowFixMe
+        } else if (
+          // $FlowFixMe
+          videoElement.webkitPresentationMode === 'picture-in-picture' && // $FlowFixMe
+          typeof videoElement.webkitSetPresentationMode === 'function'
+        ) {
+          // $FlowFixMe
+          videoElement.webkitSetPresentationMode('inline');
+        }
       }
       if (this.implementation && this.implementation.cleanup) {
         return this.implementation.cleanup().catch(err => {

@@ -1,4 +1,4 @@
-import getPlaybackLifeCycleManager, { emptyTracks } from './playbackLifeCycleManager';
+import getPlaybackLifeCycleManager from './playbackLifeCycleManager';
 
 test('playbackLifeCycleManager', () => {
   const updateStreamState = jest.fn();

@@ -1,6 +1,6 @@
 import getFilteredStreamStateUpdater from './filteredStreamStateUpdater';
 
-const positionFilter = (position: ?number): number => (isNaN(position) || position == null ? 0 : position);
+// const positionFilter = (position: ?number): number => (isNaN(position) || position == null ? 0 : position);
 
 test('Filtered property updater notifies when fresh values are passed for properties earlier passed.', () => {
   const callback = jest.fn();

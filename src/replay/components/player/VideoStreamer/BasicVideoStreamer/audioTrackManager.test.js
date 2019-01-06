@@ -91,7 +91,7 @@ test('When specifying an audio track to be selected, its underlying enabled prop
 });
 
 test('When specifying no audio track (null) to be selected, no changes happen to what track being played.', () => {
-  const { videoElement, updateAudioTracks, notifyChange } = getVideoElementMock();
+  const { videoElement, updateAudioTracks } = getVideoElementMock();
   const update = jest.fn();
   const audioTrackManager = getAudioTrackManager(videoElement, update);
   updateAudioTracks([

@@ -1,4 +1,4 @@
-import { shakaSetup, cleanup } from './shakaSetup';
+import { shakaSetup } from './shakaSetup';
 import shaka, { configure, destroy } from 'shaka-player';
 
 beforeEach(() => {

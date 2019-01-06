@@ -163,7 +163,7 @@ test.skip('<PlaybackMonitor /> should format different types of values appropria
   // This test is already covered in the full render test.
   const rendered = shallow(<PlaybackMonitor {...commonProps} />);
   const tbody = rendered.find('tbody');
-  const tableRows = table.children().map(row => row.dive());
+  const tableRows = tbody.children().map(row => row.dive());
   test('Numbers are formatted with a few decimals.', () => {
     const numberRow = tableRows[5];
     expect(numberRow.childAt(1).text()).toBe('313.13');

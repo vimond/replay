@@ -83,6 +83,6 @@ If contributing to the repo, the following commands should be run and complete w
 * `prettier --write "src/**/*.js"`. Will reformat code.
 * `yarn flow`
 * `yarn test`
-* `yarn eslint src/replay --ignore-pattern '*.test.js'` should display no warnings.
+* `yarn eslint src/replay` should display no warnings.
 
-These steps will be improved and automated in the future. Some of them are also part of the automated build.
+These steps will be improved and automated in the future. They are also part of the automated build, which means the push will lead to failing builds if errors are not fixed before push.

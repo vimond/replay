@@ -1,6 +1,6 @@
 import createVideoStreamerComponent from './createVideoStreamerComponent';
 import React from 'react';
-import Enzyme, { shallow, mount } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -44,7 +44,7 @@ test('createVideoStreamerComponent() returns a component using the resolved impl
       onEnded: eventHandler
     },
     render: jest.fn(),
-    cleanup: jest.fn()
+    cleanup: jest.fn().mockReturnValue(Promise.resolve())
   };
 
   let sourceChangePromise;
@@ -63,7 +63,7 @@ test('createVideoStreamerComponent() returns a component using the resolved impl
     setProperties({ isPaused: true });
     expect(implementation.applyProperties).toHaveBeenCalled();
     expect(implementation.handleSourceChange).toHaveBeenCalled();
-    return sourceChangePromise.then(() => {
+    const promisedReturn = sourceChangePromise.then(() => {
       expect(implementation.textTrackManager.handleSourceChange).toHaveBeenCalled();
       expect(implementation.audioTrackManager.handleSourceChange).toHaveBeenCalled();
       expect(implementation.startPlaybackSession).toHaveBeenCalled();
@@ -72,5 +72,6 @@ test('createVideoStreamerComponent() returns a component using the resolved impl
     });
     element.unmount();
     expect(implementation.cleanup).toHaveBeenCalled();
+    return promisedReturn;
   });
 });

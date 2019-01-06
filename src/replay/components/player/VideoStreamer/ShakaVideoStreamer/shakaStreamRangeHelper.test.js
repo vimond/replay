@@ -1,11 +1,5 @@
 import getStreamRangeHelper from './shakaStreamRangeHelper';
 
-const getSeekableRanges = (start, end) => ({
-  length: 1,
-  start: () => start,
-  end: () => end
-});
-
 const startDate = new Date('2018-07-30T18:49:36.120Z');
 const getStartDate = () => startDate;
 

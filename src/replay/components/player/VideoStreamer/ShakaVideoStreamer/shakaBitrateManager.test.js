@@ -158,7 +158,7 @@ test('Shaka bitrate manager fixBitrate() with number passed selects track with m
   expect(onStreamStateChange).toHaveBeenCalledWith({ bitrateFix: 3457 });
 });
 test('Shaka bitrate manager fixBitrate() with no valid number resets max bandwidth, and re-enables ABR.', () => {
-  const { eventHandlers, onStreamStateChange, shakaPlayer, bitrateManager, variantTracks } = setup([
+  const { eventHandlers, onStreamStateChange, shakaPlayer, bitrateManager } = setup([
     1234567,
     2345678,
     7891234,

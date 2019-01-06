@@ -16,14 +16,14 @@ const getEventHandling = () => {
 
   const addEventListener = (name, handler) => {
     if (eventHandlers[name]) {
-      throw new Exception(name + ' listener already added.');
+      throw new Error(name + ' listener already added.');
     }
     eventHandlers[name] = handler;
   };
 
   const removeEventListener = (name, handler) => {
     if (!eventHandlers[name] || eventHandlers[name] !== handler) {
-      throw new Exception(name + ' listener removed or never added.');
+      throw new Error(name + ' listener removed or never added.');
     }
     delete eventHandlers[name];
   };
@@ -40,12 +40,10 @@ export const getMockShakaPlayer = (variantTracks, configuration = { abr: {} }) =
   return {
     shakaPlayer: {
       configure: jest.fn(),
-      isLive: () => isLive,
-      seekRange: () => seekRange,
-      getConfiguration: () => configuration,
+      isLive: () => false,
+      seekRange: () => ({ start: 0, end: 0 }),
       getVariantTracks: () => variantTracks,
       selectVariantTrack: jest.fn(),
-      getPresentationStartTimeAsDate: () => startDateTime,
       addEventListener: eventHandling.addEventListener,
       removeEventListener: eventHandling.removeEventListener,
       mock: {
