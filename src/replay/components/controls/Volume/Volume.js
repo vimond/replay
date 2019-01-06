@@ -8,7 +8,7 @@ import type { StreamStateKeysForObservation } from '../../player/PlayerControlle
 
 type Props = CommonProps & {
   /** ⇘︎ The current volume level, a number between 0 and 1. */
-  volume: number,
+  volume?: number,
   /** ⇘︎ The current mute state. false means unmuted. */
   isMuted?: boolean,
   volumeSliderLabel?: string,
@@ -17,8 +17,8 @@ type Props = CommonProps & {
   mutedContent: React.Node,
   /** Element(s) displayed when isMuted is set to false The convention is to display a loudspeaker icon with sound waves. */
   unmutedContent: React.Node,
-  volumeSliderHandleContent: React.Node,
-  volumeSliderTrackContent: React.Node,
+  volumeSliderHandleContent?: React.Node,
+  volumeSliderTrackContent?: React.Node,
   /** ⇗ This callback is invoked with { isMuted: true } or { isMuted: false } when the mute button is toggled. If the volume slider handle position is changed, it is invoked with { volume: newLevel } */
   setProperties?: ({ volume: number } | { isMuted: boolean }) => void
 };

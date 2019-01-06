@@ -10,7 +10,7 @@ export type LiveDisplayMode = 'clock-time' | 'live-offset';
 
 type Props = CommonProps & {
   /** ⇘︎ The relative playback position, used for on demand position and timeshift offset display. */
-  position: number,
+  position?: number,
   /** ⇘︎ The duration of the stream, used for on demand position and timeshift offset display. */
   duration?: number,
   /** ⇘︎ The clock time, used for live streams and DVR streams when liveDisplayMode is set to 'live-offset'. */
@@ -18,7 +18,7 @@ type Props = CommonProps & {
   /** ⇘︎ Play mode is used to decide what times to display. */
   playMode?: PlayMode,
   /** When set to 'live-offset', DVR times will be displayed as offsets from the live edge. Default is 'clock-time'. */
-  liveDisplayMode: LiveDisplayMode,
+  liveDisplayMode?: LiveDisplayMode,
   negativeMark?: string,
   positionLabel?: string,
   durationLabel?: string,
@@ -67,7 +67,7 @@ const TimeDisplay: TimeDisplayType = ({
       return (
         <div className={prefixClassNames(classNamePrefix, className)} title={label}>
           <span className={prefixClassNames(classNamePrefix, positionClassName)} title={positionLabel}>
-            {formatAndLimitTime(position - (duration || 0), negativeMark, true)}
+            {formatAndLimitTime((position || 0) - (duration || 0), negativeMark, true)}
           </span>
           {playMode === 'livedvr' && (
             <span className={prefixClassNames(classNamePrefix, durationClassName)} title={durationLabel}>
