@@ -12,13 +12,15 @@ test("Source handler applies the stream URL to the video element's src attribute
   const handleSourceChange = getSourceChangeHandler(videoElement);
   const props1 = { source: { streamUrl: 'https://example.com/stream' } };
   const props2 = { source: 'https://example.com/stream2' };
-  return handleSourceChange(props1, {}).then(() => {
-    expect(videoElement.src).toBe('https://example.com/stream');
-  }).then(() => {
-    return handleSourceChange(props2, props1).then(() => {
-      expect(videoElement.src).toBe('https://example.com/stream2');
+  return handleSourceChange(props1, {})
+    .then(() => {
+      expect(videoElement.src).toBe('https://example.com/stream');
+    })
+    .then(() => {
+      return handleSourceChange(props2, props1).then(() => {
+        expect(videoElement.src).toBe('https://example.com/stream2');
+      });
     });
-  });
 });
 
 test("Source handler removes video element's src attribute/property when there is no valid stream URL or source.", () => {
