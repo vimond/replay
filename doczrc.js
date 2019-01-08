@@ -15,6 +15,7 @@ export default {
   dest: './docs',
   public: '/public',
   base: '/docs/replay/latest/',
+  hashRouter: true,
   plugins: [
     css({
       preprocessor: 'postcss',
