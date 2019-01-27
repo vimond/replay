@@ -10,7 +10,6 @@ import type { PlaybackActions } from './replay/components/player/PlayerControlle
 import { PlaybackError } from './replay/components/player/VideoStreamer/types';
 import type { PlaybackSource, SourceTrack } from './replay/components/player/VideoStreamer/types';
 import VideoStreamerResolver from './replay/components/player/VideoStreamer/VideoStreamerResolver/VideoStreamerResolver';
-import type { MultiTechPlaybackSource } from './replay/components/player/VideoStreamer/VideoStreamerResolver/VideoStreamerResolver';
 // import RxVideoStreamer from './replay/components/player/VideoStreamer/RxVideoStreamer/RxVideoStreamer';
 
 type State = {
@@ -54,6 +53,7 @@ const textTracks = [
 ];
 
 const widevineStream = {
+  description: 'Live MPEG-DASH with Widevine',
   streamUrl: 'https://tv2-hls-live.telenorcdn.net/out/u/82018.mpd',
   licenseUrl:
     'https://sumo.tv2.no/license/wvmodular/82018?timeStamp=2018-10-21T17%3A20%3A06%2B0000&contract=8aa97e9f77c2accc9ec33fb4b288dea2&account=source',
@@ -61,44 +61,70 @@ const widevineStream = {
   drmType: 'com.widevine.alpha'
 };
 
-const multiSource: MultiTechPlaybackSource = {
-  streamUrl: '', // For now, streamUrl must always be specified.
-  alternativeStreamResources: [widevineStream]
-};
-
-const fairPlayStream: PlaybackSource = {
-  streamUrl: 'https://tv2-hls-live.telenorcdn.net/out/u/82018.m3u8',
-  licenseUrl:
-    'http://localhost:3002/proxy/stream/license/https%3A//sumo.tv2.no/license/fairplay/82018%3FtimeStamp%3D2018-10-30T14%253A25%253A33%252B0000%26contract%3Db639d62fcb132fc7d7f6f7abec3318fe%26account%3Dsource',
-  licenseAcquisitionDetails: {
-    fairPlayCertificateUrl: 'http://localhost:3002/proxy/stream/http%3A//sumo.tv2.no/atvapp/assets/TV2_certificate.der',
-    requestFormat: 'base64' // Legacy FairPlay format.
-  }
-};
-
-const videoUrls = [
-  // 'example-media/adaptive.m3u8',
+const videoSources = [
   {
+    description: 'Live DASH',
     streamUrl: 'https://tv2-stream-live-no.telenorcdn.net/out/u/1153546.mpd',
     contentType: 'application/dash+xml'
   },
-  'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4',
-  'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-20/N_ELGBADER_200718_SIKRO_(1359389_R212MP41000).mp4',
-  'http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8',
-  'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
-  'https://tv2-stream-live-no.telenorcdn.net/out/u/1153546.m3u8',
   {
+    description: 'MP4 1',
+    streamUrl:
+      'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-24/S_TRENERLYGING_240718_LA(1359781_R224MP41000).mp4'
+  },
+  {
+    description: 'MP4 2',
+    streamUrl:
+      'https://progressive-tv2-no.akamaized.net/ismusp/isi_mp4_0/2018-07-20/N_ELGBADER_200718_SIKRO_(1359389_R212MP41000).mp4'
+  },
+  {
+    description: 'HLS multi-language',
+    streamUrl: 'http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8'
+  },
+  {
+    description: 'HLS multi-language',
+    streamUrl: 'http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8'
+  },
+  {
+    description: 'HLS Sintel',
+    streamUrl: 'http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8'
+  },
+  {
+    description: 'HLS Sintel',
+    streamUrl: 'https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8'
+  },
+  {
+    description: 'Live HLS',
+    streamUrl: 'https://tv2-stream-live-no.telenorcdn.net/out/u/1153546.m3u8'
+  },
+  {
+    description: 'MPEG DASH',
     streamUrl: 'https://tv2-hls-od.telenorcdn.net/dashvod15/_definst_/amlst:1385976_ps1271_pd672348.smil/manifest.mpd',
     contentType: 'application/dash+xml'
   },
   {
+    description: 'MPEG-DASH with subtitles',
     streamUrl:
       'https://d3bwpqn4orkllw.cloudfront.net/b91c1/EG_5575_TR_47878_MEZ_(47878_ISMUSP).ism/EG_5575_TR_47878_MEZ_(47878_ISMUSP).mpd',
     contentType: 'application/dash+xml'
   },
-  fairPlayStream,
+  {
+    description: 'Live HLS with FairPlay',
+    streamUrl: 'https://tv2-hls-live.telenorcdn.net/out/u/82018.m3u8',
+    licenseUrl:
+      'http://localhost:3002/proxy/stream/license/https%3A//sumo.tv2.no/license/fairplay/82018%3FtimeStamp%3D2018-10-30T14%253A25%253A33%252B0000%26contract%3Db639d62fcb132fc7d7f6f7abec3318fe%26account%3Dsource',
+    licenseAcquisitionDetails: {
+      fairPlayCertificateUrl:
+        'http://localhost:3002/proxy/stream/http%3A//sumo.tv2.no/atvapp/assets/TV2_certificate.der',
+      requestFormat: 'base64' // Legacy FairPlay format.
+    }
+  },
   widevineStream,
-  multiSource
+  {
+    description: 'Multi-format',
+    streamUrl: '', // For now, streamUrl must always be specified.
+    alternativeStreamResources: [widevineStream]
+  }
 ];
 
 const configOverrides: PlayerConfiguration = {
@@ -132,7 +158,7 @@ class App extends Component<void, State> {
     this.state = {
       useMock: true,
       alwaysShowDesignControls: true,
-      source: videoUrls[0]
+      source: videoSources[0]
     };
     window.setState = stateProps => this.setState(stateProps);
   }
@@ -144,7 +170,7 @@ class App extends Component<void, State> {
   handleStreamUrlFieldChange = (evt: SyntheticEvent<HTMLInputElement>) =>
     this.setState({ source: evt.currentTarget.value });
 
-  handleVideoButtonClick = (index: number) => this.setState({ source: videoUrls[index] });
+  handleVideoButtonClick = (index: number) => this.setState({ source: videoSources[index] });
   handleNoVideoClick = () => this.setState({ source: null });
 
   handleError = (err: PlaybackError) =>
@@ -209,9 +235,9 @@ class App extends Component<void, State> {
                 />
               </p>
               <p className="buttons-row">
-                {videoUrls.map((_, index) => (
+                {videoSources.map((s, index) => (
                   <button key={'v-' + index} onClick={() => this.handleVideoButtonClick(index)}>
-                    Video {index + 1}
+                    {s.description}
                   </button>
                 ))}
                 <button onClick={this.handleNoVideoClick}>No video</button>
