@@ -757,16 +757,6 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               >
                                 <Volume
                                   classNamePrefix="replay-"
-                                  configuration={
-                                    Object {
-                                      "controls": Object {
-                                        "liveDisplayMode": "clock-time",
-                                        "qualitySelectionStrategy": "cap-bitrate",
-                                        "skipButtonOffset": -20,
-                                      },
-                                      "setting": "value",
-                                    }
-                                  }
                                   inspect={[Function]}
                                   label="Volume and mute"
                                   muteToggleLabel="Toggle mute"
@@ -938,16 +928,6 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               >
                                 <AudioSelector
                                   classNamePrefix="replay-"
-                                  configuration={
-                                    Object {
-                                      "controls": Object {
-                                        "liveDisplayMode": "clock-time",
-                                        "qualitySelectionStrategy": "cap-bitrate",
-                                        "skipButtonOffset": -20,
-                                      },
-                                      "setting": "value",
-                                    }
-                                  }
                                   inspect={[Function]}
                                   label="Audio track selector"
                                   setProperties={[Function]}
@@ -1006,16 +986,6 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               >
                                 <SubtitlesSelector
                                   classNamePrefix="replay-"
-                                  configuration={
-                                    Object {
-                                      "controls": Object {
-                                        "liveDisplayMode": "clock-time",
-                                        "qualitySelectionStrategy": "cap-bitrate",
-                                        "skipButtonOffset": -20,
-                                      },
-                                      "setting": "value",
-                                    }
-                                  }
                                   inspect={[Function]}
                                   label="Subtitles selector"
                                   noSubtitlesLabel="No subtitles"

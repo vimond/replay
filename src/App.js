@@ -189,7 +189,7 @@ class App extends Component<void, State> {
   };
 
   exitPip = () => {
-    // $FlowFixMe
+    // $FlowFixMe Typedefs up to date.
     document.exitPictureInPicture && document.exitPictureInPicture();
   };
 

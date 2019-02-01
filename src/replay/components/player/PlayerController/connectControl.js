@@ -2,14 +2,14 @@
 import * as React from 'react';
 import ControllerContext from './ControllerContext';
 import type { InspectMethod, ObserveMethod, UnobserveMethod, SetPropertiesMethod } from './ControllerContext';
-import type { VideoStreamStateKeys } from '../VideoStreamer/types';
+import type { VideoStreamState, VideoStreamStateKeys } from '../VideoStreamer/types';
 import type { CommonGenericProps } from '../../common';
 
 type HandleChangeMethod = ({ [VideoStreamStateKeys]: any }) => void;
 
-type PassdownProps = any & {
-  setProperties: SetPropertiesMethod,
-  inspect: InspectMethod
+type PassdownProps = VideoStreamState & {
+  setProperties?: SetPropertiesMethod,
+  inspect?: InspectMethod
 };
 
 type ObserverProps = {
@@ -64,7 +64,7 @@ const connectControl = <Props: {}>(
     }
   }
 
-  const ConnectedControl: React.StatelessFunctionalComponent<Props> = (props: Props) => (
+  const ConnectedControl = (props: $Diff<Props, PassdownProps>) => (
     <ControllerContext.Consumer>
       {({ observe, unobserve, setProperties, inspect }) => {
         if (observe) {

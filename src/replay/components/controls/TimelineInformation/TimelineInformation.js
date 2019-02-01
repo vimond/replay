@@ -7,13 +7,13 @@ import type { CommonProps } from '../../common';
 
 type Props = CommonProps & {
   /** ⇘︎ For previewing live clock time positions, this should contain the date/time corresponding to the start of the timeline.. */
-  absoluteStartPosition: ?Date,
+  absoluteStartPosition?: Date,
   /** ⇘︎ Used for selecting relative position or clock time display. */
-  playMode: ?PlayMode,
+  playMode?: PlayMode,
   /** ⇘︎ Used for computing the tooltip position. */
-  duration: ?number,
+  duration?: number,
   /** The relative preview position, passed automatically from a Timeline parent. */
-  previewValue: ?number,
+  previewValue?: ?number,
   /** The Timeline parent manages mouse pointer state, and passes to this component. If true, the tooltip is displayed. */
   isPointerInside?: boolean,
   /** Passed from the Timeline parent. When dragging, it is set to true, and the tooltip displays. */

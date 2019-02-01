@@ -64,8 +64,8 @@ const getStreamRangeHelper = (
       seekRange.end !== 0 || seekRange.start !== 0
         ? seekRange.end - seekRange.start
         : videoElement.duration === Infinity || isNaN(videoElement.duration)
-          ? 0
-          : videoElement.duration;
+        ? 0
+        : videoElement.duration;
 
     const playMode = resolvePlayMode(duration, isLive);
     const isAtLiveEdge = isLive && position > duration - liveMargin;

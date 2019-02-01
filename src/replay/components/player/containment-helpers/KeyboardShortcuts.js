@@ -48,8 +48,8 @@ const matchKeyCaseSafely = (key: ?(string | any), eventKey: string): boolean => 
   return typeof key !== 'string'
     ? false
     : key.length > 1
-      ? key === eventKey
-      : key.toLowerCase() === eventKey.toLowerCase();
+    ? key === eventKey
+    : key.toLowerCase() === eventKey.toLowerCase();
 };
 
 const getMatchingOperationFromKeyMap = (config: KeyboardShortcutsConfiguration, eventKey: string): ?string => {

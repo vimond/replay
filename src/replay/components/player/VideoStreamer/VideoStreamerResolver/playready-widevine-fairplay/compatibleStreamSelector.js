@@ -7,8 +7,8 @@ const selectCompatibleDrmStream: CompatibleStreamSelector = (alternativeStreamRe
   const matcher = isSafari(userAgent)
     ? isResourceFairPlay
     : isMicrosoft(userAgent)
-      ? isResourcePlayReady
-      : isResourceWidevine;
+    ? isResourcePlayReady
+    : isResourceWidevine;
   const matchingStream = alternativeStreamResources.find(matcher);
   if (matchingStream) {
     return matchingStream;

@@ -31,6 +31,7 @@
     "build:css": "postcss src/replay/replay-default.css -o ./index.css",
     "docz:dev": "docz dev",
     "docz:build": "docz build",
+    "prettier": "prettier --write \"src/**/*.js\"",
     "test": "SKIP_PREFLIGHT_CHECK=true react-scripts test --env=jsdom"
   },
   "dependencies": {
