@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import type { PlaybackProps } from '../VideoStreamer/types';
-import type { StreamStateKeysForObservation, SetPropertiesMethod } from '../PlayerController/ControllerContext';
+import type { StreamStateKeysForObservation } from '../PlayerController/ControllerContext';
 import type { UserSettingsConfiguration } from './PreferredSettingsApplicator';
 import type { PreferredSettings } from '../../../default-player/types';
 
