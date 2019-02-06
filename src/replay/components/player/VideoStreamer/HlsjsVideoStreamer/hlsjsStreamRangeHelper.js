@@ -106,7 +106,14 @@ const getStreamRangeHelper = (
   }
 
   function setPosition(newPosition: number) {
-    if (!(isNaN(newPosition) && newPosition === Infinity)) {
+    if (
+      !(
+        isNaN(newPosition) ||
+        newPosition === Infinity ||
+        isNaN(videoElement.duration) ||
+        videoElement.duration === Infinity
+      )
+    ) {
       if (levelDuration) {
         videoElement.currentTime = newPosition + videoElement.duration - levelDuration;
       } else {

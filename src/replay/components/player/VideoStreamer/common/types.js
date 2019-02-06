@@ -48,7 +48,9 @@ export type AudioTrackManager = {
 
 export type TextTrackManager = {
   handleSelectedTextTrackChange: (?AvailableTrack) => void,
-  handleSourceChange: ({ source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) => void,
+  handleSourcePropChange: ({ source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) => void,
+  handleTextTracksPropChange: (newProps: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) => void,
+  clear: () => void,
   cleanup: () => void
 };
 

@@ -83,7 +83,13 @@ function resolveImplementation(
     startPlaybackSession,
     endPlaybackSession,
     videoElementEventHandlers,
-    textTrackManager: { handleSourceChange: () => {}, cleanup: () => {}, handleSelectedTextTrackChange: () => {} },
+    textTrackManager: {
+      handleSourcePropChange: () => {},
+      cleanup: () => {},
+      handleSelectedTextTrackChange: () => {},
+      handleTextTracksPropChange: () => {},
+      clear: () => {}
+    },
     audioTrackManager: { handleSourceChange: () => {}, cleanup: () => {}, handleSelectedAudioTrackChange: () => {} }
   });
 }

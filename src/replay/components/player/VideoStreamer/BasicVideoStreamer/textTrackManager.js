@@ -289,19 +289,25 @@ const getTextTrackManager = (
     });
   }
 
-  function handleSourceChange(newProps: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
-    if ('source' in newProps) {
-      cleanupTracks(true);
-    } else if ('textTracks' in newProps) {
-      cleanupTracks(false);
-    }
-    let newTracks = newProps.source && Array.isArray(newProps.textTracks) ? newProps.textTracks : [];
+  function handleSourcePropChange(newProps: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
+    updateFromVideoElement(videoElement.textTracks);
+    const newTracks = newProps.source && Array.isArray(newProps.textTracks) ? newProps.textTracks : [];
     const source = normalizeSource(newProps.source);
     if (source && source.textTracks) {
       addTracks(newTracks.concat(source.textTracks));
     } else {
       addTracks(newTracks);
     }
+  }
+
+  function handleTextTracksPropChange(newProps: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
+    cleanupTracks(false);
+    const newTracks = newProps.source && Array.isArray(newProps.textTracks) ? newProps.textTracks : [];
+    addTracks(newTracks);
+  }
+
+  function clear() {
+    cleanupTracks(true);
   }
 
   function handleSelectedTextTrackChange(selectedTextTrack: ?AvailableTrack) {
@@ -341,7 +347,9 @@ const getTextTrackManager = (
 
   return {
     handleSelectedTextTrackChange,
-    handleSourceChange,
+    handleTextTracksPropChange,
+    handleSourcePropChange,
+    clear,
     cleanup
   };
 };

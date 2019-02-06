@@ -54,7 +54,6 @@ function getShakaTextTrackManager(
 ): TextTrackManager {
   let managedTextTracks: Array<ManagedShakaTextTrack> = [];
   let selectableTextTracks = emptyTracks;
-  let currentSource: ?PlaybackSource = null;
 
   function getActiveShakaTrack() {
     return (shakaPlayer.getTextTracks() || []).filter(track => track.active)[0];
@@ -292,25 +291,24 @@ function getShakaTextTrackManager(
       });
   }
 
-  function handleSourceChange(props: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
-    // If source is different, we can assume a new loading event already having taken place.
-    // This has emptied the track list, and potentially also started re-filling it with in-band text tracks.
-    // If this method is invoked because only the textTracks prop has changed, we need to blacklist tracks
-    // before filling the list again.
-    const isTextTracksChangeOnly = props.source === currentSource && 'textTracks' in props;
-
-    if (isTextTracksChangeOnly) {
-      blacklistExistingSideLoadedTracks();
-    }
-    currentSource = props.source;
-
+  function handleSourcePropChange(props: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
     let newTracks = Array.isArray(props.textTracks) ? props.textTracks : [];
     const source = normalizeSource(props.source);
-    if (source && source.textTracks && !isTextTracksChangeOnly) {
+    if (source && source.textTracks) {
       addTracks(newTracks.concat(source.textTracks));
     } else {
       addTracks(newTracks);
     }
+  }
+
+  function handleTextTracksPropChange(props: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
+    blacklistExistingSideLoadedTracks();
+    let newTracks = Array.isArray(props.textTracks) ? props.textTracks : [];
+    addTracks(newTracks);
+  }
+
+  function clear() {
+    blacklistExistingSideLoadedTracks();
   }
 
   function handleSelectedTextTrackChange(textTrack: ?AvailableTrack) {
@@ -337,7 +335,9 @@ function getShakaTextTrackManager(
 
   return {
     handleSelectedTextTrackChange,
-    handleSourceChange,
+    handleTextTracksPropChange,
+    handleSourcePropChange,
+    clear,
     cleanup
   };
 }

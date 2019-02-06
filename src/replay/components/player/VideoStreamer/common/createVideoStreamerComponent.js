@@ -50,11 +50,12 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
       const implementation = this.implementation;
       if (implementation) {
         implementation.startPlaybackSession();
+        implementation.textTrackManager.clear();
         return implementation
           .handleSourceChange(nextProps, prevProps)
           .then(() => {
             implementation.audioTrackManager.handleSourceChange();
-            implementation.textTrackManager.handleSourceChange(nextProps);
+            implementation.textTrackManager.handleSourcePropChange(nextProps);
           })
           .catch(err => {
             implementation.endPlaybackSession('dead');
@@ -153,7 +154,7 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
             this.handleSourceChange(this.props, prevProps);
           }
         } else if (prevProps.textTracks !== this.props.textTracks) {
-          implementation.textTrackManager.handleSourceChange(this.props);
+          implementation.textTrackManager.handleTextTracksPropChange(this.props);
         }
       }
     }

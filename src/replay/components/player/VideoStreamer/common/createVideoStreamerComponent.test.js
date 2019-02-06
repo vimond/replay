@@ -33,7 +33,8 @@ test('createVideoStreamerComponent() returns a component using the resolved impl
     applyProperties: jest.fn(),
     handleSourceChange: jest.fn(),
     textTrackManager: {
-      handleSourceChange: jest.fn()
+      handleSourcePropChange: jest.fn(),
+      clear: jest.fn()
     },
     audioTrackManager: {
       handleSourceChange: jest.fn()
@@ -64,7 +65,8 @@ test('createVideoStreamerComponent() returns a component using the resolved impl
     expect(implementation.applyProperties).toHaveBeenCalled();
     expect(implementation.handleSourceChange).toHaveBeenCalled();
     const promisedReturn = sourceChangePromise.then(() => {
-      expect(implementation.textTrackManager.handleSourceChange).toHaveBeenCalled();
+      expect(implementation.textTrackManager.clear).toHaveBeenCalled();
+      expect(implementation.textTrackManager.handleSourcePropChange).toHaveBeenCalled();
       expect(implementation.audioTrackManager.handleSourceChange).toHaveBeenCalled();
       expect(implementation.startPlaybackSession).toHaveBeenCalled();
       const lastRenderCall = implementation.render.mock.calls[implementation.render.mock.calls.length - 1];
