@@ -6200,7 +6200,7 @@ history@^4.7.2:
     value-equal "^0.4.0"
     warning "^3.0.0"
 
-hls.js@^0.11.0:
+hls.js@0.11.0:
   version "0.11.0"
   resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/hls.js/-/hls.js-0.11.0.tgz#a205fb61725d9d69bf6258984be3dc2ee829fa9e"
   integrity sha1-ogX7YXJdnWm/YliYS+PcLugp+p4=
@@ -12329,10 +12329,10 @@ sha.js@^2.4.0, sha.js@^2.4.8:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-shaka-player@^2.5.0-beta:
-  version "2.5.0-beta2"
-  resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/shaka-player/-/shaka-player-2.5.0-beta2.tgz#b1eedd1255aa059a2b51bf084ec5198288d538e9"
-  integrity sha1-se7dElWqBZorUb8ITsUZgojVOOk=
+shaka-player@^2.4.6:
+  version "2.4.6"
+  resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/shaka-player/-/shaka-player-2.4.6.tgz#2a373cfa7f2867d7ba78a53fcdb25fa19cdaf5c0"
+  integrity sha1-Kjc8+n8oZ9e6eKU/zbJfoZza9cA=
 
 shallow-clone@^0.1.2:
   version "0.1.2"
