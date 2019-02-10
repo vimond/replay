@@ -1,10 +1,13 @@
 {
-  "name": "vimond-replay",
+  "name": "@vimond/replay",
   "version": "1.4.1",
   "author": "Tor Erik Alræk",
-  "license": "UNLICENSED",
+  "homepage": "http://files.vimond.com/docs/replay/",
+  "repository": "https://github.com/vimond/replay/",
+  "license": "Apache-2.0",
+  "description": "React video player with adaptive streaming support",
   "publishConfig": {
-    "registry": "https://vimond.jfrog.io/vimond/api/npm/npm-local/"
+    "access": "public"
   },
   "main": "index.js",
   "style": "index.css",
@@ -39,7 +42,6 @@
     "memoize-one": "^4.0.0",
     "react-feather": "^1.1.0",
     "resize-observer-polyfill": "^1.5.1",
-    "rx-player": "^3.9.2",
     "shaka-player": "^2.4.6"
   },
   "devDependencies": {
@@ -51,6 +53,7 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.3.1",
     "babel-plugin-version-inline": "^1.0.0",
     "css-loader": "^1.0.0",
     "docz": "^0.12.13",

@@ -19,7 +19,7 @@ type State = {
   textTracks?: ?Array<SourceTrack>
 };
 
-const initialPlaybackProps = { isPaused: true, volume: 0.2 };
+const initialPlaybackProps = { isPaused: false, volume: 0.7 };
 
 const textTracks = [
   {
@@ -79,14 +79,6 @@ const videoSources = [
   },
   {
     description: 'HLS multi-language',
-    streamUrl: 'http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8'
-  },
-  {
-    description: 'HLS multi-language',
-    streamUrl: 'http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8'
-  },
-  {
-    description: 'HLS Sintel',
     streamUrl: 'http://sample.vodobox.com/planete_interdite/planete_interdite_alternate.m3u8'
   },
   {

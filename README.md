@@ -1,38 +1,101 @@
 # Replay
 
-This is a personal training project coded outside office hours.
+Replay is a **Re**act video **play**er with these key characteristics:
+ 
+* Ready-to-use component.
+* Custom and customisable player controls and UX.
+* Enables adaptive streaming thanks to [HLS.js](https://github.com/video-dev/hls.js) and [Shaka Player](https://github.com/google/shaka-player) integrations.
+* One consistent and React-friendly API across all streaming technologies.
 
-Replay is a **Re**act **play**er controls component library and a full player component, independent to Vimond environments and earlier player projects.
+### Capabilities at a glance
 
-[Documentation with live examples](http://files.vimond.com/docs/replay/latest/).
+* MPEG-DASH, HLS, progressive MP4/WebM playback.
+* In-stream and side-loaded subtitles. Selector controls for subtitles and audio tracks.
+* Common player controls: play/pause, volume, mute, timeline, skip back button, fullscreen.
+* Live/DVR playback with timeshifting controls.
+* Advanced player controls: Picture-in-picture, AirPlay, bitrate (quality) selector.
+* Keyboard shortcuts and tab navigation.
+* Remembering the user's volume and language preferences.
+* Responsive player sizing.
 
-It is also intended to be a **replay**cement for the legacy and non-React Vimond **Re**ference **Play**er currently used for testing streams in [Streamlab](http://streamlab.ops.vmp.vimondtv.com/).
+[Full feature list](http://files.vimond.com/docs/replay/latest/#/#features-list)
 
-It constitutes a tiny framework that allows for wrapping and plugging in advanced streaming and playback technologies as first-class React components. The goal is "thinking in React" as much as possible.
+## Getting started
 
-So far it integrates with [Shaka Player](https://github.com/google/shaka-player), partly [Rx-player](https://github.com/canalplus/rx-player), and [HLS.js](https://github.com/video-dev/hls.js). That covers MPEG-DASH, HLS, and smooth streams, besides MP4 files that can be played natively in the browser.
+### Prerequisites
 
-The Replay player also aims to "get the job done" when it comes to simply embedding a video file to be played in a React app, and with custom controls.
+Minimum React version for Replay is 16.6. Additionally, one component, the [video streamer resolver](/advanced-playback/adaptive-streaming#enabling-playback-for-multiple-streaming-technologies-based-on-stream-technology-resolution), requires your script bundler to support dynamic `import()` statements. This only applies if this component is actually inserted in your code.
 
-One goal has been to learn and use quite new technologies and patterns in the React and Javascript ecosystem. The following is studied, applied or planned applied:
+### Inserting Replay into your React app
 
-* ✓ [Flow](https://flow.org) static typing.
-* ✓ [Jest](https://jestjs.io/)/[Enzyme](https://airbnb.io/enzyme/) component and unit testing.
-* ✓ [React context API](https://reactjs.org/docs/context.html). Current React version compliance.
-* ✓ ES2018/ES2019 language features.
-* ✓ NPM component library best practices. 
-* ✓ [PostCSS](https://postcss.org/) and [Babel](https://babeljs.io/)-only builds, avoiding SASS and packager tools (e.g. Webpack).
-* ✓ Automated code formatting with [Prettier](https://prettier.io/).
-* ✓ Accessibility compliance through tab navigation in player controls and proper markup.
-* ✓ [GitHub issues](https://github.com/vimond/replay/issues/).
-* ✓ [Docz](https://docz.site) doc guides with live code examples displaying React components.
-* ✓ [React.lazy](https://reactjs.org/blog/2018/10/23/react-v-16-6.html) for splitting out heavy third party streaming dependencies.
-* Reference documentation generation based on Flow types.
-* Full player tests with [Puppeteer](https://developers.google.com/web/tools/puppeteer/).
-* CSS in JS approach to design and theming, with e.g. [emotion](https://emotion.sh/).
+#### Installing the Replay npm package
 
-Curiosity about the code, the technologies explored, and problems to be solved, are all welcome.
+```sh
+npm install vimond-replay --save
+```
 
-Except bug fixes, the project has a finite set of tasks to be done, all listed as [issues](https://github.com/vimond/replay/issues). Except for the documentation examples, Replay can be tested in [Streamlab through a feature toggle](https://streamlab.ops.vmp.vimondtv.com/?features=replay). Note that the deployed Streamlab service might not contain the latest Replay version. The version number can be revealed in an open player by pressing Ctrl+Alt+M.
+#### Importing dependencies
 
-For questions about this repo, contact [Tor Erik Alræk](mailto:torerik@vimond.com).
+```javascript
+import React from 'react';
+import { Replay } from 'vimond-replay';
+import 'vimond-replay/index.css';
+```
+
+The last CSS `import` statement might be substituted with your desired CSS inclusion mechanism, e.g. SASS.
+
+#### Rendering the Replay player with a progressive video source (MP4 file)
+
+```jsx
+class MyAppView extends React.Component {
+  render() {
+    return (
+      <Replay source="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"/>
+    );
+  }
+}
+```
+
+### Next steps
+
+* [More insert options](http://files.vimond.com/docs/replay/latest/#/advanced-playback/adaptive-streaming)
+* [Playing DASH or HLS streams](http://files.vimond.com/docs/replay/latest/#/advanced-playback/adaptive-streaming)
+* [Configuring Replay](http://files.vimond.com/docs/replay/latest/#/custom-replay/configuration)
+* [Custom skins](http://files.vimond.com/docs/replay/latest/#/custom-replay/skins-styles)
+* [Full documentation with live examples](http://files.vimond.com/docs/replay/latest/)
+
+## Working with the source code
+
+### Project setup
+
+[Development setup](http://files.vimond.com/docs/replay/latest/#/architecture/project)
+
+### Technologies & patterns used & applied
+
+* [Flow](https://flow.org) static type annotations.
+* [Jest](https://jestjs.io/) and [Enzyme](https://airbnb.io/enzyme/) unit and component testing.
+* Automated code formatting with [Prettier](https://prettier.io/).
+* [ESlint](https://eslint.org/) code quality checks.
+* [PostCSS](https://postcss.org/) and [Babel](https://babeljs.io/) for builds/transpilations.
+* [Docz](https://docz.site) documentation authoring and generation with live code examples displaying React components.
+* [React.lazy](https://reactjs.org/blog/2018/10/23/react-v-16-6.html) and dynamic imports for splitting out heavy third party streaming dependencies.
+* [React context API](https://reactjs.org/docs/context.html).
+* ES2018/ES2019 language features.
+
+## About
+
+Replay is an open source initiative from [Vimond Media Solutions](https://vimond.com).
+
+### License
+
+Replay is released under the Apache 2.0 License. LINK
+
+### Roadmap
+
+See the project milestones. LINK
+
+### Authors
+
+Replay is developed by Tor Erik Alræk.
+
+

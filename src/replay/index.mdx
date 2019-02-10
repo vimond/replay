@@ -27,7 +27,7 @@ A React video player with advanced streaming support.
 
 **A prebuilt full React player component** ready for being inserted into any React app.
 
-**Components integrating third party player libraries for advanced streaming**. Currently covered: [Shaka Player](https://shaka-player-demo.appspot.com/) and [HLS.js](https://github.com/video-dev/hls.js/), along with native HTML5 video playback. These are all wrapped in "first-class" React components.
+**Components integrating third party player libraries, enabling adaptive and advanced streaming**. Currently covered: [Shaka Player](https://shaka-player-demo.appspot.com/) and [HLS.js](https://github.com/video-dev/hls.js/), along with native HTML5 video playback. These are all wrapped in "first-class" React components.
 
 ## What does Replay aim to be?
 
@@ -37,14 +37,14 @@ A React video player with advanced streaming support.
 * The UI components and player component consumers don't need to relate to the different browsers' or player libraries' way of expressing the playback state or manipulating it.
 * Everything can be observed through state properties, and any operation can be performed by setting properties.
 
-**Ready to meet advanced/professional requirements** including DRM from all browser vendors, live streaming with DVR, multiple audio tracks, embedded text tracks. The third party player integrations mostly facilitate this.
+**Ready to meet advanced/professional streaming requirements** including DRM from all browser vendors, live streaming with DVR, multiple audio tracks, embedded text tracks. The third party player integrations mostly facilitate this.
 
 **Easily customisable** through two approaches:
 
 * With the default Replay player: Set configuration and properties, replace CSS, replace texts and graphics, remove controls.
 * With the components library: Take full control and assemble a custom player. Add features like overlays and controls. Combine those with the Replay controller, VideoStreamer components, and a selection of controls from the Replay controls library.
 
-**Designed with optimalisation in mind.** Avoid including code not being used. Avoid rerendering the player UI continuously when playback goes on.
+**Designed with optimisation in mind.** Avoid including code not being used. Avoid rerendering the player UI continuously when playback goes on.
 
 **Coded with consistency and predictability in mind.** Programmers working with Replay should be able to discover patterns and see how they can be applied regularly when integrating or extending the player. The library is static typed with Flow, contributing to consistency and code quality.
 
@@ -130,7 +130,7 @@ All controls and components are included and utilised in the default Replay play
 
 #### Development and debugging convenience components
 
-* Mock video streamer, simulating a video playback. Useful when developing controls.
+* Mock video streamer, simulating a video playback. Useful when developing controls and the user interface.
 * Playback state monitor. Overlay that displays all video stream state properties and their changes.
 
 ## Streaming technology support
@@ -151,16 +151,14 @@ Also Shaka Player provides HLS support. This is not researched for the Replay pr
 
 The video file formats and codecs supported natively by the browser can be played through Replay.
 
-
 ## What is Replay not?
 
-The main Replay project is not intended to contain and maintain any feature. Here are some features and capabilities out of scope:
+The main Replay project is not intended to offer and maintain any feature. In general, Replay is ready for adding most kinds of customisations or extensions. Here are some features and capabilities that can be added, but is out of scope for this project: 
 
-* Non-playback related controls and overlays. No social sharing, no poster, no related video recommendations. Can be added when building a custom player. 
-* 360˚/VR-enabled playback. Might be enabled through custom controls and custom VideoStreamers.
-* Ad integrations. Should be added in a custom-built player, or wrapped around the default player.
-* Analytics integrations. Hook up stream state observer callbacks and add your metadata to a custom integration inside a custom defined player or when inserting the default Replay player.
-* A REST client, integrated with any online video platform. Wrap it in your data layer with a container component or HOC.
-* Customisations and workarounds/tweaks to the integrated player libraries. Might come up as a short-sighted need if streams don't play well. Address this in the third party player projects, inject your customizations where enabled (e.g. Shaka player), or create a custom VideoStreamer.
+* Non-playback related controls and overlays. Features like social sharing, end poster, other video recommendations. Can be added in a custom player user interface.
+* 360˚/VR-enabled playback. Enable it through a custom VideoStreamer component and extend the player user interface.
+* Ad integrations. Add it with a custom VideoStreamer component and possibly alter the main player user interface.
+* Analytics integrations. Integrate by adding stream state observer callbacks and collect metadata in separate modules or a wrapper component. All aspects of the playback can be monitored.
+* A REST API client, integrating with any online video platform. Wrap it in any React data layer with a container component or higher order component.
+* Customisations and workarounds/tweaks to the integrated adaptive streaming player libraries. Address this in the third party player projects, inject your customizations where enabled (e.g. Shaka player supports plugins), or create a custom VideoStreamer.
 
-Finally, Replay is built by Vimond developers, but is not a Vimond product.
