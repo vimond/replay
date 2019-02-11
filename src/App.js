@@ -25,28 +25,28 @@ const textTracks = [
   {
     kind: 'subtitles',
     language: 'no',
-    src: 'subtitles/no.vtt',
+    src: 'example-media/subtitles/no.vtt',
     contentType: 'text/vtt;charset="UTF-8"',
     label: 'Norsk'
   },
   {
     kind: 'subtitles',
     language: 'en',
-    src: 'subtitles/en.vtt',
+    src: 'example-media/subtitles/en.vtt',
     contentType: 'text/vtt;charset="UTF-8"',
     label: 'English'
   },
   {
     kind: 'captions',
     language: 'no',
-    src: 'subtitles/no-captions.vtt',
+    src: 'example-media/subtitles/no-captions.vtt',
     contentType: 'text/vtt;charset="UTF-8"',
     label: 'Norsk (th)'
   },
   {
     kind: 'captions',
     language: 'en',
-    src: 'subtitles/en-captions.vtt',
+    src: 'example-media/subtitles/en-captions.vtt',
     contentType: 'text/vtt;charset="UTF-8"',
     label: 'English captions'
   }
@@ -62,6 +62,16 @@ const widevineStream = {
 };
 
 const videoSources = [
+  {
+    description: 'Demo HLS stream',
+    streamUrl: 'example-media/adaptive.m3u8',
+    contentType: 'application/x-mpegurl'
+  },
+  {
+    description: 'Demo MP4 file',
+    streamUrl: 'example-media/progressive.mp4',
+    contentType: 'video/mp4'
+  },
   {
     description: 'Live DASH',
     streamUrl: 'https://tv2-stream-live-no.telenorcdn.net/out/u/1153546.mpd',
