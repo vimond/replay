@@ -2,7 +2,12 @@
 import * as React from 'react';
 import { defaultClassNamePrefix } from '../../../common';
 import type { PlaybackProps, VideoStreamerConfiguration, VideoStreamerImplProps } from '../types';
-import type { SimplifiedVideoStreamer, StreamerImplementationParts, TrackElementData, VideoStreamerRenderer } from './types';
+import type {
+  SimplifiedVideoStreamer,
+  StreamerImplementationParts,
+  TrackElementData,
+  VideoStreamerRenderer
+} from './types';
 import { renderWithoutSource } from './renderers';
 
 const baseClassName = 'video-streamer';
@@ -11,7 +16,7 @@ type ResolveImplementation<C: VideoStreamerConfiguration, P: VideoStreamerImplPr
   component: SimplifiedVideoStreamer<C, P>,
   configuration: ?C,
   videoElement: HTMLVideoElement,
-  onTrackElementDataChange: ?Array<TrackElementData> => void
+  onTrackElementDataChange: (?Array<TrackElementData>) => void
 ) => Promise<StreamerImplementationParts<C, P, T>>;
 
 type State = {

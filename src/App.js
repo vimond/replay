@@ -19,7 +19,7 @@ type State = {
   textTracks?: ?Array<SourceTrack>
 };
 
-const initialPlaybackProps = { isPaused: false, volume: 0.7 };
+const initialPlaybackProps = { isPaused: true, volume: 0.7 };
 
 const textTracks = [
   {

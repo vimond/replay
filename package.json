@@ -74,6 +74,7 @@
     "react-dom": "^16.6.3",
     "react-persist": "^1.0.2",
     "react-scripts": "^2.1.1",
+    "rx-player": "^3.9.2",
     "style-loader": "^0.22.1"
   },
   "resolutions": {

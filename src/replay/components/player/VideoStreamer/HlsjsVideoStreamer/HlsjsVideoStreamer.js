@@ -35,7 +35,7 @@ function resolveImplementation(
   streamer: SimplifiedVideoStreamer<HlsjsVideoStreamerConfiguration, HlsjsVideoStreamerProps>,
   configuration: ?HlsjsVideoStreamerConfiguration,
   videoElement: HTMLVideoElement,
-  onTrackElementDataChange: (Array<TrackElementData>) => void,
+  onTrackElementDataChange: (Array<TrackElementData>) => void
 ): Promise<StreamerImplementationParts<HlsjsVideoStreamerConfiguration, HlsjsVideoStreamerProps, HlsjsInstanceKeeper>> {
   const instanceKeeper = {
     videoElement,

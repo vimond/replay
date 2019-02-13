@@ -4621,7 +4621,7 @@ decode-uri-component@^0.2.0:
   resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
 
-deep-equal@^1.0.1, deep-equal@~1.0.1:
+deep-equal@1.0.1, deep-equal@^1.0.1, deep-equal@~1.0.1:
   version "1.0.1"
   resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
   integrity sha1-9dJgKStmDghO/0zbyfCK0yR0SLU=
@@ -9781,7 +9781,7 @@ nested-error-stacks@^2.0.0:
   resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha1-D73PPhP+SZR4EoBST4uWsM3/nGE=
 
-next-tick@1:
+next-tick@1, next-tick@1.0.0:
   version "1.0.0"
   resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
@@ -10623,7 +10623,7 @@ pinkie-promise@^2.0.0:
   dependencies:
     pinkie "^2.0.0"
 
-pinkie@^2.0.0:
+pinkie@2.0.4, pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
   integrity sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
@@ -13079,17 +13079,28 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
+rx-player@^3.9.2:
+  version "3.10.3"
+  resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/rx-player/-/rx-player-3.10.3.tgz#daae27213dbf99b10a7cd57e7bf1049a715c6ac8"
+  integrity sha1-2q4nIT2/mbEKfNV+e/EEmnFcasg=
+  dependencies:
+    deep-equal "1.0.1"
+    next-tick "1.0.0"
+    object-assign "4.1.1"
+    pinkie "2.0.4"
+    rxjs "6.4.0"
+
+rxjs@6.4.0, rxjs@^6.4.0:
+  version "6.4.0"
+  resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/rxjs/-/rxjs-6.4.0.tgz#f3bb0fe7bda7fb69deac0c16f17b50b0b8790504"
+  integrity sha1-87sP572n+2nerAwW8XtQsLh5BQQ=
+  dependencies:
+    tslib "^1.9.0"
+
 rxjs@^6.1.0:
   version "6.3.3"
   resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/rxjs/-/rxjs-6.3.3.tgz#3c6a7fa420e844a81390fb1158a9ec614f4bad55"
   integrity sha1-PGp/pCDoRKgTkPsRWKnsYU9LrVU=
-  dependencies:
-    tslib "^1.9.0"
-
-rxjs@^6.4.0:
-  version "6.4.0"
-  resolved "https://vimond.jfrog.io/vimond/api/npm/npm-virtual/rxjs/-/rxjs-6.4.0.tgz#f3bb0fe7bda7fb69deac0c16f17b50b0b8790504"
-  integrity sha1-87sP572n+2nerAwW8XtQsLh5BQQ=
   dependencies:
     tslib "^1.9.0"
 

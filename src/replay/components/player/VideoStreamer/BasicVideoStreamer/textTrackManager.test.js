@@ -35,9 +35,31 @@ const getVideoElementMock = () => {
     }
   };
 
+  const updateTextTrackDataFn = trackData => {
+    trackData.forEach(t => {
+      const track = {
+        kind: t.kind,
+        language: t.srclang,
+        label: t.label,
+        mode: 'hidden'
+      };
+      textTracks.push(track);
+      return t.onRef({
+        addEventListener: (type, callback) => {
+          if (type === 'load') {
+            callback();
+          }
+        },
+        removeEventListener: evt => {},
+        track
+      });
+    });
+  };
+
   return {
     textTracks,
     children,
+    updateTextTrackDataFn,
     videoElement: {
       addTextTrack: (kind, label, language) => {
         const track = {
@@ -52,18 +74,6 @@ const getVideoElementMock = () => {
         };
         textTracks.push(track);
         return track;
-      },
-      appendChild: trackElm => {
-        const track = {
-          kind: trackElm.kind,
-          language: trackElm.srclang,
-          label: trackElm.label,
-          mode: 'hidden'
-        };
-        trackElm.track = track;
-        trackElm.loadFn();
-        children.push(trackElm);
-        textTracks.push(track);
       },
       textTracks
     },
@@ -149,7 +159,7 @@ test('textTrackManager blacklists earlier video element text tracks upon invokin
       done.fail(e);
     }
   };
-  const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
+  const textTrackManager = getTextTrackManager(m.videoElement, updateFn, m.updateTextTrackDataFn);
   expect(m.videoElement.textTracks[0].mode).toBe('showing');
   expect(m.videoElement.textTracks[1].mode).toBe('hidden');
   textTrackManager.clear();
@@ -178,7 +188,7 @@ test('Tracks specified in the source property are added to the video element, an
       done.fail(e);
     }
   };
-  const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
+  const textTrackManager = getTextTrackManager(m.videoElement, updateFn, m.updateTextTrackDataFn);
   textTrackManager.clear();
   textTrackManager.handleSourcePropChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
 });
@@ -207,7 +217,7 @@ test('textTrackManager add tracks to video element when cues are specified.', do
       done.fail(e);
     }
   };
-  const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
+  const textTrackManager = getTextTrackManager(m.videoElement, updateFn, m.updateTextTrackDataFn);
   textTrackManager.clear();
   textTrackManager.handleSourcePropChange({ source: { streamUrl: '', textTracks: exampleSourceTracks3 } });
 });
@@ -258,8 +268,7 @@ test('textTrackManager removes earlier tracks when a new set of tracks are speci
   const updateFn = newState => {
     updateFns.pop()(newState);
   };
-  const updateTextTrackData = jest.fn();
-  const textTrackManager = getTextTrackManager(m.videoElement, updateFn, updateTextTrackData);
+  const textTrackManager = getTextTrackManager(m.videoElement, updateFn, m.updateTextTrackDataFn);
   textTrackManager.clear();
   textTrackManager.handleSourcePropChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
 });
@@ -304,7 +313,7 @@ test(
     };
     const m = getVideoElementMock();
     global.textTracks = m.textTracks;
-    const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
+    const textTrackManager = getTextTrackManager(m.videoElement, updateFn, m.updateTextTrackDataFn);
     textTrackManager.clear();
     textTrackManager.handleSourcePropChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
   }
@@ -330,7 +339,7 @@ test('textTrackManager updates the currentTextTrack stream state property accord
   };
   const m = getVideoElementMock();
   global.textTracks = m.textTracks;
-  const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
+  const textTrackManager = getTextTrackManager(m.videoElement, updateFn, m.updateTextTrackDataFn);
   textTrackManager.clear();
   textTrackManager.handleSourcePropChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
 });
@@ -386,9 +395,10 @@ test('textTrackManager adds and removes tracks based on events from the video el
   const updateFn = newState => {
     updateFns.pop()(newState);
   };
+
   const m = getVideoElementMock();
   global.textTracks = m.textTracks;
-  const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
+  const textTrackManager = getTextTrackManager(m.videoElement, updateFn, m.updateTextTrackDataFn);
   textTrackManager.clear();
   textTrackManager.handleSourcePropChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
 });

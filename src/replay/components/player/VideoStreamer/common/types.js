@@ -32,7 +32,13 @@ export type SimplifiedVideoStreamer<S: VideoStreamerConfiguration, T: VideoStrea
   props: T
 };
 
-export type TrackElementData = { src: string, srclang?: string, label?: string, kind: string, onRef?: ?HTMLTrackElement => void };
+export type TrackElementData = {
+  src: string,
+  srclang?: string,
+  label?: string,
+  kind: string,
+  onRef?: (?HTMLTrackElement) => void
+};
 
 export type VideoStreamerRenderer = (
   videoRef: { current: null | HTMLVideoElement },

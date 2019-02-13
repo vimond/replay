@@ -9,7 +9,7 @@ test('renderWithoutSource()', () => {
     current: null
   };
   const result = shallow(
-    renderWithoutSource(videoRef, { onPlaying: 1, onError: 2 }, { className: 'my-video' }, 'my-base-class-name', {
+    renderWithoutSource(videoRef, { onPlaying: 1, onError: 2 }, { className: 'my-video' }, [], 'my-base-class-name', {
       c: 3
     })
   );
@@ -31,6 +31,7 @@ test('renderWithoutSource() with source specified.', () => {
       videoRef,
       { onPlaying: 1, onError: 2 },
       { source: { streamUrl: 'http://example.com' }, className: 'my-video' },
+      [],
       'my-base-class-name',
       { c: 3 }
     )
@@ -51,12 +52,42 @@ test('renderWithoutSource() with source specified.', () => {
   expect(videoElement2.prop('style')).toBe(undefined);
 });
 
+test('renderWithoutSource() with source and text track data specified.', () => {
+  const videoRef = {
+    current: null
+  };
+  const result = shallow(
+    renderWithSource(
+      videoRef,
+      { onPlaying: 1, onError: 2 },
+      { source: { streamUrl: 'http://example.com' }, className: 'my-video' },
+      [
+        { src: 'abc.vtt', srclang: 'de', label: 'Deutsch', kind: 'subtitles', onRef: () => {} },
+        { src: 'def.vtt', srclang: 'da', label: 'Dansk', kind: 'captions', onRef: () => {} }
+      ],
+      'my-base-class-name',
+      { c: 3 }
+    )
+  );
+  const tracks = result.find('track');
+  expect(tracks.get(0).props.src).toBe('abc.vtt');
+  expect(tracks.get(0).props.srcLang).toBe('de');
+  expect(tracks.get(0).props.kind).toBe('subtitles');
+  expect(tracks.get(0).props.label).toBe('Deutsch');
+  expect(tracks.get(1).props.src).toBe('def.vtt');
+  expect(tracks.get(1).props.srcLang).toBe('da');
+  expect(tracks.get(1).props.kind).toBe('captions');
+  expect(tracks.get(1).props.label).toBe('Dansk');
+});
+
 test('renderWithoutSource() with no source specified.', () => {
   const videoRef = {
     current: null
   };
   const result = shallow(
-    renderWithSource(videoRef, { onPlaying: 1, onError: 2 }, { className: 'my-video' }, 'my-base-class-name', { c: 3 })
+    renderWithSource(videoRef, { onPlaying: 1, onError: 2 }, { className: 'my-video' }, [], 'my-base-class-name', {
+      c: 3
+    })
   );
   const videoElement = result.find('video');
   expect(videoElement.hasClass('my-base-class-name')).toBe(true);

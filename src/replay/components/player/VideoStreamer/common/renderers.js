@@ -3,8 +3,10 @@ import * as React from 'react';
 import { prefixClassNames } from '../../../common';
 import type { TrackElementData, VideoStreamerRenderer } from './types';
 
-// $FlowFixMe. ref doesn't accept HTMLTrackElement as subtype to HTMLElement.
-const createTrackElement = ({ src, srclang, kind, label, onRef } : TrackElementData) => <track key={src + (label || '')} kind={kind} src={src} srcLang={srclang} label={label} ref={onRef} />;
+const createTrackElement = ({ src, srclang, kind, label, onRef }: TrackElementData) => (
+  // $FlowFixMe. ref doesn't accept HTMLTrackElement as subtype to HTMLElement.
+  <track key={src + (label || '')} kind={kind} src={src} srcLang={srclang} label={label} ref={onRef} />
+);
 
 export const renderWithoutSource: VideoStreamerRenderer = (
   videoRef,
@@ -23,8 +25,7 @@ export const renderWithoutSource: VideoStreamerRenderer = (
       style={style}
       className={classNames}
       ref={videoRef}
-      {...videoElementEventHandlers}
-    >
+      {...videoElementEventHandlers}>
       {Array.isArray(textTracks) && textTracks.map(createTrackElement)}
     </video>
   );
@@ -50,8 +51,7 @@ export const renderWithSource: VideoStreamerRenderer = (
         className={classNames}
         src={streamUrl}
         ref={videoRef}
-        {...videoElementEventHandlers}
-      >
+        {...videoElementEventHandlers}>
         {Array.isArray(textTracks) && textTracks.map(createTrackElement)}
       </video>
     );

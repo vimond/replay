@@ -42,7 +42,12 @@ function isEqual(a: any, b: any): boolean {
 
 function isVideoElementTrackValid(textTrack: TextTrack) {
   // Detecting empty dummy tracks originating from HLS streams in Safari.
-  return !('inBandMetadataTrackDispatchType' in textTrack) || (textTrack.cues && textTrack.cues.length) || textTrack.label || textTrack.language;
+  return (
+    !('inBandMetadataTrackDispatchType' in textTrack) ||
+    (textTrack.cues && textTrack.cues.length) ||
+    textTrack.label ||
+    textTrack.language
+  );
 }
 
 function isSourceTracksEqual(a: ?SourceTrack, b: ?SourceTrack): boolean {
@@ -207,8 +212,10 @@ const getTextTrackManager = (
 
       managedTracks = managedTracks.concat(freshManagedTracks);
 
-      // $FlowFixMe Filtering away null/undefined isn't recognised.
-      updateTrackElementData(managedTracks.filter(t => t.trackElementData && !t.isBlacklisted).map(t => t.trackElementData));
+      updateTrackElementData(
+        // $FlowFixMe Filtering away null/undefined isn't recognised.
+        managedTracks.filter(t => t.trackElementData && !t.isBlacklisted).map(t => t.trackElementData)
+      );
 
       return Promise.all(freshManagedTracks.map(managedTrack => managedTrack.loadPromise)).then(() => {
         videoElement.textTracks.addEventListener('addtrack', handleTrackAdd);
@@ -239,10 +246,13 @@ const getTextTrackManager = (
     //const isAdding = videoElementTracks.length > cleanedUpManagedTracks.length;
 
     if (videoElementTracks.length > cleanedUpManagedTracks.length) {
-      const freshVideoElementTracks = videoElementTracks.filter(videoElementTrack =>
-        isVideoElementTrackValid(videoElementTrack) && cleanedUpManagedTracks.filter(function(managedTrack) {
-          return videoElementTrack === managedTrack.videoElementTrack;
-        }).length === 0);
+      const freshVideoElementTracks = videoElementTracks.filter(
+        videoElementTrack =>
+          isVideoElementTrackValid(videoElementTrack) &&
+          cleanedUpManagedTracks.filter(function(managedTrack) {
+            return videoElementTrack === managedTrack.videoElementTrack;
+          }).length === 0
+      );
       const freshManagedTracks: Array<ManagedTextTrack> = freshVideoElementTracks.map(videoElementTrack => {
         const id = ++unique;
         return {
