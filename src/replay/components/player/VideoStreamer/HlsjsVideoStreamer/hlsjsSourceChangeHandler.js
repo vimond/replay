@@ -24,6 +24,7 @@ const getSourceChangeHandler = (instanceKeeper: HlsjsInstanceKeeper) => <
   if (source) {
     return hlsjsSetup(videoElement, nextProps.configuration).then(hls => {
       instanceKeeper.hls = hls;
+      // window.hls = hls;
       broadcastHlsInstance(instanceKeeper, 'on');
       return new Promise((resolve, reject) => {
         const onMediaLoaded = () => {

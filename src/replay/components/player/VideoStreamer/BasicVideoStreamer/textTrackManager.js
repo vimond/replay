@@ -208,7 +208,7 @@ const getTextTrackManager = (
       managedTracks = managedTracks.concat(freshManagedTracks);
 
       // $FlowFixMe Filtering away null/undefined isn't recognised.
-      updateTrackElementData(managedTracks.filter(t => t.trackElementData).map(t => t.trackElementData));
+      updateTrackElementData(managedTracks.filter(t => t.trackElementData && !t.isBlacklisted).map(t => t.trackElementData));
 
       return Promise.all(freshManagedTracks.map(managedTrack => managedTrack.loadPromise)).then(() => {
         videoElement.textTracks.addEventListener('addtrack', handleTrackAdd);
@@ -277,8 +277,9 @@ const getTextTrackManager = (
         setTrackMode(vt, 'disabled');
       }
       m.selectableTrack = null;
-      selectableTextTracks = emptyTracks;
     });
+    selectableTextTracks = emptyTracks;
+    updateTrackElementData([]);
   }
 
   function handleSourcePropChange(newProps: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
