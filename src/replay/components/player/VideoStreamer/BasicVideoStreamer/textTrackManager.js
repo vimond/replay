@@ -3,7 +3,7 @@
 import type { AvailableTrack, PlaybackSource, SourceTrack, VideoStreamState } from '../types';
 import { emptyTracks } from '../common/playbackLifeCycleManager';
 import { isShallowEqual } from '../../../common';
-import type { TextTrackManager } from '../common/types';
+import type { TextTrackManager, TrackElementData } from '../common/types';
 import normalizeSource from '../common/sourceNormalizer';
 
 export type ManagedTextTrack = {
@@ -11,6 +11,7 @@ export type ManagedTextTrack = {
   sourceTrack: ?SourceTrack,
   videoElementTrack?: ?TextTrack,
   selectableTrack: ?AvailableTrack,
+  trackElementData?: ?TrackElementData,
   loadPromise?: Promise<?TextTrack>,
   isLoaded: boolean,
   error?: any
@@ -37,6 +38,11 @@ function setTrackMode(textTrack: TextTrack, newMode: HTMLTextTrackMode) {
 
 function isEqual(a: any, b: any): boolean {
   return (Number.isNaN(a) && Number.isNaN(b)) || (a == null && b == null) || a === b;
+}
+
+function isVideoElementTrackValid(textTrack: TextTrack) {
+  // Detecting empty dummy tracks originating from HLS streams in Safari.
+  return !('inBandMetadataTrackDispatchType' in textTrack) || (textTrack.cues && textTrack.cues.length) || textTrack.label || textTrack.language;
 }
 
 function isSourceTracksEqual(a: ?SourceTrack, b: ?SourceTrack): boolean {
@@ -77,22 +83,10 @@ function createSelectableTrack(
   };
 }
 
-function createTrackElement(sourceTrack: SourceTrack): HTMLTrackElement {
-  const htmlTrackElement = document.createElement('track');
-  htmlTrackElement.kind = sourceTrack.kind || 'subtitles';
-  htmlTrackElement.src = sourceTrack.src;
-  if (sourceTrack.language) {
-    htmlTrackElement.srclang = sourceTrack.language;
-  }
-  if (sourceTrack.label) {
-    htmlTrackElement.label = sourceTrack.label;
-  }
-  return htmlTrackElement;
-}
-
 const getTextTrackManager = (
   videoElement: HTMLVideoElement,
-  update: <T: VideoStreamState>(props: T) => void
+  update: <T: VideoStreamState>(props: T) => void,
+  updateTrackElementData: (Array<TrackElementData>) => void
 ): TextTrackManager => {
   // Should use TextTracksStateProps above.
   let managedTracks: Array<ManagedTextTrack> = [];
@@ -100,12 +94,6 @@ const getTextTrackManager = (
   let selectableTextTracks = emptyTracks;
   let unique = 0;
   const Cue = window.VTTCue || window.TextTrackCue;
-  const isDesktopSafari =
-    navigator.userAgent.indexOf('Chrome') < 0 &&
-    navigator.userAgent.indexOf('Edge') < 0 &&
-    navigator.userAgent.indexOf('Safari') > 0 &&
-    navigator.userAgent.indexOf('iPhone') < 0 &&
-    navigator.userAgent.indexOf('iPad') < 0;
 
   function notifyPropertyChanges() {
     currentTextTrack = managedTracks
@@ -170,28 +158,31 @@ const getTextTrackManager = (
             isLoaded: true
           };
         } else {
-          const htmlTrackElement = createTrackElement(sourceTrack);
-          setTrackMode(htmlTrackElement.track, 'hidden');
+          const trackElementData: TrackElementData = {
+            src: sourceTrack.src,
+            srclang: sourceTrack.language,
+            kind: sourceTrack.kind || 'subtitles',
+            label: sourceTrack.label
+          };
           const loadPromise = new Promise(resolve => {
-            const handleLoad = () => {
-              htmlTrackElement.removeEventListener('load', handleLoad);
-              htmlTrackElement.removeEventListener('error', handleError);
-              resolve(htmlTrackElement.track);
+            trackElementData.onRef = (trackElement: ?HTMLTrackElement) => {
+              const t = trackElement;
+              if (t) {
+                setTrackMode(t.track, 'hidden');
+                const handleLoad = () => {
+                  t.removeEventListener('load', handleLoad);
+                  t.removeEventListener('error', handleError);
+                  resolve(t.track);
+                };
+                const handleError = (e: Event) => {
+                  t.removeEventListener('load', handleLoad);
+                  t.removeEventListener('error', handleError);
+                  resolve();
+                };
+                t.addEventListener('load', handleLoad);
+                t.addEventListener('error', handleError);
+              }
             };
-            const handleError = () => {
-              htmlTrackElement.removeEventListener('load', handleLoad);
-              htmlTrackElement.removeEventListener('error', handleError);
-              resolve();
-            };
-            htmlTrackElement.addEventListener('load', handleLoad);
-            htmlTrackElement.addEventListener('error', handleError);
-            if (isDesktopSafari) {
-              setTimeout(function() {
-                videoElement.appendChild(htmlTrackElement);
-              }, 1);
-            } else {
-              videoElement.appendChild(htmlTrackElement);
-            }
           });
           const managedTrack = {
             id,
@@ -199,6 +190,7 @@ const getTextTrackManager = (
             isBlacklisted: false,
             videoElementTrack: undefined,
             selectableTrack: undefined,
+            trackElementData,
             loadPromise,
             isLoaded: false
           };
@@ -214,6 +206,9 @@ const getTextTrackManager = (
       });
 
       managedTracks = managedTracks.concat(freshManagedTracks);
+
+      // $FlowFixMe Filtering away null/undefined isn't recognised.
+      updateTrackElementData(managedTracks.filter(t => t.trackElementData).map(t => t.trackElementData));
 
       return Promise.all(freshManagedTracks.map(managedTrack => managedTrack.loadPromise)).then(() => {
         videoElement.textTracks.addEventListener('addtrack', handleTrackAdd);
@@ -244,13 +239,10 @@ const getTextTrackManager = (
     //const isAdding = videoElementTracks.length > cleanedUpManagedTracks.length;
 
     if (videoElementTracks.length > cleanedUpManagedTracks.length) {
-      const freshVideoElementTracks = videoElementTracks.filter(videoElementTrack => {
-        return (
-          cleanedUpManagedTracks.filter(function(managedTrack) {
-            return videoElementTrack === managedTrack.videoElementTrack;
-          }).length === 0
-        );
-      });
+      const freshVideoElementTracks = videoElementTracks.filter(videoElementTrack =>
+        isVideoElementTrackValid(videoElementTrack) && cleanedUpManagedTracks.filter(function(managedTrack) {
+          return videoElementTrack === managedTrack.videoElementTrack;
+        }).length === 0);
       const freshManagedTracks: Array<ManagedTextTrack> = freshVideoElementTracks.map(videoElementTrack => {
         const id = ++unique;
         return {

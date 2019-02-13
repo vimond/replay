@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { defaultClassNamePrefix } from '../../../common';
 import type { PlaybackProps, VideoStreamerConfiguration, VideoStreamerImplProps } from '../types';
-import type { SimplifiedVideoStreamer, StreamerImplementationParts, VideoStreamerRenderer } from './types';
+import type { SimplifiedVideoStreamer, StreamerImplementationParts, TrackElementData, VideoStreamerRenderer } from './types';
 import { renderWithoutSource } from './renderers';
 
 const baseClassName = 'video-streamer';
@@ -10,11 +10,13 @@ const baseClassName = 'video-streamer';
 type ResolveImplementation<C: VideoStreamerConfiguration, P: VideoStreamerImplProps<C>, T> = (
   component: SimplifiedVideoStreamer<C, P>,
   configuration: ?C,
-  videoElement: HTMLVideoElement
+  videoElement: HTMLVideoElement,
+  onTrackElementDataChange: ?Array<TrackElementData> => void
 ) => Promise<StreamerImplementationParts<C, P, T>>;
 
 type State = {
   videoElementEventHandlers: { [string]: (any) => void },
+  trackElementData?: ?Array<TrackElementData>,
   render: VideoStreamerRenderer
 };
 
@@ -46,6 +48,10 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
       }
     };
 
+    handleTrackElementDataChange = (trackElementData: ?Array<TrackElementData>) => {
+      this.setState({ trackElementData });
+    };
+
     handleSourceChange = (nextProps: P, prevProps?: P) => {
       const implementation = this.implementation;
       if (implementation) {
@@ -67,7 +73,7 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
     componentDidMount() {
       const videoElement = this.videoRef.current;
       if (videoElement) {
-        resolveImplementation(this, this.props.configuration, videoElement)
+        resolveImplementation(this, this.props.configuration, videoElement, this.handleTrackElementDataChange)
           .then(implementation => {
             this.implementation = implementation;
             const { render, videoElementEventHandlers, thirdPartyPlayer } = implementation;
@@ -161,8 +167,8 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
 
     render() {
       const { videoRef } = this;
-      const { videoElementEventHandlers, render } = this.state;
-      return render(videoRef, videoElementEventHandlers, this.props, baseClassName);
+      const { videoElementEventHandlers, render, trackElementData } = this.state;
+      return render(videoRef, videoElementEventHandlers, this.props, trackElementData, baseClassName);
     }
   }
 

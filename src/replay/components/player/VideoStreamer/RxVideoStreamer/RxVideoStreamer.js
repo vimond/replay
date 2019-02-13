@@ -5,7 +5,7 @@ import getStreamRangeHelper from './rxStreamRangeHelper';
 import getSourceChangeHandler from './rxSourceChangeHandler';
 import getFilteredStreamStateUpdater from '../common/filteredStreamStateUpdater';
 import { getPropertyApplier } from '../common/propertyApplier';
-import type { SimplifiedVideoStreamer, StreamerImplementationParts } from '../common/types';
+import type { SimplifiedVideoStreamer, StreamerImplementationParts, TrackElementData } from '../common/types';
 import type { VideoStreamerConfiguration } from '../types';
 import getPlaybackLifeCycleManager from '../common/playbackLifeCycleManager';
 import getRxEventHandlers from './rxEventHandlers';

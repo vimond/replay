@@ -7,7 +7,7 @@ import getStreamRangeHelper from './hlsjsStreamRangeHelper';
 import getSourceChangeHandler from './hlsjsSourceChangeHandler';
 import getFilteredStreamStateUpdater from '../common/filteredStreamStateUpdater';
 import { getPropertyApplier } from '../common/propertyApplier';
-import type { SimplifiedVideoStreamer, StreamerImplementationParts } from '../common/types';
+import type { SimplifiedVideoStreamer, StreamerImplementationParts, TrackElementData } from '../common/types';
 import type { VideoStreamerConfiguration } from '../types';
 import getPlaybackLifeCycleManager from '../common/playbackLifeCycleManager';
 import { renderWithoutSource } from '../common/renderers';
@@ -34,7 +34,8 @@ export type HlsjsVideoStreamerProps = VideoStreamerImplProps<HlsjsVideoStreamerC
 function resolveImplementation(
   streamer: SimplifiedVideoStreamer<HlsjsVideoStreamerConfiguration, HlsjsVideoStreamerProps>,
   configuration: ?HlsjsVideoStreamerConfiguration,
-  videoElement: HTMLVideoElement
+  videoElement: HTMLVideoElement,
+  onTrackElementDataChange: (Array<TrackElementData>) => void,
 ): Promise<StreamerImplementationParts<HlsjsVideoStreamerConfiguration, HlsjsVideoStreamerProps, HlsjsInstanceKeeper>> {
   const instanceKeeper = {
     videoElement,
@@ -45,7 +46,7 @@ function resolveImplementation(
   const handleSourceChange = getSourceChangeHandler(instanceKeeper);
   const updateStreamState = getFilteredStreamStateUpdater(streamer);
 
-  const textTrackManager = getTextTrackManager(videoElement, updateStreamState);
+  const textTrackManager = getTextTrackManager(videoElement, updateStreamState, onTrackElementDataChange);
   const audioTrackManager = getHlsjsAudioTrackManager(instanceKeeper, updateStreamState);
   const bitrateManager = getHlsjsBitrateManager(
     streamer,

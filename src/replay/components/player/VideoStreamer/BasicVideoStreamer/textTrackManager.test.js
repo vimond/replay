@@ -258,7 +258,8 @@ test('textTrackManager removes earlier tracks when a new set of tracks are speci
   const updateFn = newState => {
     updateFns.pop()(newState);
   };
-  const textTrackManager = getTextTrackManager(m.videoElement, updateFn);
+  const updateTextTrackData = jest.fn();
+  const textTrackManager = getTextTrackManager(m.videoElement, updateFn, updateTextTrackData);
   textTrackManager.clear();
   textTrackManager.handleSourcePropChange({ source: { streamUrl: '', textTracks: exampleSourceTracks1 } });
 });

@@ -7,7 +7,7 @@ import getFilteredStreamStateUpdater from '../common/filteredStreamStateUpdater'
 import getTextTrackManager from './textTrackManager';
 import getAudioTrackManager from './audioTrackManager';
 import { getPropertyApplier } from '../common/propertyApplier';
-import type { SimplifiedVideoStreamer, StreamerImplementationParts } from '../common/types';
+import type { SimplifiedVideoStreamer, StreamerImplementationParts, TrackElementData } from '../common/types';
 import type { VideoStreamerConfiguration } from '../types';
 import getPlaybackLifeCycleManager from '../common/playbackLifeCycleManager';
 import getBasicVideoEventHandlers from './basicVideoEventHandlers';
@@ -26,14 +26,15 @@ export function getImplementationResolver(
   return function resolveImplementation(
     streamer: SimplifiedVideoStreamer<VideoStreamerConfiguration, BasicVideoStreamerProps>,
     configuration: ?VideoStreamerConfiguration,
-    videoElement: HTMLVideoElement
+    videoElement: HTMLVideoElement,
+    onTrackElementDataChange: (Array<TrackElementData>) => void
   ): Promise<StreamerImplementationParts<VideoStreamerConfiguration, BasicVideoStreamerProps, ThirdPartyPlayer>> {
     const streamRangeHelper = getStreamRangeHelper(videoElement, configuration); // S
     const handleSourceChange = sourceChangeHandlerFactory(videoElement);
 
     const updateStreamState = getFilteredStreamStateUpdater(streamer); // G
 
-    const textTrackManager = getTextTrackManager(videoElement, updateStreamState);
+    const textTrackManager = getTextTrackManager(videoElement, updateStreamState, onTrackElementDataChange);
     const audioTrackManager = getAudioTrackManager(videoElement, updateStreamState);
 
     const applyProperties = getPropertyApplier(videoElement, streamRangeHelper, textTrackManager, audioTrackManager); // G

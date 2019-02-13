@@ -32,10 +32,13 @@ export type SimplifiedVideoStreamer<S: VideoStreamerConfiguration, T: VideoStrea
   props: T
 };
 
+export type TrackElementData = { src: string, srclang?: string, label?: string, kind: string, onRef?: ?HTMLTrackElement => void };
+
 export type VideoStreamerRenderer = (
   videoRef: { current: null | HTMLVideoElement },
   videoElementEventHandlers: { [string]: (any) => void },
   props: { source?: ?PlaybackSource, className?: string, classNamePrefix?: string },
+  textTracks?: ?Array<TrackElementData>,
   baseClassName: string,
   styles?: any
 ) => React.Node;
