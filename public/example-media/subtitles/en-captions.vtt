@@ -1,13 +1,13 @@
 WEBVTT
 
-00:00:02.000 --> 00:00:04.000
+00:00:02.000 --> 00:00:04.000 line:-3
 English
 example captions.
 
-00:00:05.000 --> 00:00:19.000
+00:00:05.000 --> 00:00:19.000 line:-3
 The WebVTT format is supported
 natively by all modern browsers.
 
-00:00:22.000 --> 00:00:55.000
+00:00:20.000 --> 00:00:55.000 line:-3
 TTML/DFXP is one other common format,
 often requiring parsers in Javascript.
