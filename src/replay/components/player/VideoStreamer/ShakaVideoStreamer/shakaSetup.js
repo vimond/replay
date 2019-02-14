@@ -13,7 +13,6 @@ export function shakaSetup(
   }
   const shakaPlayer = new shaka.Player(videoElement);
   if (shakaPlayerConfig && shakaPlayerConfig.customConfiguration) {
-    debugger;
     shakaPlayer.configure(shakaPlayerConfig.customConfiguration);
   }
   return shakaPlayer;
