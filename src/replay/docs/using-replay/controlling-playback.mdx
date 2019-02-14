@@ -29,7 +29,7 @@ For the mentioned examples of events, it means Replay instead expresses the same
 Replay provides a special overlay illustrating the playback state properties and their updates as the playback goes by. Press play below and observe the properties getting updated:
 
 <Replay
-  source="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+  source="public/example-media/progressive.mp4"
   initialPlaybackProps={{ isPaused: true }}
   options={{ playbackMonitor: { visibleAtStart: true }}}
 />
@@ -175,7 +175,7 @@ See the [full reference of state propertie](/reference/observable-stream-state) 
       <div>
         <Replay
           source={{ 
-            streamUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            streamUrl: 'public/example-media/progressive.mp4',
             startPosition: 13
           }}
           initialPlaybackProps={{ isPaused: true, isMuted: true }}

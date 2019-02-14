@@ -37,7 +37,7 @@ Add the `<HlsjsVideoStreamer/>` component as the child of `<Replay/>`. This simp
 
 <Playground>
   <Replay
-    source="https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8"
+    source="public/example-media/adaptive.m3u8"
     initialPlaybackProps={{ isPaused: true }}>
     <HlsjsVideoStreamer/>
   </Replay>
@@ -63,7 +63,7 @@ const replayOptions = {
 // Pass this object to Replay as a configuration override:
 const render = () => (
   <Replay
-    source="https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8"
+    source="public/example-media/adaptive.m3u8"
     options={replayOptions}>
     <HlsjsVideoStreamer/>
   </Replay>
@@ -130,7 +130,7 @@ The stream type is resolved based on the source prop. The source prop should the
 
 ```javascript
 const hlsSource = {
-  streamUrl: 'https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8',
+  streamUrl: 'public/example-media/adaptive.m3u8',
   contentType: 'application/x-mpegurl'
 };
 ```
@@ -155,7 +155,7 @@ The following example resolves to inserting the HlsjsVideoStreamer for the speci
 <Playground>
   <Replay
     source={{
-             streamUrl: 'https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8',
+             streamUrl: 'public/example-media/adaptive.m3u8',
              contentType: 'application/x-mpegurl'
            }}
     initialPlaybackProps={{ isPaused: true }}>

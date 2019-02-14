@@ -23,8 +23,8 @@ Note that for this purpose, specifying source as a string, like in the [basic ex
 <Playground>
   <Replay
     source={{ 
-      streamUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      startPosition: 123
+      streamUrl: 'public/example-media/progressive.mp4',
+      startPosition: 34
     }}
     initialPlaybackProps={{ isPaused: true }}
   />
@@ -38,7 +38,7 @@ The following video will start paused, but when started playing it will happen w
 
 <Playground>
   <Replay
-    source="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    source="public/example-media/progressive.mp4"
     initialPlaybackProps={{ isPaused: true, isMuted: true, volume: 0.2 }}
   />
 </Playground>
@@ -50,15 +50,15 @@ Subtitle files of different languages and kinds can be specified as text tracks 
 <Playground>
   <Replay
     source={{ 
-      streamUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      streamUrl: 'public/example-media/progressive.mp4',
       textTracks: [{
-        src: '/docs/replay/latest/public/example-media/subtitles/en.vtt',
+        src: 'public/example-media/subtitles/en.vtt',
         kind: 'subtitles',
         language: 'en',
         label: 'English',
         contentType: 'text/vtt'
       }, {
-        src: '/docs/replay/latest/public/example-media/subtitles/no.vtt',
+        src: 'public/example-media/subtitles/no.vtt',
         kind: 'subtitles',
         language: 'no',
         label: 'Norwegian',
@@ -79,16 +79,16 @@ If the text tracks are not available when starting the stream, or when a current
 
 <Playground>
   <Replay
-    source="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    source="public/example-media/progressive.mp4"
     initialPlaybackProps={{ isPaused: true }}
     textTracks={[{
-      src: '/docs/replay/latest/public/example-media/subtitles/en.vtt',
+      src: 'public/example-media/subtitles/en.vtt',
       kind: 'subtitles',
       language: 'en',
       label: 'English',
       contentType: 'text/vtt'
     }, {
-      src: '/docs/replay/latest/public/example-media/subtitles/no.vtt',
+      src: 'public/example-media/subtitles/no.vtt',
       kind: 'subtitles',
       language: 'no',
       label: 'Norwegian',
