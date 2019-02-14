@@ -1,5 +1,5 @@
 {
-  "name": "@vimond/replay",
+  "name": "vimond-replay",
   "version": "1.4.1",
   "author": "Tor Erik Alræk",
   "homepage": "http://files.vimond.com/docs/replay/",
@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "description": "React video player with adaptive streaming support",
   "publishConfig": {
-    "access": "public"
+    "registry": "https://vimond.jfrog.io/vimond/api/npm/npm-local/"
   },
   "main": "index.js",
   "style": "index.css",
