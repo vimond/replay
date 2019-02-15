@@ -9,19 +9,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run:
-          name: Fetching private npm credentials
-          command: curl -u$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD https://vimond.jfrog.io/vimond/api/npm/auth > ~/.npmrc
-      - run:
-          name: Changing to private npm registry
-          command: npm config set registry http://vimond.jfrog.io/vimond/api/npm/npm-virtual
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Environment variables
-          command: |
-            if [ -z "${NODE_ENV:-}" ]; then export NODE_ENV=test; fi
-            export PATH="~/vimond/vimond-uniplayer-videoengine/node_modules/.bin:$PATH"
       - run:
           name: Installing dependencies for tests and builds
           command: yarn install
