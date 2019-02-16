@@ -13,11 +13,27 @@ import { Playground } from 'docz';
 
 Replay is built on three main concepts constituted in React components.
 
-* The **video streamer**.
-* The **player controller**.
-* **Controls** and components composed to player UI, being **connected** to the player controller.
+* The **video streamer**, downloading and rendering the video stream.
+* The **player controller**, a hub component for connecting controls to the video streamer.
+* **Controls** and components composed to a player UI, being **connected** to the player controller.
 
-Replay aims to provide a streamlined and consistent way of letting data flow between the playing stream and the UI.
+Replay aims to provide a streamlined and consistent way of letting data flow in both directions between the playing stream and the UI, through a React-frientdly pattern: Properties.
+
+## Data (property) flow
+
+Any playback state at any time is exposed as outbound properties emitted from the video streamer. Any desired control of, or operation on the playback (e.g. pause, seek, volume change) is passed to the video streamer as properties. Between the three concepts of components, this is how it works in more detail:
+
+### From the playing stream to player controls
+
+1. The video streamer's responsibility is to download and render the stream. It exposes updates to the stream playback state through callback notifications of property changes.
+2. The player controller gets notified on playback progress and video stream state updates. By being a React context provider, the state properties are passed down from the player controller to player controls and other UI components.
+3. The controls can observe such state updates by being wrapped in a HOC connecting to the React context provided by the player controller. Each control is individually wrapped in this HOC, subscribing to specific playback state properties. When changes to such properties are emitted from the video streamer, the HOC passes them down to the wrapped control as regular props.
+
+### From player controls to the playing stream
+
+The HOC/React controller context connector provides a callback to the control components for setting playback properties. Such properties can affect all sides of playback, e.g. pausing, changing volume, selecting subtitles.
+
+When the user interacts with the control, e.g. selecting a subtitle language, the property setter callback can be invoked with a property containing the subtitle track. This invocation is propagated back to the video streamer, which effectuates the selection.
 
 ## Some arrows and boxes
 
@@ -27,23 +43,9 @@ This diagram illustrates how the video stream playback is controlled, via the pl
 
 The diagram presents only a selection of a full Replay DOM tree.
 
-## Data (property) flow
-
-### From the playing stream to player controls
-
-1. The video streamer's responsibility is to download and render the stream. It exposes updates to the stream playback state through callback notifications.
-2. The player controller gets notified on playback progress and video stream state updates. By being a React context provider, the state properties are passed down from the player controller to player controls and other UI components.
-3. The controls can observe such state updates by being wrapped in a HOC connecting to the React context provided by the player controller.
-
-### From player controls to the playing stream
-
-The HOC/React context connector provides a callback for setting playback properties. Such properties can affect all sides of playback, e.g. pausing, changing volume, selecting subtitles.
-
-When the user interacts with the control, e.g. selecting a subtitle language, the property setter callback is invoked with the changed property being the deseired subtitle track. This incovation is propagated back to the video streamer, which effectuates the selection.
-
 ## Cardinality of components
 
-In the Replay player, either the default one, or a custom one, the following applies:
+In the default Replay player, or when creating a custom player based on its components, the following applies:
 
 #### Video streamer
 
@@ -57,7 +59,7 @@ In the Replay player, either the default one, or a custom one, the following app
 
 #### Connected controls
 * There are **_many components_** following the "connected control" pattern, and more can easily be created. It is only one current **_implementation_** of this pattern using the connectControl() HOC.
-* In a component tree of a complete Replay player, there are usually one **_instance_** of each component implementing this pattern. However it is not a problem having more instances added. For instance, a SkipButton can be added twice in order to set up both skip backward and skip forward buttons.
+* In a component tree of a complete Replay player, there are usually one **_instance_** of each component implementing this pattern. However it is not a problem having more instances added. For instance, a SkipButton can be added twice with different configurations, in order to set up both skip backward and skip forward buttons.
 
 ## Technologies and tools used in this project
 
