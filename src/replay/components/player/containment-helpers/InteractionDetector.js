@@ -133,7 +133,6 @@ class InteractionDetector extends React.Component<Props, State> {
   };
 
   updateActivity = () => {
-    //debugger;
     if (this.flags.isMouseMoved || this.flags.isTouched || this.flags.isTouching) {
       this.flags.isTouched = false;
       this.flags.isMouseMoved = false;

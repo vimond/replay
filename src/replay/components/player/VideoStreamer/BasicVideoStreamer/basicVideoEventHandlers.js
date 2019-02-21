@@ -73,7 +73,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     return (
       // $FlowFixMe: Too exotic for React's HTML element typedefs.
       (document.pictureInPictureEnabled && !videoElement.disablePictureInPicture) || // $FlowFixMe
-      (videoElement.webkitSupportsPresentationMode && typeof videoElement.webkitSetPresentationMode === 'function') ||
+      (videoElement.webkitSupportsPresentationMode && videoElement.webkitSupportsPresentationMode('picture-in-picture') && typeof videoElement.webkitSetPresentationMode === 'function') ||
       false
     );
   }
@@ -103,8 +103,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
         playState: 'starting',
         isBuffering: true,
         volume: videoElement.volume,
-        isMuted: videoElement.muted,
-        isPipAvailable: isPipAvailable()
+        isMuted: videoElement.muted
       });
     }
   }
@@ -116,6 +115,9 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     }
     seekToInitialPosition(streamer.props.source, videoElement);
     updateStreamState(streamRangeHelper.calculateNewState());
+    updateStreamState({
+      isPipAvailable: isPipAvailable()
+    });
   }
 
   function onCanPlay() {
@@ -130,7 +132,10 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     } else if (stage === 'started') {
       updateStreamState({ isBuffering: false, playState: videoElement.paused ? 'paused' : 'playing' });
     }
-    updateStreamState({ bufferedAhead: calculateBufferedAhead(videoElement) });
+    updateStreamState({
+      bufferedAhead: calculateBufferedAhead(videoElement),
+      isPipAvailable: isPipAvailable()
+    });
 
     if (videoElement.paused) {
       updateStreamState({ playState: 'paused', isPaused: true, isBuffering: false, isSeeking: false });

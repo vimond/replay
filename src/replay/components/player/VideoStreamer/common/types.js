@@ -44,8 +44,9 @@ export type VideoStreamerRenderer = (
   videoRef: { current: null | HTMLVideoElement },
   videoElementEventHandlers: { [string]: (any) => void },
   props: { source?: ?PlaybackSource, className?: string, classNamePrefix?: string },
-  textTracks?: ?Array<TrackElementData>,
   baseClassName: string,
+  playsInline: boolean,
+  textTracks?: ?Array<TrackElementData>,
   styles?: any
 ) => React.Node;
 
