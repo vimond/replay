@@ -12,8 +12,9 @@ export const renderWithoutSource: VideoStreamerRenderer = (
   videoRef,
   videoElementEventHandlers,
   props,
-  textTracks,
   baseClassName,
+  playsInline,
+  textTracks,
   style
 ) => {
   const { className, classNamePrefix } = props;
@@ -25,6 +26,7 @@ export const renderWithoutSource: VideoStreamerRenderer = (
       style={style}
       className={classNames}
       ref={videoRef}
+      playsInline={playsInline}
       {...videoElementEventHandlers}>
       {Array.isArray(textTracks) && textTracks.map(createTrackElement)}
     </video>
@@ -35,8 +37,9 @@ export const renderWithSource: VideoStreamerRenderer = (
   videoRef,
   videoElementEventHandlers,
   props,
-  textTracks,
   baseClassName,
+  playsInline,
+  textTracks,
   style
 ) => {
   const { className, classNamePrefix, source } = props;
@@ -51,6 +54,7 @@ export const renderWithSource: VideoStreamerRenderer = (
         className={classNames}
         src={streamUrl}
         ref={videoRef}
+        playsInline={playsInline}
         {...videoElementEventHandlers}>
         {Array.isArray(textTracks) && textTracks.map(createTrackElement)}
       </video>

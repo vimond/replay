@@ -134,7 +134,9 @@ class Slider extends React.Component<Props, State> {
   };
 
   handleHandleStartDrag = (evt: SyntheticMouseEvent<HTMLDivElement>) => {
-    evt.stopPropagation();
+    if (evt.type !== 'touchstart') {
+      evt.stopPropagation();
+    }
     if (!this.state.isDragging) {
       setTimeout(() => this.setState({ wasClicked: false }), 1000);
       this.setState({ isDragging: true, wasClicked: true });
@@ -251,6 +253,9 @@ class Slider extends React.Component<Props, State> {
       <div
         onClick={this.handleHandleOrTrackClick}
         onMouseDown={this.handleHandleStartDrag}
+        onTouchStart={this.handleHandleStartDrag}
+        onTouchMove={this.handleHandleDrag}
+        onTouchEnd={this.handleHandleEndDrag}
         onMouseUp={this.handleHandleEndDrag}
         onMouseMove={this.handleHandleDrag}
         onMouseEnter={this.handleMouseEnter}
