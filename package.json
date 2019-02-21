@@ -1,6 +1,6 @@
 {
-  "name": "@vimond/replay",
-  "version": "1.4.1",
+  "name": "vimond-replay",
+  "version": "0.9.0",
   "author": "Tor Erik Alræk",
   "homepage": "http://files.vimond.com/docs/replay/",
   "repository": "https://github.com/vimond/replay/",
