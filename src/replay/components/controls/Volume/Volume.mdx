@@ -78,3 +78,12 @@ Please read the [general principles](/custom-replay/skins-styles) for Replay cla
   'States': '',
   'Parent': '.volume-slider'
 }]}/>
+
+## Styling requirements
+
+The styling of the volume slider needs to follow some rules in order to get sensible responses from user interactions:
+
+* The draggable or clickable area will be the size of the track element, `.volume-track`. Remember how margin, borders, padding, box-sizing, etc. affects the size.
+* The `.volume-handle` positioning (between 0 and 100 percent from left or bottom) should align with the track size and placement.
+* The styling needs to take into account the size of the handle itself. The component will not subtract the size of the component in its positioning and value calculations.
+* The handle should ideally be shifted by half its width to the left for horizontal sliders, or half its height down for vertical sliders. It is the center coordinate that should count.
