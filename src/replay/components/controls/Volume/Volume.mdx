@@ -23,6 +23,8 @@ The volume slider (using `<Slider/>`) operates on values between 0 and 1, specif
 
 If the prop `isMuted` is `true`, the volume slider will display a value of 0 (handle to the left). When dragging/clicking the slider, `setProperties({ isMuted: false, volume: value })` will be called with the value corresponding to the changed slider value. In other words, adjusting the volume while muted, will also unmute video.
 
+Note that iOS doesn't allow for programmatic adjustment of the volume. However mute toggling is allowed. The volume slider part of this control will not be rendered in iOS.
+
 ## Example
 
 <Playground>
@@ -45,7 +47,7 @@ Please read the [general principles](/custom-replay/skins-styles) for Replay cla
   'Element': 'div',
   'Class name': 'volume',
   'Generic class name': '',
-  'States': '',
+  'States': 'volume-disabled',
   'Parent': ''
 },{
   'Element': 'div',

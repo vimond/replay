@@ -24,6 +24,7 @@ type Props = CommonProps & {
 };
 
 const className = 'volume';
+const disabledClassName = 'volume-disabled';
 const muteToggleClassName = 'mute-toggle';
 const volumeSliderClassName = 'volume-slider';
 const volumeSliderHandleClassName = 'volume-slider-handle';
@@ -51,6 +52,7 @@ class Volume extends React.Component<Props> {
   };
 
   render() {
+    const isIos = navigator.userAgent.match(/(iPad|iPhone|iPod)/i);
     const {
       volume,
       isMuted,
@@ -63,7 +65,7 @@ class Volume extends React.Component<Props> {
       volumeSliderHandleContent,
       volumeSliderTrackContent
     } = this.props;
-    const prefixedClassName = prefixClassNames(classNamePrefix, className);
+    const prefixedClassName = prefixClassNames(classNamePrefix, className, isIos && disabledClassName);
     return (
       <div className={prefixedClassName} title={label}>
         <ToggleButton
@@ -75,18 +77,20 @@ class Volume extends React.Component<Props> {
           classNamePrefix={classNamePrefix}
           className={muteToggleClassName}
         />
-        <Slider
-          label={volumeSliderLabel}
-          value={isMuted ? 0 : volume}
-          maxValue={maxVolume}
-          handleContent={volumeSliderHandleContent}
-          trackContent={volumeSliderTrackContent}
-          onValueChange={this.handleVolumeSliderChange}
-          classNamePrefix={classNamePrefix}
-          className={volumeSliderClassName}
-          trackClassName={volumeSliderTrackClassName}
-          handleClassName={volumeSliderHandleClassName}
-        />
+        {!isIos && (
+          <Slider
+            label={volumeSliderLabel}
+            value={isMuted ? 0 : volume}
+            maxValue={maxVolume}
+            handleContent={volumeSliderHandleContent}
+            trackContent={volumeSliderTrackContent}
+            onValueChange={this.handleVolumeSliderChange}
+            classNamePrefix={classNamePrefix}
+            className={volumeSliderClassName}
+            trackClassName={volumeSliderTrackClassName}
+            handleClassName={volumeSliderHandleClassName}
+          />
+        )}
       </div>
     );
   }

@@ -581,6 +581,9 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     onMouseLeave={[Function]}
                                     onMouseMove={[Function]}
                                     onMouseUp={[Function]}
+                                    onTouchEnd={[Function]}
+                                    onTouchMove={[Function]}
+                                    onTouchStart={[Function]}
                                     role="slider"
                                     tabIndex={0}
                                     title="Timeline"
@@ -861,6 +864,9 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                         onMouseLeave={[Function]}
                                         onMouseMove={[Function]}
                                         onMouseUp={[Function]}
+                                        onTouchEnd={[Function]}
+                                        onTouchMove={[Function]}
+                                        onTouchStart={[Function]}
                                         role="slider"
                                         tabIndex={0}
                                         title="Volume setting"

@@ -173,7 +173,10 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
     render() {
       const { videoRef } = this;
       const { videoElementEventHandlers, render, trackElementData } = this.state;
-      const playsInline = !this.props.configuration || this.props.configuration.playsInline == null || this.props.configuration.playsInline;
+      const playsInline =
+        !this.props.configuration ||
+        this.props.configuration.playsInline == null ||
+        this.props.configuration.playsInline;
       return render(videoRef, videoElementEventHandlers, this.props, baseClassName, playsInline, trackElementData);
     }
   }

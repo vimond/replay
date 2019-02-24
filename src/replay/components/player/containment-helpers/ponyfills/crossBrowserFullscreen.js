@@ -17,15 +17,25 @@ export function enterFullscreen(element) {
   } else if (element.mozRequestFullScreen) {
     element.mozRequestFullScreen();
     return true;
+  } else if (element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+    return true;
   } else if (element.webkitRequestFullscreen) {
     element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
     return true;
   } else if (element.webkitRequestFullScreen) {
     element.webkitRequestFullScreen(); // ALLOW_KEY_BOARD_INPUT makes this function not work in older Safari versions.
     return true;
-  } else if (element.msRequestFullscreen) {
-    element.msRequestFullscreen();
-    return true;
+  } else {
+    // Try native fullscreen for video element in Safari on iPhone and older iOS in general.
+    if (navigator.userAgent.match(/(iPad|iPhone|iPod)/i)) {
+      element = element.getElementsByTagName('video')[0];
+      console.log('Element', element);
+      if (element) {
+        element.webkitEnterFullscreen();
+        return true;
+      }
+    }
   }
   return false;
 }

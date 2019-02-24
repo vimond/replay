@@ -78,7 +78,12 @@ class ResponsiveClassNames extends React.Component<Props, State> {
   onSizeChange = (contentRect: { +width: number, +height: number }) => {
     const elementWidth = contentRect.width;
     const elementHeight = contentRect.height;
-    if (this.props.configuration && Array.isArray(this.props.configuration.responsivenessRules)) {
+    if (
+      elementWidth > 0 &&
+      elementHeight > 0 &&
+      this.props.configuration &&
+      Array.isArray(this.props.configuration.responsivenessRules)
+    ) {
       const responsiveClassNames = this.props.configuration.responsivenessRules
         .filter(({ width, height }) => {
           if (width && ((width.min && elementWidth <= width.min) || (width.max && elementWidth > width.max))) {
