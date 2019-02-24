@@ -25,20 +25,20 @@ export const baseConfiguration: PlayerConfiguration = {
     {
       className: 'narrow',
       width: {
-        max: 640
+        max: 500
       }
     },
     {
       className: 'medium-width',
       width: {
-        min: 640,
-        max: 1024
+        min: 500,
+        max: 1000
       }
     },
     {
       className: 'wide',
       width: {
-        min: 1024
+        min: 1000
       }
     }
   ],

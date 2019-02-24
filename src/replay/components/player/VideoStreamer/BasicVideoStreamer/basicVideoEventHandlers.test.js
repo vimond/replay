@@ -441,7 +441,7 @@ test('streamStateUpdater reports picture-in-picture feature availability changes
   {
     document.pictureInPictureEnabled = undefined;
     const { onStreamStateChange, videoElement } = setup(undefined, undefined, {
-      webkitSupportsPresentationMode: true,
+      webkitSupportsPresentationMode: jest.fn().mockReturnValue(true),
       webkitSetPresentationMode: jest.fn()
     });
     runStartToLoadedSequence(videoElement);
