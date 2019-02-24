@@ -4,7 +4,7 @@ Replay is a **Re**act video **play**er with these key characteristics:
  
 * Ready-to-use component.
 * Custom and customisable player controls and UX.
-* Enables adaptive streaming thanks to [HLS.js](https://github.com/video-dev/hls.js) and [Shaka Player](https://github.com/google/shaka-player) integrations.
+* Enables adaptive streaming, thanks to [HLS.js](https://github.com/video-dev/hls.js) and [Shaka Player](https://github.com/google/shaka-player) integrations.
 * One consistent and React-friendly API across all streaming technologies.
 
 ### Capabilities at a glance
@@ -16,7 +16,8 @@ Replay is a **Re**act video **play**er with these key characteristics:
 * Advanced player controls: Picture-in-picture, AirPlay, bitrate (quality) selector.
 * Keyboard shortcuts and tab navigation.
 * Remembering the user's volume and language preferences.
-* Responsive player sizing.
+* Responsive player sizing and UI adaptation.
+* Touch- and mobile-friendly UX.
 
 [Full feature list](http://files.vimond.com/docs/replay/latest/#/#features-list)
 
