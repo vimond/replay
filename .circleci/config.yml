@@ -62,15 +62,15 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp
+      - add_ssh_keys:
+          fingerprints:
+            - "18:fd:3c:d6:a3:27:b7:6f:ae:1e:93:35:e8:ac:f9:69"
       - run:
           name: Prepare gh-pages publish
           command: |
             yarn add -g --silent gh-pages@2.0.1
             git config user.email "noreply@vimond.com"
             git config user.name "noreply"
-      - add_ssh_keys:
-          fingerprints:
-            - "92:28:06:81:71:0d:f9:ee:ca:1c:e4:24:43:cf:d1:7a"
       - run:
           name: Publish docs to gh-pages
           command: yarn gh-pages --message "[skip ci] Doc updates" --dist docs
