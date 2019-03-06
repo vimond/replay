@@ -14,7 +14,7 @@ export default {
   src: './src/replay',
   dest: './docs',
   public: '/public',
-  base: '/docs/replay/latest/',
+  base: '/replay-private/',
   hashRouter: true,
   plugins: [
     css({
@@ -36,8 +36,8 @@ export default {
   },
   menu: [
     'Replay',
-    { 
-      name: 'Using the Replay player', 
+    {
+      name: 'Using the Replay player',
       menu: [
         'Inserting Replay',
         'Setting startup options',
