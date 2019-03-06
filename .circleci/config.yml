@@ -63,12 +63,11 @@ jobs:
       - attach_workspace:
           at: /tmp
       - run:
-      - run:
           name: Prepare gh-pages publish
           command: |
             yarn add -g --silent gh-pages@2.0.1
             git config user.email "noreply@vimond.com"
-            git config user.name "ci-build"
+            git config user.name "noreply"
       - add_ssh_keys:
           fingerprints:
             - "92:28:06:81:71:0d:f9:ee:ca:1c:e4:24:43:cf:d1:7a"
@@ -110,7 +109,5 @@ workflows:
             - test
             - build
           filters:
-            tags:
-              only: /^v.*/
             branches:
-              ignore: /.*/
+              only: /.*/
