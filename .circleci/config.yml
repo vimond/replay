@@ -73,7 +73,7 @@ jobs:
             - "92:28:06:81:71:0d:f9:ee:ca:1c:e4:24:43:cf:d1:7a"
       - run:
           name: Publish docs to gh-pages
-          command: gh-pages --message "[skip ci] Doc updates" --dist docs
+          command: yarn gh-pages --message "[skip ci] Doc updates" --dist docs
 
 workflows:
   version: 2
