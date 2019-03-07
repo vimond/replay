@@ -1,0 +1,103 @@
+---
+name: Custom skins and styles
+route: /custom-replay/skins-styles
+menu: 'Customising Replay'
+---
+
+# Custom skins and styles
+
+This chapter describes the styling system and how to modify the appearance of the Replay player.
+
+Replay is at this time not prepared for CSS-in-JS solutions, and requires traditional CSS rules based on class names. Use the following sources of information in order to understand how to modify or replace the default style rules.
+
+* The individual documentation pages in the *Controls reference* list class names and DOM parts for each of the controls. 
+* This chapter describes the strategies and patterns to styling Replay. 
+* Inspect a rendered Replay player with the browser's dev tools' element inspector to see how rules come into effect and what's applied to the DOM elements.
+
+## How to override or replace the default Replay stylesheet
+
+### Overrides
+
+For small changes, some extra style rules placed on top of the cascade (i.e. having selectors taking precedence) is the simplest approach. E.g. after referring the default Replay stylesheet, add your own:
+
+```javascript
+import 'vimond-replay/index.css';
+import './my-skin.css';
+```
+
+#### Content of `my-skin.css`
+
+```css
+.replay-controls-bar, .replay-selector-items, .replay-exit-button, .replay-playback-monitor-close-button, .replay-buffering-indicator, .replay-goto-live-button.replay-toggled-on:hover {
+    color: green;
+}
+
+.replay-slider-handle {
+    background-color: green;
+}
+```
+
+This would change the "primary colour" (icon and button surfaces) into green.
+
+### Building a new stylesheet
+
+The default stylesheet can be completely replaced. For this, either reuse individual modules from the Replay library and substitute others (like colors.css) with your own, or create a copy of the file found at the npm path `'vimond-replay/index.css'`. If reusing individual modules, they need to be referred individually by either a preprocessor (e.g. SASS, PostCSS, Webpack) or the browser.
+
+Please see the chapter below, "CSS module organisation", and refer the source code, in order to look into individual CSS modules.
+
+## Worth to know when reading the DOM/class names table in the Controls reference
+
+When reading the DOM and class name table in the controls reference, please keep in mind:
+
+* All class names are prefixed for the prevention of style conflicts or coexisting page styles interfering with player styles. By default the prefix is `replay-`. This means e.g. `audio-selector` must be read as `replay-audio-selector`, unless the class name prefix is changed.
+* Many controls are just concrete usages of generic components. E.g. both the fullscreen and play/pause button is a `<ToggleButton/>`. These share behaviour and also have common generic class names listed in the DOM and class name table.
+* The table does not include children or content elements.
+* Some components might be unrendered based on their props values indicating that they are irrelevant. This is not described in the table.
+* Some controls have elements with two state class names. When the DOM and style table's state column only lists one class name, this means there is also a distinct state without any state class name.
+
+## Skin toggling and CSS scoping with prefixed class names
+
+All class names applied to DOM elements of controls and container components are prefixed. The default prefix is `replay-`, and a full class name will then for instance be `replay-play-pause-button`. The prefix can be changed when creating custom players, or simply by including a [configuration override](/custom-replay/configuration). In this way, the player can get different skins coexisting in the same CSS scope. 
+
+I.e. a common site-wide CSS bundle can contain different skins for Replay players branded differently according to e.g. content category. The prefix also ensures that frequently used class names, like `expanded`, `selected`, are not in conflict because being used both in the player and in the page. The Replay class names will be `replay-expanded` and `replay-selected` with the default prefix.
+
+See [Changing the class name prefix](/custom-replay/configuration#changing-the-class-name-prefix) for how to toggle skins based on prefixed class names.
+
+
+## Not [BEM](http://getbem.com/naming/), but rather...
+
+The controls' DOM elements typically have several class names: One corresponding to the control's name and purpose, and one for the generic component(s) implementing the control, and maybe one or more for the state of the control. For instance the `<PlayPauseButton/>`'s root element gets the following class attribute with the default prefix: 
+
+```html
+<div class="replay-play-pause-button replay-toggle-button replay-toggled-off">...</div>
+```
+
+The `<FullscreenButton/>` looks similar, but has one different class name.
+
+```html
+<div class="replay-fullscreen-button replay-toggle-button replay-toggled-off">...</div>
+```
+
+## DRY and common-rule oriented stylesheets
+
+In the example above, the class names imply that all toggle buttons can get common styles applied by adding rules with the `.replay-toggle-button` selector, while extra styles or overrides targeting the play/pause button can be set with the `.replay-play-pause-button`.
+
+With this approach, the CSS is organised with as few rules as possibly applying to many distinct components or controls. This is the traditional CSS approach, contrary to an "object-oriented" stylesheet, where CSS rules are tightly coupled to components and possibly repeated several times.
+
+The intended outcome is to be DRY, in the sense that common styles and properties are only defined once, and some exceptions are simply overriding what's common through more targeted selectors.
+
+In summary:
+
+* Some style rules apply to multiple controls. I.e. all control buttons share a lot of styling through common class names.
+* The container element for the full UI sets a lot of class names based on the player state. This can be, and is used to create style rules with descendant selector.
+
+## CSS module organisation
+
+For reference, in the Replay code base, the default stylesheet is built with several CSS files with the following setup. However, replacement stylesheets can be organised independently of the default one.
+
+* Some distinct, but general CSS files when there is a requirement for styles specifically for a component/control. These are located next to the components in the `components/` hierarchy, and contain no skin or layout styles.
+* There are no CSS or SASS variables used.
+* Style rules for the default skin, are organised in different files, located in `default-player/default-skin/`: `sizesAndLayout.css`, `colors.css`, `animations.css`, and assembled with some more styles in `index.css`. This kind of separation makes it fairly easy to change e.g. only the colours on all controls while being DRY.
+* `replay-default.css` includes all above and constitutes the full default stylesheet.
+
+

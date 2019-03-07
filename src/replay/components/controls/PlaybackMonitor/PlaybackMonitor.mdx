@@ -1,0 +1,92 @@
+---
+name: Playback monitor
+route: /controls/playback-monitor
+menu: 'Controls reference'
+---
+import { PropsTable } from 'docz';
+import PlaybackMonitor from './PlaybackMonitor';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+
+# PlaybackMonitor component
+
+An overlay displaying all current and previous video stream state properties. Can be used for debugging and monitoring.
+
+## Summary
+
+This is a convenience component not intended for end user cases. It is by itself a connected control.
+
+## Example
+
+The playback monitor can be displayed by pressing **Ctrl+Alt+M** in an actual rendering of the Replay player.
+
+## Props
+
+<PropsTable of={PlaybackMonitor} />
+
+## Class names for DOM and states
+
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{
+  'Element': 'div',
+  'Class name': 'playback-monitor',
+  'Generic class name': '',
+  'States': '',
+  'Parent': ''
+},{
+  'Element': 'table',
+  'Class name': 'playback-monitor-stream-state',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.playback-monitor'
+},{
+  'Element': 'tr',
+  'Class name': 'playback-monitor-table-header',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.playback-monitor-stream-state'
+},{
+  'Element': 'th',
+  'Class name': 'playback-monitor-property-name',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.playback-monitor-stream-state tr'
+},{
+  'Element': 'td',
+  'Class name': 'playback-monitor-current-value',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.playback-monitor-stream-state tr'
+},{
+  'Element': 'td',
+  'Class name': 'playback-monitor-previous-value',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.playback-monitor-stream-state tr'
+},{
+  'Element': 'div',
+  'Class name': 'playback-monitor-header',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.playback-monitor'
+},{
+  'Element': 'div',
+  'Class name': 'playback-monitor-close-button',
+  'Generic class name': 'button',
+  'States': '',
+  'Parent': '.playback-monitor-header'
+},{
+  'Element': 'div',
+  'Class name': '',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.playback-monitor-close-button'
+},{
+  'Element': 'p',
+  'Class name': 'playback-monitor-version',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.playback-monitor-header'
+}]}/>
+
+ 

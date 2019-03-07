@@ -1,0 +1,55 @@
+---
+name: AirPlay button
+route: /controls/airplay-button
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import AirPlayButton from './AirPlayButton';
+import ShowCase from '../../../docs/mdx-helpers/ShowCase';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+import { Airplay } from 'react-feather';
+import Footnote from '../../../docs/props-footnote.md';
+
+# AirPlayButton
+
+Control bar button for invoking Safari's AirPlay device picker, allowing transferring the playback to a different device.
+
+## Summary
+
+In order for this button to render, the prop `isAirPlayAvailable` must have the value `true`. This property is reported from the video streamer based on browser feature detection and AirPlay target devices being available. Currently only Apple Safari (and iOS browsers built in on it) supports AirPlay.
+ 
+The prop `isAirPlayActive` indicates to the button if picture-in-picture playback is currently active(`true`/`false`). This can be used for indicating the AirPlay mode in the button. Through the callback prop `setProperties` in invokes `setProperties({ isAirPlayTargetPickerVisible: true })` on clicks. Even if this is a toggle button, it cannot be used to hide the target picker. However, any other user gestures will do so.
+
+## Example
+
+<Playground>
+  <ShowCase render={({ setProperties, isAirPlayTargetPickerVisible }) => (
+    <AirPlayButton isAirPlayAvailable={true} airPlayActiveContent={<Airplay/>} airPlayInactiveContent={<Airplay/>} setProperties={value => console.log('setProperties() invoked with', value)} />
+
+  )}/>
+</Playground>
+
+## Props
+
+<PropsTable of={AirPlayButton} />
+
+<Footnote/>
+
+## Component DOM with class names
+
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'airplay-button',
+  'Generic class name': 'toggle-button',
+  'States': 'toggled-off, toggled-on',
+  'Parent': ''
+},{
+  'Element': 'div',
+  'Class name': '',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.airplay-button'
+}]}/>

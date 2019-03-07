@@ -1,0 +1,42 @@
+---
+name: Controls bar
+route: /controls/controls-bar
+menu: 'Controls reference'
+---
+
+import '../../../replay-default.css'
+import { Playground, PropsTable } from 'docz';
+import ControlsBar from './ControlsBar';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+
+# ControlsBar component
+
+This is the container element for the bottom-aligned bar with player controls.
+
+## Summary
+
+Except for adhering to the conventions on class names, there is no functionality in this component.
+
+## Example
+
+<Playground>
+  <ControlsBar/>
+</Playground>
+
+The example shows an empty controls bar.
+
+## Props
+
+<PropsTable of={ControlsBar} />
+
+## Component DOM with class names
+
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'controls-bar',
+  'Generic class name': '',
+  'States': '',
+  'Parent': ''
+}]}/>

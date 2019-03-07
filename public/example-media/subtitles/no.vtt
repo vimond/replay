@@ -1,0 +1,13 @@
+WEBVTT
+
+00:00:02.000 --> 00:00:04.000 line:-3
+Norsk
+eksempelteksting.
+
+00:00:05.000 --> 00:00:19.000 line:-3
+Alle moderne nettlesarar har
+innebygd støtte for WebVTT-formatet.
+
+00:00:20.000 --> 00:00:55.000 line:-3
+TTML/DFXP er eit anna utbreidd format
+der ein ofte må ty til Javascript for tolking.

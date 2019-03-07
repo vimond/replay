@@ -1,0 +1,53 @@
+
+.replay-playback-monitor {
+    position: absolute;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.replay-playback-monitor-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.replay-playback-monitor-close-button {
+    position: absolute;
+    left: 0.8em;
+}
+
+.replay-playback-monitor-version {
+    text-align: right;
+    position: absolute;
+    right: 1.6em;
+    top: 1em;
+    margin: 0;
+    padding: 0;
+    opacity: 0.6;
+}
+
+.replay-playback-monitor-stream-state {
+    position: absolute;
+    max-width: 100%;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    table-layout: fixed;
+}
+
+.replay-playback-monitor-stream-state td, .replay-playback-monitor-stream-state th {
+    vertical-align: top;
+}
+
+.replay-playback-monitor-property-name {
+    text-align: right;
+}
+
+.replay-playback-monitor-previous-value, .replay-playback-monitor-current-value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}

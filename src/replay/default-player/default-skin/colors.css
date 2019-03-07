@@ -1,0 +1,72 @@
+
+.replay-controls-bar, .replay-selector-items, .replay-exit-button, .replay-playback-monitor-close-button, .replay-buffering-indicator, .replay-goto-live-button.replay-toggled-on:hover {
+    color: #bbb;
+}
+
+.replay-slider-handle {
+    background-color: #bbb;
+}
+
+.replay {
+    background-color: #222;
+}
+
+.replay-controls-bar, .replay-selector-items {
+    background-color: rgba(32,32,32,0.8);
+}
+
+.replay-slider-track, .replay-selector-item:hover {
+    background-color: #888;
+}
+
+.replay-selector-item:focus > * {
+    background-color: #888;
+}
+
+.replay-slider-handle:hover {
+    background-color: white;
+}
+
+.replay-slider:focus .replay-slider-handle {
+    background-color: white;
+}
+
+.replay-timeline-information .replay-timeline-tooltip {
+    background-color: rgba(32,32,32,0.8);
+}
+
+.replay-button:hover, .replay-toggle-button:hover {
+    color: white;
+}
+
+.replay-button:focus > *, .replay-toggle-button:focus > * {
+    color: white;
+}
+
+.replay-button:focus, .replay-button > :focus, .replay-toggle-button:focus, .replay-toggle-button > :focus, 
+.replay-slider:focus, .replay-slider-handle:focus, .replay-selector-item:focus, .replay-selector-item > :focus {
+    outline: none;
+}
+
+.replay-goto-live-button.replay-toggled-on:hover {
+    cursor: default;
+}
+
+.replay-time-display span:nth-child(2) {
+    border-top-color: rgba(128,128,128,0.5);
+}
+
+.replay-playback-monitor {
+    color: white;
+    background-color: rgba(20, 20, 20, 0.9);
+    cursor: default;
+}
+
+td.replay-playback-monitor-current-value {
+    opacity: 0.9;
+}
+
+td.replay-playback-monitor-previous-value {
+    opacity: 0.6;
+}
+

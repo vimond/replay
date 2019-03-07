@@ -1,0 +1,204 @@
+---
+name: Configuration
+route: /custom-replay/configuration
+menu: 'Customising Replay'
+---
+
+import { Playground } from 'docz';
+import Replay from '../../default-player/Replay';
+import MockVideoStreamer from '../../components/player/VideoStreamer/MockVideoStreamer';
+import '../../replay-default.css';
+
+# Configuration
+
+This page shows how the default Replay player can be customised through configuration settings.
+
+*Most of the player code examples in this guide use the [MockVideoStreamer](/architecture/video-streamers#mockvideostreamer), so that the live examples don't load actual videos.*
+
+## Configuration system
+
+The player contains a configuration system where all aspects of a player instance can be configured in one shared object with keys and properties hierarchically grouped by functionality.
+
+The Replay player component comes with a base configuration specifying some different default settings. Every setting from the base configuration can be overridden when inserting the player component. This is done by passing an object to the `options` prop, e.g. `<Replay options={overrides} />`. The object shape should match the base configuration for the settings to be overridden.
+
+Possible overrides include setting new values overwriting the base values, introducing new settings not specified in the base configuration, or erasing/nullifying settings found in the base configuration.
+
+## The base configuration structure
+
+The configuration object structure is defined in [the PlayerConfiguration type](https://github.com/vimond/replay/blob/master/src/replay/default-player/types.js#L34).
+
+Underneath is an example of the most interesting configuration settings in the player's base configuration.
+
+```javascript
+export const baseConfiguration: PlayerConfiguration = {
+  interactionDetector: {
+    inactivityDelay: 2
+  },
+  keyboardShortcuts: {
+    keyMap: {
+      togglePause: [' ', 'Enter', 'P'],
+      toggleFullscreen: 'F',
+      decreaseVolume: '-',
+      increaseVolume: '+',
+      skipBack: ',',
+      skipForward: '.',
+      toggleUserActive: 'C',
+      toggleMute: 'M'
+    }
+  },
+  userSettings: {
+    hasPrecedence: false,
+    storageKey: 'replay-settings',
+    settingsStoragePolicy: {
+      volume: 'local',
+      isMuted: 'local'
+    }
+  },
+  responsivenessRules: [{
+    className: 'narrow',
+    width: {
+      max: 640
+    }
+  }, {
+    className: 'medium-width',
+    width: {
+      min: 640,
+      max: 1024
+    }
+  }, {
+    className: 'wide',
+    width: {
+      min: 1024
+    }
+  }],
+  controls: {
+    skipButtonOffset: -10,
+    qualitySelectionStrategy: 'cap-bitrate',
+    liveDisplayMode: 'clock-time'
+  }
+};
+```
+
+The object above specifies behaviours for controls, maps keyboard shortcuts, enables responsive designs according to player size rules, and enables storing the user's preferences in the brower's local storage. 
+
+## Examples of overriding the base configuration
+
+Extending the delay into 5 seconds for hiding the controls upon user inactivity, can be done with this object passed to the Replay component:
+
+```jsx
+<Replay options={{ interactionDetector: { inactivityDelay: 5 }}}/>
+```
+
+From a simple configuration setting being overridden, over to a more complex live example.
+
+<Playground>
+  <Replay 
+    options={{
+      interactionDetector: { 
+        inactivityDelay: 10 
+      }, 
+      controls: {
+        liveDisplayMode: 'live-offset',
+        qualitySelectionStrategy: 'fix-bitrate',
+      },
+      _deactivated_classNamePrefix: 'my-player-',
+      userSettings: {
+        settingsStoragePolicy: {
+          volume: 'session',
+          isMuted: 'session'
+        }
+      },
+      responsivenessRules: [{ className: 'small', width: { max: 500 }}, { className: 'big', width: { min: 750 }}],
+      keyboardShortcuts: { 
+        keyMap: {
+          togglePause: ['Y', 'Enter']
+        }
+      }
+    }}>
+    <MockVideoStreamer/>
+  </Replay>
+</Playground>
+
+The overrides in this example changes the following, compared to the base configuration above: 
+
+* The player controls are hidden after 10 seconds of user inactivity, instead of 2.
+* For a live stream, the position will be displayed as an offset from the live edge, instead of time-of-day clock time (if applicable).
+* When selecting a bitrate in the quality selector, the playback will fix to this bitrate, instead of capping the adaptive quality selection range.
+* The user's volume and mute settings will only be remembered during the current browser session, as opposed to later sessions.
+* It replaces the rules for player-size responsive class names. With the overridden rule set, the inner player container will get a class name of `replay-small`, if the player width is below 500 pixels, and if the player width is greater than 750 pixels, `replay-big` will be present as a class name. For widths in-between, none of these names will be present. The effect of the responsiveness rules. can be observed by inspecting the player container div containing a lot of `replay-`prefixed class names, and resizing the browser window repeatedly. Note that the player DOM element width is being measured, not the browser window width.
+* The keyboard keys Y and Enter can be used to toggle pause/playing. In the base configuration `P`, `Enter` and `Space` were defined as shortcuts for this operation.
+
+This example can be live edited, in order to observe effects of changing the options object.
+
+## Changing the class name prefix
+
+In the example above, try removing the part `_deactivated_` from the line `_deactivated_classNamePrefix: 'my-player-'`, and watch the player appearance explode. The change makes all player DOM class names start with `my-player-` instead, thanks to the configuration setting `classNamePrefix`. The design breaks because there are no longer any class names in the CSS file matching the ones in the player DOM. However, if a stylesheet with a different skin was introduced, and all its rules had class names starting with `.my-player-`, e.g. `.my-player-fullscreen-button`, that would mean this player configuration selected the alternative skin.
+
+See [Skin toggling and CSS scoping with prefixed class names](/custom-replay/skins-styles#skin-toggling-and-css-scoping-with-prefixed-class-names) for more on how to use the classNamePrefix setting.
+
+## Including/excluding player controls
+
+Replay components can be used to build a fully custom player with controls removed, replaced, and/or new controls added. 
+
+However, for simpler customisations, individual controls can be included or excluded by adding a configuration override.
+
+The array `{ controls: { includeControls: [] }}` can be used to specify what controls to include. If this configuration setting is omitted, all controls will be included. Otherwise, only the ones listed in the array will be listed.
+
+<Playground>
+  <Replay 
+    options={{ 
+      controls: { 
+        includeControls: ['playPauseButton', 'timeline', 'timeDisplay', 'volume', 'fullscreenButton']
+      },
+      interactionDetector: { 
+        inactivityDelay: 10 
+      }
+    }}>
+    <MockVideoStreamer/>
+  </Replay>
+</Playground>
+
+This example leaves only the most basic and common controls present in the control bar.
+
+These control names are recognised for the `includeControls` array:
+
+* `'playPauseButton'`
+* `'skipButton'`
+* `'timeline'`
+* `'timeDisplay'`
+* `'gotoLiveButton'`
+* `'volume'`
+* `'audioSelector'`
+* `'subtitlesSelector'`
+* `'qualitySelector'`
+* `'fullscreenButton'`
+* `'exitButton'`
+* `'playbackMonitor'`
+* `'bufferingIndicator'`
+
+## Video streamer and third party player library configurations
+
+The configuration can containing general settings for different `VideoStreamer` components. Further, individual settings targeting third party players wrapped in such components can be specified as part of the Replay configuration.
+
+```javascript
+const configuration = {
+  videoStreamer: {
+    shakaPlayer: {
+      installPolyfills: true,
+      customConfiguration: {
+        streaming: {
+          bufferingGoal: 120
+        }
+      }
+    },
+    hlsjs: {
+      customConfiguration: {
+        maxBufferLength: 30
+      }
+    }
+  }
+};
+```
+
+In this example, the Shaka Player `bufferingGoal` setting will be applied when the `<ShakaVideoStreamer/>` is used, while `maxBufferLength` will be set to 30 for HLS.js when `<HlsjsVideoStreamer/>` is used.
+

@@ -1,0 +1,69 @@
+---
+name: Inserting Replay
+route: /replay/insert
+menu: 'Using the Replay player'
+---
+
+import { Playground, PropsTable } from 'docz';
+import Replay from '../../default-player/Replay';
+import '../../replay-default.css';
+
+# Inserting Replay into your React app
+
+This and the following pages demonstrates how you can:
+
+* Include the player in your own code.
+* Specify what to play.
+* Applying some playback settings.
+* Control and observe the playback state.
+
+*Note that all examples with actual video include the [`initialPlaybackProps={{ isPaused: true }}` property](/replay/api#initialplaybackprops-initialplaybackprops), so that the examples don't play wildly all over the pages. Please remove this prop when copying to real app code.*
+
+## Prerequisites
+
+### Requirements
+
+Minimum React version for Replay is 16.3. If using the [video streamer resolver](/advanced-playback/adaptive-streaming#enabling-playback-for-multiple-streaming-technologies-based-on-stream-technology-resolution), React 16.6 is required. In this case, a bundler supporting dynamic `import()` statements, is also required.
+
+### Installing the Replay npm package
+
+If not already done:
+
+```sh
+npm install vimond-replay --save
+```
+
+### Importing dependencies
+
+All code examples below need the following import statements:
+
+```javascript
+import React from 'react';
+import { Replay } from 'vimond-replay';
+import 'vimond-replay/index.css';
+```
+
+Or substitute the CSS `import` statement with your desired CSS inclusion mechanism, e.g. SASS.
+
+### Video/stream technology support
+
+Out of the box, Replay supports video files that can be played natively in the browser. That typically means MP4 or WebM videos progressively downloaded from a web server location.
+
+The [Adaptive streaming](/replay/adaptive-streaming) chapter explains how to add support for adaptive streaming.
+
+## Inserting the player with a progressive video source
+
+Please remember the import statements discussed above. Include the `source` prop in order to load a video. This prop can be a string with the video URL, or an object containing several pieces of technical details in order to play the video/stream appropriately. Essential is the `streamUrl` property, referring to the video file or adaptive stream URL (if applicable). The object variant is shown in later examples.
+
+This example is live. Press play to test the playback:
+
+<Playground>
+  <Replay
+    source="public/example-media/progressive.mp4"
+    initialPlaybackProps={{ isPaused: true }}
+  />
+</Playground>
+
+Note that Replay doesn't include a poster feature. This is best implemented outside the player component. The player can be inserted without specifying a source, and it will render, but remain inactive.
+
+When the `source` prop is changed, either from unspecified, or from an earlier set source, a new playback will start. Set the same prop to null in order to stop playback.

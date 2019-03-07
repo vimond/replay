@@ -1,0 +1,91 @@
+---
+name: Volume and mute controls
+route: /controls/volume
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import Volume from './Volume';
+import ShowCase from '../../../docs/mdx-helpers/ShowCase';
+import { Volume2, VolumeX } from 'react-feather';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+import Footnote from '../../../docs/props-footnote.md';
+
+# Volume control
+
+Control combining a mute toggle and volume slider.
+
+## Summary
+
+The mute button is "on" when the prop `isMuted` set to `true`. It uses a `<ToggleButton/>`, and invokes `setProperties({ isMuted: value })` where value is the opposite of the prop `isMuted`. The `mutedContent` and `unmutedContent` specify what button content should be displayed for the `isMuted` `true`/`false` prop values.
+
+The volume slider (using `<Slider/>`) operates on values between 0 and 1, specified in the prop `volume`. On dragging the handle, or clickingon the slider track, it invokes `setProperties({ volume: value })` where value is the changed value between 0 and 1.
+
+If the prop `isMuted` is `true`, the volume slider will display a value of 0 (handle to the left). When dragging/clicking the slider, `setProperties({ isMuted: false, volume: value })` will be called with the value corresponding to the changed slider value. In other words, adjusting the volume while muted, will also unmute video.
+
+Note that iOS doesn't allow for programmatic adjustment of the volume. However mute toggling is allowed. The volume slider part of this control will not be rendered in iOS.
+
+## Example
+
+<Playground>
+  <ShowCase render={({ setProperties, isMuted, volume }) => (
+    <Volume unmutedContent={<Volume2/>} mutedContent={<VolumeX/>} setProperties={setProperties} volume={volume} isMuted={isMuted}/>
+  )}/>
+</Playground>
+
+## Props
+
+<PropsTable of={Volume} />
+
+<Footnote/>
+
+## Component DOM with class names
+
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'volume',
+  'Generic class name': '',
+  'States': 'volume-disabled',
+  'Parent': ''
+},{
+  'Element': 'div',
+  'Class name': 'mute-toggle',
+  'Generic class name': 'toggle-button',
+  'States': 'toggled-off, toggled-on',
+  'Parent': '.volume'
+},{
+  'Element': 'div',
+  'Class name': '',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.mute-toggle'
+},{ 
+  'Element': 'div',
+  'Class name': 'volume-slider',
+  'Generic class name': 'slider',
+  'States': 'dragging',
+  'Parent': '.volume'
+},{
+  'Element': 'div',
+  'Class name': 'volume-track',
+  'Generic class name': 'slider-track',
+  'States': '',
+  'Parent': '.volume-slider'
+},{
+  'Element': 'div',
+  'Class name': 'volume-handle',
+  'Generic class name': 'slider-handle',
+  'States': '',
+  'Parent': '.volume-slider'
+}]}/>
+
+## Styling requirements
+
+The styling of the volume slider needs to follow some rules in order to get sensible responses from user interactions:
+
+* The draggable or clickable area will be the size of the track element, `.volume-track`. Remember how margin, borders, padding, box-sizing, etc. affects the size.
+* The `.volume-handle` positioning (between 0 and 100 percent from left or bottom) should align with the track size and placement.
+* The styling needs to take into account the size of the handle itself. The component will not subtract the size of the component in its positioning and value calculations.
+* The handle should ideally be shifted by half its width to the left for horizontal sliders, or half its height down for vertical sliders. It is the center coordinate that should count.

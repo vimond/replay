@@ -1,0 +1,258 @@
+---
+name: Replay component API
+route: /replay/api
+menu: 'Using the Replay player'
+---
+
+# API reference for `<Replay/>`
+
+## Props
+
+### Children
+
+Replay can take 0 or 1 child elements. If present, a child should implement the [video streamer](/architecture/video-streamers) component API, most commonly by using one of the alternatives provided by this library.
+
+When using basic HTML playback of video files, the child video streamer element can be omitted. Replay will then insert the `<BasicVideoStreamer/>`. For advanced streaming playback, specify a video streamer component supporting the streaming technology the child element. This element should not have props specified that could interfere with the prop set passed down from the controller. One example is the `source` prop.
+
+When needing to toggle different video streamer components for different stream formats and/or browsers, a composite video streamer should be created and inserted as the only child. This could contain logic for selecting the video streamer implementation currently needed. Such a component should pass down props to the actual video streamer.
+
+```jsx
+  <Replay
+    source="public/example-media/adaptive.m3u8"
+    initialPlaybackProps={{ isPaused: true }}>
+    <HlsjsVideoStreamer/>
+  </Replay>
+```
+
+### `source: PlaybackSource | null`
+
+Specifies what to play in Replay.
+
+Set `source` to null or omit this prop if the player should be rendered without loading any video stream (yet), or in order to stop and unload a playing video.
+
+For playing a video file or stream without needing to specify anything else except the stream URL, set source to a string containing the stream URL.
+
+For more advanced needs, specify an object mathcing the `AdvancedPlaybackSource` type:
+
+```typescript
+type AdvancedPlaybackSource = {
+  streamUrl: string,
+  contentType?: string,
+  licenseUrl?: string,
+  drmType?: string,
+  startPosition?: number,
+  textTracks?: Array<SourceTrack>,
+  licenseAcquisitionDetails?: {
+    licenseRequestHeaders?: { [string]: string },
+    fairPlayCertificateUrl?: string,
+    contentId?: string,
+    widevineServiceCertificateUrl?: string
+  }
+};
+```
+
+| Property | Description |
+|----------|-------------|
+| streamUrl | URL to a video file, or to a stream manifest/playlist when using adaptive streams. |
+| contentType | The mime type of the stream. Only relevant if using a VideoStreamer broking/resolving correct playback technology based on stream technologies. |
+| licenseUrl | When the stream is DRM encrypted, specify the license acquisition URL through this property. |
+| startPosition | A number specifying the offset where playback should start upon loading the video. Given in seconds from the start of the stream. |
+| textTracks | An array with objects specifying any subtitle files to be side-loaded as text tracks. See the prop `textTracks` below for more information on the object shape. |
+| licenseAcquisitionDetails | Additional data if needed for performing DRM license acquisition. |
+| licenseRequestHeaders | Header names/values to be included in the license request. Commonly used for passing auth tokens etc. |
+| fairPlayCertificateUrl | URL to the certificate file needed to for performing FairPlay license requests. |
+| contentId | The FairPlay asset/content ID, if not to be extracted from the HLS stream metadata. |
+| widevineServiceCertificateUrl | URL to the Widevine service certificate, if not using the license endpoint. |
+
+### `textTracks: Array<SourceTrack>`
+
+Side-loaded text tracks (subtitles) can be specified as part of the PlaybackSource object described above, or independently through the `textTracks` prop. An array is expected, with objects matching the `SourceTrack` type.
+
+```typescript
+type SourceTrack = {
+  src: string,
+  label?: string,
+  kind?: string,
+  language?: string,
+  contentType?: string,
+  cues?: Array<{ start: number, end: number, content: string }>
+};
+```
+
+| Property | Description |
+|----------|-------------|
+| src | The URL of the subtitle file. |
+| label | A human friendly description of the subtitle track. Will be displayed in the subtitle selector item. |
+| kind | Corresponds to the HTML text track kind property, and is commonly either `'captions'` or `'subtitles'`. |
+| language | The language code of the subtitle file content. |
+| contentType | The mime type of the subtitle file, e.g. `text/vtt`. |
+| cues | Instead of providing a subtitle file URL as the source, parsed and prepared text cues can be specified directly. This makes it possible to support other subtitle file formats. |
+
+### `options: PlayerConfiguration`
+
+Pass an object to `options` with any [configuration overrides](/custom-replay/configuration). The object should match the `PlayerConfiguration` type. Note that almost every property is optional, so that only custom settings need to be included in the object. Also note that specifying a property with the value `null`, nullifies the corresponding property in the default configuration.
+
+```
+type PlayerConfiguration = {
+  videoStreamer?: ?VideoStreamerConfiguration,
+  interactionDetector?: ?{
+    inactivityDelay: number
+  },
+  keyboardShortcuts?: ?{
+    keyMap: {
+      togglePause?: string | Array<string>,
+      toggleMute?: string | Array<string>,
+      toggleFullscreen?: string | Array<string>,
+      skipBack?: string | Array<string>,
+      skipForward?: string | Array<string>,
+      increaseVolume?: string | Array<string>,
+      decreaseVolume?: string | Array<string>
+    },
+    volumeStep?: number,
+    skipOffset?: number
+  },
+  userSettings?: {
+    hasPrecedence?: ?boolean,
+    storageKey?: string,
+    settingsStoragePolicy: {
+      volume?: ?('none' | 'local' | 'session'),
+      isMuted?: ?('none' | 'local' | 'session'),
+      textTrackLanguage?: ?('none' | 'local' | 'session'),
+      textTrackKind?: ?('none' | 'local' | 'session'),
+      audioTrackLanguage?: ?('none' | 'local' | 'session'),
+      audioTrackKind?: ?('none' | 'local' | 'session')
+    }
+  },
+  classNamePrefix?: ?string,
+  controls?: ?{
+    includeControls?: ?Array<('playPauseButton' | 'skipButton' | 'timeline' | 'timeDisplay' | 'gotoLiveButton' | 'volume' | 'audioSelector' | 'subtitlesSelector' | 'qualitySelector' | 'fullscreenButton' | 'exitButton' | 'playbackMonitor' | 'bufferingIndicator')>,
+    skipButtonOffset?: number,
+    liveDisplayMode?: 'clock-time' | 'live-offset',
+    qualitySelectionStrategy?: 'cap-bitrate' | 'fix-bitrate'
+  }
+};
+```
+
+The mentioned configuration chapter discusses most of the configuration settings.
+
+### `initialPlaybackProps: InitialPlaybackProps`
+
+When a video source is loaded, the playback startup will have any of these properties applied, if specified:
+
+```typescript
+type InitialPlaybackProps = {
+  isMuted?: boolean,
+  volume?: number,
+  isPaused?: boolean,
+  bitrateCap?: number,
+  bitrateFix?: number | 'max' | 'min'
+};
+```
+
+| Property | Description |
+|----------|-------------|
+| isMuted | If specified with a `true`, the playback will start muted. |
+| volume | Specifies an initial volume setting. |
+| isPaused | If specified with a `true`, the playback will start paused. |
+| bitrateCap | Only relevant for adaptive streaming. Specifies a maximum bitrate to be considered for adaptive bitrate switching. The number specifies the bitrate in kbps. |
+| bitrateFix | Only relevant for adaptive streaming. Deactivates adaptive bitrate switching and fixes the bitrate selection. The number is given as an integer of kbps, and must correspond exactly to one of the bitrates reported in the video stream state property `bitrates`. |
+
+## Callback props
+
+### `onExit: () => void`
+
+If specified, displays a close button in the upper right corner of the player. When clicking the button, this callback will be invoked. It is the responsibility of the parent elements of the Replay element to remove the player from the rendered element hierarchy.
+
+### `onError?: any => void`
+
+Invoked upon playback/stream errors and possibly other errors.
+
+### `onPlaybackActionsReady?: PlaybackActions => void`
+
+Provides the API for controlling the playback. Invoked when the player is ready to be controlled. The argument is an object with the methods listed in the "Methods" chapter below.
+
+See 
+
+### `onStreamStateChange?: VideoStreamState => void`
+
+Through this callback, all aspects of the video playback state is reported. This includes volume changes, bitrate changes, position updates, durations, live stream states, audio and text track selections. Each state change to any property is reported by an individual invocation of this callback, with an argument containing the property (key and value) with an updated state. 
+
+## Video stream state properties, reported through `onStreamStateChange`
+
+Please see the [Stream state properties reference](/reference/observable-stream-state).
+
+## Methods, available through `onPlaybackActionsReady`
+
+### `inspect: () => VideoStreamState`
+
+Returns all the current properties of the video stream state. The return value is one object combining all state property keys and values that are reported from the playback.
+
+### `setProperties: PlaybackProps => void`
+
+Manipulates properties of the playback, i.e. performs playback operations by setting properties. See the [settable properties](/reference/settable-properties) for what properties that are recognised in the object argument of this method, and how it can be used to control all aspects of the playback. 
+
+The methods listed below are simply sugar methods corresponding to setting the different properties listed above.
+
+### `play: () => void`
+
+Resumes playback after pausing.
+
+### `pause: () => void`
+
+Pauses playback.
+
+### `setPosition: number => void`
+
+Seeks to a different playback position. The number argument is the relative position between 0 as the start of the stream, and the duration of the stream. For live streams, 0 is the earliest timeshifting position available, while a position equal to duration is the live edge.
+
+### `gotoLive: () => void`
+
+Seeks to the live edge of a live stream, reverting a timeshifted playback.
+
+### `setVolume: number => void`
+
+Updates the volume specified as a number within the range 0 (muted) to 1 (maximum).
+
+### `setIsMuted: boolean => void`
+
+Changes the mute state without affecting the volume setting. Use `true` for muting, and `false` for unmuting.
+
+### `mute: () => void`
+
+Mutes the playback.
+
+### `unmute: () => void`
+
+Unmutes the playback.
+
+### `requestPictureInPicture() => void`
+
+Attempts starting the browser's picture-in-picture mode. Feature detection of picture-in-picture should be performed before calling this function. The video stream state property `isPipAvailable` will have a value of `true` if the feature is available. Successful Pip activation will be reported through the video stream state property `isPipActive`. This method needs to be invoked in the call stack of a user gesture (e.g. button click).
+
+### `exitPictureInPicture() => void`
+
+Stops the picture-in-picture mode if active. See above.
+
+### `showAirPlayTargetPicker() => void`
+
+Initiates a possible transfer of the video playback to an AirPlay device. Feature detection of AirPlay should be performed before calling this function. The video stream state property `isAirPlayAvailable` will have a value of `true` if the feature is available. Successful AirPlay video playback is reported through the video stream state property `isAirPlayActive` being set to true.
+
+### `setSelectedAudioTrack: AvailableTrack => void`
+
+Used for switching audio tracks when e.g. more than one language is available in the stream. The argument to this method must be one of the track objects reported in the video stream state property `audioTracks`. It can not be a cloned track object or an object containing the same properties.
+
+### `setSelectedTextTrack: (AvailableTrack | null) => void`
+
+Used for switching subtitle track display when available. The object argument to this method must be one of the track objects reported in the video stream state property `textTracks`. It can not be a cloned track object or an object containing the same properties. Passing `null` to this method deselects any currently displaying text tracks.
+
+### `capBitrate: number => void`
+
+Only relevant for adaptive streaming. Specifies a maximum bitrate to be considered for adaptive bitrate switching. The number states such a bitrate in kbps.
+
+### `fixBitrate: (number | 'max' | 'min') => void`
+
+Only relevant for adaptive streaming. Deactivates adaptive bitrate switching and fixes the bitrate selection. The number is given as an integer of kbps, and must correspond exactly to one of the bitrates reported in the video stream state property `bitrates`. E.g. if the reported bitrates are `[923, 1254, 3211]`, this method only has effect when invoked with either `923`,`1254`, or `3211` as numbers. If specifying `'max'`, the highest bitrate will be selected, regardless of its reported kbps. Correspondingly `'min''` selects the lowest bitrate.
+
+
+
+

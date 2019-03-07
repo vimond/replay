@@ -1,0 +1,53 @@
+---
+name: Play/pause button
+route: /controls/play-pause-button
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import PlayPauseButton from './PlayPauseButton';
+import ShowCase from '../../../docs/mdx-helpers/ShowCase';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+import { Play, Pause } from 'react-feather';
+import Footnote from '../../../docs/props-footnote.md';
+
+# PlayPauseButton
+
+Control bar button for pausing or resuming playback. 
+
+## Summary
+
+The prop `isPaused` indicates to the button if the playback is paused, or playing (`false`). Through the callback prop `setProperties` in invokes `setProperties({ isPaused: value })` on clicks, with the opposite value of the `isPaused` prop passed as value.
+
+## Example
+
+<Playground>
+  <ShowCase render={({ setProperties, isPaused }) => (
+    <PlayPauseButton playingContent={<Pause/>} pausedContent={<Play/>} isPaused={isPaused} setProperties={setProperties} />
+  )}/>
+</Playground>
+
+## Props
+
+<PropsTable of={PlayPauseButton} />
+
+<Footnote/>
+
+## Component DOM with class names
+
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'play-pause-button',
+  'Generic class name': 'toggle-button',
+  'States': 'toggled-off, toggled-on',
+  'Parent': ''
+},{
+  'Element': 'div',
+  'Class name': '',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.play-pause-button'
+}]}/>
+

@@ -1,0 +1,20 @@
+.replay-slider {
+    flex-grow: 1;
+    position: relative;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.replay-slider-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.replay-slider-handle {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

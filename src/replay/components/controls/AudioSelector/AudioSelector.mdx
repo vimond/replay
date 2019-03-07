@@ -1,0 +1,88 @@
+---
+name: Audio selector
+route: /controls/audio-selector
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import AudioSelector from './AudioSelector';
+import { MessageSquare } from 'react-feather';
+import ShowCase from '../../../docs/mdx-helpers/ShowCase';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+import Footnote from '../../../docs/props-footnote.md';
+
+# AudioSelector control
+
+Control bar widget for controlling audio languages and tracks.
+
+## Summary
+
+The audio selector lists the stream's available audio tracks, and updates the selection. It only displays if there is more than one selectable audio track.
+
+The audio selector uses the `<Selector />` generic component, and is implemented similar patterns to `<SubtitlesSelector />` and partly `<QualitySelector />`. Upon clicking on one selector item, it invokes `setProperties({ selectedAudioTrack: track })` where `track` is the clicked selector item.
+
+## Example
+
+<Playground>
+  {() => {
+    const audioTracks = [{ label: 'English' , language: 'en' }, { label: 'French' , language: 'fr' }];
+    return (
+      <ShowCase height="60px" render={({ setProperties, currentAudioTrack }) => (
+        <AudioSelector 
+          setProperties={setProperties}
+          currentAudioTrack={currentAudioTrack}
+          toggleContent={<MessageSquare/>}
+          audioTracks={audioTracks}
+        />
+      )}/>
+    );
+  }}
+</Playground>
+
+## Props
+
+<PropsTable of={AudioSelector} />
+
+<Footnote/>
+
+## Component DOM with class names
+
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'audio-selector',
+  'Generic class name': 'selector',
+  'States': 'collapsed, expanded',
+  'Parent': ''
+},{
+  'Element': 'div',
+  'Class name': 'selector-toggle',
+  'Generic class name': 'toggle-button',
+  'States': 'toggled-on, toggled-off',
+  'Parent': '.audio-selector'
+},{
+  'Element': 'div',
+  'Class name': '',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.selector-toggle'
+},{
+  'Element': 'div',
+  'Class name': 'selector-items',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.audio-selector'
+ },{
+  'Element': 'div (0..n)',
+  'Class name': 'selector-item',
+  'Generic class name': '',
+  'States': 'selected',
+  'Parent': '.selector-items'
+},{
+  'Element': 'div (0..n)',
+  'Class name': '',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.selector-item'
+ }]}/>

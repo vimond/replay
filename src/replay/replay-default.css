@@ -1,0 +1,20 @@
+  /************************************/
+ /* Design/skin agnostic core styles */
+/************************************/
+
+@import 'components/player/PlayerUIContainer/PlayerUIContainer.css';
+@import 'components/generic/Selector/Selector.css';
+@import 'components/generic/Slider/Slider.css';
+@import 'components/generic/Button/Button.css';
+
+@import 'components/controls/Volume/Volume.css';
+@import 'components/controls/ControlsBar/ControlsBar.css';
+@import 'components/controls/TimelineInformation/TimelineInformation.css';
+@import 'components/controls/PlaybackMonitor/PlaybackMonitor.css';
+@import 'components/player/VideoStreamer/VideoStreamer.css';
+
+  /****************/
+ /* Default skin */
+/****************/
+
+@import 'default-player/default-skin/index.css';

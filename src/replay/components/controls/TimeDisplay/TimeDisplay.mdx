@@ -1,0 +1,70 @@
+---
+name: Time and duration display
+route: /controls/time-display
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import TimeDisplay from './TimeDisplay';
+import ShowCase from '../../../docs/mdx-helpers/ShowCase';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+import Footnote from '../../../docs/props-footnote.md';
+
+# TimeDisplay component
+
+Presents the current position of a playback, and the duration of a stream. For live streams, displays clock time or timeshift offset.
+
+## Summary
+
+The display switches mode based on the `playMode` property. When this has a value of `'ondemand'`, both `duration` and `position` props are formatted and displayed. If it has a value of `'livedvr'`, it can either display only time-of-day clock time based on the prop `absolutePosition`, or 00:00 when playing at the live edge, or negative times when timeshifted. By setting the value `'live-offset'` on the prop `liveDisplayMode`, the latter option with 00:00 and negative times is selected. When displaying time-of-day clock times, duration is not displayed.
+
+## Example
+
+<Playground>
+  <ShowCase render={({ setProperties, position }) => (
+    <>
+      <TimeDisplay playMode="ondemand" position={123.4} duration={234.5}/>
+      <TimeDisplay playMode="livedvr" liveDisplayMode="live-offset" position={123} duration={234}/>
+      <TimeDisplay playMode="livedvr" liveDisplayMode="live-offset" position={234} duration={234}/>
+      <TimeDisplay playMode="livedvr" absolutePosition={new Date('2018-11-07T05:14:13Z')} position={234} duration={234}/>
+    </>
+  )}/>
+</Playground>
+
+This example shows four different display modes.
+
+## Props
+
+<PropsTable of={TimeDisplay} />
+
+<Footnote/>
+
+## Component DOM with class names
+
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'time-display',
+  'Generic class name': '',
+  'States': 'time-display-no-duration',
+  'Parent': ''
+},{
+  'Element': 'span',
+  'Class name': 'time-display-position',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.time-display'
+},{
+  'Element': 'span',
+  'Class name': 'time-display-duration',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.time-display'
+ },{
+  'Element': 'span',
+  'Class name': 'time-display-clock-time',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.time-display'
+}]}/>

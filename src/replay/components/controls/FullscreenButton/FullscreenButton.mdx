@@ -1,0 +1,56 @@
+---
+name: Fullscreen toggle button
+route: /controls/fullscreen-button
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import FullscreenButton from './FullscreenButton';
+import Fullscreen from '../../player/containment-helpers/Fullscreen';
+import ShowCase from '../../../docs/mdx-helpers/ShowCase';
+import { Maximize, Minimize } from 'react-feather';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+
+# FullscreenButton
+
+Control bar button for toggling fullscreen mode.
+
+## Summary
+
+The current fullscreen state is specified in the prop `isFullscreen`.
+
+When clicking the button, `setProperties({ isFullscreen: value })` will be called with value being the opposite of the prop `isFullscreen`.
+
+## Example
+
+<Playground>
+  <Fullscreen render={({ isFullscreen, setProperties, onRef }) => (
+    <div ref={onRef}>
+      <ShowCase render={() => <FullscreenButton isFullscreen={isFullscreen} fullscreenContent={<Minimize/>} normalContent={<Maximize/>} setProperties={setProperties} />}/>
+    </div>
+  )}/>  
+</Playground>
+
+This example shows real fullscreen toggling together with the containment helper component `<Fullscreen/>`.
+
+## Props
+
+<PropsTable of={FullscreenButton} />
+
+## Component DOM with class names
+
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'fullscreen-button',
+  'Generic class name': 'toggle-button',
+  'States': 'toggled-off, toggled-on',
+  'Parent': ''
+},{
+  'Element': 'div',
+  'Class name': '',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.fullscreen-button'
+}]}/>

@@ -1,0 +1,165 @@
+---
+name: Replay
+route: /
+order: 1
+---
+
+import { Playground } from 'docz';
+import Replay from './default-player/Replay';
+import HlsjsVideoStreamer from './components/player/VideoStreamer/HlsjsVideoStreamer/HlsjsVideoStreamer';
+import './replay-default.css';
+
+# Replay
+
+A React video player with advanced streaming support.
+
+<Playground>
+  <Replay
+    source={{ streamUrl: 'public/example-media/adaptive.m3u8' }}
+    initialPlaybackProps={{ isPaused: true }} >
+    <HlsjsVideoStreamer/>
+  </Replay>
+</Playground>
+
+## What is Replay?
+
+**A collection of React components** facilitating video playback with a user interface.
+
+**A prebuilt full React player component** ready for being inserted into any React app.
+
+**Components integrating third party player libraries, enabling adaptive and advanced streaming**. Currently covered: [Shaka Player](https://shaka-player-demo.appspot.com/) and [HLS.js](https://github.com/video-dev/hls.js/), along with native HTML5 video playback. These are all wrapped in "first-class" React components.
+
+## What does Replay aim to be?
+
+**One common React-oriented video playback API** for both the HTML video element and all integrated third party streaming libraries. This means:
+
+* Consistent and predictable API behaviour across browsers and stream technologies, as far as possible.
+* The UI components and player component consumers don't need to relate to the different browsers' or player libraries' way of expressing the playback state or manipulating it.
+* Everything can be observed through state properties, and any operation can be performed by setting properties.
+
+**Ready to meet advanced/professional streaming requirements** including DRM from all browser vendors, live streaming with DVR, multiple audio tracks, embedded text tracks. The third party player integrations mostly facilitate this.
+
+**Easily customisable** through two approaches:
+
+* With the default Replay player: Set configuration and properties, replace CSS, replace texts and graphics, remove controls.
+* With the components library: Take full control and assemble a custom player. Add features like overlays and controls. Combine those with the Replay controller, VideoStreamer components, and a selection of controls from the Replay controls library.
+
+**Designed with optimisation in mind.** Avoid including code not being used. Avoid rerendering the player UI continuously when playback goes on.
+
+**Coded with consistency and predictability in mind.** Programmers working with Replay should be able to discover patterns and see how they can be applied regularly when integrating or extending the player. The library is static typed with Flow, contributing to consistency and code quality.
+
+## Features list
+
+All features are programmatically accessible. The controls listed underneath indicate what's appearing as end user features.
+
+#### Controlling the playback
+
+* Setting video or stream URLs, specifying start position, adding side-loaded subtitles (text tracks).
+* Transport control: Play, pause, set position, timeshift, go to live edge.
+* Listing and selecting audio tracks and text tracks. The listed ext tracks can be side-loaded or embedded in the stream.
+* Specifying side-loaded text tracks.
+* Controlling volume and mute.
+* Controlling bitrate/selected quality or quality range (only with third party player library integrations).
+
+#### Exposure of the playback state, including:
+
+* Play/pause state, buffering state, seeking state, stream open state.
+* On demand or live stream, timeshifting enabled, timeshifting active.
+* Stream positions as dates/clock times for live streams.
+* Volume and mute state.
+* Current audio track and text track selection.
+* Current bitrate, and current overrides to adaptive bitrate selections (if any).
+* Playback errors.
+* Buffer level.
+
+#### Player UX
+
+* Fullscreen management.
+* Keyboard shortcuts. Key mapping is configurable.
+* Remembering user's preferences for volume, and languages. Configurable policies.
+* Responsive sizing, adapting to container width, and keeping aspect ratio.
+* Responsiveness rules/class names for player size, similar to media queries for viewport size.
+* Show/hide controls based on user interactions. Configurable policies.
+* UX adaptations for touch-based devices, narrow screens and limited feature set in iOS browsers.
+
+#### Streaming setup
+
+* Specifying DRM license acquisition details.
+* Configuring the third party player libraries.
+
+See also the chapter Streaming technology support underneath.
+
+### Components library
+
+All controls and components are included and utilised in the default Replay player. The UI components are prepared for styling with CSS (separately), and for using e.g. SVG graphics.
+
+#### Buttons:
+
+* Play/pause toggle
+* Mute/unmute toggle
+* Fullscreen toggle
+* Cancel timeshifting and go to live edge
+* Skip back/forward buttons with configurable interval
+* Picture-in-picture toggle (displays when supported by the browser)
+* Button for selecting an AirPlay target device (supported by Safari)
+
+#### Sliders:
+
+* Volume
+* Timeline (playback progress), including position preview and timeshifting
+
+#### Selectors:
+
+* Audio track selector
+* Subtitles (text track) selector
+* Quality (bitrate) selector
+
+#### Other overlays and widgets:
+
+* Time display with duration for on demand streams, and time of day (clock time) for live streams
+* Buffering/loading indicator (animation)
+* Control bar aligning at bottom
+
+#### Helper/containment components
+
+* Aspect ratio – keep the rendered player in 16:9 format
+* Fullscreen management
+* User interaction detection – for showing/hiding controls
+* Configurable keyboard shortcuts
+* Player size observer, applying class names according to rules. Enables responsive design (CSS) for the player.
+* Player state conversion to class names for CSS rules
+
+#### Development and debugging convenience components
+
+* Mock video streamer, simulating a video playback. Useful when developing controls and the user interface.
+* Playback state monitor. Overlay that displays all video stream state properties and their changes.
+
+## Streaming technology support
+
+### MPEG-DASH
+
+MPEG-DASH across all modern browsers is supported through the Shaka Player integration. This includes support for DRM in Firefox, Chrome (Widevine), and Edge, Internet Explorer (PlayReady). It covers on demand streams and live streams with DVR.
+
+### HLS
+
+Apple's Safari supports HLS natively in the browser, without use of third party libraries. Replay comes with a FairPlay DRM license acquisition client that can be used with HLS in Safari.
+
+For supporting HLS in all other modern browsers, Replay provides an integration with HLS.js. This covers on demand, live with DVR, but no DRM except AES encryption to the extent HLS.js supports it.
+
+Also Shaka Player provides HLS support. This is not researched for the Replay project.
+
+### MP4, WebM
+
+The video file formats and codecs supported natively by the browser can be played through Replay.
+
+## What is Replay not?
+
+The main Replay project is not intended to offer and maintain any feature. In general, Replay is ready for adding most kinds of customisations or extensions. Here are some features and capabilities that can be added, but are out of scope for this project: 
+
+* Non-playback related controls and overlays. Features like social sharing, end poster, other video recommendations. Can be added in a custom player user interface.
+* 360˚/VR-enabled playback. Enable it through a custom VideoStreamer component and extend the player user interface.
+* Ad integrations. Add it with a custom VideoStreamer component and possibly alter the main player user interface.
+* Analytics integrations. Integrate by adding stream state observer callbacks and collect metadata in separate modules or a wrapper component. All aspects of the playback can be monitored.
+* A REST API client, integrating with any online video platform. Wrap it in any React data layer with a container component or higher order component.
+* Customisations and workarounds/tweaks to the integrated adaptive streaming player libraries. Address this in the third party player projects, inject your customizations where enabled (e.g. Shaka player supports plugins), or create a custom VideoStreamer.
+

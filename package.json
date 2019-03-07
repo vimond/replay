@@ -1,0 +1,99 @@
+{
+  "name": "vimond-replay",
+  "version": "0.23.0",
+  "author": "Tor Erik Alræk",
+  "homepage": "https://vimond.github.io/replay/",
+  "repository": "https://github.com/vimond/replay/",
+  "license": "Apache-2.0",
+  "description": "React video player with adaptive streaming support",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "index.js",
+  "style": "index.css",
+  "files": [
+    "components",
+    "default-player",
+    "docs",
+    "video-streamer",
+    "customizer.js",
+    "customizer.js.map",
+    "customizer.js.flow",
+    "index.css",
+    "index.js",
+    "index.js.map",
+    "index.js.flow",
+    "README.md",
+    "version.js"
+  ],
+  "scripts": {
+    "start": "PORT=3033 SKIP_PREFLIGHT_CHECK=true react-scripts start",
+    "build:lib": "yarn build:es5 && yarn build:flow && yarn build:css && yarn docz:build",
+    "build:es5": "babel src/replay -d . --ignore \"src/replay/docs/**/*.js\",\"src/**/*.test.js\" --source-maps",
+    "build:flow": "flow-copy-source src/replay . --ignore **/*.test.js --ignore **/mdx-helpers/*",
+    "build:css": "postcss src/replay/replay-default.css -o ./index.css",
+    "docz:dev": "docz dev",
+    "docz:build": "docz build",
+    "prettier": "prettier --write \"src/**/*.js\"",
+    "test": "SKIP_PREFLIGHT_CHECK=true react-scripts test --env=jsdom"
+  },
+  "dependencies": {
+    "hls.js": "0.11.0",
+    "memoize-one": "^4.0.0",
+    "react-feather": "^1.1.0",
+    "resize-observer-polyfill": "^1.5.1",
+    "shaka-player": "^2.4.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.3.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-plugin-version-inline": "^1.0.0",
+    "css-loader": "^1.0.0",
+    "docz": "^0.13.7",
+    "docz-plugin-css": "^0.11.0",
+    "docz-theme-default": "0.12.9",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "1.9.1",
+    "enzyme-to-json": "^3.3.4",
+    "flow-bin": "0.85.0",
+    "flow-copy-source": "^1.3.0",
+    "postcss-cli": "^5.0.0",
+    "postcss-import": "^11.1.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^5.1.0",
+    "postcss-url": "^7.3.2",
+    "prettier": "^1.12.1",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-persist": "^1.0.2",
+    "react-scripts": "^2.1.1",
+    "rx-player": "^3.9.2",
+    "style-loader": "^0.22.1"
+  },
+  "resolutions": {
+    "docz-plugin-css/docz-core": "^0.12.13"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "parser": "flow",
+    "jsxBracketSameLine": true
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

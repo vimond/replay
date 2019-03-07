@@ -1,0 +1,49 @@
+---
+name: Video streamers
+route: /architecture/video-streamers
+menu: 'Architecture and patterns'
+---
+
+# Video streamers
+
+## Summary
+
+The video streamer is a React component having almost the same role as the HTML video element, but wrapped into a nicer and more consistent and predictable API. Several alternative video streamer implementations can be provided in different video streamer components, with the possibility of wrapping more advanced playback technologies needed for advances purposes or special browsers.
+
+Included in the Replay library comes a selection of `VideoStreamer` components. See the [Adaptive streaming](/replay/adaptive-streaming) for how to use them.
+
+### `<BasicVideoStreamer/>`
+
+The most basic one is called, yep, `<BasicVideoStreamer/>`. This is wrapping the HTML video element with the higher-level VideoStreamer API. A `<BasicVideoStreamer/>` is inserted implicitly by the Replay player unless another video streamer component is specified as a child element of `<Replay/>`.
+
+### `<ShakaVideoStreamer/>`
+
+For MPEG-DASH adaptive stream playback. This wraps Shaka Player.
+
+### `<HlsjsVideoStreamer/>`
+
+For HLS adaptive stream playback. This wraps hls.js.
+
+### `<HtmlVideoStreamer/>`
+
+For HLS adaptive stream playback in Safari. This is the same as BasicVideoStreamer, but adds support for FairPlay DRM.
+
+### `<MockVideoStreamer/>`
+
+This mocks a video streamer with state properties and settable properties, but plays no video. It is useful for design and development of Replay or custom UIs.
+
+## The video streamer API
+
+All video streamer components implement the same API interface, and behave identically when playing a video or stream, as long as the underlying playback technology allows for it. This makes the video streamer components interchangeable within the same Replay player setup, and controls/UI will behave as expected by the end user.
+
+In other words, the same player UI and same integrations can be used and reused when swapping e.g. HLS streams with MPEG-DASH streams, or playing different stream formats in different browsers. The latter becomes relevant especially when DRM encryption is required.
+
+Mainly, the video streamer API can be divided into three concerns:
+
+* Specifying what to play. That means technical stream details provided in a `source` prop.
+* Manipulating or controlling the playback, e.g. by pausing, seeking, changing volume, or selecting text tracks for display. This is done by setting properties in a `setProperties()` method call. Regular React props are not usable for this.
+* Allowing for observation of the playback state. The observers will get updated on state properties when they change.
+
+See the API reference for [settable properties](/reference/settable-properties) and [stream state properties](/reference/observable-stream-state).
+
+When connecting a video streamer to the player controller, the player controller takes care of the two-way communication with player controls, and with Replay player component consumeres (i.e. the React outside Replay). Two-way communication means setting properties and observing the stream state properties. The player controller is also passing on playback source objects specified as `source` props to Replay.
