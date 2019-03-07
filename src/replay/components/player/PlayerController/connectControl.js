@@ -44,7 +44,6 @@ const connectControl = <Props: {}>(
   class Observer extends React.Component<ObserverProps, any> {
     constructor(props) {
       super(props);
-      registerObservers(props.observe, resolvedStateKeys, this.update);
       const currentState = props.inspect();
       const initialState = {};
       if (currentState) {
@@ -57,6 +56,10 @@ const connectControl = <Props: {}>(
 
     componentWillUnmount() {
       registerObservers(this.props.unobserve, resolvedStateKeys, this.update);
+    }
+
+    componentDidMount() {
+      registerObservers(this.props.observe, resolvedStateKeys, this.update);
     }
 
     render() {
