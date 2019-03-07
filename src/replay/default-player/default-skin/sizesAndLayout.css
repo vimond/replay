@@ -42,7 +42,7 @@
 }
 
 .replay-narrow .replay-button, .replay-narrow .replay-toggle-button, .replay-narrow .replay-selector {
-    width: 30px;
+    width: 40px;
 }
 
 .replay-button svg, .replay-toggle-button svg {
@@ -117,19 +117,16 @@
 }
 
 .replay-volume {
-    flex-grow: 1;
-    flex-shrink: 1;
-}
-
-.replay-volume-slider {
-    max-width: 160px;
-    flex-grow: 2;
-    flex-shrink: 1;
+    flex: 2 1 0;
+    max-width: 220px;
+    min-width: 120px;
 }
 
 .replay-volume-disabled {
     flex-grow: 0;
     flex-shrink: 0;
+    max-width: 40px;
+    min-width: 40px;
 }
 
 .replay-skip-button {
