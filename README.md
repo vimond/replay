@@ -31,9 +31,9 @@ Minimum React version for Replay is 16.6. Additionally, one component, the [vide
 
 #### Installing the Replay npm package
 
-```sh
-npm install vimond-replay --save
-```
+**NOTE: The package is not yet published to the npm registry.**
+
+Until the publish workflow is completed, check out the code, run `yarn build`, followed by `npm pack`. Install the resulting gzip file as an dependency in your project.
 
 #### Importing dependencies
 
