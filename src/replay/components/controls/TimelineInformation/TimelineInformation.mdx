@@ -1,0 +1,61 @@
+---
+name: Timeline position tooltip
+route: /controls/timeline-information
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import TimelineInformation from './TimelineInformation';
+import Timeline from '../Timeline/Timeline';
+import ShowCase from '../../../docs/mdx-helpers/ShowCase';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+import Footnote from '../../../docs/props-footnote.md';
+
+# TimelineInformation component
+
+Position preview tooltip for timeline. When the mouse pointer is over the timeline, displays the corresponding stream position or time-of-day clock time for the pointer position.
+
+## Summary
+
+This component is used as a child to the `<Timeline/>` component. It gets a `previewValue` prop set by the parent Timeline, containing a relative position between 0 and the `duration` prop value. The parent control is responsible for tracking mouse positions, and to report the target seek position while dragging. Like `<TimeDisplay/>`, the tooltip presents a clock time preview in the tooltip for live streams. For this, it needs the `absoluteStartPosition` of the stream to be specified.
+
+The tooltip only displays if at least one of the props `isPointerInside` or `isDragging` is set to `true` by the parent Timeline.
+
+## Example
+
+<Playground>
+  <ShowCase height="20px" render={({ setProperties, position }) => {
+    const duration = 333;
+    return (
+      <Timeline position={position} duration={duration} setProperties={setProperties}>
+        <TimelineInformation playMode="ondemand" duration={duration} />
+      </Timeline>
+    );  
+  }}/>
+</Playground>
+
+The component is here shown within a timeline.
+
+## Props
+
+<PropsTable of={TimelineInformation} />
+
+<Footnote/>
+
+## Component DOM with class names
+
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'timeline-information',
+  'Generic class name': '',
+  'States': '',
+  'Parent': ''
+},{
+  'Element': 'div',
+  'Class name': 'timeline-tooltip',
+  'Generic class name': '',
+  'States': 'timeline-tooltip-visible',
+  'Parent': '.timeline-information'
+}]}/>

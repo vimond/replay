@@ -1,0 +1,10 @@
+.replay-selector {
+    text-align: center;
+    align-self: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.replay-selector-item {
+    white-space: nowrap;
+}

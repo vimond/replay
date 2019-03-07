@@ -1,0 +1,65 @@
+---
+name: Buffering indicator
+route: /controls/buffering-indicator
+menu: 'Controls reference'
+---
+
+import '../../../replay-default.css';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+import { Playground, PropsTable } from 'docz';
+import BufferingIndicator from './BufferingIndicator';
+import LoadingAnimation from '../../../default-player/default-skin/LoadingAnimation';
+import Footnote from '../../../docs/props-footnote.md';
+
+# BufferingIndicator component
+
+Displays any overlay (animation, graphics, etc.) when a buffering, starting, or seeking state is reported.
+
+## Summary
+
+The main concept of this component is to display and animate an overlay when the user needs to wait for playback to start or resume (buffering).
+
+The overlay is specified as the component's child, or in the `content` prop.
+
+If the prop `renderStrategy` is set to `'always'`, the content will always be rendered. However, the class name "buffering" (with prefix) will be added to the compoent's root element when the state is buffering.
+
+If the prop `renderStrategy` is set to `'when-buffering'`, no content will be rendered when not buffering. The drawback of this approach is that the indicator will stop displaying abruptly, and a smooth fade-out animation cannot be applied. 
+
+The state of buffering is set when one or both of the props `isBuffering` or `isSeeking` are set to true, or if the `playState` prop is set to `'starting'`, `'buffering'`, `'seeking'`.
+
+## Example
+
+<Playground>
+  <div style={{ backgroundColor: 'gray', height: '100px', position: 'relative' }}>
+    <BufferingIndicator 
+      renderStrategy="always"
+      isBuffering={false}
+      isSeeking={false}
+      playState="starting" >
+        <LoadingAnimation/>
+    </BufferingIndicator>
+  </div>
+</Playground>
+
+In this example, the animation is showing because `playState="starting""`. Try experimenting with other values for playState, and with `true` for isBuffering/isSeeking.
+
+
+## Props
+
+<PropsTable of={BufferingIndicator} />
+
+<Footnote/>
+
+## Component DOM with class names
+
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'buffering-indicator',
+  'Generic class name': '',
+  'States': 'buffering',
+  'Parent': ''
+}]}/>
+
+Note that the state class name `buffering` is only present when buffering is reported, and the render strategy is set to `'always'`.

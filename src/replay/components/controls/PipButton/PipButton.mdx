@@ -1,0 +1,54 @@
+---
+name: Picture-in-picture button
+route: /controls/pip-button
+menu: 'Controls reference'
+---
+
+import { Playground, PropsTable } from 'docz';
+import PipButton from './PipButton';
+import ShowCase from '../../../docs/mdx-helpers/ShowCase';
+import SimpleTable from '../../../docs/mdx-helpers/SimpleTable';
+import { Square, Copy } from 'react-feather';
+import Footnote from '../../../docs/props-footnote.md';
+
+# PipButton
+
+Control bar button for toggling the browser's picture-in-picture mode for video playback.
+
+## Summary
+
+In order for this button to render, the prop `isPipAvailable` must have the value `true`. This property is reported from the video streamer based on browser feature detection.
+ 
+The prop `isPipActive` indicates to the button if picture-in-picture playback is currently active(`true`/`false`). Through the callback prop `setProperties` in invokes `setProperties({ isPipActive: value })` on clicks, with the opposite value of the `isPipActive` prop passed as value.
+
+## Example
+
+<Playground>
+  <ShowCase render={({ setProperties, isPipActive }) => (
+    <PipButton isPipAvailable={true} pipActiveContent={<Square/>} pipInactiveContent={<Copy/>} isPipActive={isPipActive} setProperties={setProperties} />
+  )}/>
+</Playground>
+
+## Props
+
+<PropsTable of={PipButton} />
+
+<Footnote/>
+
+## Component DOM with class names
+
+Please read the [general principles](/custom-replay/skins-styles) for Replay class names and styling.
+
+<SimpleTable rows={[{ 
+  'Element': 'div',
+  'Class name': 'pip-button',
+  'Generic class name': 'toggle-button',
+  'States': 'toggled-off, toggled-on',
+  'Parent': ''
+},{
+  'Element': 'div',
+  'Class name': '',
+  'Generic class name': '',
+  'States': '',
+  'Parent': '.pip-button'
+}]}/>

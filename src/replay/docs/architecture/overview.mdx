@@ -1,0 +1,84 @@
+---
+name: Overview
+route: /architecture/overview
+menu: 'Architecture and patterns'
+---
+
+import { ReactComponent as Diagram } from './concept-diagram.svg';
+import { Playground } from 'docz';
+
+# Overview
+
+## The holy trinity
+
+Replay is built on three main concepts constituted in React components.
+
+* The **video streamer**, downloading and rendering the video stream.
+* The **player controller**, a hub component for connecting controls to the video streamer.
+* **Controls** and components composed to a player UI, being **connected** to the player controller.
+
+Replay aims to provide a streamlined and consistent way of letting data flow in both directions between the playing stream and the UI, through a React-frientdly pattern: Properties.
+
+## Data (property) flow
+
+Any playback state at any time is exposed as outbound properties emitted from the video streamer. Any desired control of, or operation on the playback (e.g. pause, seek, volume change) is passed to the video streamer as properties. Between the three concepts of components, this is how it works in more detail:
+
+### From the playing stream to player controls
+
+1. The video streamer's responsibility is to download and render the stream. It exposes updates to the stream playback state through callback notifications of property changes.
+2. The player controller gets notified on playback progress and video stream state updates. By being a React context provider, the state properties are passed down from the player controller to player controls and other UI components.
+3. The controls can observe such state updates by being wrapped in a HOC connecting to the React context provided by the player controller. Each control is individually wrapped in this HOC, subscribing to specific playback state properties. When changes to such properties are emitted from the video streamer, the HOC passes them down to the wrapped control as regular props.
+
+### From player controls to the playing stream
+
+The HOC/React controller context connector provides a callback to the control components for setting playback properties. Such properties can affect all sides of playback, e.g. pausing, changing volume, selecting subtitles.
+
+When the user interacts with the control, e.g. selecting a subtitle language, the property setter callback can be invoked with a property containing the subtitle track. This invocation is propagated back to the video streamer, which effectuates the selection.
+
+## Some arrows and boxes
+
+This diagram illustrates how the video stream playback is controlled, via the player controller, from UI components (fat arrows). The player controller provides a [React.Context](https://reactjs.org/docs/context.html). Regardless of how the UI component tree is built (thin arrows), any UI components can connect directly to the controllable video playback through the `connectControl()` [HOC](https://reactjs.org/docs/higher-order-components.html) in correspondence with the player controller. The HOC consumes the context and observes relevant video stream state properties to be passed to the control as props.
+
+<Diagram/>
+
+The diagram presents only a selection of a full Replay DOM tree.
+
+## Cardinality of components
+
+In the default Replay player, or when creating a custom player based on its components, the following applies:
+
+#### Video streamer
+
+* There are many **_implementations_** of this concept. They currently cover different streaming technologies, like Shaka Player, HLS.js. Later they might also wrap different functions (e.g. 360°/VR) or full players (e.g. Vimeo).
+* In a component tree of a complete Replay player, there is exactly one **_instance_** of a video streamer currently used.
+
+#### Player controller
+
+* There is only one current **_implementation_** of this concept. 
+* In a component tree of a complete Replay player, there is exactly one **_instance_** of a player controller.
+
+#### Connected controls
+* There are **_many components_** following the "connected control" pattern, and more can easily be created. It is only one current **_implementation_** of this pattern using the connectControl() HOC.
+* In a component tree of a complete Replay player, there are usually one **_instance_** of each component implementing this pattern. However it is not a problem having more instances added. For instance, a SkipButton can be added twice with different configurations, in order to set up both skip backward and skip forward buttons.
+
+## Technologies and tools used in this project
+
+#### For npm package consumers
+
+* Statical [Flow typing](https://flow.org). As a npm package consumer with Flow enabled and enforced (through `// @flow`), the Replay player or components should all appear as typed, and the usage will be type checked.
+
+#### For project contributors
+
+* [Jest](https://jestjs.io/)/[Enzyme](https://airbnb.io/enzyme/) tests.
+* React [context](https://reactjs.org/docs/context.html) and [lazy](https://reactjs.org/blog/2018/10/23/react-v-16-6.html) APIs.
+* Code formatting with [Prettier](https://prettier.io/), linting with [ESLint](https://eslint.org/).
+* [Docz](https://www.docz.site/) documentation with live code examples through [MDX](https://mdxjs.com).
+* [Babel](https://babeljs.io/) and [PostCSS](https://postcss.org/) is used for building the packaged files.
+* Currently automatically built with [CircleCI](https://circleci.com).
+
+#### Some design principles on top of this:
+
+* Utilising common ES2019 language features.
+* Performant UI, avoiding updates to the full element UI tree when any of the properties changes.
+* Reduce code bloat for npm package users, only including code parts and assets being required.
+* Avoid using React APIs subject to deprecation, e.g. `componentWillReceiveProps()`.

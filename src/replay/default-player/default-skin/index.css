@@ -1,0 +1,32 @@
+/* This file centralizes the look and feel. */
+
+@import 'sizesAndLayout.css';
+@import 'colors.css';
+@import 'animations.css';
+
+.replay {
+    font-family: sans-serif;
+}
+
+.replay-slider-handle:active {
+    cursor: grabbing;
+}
+
+.replay-ui-container:focus {
+    outline: none;
+}
+
+/* Aesthetic vertical alignment and correction of icons */
+
+.replay-skip-button, .replay-goto-live-button svg {
+    transform: translateY(2px);
+}
+
+.replay-audio-selector .replay-toggle-button {
+    transform: translateY(1px);
+}
+
+.replay-quality-selector .replay-selector-toggle {
+    transform-origin: 50% 50%;
+    transform: scale(0.85);
+}

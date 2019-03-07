@@ -1,0 +1,13 @@
+[ignore]
+.*/lib/.*
+
+[include]
+
+[libs]
+flow-typed
+
+[lints]
+
+[options]
+
+[strict]

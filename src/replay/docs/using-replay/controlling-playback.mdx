@@ -1,0 +1,197 @@
+---
+name:  Controlling playback programmatically
+route: /replay/controlling-playback
+menu: 'Using the Replay player'
+---
+
+import { Playground, PropsTable } from 'docz';
+import Replay from '../../default-player/Replay';
+import '../../replay-default.css';
+
+# Controlling the playback programmatically
+
+## Prerequisites
+
+This chapters describe the API parts of the Replay component available for controlling the playback, or for observing all sides of the playback progress and state.
+
+For the following examples, the same prerequisites apply as in the [Inserting Replay](/replay/insert#prerequisites) chapter.
+
+## API design
+
+Replay APIs are designed to optimally align with the React mindset where the UI is rendered and updated based on properties and their changes. Properties are preferred in favour of methods and events.
+
+### Property updates in favour of events/distinct callbacks
+
+Specifically, all aspects of the ongoing playback's state, are expressed as properties and changes to these properties. While the `HTMLVideoElement` typically emits events like `timeupdate`, `ended`, or `paused`, Replay funnels all events and updates through a single callback prop, `onStreamStateChange`. The callback method assigned to this prop, will be invoked with a property containing an updated value. 
+
+For the mentioned examples of events, it means Replay instead expresses the same through changes to properties named `position` (with the new position as its value), `playState` (with the value `inactive` when playback has ended), or `isPaused` (with a value of `true` when playback is paused).
+
+Replay provides a special overlay illustrating the playback state properties and their updates as the playback goes by. Press play below and observe the properties getting updated:
+
+<Replay
+  source="public/example-media/progressive.mp4"
+  initialPlaybackProps={{ isPaused: true }}
+  options={{ playbackMonitor: { visibleAtStart: true }}}
+/>
+
+The same playback monitor overlay can be revealed in any Replay player instance by pressing Ctrl+Alt+M.
+
+### Settable properties or callable methods
+
+Similarly, all operations on the playback or player can be expressed by setting properties. However, these can't be regular React props passed down to the Replay component. The reason for this, is that the prop values can get out of sync with the actual Replay playback state. 
+
+A specific example: A component prop value for pausing can't be the "source of truth" for the actual pause state of the playback, because playback can be paused or resumed from within the Replay component for several reasons. If a component prop `isPaused` was already set to `true`, and the playback is in fact no longer paused, setting the same prop to `true` will have no effect in React, since there was no value change to the prop.
+
+Instead, pausing a video can be performed by invoking a method, `setProperties({ isPaused: true })`. This bypasses the React prop diff-ing, and will pause the video anyhow.
+
+Besides the `setProperties()` approach, Replay exposes sugar methods in a more familiar style. Examples of such methods are `play()`, `pause()`, `setVolume()`, `mute()`, `setPosition()`, `setSelectedTextTrack()`, and more. These sugar methods simply call `setProperties()` with different keys and values.
+
+## How to perform operations on the playback
+
+`setProperties()` and the sugar playback methods are exposed to Replay component consumers through a callback prop `onPlaybackActionsReady`. Pass a callback to `onPlaybackActionsReady` to get hold of these methods. The callback will receive all methods in an object passed as the first argument.
+
+See the [Replay API methods](/replay/api#methods-available-through-onplaybackactionsready) for a full reference of sugar playback methods.
+
+See [Settable properties](/reference/settable-properties) for a full reference of playback properties that can be used with `setProperties()`. This method takes an argument with an object containing the properties and their values to be set. More than one property can be passed in one call to `setProperties()`.
+
+There is another special method returned as part of the object argument to the `onPlaybackActionsReady` callback. This method is `inspect()`. It returns an object with a snapshot of the current playback state, containing properties also exposed through the `onStreamStateChange` callback. 
+
+Observing the playback state properties is discussed thoroughly in the next chapter. It is recommended to keep track of the state reactively, through an `onStreamStateChange` callback instead of using `inspect()`. The properties returned by this method will not update and must be considered out-of-date in any subsequent async code.
+
+The next chapter contains a full code example for controlling and observing the playback outside the Replay player.
+
+```javascript
+const playbackActionsReady = ({ play, setPosition, setProperties }) => {
+  this.playVideo = play;
+  this.setPlaybackPosition = setPosition;
+  this.setPlaybackProperties = setProperties;
+}
+
+/// In e.g. click handlers for buttons outside the Replay player.
+
+this.handleRestartClick = () => {
+  if (this.setPlaybackPosition) {
+    this.setPlaybackPosition(0);
+  }
+};
+
+this.handleStartClick = () => {
+  if (this.playVideo) {
+    this.playVideo();
+  }
+};
+
+// The alternative way, setting properties instead of calling a dedicated method, e.g. unmute().
+
+this.handleUnmuteClick = () => {
+  if (this.setPlaybackProperties) {
+    this.setPlaybackProperties({ isMuted: false });
+  }
+}; 
+
+```
+
+## How to observe the stream playback state
+
+Playback state consists of playback position, duration, stream mode, pause, seek, and buffering state, available text and audio tracks, bitrate (if adaptive streaming is used).
+
+The `onStreamStateChange` callback prop is invoked when any of these playback state properties changes. The callback is invoked with an object containing the changes as keys/values.
+
+```javascript
+this.handleStreamStateChange = stateProperties => {
+  if ('position' in stateProperties) {
+    console.log('Playback position is', stateProperties.position);
+  }
+  if ('volume' in stateProperties) {
+    console.log('The volume is changed into', stateProperties.volume);
+  }
+  if (stateProperties.isPaused) {
+    console.log('The playback was paused.');
+  }
+};
+```
+
+See the [full reference of state propertie](/reference/observable-stream-state) for all keys/value types passed in this callback.
+
+## Full example showing operations on, and observation of the playback
+
+<Playground>
+  {() => {
+    let playVideo, setPlaybackPosition, setPlaybackProperties;
+    
+    const playbackActionsReady = ({ play, setPosition, setProperties }) => {
+      playVideo = play;
+      setPlaybackPosition = setPosition;
+      setPlaybackProperties = setProperties;
+    }
+
+    const handleRestartClick = () => {
+      if (setPlaybackPosition) {
+        setPlaybackPosition(0);
+      }
+    };
+    
+    const handleStartClick = () => {
+      if (playVideo) {
+        playVideo();
+      }
+    };
+    
+    // The alternative way, setting properties instead of calling a dedicated method, e.g. unmute().
+    const handleMuteClick = () => {
+      if (setPlaybackProperties) {
+        setPlaybackProperties({ isMuted: true });
+      }
+    };
+
+    const handleUnmuteClick = () => {
+      if (setPlaybackProperties) {
+        setPlaybackProperties({ isMuted: false });
+      }
+    };
+
+    // Check the Dev tools console for the log output from this handler:    
+    const handleStreamStateChange = stateProperties => {
+      if (stateProperties) {
+        if ('position' in stateProperties) {
+          console.log('Stream observation example: Playback position is ' + stateProperties.position.toFixed(1));
+        }
+        if ('volume' in stateProperties) {
+          console.log('Stream observation example: Playback position is ' + Math.round(stateProperties.volume * 100));
+        }
+        if (stateProperties.isPaused) {
+          console.log('Stream observation example: The playback was paused.');
+        }
+        if (stateProperties.isPaused === false) {
+          console.log('Stream observation example: The playback was resumed.');
+        }
+        if (stateProperties.playState === 'inactive') {
+          console.log('Stream observation example: The playback has ended.');
+        }
+      }
+    };
+        
+    return ( 
+      <div>
+        <Replay
+          source={{ 
+            streamUrl: 'public/example-media/progressive.mp4',
+            startPosition: 13
+          }}
+          initialPlaybackProps={{ isPaused: true, isMuted: true }}
+          onStreamStateChange={handleStreamStateChange}
+          onPlaybackActionsReady={playbackActionsReady}
+        />
+        <p>
+          <button onClick={handleStartClick}>Start</button>
+          <button onClick={handleRestartClick}>Restart</button>
+          <button onClick={handleMuteClick}>Mute</button>
+          <button onClick={handleUnmuteClick}>Unmute</button>
+        </p>
+      </div>
+    );
+  }}
+</Playground>
+
+
+

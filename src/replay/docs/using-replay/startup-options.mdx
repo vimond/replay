@@ -1,0 +1,98 @@
+---
+name: Setting startup options
+route: /replay/startup-options
+menu: 'Using the Replay player'
+---
+
+import { Playground, PropsTable } from 'docz';
+import Replay from '../../default-player/Replay';
+import '../../replay-default.css';
+
+# Setting some startup options for the player
+
+## Prerequisites
+
+For the following examples, the same prerequisites apply as in the [Inserting Replay](/replay/insert#prerequisites) chapter.
+
+## Starting playback from a different position than the beginning
+
+By specifying the `startPosition` property in a source prop, any positive numbers will be cued as the initial playback position. It is given as a number of seconds offset from the beginning.
+
+Note that for this purpose, specifying source as a string, like in the [basic example](/replay/insert#inserting-the-player-with-a-progressive-video-source), doesn't apply anymore. An object with the property `streamUrl` must be passed as the `source` prop, along with the `startPosition` property. The value `123` means that playback will start at 00:02:03.
+
+<Playground>
+  <Replay
+    source={{ 
+      streamUrl: 'public/example-media/progressive.mp4',
+      startPosition: 34
+    }}
+    initialPlaybackProps={{ isPaused: true }}
+  />
+</Playground>
+
+## Setting volume and mute state for startup
+
+The `initialPlaybackProps` prop can be used to specify a state for volume, pausing, quality selection policies, to be applied on playback startup. These properties can be changed by the playback itself or through the player's user interface. There is no persisting consistency between what being set here, and the actual state during playback, so that's why these are specified as `initialPlaybackProps` only.
+
+The following video will start paused, but when started playing it will happen without audio. When unmuting, the volume level will be set to 20 %.
+
+<Playground>
+  <Replay
+    source="public/example-media/progressive.mp4"
+    initialPlaybackProps={{ isPaused: true, isMuted: true, volume: 0.2 }}
+  />
+</Playground>
+
+## Specifying text tracks along with the video source
+
+Subtitle files of different languages and kinds can be specified as text tracks along with the stream URL. There are requirements to the metadata fields following the subtitle file URLs.
+
+<Playground>
+  <Replay
+    source={{ 
+      streamUrl: 'public/example-media/progressive.mp4',
+      textTracks: [{
+        src: 'public/example-media/subtitles/en.vtt',
+        kind: 'subtitles',
+        language: 'en',
+        label: 'English',
+        contentType: 'text/vtt'
+      }, {
+        src: 'public/example-media/subtitles/no.vtt',
+        kind: 'subtitles',
+        language: 'no',
+        label: 'Norwegian',
+        contentType: 'text/vtt'
+      }]
+    }}
+    initialPlaybackProps={{ isPaused: true }}
+  />
+</Playground>
+
+Observe that this reveals the **T** subtitles button and selector in the controls bar. Also note that the subtitles are not selected for display by default.
+
+Text track support relies on the browser's subtitle parsing and display. This means only the WebVTT format is supported, unless taking some of the advanced VideoStreamer components into use.
+
+### Setting (new) text tracks after starting playback of video source
+
+If the text tracks are not available when starting the stream, or when a current set of tracks should be replaced without interrupting playback, specify the new track set in the `textTracks` prop.
+
+<Playground>
+  <Replay
+    source="public/example-media/progressive.mp4"
+    initialPlaybackProps={{ isPaused: true }}
+    textTracks={[{
+      src: 'public/example-media/subtitles/en.vtt',
+      kind: 'subtitles',
+      language: 'en',
+      label: 'English',
+      contentType: 'text/vtt'
+    }, {
+      src: 'public/example-media/subtitles/no.vtt',
+      kind: 'subtitles',
+      language: 'no',
+      label: 'Norwegian',
+      contentType: 'text/vtt'
+    }]}
+  />
+</Playground>

@@ -1,0 +1,121 @@
+defaults: &defaults
+  working_directory: /tmp/replay
+  docker:
+    - image: circleci/node:10.12-browsers
+version: 2
+
+jobs:
+  install:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Installing dependencies for tests and builds
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - persist_to_workspace:
+          root: /tmp
+          paths: replay/*
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Tests
+          command: yarn test
+      - run:
+          name: Type checks
+          command: yarn flow
+      - run:
+          name: ESLint
+          command: yarn eslint src/replay
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Build
+          command: yarn build:lib
+      - persist_to_workspace:
+          root: /tmp
+          paths: replay/*
+  publish:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Fetching npm credentials
+          command: echo Deactivated for now.
+      - run:
+          name: Publish npm package
+          command: echo Deactivated for now.
+  publish-docs:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - run:
+          name: Add GitHub to known ssh hosts
+          command: |
+            mkdir -p ~/.ssh/
+            echo -e "Host github.com\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile /dev/null\n" > ~/.ssh/config
+            chmod 600 ~/.ssh/config
+            ssh-keyscan -Ht rsa github.com >> ~/.ssh/known_hosts
+      - add_ssh_keys:
+          fingerprints:
+            - "92:28:06:81:71:0d:f9:ee:ca:1c:e4:24:43:cf:d1:7a"
+      - run:
+          name: Prepare gh-pages publish
+          command: |
+            yarn add -g --silent gh-pages@2.0.1
+            git config user.email "noreply@vimond.com"
+            git config user.name "noreply"
+      - run:
+          name: Publish docs to gh-pages
+          command: yarn gh-pages --message "[skip ci] Doc updates" --dist docs
+
+workflows:
+  version: 2
+  all_tasks:
+    jobs:
+      - install:
+          filters:
+            tags:
+              only: /.*/
+      - test:
+          requires:
+            - install
+          filters:
+            tags:
+              only: /.*/
+      - build:
+          requires:
+            - install
+          filters:
+            tags:
+              only: /.*/
+      - publish:
+          requires:
+            - test
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - publish-docs:
+          requires:
+            - publish
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
