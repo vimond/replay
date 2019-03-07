@@ -19,7 +19,7 @@ Replay is a **Re**act video **play**er with these key characteristics:
 * Responsive player sizing and UI adaptation.
 * Touch- and mobile-friendly UX.
 
-[Full feature list](http://files.vimond.com/docs/replay/latest/#/#features-list)
+[Full feature list](https://vimond.github.io/replay/#/#features-list)
 
 ## Getting started
 
@@ -59,17 +59,17 @@ class MyAppView extends React.Component {
 
 ### Next steps
 
-* [More insert options](http://files.vimond.com/docs/replay/latest/#/advanced-playback/adaptive-streaming)
-* [Playing DASH or HLS streams](http://files.vimond.com/docs/replay/latest/#/advanced-playback/adaptive-streaming)
-* [Configuring Replay](http://files.vimond.com/docs/replay/latest/#/custom-replay/configuration)
-* [Custom skins](http://files.vimond.com/docs/replay/latest/#/custom-replay/skins-styles)
-* [Full documentation with live examples](http://files.vimond.com/docs/replay/latest/)
+* [More insert options](https://vimond.github.io/replay/#/advanced-playback/adaptive-streaming)
+* [Playing DASH or HLS streams](https://vimond.github.io/replay/#/advanced-playback/adaptive-streaming)
+* [Configuring Replay](https://vimond.github.io/replay/#/custom-replay/configuration)
+* [Custom skins](https://vimond.github.io/replay/#/custom-replay/skins-styles)
+* [Full documentation with live examples](https://vimond.github.io/replay/)
 
 ## Working with the source code
 
 ### Project setup
 
-[Development setup](http://files.vimond.com/docs/replay/latest/#/architecture/project)
+[Development setup](https://vimond.github.io/replay/)
 
 ### Technologies & patterns used & applied
 

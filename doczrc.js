@@ -14,7 +14,7 @@ export default {
   src: './src/replay',
   dest: './docs',
   public: '/public',
-  base: '/replay-private/',
+  base: '/replay/',
   hashRouter: true,
   plugins: [
     css({

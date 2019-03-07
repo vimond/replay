@@ -2,7 +2,7 @@
   "name": "vimond-replay",
   "version": "0.22.0",
   "author": "Tor Erik Alræk",
-  "homepage": "http://files.vimond.com/docs/replay/",
+  "homepage": "https://vimond.github.io/replay/",
   "repository": "https://github.com/vimond/replay/",
   "license": "Apache-2.0",
   "description": "React video player with adaptive streaming support",

@@ -113,8 +113,9 @@ workflows:
               ignore: /.*/
       - publish-docs:
           requires:
-            - test
-            - build
+            - publish
           filters:
+            tags:
+              only: /^v.*/
             branches:
-              only: /.*/
+              ignore: /.*/
