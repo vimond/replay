@@ -89,11 +89,11 @@ Replay is an open source initiative from [Vimond Media Solutions](https://vimond
 
 ### License
 
-Replay is released under the Apache 2.0 License. LINK
+Replay is released under the [Apache 2.0 License](https://github.com/vimond/replay/blob/master/LICENSE).
 
 ### Roadmap
 
-See the project milestones. LINK
+See the [project milestones](https://github.com/vimond/replay/milestones).
 
 ### Authors
 
