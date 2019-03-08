@@ -118,22 +118,22 @@ test('<PlayerController /> updates observers (only) when specified stream state 
 
   onStreamStateChange({ position: 313 });
   rendered.update();
-  expect(onConnectedControlRender.mock.calls[1][0].position).toBe(313);
+  expect(onConnectedControlRender.mock.calls[2][0].position).toBe(313);
   expect(handleStreamStateChange.mock.calls[0][0].position).toBe(313);
 
   onStreamStateChange({ playMode: 'ondemand' });
   rendered.update();
-  expect(onConnectedControlRender.mock.calls.length).toBe(2);
+  expect(onConnectedControlRender.mock.calls.length).toBe(3);
   expect(handleStreamStateChange.mock.calls[1][0].playMode).toBe('ondemand');
 
   onStreamStateChange({ duration: 4567 });
   rendered.update();
-  expect(onConnectedControlRender.mock.calls[2][0].duration).toBe(4567);
+  expect(onConnectedControlRender.mock.calls[3][0].duration).toBe(4567);
   expect(handleStreamStateChange.mock.calls[2][0].duration).toBe(4567);
 
   onStreamStateChange({ position: 22 });
   rendered.update();
-  expect(onConnectedControlRender.mock.calls[3][0].position).toBe(22);
+  expect(onConnectedControlRender.mock.calls[4][0].position).toBe(22);
   expect(handleStreamStateChange.mock.calls[3][0].position).toBe(22);
 });
 

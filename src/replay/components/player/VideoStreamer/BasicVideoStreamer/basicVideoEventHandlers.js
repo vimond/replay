@@ -74,7 +74,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
       // $FlowFixMe: Too exotic for React's HTML element typedefs.
       (document.pictureInPictureEnabled && !videoElement.disablePictureInPicture) || // $FlowFixMe
       (videoElement.webkitSupportsPresentationMode &&
-        videoElement.webkitSupportsPresentationMode('picture-in-picture') && // $FlowFixMe
+      videoElement.webkitSupportsPresentationMode('picture-in-picture') && // $FlowFixMe
         typeof videoElement.webkitSetPresentationMode === 'function') ||
       false
     );

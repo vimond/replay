@@ -60,6 +60,10 @@ const connectControl = <Props: {}>(
 
     componentDidMount() {
       registerObservers(this.props.observe, resolvedStateKeys, this.update);
+      const currentState = this.props.inspect();
+      if (currentState) {
+        resolvedStateKeys.forEach(key => this.setState({ [key]: currentState[key] }));
+      }
     }
 
     render() {
