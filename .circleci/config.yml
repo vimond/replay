@@ -53,10 +53,10 @@ jobs:
           at: /tmp
       - run:
           name: Fetching npm credentials
-          command: echo Deactivated for now.
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_REGISTRY_TOKEN" > ~/.npmrc
       - run:
           name: Publish npm package
-          command: echo Deactivated for now.
+          command: yarn publish
   publish-docs:
     <<: *defaults
     steps:
