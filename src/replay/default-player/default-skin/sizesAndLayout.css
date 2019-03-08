@@ -99,15 +99,18 @@
 .replay-time-display {
     font-size: 11px;
     height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .replay-time-display span {
-    margin: 12px 10px 0;
+    margin: 0 10px;
     display: block;
 }
 
 .replay-narrow .replay-time-display span {
-    margin: 12px 4px 0;
+    margin: 0 4px;
 }
 
 .replay-time-display span:nth-child(2) {
