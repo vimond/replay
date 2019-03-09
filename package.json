@@ -34,7 +34,7 @@
     "build:es5": "babel src/replay -d . --ignore \"src/replay/docs/**/*.js\",\"src/**/*.test.js\" --source-maps",
     "build:flow": "flow-copy-source src/replay . --ignore **/*.test.js --ignore **/mdx-helpers/*",
     "build:css": "postcss src/replay/replay-default.css -o ./index.css",
-    "copy:d.ts": "cp src/replay/index.d.ts . && cp src/replay/default-player/Replay.d.ts default-player",
+    "copy:d.ts": "cp typescript-declarations/index.d.ts . && cp typescript-declarations/Replay.d.ts default-player",
     "docz:dev": "docz dev",
     "docz:build": "docz build",
     "prettier": "prettier --write \"src/**/*.js\"",
