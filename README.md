@@ -57,6 +57,8 @@ class MyAppView extends React.Component {
 }
 ```
 
+Flow and TypeScript static type annotations/declarations are provided for the Replay component.
+
 ### Next steps
 
 * [More insert options](https://vimond.github.io/replay/#/advanced-playback/adaptive-streaming)
