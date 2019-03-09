@@ -10,6 +10,7 @@
     "access": "public"
   },
   "main": "index.js",
+  "types": "index.d.ts",
   "style": "index.css",
   "files": [
     "components",
@@ -20,6 +21,7 @@
     "customizer.js.map",
     "customizer.js.flow",
     "index.css",
+    "index.d.ts",
     "index.js",
     "index.js.map",
     "index.js.flow",
@@ -28,10 +30,11 @@
   ],
   "scripts": {
     "start": "PORT=3033 SKIP_PREFLIGHT_CHECK=true react-scripts start",
-    "build:lib": "yarn build:es5 && yarn build:flow && yarn build:css && yarn docz:build",
+    "build:lib": "yarn build:es5 && yarn build:flow && yarn build:css && yarn copy:d.ts && yarn docz:build",
     "build:es5": "babel src/replay -d . --ignore \"src/replay/docs/**/*.js\",\"src/**/*.test.js\" --source-maps",
     "build:flow": "flow-copy-source src/replay . --ignore **/*.test.js --ignore **/mdx-helpers/*",
     "build:css": "postcss src/replay/replay-default.css -o ./index.css",
+    "copy:d.ts": "cp src/replay/index.d.ts . && cp src/replay/default-player/Replay.d.ts default-player",
     "docz:dev": "docz dev",
     "docz:build": "docz build",
     "prettier": "prettier --write \"src/**/*.js\"",
