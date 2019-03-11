@@ -1,6 +1,6 @@
 // @flow
 
-import type { StreamResource } from './VideoStreamerResolver';
+import type { StreamResource } from './CompoundVideoStreamer';
 
 export type StreamType = {
   name: string,

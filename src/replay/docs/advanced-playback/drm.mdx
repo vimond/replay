@@ -60,11 +60,11 @@ Typically the `licenseAcquisitionDetails` source object needs more details speci
 
 ## Video streamer selection with DRM encrypted streams
 
-The video streamer resolver or Replay does not cover matching of DRM technology with browser and stream technology.
+The compound video streamer or Replay does not cover matching of DRM technology with browser and stream technology.
 
 When using Replay for DRM playback, the app inserting the player have the responsibility to pass the correct stream and DRM details as the source object to the Replay component. This typically involves detecting the browser, and then look up stream and DRM details from e.g. a REST API.
 
-When the stream content type is specified, as in the examples above, the VideoStreamerResolver can be used for selecting the correct video streamer and third party library supporting the stream.
+When the stream content type is specified, as in the examples above, the CompoundVideoStreamer can be used for selecting the correct video streamer and third party library supporting the stream.
 
 ## Specifying further license acquisition or DRM details
 

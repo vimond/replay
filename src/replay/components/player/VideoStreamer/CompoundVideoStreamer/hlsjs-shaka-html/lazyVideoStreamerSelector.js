@@ -1,7 +1,7 @@
 // @flow
 //$FlowFixMe Flow React types are not up to date.
 import { lazy } from 'react';
-import type { LazyVideoStreamerSelector } from '../VideoStreamerResolver';
+import type { LazyVideoStreamerSelector } from '../CompoundVideoStreamer';
 import { detectStreamType, isSafari } from '../helpers';
 
 const HlsjsVideoStreamer = lazy(() => import('../../HlsjsVideoStreamer/HlsjsVideoStreamer'));

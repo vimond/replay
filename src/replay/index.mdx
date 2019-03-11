@@ -6,7 +6,7 @@ order: 1
 
 import { Playground } from 'docz';
 import Replay from './default-player/Replay';
-import HlsjsVideoStreamer from './components/player/VideoStreamer/HlsjsVideoStreamer/HlsjsVideoStreamer';
+import CompoundVideoStreamer from './components/player/VideoStreamer/CompoundVideoStreamer/CompoundVideoStreamer';
 import './replay-default.css';
 
 # Replay
@@ -17,7 +17,7 @@ A React video player with advanced streaming support.
   <Replay
     source={{ streamUrl: 'public/example-media/adaptive.m3u8' }}
     initialPlaybackProps={{ isPaused: true }} >
-    <HlsjsVideoStreamer/>
+    <CompoundVideoStreamer/>
   </Replay>
 </Playground>
 

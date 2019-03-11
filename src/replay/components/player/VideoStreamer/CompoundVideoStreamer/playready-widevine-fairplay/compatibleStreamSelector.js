@@ -1,6 +1,6 @@
 // @flow
-import type { CompatibleStreamSelector } from '../VideoStreamerResolver';
-import { StreamResourceResolutionError } from '../VideoStreamerResolver';
+import type { CompatibleStreamSelector } from '../CompoundVideoStreamer';
+import { StreamResourceResolutionError } from '../CompoundVideoStreamer';
 import { isMicrosoft, isResourceFairPlay, isResourcePlayReady, isResourceWidevine, isSafari } from '../helpers';
 
 const selectCompatibleDrmStream: CompatibleStreamSelector = (alternativeStreamResources, userAgent) => {

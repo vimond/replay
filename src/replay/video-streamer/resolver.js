@@ -1,3 +1,3 @@
 // @flow
-import VideoStreamerResolver from '../components/player/VideoStreamer/VideoStreamerResolver/VideoStreamerResolver';
-export default VideoStreamerResolver;
+import CompoundVideoStreamer from '../components/player/VideoStreamer/CompoundVideoStreamer/CompoundVideoStreamer';
+export default CompoundVideoStreamer;

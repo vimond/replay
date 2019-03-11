@@ -103,5 +103,5 @@ export const createVideoStreamerResolver = (
   };
 };
 
-const VideoStreamerResolver = createVideoStreamerResolver(selectCompatibleDrmStream, selectVideoStreamerImporter);
-export default VideoStreamerResolver;
+const CompoundVideoStreamer = createVideoStreamerResolver(selectCompatibleDrmStream, selectVideoStreamerImporter);
+export default CompoundVideoStreamer;

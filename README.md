@@ -25,7 +25,7 @@ Replay is a **Re**act video **play**er with these key characteristics:
 
 ### Prerequisites
 
-Minimum React version for Replay is 16.6. Additionally, one component, the [video streamer resolver](/advanced-playback/adaptive-streaming#enabling-playback-for-multiple-streaming-technologies-based-on-stream-technology-resolution), requires your script bundler to support dynamic `import()` statements. This only applies if this component is actually inserted in your code.
+Minimum React version for Replay is 16.6. Additionally, one component, the [CompoundVideoStreamer](/advanced-playback/adaptive-streaming#enabling-playback-for-multiple-streaming-technologies-based-on-stream-technology-resolution), requires your script bundler to support dynamic `import()` statements. This only applies if this component is actually inserted in your code.
 
 ### Inserting Replay into your React app
 

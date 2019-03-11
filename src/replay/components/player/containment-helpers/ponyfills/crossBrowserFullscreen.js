@@ -30,7 +30,6 @@ export function enterFullscreen(element) {
     // Try native fullscreen for video element in Safari on iPhone and older iOS in general.
     if (navigator.userAgent.match(/(iPad|iPhone|iPod)/i)) {
       element = element.getElementsByTagName('video')[0];
-      console.log('Element', element);
       if (element) {
         element.webkitEnterFullscreen();
         return true;

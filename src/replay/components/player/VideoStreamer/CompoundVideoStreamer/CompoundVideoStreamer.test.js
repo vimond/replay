@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { createVideoStreamerResolver } from './VideoStreamerResolver';
+import { createVideoStreamerResolver } from './CompoundVideoStreamer';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -27,10 +27,10 @@ const mockSimpleSource = {
   startPosition: 123
 };*/
 
-test.skip('VideoStreamerResolver renders a selected video streamer when a source is specified.', () => {
-  const VideoStreamerResolver = createVideoStreamerResolver(mockSelectCompatibleStream, mockSelectLazyVideoStreamer);
+test.skip('CompoundVideoStreamer renders a selected video streamer when a source is specified.', () => {
+  const CompoundVideoStreamer = createVideoStreamerResolver(mockSelectCompatibleStream, mockSelectLazyVideoStreamer);
   // TODO: Revisit and complete test writing when Suspense is supported in Enzyme and ReactDOMServer.
-  const rendered = mount(<VideoStreamerResolver source={mockSimpleSource} />);
+  const rendered = mount(<CompoundVideoStreamer source={mockSimpleSource} />);
   expect(
     rendered
       .find('div')
@@ -38,7 +38,7 @@ test.skip('VideoStreamerResolver renders a selected video streamer when a source
       .text()
   ).toBe('Video streamer');
 });
-test('VideoStreamerResolver renders null when a source is not specified.', () => {});
-test('VideoStreamerResolver renders a video streamer when a single source is constructed from alternative stream resources selection.', () => {});
-test('VideoStreamerResolver merges the selected stream resource from alternative stream resources into the original source object.', () => {});
-test('VideoStreamerResolver renders null and invokes onPlaybackError() when a compatible resource could not be selected from alternative stream sources', () => {});
+test('CompoundVideoStreamer renders null when a source is not specified.', () => {});
+test('CompoundVideoStreamer renders a video streamer when a single source is constructed from alternative stream resources selection.', () => {});
+test('CompoundVideoStreamer merges the selected stream resource from alternative stream resources into the original source object.', () => {});
+test('CompoundVideoStreamer renders null and invokes onPlaybackError() when a compatible resource could not be selected from alternative stream sources', () => {});

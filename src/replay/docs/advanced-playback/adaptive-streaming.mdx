@@ -8,7 +8,7 @@ import { Playground, PropsTable } from 'docz';
 import Replay from '../../default-player/Replay';
 import HlsjsVideoStreamer from '../../components/player/VideoStreamer/HlsjsVideoStreamer/HlsjsVideoStreamer';
 import ShakaVideoStreamer from '../../components/player/VideoStreamer/ShakaVideoStreamer/ShakaVideoStreamer';
-import VideoStreamerResolver from '../../components/player/VideoStreamer/VideoStreamerResolver/VideoStreamerResolver';
+import CompoundVideoStreamer from '../../components/player/VideoStreamer/CompoundVideoStreamer/CompoundVideoStreamer';
 import '../../replay-default.css';
 
 # Playing adaptive streams
@@ -120,11 +120,11 @@ const render = () => (
 
 ## Enabling playback for multiple streaming technologies based on stream technology resolution
 
-The helper commponent `<VideoStreamerResolver/>`'s task is to select a compatible video streamer for Replay based on the stream type, and in a special case, also taking the browser into consideration. 
+The helper component `<CompoundVideoStreamer/>`'s task is to select a compatible video streamer for Replay based on the stream type, and in a special case, also taking the browser into consideration. 
 
-For HLS, it inserts `<HlsjsVideoStreamer/>`, for MPEG-DASH `<ShakaVideoStreamer/>`. A progressive video source resolves to `<HtmlVideoStreamer/>`. The mentioned special case is the combination of Safari and HLS streams. Safari and the Apple operating systems support HLS natively, and the HTML video element play these streams optimally without any third party library. For this combination, the video streamer resolver then selects `<HtmlVideoStreamer/>`. It includes support for FairPlay DRM.
+For HLS, it inserts `<HlsjsVideoStreamer/>`, for MPEG-DASH `<ShakaVideoStreamer/>`. A progressive video source resolves to `<HtmlVideoStreamer/>`. The mentioned special case is the combination of Safari and HLS streams. Safari and the Apple operating systems support HLS natively, and the HTML video element play these streams optimally without any third party library. For this combination, the compound video streamer then selects `<HtmlVideoStreamer/>`. It includes support for FairPlay DRM.
 
-The mentioned third party player libraries are quite big, and adds several hundred kilobytes to the script bundle. Because of this, `<VideoStreamerResolver/>` uses [React.lazy](https://reactjs.org/docs/code-splitting.html#reactlazy) and [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports). It loads only one video streamer and its integrated third party library when needed.
+The mentioned third party player libraries are quite big, and adds several hundred kilobytes to the script bundle. Because of this, `<CompoundVideoStreamer/>` uses [React.lazy](https://reactjs.org/docs/code-splitting.html#reactlazy) and [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports). It loads only one video streamer and its integrated third party library when needed.
 
 The stream type is resolved based on the source prop. The source prop should then ideally be an object containing the mime type associated with the resource specified by the stream URL. This is an example for HLS:
 
@@ -141,13 +141,13 @@ The recognised mime types are as follows:
 * HLS: `application/x-mpegurl`, alternatively `vnd.apple.mpegurl`
 * Progressive MP4 or WebM: `video/mp4`, `video/webm`
 
-If the source is only specified as a string containing the URL to the manifest, playlist, or video file, the video streamer resolver attempts detecting the stream type based on URL content.
+If the source is only specified as a string containing the URL to the manifest, playlist, or video file, the compound video streamer attempts detecting the stream type based on URL content.
 
 ```javascript
 import React from 'react';
 import { Replay } from 'vimond-replay';
 import 'vimond-replay/index.css';
-import VideoStreamerResolver from 'vimond-replay/video-streamer/resolver';
+import CompoundVideoStreamer from 'vimond-replay/video-streamer/CompoundVideoStreamer/CompoundVideoStreamer';
 ```
 
 The following example resolves to inserting the HlsjsVideoStreamer for the specified source, unless this page is viewed in Safari, where HtmlVideoStreamer is selected.
@@ -159,23 +159,23 @@ The following example resolves to inserting the HlsjsVideoStreamer for the speci
              contentType: 'application/x-mpegurl'
            }}
     initialPlaybackProps={{ isPaused: true }}>
-    <VideoStreamerResolver/>
+    <CompoundVideoStreamer/>
   </Replay>
 </Playground>
 
-The following example selects the ShakaVideoStreamer for the specified source string. The manifest URL contains `.mpd`, which makes the video streamer resolver guess that this is a MPEG-DASH manifest.
+The following example selects the ShakaVideoStreamer for the specified source string. The manifest URL contains `.mpd`, which makes the compound video streamer guess that this is a MPEG-DASH manifest.
 
 <Playground>
   <Replay
     source="https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd"
     initialPlaybackProps={{ isPaused: true }}>
-    <VideoStreamerResolver/>
+    <CompoundVideoStreamer/>
   </Replay>
 </Playground>
 
-As for individual video streamer components, `<VideoStreamerResolver/>` should be inserted as `<Replay/>`'s child element. It renders the resolved video streamer component based on the source prop passed down from Replay.
+As for individual video streamer components, `<CompoundVideoStreamer/>` should be inserted as `<Replay/>`'s child element. It renders the resolved video streamer component based on the source prop passed down from Replay.
 
-Configuration for all video streamer components (inserted individually or through the video streamer resolver) can be specified in the same override object.
+Configuration for all video streamer components (inserted individually or through the compound video streamer) can be specified in the same override object.
 
 ```javascript
 const replayOptions = {

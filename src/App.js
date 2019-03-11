@@ -9,7 +9,7 @@ import './replay/replay-default.css';
 import type { PlaybackActions } from './replay/components/player/PlayerController/PlayerController';
 import { PlaybackError } from './replay/components/player/VideoStreamer/types';
 import type { PlaybackSource, SourceTrack } from './replay/components/player/VideoStreamer/types';
-import VideoStreamerResolver from './replay/components/player/VideoStreamer/VideoStreamerResolver/VideoStreamerResolver';
+import CompoundVideoStreamer from './replay/components/player/VideoStreamer/CompoundVideoStreamer/CompoundVideoStreamer';
 // import RxVideoStreamer from './replay/components/player/VideoStreamer/RxVideoStreamer/RxVideoStreamer';
 
 type State = {
@@ -163,7 +163,7 @@ class App extends Component<void, State> {
                 textTracks={textTracks}
                 initialPlaybackProps={initialPlaybackProps}
                 onPlaybackActionsReady={this.handlePlaybackActions}>
-                <VideoStreamerResolver />
+                <CompoundVideoStreamer />
               </Replay>
               <p>
                 <input
