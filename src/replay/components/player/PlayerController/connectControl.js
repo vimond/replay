@@ -90,7 +90,13 @@ const connectControl = <Props: {}>(
     </ControllerContext.Consumer>
   );
 
-  ConnectedControl.displayName = 'Connected' + (Control.displayName || Control.name);
+  if (Control.displayName) {
+    ConnectedControl.displayName = 'Connected' + Control.displayName;
+  } else if (process.env.NODE_ENV === 'development') {
+    ConnectedControl.controlWithoutDisplayName = Control.name + ' wrapped in ConnectedControl';
+  } else {
+    ConnectedControl.displayName = 'Connected' + Control.name;
+  }
   return ConnectedControl;
 };
 
