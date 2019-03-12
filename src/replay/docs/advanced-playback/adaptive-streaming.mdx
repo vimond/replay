@@ -15,7 +15,7 @@ import '../../replay-default.css';
 
 Adaptive streaming in Replay is supported through third party player integrations, namely several different `<...VideoStreamer/>` components included in the Replay package. Two of these integrate the most common and mature open source alternatives, HLS.js and Shaka Player. They correspondingly cover HLS and MPEG-DASH technologies (however the development appears to extend beyond the original target technology). These two components are named `<HlsjsVideoStreamer/>` and `<ShakaVideoStreamer/>`.
 
-Unless DRM encryption is needed for the adaptive streams to be played with Replay, the best strategy is to have all streams in one of the formats (HLS and MPEG-DASH). Unencrypted, either of these can play with the corresponding third party integration in all modern browsers.
+Unless DRM encryption is needed for the adaptive streams to be played with Replay, the best strategy is to have all streams in one of the formats (HLS and MPEG-DASH). Unencrypted, either of these can play with the corresponding third party integration in all modern browsers. with the exception of iOS browsers, which only support HLS.
 
 If DRM playback must be supported, or if the different streams to be played have different formats, then Replay provides a helper component resolving what `VideoStreamer` that fits the stream. 
 

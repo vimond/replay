@@ -9,8 +9,8 @@ import { css } from 'docz-plugin-css';
 });*/
 
 export default {
-  title: 'Replay»',
-  description: 'A video player built while thinking in React',
+  title: 'Replay',
+  description: 'A React video player with adaptive streaming support',
   src: './src/replay',
   dest: './docs',
   public: '/public',
