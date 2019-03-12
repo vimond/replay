@@ -44,4 +44,5 @@ class FullscreenButton extends React.Component<Props> {
   }
 }
 
+FullscreenButton.displayName = 'FullscreenButton';
 export default FullscreenButton;

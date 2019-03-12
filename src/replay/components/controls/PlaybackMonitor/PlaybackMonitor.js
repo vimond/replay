@@ -260,4 +260,5 @@ class PlaybackMonitor extends React.Component<Props, State> {
   }
 }
 
+PlaybackMonitor.displayName = 'PlaybackMonitor';
 export default PlaybackMonitor;

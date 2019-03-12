@@ -89,5 +89,6 @@ const TimeDisplay: TimeDisplayType = ({
 };
 
 TimeDisplay.streamStateKeysForObservation = ['position', 'duration', 'absolutePosition', 'playMode'];
+TimeDisplay.displayName = 'TimeDisplay';
 
 export default TimeDisplay;

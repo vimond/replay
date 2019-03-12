@@ -103,4 +103,5 @@ class Timeline extends React.Component<Props, State> {
   }
 }
 
+Timeline.displayName = 'Timeline';
 export default Timeline;

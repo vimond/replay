@@ -6,4 +6,5 @@ class ControlsBar extends Container {
   baseClassName = 'controls-bar';
 }
 
+ControlsBar.displayName = 'ControlsBar';
 export default ControlsBar;

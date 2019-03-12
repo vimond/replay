@@ -45,4 +45,5 @@ class PlayPauseButton extends React.Component<Props> {
   }
 }
 
+PlayPauseButton.displayName = 'PlayPauseButton';
 export default PlayPauseButton;

@@ -36,4 +36,5 @@ class ExitButton extends React.Component<Props> {
   }
 }
 
+ExitButton.displayName = 'ExitButton';
 export default ExitButton;

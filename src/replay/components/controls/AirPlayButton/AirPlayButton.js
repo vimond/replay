@@ -53,4 +53,5 @@ class AirPlayButton extends React.Component<Props> {
   }
 }
 
+AirPlayButton.displayName = 'AirPlayButton';
 export default AirPlayButton;

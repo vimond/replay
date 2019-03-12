@@ -52,4 +52,5 @@ class SkipButton extends React.Component<Props> {
   }
 }
 
+SkipButton.displayName = 'SkipButton';
 export default SkipButton;

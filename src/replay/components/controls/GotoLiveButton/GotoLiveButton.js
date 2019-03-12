@@ -50,4 +50,5 @@ class GotoLiveButton extends React.Component<Props> {
   }
 }
 
+GotoLiveButton.displayName = 'GotoLiveButton';
 export default GotoLiveButton;

@@ -74,4 +74,5 @@ class TimelineInformation extends React.Component<Props> {
   }
 }
 
+TimelineInformation.displayName = 'TimelineInformation';
 export default TimelineInformation;

@@ -53,4 +53,5 @@ class PipButton extends React.Component<Props> {
   }
 }
 
+PipButton.displayName = 'PipButton';
 export default PipButton;

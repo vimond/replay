@@ -105,4 +105,5 @@ class SubtitlesSelector extends React.Component<Props, State> {
   }
 }
 
+SubtitlesSelector.displayName = 'SubtitlesSelector';
 export default SubtitlesSelector;

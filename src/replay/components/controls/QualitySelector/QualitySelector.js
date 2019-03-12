@@ -105,4 +105,5 @@ class QualitySelector extends React.Component<Props> {
   }
 }
 
+QualitySelector.displayName = 'QualitySelector';
 export default QualitySelector;

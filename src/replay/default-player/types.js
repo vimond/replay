@@ -16,21 +16,21 @@ import type { PlaybackActions } from '../components/player/PlayerController/Play
 import type { ResponsiveRanges } from '../components/player/containment-helpers/ResponsiveClassNames';
 
 export type ControlNames =
-  | 'playPauseButton'
-  | 'skipButton'
-  | 'timeline'
-  | 'timeDisplay'
-  | 'gotoLiveButton'
-  | 'volume'
-  | 'audioSelector'
-  | 'subtitlesSelector'
-  | 'qualitySelector'
   | 'airPlayButton'
-  | 'pipButton'
-  | 'fullscreenButton'
+  | 'audioSelector'
+  | 'bufferingIndicator'
   | 'exitButton'
+  | 'fullscreenButton'
+  | 'gotoLiveButton'
+  | 'pipButton'
   | 'playbackMonitor'
-  | 'bufferingIndicator';
+  | 'playPauseButton'
+  | 'qualitySelector'
+  | 'skipButton'
+  | 'subtitlesSelector'
+  | 'timeDisplay'
+  | 'timeline'
+  | 'volume';
 
 // Some properties are nullable because the null value deletes the base configuration, and this should be allowed.
 

@@ -61,5 +61,6 @@ const BufferingIndicator: BufferingIndicatorType = ({
 };
 
 BufferingIndicator.streamStateKeysForObservation = ['isBuffering', 'isSeeking', 'playState'];
+BufferingIndicator.displayName = 'BufferingIndicator';
 
 export default BufferingIndicator;

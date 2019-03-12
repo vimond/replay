@@ -96,4 +96,5 @@ class Volume extends React.Component<Props> {
   }
 }
 
+Volume.displayName = 'Volume';
 export default Volume;

@@ -71,4 +71,5 @@ class AudioSelector extends React.Component<Props> {
   }
 }
 
+AudioSelector.displayName = 'AudioSelector';
 export default AudioSelector;
