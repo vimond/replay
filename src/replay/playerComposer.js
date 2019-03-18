@@ -10,7 +10,7 @@ import type { GraphicResources, StringResources, UIResources } from './default-p
 import getPlayerUIRenderer from './default-player/playerUI';
 import { defaultClassNamePrefix } from './components/common';
 import replayVersion from './version';
-import BasicVideoStreamer from './default-player/Replay';
+import BasicVideoStreamer from './components/player/VideoStreamer/BasicVideoStreamer/BasicVideoStreamer';
 
 export type ResolveVideoStreamerMethod = (
   Component: ?React.ComponentType<VideoStreamerProps>,

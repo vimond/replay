@@ -32,7 +32,7 @@ const getLiveDisplayMode = conf => conf && conf.controls && conf.controls.liveDi
 const getQSStrategy = conf => conf && conf.controls && conf.controls.qualitySelectionStrategy;
 
 import UnconnectedTitleOverlay from './TitleOverlay';
-const TitleOverlay = connectControl(UnconnectedTitleOverlay, ['duration']);
+const TitleOverlay = connectControl(UnconnectedTitleOverlay, ['duration', 'isPaused']);
 
 import graphics from '../../../default-player/default-skin/graphics';
 import strings from '../../../default-player/strings';
@@ -62,7 +62,7 @@ const renderPlayerUI = ({ configuration, externalProps }) => {
           <ExitButton {...u.exitButton} {...prefix} onClick={externalProps && externalProps.onExit} />
           <PlaybackMonitor {...u.playbackMonitor} configuration={configuration} />
 
-          <TitleOverlay title={externalProps.title} isVisible={interactionState.isUserActive} />
+          <TitleOverlay title={externalProps.title} isUserActive={interactionState.isUserActive} />
 
           <ControlsBar {...prefix}>
             <PlayPauseButton {...u.playPauseButton} {...prefix} />

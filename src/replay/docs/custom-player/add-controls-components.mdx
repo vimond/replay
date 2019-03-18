@@ -5,7 +5,7 @@ menu: 'Building a custom player'
 ---
 
 import { Playground } from 'docz';
-import Replay from '../../default-player/Replay';
+import CustomPlayer from './example/CustomPlayer';
 import '../../replay-default.css';
 
 # How to add new controls or overlays
@@ -20,22 +20,19 @@ The easiest approach to building a custom player, is to use the composePlayer me
 
 ### The overlay component
 
-A simple title overlay can be created this way:
+A simple video title overlay can be created this way:
 
 ```jsx
 import * as React from 'react';
-import { formatTime } from '../../../components/common';
+import { formatTime } from 'vimond-replay/components/common';
 
 const styleHidden = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  fontFamily: 'sans-serif',
+  position: 'absolute', top: 0, left: 0, width: '100%', 
+  color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  padding: '0.5em 1em',  margin: 0,
+  fontFamily: 'sans-serif', fontSize: '2em',
   transition: 'visibility 0.5s, opacity 0.5s, color 0.5s',
-  visibility: 'hidden',
-  opacity: 0
+  visibility: 'hidden', opacity: 0
 };
 
 const styleVisible = {
@@ -44,13 +41,18 @@ const styleVisible = {
   opacity: 1
 };
 
-const TitleOverlay = (duration, title, isVisible) =>
-  <h4 style={isVisible ? styleVisible : styleHidden}>{title}{duration ? ` (${formatTime(duration)})` : ''}</h4>;
+const TitleOverlay = ({ duration, title, isUserActive, isPaused }) => (
+  <h4 style={isUserActive || isPaused ? styleVisible : styleHidden}>
+    {title}
+    {duration ? ` (${formatTime(duration)})` : ''}
+  </h4>
+);
 
 export default TitleOverlay;
+
 ```
 
-For this example, we are using inline styles for clarity. However, using CSS files are recommended.
+For this example, we are using inline styles for clarity or simplicity. However, using CSS files are recommended. With CSS rules and class names, it is also easier to toggle styles based on player state class names applied to one of the container elements. In this case, showing the effect of props passed from user and playback state was more important.
 
 ### Adding it to the rendered player UI
 
@@ -58,15 +60,15 @@ The [original `playerUI()` render method](https://github.com/vimond/replay/blob/
 
 A suitable strategy for a custom player, is to copy it, but just import the graphics and strings directly, and exporting the render method itself. Such a render method can be passed to the player composer when creating the custom player component.
 
-Since we already are customising the player UI, we also remove the `<RenderIfEnabled/>` components. These are used in the default player to toggle control visibility based on configuration. We can rather remove controls directly in this custom render method.
+Since we already are customising the player UI, we also remove the `<RenderIfEnabled/>` components. These are used in the default player to toggle control visibility based on configuration. If desired, we can rather remove controls directly in this custom render method.
 
 This excerpt shows the essential parts of our custom `renderPlayerUI()` method.
 
 ```jsx
 import TitleOverlay from './TitleOverlay';
 
-import graphics from '../../../default-player/default-skin/graphics';
-import strings from '../../../default-player/strings';
+import graphics from 'vimond-replay/default-player/default-skin/graphics';
+import strings from 'vimond-replay/default-player/strings';
 
 const u = merge(strings, graphics);
 
@@ -125,10 +127,10 @@ When inserting Replay, title can then simply be added as an extra prop:
 
 ### Showing/hiding controls based on user activity
 
-The `TitleOverlay` component takes an `isVisible` prop. This aligns good with a property available in the interactionState property specified in the render method of `PlayerUIContainer`, as pointed out earlier.
+The `TitleOverlay` component takes an `isUserActive` prop. This aligns good with a property available in the interactionState property specified in the render method of `PlayerUIContainer`, as pointed out earlier.
 
 ```jsx
-<TitleOverlay title={externalProps.title} isVisible={interactionState.isUserActive} />
+<TitleOverlay title={externalProps.title} isUserActive={interactionState.isUserActive} />
 ```
 
 `interactionState` and `isUserActive` comes from the [InteractionDetector](https://github.com/vimond/replay/blob/master/src/replay/components/player/containment-helpers/InteractionDetector.js) containment helper component.
@@ -137,26 +139,26 @@ If using CSS rules, passing this prop would have been unnecessary. Instead a sty
 
 ### Connecting the control
 
-The `TitleOverlay` is set up to display the video duration behind the title string. In order to get the duration reported from the video streamer, we need to wrap it with [connectControl](/architecture/connected-controls#connecting-the-controls) higher-order-component.
+The `TitleOverlay` is set up to display the video duration behind the title string. Besides, the overlay should also be visible when the playback is paused. In order to get the duration and pause state reported from the video streamer, we need to wrap it with [connectControl](/architecture/connected-controls#connecting-the-controls) higher-order-component.
 
 We modify the import of the TitleOverlay component as follows:
 
 ```javascript
 import UnconnectedTitleOverlay from './TitleOverlay';
-const TitleOverlay = connectControl(UnconnectedTitleOverlay, ['duration']);
+const TitleOverlay = connectControl(UnconnectedTitleOverlay, ['duration', 'isPaused']);
 ```
 
-The array passed as the second parameter specifies what [video state properties][/reference/observable-stream-state] the connected control should get updates from. 
+The array passed as the second parameter specifies from which [video state properties][/reference/observable-stream-state] the connected control should get updates. 
 
 `connectControl()` also supports retrieving the same information from the component's static property `streamStateKeysForObservation`, as shown for [this actual control code](https://github.com/vimond/replay/blob/master/src/replay/components/controls/TimeDisplay/TimeDisplay.js#L91).
 
 ### The full renderPlayerUI method
 
-Well, the imports are not included in this code:
+Well, it's not the full file content since the imports are not included in this code:
 
 ```jsx harmony
 import UnconnectedTitleOverlay from './TitleOverlay';
-const TitleOverlay = connectControl(UnconnectedTitleOverlay, ['duration']);
+const TitleOverlay = connectControl(UnconnectedTitleOverlay, ['duration', 'isPaused']);
 
 import graphics from 'vimond-replay/default-player/default-skin/graphics';
 import strings from 'vimond-replay/default-player/strings';
@@ -175,7 +177,7 @@ const renderPlayerUI = ({ configuration, externalProps }) => {
           <ExitButton {...u.exitButton} {...prefix} onClick={externalProps && externalProps.onExit} />
           <PlaybackMonitor {...u.playbackMonitor} configuration={configuration} />
 
-          <TitleOverlay title={externalProps.title} isVisible={interactionState.isUserActive}/>
+          <TitleOverlay title={externalProps.title} isUserActive={interactionState.isUserActive}/>
 
           <ControlsBar {...prefix}>
             <PlayPauseButton {...u.playPauseButton} {...prefix} />
@@ -202,6 +204,8 @@ const renderPlayerUI = ({ configuration, externalProps }) => {
 };
 ```
 
+Observe that the `TitleOverlay` element gets the `title` and `isUserActive` props set directly as part of the render method scope. On the other hand `isPaused` and `duration` is taken care of implictly within the now connected `TitleOverlay` component.
+
 ### Composing the custom player component
 
 With the custom player UI renderer, we want to create a new player component – ready to be inserted in any React app. As mentioned, the `composePlayer()` method can be used for this.
@@ -209,7 +213,6 @@ With the custom player UI renderer, we want to create a new player component –
 The [default Replay player](https://github.com/vimond/replay/blob/master/src/replay/default-player/Replay.js) is composed with these parameters:
 
 ```javascript
-import { baseConfiguration } from './baseConfiguration';
 import composePlayer from '../playerComposer';
 import graphics from './default-skin/graphics';
 import strings from './strings';
@@ -227,7 +230,6 @@ export default Replay;
 The same method can be used with some different parameters in order to specify a custom UI:
 
 ```javascript
-import { baseConfiguration } from 'vimond-replay/default-player/baseConfiguration';
 import composePlayer from 'vimond-replay/playerComposer';
 import renderPlayerUI from './renderPlayerUI';
 
@@ -236,5 +238,14 @@ const CustomPlayer = composePlayer({ name: 'CustomPlayer', uiRenderMethod: rende
 export default CustomPlayer;
 ```
 
-### The result
+## The result
 
+<Playground>
+  <CustomPlayer 
+    title="Norwegian ski fun" 
+    initialPlaybackProps={{ isPaused: true }} 
+    source="public/example-media/progressive.mp4" 
+  />
+</Playground>
+
+The actual JS(X) files produced in this example are available [on GitHub](https://github.com/vimond/replay/tree/master/src/replay/docs/custom-player/example).

@@ -5,9 +5,13 @@ const styleHidden = {
   position: 'absolute',
   top: 0,
   left: 0,
-  width: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  width: '100%',
+  color: 'white',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  padding: '0.5em 1em',
+  margin: 0,
   fontFamily: 'sans-serif',
+  fontSize: '2em',
   transition: 'visibility 0.5s, opacity 0.5s, color 0.5s',
   visibility: 'hidden',
   opacity: 0
@@ -19,8 +23,8 @@ const styleVisible = {
   opacity: 1
 };
 
-const TitleOverlay = (duration, title, isVisible) => (
-  <h4 style={isVisible ? styleVisible : styleHidden}>
+const TitleOverlay = ({ duration, title, isUserActive, isPaused }) => (
+  <h4 style={isUserActive || isPaused ? styleVisible : styleHidden}>
     {title}
     {duration ? ` (${formatTime(duration)})` : ''}
   </h4>
