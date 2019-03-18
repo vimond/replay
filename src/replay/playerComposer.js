@@ -10,6 +10,7 @@ import type { GraphicResources, StringResources, UIResources } from './default-p
 import getPlayerUIRenderer from './default-player/playerUI';
 import { defaultClassNamePrefix } from './components/common';
 import replayVersion from './version';
+import BasicVideoStreamer from './default-player/Replay';
 
 export type ResolveVideoStreamerMethod = (
   Component: ?React.ComponentType<VideoStreamerProps>,
@@ -33,15 +34,14 @@ type Customization = {
 
 // In addition comes CSS.
 
-const defaultVideoStreamerResolver: ResolveVideoStreamerMethod = (Component, children, source, textTracks) => {
-  return Component ? (
-    <Component source={source} textTracks={textTracks} />
-  ) : children != null ? (
+const defaultVideoStreamerResolver: ResolveVideoStreamerMethod = (Component, children, source, textTracks) =>
+  children ? (
     React.cloneElement(children, { source, textTracks })
-  ) : null;
-};
+  ) : (
+    <BasicVideoStreamer source={source} textTracks={textTracks} />
+  );
 
-const createCustomPlayer = ({
+const composePlayer = ({
   name,
   videoStreamerComponent,
   graphics,
@@ -69,7 +69,8 @@ const createCustomPlayer = ({
     onExit,
     onError,
     initialPlaybackProps,
-    children
+    children,
+    ...externalProps
   }: ReplayProps) => {
     return (
       <PlayerController
@@ -80,7 +81,7 @@ const createCustomPlayer = ({
         onPlaybackActionsReady={onPlaybackActionsReady}
         onStreamStateChange={onStreamStateChange}
         initialPlaybackProps={initialPlaybackProps}
-        externalProps={{ onExit, initialPlaybackProps }}>
+        externalProps={{ ...externalProps, onExit, initialPlaybackProps }}>
         {resolveVideoStreamerMethod(videoStreamerComponent, children, source, textTracks) || null}
       </PlayerController>
     );
@@ -92,4 +93,4 @@ const createCustomPlayer = ({
   return ComposedPlayer;
 };
 
-export default createCustomPlayer;
+export default composePlayer;

@@ -65,7 +65,15 @@ export default {
         'Background'
       ]
     },
-    'Building a custom player',
+    {
+      name: 'Building a custom player',
+      menu: [
+        'Overview',
+        'How to add new controls or overlays',
+        'How to change graphics or texts'
+      ]
+    },
+
     'Reference',
     'Controls reference',
     'Containers/helpers reference',

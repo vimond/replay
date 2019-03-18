@@ -1,0 +1,47 @@
+---
+name: Overview
+route: /custom-player/overview
+menu: 'Building a custom player'
+---
+
+# Overview
+
+Besides what can be achieved through [configuration overrides](/custom-replay/configuration) or [CSS rules](/custom-replay/skins-styles), some approaches exist for creating a custom Replay player component.
+
+## Strategies for customisation
+
+### Adding custom features in container components wrapping Replay
+
+In some cases, it is simpler to wrap extra features around the default Replay player component. For instance integrating with an online video service's REST API, or adding analytics, might be a concern that can be kept in a container component consuming the [Replay API](/replay/api).
+
+### Replacing text, graphics, controls/player UI through the player composer
+
+A full player can be composed through the function [`composePlayer()`](https://github.com/vimond/replay/blob/master/src/replay/playerComposer.js#L44). This takes a render method for a player UI, a set of UI strings, and a set of graphics/icons (typically SVG), and produces a React component that can be distributed/consumed separately as a custom player.
+
+The UI render method specifies the full DOM tree for the player controls, overlays, and UI containment. A typical strategy would be to copy the [default render method](https://github.com/vimond/replay/blob/master/src/replay/default-player/playerUI.js#L69-L107) and add, remove, or replace some of its components.
+
+### Build a separate player picking components and modules independently
+
+After familiarising oneself with the different components included the full player, it is of course possible to refer these individually and compose a new player.
+
+### Forking the GitHub repo and modify the default player
+
+This might be an option if the architecture and patterns don't match the requirements for customisation.
+
+## The anatomy of Replay
+
+* The [main player component](https://github.com/vimond/replay/blob/master/src/replay/default-player/Replay.js), created from the playerComposer. A custom player means a new main player component.
+* The [player controller](https://github.com/vimond/replay/blob/master/src/replay/components/player/PlayerController/PlayerController.js). This is reused when creating a new, custom player. [More about the PlayerController](/architecture/player-controller).
+* The [player UI](https://github.com/vimond/replay/blob/master/src/replay/default-player/playerUI.js) with element tree, [graphics](https://github.com/vimond/replay/blob/master/src/replay/default-player/default-skin/graphics.js), and [strings](https://github.com/vimond/replay/blob/master/src/replay/default-player/strings.js). One or all of these might be reused or replaced when creating a custom player.
+* [Containment components](https://github.com/vimond/replay/tree/master/src/replay/components/player/containment-helpers) for several overall concerns. In the default player UI, they are gathered in one component, the [PlayerUIContainer](https://github.com/vimond/replay/blob/master/src/replay/components/player/PlayerUIContainer/PlayerUIContainer.js). Might be reused in a custom UI.
+* [Player controls](https://github.com/vimond/replay/tree/master/src/replay/components/controls).
+* The [connectControl](https://github.com/vimond/replay/blob/master/src/replay/components/player/PlayerController/connectControl.js#L30) higher-order-component, wrapping all controls/components relating to the playback/video streamer so that they can [comsume and control the playback state](/architecture/connected-controls#connecting-the-controls).
+* A selection of one [video streamer](https://github.com/vimond/replay/tree/master/src/replay/components/player/VideoStreamer) according to streaming requirements, or the [CompoundVideoStreamer](https://github.com/vimond/replay/blob/master/src/replay/components/player/VideoStreamer/CompoundVideoStreamer/CompoundVideoStreamer.js) [auto-detecting which of them](/advanced-playback/adaptive-streaming#enabling-playback-for-multiple-streaming-technologies-based-on-stream-technology-resolution) to be used. With the default Replay player, which one to be used is specified when inserting the Replay component in an app. Custom players might specify one of them directly.
+* A [higher-order component for the video streamer](https://github.com/vimond/replay/blob/master/src/replay/components/player/PlayerController/connectControl.js#L103), connecting it to the PlayerController, making it controllable.
+* Some special components: [RenderIfEnabled](https://github.com/vimond/replay/blob/master/src/replay/components/player/RenderIfEnabled.js), [PreferredSettingsApplicator](https://github.com/vimond/replay/blob/master/src/replay/components/player/settings-helpers/PreferredSettingsApplicator.js).
+* Configuration. A custom player can replace the [base configuration](https://github.com/vimond/replay/blob/master/src/replay/default-player/baseConfiguration.js). Configuration [overrides can be specified](http://localhost:3000/#/custom-replay/configuration) when inserting Replay.
+* CSS. The [default skin](https://github.com/vimond/replay/blob/master/src/replay/default-player/default-skin/index.css) can be replaced or [rules can be overridden](/custom-replay/skins-styles).
+
+## Creating a new video streamer
+
+The purpose of creating a new video streamer would be wrapping other streaming libraries or "headless" players into a React component, exposing the same API as those included in the Replay npm package. There is currently no specific documentation on doing this.

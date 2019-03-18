@@ -31,7 +31,7 @@ The different controls expose props that should be recognisable and consistent:
 
 ## Connecting the controls
 
-The controls are on its own not communicating wiht the video streamer performing the playback. Through a higher order component (HOC), all Replay controls are connected to the player controller context. Custom controls can also get connected by applying the same higher order component, `connectControl()`.
+The controls are on its own not communicating with the video streamer performing the playback. Through a higher order component (HOC), all Replay controls are connected to the player controller context. Custom controls can also get connected by applying the same higher order component, `connectControl()`.
 
 The player controller provides the context, and also connects the video streamer so that there can be two-way updates between controls and the video streamer.
 
