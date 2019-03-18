@@ -26,16 +26,16 @@ import {
 import connectControl, { ControlledVideoStreamer } from '../../../components/player/PlayerController/connectControl';
 import PreferredSettingsApplicator from '../../../components/player/settings-helpers/PreferredSettingsApplicator';
 
+import UnconnectedTitleOverlay from './TitleOverlay';
+import graphics from '../../../default-player/default-skin/graphics';
+import strings from '../../../default-player/strings';
+
 const { AudioSelector, SubtitlesSelector, Volume } = SettingsStorage;
 const getSkipBackOffset = conf => conf && conf.controls && conf.controls.skipButtonOffset;
 const getLiveDisplayMode = conf => conf && conf.controls && conf.controls.liveDisplayMode;
 const getQSStrategy = conf => conf && conf.controls && conf.controls.qualitySelectionStrategy;
 
-import UnconnectedTitleOverlay from './TitleOverlay';
 const TitleOverlay = connectControl(UnconnectedTitleOverlay, ['duration', 'isPaused']);
-
-import graphics from '../../../default-player/default-skin/graphics';
-import strings from '../../../default-player/strings';
 
 const merge = (strings, graphics) => {
   const merged = {};
