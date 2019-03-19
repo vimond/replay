@@ -73,8 +73,14 @@ export default {
         'How to change graphics or texts'
       ]
     },
-
-    'Reference',
+    {
+      name: 'Reference',
+      menu: [
+        'Stream state properties',
+        'Settable properties',
+        'Replay component reference'
+      ]
+    },
     'Controls reference',
     'Containers/helpers reference',
     'Generic controls reference'

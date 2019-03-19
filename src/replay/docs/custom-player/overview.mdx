@@ -6,7 +6,7 @@ menu: 'Building a custom player'
 
 # Overview
 
-Besides what can be achieved through [configuration overrides](/custom-replay/configuration) or [CSS rules](/custom-replay/skins-styles), some approaches exist for creating a custom Replay player component.
+Besides what can be achieved through [configuration overrides](/custom-replay/configuration) or [CSS rules (skinning, layout)](/custom-replay/skins-styles), some approaches exist for creating a custom Replay player component.
 
 ## Strategies for customisation
 
@@ -30,6 +30,8 @@ This might be an option if the architecture and patterns don't match the require
 
 ## The anatomy of Replay
 
+These modules, components, and concepts are essential to the Replay architecture.
+
 * The [main player component](https://github.com/vimond/replay/blob/master/src/replay/default-player/Replay.js), created from the playerComposer. A custom player means a new main player component.
 * The [player controller](https://github.com/vimond/replay/blob/master/src/replay/components/player/PlayerController/PlayerController.js). This is reused when creating a new, custom player. [More about the PlayerController](/architecture/player-controller).
 * The [player UI](https://github.com/vimond/replay/blob/master/src/replay/default-player/playerUI.js) with element tree, [graphics](https://github.com/vimond/replay/blob/master/src/replay/default-player/default-skin/graphics.js), and [strings](https://github.com/vimond/replay/blob/master/src/replay/default-player/strings.js). One or all of these might be reused or replaced when creating a custom player.
@@ -42,6 +44,6 @@ This might be an option if the architecture and patterns don't match the require
 * Configuration. A custom player can replace the [base configuration](https://github.com/vimond/replay/blob/master/src/replay/default-player/baseConfiguration.js). Configuration [overrides can be specified](http://localhost:3000/#/custom-replay/configuration) when inserting Replay.
 * CSS. The [default skin](https://github.com/vimond/replay/blob/master/src/replay/default-player/default-skin/index.css) can be replaced or [rules can be overridden](/custom-replay/skins-styles).
 
-## Creating a new video streamer
+## Custom video streamers
 
-The purpose of creating a new video streamer would be wrapping other streaming libraries or "headless" players into a React component, exposing the same API as those included in the Replay npm package. There is currently no specific documentation on doing this.
+The purpose of creating a custom video streamer would be wrapping other streaming libraries or "headless" players into a React component, exposing the same API as those included in the Replay npm package. There is currently no specific documentation on doing this.

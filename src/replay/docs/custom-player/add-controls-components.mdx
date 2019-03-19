@@ -14,9 +14,13 @@ This chapter describes how to customise the player UI by bringing in new control
 
 ## The player composer
 
-The easiest approach to building a custom player, is to use the composePlayer method. It produces a React component from what's typically being subject to customisation. 
+The easiest approach to building a custom player, is to use the `composePlayer()` method. It produces a React component from some parts that typically are being subject to customisation requirements.
 
 ## Adding a title overlay - step by step
+
+In this example, the goal is to bring in a small overlay bar aligned at the top of the video area, presenting a video title with duration. This feature should be able for reuse every time the player is inserted, which is achieved by including the overlay as part of a custom Replay player component.
+
+The code blocks underneath are excerpts, while the full demo files are [available on GitHub](https://github.com/vimond/replay/tree/master/src/replay/docs/custom-player/example).
 
 ### The overlay component
 
@@ -135,7 +139,7 @@ The `TitleOverlay` component takes an `isUserActive` prop. This aligns good with
 
 `interactionState` and `isUserActive` comes from the [InteractionDetector](https://github.com/vimond/replay/blob/master/src/replay/components/player/containment-helpers/InteractionDetector.js) containment helper component.
 
-If using CSS rules, passing this prop would have been unnecessary. Instead a style rule for the TitleOverlay with `.replay-is-user-active` as a parent selector, could have been used to make the overlay visible, with invisible as default. 
+A side note: If using CSS rules, passing this prop would have been unnecessary. Instead a style rule for the TitleOverlay with `.replay-is-user-active` as a parent selector, could have been used to make the overlay visible, with invisible as default. 
 
 ### Connecting the control
 
@@ -148,7 +152,7 @@ import UnconnectedTitleOverlay from './TitleOverlay';
 const TitleOverlay = connectControl(UnconnectedTitleOverlay, ['duration', 'isPaused']);
 ```
 
-The array passed as the second parameter specifies from which [video state properties][/reference/observable-stream-state] the connected control should get updates. 
+The array passed as the second parameter specifies from which [video state properties](/reference/observable-stream-state) the connected control should get updates. 
 
 `connectControl()` also supports retrieving the same information from the component's static property `streamStateKeysForObservation`, as shown for [this actual control code](https://github.com/vimond/replay/blob/master/src/replay/components/controls/TimeDisplay/TimeDisplay.js#L91).
 
@@ -204,7 +208,7 @@ const renderPlayerUI = ({ configuration, externalProps }) => {
 };
 ```
 
-Observe that the `TitleOverlay` element gets the `title` and `isUserActive` props set directly as part of the render method scope. On the other hand `isPaused` and `duration` is taken care of implictly within the now connected `TitleOverlay` component.
+Observe that the `TitleOverlay` element gets the `title` and `isUserActive` props set directly as part of the render method scope. On the other hand, `isPaused` and `duration` is taken care of implicitly within the now connected `TitleOverlay` component. These props will be passed down through the controller context to the title overlay.
 
 ### Composing the custom player component
 

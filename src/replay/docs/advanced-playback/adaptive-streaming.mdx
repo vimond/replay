@@ -72,7 +72,7 @@ const render = () => (
 
 ### MPEG-DASH with Shaka Player
 
-The Shaka Player video streamer component can be imported with the import statement added at the end:
+The Shaka Player video streamer component can be inserted after adding this import statement at the end:
 
 ```javascript
 import { Replay } from 'vimond-replay';
@@ -122,7 +122,9 @@ const render = () => (
 
 The helper component `<CompoundVideoStreamer/>`'s task is to select a compatible video streamer for Replay based on the stream type, and in a special case, also taking the browser into consideration. 
 
-For HLS, it inserts `<HlsjsVideoStreamer/>`, for MPEG-DASH `<ShakaVideoStreamer/>`. A progressive video source resolves to `<HtmlVideoStreamer/>`. The mentioned special case is the combination of Safari and HLS streams. Safari and the Apple operating systems support HLS natively, and the HTML video element play these streams optimally without any third party library. For this combination, the compound video streamer then selects `<HtmlVideoStreamer/>`. It includes support for FairPlay DRM.
+For HLS, it inserts `<HlsjsVideoStreamer/>`, for MPEG-DASH `<ShakaVideoStreamer/>`. A progressive video source resolves to `<HtmlVideoStreamer/>`. 
+
+The mentioned special case is the combination of Safari and HLS streams. Safari and the Apple operating systems support HLS natively, and the HTML video element play these streams optimally without any third party library. For this combination, the compound video streamer then selects `<HtmlVideoStreamer/>`. It includes support for FairPlay DRM.
 
 The mentioned third party player libraries are quite big, and adds several hundred kilobytes to the script bundle. Because of this, `<CompoundVideoStreamer/>` uses [React.lazy](https://reactjs.org/docs/code-splitting.html#reactlazy) and [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports). It loads only one video streamer and its integrated third party library when needed.
 
@@ -141,7 +143,7 @@ The recognised mime types are as follows:
 * HLS: `application/x-mpegurl`, alternatively `vnd.apple.mpegurl`
 * Progressive MP4 or WebM: `video/mp4`, `video/webm`
 
-If the source is only specified as a string containing the URL to the manifest, playlist, or video file, the compound video streamer attempts detecting the stream type based on URL content.
+If the source is only specified as a string containing the URL to the manifest, playlist, or video file, the compound video streamer attempts detecting the stream type based on URL content. If the stream doesn't play as expected, try adding the correct `contentType` to the `Replay` source in order to eliminate incorrect stream type detections from the URL.
 
 ```javascript
 import React from 'react';

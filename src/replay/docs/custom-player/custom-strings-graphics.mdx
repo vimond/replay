@@ -16,7 +16,7 @@ One or both of these sets can be combined when creating a custom player, and als
 
 The easiest approach to replace the set of strings/and or graphics, is to use the `composePlayer()` method. It produces a React component from what's typically being subject to customisation.
 
-The [default Replay player](https://github.com/vimond/replay/blob/master/src/replay/default-player/Replay.js) is composed with these parameters:
+As a starting point, this is how the [default Replay player](https://github.com/vimond/replay/blob/master/src/replay/default-player/Replay.js) is composed, with parameters specifying the strings and graphics to be part of the Replay component:
 
 ```javascript
 import composePlayer from '../playerComposer';
@@ -37,7 +37,7 @@ export default Replay;
 
 The [default strings](https://github.com/vimond/replay/blob/master/src/replay/default-player/strings.js), as referred by the composition of the Replay player, are grouped by controls. The properties for each controls correspond to actually prop types expected by the control. Most of the strings are tooltip texts, with some exceptions.
 
-Similarly, for the [graphics for the default skin](https://github.com/vimond/replay/blob/master/src/replay/default-player/default-skin/graphics.js), the definitions are structured per control or component. Here, the property values are mainly SVG graphics from the Feather icon set, wrapped as React components, so that they can be rendered within the control directly.
+Similarly, for the [graphics for the default skin](https://github.com/vimond/replay/blob/master/src/replay/default-player/default-skin/graphics.js), the definitions are structured per control or component. Here, the property values are mainly SVG graphics from the [Feather](https://feathericons.com/) icon set, wrapped as React components, so that they can be rendered within the control directly.
 
 Again, the property keys refer to prop names of the controls. Graphics can be added to all props with type `React.Node`, as listed in the controls reference. And as long as the property values are accepted by React and the browser, the graphics or content can be any element types.
 

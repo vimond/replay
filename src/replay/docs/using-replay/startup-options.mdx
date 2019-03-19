@@ -16,9 +16,9 @@ For the following examples, the same prerequisites apply as in the [Inserting Re
 
 ## Starting playback from a different position than the beginning
 
-By specifying the `startPosition` property in a source prop, any positive numbers will be cued as the initial playback position. It is given as a number of seconds offset from the beginning.
+By specifying the `startPosition` property in a source prop, any positive numbers will be cued as the initial playback position, in seconds. It is given as a number of seconds offset from the beginning.
 
-Note that for this purpose, specifying source as a string, like in the [basic example](/replay/insert#inserting-the-player-with-a-progressive-video-source), doesn't apply anymore. An object with the property `streamUrl` must be passed as the `source` prop, along with the `startPosition` property. The value `123` means that playback will start at 00:02:03.
+Note that for this purpose, specifying source as a string, like in the [basic example](/replay/insert#inserting-the-player-with-a-progressive-video-source), doesn't apply anymore. An object with the property `streamUrl` must be passed as the `source` prop, along with the `startPosition` property. As the start position is specified as an absolute number of seconds, the value `123` would mean that playback would start at 00:02:03.
 
 <Playground>
   <Replay

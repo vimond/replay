@@ -17,13 +17,13 @@ This and the following pages demonstrates how you can:
 * Applying some playback settings.
 * Control and observe the playback state.
 
-*Note that all examples with actual video include the [`initialPlaybackProps={{ isPaused: true }}` property](/replay/api#initialplaybackprops-initialplaybackprops), so that the examples don't play wildly all over the pages. Please remove this prop when copying to real app code.*
+*Note that all examples with actual video include the [`initialPlaybackProps={{ isPaused: true }}` property](/replay/api#initialplaybackprops-initialplaybackprops), so that the examples don't play wildly all over the pages. It might be desired to remove this prop when copying examples to real app code.*
 
 ## Prerequisites
 
 ### Requirements
 
-Minimum React version for Replay is 16.3. If using the [compound video streamer](/advanced-playback/adaptive-streaming#enabling-playback-for-multiple-streaming-technologies-based-on-stream-technology-resolution), React 16.6 is required. In this case, a bundler supporting dynamic `import()` statements, is also required.
+Minimum React version for Replay is 16.6. If using the [compound video streamer](/advanced-playback/adaptive-streaming#enabling-playback-for-multiple-streaming-technologies-based-on-stream-technology-resolution), a bundler supporting dynamic `import()` statements, is also required.
 
 ### Installing the Replay npm package
 
@@ -35,7 +35,7 @@ npm install vimond-replay --save
 
 ### Importing dependencies
 
-All code examples below need the following import statements:
+All code examples on this and the following pages need the following import statements:
 
 ```javascript
 import React from 'react';
@@ -47,15 +47,15 @@ Or substitute the CSS `import` statement with your desired CSS inclusion mechani
 
 ### Video/stream technology support
 
-Out of the box, Replay supports video files that can be played natively in the browser. That typically means MP4 or WebM videos progressively downloaded from a web server location.
+With only the Replay component inserted to an app, Replay supports video files that can be played natively in the browser. That typically means MP4 or WebM videos progressively downloaded from a web server location.
 
-The [Adaptive streaming](/advanced-playback/adaptive-streaming) chapter explains how to add support for adaptive streaming.
+The [Adaptive streaming](/advanced-playback/adaptive-streaming) chapter explains how to add support for adaptive streaming by specifying a video streamer component as the Replay component's child.
 
 ## Inserting the player with a progressive video source
 
-Please remember the import statements discussed above. Include the `source` prop in order to load a video. This prop can be a string with the video URL, or an object containing several pieces of technical details in order to play the video/stream appropriately. Essential is the `streamUrl` property, referring to the video file or adaptive stream URL (if applicable). The object variant is shown in later examples.
+Please remember the import statements discussed above. When inserting the Replay component, include the `source` prop in order to load a video. This prop can be a string with the video URL, or an object containing several pieces of technical details in order to play the video/stream appropriately. Essential in this object is the `streamUrl` property, referring to the video file or adaptive stream URL (if applicable). The object variant is shown in later examples.
 
-This example is live. Press play to test the playback:
+This example is live and its code can be edited. Press play to test the playback:
 
 <Playground>
   <Replay
@@ -66,4 +66,4 @@ This example is live. Press play to test the playback:
 
 Note that Replay doesn't include a poster feature. This is best implemented outside the player component. The player can be inserted without specifying a source, and it will render, but remain inactive.
 
-When the `source` prop is changed, either from unspecified, or from an earlier set source, a new playback will start. Set the same prop to null in order to stop playback.
+When the `source` prop is changed, either from unspecified, or from an earlier set source, a new playback will start. Set the same prop to null in order to stop and shut down playback.

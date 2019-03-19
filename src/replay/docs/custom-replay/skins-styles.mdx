@@ -41,7 +41,7 @@ This would change the "primary colour" (icon and button surfaces) into green.
 
 ### Building a new stylesheet
 
-The default stylesheet can be completely replaced. For this, either reuse individual modules from the Replay library and substitute others (like colors.css) with your own, or create a copy of the file found at the npm path `'vimond-replay/index.css'`. If reusing individual modules, they need to be referred individually by either a preprocessor (e.g. SASS, PostCSS, Webpack) or the browser.
+The default stylesheet can be completely replaced. For this, either reuse some individual [CSS modules from the Replay library](https://github.com/vimond/replay/tree/master/src/replay/default-player/default-skin) and substitute some others (like `colors.css`) with your own. Another alternative is simply creating and modifying a copy of the file found at the npm path `'vimond-replay/index.css'`. If reusing individual modules, they need to be referred individually by either a preprocessor (e.g. SASS, PostCSS, Webpack), or the browser itself.
 
 Please see the chapter below, "CSS module organisation", and refer the source code, in order to look into individual CSS modules.
 
@@ -93,11 +93,11 @@ In summary:
 
 ## CSS module organisation
 
-For reference, in the Replay code base, the default stylesheet is built with several CSS files with the following setup. However, replacement stylesheets can be organised independently of the default one.
+For reference, in the Replay code base, the [default stylesheet](https://github.com/vimond/replay/blob/master/src/replay/replay-default.css) is built with several CSS files with the following setup. However, replacement stylesheets can be organised independently of the default one.
 
-* Some distinct, but general CSS files when there is a requirement for styles specifically for a component/control. These are located next to the components in the `components/` hierarchy, and contain no skin or layout styles.
+* Some distinct, but general CSS files when there is a requirement for styles specifically for a component/control. These are located next to the components in the [`components/` hierarchy](https://github.com/vimond/replay/tree/master/src/replay/components), and contain no skin or layout styles.
 * There are no CSS or SASS variables used.
-* Style rules for the default skin, are organised in different files, located in `default-player/default-skin/`: `sizesAndLayout.css`, `colors.css`, `animations.css`, and assembled with some more styles in `index.css`. This kind of separation makes it fairly easy to change e.g. only the colours on all controls while being DRY.
+* Style rules for the default skin, are organised in different files, [located in `default-player/default-skin/`](https://github.com/vimond/replay/tree/master/src/replay/default-player/default-skin): `sizesAndLayout.css`, `colors.css`, `animations.css`, and assembled with some more styles in `index.css`. This kind of separation makes it fairly easy to change e.g. only the colours on all controls while being DRY.
 * `replay-default.css` includes all above and constitutes the full default stylesheet.
 
 

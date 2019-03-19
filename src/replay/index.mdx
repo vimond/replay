@@ -50,7 +50,9 @@ A React video player with advanced streaming support.
 
 ## Features list
 
-All features are programmatically accessible. The controls listed underneath indicate what's appearing as end user features.
+All features are programmatically accessible. The components listed underneath indicate what's appearing as end user features.
+
+### Functionality
 
 #### Controlling the playback
 
@@ -120,7 +122,7 @@ All controls and components are included and utilised in the default Replay play
 * Buffering/loading indicator (animation)
 * Control bar aligning at bottom
 
-#### Helper/containment components
+#### Helper/containment components:
 
 * Aspect ratio – keep the rendered player in 16:9 format
 * Fullscreen management
@@ -138,7 +140,7 @@ All controls and components are included and utilised in the default Replay play
 
 ### MPEG-DASH
 
-MPEG-DASH across all modern browsers is supported through the Shaka Player integration. This includes support for DRM in Firefox, Chrome (Widevine), and Edge, Internet Explorer (PlayReady). It covers on demand streams and live streams with DVR.
+MPEG-DASH across all modern browsers is supported through the Shaka Player integration. This includes support for DRM in Firefox, Chrome (Widevine), and Edge (PlayReady). It covers on demand streams and live streams with DVR.
 
 ### HLS
 
@@ -146,7 +148,7 @@ Apple's Safari supports HLS natively in the browser, without use of third party 
 
 For supporting HLS in all other modern browsers, Replay provides an integration with HLS.js. This covers on demand, live with DVR, but no DRM except AES encryption to the extent HLS.js supports it.
 
-Also Shaka Player provides HLS support. This is not researched for the Replay project.
+Also Shaka Player provides HLS support. This is not specifically tested for the Replay project.
 
 ### MP4, WebM
 
@@ -157,7 +159,7 @@ The video file formats and codecs supported natively by the browser can be playe
 The main Replay project is not intended to offer and maintain any feature. In general, Replay is ready for adding most kinds of customisations or extensions. Here are some features and capabilities that can be added, but are out of scope for this project: 
 
 * Non-playback related controls and overlays. Features like social sharing, end poster, other video recommendations. Can be added in a custom player user interface.
-* 360˚/VR-enabled playback. Enable it through a custom VideoStreamer component and extend the player user interface.
+* 360˚/VR-enabled playback. Can be implemented through a custom VideoStreamer component, and with extensions to the player user interface.
 * Ad integrations. Add it with a custom VideoStreamer component and possibly alter the main player user interface.
 * Analytics integrations. Integrate by adding stream state observer callbacks and collect metadata in separate modules or a wrapper component. All aspects of the playback can be monitored.
 * A REST API client, integrating with any online video platform. Wrap it in any React data layer with a container component or higher order component.

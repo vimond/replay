@@ -6,23 +6,7 @@ menu: 'Using the Replay player'
 
 # API reference for `<Replay/>`
 
-## Props
-
-### Children
-
-Replay can take 0 or 1 child elements. If present, a child should implement the [video streamer](/architecture/video-streamers) component API, most commonly by using one of the alternatives provided by this library.
-
-When using basic HTML playback of video files, the child video streamer element can be omitted. Replay will then insert the `<BasicVideoStreamer/>`. For advanced streaming playback, specify a video streamer component supporting the streaming technology the child element. This element should not have props specified that could interfere with the prop set passed down from the controller. One example is the `source` prop.
-
-When needing to toggle different video streamer components for different stream formats and/or browsers, a composite video streamer should be created and inserted as the only child. This could contain logic for selecting the video streamer implementation currently needed. Such a component should pass down props to the actual video streamer.
-
-```jsx
-  <Replay
-    source="public/example-media/adaptive.m3u8"
-    initialPlaybackProps={{ isPaused: true }}>
-    <HlsjsVideoStreamer/>
-  </Replay>
-```
+## Component props
 
 ### `source: PlaybackSource | null`
 
@@ -54,7 +38,7 @@ type AdvancedPlaybackSource = {
 | Property | Description |
 |----------|-------------|
 | streamUrl | URL to a video file, or to a stream manifest/playlist when using adaptive streams. |
-| contentType | The mime type of the stream. Only relevant if using a VideoStreamer broking/resolving correct playback technology based on stream technologies. |
+| contentType | The mime type of the stream. Relevant if using the CompoundVideoStreamer broking/resolving correct playback technology based on stream technologies. |
 | licenseUrl | When the stream is DRM encrypted, specify the license acquisition URL through this property. |
 | startPosition | A number specifying the offset where playback should start upon loading the video. Given in seconds from the start of the stream. |
 | textTracks | An array with objects specifying any subtitle files to be side-loaded as text tracks. See the prop `textTracks` below for more information on the object shape. |
@@ -157,11 +141,27 @@ type InitialPlaybackProps = {
 | bitrateCap | Only relevant for adaptive streaming. Specifies a maximum bitrate to be considered for adaptive bitrate switching. The number specifies the bitrate in kbps. |
 | bitrateFix | Only relevant for adaptive streaming. Deactivates adaptive bitrate switching and fixes the bitrate selection. The number is given as an integer of kbps, and must correspond exactly to one of the bitrates reported in the video stream state property `bitrates`. |
 
+### Children
+
+Replay can take 0 or 1 child elements. If present, a child should implement the [video streamer](/architecture/video-streamers) component API, most commonly by using one of the alternatives provided by this library.
+
+When using basic HTML playback of video files, such a child video streamer element can be omitted. Replay will then insert the `<BasicVideoStreamer/>`. For advanced streaming playback, specify a video streamer component supporting the streaming technology as the child element. This element should not have props specified that could interfere with the prop set passed down from the controller. One example is the `source` prop. Always set the `source` prop (see below) on the `Replay` component itself, and not the video streamer child.
+
+When needing to toggle different video streamer components for different stream formats and/or browsers, use the `CompoundVideoStreamer` component discussed in the [adaptive streaming](/advanced-playback/adaptive-streaming) chapter. Here is an example of specifying the HLS.js video streamer as the child component for HLS playback support.
+
+```jsx
+  <Replay
+    source="public/example-media/adaptive.m3u8"
+    initialPlaybackProps={{ isPaused: true }}>
+    <HlsjsVideoStreamer/>
+  </Replay>
+```
+
 ## Callback props
 
 ### `onExit: () => void`
 
-If specified, displays a close button in the upper right corner of the player. When clicking the button, this callback will be invoked. It is the responsibility of the parent elements of the Replay element to remove the player from the rendered element hierarchy.
+If specified, displays a close button in the upper right corner of the player. When clicking the button, this callback will be invoked. It is the responsibility of the parent elements of the Replay element to remove the player from the rendered element tree.
 
 ### `onError?: any => void`
 
@@ -169,23 +169,23 @@ Invoked upon playback/stream errors and possibly other errors.
 
 ### `onPlaybackActionsReady?: PlaybackActions => void`
 
-Provides the API for controlling the playback. Invoked when the player is ready to be controlled. The argument is an object with the methods listed in the "Methods" chapter below.
+In order to get hold of methods for controlling playback, this callback must be specified. Invocations will provide the API for controlling the playback. Invoked when the player is ready to be controlled. The argument is an object with the methods listed in the "Methods" chapter below.
 
-See 
+See the chapter [How to perform operations on the playback](/replay/controlling-playback#how-to-perform-operations-on-the-playback) for a dicusssion of the methods being made available in this callback, and the methods reference underneath.
 
 ### `onStreamStateChange?: VideoStreamState => void`
 
-Through this callback, all aspects of the video playback state is reported. This includes volume changes, bitrate changes, position updates, durations, live stream states, audio and text track selections. Each state change to any property is reported by an individual invocation of this callback, with an argument containing the property (key and value) with an updated state. 
+Through this callback, all aspects of the video playback state is reported. This includes volume changes, bitrate changes, position updates, durations, live stream states, audio and text track selections. The list is not exhaustive. Each state change to any property is reported by an individual invocation of this callback, with an argument containing the property (key and value) with an updated state. 
 
 ## Video stream state properties, reported through `onStreamStateChange`
 
 Please see the [Stream state properties reference](/reference/observable-stream-state).
 
-## Methods, available through `onPlaybackActionsReady`
+## Playback operation methods, available through `onPlaybackActionsReady`
 
 ### `inspect: () => VideoStreamState`
 
-Returns all the current properties of the video stream state. The return value is one object combining all state property keys and values that are reported from the playback.
+Returns all the current properties of the video stream state, valid only at the moment of invocation. The return value is one object combining all state property keys and values that are reported from the playback.
 
 ### `setProperties: PlaybackProps => void`
 
