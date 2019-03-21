@@ -54,15 +54,11 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
   updateStreamState: VideoStreamState => void,
   log?: string => void
 }) => {
-  const isSafari =
-    navigator.userAgent.indexOf('Safari') > 0 &&
-    navigator.userAgent.indexOf('Chrome') < 0 &&
-    navigator.userAgent.indexOf('Firefox') < 0;
-
-  const isDebugging = window.location.search.indexOf('debug') > 0;
-  if (isDebugging) {
-    window.videoElementEvents = [];
-  }
+  const isSafariOrEdge =
+    navigator.userAgent.indexOf('Edge') > 0 ||
+    (navigator.userAgent.indexOf('Safari') > 0 &&
+      navigator.userAgent.indexOf('Chrome') < 0 &&
+      navigator.userAgent.indexOf('Firefox') < 0);
 
   let lifeCycleManager = {
     setStage: (_: PlaybackLifeCycle) => {},
@@ -156,7 +152,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
   function onStalled() {
     log && log('stalled');
     // The stalled event is fired also after pausing in Safari.
-    if (!isSafari) {
+    if (!isSafariOrEdge) {
       updateStreamState({ isBuffering: true });
       if (lifeCycleManager.getStage() === 'started') {
         updateStreamState({ playState: 'buffering' });
@@ -194,7 +190,7 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
 
   function onSeeked() {
     log && log('seeked');
-    if (isSafari) {
+    if (isSafariOrEdge) {
       if (videoElement.paused) {
         updateStreamState({ playState: 'paused', isPaused: true, isBuffering: false, isSeeking: false });
         pauseStreamRangeUpdater.start();
