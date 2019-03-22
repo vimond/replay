@@ -112,7 +112,7 @@ function getFromDeclarativeMapping(shakaError) {
   }
 }
 
-function isEmeBlocked(userAgent: string, location: Location) {
+function isEmeBlocked(userAgent: ?string, location: ?Location) {
   return (
     location &&
     location.protocol === 'http:' &&
@@ -123,9 +123,17 @@ function isEmeBlocked(userAgent: string, location: Location) {
   );
 }
 
-function mapShakaError(isStarted: boolean, shakaError: ShakaError, userAgent: string, location: Location) {
+function mapShakaError(isStarted: boolean, shakaError: ShakaError, userAgent?: string, location?: Location) {
   const classification = getFromDeclarativeMapping(shakaError).classification;
-  if (classification) {
+  if ((shakaError.message || '').indexOf('MediaSource')) {
+    return new PlaybackError(
+      'STREAM_ERROR_TECHNOLOGY_UNSUPPORTED',
+      'shaka',
+      'This browser does not support playing MPEG-DASH streams with Shaka Player.',
+      'FATAL',
+      shakaError
+    );
+  } else if (classification) {
     if (classification === STREAM_ERROR_DRM_CLIENT_UNAVAILABLE && isEmeBlocked(userAgent, location)) {
       const message = 'DRM playback is blocked in Chrome. Likely reason: This page is not served with HTTPS.';
       return new PlaybackError(STREAM_ERROR, errorTechnology, message, getSeverity(isStarted, shakaError), shakaError);

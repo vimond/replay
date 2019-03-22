@@ -17,6 +17,7 @@ import { getArrayLogger } from '../common/logger';
 import getShakaBitrateManager from './shakaBitrateManager';
 import getShakaTextTrackManager from './shakaTextTrackManager';
 import getShakaAudioTrackManager from './shakaAudioTrackManager';
+import mapShakaError from './shakaErrorMapper';
 
 export type ShakaVideoStreamerConfiguration = VideoStreamerConfiguration & {
   shakaPlayer?: ?{
@@ -35,7 +36,12 @@ function resolveImplementation(
   configuration: ?ShakaVideoStreamerConfiguration,
   videoElement: HTMLVideoElement
 ): Promise<StreamerImplementationParts<ShakaVideoStreamerConfiguration, ShakaVideoStreamerProps, ShakaPlayer>> {
-  const shakaPlayer = shakaSetup(videoElement, configuration);
+  let shakaPlayer;
+  try {
+    shakaPlayer = shakaSetup(videoElement, configuration);
+  } catch (e) {
+    return Promise.reject(mapShakaError(false, e));
+  }
 
   const streamRangeHelper = getStreamRangeHelper(videoElement, shakaPlayer, configuration); // S
   const handleSourceChange = getSourceChangeHandler(shakaPlayer); // S
