@@ -8,6 +8,8 @@ beforeEach(() => {
   shaka.polyfill.installAll.mockClear();
 });
 
+window.MediaSource = { isTypeSupported: () => {} };
+
 test('Shaka shakaSetup() instantiates a shaka.Player.', () => {
   const videoElement = {};
   const shakaPlayer = shakaSetup(videoElement);

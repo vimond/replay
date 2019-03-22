@@ -9,6 +9,7 @@ import type {
   VideoStreamerRenderer
 } from './types';
 import { renderWithoutSource } from './renderers';
+import { PlaybackError } from '../types';
 
 const baseClassName = 'video-streamer';
 
@@ -94,7 +95,11 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
             }
           })
           .catch(err => {
-            throw err;
+            if (this.props.onPlaybackError && err instanceof PlaybackError) {
+              this.props.onPlaybackError(err);
+            } else {
+              throw err;
+            }
           });
       }
     }

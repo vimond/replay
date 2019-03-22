@@ -124,8 +124,11 @@ function isEmeBlocked(userAgent: ?string, location: ?Location) {
 }
 
 function mapShakaError(isStarted: boolean, shakaError: ShakaError, userAgent?: string, location?: Location) {
+  if (shakaError instanceof PlaybackError) {
+    return shakaError;
+  }
   const classification = getFromDeclarativeMapping(shakaError).classification;
-  if ((shakaError.message || '').indexOf('MediaSource')) {
+  if ((shakaError.message || '').indexOf('MediaSource') >= 0) {
     return new PlaybackError(
       'STREAM_ERROR_TECHNOLOGY_UNSUPPORTED',
       'shaka',
