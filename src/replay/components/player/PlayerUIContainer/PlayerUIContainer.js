@@ -43,6 +43,7 @@ type Props = CommonProps & {
 };
 
 const uiContainerClassName = 'ui-container';
+const aspectRatioFixClassName = 'aspect-ratio-fix';
 
 const classNameDefinitions = {
   responsivenessPrefix: 'player-size-',
@@ -87,8 +88,10 @@ export const getConnectedPlayerUIContainer = (connector: any => React.ComponentT
       const playerClassName = classNamePrefix ? classNamePrefix.substr(0, classNamePrefix.length - 1) : className;
       return (
         <AspectRatio
-          className={playerClassName}
-          aspectRatio={aspectRatio || (configuration && configuration.aspectRatio) }
+          rootClassName={playerClassName}
+          aspectRatio={aspectRatio || (configuration && configuration.aspectRatio)}
+          aspectFixClassName={aspectRatioFixClassName}
+          classNamePrefix={classNamePrefix}
           render={() => (
             <Fullscreen
               render={({ onRef, ...fullscreenState }) => (

@@ -5,10 +5,10 @@ import AspectRatio from './AspectRatio';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-test('<AspectRatio /> renders with DOM, class names, and styles.', () => {
+test('<AspectRatio /> renders with DOM, class names, and styles if no aspectClassName is specified.', () => {
   const renderFn = jest.fn();
   renderFn.mockReturnValue(<figure />);
-  const rendered = shallow(<AspectRatio className="my-aspect-container" render={renderFn} />);
+  const rendered = shallow(<AspectRatio rootClassName="my-aspect-container" render={renderFn} />);
   expect(renderFn.mock.calls.length).toBe(1);
   expect(rendered.find('div').length).toBe(2);
   expect(
@@ -38,11 +38,38 @@ test('<AspectRatio /> renders with DOM, class names, and styles.', () => {
   expect(rendered.childAt(1).type()).toBe('figure');
 });
 
-test('<AspectRatio /> respects other aspect ratios than the default (16:9).', () => {
+test('<AspectRatio /> with aspect class name renders with DOM, and root class name, but no styles.', () => {
   const renderFn = jest.fn();
   renderFn.mockReturnValue(<figure />);
   const rendered = shallow(
-    <AspectRatio aspectRatio={{ horizontal: 21, vertical: 9 }} className="my-aspect-container" render={renderFn} />
+    <AspectRatio
+      rootClassName="my-aspect-container"
+      classNamePrefix="b-"
+      aspectFixClassName="aspect-ratio-fix"
+      render={renderFn}
+    />
+  );
+  expect(
+    rendered
+      .find('div')
+      .at(0)
+      .props().className
+  ).toBe('my-aspect-container b-aspect-ratio-fix');
+  expect(
+    rendered
+      .find('div')
+      .at(0)
+      .props().style
+  ).not.toBeDefined();
+  expect(rendered.find('div').length).toBe(1);
+  expect(rendered.childAt(0).type()).toBe('figure');
+});
+
+test('<AspectRatio /> respects other aspect ratios than the default (16:9), when specified as props.', () => {
+  const renderFn = jest.fn();
+  renderFn.mockReturnValue(<figure />);
+  const rendered = shallow(
+    <AspectRatio aspectRatio={{ horizontal: 21, vertical: 9 }} rootClassName="my-aspect-container" render={renderFn} />
   );
   expect(
     rendered

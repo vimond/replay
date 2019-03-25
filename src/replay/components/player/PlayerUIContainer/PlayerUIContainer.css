@@ -5,3 +5,16 @@
     right: 0;
     bottom: 0;
 }
+
+.replay-aspect-ratio-fix {
+    position: relative;
+    max-height: 100vh;
+}
+
+.replay-aspect-ratio-fix::before {
+    display: block;
+    content: '';
+    width: 100%;
+    padding-top: 56.25%;
+    pointer-events: none;
+}

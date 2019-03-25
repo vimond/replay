@@ -3,3 +3,8 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+/*
+.App .replay-aspect-ratio-fix::before {
+  padding-top: 42.55%;
+}
+*/

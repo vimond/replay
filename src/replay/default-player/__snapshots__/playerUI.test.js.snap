@@ -23,34 +23,20 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
   render={[Function]}
 >
   <AspectRatio
+    aspectFixClassName="aspect-ratio-fix"
     aspectRatio={
       Object {
         "horizontal": 16,
         "vertical": 9,
       }
     }
-    className="replay"
+    classNamePrefix="replay-"
     render={[Function]}
+    rootClassName="replay"
   >
     <div
-      className="replay"
-      style={
-        Object {
-          "maxHeight": "100vh",
-          "position": "relative",
-        }
-      }
+      className="replay replay-aspect-ratio-fix"
     >
-      <div
-        style={
-          Object {
-            "display": "block",
-            "paddingTop": "56.25%",
-            "pointerEvents": "none",
-            "width": "100%",
-          }
-        }
-      />
       <Fullscreen
         render={[Function]}
       >
