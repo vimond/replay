@@ -25,15 +25,18 @@ type RenderParameters = {
   }
 };
 
+type AspectRatioConfiguration = {
+  horizontal: number,
+  vertical: number
+};
+
 type Props = CommonProps & {
-  aspectRatio: {
-    horizontal: number,
-    vertical: number
-  },
+  aspectRatio: AspectRatioConfiguration,
   configuration?: {
     interactionDetector?: InteractionDetectorConfiguration,
     keyboardShortcuts?: KeyboardShortcutsConfiguration,
-    responsivenessRules?: ?ResponsiveRanges
+    responsivenessRules?: ?ResponsiveRanges,
+    aspectRatio?: ?AspectRatioConfiguration
   },
   render: RenderParameters => React.Node,
   className?: string
@@ -85,7 +88,7 @@ export const getConnectedPlayerUIContainer = (connector: any => React.ComponentT
       return (
         <AspectRatio
           className={playerClassName}
-          aspectRatio={aspectRatio}
+          aspectRatio={aspectRatio || (configuration && configuration.aspectRatio) }
           render={() => (
             <Fullscreen
               render={({ onRef, ...fullscreenState }) => (

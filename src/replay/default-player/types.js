@@ -41,6 +41,10 @@ export type PlayerConfiguration = {
   userSettings?: ?UserSettingsConfiguration,
   responsivenessRules?: ?ResponsiveRanges,
   classNamePrefix?: ?string,
+  aspectRatio?: ?{
+    horizontal: number,
+    vertical: number
+  },
   controls?: ?{
     includeControls?: ?Array<ControlNames>,
     skipButtonOffset?: number,
