@@ -143,16 +143,16 @@ The recognised mime types are as follows:
 * HLS: `application/x-mpegurl`, alternatively `vnd.apple.mpegurl`
 * Progressive MP4 or WebM: `video/mp4`, `video/webm`
 
-If the source is only specified as a string containing the URL to the manifest, playlist, or video file, the compound video streamer attempts detecting the stream type based on URL content. If the stream doesn't play as expected, try adding the correct `contentType` to the `Replay` source in order to eliminate incorrect stream type detections from the URL.
+If the source is only specified as a string containing the URL to the manifest, playlist, or video file, the compound video streamer attempts detecting the stream type based on URL content. If the stream doesn't play as expected, try adding the correct `contentType` to the `Replay` source in order to eliminate incorrect stream type detections from the URL, as shown below.
 
 ```javascript
 import React from 'react';
 import { Replay } from 'vimond-replay';
 import 'vimond-replay/index.css';
-import CompoundVideoStreamer from 'vimond-replay/video-streamer/CompoundVideoStreamer/CompoundVideoStreamer';
+import CompoundVideoStreamer from 'vimond-replay/video-streamer/compound';
 ```
 
-The following example resolves to inserting the HlsjsVideoStreamer for the specified source, unless this page is viewed in Safari, where HtmlVideoStreamer is selected.
+The following example contains a source with `contentType` specifying an HLS stream. The `<CompoundVideoStreamer/>` resolves to inserting the HlsjsVideoStreamer for the specified source, unless this page is viewed in Safari, where HtmlVideoStreamer is selected.
 
 <Playground>
   <Replay
@@ -165,7 +165,7 @@ The following example resolves to inserting the HlsjsVideoStreamer for the speci
   </Replay>
 </Playground>
 
-The following example selects the ShakaVideoStreamer for the specified source string. The manifest URL contains `.mpd`, which makes the compound video streamer guess that this is a MPEG-DASH manifest.
+The following example selects the ShakaVideoStreamer for the specified source string. The manifest URL contains `.mpd`, which makes the compound video streamer guess that this is an MPEG-DASH manifest.
 
 <Playground>
   <Replay
