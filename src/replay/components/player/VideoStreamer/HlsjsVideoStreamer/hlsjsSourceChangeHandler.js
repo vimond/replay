@@ -41,7 +41,6 @@ const getSourceChangeHandler = (instanceKeeper: HlsjsInstanceKeeper) => <
           }
         };
         try {
-          hls.stopLoad();
           hls.on(Hls.Events.MANIFEST_PARSED, onMediaLoaded);
           hls.loadSource(source.streamUrl);
         } catch (e) {

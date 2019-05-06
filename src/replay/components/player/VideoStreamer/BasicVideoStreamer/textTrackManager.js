@@ -43,10 +43,9 @@ function isEqual(a: any, b: any): boolean {
 function isVideoElementTrackValid(textTrack: TextTrack) {
   // Detecting empty dummy tracks originating from HLS streams in Safari.
   return (
-    !('inBandMetadataTrackDispatchType' in textTrack) ||
-    (textTrack.cues && textTrack.cues.length) ||
-    textTrack.label ||
-    textTrack.language
+    (textTrack.kind !== 'metadata' &&
+    !('inBandMetadataTrackDispatchType' in textTrack)) ||
+    (textTrack.cues && textTrack.cues.length) || textTrack.label || textTrack.language
   );
 }
 
