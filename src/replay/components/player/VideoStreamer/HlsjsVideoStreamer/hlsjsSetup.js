@@ -18,6 +18,7 @@ export function hlsjsSetup(
       const hlsConfig: any = {
         autoStartLoad: false,
         debug: configuration && configuration.logLevel === 'DEBUG',
+        enableWorker: false,
         ...customConfiguration
       };
       const hls = new Hls(hlsConfig);
