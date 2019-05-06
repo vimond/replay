@@ -18,7 +18,7 @@ export const streamTypes: Array<StreamType> = [
     label: 'Progressive (MP4, WebM)',
     contentTypes: ['video/mp4', 'video/webm'],
     urlMatch: /(\.webm|\.mp4)/,
-    urlNotMatch: /(\/Manifest|\.mpd|\.m3u8)/
+    urlNotMatch: /(\/Manifest|\.mpd|\.m3u)/
   },
   {
     name: 'dash',
@@ -30,14 +30,14 @@ export const streamTypes: Array<StreamType> = [
     name: 'hls',
     label: 'Apple HLS',
     contentTypes: hlsContentTypes,
-    urlMatch: /\.m3u8/
+    urlMatch: /\.m3u/
   },
   {
     name: 'smooth',
     label: 'Smooth stream',
     contentTypes: ['application/vnd.ms-sstr+xml'],
     urlMatch: /\/Manifest/,
-    urlNotMatch: /(\.mpd|\.m3u8|\.mp4)/
+    urlNotMatch: /(\.mpd|\.m3u|\.mp4)/
   }
 ];
 
