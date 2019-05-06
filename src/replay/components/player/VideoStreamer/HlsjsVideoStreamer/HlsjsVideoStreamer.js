@@ -14,7 +14,7 @@ import { renderWithoutSource } from '../common/renderers';
 import { getArrayLogger } from '../common/logger';
 import getHlsjsAudioTrackManager from './hlsjsAudioTrackManager';
 import Hls from 'hls.js';
-import getTextTrackManager from '../BasicVideoStreamer/textTrackManager';
+import getHlsjsTextTrackManager from './hlsjsTextTrackManager';
 import getHlsjsBitrateManager from './hlsjsBitrateManager';
 import getHlsjsEventHandlers from './hlsjsEventHandlers';
 
@@ -46,7 +46,12 @@ function resolveImplementation(
   const handleSourceChange = getSourceChangeHandler(instanceKeeper);
   const updateStreamState = getFilteredStreamStateUpdater(streamer);
 
-  const textTrackManager = getTextTrackManager(videoElement, updateStreamState, onTrackElementDataChange);
+  const textTrackManager = getHlsjsTextTrackManager(
+    videoElement,
+    instanceKeeper,
+    updateStreamState,
+    onTrackElementDataChange
+  );
   const audioTrackManager = getHlsjsAudioTrackManager(instanceKeeper, updateStreamState);
   const bitrateManager = getHlsjsBitrateManager(
     streamer,

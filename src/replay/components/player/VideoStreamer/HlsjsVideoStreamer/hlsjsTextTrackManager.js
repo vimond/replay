@@ -1,10 +1,14 @@
 // @flow
 
+// https://github.com/video-dev/hls.js/issues/2147
+// https://github.com/video-dev/hls.js/issues/2198
+
 import type { AvailableTrack, PlaybackSource, SourceTrack, VideoStreamState } from '../types';
 import { emptyTracks } from '../common/playbackLifeCycleManager';
 import { isShallowEqual } from '../../../common';
 import type { TextTrackManager, TrackElementData } from '../common/types';
 import normalizeSource from '../common/sourceNormalizer';
+import type { HlsjsInstanceKeeper } from './HlsjsVideoStreamer';
 
 export type ManagedTextTrack = {
   isBlacklisted: boolean,
@@ -88,8 +92,9 @@ function createSelectableTrack(
   };
 }
 
-const getTextTrackManager = (
+const getHlsjsTextTrackManager = (
   videoElement: HTMLVideoElement,
+  instanceKeeper: HlsjsInstanceKeeper,
   update: <T: VideoStreamState>(props: T) => void,
   updateTrackElementData: (Array<TrackElementData>) => void
 ): TextTrackManager => {
@@ -145,11 +150,7 @@ const getTextTrackManager = (
         const id = ++unique;
         if (Array.isArray(sourceTrack.cues)) {
           const cues = sourceTrack.cues;
-          const videoElementTrack = videoElement.addTextTrack(
-            sourceTrack.kind || 'subtitles',
-            sourceTrack.label,
-            sourceTrack.language
-          );
+          const videoElementTrack = videoElement.addTextTrack('subtitles', sourceTrack.label, sourceTrack.language);
           cues.forEach(cue => {
             videoElementTrack.addCue(new Cue(cue.start, cue.end, cue.content));
           });
@@ -318,10 +319,15 @@ const getTextTrackManager = (
       .filter(mt => mt.videoElementTrack && getTrackMode(mt.videoElementTrack) === 'showing')
       .forEach(mt => mt.videoElementTrack && setTrackMode(mt.videoElementTrack, 'hidden'));
     if (selectedTextTrack) {
+      if (instanceKeeper.hls) {
+        instanceKeeper.hls.subtitleDisplay = true;
+      }
       const managedTrack = managedTracks.filter(mt => mt.selectableTrack === selectedTextTrack)[0];
       if (managedTrack && managedTrack.videoElementTrack) {
         setTrackMode(managedTrack.videoElementTrack, 'showing');
       }
+    } else if (instanceKeeper.hls) {
+      instanceKeeper.hls.subtitleDisplay = false;
     }
     notifyPropertyChanges();
   }
@@ -357,4 +363,4 @@ const getTextTrackManager = (
   };
 };
 
-export default getTextTrackManager;
+export default getHlsjsTextTrackManager;

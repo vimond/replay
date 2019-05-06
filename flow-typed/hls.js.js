@@ -49,6 +49,7 @@ declare module 'hls.js' {
     startLevel: number;
     startLoad(?number): void;
     stopLoad(): void;
+    subtitleDisplay: boolean,
     url: string;
   }
   declare export default typeof Hls;
