@@ -85,7 +85,8 @@
     "istanbul-reports/handlebars": "^4.1.2",
     "node-gyp/fstream": "^1.0.12",
     "tar/fstream": "^1.0.12",
-    "docz-core/webpack-bundle-analyzer": "^3.3.2"
+    "docz-core/webpack-bundle-analyzer": "^3.3.2",
+    "eslint/eslint-utils": "^1.4.1"
   },
   "prettier": {
     "printWidth": 120,
