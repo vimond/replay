@@ -1,7 +1,7 @@
 
 .replay-playback-monitor {
     position: absolute;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
