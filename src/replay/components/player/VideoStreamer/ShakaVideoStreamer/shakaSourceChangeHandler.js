@@ -5,6 +5,10 @@ import mapShakaError from './shakaErrorMapper';
 import shaka from 'shaka-player';
 import normalizeSource from '../common/sourceNormalizer';
 
+declare class Object {
+  static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
+}
+
 type Props<C: VideoStreamerConfiguration> = {
   source?: ?PlaybackSource,
   shakaRequestFilter?: ?ShakaRequestFilter,
@@ -32,19 +36,34 @@ function getEmeAttributes(userAgent, serviceCertificate) {
   }
 }
 
+function addLicenseRequestFilters(shakaPlayer: ShakaPlayer, licenseRequestHeaders: { [string]: string }) {
+  shakaPlayer.getNetworkingEngine().registerRequestFilter((type: string, request) => {
+    if (type === shaka.net.NetworkingEngine.RequestType.LICENSE) {
+      Object.entries(licenseRequestHeaders).forEach(([key: string, value: string]) => {
+        request.headers[key] = value;
+      });
+    }
+  });
+}
+
 function prepareDrm(
   shakaPlayer: ShakaPlayer,
   source: AdvancedPlaybackSource,
   configuration: ?VideoStreamerConfiguration
 ) {
   const licenseUrl = source.licenseUrl;
+  const details = source.licenseAcquisitionDetails || {};
   const serviceCertificate =
-    (source.licenseAcquisitionDetails && source.licenseAcquisitionDetails.widevineServiceCertificateUrl) ||
+    details.widevineServiceCertificateUrl ||
     (configuration &&
       configuration.licenseAcquisition &&
       configuration.licenseAcquisition.widevine &&
       configuration.licenseAcquisition.widevine.serviceCertificateUrl);
   const emeAttributes = getEmeAttributes(navigator.userAgent, serviceCertificate);
+  const { licenseRequestHeaders } = details;
+  if (licenseRequestHeaders && Object.keys(licenseRequestHeaders).length > 0) {
+    addLicenseRequestFilters(shakaPlayer, licenseRequestHeaders);
+  }
   shakaPlayer.configure({
     drm: {
       servers: {

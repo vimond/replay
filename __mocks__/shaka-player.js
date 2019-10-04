@@ -5,7 +5,11 @@ const shaka = {
   net: {
     NetworkingEngine: {
       RequestType: {
-        MANIFEST: 'MANIFEST'
+        MANIFEST: 0,
+        SEGMENT: 1,
+        LICENSE: 2,
+        APP: 3,
+        TIMING: 4
       }
     }
   },
