@@ -46,6 +46,8 @@
 }
 
 .replay-button svg, .replay-toggle-button svg {
+    display: inline;
+    vertical-align: baseline;
     transform: translateY(3px);
 }
 
