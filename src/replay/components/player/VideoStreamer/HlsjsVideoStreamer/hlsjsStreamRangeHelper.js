@@ -29,8 +29,13 @@ function getAbsolutePositions(
   startDateTime: ?Date,
   position: number
 ): { absolutePosition: Date, absoluteStartPosition: Date } {
-  if (isLive) {
-    if (!(startDateTime instanceof Date) || isNaN(startDateTime)) {
+  if (startDateTime instanceof Date && !isNaN(startDateTime)) {
+    return {
+      absolutePosition: new Date(startDateTime.getTime() + position * 1000),
+      absoluteStartPosition: startDateTime
+    };
+  } else {
+    if (isLive) {
       const absolutePosition = new Date();
       const absoluteStartPosition = new Date(absolutePosition.getTime() - position * 1000);
       return {
@@ -39,15 +44,10 @@ function getAbsolutePositions(
       };
     } else {
       return {
-        absolutePosition: new Date(startDateTime.getTime() + position * 1000),
-        absoluteStartPosition: startDateTime
+        absolutePosition: dawnOfTime,
+        absoluteStartPosition: dawnOfTime
       };
     }
-  } else {
-    return {
-      absolutePosition: dawnOfTime,
-      absoluteStartPosition: dawnOfTime
-    };
   }
 }
 
