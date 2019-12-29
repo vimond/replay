@@ -74,7 +74,7 @@ function buildMessage(shakaError: ShakaError, classification: ErrorCode) {
     if (shakaError.data[0].message) {
       return message + ': ' + shakaError.data[0].message;
     } else {
-      return message + ': ' + shakaError.data[0];
+      return message + '. See the sourceError property for more details.';
     }
   } else {
     return message + ' with no further details.';
