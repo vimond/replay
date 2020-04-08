@@ -9,7 +9,7 @@ import connectControl from '../../player/PlayerController/connectControl';
 import type { InspectMethod } from '../../player/PlayerController/ControllerContext';
 import replayVersion from '../../../version';
 
-type PlaybackMonitorConfiguration = {
+export type PlaybackMonitorConfiguration = {
   visibleAtStart?: boolean
 };
 
@@ -173,6 +173,14 @@ orderedPropertyNames.forEach(propertyName => {
   connectedComponents[propertyName] = connectControl(PropTableRow, [propertyName]);
 });
 
+const getVisibleFromConfig = (props: Props) => {
+  return !!(
+    props.configuration &&
+    props.configuration.playbackMonitor &&
+    props.configuration.playbackMonitor.visibleAtStart
+  );
+};
+
 const renderTableRows = classNamePrefix => {
   const prefixedClassNames = {
     headerRow: prefixClassNames(classNamePrefix, headerRowClassName),
@@ -210,11 +218,7 @@ class PlaybackMonitor extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      isMonitorVisible: !!(
-        props.configuration &&
-        props.configuration.playbackMonitor &&
-        props.configuration.playbackMonitor.visibleAtStart
-      )
+      isMonitorVisible: getVisibleFromConfig(props)
     };
   }
 
@@ -232,6 +236,13 @@ class PlaybackMonitor extends React.Component<Props, State> {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentDidUpdate(prevProps: Props, prevState: State, prevContext: *): * {
+    const prevVisible = getVisibleFromConfig(prevProps);
+    if (!prevVisible && getVisibleFromConfig(this.props)) {
+      this.setState({ isMonitorVisible: true });
+    }
   }
 
   render() {

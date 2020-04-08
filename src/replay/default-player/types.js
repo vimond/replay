@@ -14,6 +14,7 @@ import type { LiveDisplayMode } from '../components/controls/TimeDisplay/TimeDis
 import type { UserSettingsConfiguration } from '../components/player/settings-helpers/PreferredSettingsApplicator';
 import type { PlaybackActions } from '../components/player/PlayerController/PlayerController';
 import type { ResponsiveRanges } from '../components/player/containment-helpers/ResponsiveClassNames';
+import type { PlaybackMonitorConfiguration } from '../components/controls/PlaybackMonitor/PlaybackMonitor';
 
 export type ControlNames =
   | 'airPlayButton'
@@ -40,6 +41,7 @@ export type PlayerConfiguration = {
   keyboardShortcuts?: ?KeyboardShortcutsConfiguration,
   userSettings?: ?UserSettingsConfiguration,
   responsivenessRules?: ?ResponsiveRanges,
+  playbackMonitor?: PlaybackMonitorConfiguration,
   classNamePrefix?: ?string,
   aspectRatio?: ?{
     horizontal: number,

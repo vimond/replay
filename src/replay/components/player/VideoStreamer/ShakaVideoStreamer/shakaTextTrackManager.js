@@ -61,7 +61,11 @@ function getShakaTextTrackManager(
 
   function update(allProps: boolean) {
     let currentTextTrack = null;
-    const selectedTrack = shakaPlayer.isTextTrackVisible() ? getActiveShakaTrack() : null;
+    let selectedTrack = null;
+    try {
+      // In case of errors, this might fail due to early cleanup.
+      selectedTrack = shakaPlayer.isTextTrackVisible() ? getActiveShakaTrack() : null;
+    } catch(e) {}
     if (selectedTrack) {
       const managedSelectedTrack = managedTextTracks.filter(
         managedTrack =>
