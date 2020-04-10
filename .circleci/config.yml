@@ -28,7 +28,7 @@ jobs:
           at: /tmp
       - run:
           name: Tests
-          command: yarn test
+          command: yarn test --runInBand
       - run:
           name: Type checks
           command: yarn flow
