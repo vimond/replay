@@ -21,7 +21,7 @@ type State = {
 
 const initialPlaybackProps = { isPaused: true, volume: 0.7 };
 
-const exampleMediaPath = process.env.PUBLIC_URL + '/example-media/';
+const exampleMediaPath = (process.env.PUBLIC_URL || '') + '/example-media/';
 
 const textTracks = [
   {
