@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: /tmp/replay
   docker:
-    - image: circleci/node:10.12-browsers
+    - image: circleci/node:10.20-browsers
 version: 2
 
 jobs:
