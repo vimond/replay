@@ -1,3 +1,4 @@
 import Replay from './default-player/Replay';
 import * as Components from './components/index.js';
-export { Replay, Components };
+import { PlayerConfiguration } from './PlayerConfiguration';
+export { Replay, Components, PlayerConfiguration };

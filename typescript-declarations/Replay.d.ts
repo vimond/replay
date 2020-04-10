@@ -1,8 +1,6 @@
 import * as React from "react";
 import { FairPlayRequestFormat, PlayerConfiguration } from './PlayerConfiguration';
 
-
-
 export interface AdvancedPlaybackSource {
   streamUrl: string,
   contentType?: string,
