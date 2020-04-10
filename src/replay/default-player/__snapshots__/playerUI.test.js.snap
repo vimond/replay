@@ -211,7 +211,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               ],
                               "results": Array [
                                 Object {
-                                  "isThrow": false,
+                                  "type": "return",
                                   "value": undefined,
                                 },
                               ],
@@ -235,7 +235,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 ],
                                 "results": Array [
                                   Object {
-                                    "isThrow": false,
+                                    "type": "return",
                                     "value": undefined,
                                   },
                                 ],
