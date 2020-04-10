@@ -21,32 +21,34 @@ type State = {
 
 const initialPlaybackProps = { isPaused: true, volume: 0.7 };
 
+const exampleMediaPath = process.env.PUBLIC_URL + '/example-media/';
+
 const textTracks = [
   {
     kind: 'subtitles',
     language: 'no',
-    src: 'example-media/subtitles/no.vtt',
+    src: exampleMediaPath + 'subtitles/no.vtt',
     contentType: 'text/vtt;charset="UTF-8"',
     label: 'Norsk'
   },
   {
     kind: 'subtitles',
     language: 'en',
-    src: 'example-media/subtitles/en.vtt',
+    src: exampleMediaPath + 'subtitles/en.vtt',
     contentType: 'text/vtt;charset="UTF-8"',
     label: 'English'
   },
   {
     kind: 'captions',
     language: 'no',
-    src: 'example-media/subtitles/no-captions.vtt',
+    src: exampleMediaPath + 'subtitles/no-captions.vtt',
     contentType: 'text/vtt;charset="UTF-8"',
     label: 'Norsk (th)'
   },
   {
     kind: 'captions',
     language: 'en',
-    src: 'example-media/subtitles/en-captions.vtt',
+    src: exampleMediaPath + 'subtitles/en-captions.vtt',
     contentType: 'text/vtt;charset="UTF-8"',
     label: 'English captions'
   }
@@ -55,12 +57,12 @@ const textTracks = [
 const videoSources = [
   {
     description: 'Demo HLS stream',
-    streamUrl: 'example-media/adaptive.m3u8',
+    streamUrl: exampleMediaPath + 'adaptive.m3u8',
     contentType: 'application/x-mpegurl'
   },
   {
     description: 'Demo MP4 file',
-    streamUrl: 'example-media/progressive.mp4',
+    streamUrl: exampleMediaPath + 'progressive.mp4',
     contentType: 'video/mp4'
   }
 ];
