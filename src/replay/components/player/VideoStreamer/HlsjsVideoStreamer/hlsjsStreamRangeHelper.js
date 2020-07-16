@@ -81,12 +81,12 @@ const getStreamRangeHelper = (
   function calculateNewState() {
     let position;
 
-    if (levelDuration) {
+    if (levelDuration && isLive) {
       position = Math.max((videoElement.currentTime || 0) - Math.max(videoElement.duration - levelDuration, 0), 0);
     } else {
       position = videoElement.currentTime || 0;
     }
-    const duration = levelDuration || videoElement.duration;
+    const duration = (isLive && levelDuration) || videoElement.duration;
     const { absolutePosition, absoluteStartPosition } = getAbsolutePositions(isLive, streamStartDate, position);
     const playMode = resolvePlayMode(duration, isLive);
     const isAtLiveEdge = hls && getIsAtLiveEdge(hls, videoElement, isLive, liveMargin);
@@ -114,7 +114,7 @@ const getStreamRangeHelper = (
         videoElement.duration === Infinity
       )
     ) {
-      if (levelDuration) {
+      if (levelDuration && isLive) {
         videoElement.currentTime = newPosition + videoElement.duration - levelDuration;
       } else {
         videoElement.currentTime = newPosition;
