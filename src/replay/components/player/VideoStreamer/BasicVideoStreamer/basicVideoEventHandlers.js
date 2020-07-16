@@ -4,16 +4,8 @@ import type { InitialPlaybackProps, PlaybackProps, PlaybackSource, VideoStreamSt
 import type { PlaybackLifeCycle, StreamRangeHelper } from '../common/types';
 import { PlaybackError } from '../types';
 import { getIntervalRunner } from '../../../common';
-import normalizeSource from '../common/sourceNormalizer';
 
 const defaultPauseUpdateInterval = 5;
-
-function seekToInitialPosition(source: ?PlaybackSource, videoElement: HTMLVideoElement) {
-  const normalizedSource = normalizeSource(source);
-  if (normalizedSource && typeof normalizedSource.startPosition === 'number') {
-    videoElement.currentTime = normalizedSource.startPosition;
-  }
-}
 
 function calculateBufferedAhead(videoElement: HTMLVideoElement): number {
   const currentTime = videoElement.currentTime;
@@ -111,7 +103,6 @@ const getBasicVideoEventHandlers = <P: BasicVideoEventHandlersProps>({
     if (streamer.props.initialPlaybackProps && streamer.props.initialPlaybackProps.isPaused) {
       videoElement.pause();
     }
-    seekToInitialPosition(streamer.props.source, videoElement);
     updateStreamState(streamRangeHelper.calculateNewState());
     updateStreamState({
       isPipAvailable: isPipAvailable()

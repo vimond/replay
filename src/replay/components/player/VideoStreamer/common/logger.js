@@ -1,7 +1,7 @@
 // @flow
 
 export const getArrayLogger = (obj: any, name: string) => {
-  if (document.location.search.indexOf('debugVideoStreamer')) {
+  if (document.location.search.indexOf('debugVideoStreamer') >= 0) {
     return {
       log: (...args: Array<any>) => {
         if (!obj[name]) {

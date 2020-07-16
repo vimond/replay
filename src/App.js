@@ -16,10 +16,11 @@ type State = {
   useMock?: boolean,
   source: PlaybackSource | null,
   alwaysShowDesignControls: boolean,
-  textTracks?: ?Array<SourceTrack>
+  textTracks?: ?Array<SourceTrack>,
+  startPosition: ?number
 };
 
-const initialPlaybackProps = { isPaused: true, volume: 0.7 };
+const initialPlaybackProps = { volume: 0.7 };
 
 const exampleMediaPath = (process.env.PUBLIC_URL || '') + '/example-media/';
 
@@ -92,13 +93,32 @@ const getPlayerOptionsFromState = state => {
   }
 };
 
+const mergeSource = (source: PlaybackSource | null, startPosition: ?number) : PlaybackSource | null => {
+  if (startPosition && source) {
+    if (typeof source === 'string') {
+      return {
+        streamUrl: source,
+        startPosition
+      };
+    } else {
+      return {
+        startPosition,
+        ...source,
+      };
+    }
+  } else {
+    return source;
+  }
+};
+
 class App extends Component<void, State> {
   constructor() {
     super();
     this.state = {
       useMock: true,
       alwaysShowDesignControls: true,
-      source: videoSources[0]
+      source: videoSources[0],
+      startPosition: undefined
     };
     window.setState = stateProps => this.setState(stateProps);
   }
@@ -108,9 +128,15 @@ class App extends Component<void, State> {
   toggleShowDesignControls = () => this.setState({ alwaysShowDesignControls: !this.state.alwaysShowDesignControls });
 
   handleStreamUrlFieldChange = (evt: SyntheticEvent<HTMLInputElement>) =>
-    this.setState({ source: evt.currentTarget.value });
+    this.setState({ source: mergeSource(evt.currentTarget.value, this.state.startPosition) });
 
-  handleVideoButtonClick = (index: number) => this.setState({ source: videoSources[index] });
+  handleStartPositionFieldChange = (evt: SyntheticEvent<HTMLInputElement>) => {
+    const startPosition = (evt.currentTarget.value && evt.currentTarget.value.length) ? Number(evt.currentTarget.value) : undefined;
+    //this.setState({ startPosition, source: mergeSource(this.state.source, startPosition) });
+    this.setState({ startPosition });
+  };
+
+  handleVideoButtonClick = (index: number) => this.setState({ source: mergeSource(videoSources[index], this.state.startPosition) });
   handleNoVideoClick = () => this.setState({ source: null });
 
   handleError = (err: PlaybackError) =>
@@ -134,7 +160,7 @@ class App extends Component<void, State> {
   };
 
   render() {
-    const { alwaysShowDesignControls, source, useMock, textTracks } = this.state;
+    const { alwaysShowDesignControls, source, useMock, textTracks, startPosition } = this.state;
     return (
       <div className="App">
         <div className="App-player-panel">
@@ -167,14 +193,23 @@ class App extends Component<void, State> {
                 onPlaybackActionsReady={this.handlePlaybackActions}>
                 <CompoundVideoStreamer />
               </Replay>
-              <p>
+              <p className="field-row">
                 <input
                   type="url"
+                  placeholder="Stream URL"
                   value={source ? (typeof source === 'string' ? source : source.streamUrl) : ''}
                   onChange={this.handleStreamUrlFieldChange}
                 />
+                <input
+                  type="number"
+                  step={0.001}
+                  value={startPosition == null ? '' : startPosition}
+                  onChange={this.handleStartPositionFieldChange}
+                  min={0}
+                  placeholder="Start offset"
+                  />
               </p>
-              <p className="buttons-row">
+              <p className="button-row">
                 {videoSources.map((s, index) => (
                   <button key={'v-' + index} onClick={() => this.handleVideoButtonClick(index)}>
                     {s.description}

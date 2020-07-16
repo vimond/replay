@@ -17,8 +17,23 @@
   margin: 0.5em 0;
 }
 
+.App-player-panel .field-row {
+  display: grid;
+  grid-template-columns: 1fr 8em;
+  grid-column-gap: 0.5em;
+}
+
+.App-player-panel .field-row input[type=number] {
+  text-align: right;
+}
+
 .App-player-panel .button-row {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
+}
+
+.App-player-panel .button-row button {
+  margin: 0.3em;
 }

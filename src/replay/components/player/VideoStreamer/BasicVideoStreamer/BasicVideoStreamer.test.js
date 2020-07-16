@@ -115,7 +115,7 @@ test('<BasicVideoStreamer/> renders with video element if source or stream URL i
 });
 
 test('<BasicVideoStreamer/> shuts down cleanly when source prop is removed.', () => {
-  return domRender().then(({ videoElement, element, domVideoElement }) => {
+  return domRender().then(({ element, domVideoElement }) => {
     expect(domVideoElement.src).toBe(commonProps.source.streamUrl);
     element.setProps({ source: null });
     element.update();
@@ -140,11 +140,10 @@ test('<BasicVideoStreamer/> reports playback errors.', () => {
 test('<BasicVideoStreamer/> seeks to a specified startPosition upon playback start.', () => {
   const source = {
     streamUrl: commonProps.source.streamUrl,
-    startPosition: 13
+    startPosition: 13.56789
   };
-  return domRender({ source }).then(({ videoElement, videoRef }) => {
-    videoElement.simulate('loadedmetadata');
-    expect(videoRef.current.currentTime).toBe(13);
+  return domRender({ source }).then(({ domVideoElement }) => {
+    expect(domVideoElement.src).toBe(commonProps.source.streamUrl + '#t=13.57');
   });
 });
 
@@ -192,7 +191,7 @@ test('<BasicVideoStreamer/> updates stream state when video element events are i
 });
 
 test('<BasicVideoStreamer/> reacts to playback props being set.', () => {
-  return domRender({ ...commonProps, onStreamStateChange: () => {} }).then(({ element, videoRef, setProperties }) => {
+  return domRender({ ...commonProps, onStreamStateChange: () => {} }).then(({ videoRef, setProperties }) => {
     const playSpy = jest.spyOn(videoRef.current, 'play');
     const pauseSpy = jest.spyOn(videoRef.current, 'pause');
 
