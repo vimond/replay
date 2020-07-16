@@ -173,7 +173,12 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   componentDidMount() {
     const onReady = this.props.onPlaybackActionsReady;
     if (onReady) {
-      onReady(createPlaybackActions(() => this.inspect(), props => this.setProperties(props)));
+      onReady(
+        createPlaybackActions(
+          () => this.inspect(),
+          props => this.setProperties(props)
+        )
+      );
     }
   }
 

@@ -233,7 +233,12 @@ test('isDifferent() returns true with different functions, object instances or a
   expect(isDifferent({}, {})).toBe(true);
   expect(isDifferent({ yes: 'no' }, { yes: 'no' })).toBe(true);
   expect(isDifferent({ yes: 'no' }, { no: 'yes' })).toBe(true);
-  expect(isDifferent(() => {}, () => {})).toBe(true);
+  expect(
+    isDifferent(
+      () => {},
+      () => {}
+    )
+  ).toBe(true);
   expect(
     isDifferent(
       function hello(arg) {

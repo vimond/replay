@@ -1,4 +1,3 @@
-
 function ResizeObserver(resizeCallback) {
   return {
     observe: jest.fn(),

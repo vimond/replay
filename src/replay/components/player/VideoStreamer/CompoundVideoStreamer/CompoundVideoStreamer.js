@@ -51,9 +51,8 @@ export class StreamResourceResolutionError extends PlaybackError {
   availableResources: ?Array<StreamResource>;
 }
 
-const normalizeSource = memoize(
-  (source: ?(string | MultiTechPlaybackSource)): ?MultiTechPlaybackSource =>
-    typeof source === 'string' ? { streamUrl: source } : source
+const normalizeSource = memoize((source: ?(string | MultiTechPlaybackSource)): ?MultiTechPlaybackSource =>
+  typeof source === 'string' ? { streamUrl: source } : source
 );
 
 const mergeAndMemoize = memoize(<A, B>(a: A, b: B) => {

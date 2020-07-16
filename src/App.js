@@ -93,7 +93,7 @@ const getPlayerOptionsFromState = state => {
   }
 };
 
-const mergeSource = (source: PlaybackSource | null, startPosition: ?number) : PlaybackSource | null => {
+const mergeSource = (source: PlaybackSource | null, startPosition: ?number): PlaybackSource | null => {
   if (startPosition && source) {
     if (typeof source === 'string') {
       return {
@@ -103,7 +103,7 @@ const mergeSource = (source: PlaybackSource | null, startPosition: ?number) : Pl
     } else {
       return {
         startPosition,
-        ...source,
+        ...source
       };
     }
   } else {
@@ -131,12 +131,14 @@ class App extends Component<void, State> {
     this.setState({ source: mergeSource(evt.currentTarget.value, this.state.startPosition) });
 
   handleStartPositionFieldChange = (evt: SyntheticEvent<HTMLInputElement>) => {
-    const startPosition = (evt.currentTarget.value && evt.currentTarget.value.length) ? Number(evt.currentTarget.value) : undefined;
+    const startPosition =
+      evt.currentTarget.value && evt.currentTarget.value.length ? Number(evt.currentTarget.value) : undefined;
     //this.setState({ startPosition, source: mergeSource(this.state.source, startPosition) });
     this.setState({ startPosition });
   };
 
-  handleVideoButtonClick = (index: number) => this.setState({ source: mergeSource(videoSources[index], this.state.startPosition) });
+  handleVideoButtonClick = (index: number) =>
+    this.setState({ source: mergeSource(videoSources[index], this.state.startPosition) });
   handleNoVideoClick = () => this.setState({ source: null });
 
   handleError = (err: PlaybackError) =>
@@ -207,7 +209,7 @@ class App extends Component<void, State> {
                   onChange={this.handleStartPositionFieldChange}
                   min={0}
                   placeholder="Start offset"
-                  />
+                />
               </p>
               <p className="button-row">
                 {videoSources.map((s, index) => (

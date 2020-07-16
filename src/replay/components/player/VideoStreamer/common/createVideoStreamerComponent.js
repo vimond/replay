@@ -152,12 +152,10 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
           if (snapshot && snapshot.wasPipActive) {
             // $FlowFixMe
             if (document.exitPictureInPicture) {
-              document
-                .exitPictureInPicture()
-                .then(
-                  () => this.handleSourceChange(this.props, prevProps),
-                  () => this.handleSourceChange(this.props, prevProps)
-                );
+              document.exitPictureInPicture().then(
+                () => this.handleSourceChange(this.props, prevProps),
+                () => this.handleSourceChange(this.props, prevProps)
+              );
             } else if (
               snapshot.previousVideoElement &&
               // $FlowFixMe

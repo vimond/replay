@@ -97,7 +97,10 @@ test(
       settingsApplicator.setProps({ textTracks: [] });
       settingsApplicator.update();
       settingsApplicator.setProps({
-        textTracks: [{ kind: 'captions', language: 'no' }, { kind: 'subtitles', language: 'en' }]
+        textTracks: [
+          { kind: 'captions', language: 'no' },
+          { kind: 'subtitles', language: 'en' }
+        ]
       });
       settingsApplicator.update();
       expect(setProperties).toHaveBeenCalledWith({ selectedTextTrack: { kind: 'subtitles', language: 'en' } });
@@ -131,7 +134,10 @@ test(
       settingsApplicator.setProps({ audioTracks: [{ kind: 'commentary', language: 'en' }] });
       settingsApplicator.update();
       settingsApplicator.setProps({
-        audioTracks: [{ kind: 'main', language: 'no' }, { kind: 'commentary', language: 'en' }]
+        audioTracks: [
+          { kind: 'main', language: 'no' },
+          { kind: 'commentary', language: 'en' }
+        ]
       });
       settingsApplicator.update();
       expect(setProperties).toHaveBeenCalledTimes(1);
@@ -142,7 +148,10 @@ test(
       settingsApplicator.setProps({ audioTracks: [{ kind: 'main', language: 'no' }] });
       settingsApplicator.update();
       settingsApplicator.setProps({
-        audioTracks: [{ kind: 'main', language: 'no' }, { kind: 'commentary', language: 'no' }]
+        audioTracks: [
+          { kind: 'main', language: 'no' },
+          { kind: 'commentary', language: 'no' }
+        ]
       });
       settingsApplicator.update();
       expect(setProperties).toHaveBeenCalledTimes(1);
