@@ -76,7 +76,7 @@ test('Shaka helper handleSourceChange() unloads the current source if changing i
     });
 });
 
-test('Shaka helper handleSourceChange() configures DRM if source specifies it.', () => {
+test('Shaka helper handleSourceChange() configures DRM for the common schemes if source specifies a license URL.', () => {
   const shakaPlayer = new MockShakaPlayer();
   const handleSourceChange = getSourceChangeHandler(shakaPlayer);
   const firstSource = {
@@ -111,6 +111,83 @@ test('Shaka helper handleSourceChange() configures DRM if source specifies it.',
           }
         }
       }
+    });
+  });
+});
+
+test('Shaka helper handleSourceChange() configures DRM for the Widevine scheme if source specifies a license URL and its DRM type.', () => {
+  const shakaPlayer = new MockShakaPlayer();
+  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const firstSource = {
+    streamUrl: 'https://ok.com/puter',
+    startPosition: 33,
+    licenseUrl: 'https://example.com/license',
+    drmType: 'com.widevine.alpha'
+  };
+  return handleSourceChange(
+    {
+      source: firstSource,
+      configuration: { licenseAcquisition: { widevine: { serviceCertificateUrl: 'https://example.com/certificate' } } }
+    },
+    {}
+  ).then(() => {
+    expect(shakaPlayer.load.mock.calls[0]).toEqual(['https://ok.com/puter', 33]);
+    const drmConfig = shakaPlayer.configure.mock.calls[0][0];
+    expect(drmConfig.drm.servers).toEqual({
+      'com.widevine.alpha': 'https://example.com/license'
+    });
+    expect(drmConfig.drm.advanced).toMatchObject({
+      'com.widevine.alpha': {
+        audioRobustness: 'SW_SECURE_CRYPTO',
+        videoRobustness: 'SW_SECURE_DECODE',
+        serverCertificate: 'https://example.com/certificate'
+      }
+    });
+  });
+});
+
+test('Shaka helper handleSourceChange() configures DRM for the PlayReady scheme if source specifies a license URL and the PlayReady DRM type.', () => {
+  const shakaPlayer = new MockShakaPlayer();
+  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const firstSource = {
+    streamUrl: 'https://ok.com/puter',
+    startPosition: 33,
+    licenseUrl: 'https://example.com/license',
+    drmType: 'com.microsoft.playready'
+  };
+  return handleSourceChange(
+    {
+      source: firstSource
+    },
+    {}
+  ).then(() => {
+    expect(shakaPlayer.load.mock.calls[0]).toEqual(['https://ok.com/puter', 33]);
+    const drmConfig = shakaPlayer.configure.mock.calls[0][0];
+    expect(drmConfig.drm.servers).toEqual({
+      'com.microsoft.playready': 'https://example.com/license'
+    });
+  });
+});
+
+test('Shaka helper handleSourceChange() configures DRM for the ClearKey scheme if source specifies a license URL and the ClearKey DRM type.', () => {
+  const shakaPlayer = new MockShakaPlayer();
+  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const firstSource = {
+    streamUrl: 'https://ok.com/puter',
+    startPosition: 33,
+    licenseUrl: 'https://example.com/license',
+    drmType: 'org.w3.clearkey'
+  };
+  return handleSourceChange(
+    {
+      source: firstSource
+    },
+    {}
+  ).then(() => {
+    expect(shakaPlayer.load.mock.calls[0]).toEqual(['https://ok.com/puter', 33]);
+    const drmConfig = shakaPlayer.configure.mock.calls[0][0];
+    expect(drmConfig.drm.servers).toEqual({
+      'org.w3.clearkey': 'https://example.com/license'
     });
   });
 });

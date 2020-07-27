@@ -52,6 +52,7 @@ function prepareDrm(
   configuration: ?VideoStreamerConfiguration
 ) {
   const licenseUrl = source.licenseUrl;
+  const drmType = source.drmType;
   const details = source.licenseAcquisitionDetails || {};
   const serviceCertificate =
     details.widevineServiceCertificateUrl ||
@@ -64,12 +65,15 @@ function prepareDrm(
   if (licenseRequestHeaders && Object.keys(licenseRequestHeaders).length > 0) {
     addLicenseRequestFilters(shakaPlayer, licenseRequestHeaders);
   }
-  shakaPlayer.configure({
-    drm: {
-      servers: {
+  const servers = drmType
+    ? { [drmType]: licenseUrl }
+    : {
         'com.widevine.alpha': licenseUrl,
         'com.microsoft.playready': licenseUrl
-      },
+      };
+  shakaPlayer.configure({
+    drm: {
+      servers,
       advanced: {
         'com.widevine.alpha': {
           audioRobustness: emeAttributes.audioRobustness,

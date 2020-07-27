@@ -44,7 +44,9 @@ export const streamTypes: Array<StreamType> = [
 export const isSafari = (userAgent: string) =>
   userAgent.indexOf('Safari') > 0 && userAgent.indexOf('Chrome') < 0 && userAgent.indexOf('Firefox') < 0;
 
-export const isMicrosoft = (userAgent: string) => userAgent.match(/(Edge\/|rv:11\.0)/);
+export const isLegacyMicrosoft = (userAgent: string) => userAgent.match(/(Edge\/|rv:11\.0)/);
+
+export const isChromiumEdgeOnWindows = (userAgent: string) => userAgent.match(/(Windows NT(.*?)Edg\/)/);
 
 // TODO: For symmetry, there should be an method matching all Widevine-compatible browsers.
 
@@ -66,6 +68,9 @@ export const isResourcePlayReady = (resource: StreamResource): boolean => {
 export const isResourceWidevine = (resource: StreamResource): boolean => {
   return !!(resource.drmType && resource.drmType.match(/widevine/i));
 };
+
+export const isResourcePlayReadyOrWidevine = (resource: StreamResource): boolean =>
+  isResourcePlayReady(resource) || isResourceWidevine(resource);
 
 export const detectStreamType = (streamUrl: string, contentType: ?string): StreamType =>
   streamTypes.filter(type => {
