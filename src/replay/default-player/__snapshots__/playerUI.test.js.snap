@@ -197,12 +197,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                       <RenderIfEnabled>
                         <ExitButton
                           classNamePrefix="replay-"
-                          content={
-                            <XCircle
-                              color="currentColor"
-                              size="24"
-                            />
-                          }
+                          content={<ForwardRef />}
                           label="Exit"
                           onClick={
                             [MockFunction] {
@@ -221,12 +216,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           <Button
                             className="exit-button"
                             classNamePrefix="replay-"
-                            content={
-                              <XCircle
-                                color="currentColor"
-                                size="24"
-                              />
-                            }
+                            content={<ForwardRef />}
                             label="Exit"
                             onClick={
                               [MockFunction] {
@@ -255,19 +245,16 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               <div
                                 tabIndex={-1}
                               >
-                                <XCircle
-                                  color="currentColor"
-                                  size="24"
-                                >
+                                <XCircle>
                                   <svg
                                     fill="none"
-                                    height="24"
+                                    height={24}
                                     stroke="currentColor"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth="2"
                                     viewBox="0 0 24 24"
-                                    width="24"
+                                    width={24}
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <circle
@@ -295,12 +282,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                         </ExitButton>
                         <PlaybackMonitor
                           classNamePrefix="replay-"
-                          closeButtonContent={
-                            <XCircle
-                              color="currentColor"
-                              size="24"
-                            />
-                          }
+                          closeButtonContent={<ForwardRef />}
                           configuration={
                             Object {
                               "controls": Object {
@@ -324,35 +306,15 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                             <ConnectedPlayPauseButton
                               classNamePrefix="replay-"
                               label="Toggle play/pause"
-                              pausedContent={
-                                <Play
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
-                              playingContent={
-                                <Pause
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
+                              pausedContent={<ForwardRef />}
+                              playingContent={<ForwardRef />}
                             >
                               <PlayPauseButton
                                 classNamePrefix="replay-"
                                 inspect={[Function]}
                                 label="Toggle play/pause"
-                                pausedContent={
-                                  <Play
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
-                                playingContent={
-                                  <Pause
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
+                                pausedContent={<ForwardRef />}
+                                playingContent={<ForwardRef />}
                                 setProperties={[Function]}
                               >
                                 <ToggleButton
@@ -360,18 +322,8 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   classNamePrefix="replay-"
                                   label="Toggle play/pause"
                                   onToggle={[Function]}
-                                  toggledOffContent={
-                                    <Pause
-                                      color="currentColor"
-                                      size="24"
-                                    />
-                                  }
-                                  toggledOnContent={
-                                    <Play
-                                      color="currentColor"
-                                      size="24"
-                                    />
-                                  }
+                                  toggledOffContent={<ForwardRef />}
+                                  toggledOnContent={<ForwardRef />}
                                   useDefaultClassNaming={true}
                                 >
                                   <div
@@ -386,19 +338,16 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                     <div
                                       tabIndex={-1}
                                     >
-                                      <Pause
-                                        color="currentColor"
-                                        size="24"
-                                      >
+                                      <Pause>
                                         <svg
                                           fill="none"
-                                          height="24"
+                                          height={24}
                                           stroke="currentColor"
                                           strokeLinecap="round"
                                           strokeLinejoin="round"
                                           strokeWidth="2"
                                           viewBox="0 0 24 24"
-                                          width="24"
+                                          width={24}
                                           xmlns="http://www.w3.org/2000/svg"
                                         >
                                           <rect
@@ -425,10 +374,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               content={
                                 <React.Fragment>
                                   <span>
-                                    <RotateCcw
-                                      color="currentColor"
-                                      size="24"
-                                    />
+                                    <ForwardRef />
                                   </span>
                                   <span>
                                     –10
@@ -444,10 +390,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 content={
                                   <React.Fragment>
                                     <span>
-                                      <RotateCcw
-                                        color="currentColor"
-                                        size="24"
-                                      />
+                                      <ForwardRef />
                                     </span>
                                     <span>
                                       –10
@@ -466,10 +409,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   content={
                                     <React.Fragment>
                                       <span>
-                                        <RotateCcw
-                                          color="currentColor"
-                                          size="24"
-                                        />
+                                        <ForwardRef />
                                       </span>
                                       <span>
                                         –10
@@ -493,19 +433,16 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                       tabIndex={-1}
                                     >
                                       <span>
-                                        <RotateCcw
-                                          color="currentColor"
-                                          size="24"
-                                        >
+                                        <RotateCcw>
                                           <svg
                                             fill="none"
-                                            height="24"
+                                            height={24}
                                             stroke="currentColor"
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
                                             strokeWidth="2"
                                             viewBox="0 0 24 24"
-                                            width="24"
+                                            width={24}
                                             xmlns="http://www.w3.org/2000/svg"
                                           >
                                             <polyline
@@ -698,18 +635,8 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               }
                               label="Volume and mute"
                               muteToggleLabel="Toggle mute"
-                              mutedContent={
-                                <VolumeX
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
-                              unmutedContent={
-                                <Volume2
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
+                              mutedContent={<ForwardRef />}
+                              unmutedContent={<ForwardRef />}
                               volumeSliderHandleContent=""
                               volumeSliderLabel="Volume setting"
                             >
@@ -728,19 +655,9 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 inspect={[Function]}
                                 label="Volume and mute"
                                 muteToggleLabel="Toggle mute"
-                                mutedContent={
-                                  <VolumeX
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
+                                mutedContent={<ForwardRef />}
                                 setProperties={[Function]}
-                                unmutedContent={
-                                  <Volume2
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
+                                unmutedContent={<ForwardRef />}
                                 volumeSliderHandleContent=""
                                 volumeSliderLabel="Volume setting"
                               >
@@ -749,19 +666,9 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   inspect={[Function]}
                                   label="Volume and mute"
                                   muteToggleLabel="Toggle mute"
-                                  mutedContent={
-                                    <VolumeX
-                                      color="currentColor"
-                                      size="24"
-                                    />
-                                  }
+                                  mutedContent={<ForwardRef />}
                                   setProperties={[Function]}
-                                  unmutedContent={
-                                    <Volume2
-                                      color="currentColor"
-                                      size="24"
-                                    />
-                                  }
+                                  unmutedContent={<ForwardRef />}
                                   volumeSliderHandleContent=""
                                   volumeSliderLabel="Volume setting"
                                 >
@@ -774,18 +681,8 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                       classNamePrefix="replay-"
                                       label="Toggle mute"
                                       onToggle={[Function]}
-                                      toggledOffContent={
-                                        <Volume2
-                                          color="currentColor"
-                                          size="24"
-                                        />
-                                      }
-                                      toggledOnContent={
-                                        <VolumeX
-                                          color="currentColor"
-                                          size="24"
-                                        />
-                                      }
+                                      toggledOffContent={<ForwardRef />}
+                                      toggledOnContent={<ForwardRef />}
                                       useDefaultClassNaming={true}
                                     >
                                       <div
@@ -800,19 +697,16 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                         <div
                                           tabIndex={-1}
                                         >
-                                          <Volume2
-                                            color="currentColor"
-                                            size="24"
-                                          >
+                                          <Volume2>
                                             <svg
                                               fill="none"
-                                              height="24"
+                                              height={24}
                                               stroke="currentColor"
                                               strokeLinecap="round"
                                               strokeLinejoin="round"
                                               strokeWidth="2"
                                               viewBox="0 0 24 24"
-                                              width="24"
+                                              width={24}
                                               xmlns="http://www.w3.org/2000/svg"
                                             >
                                               <polygon
@@ -889,12 +783,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 }
                               }
                               label="Audio track selector"
-                              toggleContent={
-                                <MessageSquare
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
+                              toggleContent={<ForwardRef />}
                             >
                               <SettingsStorageAudioSelector
                                 classNamePrefix="replay-"
@@ -911,24 +800,14 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 inspect={[Function]}
                                 label="Audio track selector"
                                 setProperties={[Function]}
-                                toggleContent={
-                                  <MessageSquare
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
+                                toggleContent={<ForwardRef />}
                               >
                                 <AudioSelector
                                   classNamePrefix="replay-"
                                   inspect={[Function]}
                                   label="Audio track selector"
                                   setProperties={[Function]}
-                                  toggleContent={
-                                    <MessageSquare
-                                      color="currentColor"
-                                      size="24"
-                                    />
-                                  }
+                                  toggleContent={<ForwardRef />}
                                 />
                               </SettingsStorageAudioSelector>
                             </ConnectedSettingsStorageAudioSelector>
@@ -946,12 +825,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               }
                               label="Subtitles selector"
                               noSubtitlesLabel="No subtitles"
-                              toggleContent={
-                                <Type
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
+                              toggleContent={<ForwardRef />}
                             >
                               <SettingsStorageSubtitlesSelector
                                 classNamePrefix="replay-"
@@ -969,12 +843,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 label="Subtitles selector"
                                 noSubtitlesLabel="No subtitles"
                                 setProperties={[Function]}
-                                toggleContent={
-                                  <Type
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
+                                toggleContent={<ForwardRef />}
                               >
                                 <SubtitlesSelector
                                   classNamePrefix="replay-"
@@ -982,12 +851,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   label="Subtitles selector"
                                   noSubtitlesLabel="No subtitles"
                                   setProperties={[Function]}
-                                  toggleContent={
-                                    <Type
-                                      color="currentColor"
-                                      size="24"
-                                    />
-                                  }
+                                  toggleContent={<ForwardRef />}
                                 />
                               </SettingsStorageSubtitlesSelector>
                             </ConnectedSettingsStorageSubtitlesSelector>
@@ -997,12 +861,7 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               formatBitrateLabel={[Function]}
                               label="Video quality selector"
                               selectionStrategy="cap-bitrate"
-                              toggleContent={
-                                <Settings
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
+                              toggleContent={<ForwardRef />}
                             >
                               <QualitySelector
                                 autoLabel="Automatic"
@@ -1012,78 +871,33 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 label="Video quality selector"
                                 selectionStrategy="cap-bitrate"
                                 setProperties={[Function]}
-                                toggleContent={
-                                  <Settings
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
+                                toggleContent={<ForwardRef />}
                               />
                             </ConnectedQualitySelector>
                             <ConnectedPipButton
                               classNamePrefix="replay-"
                               label="Toggle picture-in-picture mode"
-                              pipActiveContent={
-                                <Square
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
-                              pipInactiveContent={
-                                <Copy
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
+                              pipActiveContent={<ForwardRef />}
+                              pipInactiveContent={<ForwardRef />}
                             >
                               <PipButton
                                 classNamePrefix="replay-"
                                 inspect={[Function]}
                                 label="Toggle picture-in-picture mode"
-                                pipActiveContent={
-                                  <Square
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
-                                pipInactiveContent={
-                                  <Copy
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
+                                pipActiveContent={<ForwardRef />}
+                                pipInactiveContent={<ForwardRef />}
                                 setProperties={[Function]}
                               />
                             </ConnectedPipButton>
                             <ConnectedAirPlayButton
-                              airPlayActiveContent={
-                                <Airplay
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
-                              airPlayInactiveContent={
-                                <Airplay
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
+                              airPlayActiveContent={<ForwardRef />}
+                              airPlayInactiveContent={<ForwardRef />}
                               classNamePrefix="replay-"
                               label="Select AirPlay device"
                             >
                               <AirPlayButton
-                                airPlayActiveContent={
-                                  <Airplay
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
-                                airPlayInactiveContent={
-                                  <Airplay
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
+                                airPlayActiveContent={<ForwardRef />}
+                                airPlayInactiveContent={<ForwardRef />}
                                 classNamePrefix="replay-"
                                 inspect={[Function]}
                                 label="Select AirPlay device"
@@ -1094,20 +908,10 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                               classNamePrefix="replay-"
                               enterFullscreen={[Function]}
                               exitFullscreen={[Function]}
-                              fullscreenContent={
-                                <Minimize
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
+                              fullscreenContent={<ForwardRef />}
                               isFullscreen={false}
                               label="Toggle fullscreen"
-                              normalContent={
-                                <Maximize
-                                  color="currentColor"
-                                  size="24"
-                                />
-                              }
+                              normalContent={<ForwardRef />}
                               setProperties={[Function]}
                             >
                               <ToggleButton
@@ -1116,18 +920,8 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                 isOn={false}
                                 label="Toggle fullscreen"
                                 onToggle={[Function]}
-                                toggledOffContent={
-                                  <Maximize
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
-                                toggledOnContent={
-                                  <Minimize
-                                    color="currentColor"
-                                    size="24"
-                                  />
-                                }
+                                toggledOffContent={<ForwardRef />}
+                                toggledOnContent={<ForwardRef />}
                                 useDefaultClassNaming={true}
                               >
                                 <div
@@ -1143,19 +937,16 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                                   <div
                                     tabIndex={-1}
                                   >
-                                    <Maximize
-                                      color="currentColor"
-                                      size="24"
-                                    >
+                                    <Maximize>
                                       <svg
                                         fill="none"
-                                        height="24"
+                                        height={24}
                                         stroke="currentColor"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
                                         viewBox="0 0 24 24"
-                                        width="24"
+                                        width={24}
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
