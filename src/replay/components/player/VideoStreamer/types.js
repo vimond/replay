@@ -151,7 +151,11 @@ export type VideoStreamerConfiguration = {
   licenseAcquisition?: ?{
     widevine: {
       serviceCertificateUrl?: ?string,
-      withCredentials?: ?boolean
+      withCredentials?: ?boolean,
+      robustness?: {
+        audio: string,
+        video: string
+      }
     },
     fairPlay: {
       serviceCertificateUrl?: ?string,
@@ -160,7 +164,11 @@ export type VideoStreamerConfiguration = {
       contentIdExtractMatch?: ?(RegExp | string)
     },
     playReady: {
-      withCredentials?: ?boolean
+      withCredentials?: ?boolean,
+      robustness?: {
+        audio: string,
+        video: string
+      }
     }
   },
   manifestRequests?: ?{

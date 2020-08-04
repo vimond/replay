@@ -149,6 +149,23 @@ test('Shaka helper handleSourceChange() configures DRM for the Widevine scheme i
 test('Shaka helper handleSourceChange() applies custom robustness configuration for DRM schemes', () => {
   const shakaPlayer = new MockShakaPlayer();
   const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const configuration = {
+    licenseAcquisition: {
+      widevine: {
+        serviceCertificateUrl: 'https://example.com/certificate',
+        robustness: {
+          audio: 'E',
+          video: 'F'
+        }
+      },
+      playReady: {
+        robustness: {
+          audio: 'G',
+          video: 'H'
+        }
+      }
+    }
+  };
   const firstSource = {
     streamUrl: 'https://ok.com/puter',
     startPosition: 33,
@@ -166,27 +183,44 @@ test('Shaka helper handleSourceChange() applies custom robustness configuration 
       }
     }
   };
-  return handleSourceChange(
-    {
-      source: firstSource,
-      configuration: { licenseAcquisition: { widevine: { serviceCertificateUrl: 'https://example.com/certificate' } } }
-    },
-    {}
-  ).then(() => {
-    expect(shakaPlayer.load.mock.calls[0]).toEqual(['https://ok.com/puter', 33]);
-    const drmConfig = shakaPlayer.configure.mock.calls[0][0];
-    expect(drmConfig.drm.advanced).toMatchObject({
-      'com.widevine.alpha': {
-        audioRobustness: 'A',
-        videoRobustness: 'B',
-        serverCertificate: 'https://example.com/certificate'
-      },
-      'com.microsoft.playready': {
-        audioRobustness: 'C',
-        videoRobustness: 'D'
-      }
+  return handleSourceChange({ source: firstSource, configuration }, {})
+    .then(() => {
+      expect(shakaPlayer.load.mock.calls[0]).toEqual(['https://ok.com/puter', 33]);
+      const drmConfig = shakaPlayer.configure.mock.calls[0][0];
+      expect(drmConfig.drm.advanced).toMatchObject({
+        'com.widevine.alpha': {
+          audioRobustness: 'A',
+          videoRobustness: 'B',
+          serverCertificate: 'https://example.com/certificate'
+        },
+        'com.microsoft.playready': {
+          audioRobustness: 'C',
+          videoRobustness: 'D'
+        }
+      });
+    })
+    .then(() => {
+      const secondSource = {
+        streamUrl: 'https://ok.com/puter',
+        startPosition: 33,
+        licenseUrl: 'https://example.com/license'
+      };
+      return handleSourceChange({ source: secondSource, configuration }, {}).then(() => {
+        expect(shakaPlayer.load.mock.calls[1]).toEqual(['https://ok.com/puter', 33]);
+        const drmConfig = shakaPlayer.configure.mock.calls[1][0];
+        expect(drmConfig.drm.advanced).toMatchObject({
+          'com.widevine.alpha': {
+            audioRobustness: 'E',
+            videoRobustness: 'F',
+            serverCertificate: 'https://example.com/certificate'
+          },
+          'com.microsoft.playready': {
+            audioRobustness: 'G',
+            videoRobustness: 'H'
+          }
+        });
+      });
     });
-  });
 });
 
 test('Shaka helper handleSourceChange() configures DRM for the PlayReady scheme if source specifies a license URL and the PlayReady DRM type.', () => {

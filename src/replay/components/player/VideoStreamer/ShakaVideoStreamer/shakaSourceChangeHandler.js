@@ -57,12 +57,10 @@ function prepareDrm(
   const licenseUrl = source.licenseUrl;
   const drmType = source.drmType;
   const details = source.licenseAcquisitionDetails || {};
+  const drmConfig = (configuration && configuration.licenseAcquisition) || {};
   const serviceCertificate =
-    details.widevineServiceCertificateUrl ||
-    (configuration &&
-      configuration.licenseAcquisition &&
-      configuration.licenseAcquisition.widevine &&
-      configuration.licenseAcquisition.widevine.serviceCertificateUrl);
+    details.widevineServiceCertificateUrl || (drmConfig.widevine && drmConfig.widevine.serviceCertificateUrl);
+
   const widevineEmeAttributes = getEmeAttributes(navigator.userAgent, serviceCertificate);
   const { licenseRequestHeaders, robustness } = details;
   const widevineRobustness =
@@ -70,6 +68,11 @@ function prepareDrm(
       ? {
           audioRobustness: robustness[widevine].audio,
           videoRobustness: robustness[widevine].video
+        }
+      : drmConfig.widevine && drmConfig.widevine.robustness
+      ? {
+          audioRobustness: drmConfig.widevine.robustness.audio,
+          videoRobustness: drmConfig.widevine.robustness.video
         }
       : {
           audioRobustness: widevineEmeAttributes.audioRobustness,
@@ -80,6 +83,11 @@ function prepareDrm(
       ? {
           audioRobustness: robustness[playready].audio,
           videoRobustness: robustness[playready].video
+        }
+      : drmConfig.playReady && drmConfig.playReady.robustness
+      ? {
+          audioRobustness: drmConfig.playReady.robustness.audio,
+          videoRobustness: drmConfig.playReady.robustness.video
         }
       : {
           videoRobustness: 'SW_SECURE_DECODE',
