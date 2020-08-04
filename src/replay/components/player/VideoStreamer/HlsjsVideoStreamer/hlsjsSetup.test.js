@@ -10,8 +10,7 @@ test('hlsjsSetup() applies default configuration and instantiates hls.js with sp
   const setupPromise = hlsjsSetup(videoElement, configuration);
   expect(Hls).toHaveBeenCalledWith({
     debug: true,
-    autoStartLoad: false,
-    enableWorker: false
+    autoStartLoad: false
   });
   return setupPromise.then(hls => {
     return expect(hls.attachMedia).toHaveBeenCalledWith(videoElement);
@@ -34,8 +33,7 @@ test('hlsjsSetup() merges passthrough configuration with integration-specific co
   expect(Hls).toHaveBeenCalledWith({
     debug: true,
     autoStartLoad: true,
-    capLevelToPlayerSize: true,
-    enableWorker: false
+    capLevelToPlayerSize: true
   });
 });
 
