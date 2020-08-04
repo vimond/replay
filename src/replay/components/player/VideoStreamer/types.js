@@ -99,7 +99,13 @@ export type AdvancedPlaybackSource = {
     widevineServiceCertificateUrl?: string,
     fairPlayRequestFormat?: FairPlayRequestFormat,
     contentIdExtractMatch?: RegExp | string,
-    contentId?: string
+    contentId?: string,
+    robustness?: {
+      [string]: {
+        audio: string,
+        video: string
+      }
+    }
   }
 };
 

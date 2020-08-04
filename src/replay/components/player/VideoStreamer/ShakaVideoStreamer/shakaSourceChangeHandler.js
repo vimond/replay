@@ -9,6 +9,9 @@ declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
 }
 
+const widevine = 'com.widevine.alpha';
+const playready = 'com.microsoft.playready';
+
 type Props<C: VideoStreamerConfiguration> = {
   source?: ?PlaybackSource,
   shakaRequestFilter?: ?ShakaRequestFilter,
@@ -60,30 +63,48 @@ function prepareDrm(
       configuration.licenseAcquisition &&
       configuration.licenseAcquisition.widevine &&
       configuration.licenseAcquisition.widevine.serviceCertificateUrl);
-  const emeAttributes = getEmeAttributes(navigator.userAgent, serviceCertificate);
-  const { licenseRequestHeaders } = details;
+  const widevineEmeAttributes = getEmeAttributes(navigator.userAgent, serviceCertificate);
+  const { licenseRequestHeaders, robustness } = details;
+  const widevineRobustness =
+    robustness && robustness[widevine]
+      ? {
+          audioRobustness: robustness[widevine].audio,
+          videoRobustness: robustness[widevine].video
+        }
+      : {
+          audioRobustness: widevineEmeAttributes.audioRobustness,
+          videoRobustness: widevineEmeAttributes.videoRobustness
+        };
+  const playreadyRobustness =
+    robustness && robustness[playready]
+      ? {
+          audioRobustness: robustness[playready].audio,
+          videoRobustness: robustness[playready].video
+        }
+      : {
+          videoRobustness: 'SW_SECURE_DECODE',
+          audioRobustness: 'SW_SECURE_CRYPTO'
+        };
+
   if (licenseRequestHeaders && Object.keys(licenseRequestHeaders).length > 0) {
     addLicenseRequestFilters(shakaPlayer, licenseRequestHeaders);
   }
   const servers = drmType
     ? { [drmType]: licenseUrl }
     : {
-        'com.widevine.alpha': licenseUrl,
-        'com.microsoft.playready': licenseUrl
+        [widevine]: licenseUrl,
+        [playready]: licenseUrl
       };
+
   shakaPlayer.configure({
     drm: {
       servers,
       advanced: {
         'com.widevine.alpha': {
-          audioRobustness: emeAttributes.audioRobustness,
-          videoRobustness: emeAttributes.videoRobustness,
-          serverCertificate: emeAttributes.serviceCertificate
+          ...widevineRobustness,
+          serverCertificate: widevineEmeAttributes.serviceCertificate
         },
-        'com.microsoft.playready': {
-          videoRobustness: 'SW_SECURE_DECODE',
-          audioRobustness: 'SW_SECURE_CRYPTO'
-        }
+        'com.microsoft.playready': playreadyRobustness
       }
     }
   });
