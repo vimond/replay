@@ -1,4 +1,5 @@
 import getSourceChangeHandler from './shakaSourceChangeHandler';
+import shaka from 'shaka-player';
 
 function MockShakaPlayer() {
   const networkingEngine = {
@@ -18,7 +19,7 @@ function MockShakaPlayer() {
 
 test('Shaka helper handleSourceChange() loads a new source if specified in updated props.', () => {
   const shakaPlayer = new MockShakaPlayer();
-  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const firstSource = { streamUrl: 'https://ok.com/puter', startPosition: 33 };
   const secondSource = { streamUrl: 'https://example.com/stream' };
   return handleSourceChange({ source: firstSource }, {})
@@ -29,7 +30,7 @@ test('Shaka helper handleSourceChange() loads a new source if specified in updat
 
 test('Shaka helper handleSourceChange() treats a string source and an object source with property streamUrl identically.', () => {
   const shakaPlayer = new MockShakaPlayer();
-  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const stringSource = 'https://example.com/stream';
   return handleSourceChange({ source: stringSource }, {}).then(() =>
     expect(shakaPlayer.load.mock.calls[0]).toEqual(['https://example.com/stream', undefined])
@@ -38,7 +39,7 @@ test('Shaka helper handleSourceChange() treats a string source and an object sou
 
 test('Shaka helper handleSourceChange() unregisters earlier filters when a source is loaded.', () => {
   const shakaPlayer = new MockShakaPlayer();
-  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const firstSource = { streamUrl: 'https://ok.com/puter', startPosition: 33 };
   const secondSource = { streamUrl: 'https://example.com/stream' };
   return handleSourceChange({ source: firstSource }, {})
@@ -54,7 +55,7 @@ test('Shaka helper handleSourceChange() unregisters earlier filters when a sourc
 });
 test('Custom request or response filters are registered.', () => {
   const shakaPlayer = new MockShakaPlayer();
-  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const firstSource = { streamUrl: 'https://ok.com/puter', startPosition: 33 };
   const shakaRequestFilter = 1;
   const shakaResponseFilter = 2;
@@ -65,7 +66,7 @@ test('Custom request or response filters are registered.', () => {
 });
 test('Shaka helper handleSourceChange() unloads the current source if changing into a nullish source prop. It also unregisters filters.', () => {
   const shakaPlayer = new MockShakaPlayer();
-  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const firstSource = { streamUrl: 'https://ok.com/puter', startPosition: 33 };
   return handleSourceChange({ source: firstSource }, {})
     .then(() => handleSourceChange({}, { source: firstSource }))
@@ -78,7 +79,7 @@ test('Shaka helper handleSourceChange() unloads the current source if changing i
 
 test('Shaka helper handleSourceChange() configures DRM for the common schemes if source specifies a license URL.', () => {
   const shakaPlayer = new MockShakaPlayer();
-  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const firstSource = {
     streamUrl: 'https://ok.com/puter',
     startPosition: 33,
@@ -117,7 +118,7 @@ test('Shaka helper handleSourceChange() configures DRM for the common schemes if
 
 test('Shaka helper handleSourceChange() configures DRM for the Widevine scheme if source specifies a license URL and its DRM type.', () => {
   const shakaPlayer = new MockShakaPlayer();
-  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const firstSource = {
     streamUrl: 'https://ok.com/puter',
     startPosition: 33,
@@ -148,7 +149,7 @@ test('Shaka helper handleSourceChange() configures DRM for the Widevine scheme i
 
 test('Shaka helper handleSourceChange() applies custom robustness configuration for DRM schemes', () => {
   const shakaPlayer = new MockShakaPlayer();
-  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const configuration = {
     licenseAcquisition: {
       widevine: {
@@ -225,7 +226,7 @@ test('Shaka helper handleSourceChange() applies custom robustness configuration 
 
 test('Shaka helper handleSourceChange() configures DRM for the PlayReady scheme if source specifies a license URL and the PlayReady DRM type.', () => {
   const shakaPlayer = new MockShakaPlayer();
-  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const firstSource = {
     streamUrl: 'https://ok.com/puter',
     startPosition: 33,
@@ -248,7 +249,7 @@ test('Shaka helper handleSourceChange() configures DRM for the PlayReady scheme 
 
 test('Shaka helper handleSourceChange() configures DRM for the ClearKey scheme if source specifies a license URL and the ClearKey DRM type.', () => {
   const shakaPlayer = new MockShakaPlayer();
-  const handleSourceChange = getSourceChangeHandler(shakaPlayer);
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const firstSource = {
     streamUrl: 'https://ok.com/puter',
     startPosition: 33,

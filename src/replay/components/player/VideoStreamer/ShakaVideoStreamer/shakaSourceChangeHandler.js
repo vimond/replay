@@ -1,8 +1,7 @@
 // @flow
 import type { AdvancedPlaybackSource, PlaybackSource, VideoStreamerConfiguration } from '../types';
-import type { ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from './types';
+import type { Shaka, ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from './types';
 import mapShakaError from './shakaErrorMapper';
-import shaka from 'shaka-player';
 import normalizeSource from '../common/sourceNormalizer';
 
 declare class Object {
@@ -39,9 +38,9 @@ function getEmeAttributes(userAgent, serviceCertificate) {
   }
 }
 
-function addLicenseRequestFilters(shakaPlayer: ShakaPlayer, licenseRequestHeaders: { [string]: string }) {
+function addLicenseRequestFilters(shakaLib: Shaka, shakaPlayer: ShakaPlayer, licenseRequestHeaders: { [string]: string }) {
   shakaPlayer.getNetworkingEngine().registerRequestFilter((type: string, request) => {
-    if (type === shaka.net.NetworkingEngine.RequestType.LICENSE) {
+    if (type === shakaLib.net.NetworkingEngine.RequestType.LICENSE) {
       Object.entries(licenseRequestHeaders).forEach(([key: string, value: string]) => {
         request.headers[key] = value;
       });
@@ -50,6 +49,7 @@ function addLicenseRequestFilters(shakaPlayer: ShakaPlayer, licenseRequestHeader
 }
 
 function prepareDrm(
+  shakaLib: Shaka,
   shakaPlayer: ShakaPlayer,
   source: AdvancedPlaybackSource,
   configuration: ?VideoStreamerConfiguration
@@ -95,7 +95,7 @@ function prepareDrm(
         };
 
   if (licenseRequestHeaders && Object.keys(licenseRequestHeaders).length > 0) {
-    addLicenseRequestFilters(shakaPlayer, licenseRequestHeaders);
+    addLicenseRequestFilters(shakaLib, shakaPlayer, licenseRequestHeaders);
   }
   const servers = drmType
     ? { [drmType]: licenseUrl }
@@ -139,7 +139,7 @@ function prepareFilters(
   return Promise.resolve();
 }
 
-const getSourceChangeHandler = (shakaPlayer: ShakaPlayer) => <C: VideoStreamerConfiguration, P: Props<C>>(
+const getSourceChangeHandler = (shakaLib: Shaka, shakaPlayer: ShakaPlayer) => <C: VideoStreamerConfiguration, P: Props<C>>(
   nextProps: P,
   prevProps?: P
 ): Promise<any> => {
@@ -147,11 +147,11 @@ const getSourceChangeHandler = (shakaPlayer: ShakaPlayer) => <C: VideoStreamerCo
   const source = normalizeSource(nextProps.source);
   if (source) {
     return prepareFilters(shakaPlayer, shakaRequestFilter, shakaResponseFilter)
-      .then(() => prepareDrm(shakaPlayer, source, nextProps.configuration))
+      .then(() => prepareDrm(shakaLib, shakaPlayer, source, nextProps.configuration))
       .then(() => shakaPlayer.load(source.streamUrl, source.startPosition))
       .catch(err => {
-        if (err && err.code !== shaka.util.Error.Code.LOAD_INTERRUPTED) {
-          throw mapShakaError(false, err, navigator.userAgent, document.location);
+        if (err && err.code !== shakaLib.util.Error.Code.LOAD_INTERRUPTED) {
+          throw mapShakaError(shakaLib, false, err, navigator.userAgent, document.location);
         }
       });
   } else if (prevProps && prevProps.source) {

@@ -1,19 +1,19 @@
 // @flow
-import type { ShakaPlayer } from './types';
-import shaka from 'shaka-player';
+import type { Shaka, ShakaPlayer } from './types';
 import type { ShakaVideoStreamerConfiguration } from './ShakaVideoStreamer';
 import { PlaybackError } from '../types';
 
 export function shakaSetup(
+  shakaLib: Shaka,
   videoElement: HTMLVideoElement,
   configuration: ?ShakaVideoStreamerConfiguration
 ): ShakaPlayer {
   if (!!window.MediaSource && !!MediaSource.isTypeSupported) {
     const shakaPlayerConfig = configuration && configuration.shakaPlayer;
     if (shakaPlayerConfig && shakaPlayerConfig.installPolyfills) {
-      shaka.polyfill.installAll();
+      shakaLib.polyfill.installAll();
     }
-    const shakaPlayer = new shaka.Player(videoElement);
+    const shakaPlayer = new shakaLib.Player(videoElement);
     if (shakaPlayerConfig && shakaPlayerConfig.customConfiguration) {
       shakaPlayer.configure(shakaPlayerConfig.customConfiguration);
     }

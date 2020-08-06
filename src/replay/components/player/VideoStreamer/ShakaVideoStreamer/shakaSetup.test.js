@@ -12,14 +12,14 @@ window.MediaSource = { isTypeSupported: () => {} };
 
 test('Shaka shakaSetup() instantiates a shaka.Player.', () => {
   const videoElement = {};
-  const shakaPlayer = shakaSetup(videoElement);
+  const shakaPlayer = shakaSetup(shaka, videoElement);
   expect(shaka.Player).toHaveBeenCalledWith(videoElement);
   expect(shakaPlayer).toBeDefined();
 });
 
 test('Shaka shakaSetup() installs polyfills, if configured.', () => {
   const videoElement = {};
-  shakaSetup(videoElement, { shakaPlayer: { installPolyfills: true } });
+  shakaSetup(shaka, videoElement, { shakaPlayer: { installPolyfills: true } });
   expect(shaka.polyfill.installAll).toHaveBeenCalled();
 });
 
@@ -32,13 +32,13 @@ test('Shaka shakaSetup() passes configuration to the Shaka player instance, if s
       }
     }
   };
-  shakaSetup(videoElement, config);
+  shakaSetup(shaka, videoElement, config);
   expect(configure).toHaveBeenCalledWith(config.shakaPlayer.customConfiguration);
 });
 
 test('Shaka cleanup() destroys a shaka.Player.', () => {
   const videoElement = {};
-  const shakaPlayer = shakaSetup(videoElement);
+  const shakaPlayer = shakaSetup(shaka, videoElement);
   shakaPlayer.destroy();
   expect(destroy).toHaveBeenCalled();
 });

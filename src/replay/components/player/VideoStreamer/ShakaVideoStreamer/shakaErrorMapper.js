@@ -1,7 +1,6 @@
 // @flow
 import type { ErrorCode, Severity } from '../types';
-import shaka from 'shaka-player';
-import type { ShakaError } from './types';
+import type { Shaka, ShakaError } from './types';
 import { PlaybackError } from '../types';
 
 const errorTechnology = 'shaka';
@@ -47,7 +46,7 @@ function reverseLookup(numeric: string | number, mappings: { [string]: string })
   })[0];
 }
 
-function buildMessage(shakaError: ShakaError, classification: ErrorCode) {
+function buildMessage(shakaLib: Shaka, shakaError: ShakaError, classification: ErrorCode) {
   if (shakaError.code === 1001 && shakaError.data[1] != null) {
     return 'Shaka request failed with status ' + shakaError.data[1] + ' for URL ' + shakaError.data[0];
   }
@@ -66,8 +65,8 @@ function buildMessage(shakaError: ShakaError, classification: ErrorCode) {
   if (classification === STREAM_ERROR_DRM_OUTPUT_BLOCKED) {
     return 'Playback of protected content appears to be disallowed, perhaps due to a non-secure or HDCP-less screen being connected.';
   }
-  const code = reverseLookup(shakaError.code, shaka.util.Error.Code),
-    category = reverseLookup(shakaError.category, shaka.util.Error.Category);
+  const code = reverseLookup(shakaError.code, shakaLib.util.Error.Code),
+    category = reverseLookup(shakaError.category, shakaLib.util.Error.Category);
   const message = 'Shaka error ' + category + '/' + code + ' reported';
 
   if (shakaError.data[0]) {
@@ -123,7 +122,7 @@ function isEmeBlocked(userAgent: ?string, location: ?Location) {
   );
 }
 
-function mapShakaError(isStarted: boolean, shakaError: ShakaError, userAgent?: string, location?: Location) {
+function mapShakaError(shakaLib: Shaka, isStarted: boolean, shakaError: ShakaError, userAgent?: string, location?: Location) {
   if (shakaError instanceof PlaybackError) {
     return shakaError;
   }
@@ -144,7 +143,7 @@ function mapShakaError(isStarted: boolean, shakaError: ShakaError, userAgent?: s
       return new PlaybackError(
         classification,
         errorTechnology,
-        buildMessage(shakaError, classification),
+        buildMessage(shakaLib, shakaError, classification),
         getSeverity(isStarted, shakaError),
         shakaError
       );

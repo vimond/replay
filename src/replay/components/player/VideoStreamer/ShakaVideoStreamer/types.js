@@ -1,5 +1,25 @@
 // @flow
 
+export interface Error {
+  Category: { [string]: string },
+  Code: { [string]: string },
+}
+
+export interface Shaka {
+  polyfill: {
+    installAll: () => {}
+  },
+  util: {
+    Error: Error,
+  },
+  net: {
+    NetworkingEngine: {
+      RequestType: { [string]: string }
+    }
+  },
+  Player: (HTMLVideoElement) => ShakaPlayer
+}
+
 export type ShakaRequest = {
   uris: Array<string>,
   method: string,

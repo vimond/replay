@@ -1,7 +1,7 @@
 // @flow
 import type { PlaybackLifeCycle, StreamRangeHelper } from '../common/types';
 import getBasicVideoEventHandlers from '../BasicVideoStreamer/basicVideoEventHandlers';
-import type { ShakaPlayer } from './types';
+import type { Shaka, ShakaPlayer } from './types';
 import type { PlaybackProps, VideoStreamState } from '../types';
 import type { BasicVideoEventHandlersProps } from '../BasicVideoStreamer/basicVideoEventHandlers';
 import mapShakaError from './shakaErrorMapper';
@@ -14,6 +14,7 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
   streamer,
   videoElement,
   shakaPlayer,
+  shakaLib,
   streamRangeHelper,
   configuration,
   applyProperties,
@@ -25,6 +26,7 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
   },
   videoElement: HTMLVideoElement,
   shakaPlayer: ShakaPlayer,
+  shakaLib: Shaka,
   streamRangeHelper: StreamRangeHelper,
   configuration: ?{ pauseUpdateInterval?: ?number },
   applyProperties: PlaybackProps => void,
@@ -53,6 +55,7 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
     error: ({ detail }: { detail: any }) => {
       log && log('shaka.error');
       const playbackError = mapShakaError(
+        shakaLib,
         lifeCycleManager.getStage() === 'started',
         detail,
         navigator.userAgent,
