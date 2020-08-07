@@ -39,6 +39,23 @@ export interface AvailableTrack {
   id?: string | number
 }
 
+export type ErrorCode =
+  | 'STREAM_ERROR_TECHNOLOGY_UNSUPPORTED'
+  | 'STREAM_ERROR_DOWNLOAD'
+  | 'STREAM_ERROR_DECODE'
+  | 'STREAM_ERROR_DRM_OUTPUT_BLOCKED'
+  | 'STREAM_ERROR_DRM_CLIENT_UNAVAILABLE'
+  | 'STREAM_ERROR';
+
+export type Severity = 'FATAL' | 'WARNING' | 'INFO';
+
+export interface PlaybackError {
+  code: ErrorCode;
+  severity: Severity;
+  technology: string;
+  sourceError: any;
+}
+
 export interface PlaybackActions {
   play: () => void,
   pause: () => void,
@@ -88,7 +105,7 @@ export interface VideoStreamState {
   textTracks?: AvailableTrack[],
   currentAudioTrack?: AvailableTrack | null,
   audioTracks?: AvailableTrack[],
-  error?: any
+  error?: PlaybackError
 }
 
 export interface InitialPlaybackProps {
@@ -122,7 +139,7 @@ export interface ReplayProps {
   textTracks?: SourceTrack[] | null,
   options?: PlayerConfiguration,
   onExit?: () => void,
-  onError?: (error: any) => void,
+  onError?: (error: PlaybackError) => void,
   onPlaybackActionsReady?: (actions: PlaybackActions) => void,
   onStreamStateChange?: (changedState: VideoStreamState) => void,
   children?: React.Element,

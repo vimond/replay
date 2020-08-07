@@ -122,7 +122,13 @@ function isEmeBlocked(userAgent: ?string, location: ?Location) {
   );
 }
 
-function mapShakaError(shakaLib: Shaka, isStarted: boolean, shakaError: ShakaError, userAgent?: string, location?: Location) {
+function mapShakaError(
+  shakaLib: Shaka,
+  isStarted: boolean,
+  shakaError: ShakaError,
+  userAgent?: string,
+  location?: Location
+) {
   if (shakaError instanceof PlaybackError) {
     return shakaError;
   }

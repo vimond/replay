@@ -9,13 +9,24 @@ export function shakaSetup(
   configuration: ?ShakaVideoStreamerConfiguration
 ): ShakaPlayer {
   if (!!window.MediaSource && !!MediaSource.isTypeSupported) {
-    const shakaPlayerConfig = configuration && configuration.shakaPlayer;
-    if (shakaPlayerConfig && shakaPlayerConfig.installPolyfills) {
-      shakaLib.polyfill.installAll();
-    }
     const shakaPlayer = new shakaLib.Player(videoElement);
-    if (shakaPlayerConfig && shakaPlayerConfig.customConfiguration) {
-      shakaPlayer.configure(shakaPlayerConfig.customConfiguration);
+    if (configuration && configuration.shakaPlayer) {
+      const shakaConf = configuration.shakaPlayer;
+      if (shakaConf.installPolyfills) {
+        shakaLib.polyfill.installAll();
+      }
+      if (shakaConf.customConfiguration) {
+        shakaPlayer.configure(shakaConf.customConfiguration);
+      }
+    }
+    const log = shakaLib.log && shakaLib.log;
+    const logLevel = configuration && configuration.logLevel;
+    if (logLevel != null && log) {
+      if (logLevel === 'VERBOSE') {
+        log.setLevel(log.Level['V2']);
+      } else {
+        log.setLevel(log.Level[logLevel]);
+      }
     }
     return shakaPlayer;
   } else {

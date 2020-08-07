@@ -38,7 +38,11 @@ function getEmeAttributes(userAgent, serviceCertificate) {
   }
 }
 
-function addLicenseRequestFilters(shakaLib: Shaka, shakaPlayer: ShakaPlayer, licenseRequestHeaders: { [string]: string }) {
+function addLicenseRequestFilters(
+  shakaLib: Shaka,
+  shakaPlayer: ShakaPlayer,
+  licenseRequestHeaders: { [string]: string }
+) {
   shakaPlayer.getNetworkingEngine().registerRequestFilter((type: string, request) => {
     if (type === shakaLib.net.NetworkingEngine.RequestType.LICENSE) {
       Object.entries(licenseRequestHeaders).forEach(([key: string, value: string]) => {
@@ -139,7 +143,10 @@ function prepareFilters(
   return Promise.resolve();
 }
 
-const getSourceChangeHandler = (shakaLib: Shaka, shakaPlayer: ShakaPlayer) => <C: VideoStreamerConfiguration, P: Props<C>>(
+const getSourceChangeHandler = (shakaLib: Shaka, shakaPlayer: ShakaPlayer) => <
+  C: VideoStreamerConfiguration,
+  P: Props<C>
+>(
   nextProps: P,
   prevProps?: P
 ): Promise<any> => {

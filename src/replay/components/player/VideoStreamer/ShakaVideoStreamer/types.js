@@ -1,23 +1,33 @@
 // @flow
 
 export interface Error {
-  Category: { [string]: string },
-  Code: { [string]: string },
+  Category: { [string]: string };
+  Code: { [string]: string };
+}
+
+type LogLevels = 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG' | 'V1' | 'V2';
+
+export interface LogLevel {
+  [LogLevels]: number;
 }
 
 export interface Shaka {
   polyfill: {
     installAll: () => {}
-  },
+  };
   util: {
-    Error: Error,
-  },
+    Error: Error
+  };
   net: {
     NetworkingEngine: {
       RequestType: { [string]: string }
     }
-  },
-  Player: (HTMLVideoElement) => ShakaPlayer
+  };
+  log?: {
+    setLevel: number => {},
+    Level: LogLevel
+  };
+  Player: HTMLVideoElement => ShakaPlayer;
 }
 
 export type ShakaRequest = {

@@ -19,7 +19,7 @@ export interface VideoStreamerConfiguration {
   manifestRequests?: {
     withCredentials?: boolean | null
   } | null,
-  logLevel?: 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG',
+  logLevel?: 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG' | 'VERBOSE',
   defaultBandwidth?: number | null,
   crossOrigin?: string | null,
   playsInline?: boolean | null,
