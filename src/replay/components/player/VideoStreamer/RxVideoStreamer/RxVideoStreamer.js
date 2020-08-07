@@ -29,7 +29,11 @@ function resolveImplementation(
   const options = configuration && configuration.rxPlayer && configuration.rxPlayer.customConfiguration;
   const logLevel = configuration && configuration.logLevel;
   if (logLevel) {
-    RxPlayer.LogLevel = logLevel; // 1:1 mapping on possible values between Replay and RxPlayer. How nice!
+    if (logLevel === 'VERBOSE') {
+      RxPlayer.LogLevel = 'DEBUG';
+    } else {
+      RxPlayer.LogLevel = logLevel;
+    }
   }
 
   const rxPlayer = new RxPlayer({ stopAtEnd: true, ...options, videoElement });

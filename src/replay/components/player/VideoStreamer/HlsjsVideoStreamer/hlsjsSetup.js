@@ -8,6 +8,8 @@ export function broadcastHlsInstance(instanceKeeper: HlsjsInstanceKeeper, prepos
   hls && instanceKeeper.subscribers.forEach(subscriber => subscriber(hls, preposition));
 }
 
+const debugEnabledLogLevels = ['DEBUG', 'VERBOSE', 'INFO'];
+
 export function hlsjsSetup(
   videoElement: HTMLVideoElement,
   configuration: ?HlsjsVideoStreamerConfiguration
@@ -17,7 +19,7 @@ export function hlsjsSetup(
       const customConfiguration = configuration && configuration.hlsjs && configuration.hlsjs.customConfiguration;
       const hlsConfig: any = {
         autoStartLoad: false,
-        debug: configuration && configuration.logLevel === 'DEBUG',
+        debug: configuration && debugEnabledLogLevels.indexOf(configuration.logLevel) >= 0,
         ...customConfiguration
       };
       const hls = new Hls(hlsConfig);
