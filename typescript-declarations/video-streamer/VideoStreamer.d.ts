@@ -1,5 +1,5 @@
 import * as React from "react";
-import { InitialPlaybackProps, PlaybackError, PlaybackSource, ReplayProps, SourceTrack, VideoStreamState } from '../../../typescript-declarations/Replay';
+import { InitialPlaybackProps, PlaybackError, PlaybackSource, ReplayProps, SourceTrack, VideoStreamState } from '../Replay';
 
 type VideoStreamerMethods = {
   setProperties: (props: any) => void
