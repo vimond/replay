@@ -1,4 +1,4 @@
-# Replay
+<img src="/src/replay-logo.svg" alt="Replay" width="30%"/>
 
 Replay is a **Re**act video **play**er with these key characteristics:
  
