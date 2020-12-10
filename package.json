@@ -41,11 +41,11 @@
     "test": "SKIP_PREFLIGHT_CHECK=true react-scripts test --env=jsdom"
   },
   "dependencies": {
-    "hls.js": "^0.14.0",
+    "hls.js": "^0.14.17",
     "memoize-one": "^5.1.1",
     "react-feather": "^2.0.8",
     "resize-observer-polyfill": "^1.5.1",
-    "shaka-player": "^2.5.13"
+    "shaka-player": "^3.0.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",

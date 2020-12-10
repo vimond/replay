@@ -210,13 +210,15 @@ function getShakaTextTrackManager(
           contentType = contentType && contentType.substr(0, charsetPos);
         }
         return {
-          addPromise: shakaPlayer.addTextTrack(
-            sourceTrack.src,
-            sourceTrack.language,
-            sourceTrack.kind,
-            contentType,
-            null,
-            sourceTrack.label
+          addPromise: Promise.resolve(
+            shakaPlayer.addTextTrack(
+              sourceTrack.src,
+              sourceTrack.language,
+              sourceTrack.kind,
+              contentType,
+              null,
+              sourceTrack.label
+            )
           ),
           sourceTrack: sourceTrack
         };
