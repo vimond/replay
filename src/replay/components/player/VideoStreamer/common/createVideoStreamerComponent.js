@@ -111,20 +111,23 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
         if (videoElement === document.pictureInPictureElement) {
           // $FlowFixMe
           return document.exitPictureInPicture();
-          // $FlowFixMe
         } else if (
           // $FlowFixMe
           videoElement.webkitPresentationMode === 'picture-in-picture' && // $FlowFixMe
           typeof videoElement.webkitSetPresentationMode === 'function'
         ) {
-          // $FlowFixMe
           videoElement.webkitSetPresentationMode('inline');
         }
       }
-      if (this.implementation && this.implementation.cleanup) {
-        return this.implementation.cleanup().catch(err => {
-          throw err;
-        });
+      if (this.implementation) {
+        if (this.implementation.endPlaybackSession) {
+          this.implementation.endPlaybackSession('dead');
+        }
+        if (this.implementation.cleanup) {
+          return this.implementation.cleanup().catch(err => {
+            throw err;
+          });
+        }
       }
     }
 
@@ -134,7 +137,7 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
       const pipElement = document.pictureInPictureElement;
       // $FlowFixMe
       const presentationMode = previousVideoElement.webkitPresentationMode;
-      const wasPipActive = previousVideoElement === pipElement || presentationMode === 'picture-in-picture'; // $FlowFixMe
+      const wasPipActive = previousVideoElement === pipElement || presentationMode === 'picture-in-picture';
       return {
         wasPipActive,
         previousVideoElement: this.videoRef.current
