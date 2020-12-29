@@ -116,8 +116,8 @@ const getShakaEventHandlers = <P: BasicVideoEventHandlersProps>({
     },
     buffering: ({ buffering }: { buffering: boolean }) => {
       log && log('shaka.buffering.' + buffering.toString());
-      if (buffering && lifeCycleManager.getStage() === 'started') {
-        updateStreamState({ isBuffering: buffering, playState: 'buffering' });
+      if (lifeCycleManager.getStage() === 'started') {
+        updateStreamState({ isBuffering: buffering, playState: buffering ? 'buffering' : videoElement.paused ? 'playing' : 'paused' });
       } else {
         updateStreamState({ isBuffering: buffering });
       }
