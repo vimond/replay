@@ -84,7 +84,6 @@ export type ShakaPlayer = {
   version: string
 };
 
-
 export interface Error {
   Category: { [string]: string };
   Code: { [string]: string };
