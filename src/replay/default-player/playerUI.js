@@ -98,7 +98,9 @@ const getPlayerUIRenderer = (
                 <FullscreenButton {...u.fullscreenButton} {...prefix} {...fullscreenState} />
               </RenderIfEnabled>
             </ControlsBar>
-            <BufferingIndicator {...u.bufferingIndicator} {...prefix} />
+            <RenderIfEnabled configuration={includedControlsList}>
+              <BufferingIndicator {...u.bufferingIndicator} {...prefix} />
+            </RenderIfEnabled>
             <PreferredSettingsApplicator configuration={configuration} {...externalProps.initialPlaybackProps} />
           </>
         )}

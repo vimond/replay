@@ -961,56 +961,58 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
                           </RenderIfEnabled>
                         </div>
                       </ControlsBar>
-                      <ConnectedBufferingIndicator
-                        classNamePrefix="replay-"
-                        content={<LoadingAnimation />}
-                        label="Video is buffering"
-                        renderStrategy="always"
-                      >
-                        <BufferingIndicator
+                      <RenderIfEnabled>
+                        <ConnectedBufferingIndicator
                           classNamePrefix="replay-"
                           content={<LoadingAnimation />}
-                          inspect={[Function]}
                           label="Video is buffering"
                           renderStrategy="always"
-                          setProperties={[Function]}
                         >
-                          <div
-                            className="replay-buffering-indicator"
+                          <BufferingIndicator
+                            classNamePrefix="replay-"
+                            content={<LoadingAnimation />}
+                            inspect={[Function]}
+                            label="Video is buffering"
+                            renderStrategy="always"
+                            setProperties={[Function]}
                           >
-                            <LoadingAnimation>
-                              <svg
-                                height="100%"
-                                stroke="currentColor"
-                                viewBox="0 0 38 38"
-                                width="100%"
-                              >
-                                <g
-                                  fill="none"
-                                  fillRule="evenodd"
+                            <div
+                              className="replay-buffering-indicator"
+                            >
+                              <LoadingAnimation>
+                                <svg
+                                  height="100%"
+                                  stroke="currentColor"
+                                  viewBox="0 0 38 38"
+                                  width="100%"
                                 >
                                   <g
-                                    strokeWidth="2"
-                                    transform="translate(1 1)"
+                                    fill="none"
+                                    fillRule="evenodd"
                                   >
-                                    <circle
-                                      cx="18"
-                                      cy="18"
-                                      r="18"
-                                      stroke="currentColor"
-                                      strokeOpacity="0.5"
-                                    />
-                                    <path
-                                      className="animated"
-                                      d="M36 18c0-9.94-8.06-18-18-18"
-                                    />
+                                    <g
+                                      strokeWidth="2"
+                                      transform="translate(1 1)"
+                                    >
+                                      <circle
+                                        cx="18"
+                                        cy="18"
+                                        r="18"
+                                        stroke="currentColor"
+                                        strokeOpacity="0.5"
+                                      />
+                                      <path
+                                        className="animated"
+                                        d="M36 18c0-9.94-8.06-18-18-18"
+                                      />
+                                    </g>
                                   </g>
-                                </g>
-                              </svg>
-                            </LoadingAnimation>
-                          </div>
-                        </BufferingIndicator>
-                      </ConnectedBufferingIndicator>
+                                </svg>
+                              </LoadingAnimation>
+                            </div>
+                          </BufferingIndicator>
+                        </ConnectedBufferingIndicator>
+                      </RenderIfEnabled>
                       <ConnectedPreferredSettingsApplicator
                         configuration={
                           Object {

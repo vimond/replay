@@ -34,7 +34,10 @@ const analyzeChild = child => {
 const extractChildName = child => {
   const name = child && child.type && (child.type.displayName || child.type.name);
   if (name) {
-    const startIndex = name.indexOf('Connected') === 0 ? 9 : 0;
+    let startIndex = name.indexOf('Connected') === 0 ? 9 : 0;
+    if (name.indexOf('SettingsStorage') === startIndex) {
+      startIndex += 15;
+    }
     return name.charAt(startIndex).toLowerCase() + name.substr(startIndex + 1);
   }
 };
