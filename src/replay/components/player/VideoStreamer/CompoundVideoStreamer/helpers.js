@@ -28,7 +28,7 @@ export const streamTypes: Array<StreamType> = [
   },
   {
     name: 'hls',
-    label: 'Apple HLS',
+    label: 'HLS',
     contentTypes: hlsContentTypes,
     urlMatch: /\.m3u/
   },
