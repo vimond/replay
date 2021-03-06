@@ -79,6 +79,9 @@
     "rx-player": "^3.9.2",
     "style-loader": "^0.22.1"
   },
+  "resolutions": {
+    "react-live/prismjs": "1.23.0"
+  },
   "prettier": {
     "printWidth": 120,
     "singleQuote": true,
