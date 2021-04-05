@@ -26,7 +26,8 @@ export type HlsjsInstanceKeeper = {
 
 export type HlsjsVideoStreamerConfiguration = VideoStreamerConfiguration & {
   hlsjs: {
-    customConfiguration?: any
+    customConfiguration?: any,
+    autoRecoverStreamErrors?: boolean
   }
 };
 export type HlsjsVideoStreamerProps = VideoStreamerImplProps<HlsjsVideoStreamerConfiguration>;

@@ -46,10 +46,12 @@ declare module 'hls.js' {
     nextLevel: number;
     off(string, (any) => void): void;
     on(string, (any) => void): void;
+    recoverMediaError(): void;
     startLevel: number;
     startLoad(?number): void;
     stopLoad(): void;
     subtitleDisplay: boolean,
+    swapAudioCodec(): void,
     url: string;
   }
   declare export default typeof Hls;

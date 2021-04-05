@@ -27,7 +27,13 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
   videoElement: HTMLVideoElement,
   instanceKeeper: HlsjsInstanceKeeper,
   streamRangeHelper: StreamRangeHelper,
-  configuration: ?{ pauseUpdateInterval?: ?number },
+  configuration: ?{
+    pauseUpdateInterval?: ?number,
+    hlsjs: {
+      customConfiguration?: any,
+      autoRecoverStreamErrors?: boolean
+    }
+  },
   applyProperties: PlaybackProps => void,
   updateStreamState: VideoStreamState => void,
   log?: string => void
@@ -49,18 +55,37 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
     getStage: () => {}
   };
 
+  let lastMediaErrorTime;
+
   function handleActualError(detail) {
     log && log('hlsjs.error');
     const playbackError = mapHlsjsError(lifeCycleManager.getStage() === 'started', detail);
-    if (streamer.props.onPlaybackError) {
-      streamer.props.onPlaybackError(playbackError);
-    }
-    if (videoElement.error) {
-      updateStreamState({ error: videoElement.error });
-    }
-    if (playbackError.severity === 'FATAL') {
-      lifeCycleManager.setStage('dead');
-      updateStreamState({ playState: 'inactive', isBuffering: false, isSeeking: false });
+    const hls = instanceKeeper.hls;
+    const autoRecoverStreamErrors = configuration && configuration.hlsjs && configuration.hlsjs.autoRecoverStreamErrors;
+    if (hls && playbackError.severity === 'FATAL') {
+      if (streamer.props.onPlaybackError) {
+        streamer.props.onPlaybackError(playbackError);
+      }
+      if (videoElement.error) {
+        updateStreamState({ error: videoElement.error });
+      }
+      if (autoRecoverStreamErrors && detail.type === Hls.ErrorTypes.NETWORK_ERROR) {
+        hls.startLoad();
+      } else if (autoRecoverStreamErrors && detail.type === Hls.ErrorTypes.MEDIA_ERROR) {
+        if (lastMediaErrorTime && Date.now() - 1000 < lastMediaErrorTime) {
+          lastMediaErrorTime = undefined;
+          console.log('Swapping audio codec');
+          hls.swapAudioCodec();
+        } else {
+          console.log('Recover from media error');
+          lastMediaErrorTime = Date.now();
+        }
+        hls.recoverMediaError();
+      } else {
+        console.log('Giving up');
+        lifeCycleManager.setStage('dead');
+        updateStreamState({ playState: 'inactive', isBuffering: false, isSeeking: false });
+      }
     }
     pauseStreamRangeUpdater.stop();
   }
@@ -93,6 +118,7 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
     },
     [Hls.Events.MANIFEST_LOADING]: () => {
       log && log('hlsjs.loading');
+      lastMediaErrorTime = undefined;
       if (lifeCycleManager.getStage() === 'new') {
         lifeCycleManager.setStage('starting');
         if (streamer.props.initialPlaybackProps) {
@@ -151,8 +177,7 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
     onTimeUpdate,
     onVolumeChange,
     onProgress,
-    onEnded,
-    onError // We still want HTML video element error mapping.
+    onEnded
   } = videoElementEventHandlers;
   return {
     videoElementEventHandlers: {
@@ -165,8 +190,7 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
       onTimeUpdate,
       onVolumeChange,
       onProgress,
-      onEnded,
-      onError
+      onEnded
     },
     pauseStreamRangeUpdater,
     setLifeCycleManager
