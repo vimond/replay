@@ -1,6 +1,7 @@
 // @flow
 import Hls from 'hls.js';
 import type { HlsjsInstanceKeeper, HlsjsVideoStreamerConfiguration } from './HlsjsVideoStreamer';
+import type { AdvancedPlaybackSource } from '../types';
 import { PlaybackError } from '../types';
 
 export function broadcastHlsInstance(instanceKeeper: HlsjsInstanceKeeper, preposition: 'on' | 'off') {
@@ -12,6 +13,7 @@ const debugEnabledLogLevels = ['DEBUG', 'VERBOSE', 'INFO'];
 
 export function hlsjsSetup(
   videoElement: HTMLVideoElement,
+  normalizedSource: ?AdvancedPlaybackSource,
   configuration: ?HlsjsVideoStreamerConfiguration
 ): Promise<Hls> {
   return new Promise((resolve, reject) => {
@@ -22,6 +24,21 @@ export function hlsjsSetup(
         debug: configuration && debugEnabledLogLevels.indexOf(configuration.logLevel) >= 0,
         ...customConfiguration
       };
+
+      const licenseUrl = normalizedSource && normalizedSource.licenseUrl;
+      if (licenseUrl) {
+        hlsConfig.widevineLicenseUrl = licenseUrl;
+        hlsConfig.emeEnabled = true;
+        const drmDetails = normalizedSource && normalizedSource.licenseAcquisitionDetails;
+        if (drmDetails && drmDetails.robustness && drmDetails.robustness['com.widevine.alpha']) {
+          const { audio, video } = drmDetails.robustness['com.widevine.alpha'];
+          hlsConfig.drmSystemOptions = {
+            audioRobustness: audio,
+            videoRobustness: video,
+          };
+        }
+      }
+
       const hls = new Hls(hlsConfig);
       hls.on(Hls.Events.MEDIA_ATTACHED, () => {
         resolve(hls);

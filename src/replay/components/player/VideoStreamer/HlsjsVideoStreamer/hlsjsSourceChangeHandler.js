@@ -22,7 +22,7 @@ const getSourceChangeHandler = (instanceKeeper: HlsjsInstanceKeeper) => <
   hlsjsCleanup(instanceKeeper);
   const source = normalizeSource(nextProps.source);
   if (source) {
-    return hlsjsSetup(videoElement, nextProps.configuration).then(hls => {
+    return hlsjsSetup(videoElement, source, nextProps.configuration).then(hls => {
       instanceKeeper.hls = hls;
       // window.hls = hls;
       broadcastHlsInstance(instanceKeeper, 'on');
