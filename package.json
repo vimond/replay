@@ -41,7 +41,7 @@
     "test": "SKIP_PREFLIGHT_CHECK=true react-scripts test --env=jsdom"
   },
   "dependencies": {
-    "hls.js": "^1.0.0",
+    "hls.js": "^1.0.1",
     "memoize-one": "^5.1.1",
     "react-feather": "^2.0.8",
     "resize-observer-polyfill": "^1.5.1",
