@@ -34,7 +34,7 @@ export function hlsjsSetup(
           const { audio, video } = drmDetails.robustness['com.widevine.alpha'];
           hlsConfig.drmSystemOptions = {
             audioRobustness: audio,
-            videoRobustness: video,
+            videoRobustness: video
           };
         }
       }

@@ -56,7 +56,7 @@ test('hlsjsSetup() adds Widevine DRM playback details to Hls config.', () => {
           video: 'HW_SECURE_DECODE'
         }
       }
-    },
+    }
   };
   hlsjsSetup(videoElement, source, configuration);
   expect(Hls).toHaveBeenCalledWith({
