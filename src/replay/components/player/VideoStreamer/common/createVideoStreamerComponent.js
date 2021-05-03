@@ -88,7 +88,11 @@ function createVideoStreamerComponent<C: VideoStreamerConfiguration, P: VideoStr
               videoElementEventHandlers
             });
             if (this.props.onReady) {
-              this.props.onReady({ setProperties: this.setProperties, thirdPartyPlayer });
+              this.props.onReady({
+                setProperties: this.setProperties,
+                thirdPartyPlayer,
+                play: () => videoElement.play()
+              });
             }
             if (this.props.source) {
               return this.handleSourceChange(this.props);

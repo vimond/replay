@@ -1,7 +1,7 @@
 import { getPropertyApplier } from './propertyApplier';
 
 const getVideoElementMock = () => ({
-  play: jest.fn(),
+  play: jest.fn().mockResolvedValue(),
   pause: jest.fn(),
   currentTime: 0,
   duration: NaN,

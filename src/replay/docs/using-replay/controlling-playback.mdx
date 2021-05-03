@@ -44,7 +44,7 @@ A specific example: A component prop value for pausing can't be the "source of t
 
 Instead, pausing a video can be performed by invoking a method, `setProperties({ isPaused: true })`. This bypasses the React prop diff-ing, and will pause the video anyhow.
 
-Besides the `setProperties()` approach, Replay exposes sugar methods in a more familiar style. Examples of such methods are `play()`, `pause()`, `setVolume()`, `mute()`, `setPosition()`, `setSelectedTextTrack()`, and more. These sugar methods simply call `setProperties()` with different keys and values.
+Besides the `setProperties()` approach, Replay exposes sugar methods in a more familiar style. Examples of such methods are `play()`, `pause()`, `setVolume()`, `mute()`, `setPosition()`, `setSelectedTextTrack()`, and more. These sugar methods simply call `setProperties()` with different keys and values, with one exception: `play()` returns a promise that will be rejected when the browser has blocked programmatically/automatically starting playback, unless initiated by a user interaction. In other words, this exposes the same behaviour as when calling the `play()` method on a `HTMLVideoElement`.
 
 ## How to perform operations on the playback
 

@@ -27,7 +27,7 @@ export type RenderParameters = {
 export type RenderMethod = RenderParameters => React.Node;
 
 export type PlaybackActions = {
-  play: () => void,
+  play: () => Promise<void>,
   pause: () => void,
   setPosition: number => void,
   gotoLive: () => void,
@@ -60,7 +60,8 @@ type PlayerControllerProps = {
 
 type PlayerControllerState = {
   videoStreamerProps: VideoStreamerProps,
-  setProperties: SetPropertiesMethod
+  setProperties: SetPropertiesMethod,
+  play: () => Promise<void>
 };
 
 const passPropsToVideoStreamer = (children: React.Node, props: any): React.Element<any> => {
@@ -118,8 +119,11 @@ const getObserveManager = () => {
   };
 };
 
-const createPlaybackActions = (inspect, setProperties: PlaybackProps => void): PlaybackActions => {
-  const play = () => setProperties({ isPaused: false });
+const createPlaybackActions = (
+  inspect,
+  setProperties: PlaybackProps => void,
+  play: () => Promise<void>
+): PlaybackActions => {
   const pause = () => setProperties({ isPaused: true });
   const setPosition = (position: number) => setProperties({ position });
   const gotoLive = () => setProperties({ isAtLiveEdge: true });
@@ -166,7 +170,8 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
     };
     this.state = {
       videoStreamerProps,
-      setProperties: () => {}
+      setProperties: () => {},
+      play: () => Promise.resolve()
     };
   }
 
@@ -176,7 +181,8 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
       onReady(
         createPlaybackActions(
           () => this.inspect(),
-          props => this.setProperties(props)
+          props => this.setProperties(props),
+          () => this.play()
         )
       );
     }
@@ -194,10 +200,11 @@ class PlayerController extends React.Component<PlayerControllerProps, PlayerCont
   mergeConfiguration = memoize(override);
 
   setProperties = (props: PlaybackProps) => this.state.setProperties(props);
+  play = () => this.state.play();
 
-  onVideoStreamerReady = ({ setProperties }: VideoStreamerMethods) => {
+  onVideoStreamerReady = ({ setProperties, play }: VideoStreamerMethods) => {
     this.inspectableStreamState = {};
-    this.setState({ setProperties });
+    this.setState({ setProperties, play });
   };
 
   // Video streamer -> UI

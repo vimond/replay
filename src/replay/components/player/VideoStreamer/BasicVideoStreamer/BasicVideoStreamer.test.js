@@ -61,10 +61,14 @@ Object.defineProperty(window.HTMLMediaElement.prototype, 'audioTracks', {
   get: getAudioTracks
 });
 
-window.HTMLMediaElement.prototype.play = function() {};
+window.HTMLMediaElement.prototype.play = function() {
+  return Promise.resolve();
+};
 window.HTMLMediaElement.prototype.pause = function() {};
 window.HTMLMediaElement.prototype.load = function() {};
-HTMLMediaElement.prototype.play = function() {};
+HTMLMediaElement.prototype.play = function() {
+  return Promise.resolve();
+};
 HTMLMediaElement.prototype.pause = function() {};
 HTMLMediaElement.prototype.load = function() {};
 

@@ -13,7 +13,7 @@ export const getPropertyApplier = (
     if (playbackProps.isPaused) {
       videoElement.pause();
     } else {
-      videoElement.play();
+      videoElement.play().catch(err => console.warn('Play blocked', err));
     }
   }
   if (playbackProps.volume != null) {

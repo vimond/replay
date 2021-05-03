@@ -119,7 +119,11 @@ class MockVideoStreamer extends React.Component<Props> {
       this.props.onReady({
         setProperties: (props: PlaybackProps) =>
           runAsync(this.updateStreamState, props, Math.round(Math.random() * 1000)),
-        thirdPartyPlayer: null
+        thirdPartyPlayer: null,
+        play: () => {
+          this.updateStreamState({ isPaused: false });
+          return Promise.resolve();
+        }
       });
       updateWithDefaultValues(this.props.onStreamStateChange, this.props.initialMockState);
       /*setInterval(() => {

@@ -162,6 +162,7 @@ test("<PlayerController /> invokes videoStreamer's setProperties when playback m
   const renderProp = jest.fn();
   const setProperties = jest.fn();
   renderProp.mockReturnValue(getMockPlayerUi());
+  const play = jest.fn().mockResolvedValue();
   const handleActionsReady = m => (actions = m);
   const rendered = mount(
     <PlayerController render={renderProp} onPlaybackActionsReady={handleActionsReady}>
@@ -169,8 +170,7 @@ test("<PlayerController /> invokes videoStreamer's setProperties when playback m
     </PlayerController>
   );
   const videoStreamerProps = rendered.find('MockVideo').props();
-  videoStreamerProps.onReady({ setProperties });
-  actions.play();
+  videoStreamerProps.onReady({ setProperties, play });
   actions.pause();
   actions.setPosition(101);
   actions.gotoLive();
@@ -185,19 +185,21 @@ test("<PlayerController /> invokes videoStreamer's setProperties when playback m
   actions.showAirPlayTargetPicker();
   actions.requestPictureInPicture();
   actions.exitPictureInPicture();
-  expect(setProperties.mock.calls[0][0].isPaused).toBe(false);
-  expect(setProperties.mock.calls[1][0].isPaused).toBe(true);
-  expect(setProperties.mock.calls[2][0].position).toBe(101);
-  expect(setProperties.mock.calls[3][0].isAtLiveEdge).toBe(true);
-  expect(setProperties.mock.calls[4][0].volume).toBe(0.5);
-  expect(setProperties.mock.calls[5][0].isMuted).toBe(true);
-  expect(setProperties.mock.calls[6][0].bitrateFix).toBe('max');
-  expect(setProperties.mock.calls[7][0].bitrateCap).toBe(2000);
-  expect(setProperties.mock.calls[8][0].selectedTextTrack).toEqual({ language: 'en' });
-  expect(setProperties.mock.calls[9][0].selectedAudioTrack).toEqual({ language: 'de' });
-  expect(setProperties.mock.calls[10][0].selectedTextTrack).toBe(null);
-  expect(setProperties.mock.calls[11][0].selectedAudioTrack).toBe(null);
-  expect(setProperties.mock.calls[12][0].isAirPlayTargetPickerVisible).toBe(true);
-  expect(setProperties.mock.calls[13][0].isPipActive).toBe(true);
-  expect(setProperties.mock.calls[14][0].isPipActive).toBe(false);
+  expect(play).not.toHaveBeenCalled();
+  actions.play();
+  expect(setProperties.mock.calls[0][0].isPaused).toBe(true);
+  expect(setProperties.mock.calls[1][0].position).toBe(101);
+  expect(setProperties.mock.calls[2][0].isAtLiveEdge).toBe(true);
+  expect(setProperties.mock.calls[3][0].volume).toBe(0.5);
+  expect(setProperties.mock.calls[4][0].isMuted).toBe(true);
+  expect(setProperties.mock.calls[5][0].bitrateFix).toBe('max');
+  expect(setProperties.mock.calls[6][0].bitrateCap).toBe(2000);
+  expect(setProperties.mock.calls[7][0].selectedTextTrack).toEqual({ language: 'en' });
+  expect(setProperties.mock.calls[8][0].selectedAudioTrack).toEqual({ language: 'de' });
+  expect(setProperties.mock.calls[9][0].selectedTextTrack).toBe(null);
+  expect(setProperties.mock.calls[10][0].selectedAudioTrack).toBe(null);
+  expect(setProperties.mock.calls[11][0].isAirPlayTargetPickerVisible).toBe(true);
+  expect(setProperties.mock.calls[12][0].isPipActive).toBe(true);
+  expect(setProperties.mock.calls[13][0].isPipActive).toBe(false);
+  expect(play).toHaveBeenCalledTimes(1);
 });
