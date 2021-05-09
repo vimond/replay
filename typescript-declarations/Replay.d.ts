@@ -57,7 +57,7 @@ export interface PlaybackError {
 }
 
 export interface PlaybackActions {
-  play: () => void,
+  play: () => Promise<void>,
   pause: () => void,
   setPosition: (position: number) => void,
   gotoLive: () => void,

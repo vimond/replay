@@ -198,3 +198,60 @@ const replayOptions = {
   }
 };
 ```
+
+## Intercepting stream requests for e.g. header manipulation
+
+HLS.js and Shaka Player have their individual ways of allowing requests to be modified before being sent. Typical use cases are related to applying some security details to protected streams, like adding or changing request headers or cookies, manipulating URLs, enabling credentials to be exposed.
+
+In HLS.js, requests can be intercepted before being sent, by adding a [xhrSetup](https://github.com/video-dev/hls.js/blob/master/docs/API.md#xhrsetup) callback property to the hlsjs custom configuration discussed above. Correspondingly for DRM, there is a [licenseXhrSetup](https://github.com/video-dev/hls.js/blob/master/docs/API.md#licenseXhrSetup) config option.
+
+```javascript
+const replayOptions = {
+  videoStreamer: {
+    hlsjs: {
+      customConfiguration: {
+        xhrSetup: xhr => {},
+        licenseXhrSetup: xhr => {},
+      }
+    }
+  }
+};
+```
+
+Shaka Player has the concept of [request](https://shaka-player-demo.appspot.com/docs/api/shaka.extern.html#.RequestFilter) and [response](https://shaka-player-demo.appspot.com/docs/api/shaka.extern.html#.ResponseFilter) filters. These can be used to manipulate both stream and DRM requests. The Shaka Player documentation contains examples for adding [DRM license authentication](https://shaka-player-demo.appspot.com/docs/api/tutorial-license-server-auth.html). Request and response filters can be specified to the ShakaVideoStreamer in the configuration:
+
+```javascript
+const replayOptions = {
+  videoStreamer: {
+    shakaPlayer: {
+      requestFilter: (type, request) => {},
+      responseFilter: (type, request) => {},
+    }
+  }
+};
+```
+
+A configuration example that would add an authorization header to stream requests both in Shaka Player and HLS.js:
+
+```javascript
+const myToken = 'Bearer abc123def456';
+
+const replayOptions = {
+  videoStreamer: {
+    hlsjs: {
+      customConfiguration: {
+        xhrSetup: xhr => xhr.setRequestHeader('Authorization', myToken)
+      }
+    },
+    shakaPLayer: {
+      requestFilter: (type, request) => {
+        if (type === 1 || type === 0) { // shaka.net.NetworkingEngine.RequestType.MANIFEST || .SEGMENT
+          request.headers['Authorization'] = myToken;
+        }
+      }
+    }
+  }
+};
+```
+
+Note that adding custom headers and exposing credentials usually requires a special CORS setup. Solving this is out of the scope of Replay and this documentation.

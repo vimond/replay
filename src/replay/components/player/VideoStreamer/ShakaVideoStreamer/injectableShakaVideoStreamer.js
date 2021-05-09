@@ -22,7 +22,9 @@ import mapShakaError from './shakaErrorMapper';
 export type ShakaVideoStreamerConfiguration = VideoStreamerConfiguration & {
   shakaPlayer?: ?{
     installPolyfills?: boolean,
-    customConfiguration?: any // Actually the config structure that can be passed to shaka.Player::configure.
+    customConfiguration?: any, // Actually the config structure that can be passed to shaka.Player::configure.
+    requestFilter?: ?ShakaRequestFilter,
+    responseFilter?: ?ShakaResponseFilter
   }
 };
 

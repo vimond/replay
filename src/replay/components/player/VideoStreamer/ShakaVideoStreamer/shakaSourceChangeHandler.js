@@ -3,6 +3,7 @@ import type { AdvancedPlaybackSource, PlaybackSource, VideoStreamerConfiguration
 import type { Shaka, ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from './types';
 import mapShakaError from './shakaErrorMapper';
 import normalizeSource from '../common/sourceNormalizer';
+import type { ShakaVideoStreamerConfiguration } from './injectableShakaVideoStreamer';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
@@ -144,16 +145,17 @@ function prepareFilters(
 }
 
 const getSourceChangeHandler = (shakaLib: Shaka, shakaPlayer: ShakaPlayer) => <
-  C: VideoStreamerConfiguration,
+  C: ShakaVideoStreamerConfiguration,
   P: Props<C>
 >(
   nextProps: P,
   prevProps?: P
 ): Promise<any> => {
-  const { shakaRequestFilter, shakaResponseFilter } = nextProps;
   const source = normalizeSource(nextProps.source);
   if (source) {
-    return prepareFilters(shakaPlayer, shakaRequestFilter, shakaResponseFilter)
+    const shakaConf = (nextProps.configuration && nextProps.configuration.shakaPlayer) || {};
+    const { requestFilter = nextProps.shakaRequestFilter, responseFilter = nextProps.shakaResponseFilter } = shakaConf;
+    return prepareFilters(shakaPlayer, requestFilter, responseFilter)
       .then(() => prepareDrm(shakaLib, shakaPlayer, source, nextProps.configuration))
       .then(() => shakaPlayer.load(source.streamUrl, source.startPosition))
       .catch(err => {

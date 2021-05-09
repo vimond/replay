@@ -74,15 +74,12 @@ const getHlsjsEventHandlers = <P: BasicVideoEventHandlersProps>({
       } else if (autoRecoverStreamErrors && detail.type === Hls.ErrorTypes.MEDIA_ERROR) {
         if (lastMediaErrorTime && Date.now() - 1000 < lastMediaErrorTime) {
           lastMediaErrorTime = undefined;
-          console.log('Swapping audio codec');
           hls.swapAudioCodec();
         } else {
-          console.log('Recover from media error');
           lastMediaErrorTime = Date.now();
         }
         hls.recoverMediaError();
       } else {
-        console.log('Giving up');
         lifeCycleManager.setStage('dead');
         updateStreamState({ playState: 'inactive', isBuffering: false, isSeeking: false });
       }
