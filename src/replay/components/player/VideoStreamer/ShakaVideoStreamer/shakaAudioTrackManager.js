@@ -68,9 +68,7 @@ const getShakaAudioTrackManager = (
     }
   }
 
-  function handleSourceChange() {
-    managedTracks.length = 0;
-  }
+  function handleSourceChange() {}
 
   function cleanup() {
     Object.entries(shakaEventHandlers).forEach(([name, handler]) => {
