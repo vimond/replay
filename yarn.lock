@@ -5936,10 +5936,10 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
 
-eme-encryption-scheme-polyfill@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/eme-encryption-scheme-polyfill/-/eme-encryption-scheme-polyfill-2.0.1.tgz#b080b01bffd74c75c9cf8044c1cabedf3b83954f"
-  integrity sha512-Wz+Ro1c0/2Wsx2RLFvTOO0m4LvYn+7cSnq3XOvRvLLBq8jbvUACH/zpU9s0/5+mQa5oaelkU69x+q0z/iWYrFA==
+eme-encryption-scheme-polyfill@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/eme-encryption-scheme-polyfill/-/eme-encryption-scheme-polyfill-2.0.3.tgz#2ca6e06480e06cceb5e50efd27943ac46c959878"
+  integrity sha512-44CNFMsqzHdKHrzWxlS7xZ8KUHn5XutBqpmCuWzNIynmAyFInHrrD3ozv/RvK9ZhgV6QY6Easx8EWAmxteNodg==
 
 "emoji-regex@>=6.0.0 <=6.1.1":
   version "6.1.1"
@@ -7653,10 +7653,10 @@ history@^4.7.2:
     tiny-warning "^1.0.0"
     value-equal "^1.0.1"
 
-hls.js@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.1.tgz#d92bd0a9c78760f0f0e90d53c60192800ebc629f"
-  integrity sha512-ElPUW9VMY2uXdX07N872BSrVUcVd4jZGav4nqlY3vinpdMpW8esmdpUaeVA5vv3oIRSmiC/XtL9K+mSt6rlBpA==
+hls.js@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.0.7.tgz#b4ab75e7a46650d02245a1da091efd15f07d16eb"
+  integrity sha512-NsGaksvOuYNyTmu/w239EtYFMadFzIoDkmStc1FDRcrGmvxOfMGKad/hLj4NHoE8H1S+Q8dT7HufMJJ6yiht7g==
 
 hmac-drbg@^1.0.1:
   version "1.0.1"
@@ -14613,12 +14613,12 @@ sha.js@^2.4.0, sha.js@^2.4.8:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-shaka-player@^3.0.10:
-  version "3.0.10"
-  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-3.0.10.tgz#f5cca848df54694f1aa77097f990881da11dbf68"
-  integrity sha512-kr1OFbihAmsmtsb/QhyDfxkt05wPAdreiW8vF86RN95zxpp+J/thEcTjRrH0E9dkBwPwS4HVv+mm096uqtEMvA==
+shaka-player@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-3.1.1.tgz#8ddb713f1b99e4fa7b49cccde42f067c3eaa5588"
+  integrity sha512-ojXyLvvf1CeqFuIL8HAzyXtIAK5q+gnLHKb0H4EyD86UAwh/Ct6aaxbxWRqqsiMDnSzdn08AUxg4Y2WDay8lyQ==
   dependencies:
-    eme-encryption-scheme-polyfill "^2.0.1"
+    eme-encryption-scheme-polyfill "^2.0.3"
 
 shallow-clone@^0.1.2:
   version "0.1.2"
