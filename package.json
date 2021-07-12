@@ -15,7 +15,6 @@
   "files": [
     "components",
     "default-player",
-    "docs",
     "video-streamer",
     "playerComposer.js",
     "playerComposer.js.map",
