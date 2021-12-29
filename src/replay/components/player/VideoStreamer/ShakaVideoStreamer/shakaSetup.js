@@ -14,10 +14,14 @@ export function shakaSetup(
       const shakaConf = configuration.shakaPlayer;
       if (shakaConf.installPolyfills) {
         shakaLib.polyfill.installAll();
+      } else {
+        shakaLib.polyfill.MediaCapabilities.install();
       }
       if (shakaConf.customConfiguration) {
         shakaPlayer.configure(shakaConf.customConfiguration);
       }
+    } else {
+      shakaLib.polyfill.MediaCapabilities.install();
     }
     const log = shakaLib.log && shakaLib.log;
     const logLevel = configuration && configuration.logLevel;

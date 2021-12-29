@@ -26,7 +26,10 @@ const shaka = {
     destroy
   })),
   polyfill: {
-    installAll: jest.fn()
+    installAll: jest.fn(),
+    MediaCapabilities: {
+      install: jest.fn()
+    }
   }
 };
 

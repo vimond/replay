@@ -97,7 +97,10 @@ export interface LogLevel {
 
 export interface Shaka {
   polyfill: {
-    installAll: () => {}
+    installAll: () => {},
+    MediaCapabilities: {
+      install: () => {}
+    }
   };
   util: {
     Error: Error
