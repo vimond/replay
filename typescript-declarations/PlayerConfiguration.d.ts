@@ -24,7 +24,20 @@ export interface VideoStreamerConfiguration {
   crossOrigin?: string | null,
   playsInline?: boolean | null,
   liveEdgeMargin?: number | null,
-  pauseUpdateInterval?: number | null
+  pauseUpdateInterval?: number | null,
+  shakaPlayer?: {
+    installPolyfills?: boolean | null,
+    customConfiguration?: object,
+    requestFilter?: (type: string, request: object) => Promise<void> | null,
+    responseFilter?: (type: string, response: object) => Promise<void> | null
+  },
+  hlsjs?: {
+    customConfiguration?: object,
+    autoRecoverStreamErrors?: boolean | null
+  },
+  rxPlayer?: {
+    customConfiguration?: object
+  }
 }
 
 export interface InteractionDetectorConfiguration {
