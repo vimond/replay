@@ -41,7 +41,7 @@ function createSelectableTrack(
   };
 }
 
-const supportedContentTypes = ['text/vtt', 'application/ttml+xml'];
+const supportedContentTypes = ['text/vtt', 'application/ttml+xml', 'text/srt'];
 
 function isContentTypeSupported(sourceTrack) {
   const contentType = sourceTrack.contentType;
@@ -210,15 +210,13 @@ function getShakaTextTrackManager(
           contentType = contentType && contentType.substr(0, charsetPos);
         }
         return {
-          addPromise: Promise.resolve(
-            shakaPlayer.addTextTrack(
-              sourceTrack.src,
-              sourceTrack.language,
-              sourceTrack.kind,
-              contentType,
-              null,
-              sourceTrack.label
-            )
+          addPromise: shakaPlayer.addTextTrackAsync(
+            sourceTrack.src,
+            sourceTrack.language,
+            sourceTrack.kind,
+            contentType,
+            null,
+            sourceTrack.label
           ),
           sourceTrack: sourceTrack
         };
