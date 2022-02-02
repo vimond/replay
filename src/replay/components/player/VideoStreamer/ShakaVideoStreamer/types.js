@@ -55,6 +55,14 @@ export type ShakaPlayer = {
     codec?: ?string,
     label?: string
   ) => Promise<ShakaTrack>,
+  addTextTrackAsync: (
+    uri: string,
+    language: ?string,
+    kind: ?string,
+    mime: ?string,
+    codec?: ?string,
+    label?: string
+  ) => Promise<ShakaTrack>,
   cancelTrickPlay: () => void,
   configure: any => void,
   destroy: () => Promise<void>,
