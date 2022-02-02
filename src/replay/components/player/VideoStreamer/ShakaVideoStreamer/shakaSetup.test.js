@@ -27,7 +27,7 @@ describe('Shaka shakaSetup() polyfill installation.', () => {
   });
   test('MediaCapabilities installed by default when not configured', () => {
     const videoElement = {};
-    shakaSetup(shaka, videoElement, { shakaPlayer: { } });
+    shakaSetup(shaka, videoElement, { shakaPlayer: {} });
     expect(shaka.polyfill.installAll).not.toHaveBeenCalled();
     expect(shaka.polyfill.MediaCapabilities.install).toHaveBeenCalled();
   });

@@ -211,14 +211,13 @@ function getShakaTextTrackManager(
         }
         return {
           addPromise: shakaPlayer.addTextTrackAsync(
-              sourceTrack.src,
-              sourceTrack.language,
-              sourceTrack.kind,
-              contentType,
-              null,
-              sourceTrack.label
-            )
-          ,
+            sourceTrack.src,
+            sourceTrack.language,
+            sourceTrack.kind,
+            contentType,
+            null,
+            sourceTrack.label
+          ),
           sourceTrack: sourceTrack
         };
       })
