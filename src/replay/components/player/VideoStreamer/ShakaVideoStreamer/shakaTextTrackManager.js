@@ -41,7 +41,7 @@ function createSelectableTrack(
   };
 }
 
-const supportedContentTypes = ['text/vtt', 'application/ttml+xml'];
+const supportedContentTypes = ['text/vtt', 'application/ttml+xml', 'text/srt'];
 
 function isContentTypeSupported(sourceTrack) {
   const contentType = sourceTrack.contentType;
@@ -210,8 +210,7 @@ function getShakaTextTrackManager(
           contentType = contentType && contentType.substr(0, charsetPos);
         }
         return {
-          addPromise: Promise.resolve(
-            shakaPlayer.addTextTrack(
+          addPromise: shakaPlayer.addTextTrackAsync(
               sourceTrack.src,
               sourceTrack.language,
               sourceTrack.kind,
@@ -219,7 +218,7 @@ function getShakaTextTrackManager(
               null,
               sourceTrack.label
             )
-          ),
+          ,
           sourceTrack: sourceTrack
         };
       })
