@@ -2,12 +2,6 @@
 
 exports[`getPlayerUIRenderer() returns a full method which when called renders and recognises the specified props. 1`] = `
 <PlayerUIContainer
-  aspectRatio={
-    Object {
-      "horizontal": 16,
-      "vertical": 9,
-    }
-  }
   className="replay"
   classNamePrefix="replay-"
   configuration={
@@ -24,12 +18,6 @@ exports[`getPlayerUIRenderer() returns a full method which when called renders a
 >
   <AspectRatio
     aspectFixClassName="aspect-ratio-fix"
-    aspectRatio={
-      Object {
-        "horizontal": 16,
-        "vertical": 9,
-      }
-    }
     classNamePrefix="replay-"
     render={[Function]}
     rootClassName="replay"

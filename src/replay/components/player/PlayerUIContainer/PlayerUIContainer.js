@@ -31,7 +31,7 @@ type AspectRatioConfiguration = {
 };
 
 type Props = CommonProps & {
-  aspectRatio: AspectRatioConfiguration,
+  aspectRatio?: AspectRatioConfiguration,
   configuration?: {
     interactionDetector?: InteractionDetectorConfiguration,
     keyboardShortcuts?: KeyboardShortcutsConfiguration,
@@ -77,10 +77,6 @@ export const getConnectedPlayerUIContainer = (connector: any => React.ComponentT
     static defaultProps = {
       classNamePrefix: defaultClassNamePrefix,
       className: defaultClassNamePrefix.substr(0, defaultClassNamePrefix.length - 1), // Removing the last dash of the prefix. Dangerous assumption...
-      aspectRatio: {
-        horizontal: 16,
-        vertical: 9
-      }
     };
 
     render() {
@@ -89,7 +85,7 @@ export const getConnectedPlayerUIContainer = (connector: any => React.ComponentT
       return (
         <AspectRatio
           rootClassName={playerClassName}
-          aspectRatio={aspectRatio || (configuration && configuration.aspectRatio)}
+          aspectRatio={(configuration && configuration.aspectRatio) || aspectRatio}
           aspectFixClassName={aspectRatioFixClassName}
           classNamePrefix={classNamePrefix}
           render={() => (

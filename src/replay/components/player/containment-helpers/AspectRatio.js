@@ -36,17 +36,17 @@ const AspectRatio = ({
   aspectFixClassName,
   classNamePrefix = defaultClassNamePrefix
 }: Props) => {
-  if (aspectFixClassName) {
-    return (
-      <div className={`${rootClassName} ${prefixClassNames(classNamePrefix, aspectFixClassName)}`}>{render()}</div>
-    );
-  } else {
+  if (aspectRatio || !aspectFixClassName) {
     const beforeStyle = getHelperStyle(aspectRatio);
     return (
       <div className={rootClassName} style={outerStyle}>
         <div style={beforeStyle} />
         {render()}
       </div>
+    );
+  } else {
+    return (
+      <div className={`${rootClassName} ${prefixClassNames(classNamePrefix, aspectFixClassName)}`}>{render()}</div>
     );
   }
 };
