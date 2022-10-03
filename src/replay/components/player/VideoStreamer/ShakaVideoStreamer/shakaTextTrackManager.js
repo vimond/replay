@@ -274,25 +274,31 @@ function getShakaTextTrackManager(
   }
 
   function blacklistExistingSideLoadedTracks() {
-    const selectedTrack = shakaPlayer.isTextTrackVisible() ? getActiveShakaTrack() : null;
-    managedTextTracks
-      .filter(managedTrack => {
-        return managedTrack.sourceTrack != null;
-      })
-      .forEach(managedTrack => {
-        if (managedTrack.selectableTrack) {
-          managedTrack.selectableTrack = null;
-        }
-        if (
-          selectedTrack &&
-          managedTrack.shakaTrack &&
-          managedTrack.shakaTrack.active &&
-          isShakaTrackEqual(selectedTrack, managedTrack.shakaTrack)
-        ) {
-          shakaPlayer.setTextTrackVisibility(false);
-        }
-        managedTrack.isBlacklisted = true;
-      });
+    let selectedTrack = null;
+    try {
+      // In case of errors, this might fail due to early cleanup.
+      selectedTrack = shakaPlayer.isTextTrackVisible() ? getActiveShakaTrack() : null;
+    } catch (e) {}
+    if (selectedTrack) {
+      managedTextTracks
+        .filter(managedTrack => {
+          return managedTrack.sourceTrack != null;
+        })
+        .forEach(managedTrack => {
+          if (managedTrack.selectableTrack) {
+            managedTrack.selectableTrack = null;
+          }
+          if (
+            selectedTrack &&
+            managedTrack.shakaTrack &&
+            managedTrack.shakaTrack.active &&
+            isShakaTrackEqual(selectedTrack, managedTrack.shakaTrack)
+          ) {
+            shakaPlayer.setTextTrackVisibility(false);
+          }
+          managedTrack.isBlacklisted = true;
+        });
+    }
   }
 
   function handleSourcePropChange(props: { source?: ?PlaybackSource, textTracks?: ?Array<SourceTrack> }) {
