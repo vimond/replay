@@ -93,6 +93,10 @@ export type AdvancedPlaybackSource = {
   isLive?: boolean,
   textTracks?: Array<SourceTrack>,
   metadata?: any,
+  drmLicenseUri?: {
+    name: string ,
+    uri: string
+  },
   licenseAcquisitionDetails?: {
     licenseRequestHeaders?: { [string]: string },
     fairPlayCertificateUrl?: string,

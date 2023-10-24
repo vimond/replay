@@ -19,6 +19,8 @@ type Coordinates = { x: number, y: number, width: number, height: number };
 
 export const defaultClassNamePrefix = 'replay-';
 
+export const edgioLicenseForFairplay = 'edgio.fairplay';
+
 export function prefixClassNames(prefix: ?string, ...names: Array<?string>): string {
   const sanitizedPrefix = prefix == null ? '' : prefix;
   const classNameArray = [];

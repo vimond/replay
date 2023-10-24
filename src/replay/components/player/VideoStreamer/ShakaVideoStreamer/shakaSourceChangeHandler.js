@@ -4,6 +4,7 @@ import type { Shaka, ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from
 import mapShakaError from './shakaErrorMapper';
 import normalizeSource from '../common/sourceNormalizer';
 import type { ShakaVideoStreamerConfiguration } from './injectableShakaVideoStreamer';
+import { edgioLicenseForFairplay } from '../../../common';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
@@ -11,6 +12,7 @@ declare class Object {
 
 const widevine = 'com.widevine.alpha';
 const playready = 'com.microsoft.playready';
+const fairplay = 'com.apple.fps.1_0';
 
 type Props<C: VideoStreamerConfiguration> = {
   source?: ?PlaybackSource,
@@ -53,6 +55,33 @@ function addLicenseRequestFilters(
   });
 }
 
+const addRequestFilterForHlsEdgioFairPlay =( shakaLib: Shaka, shakaPlayer: ShakaPlayer) => {
+  shakaPlayer.getNetworkingEngine().registerRequestFilter((type: string, request) => {
+    if (type !== shakaLib.net.NetworkingEngine.RequestType.LICENSE) {
+      return;
+    }
+    const skdUri = shakaLib.util.StringUtils.fromBytesAutoDetect(request.initData);
+    const licenseServerUri = skdUri.replace('skd://', 'https://');
+    const originalPayload = new Uint8Array(request.body);
+    const base64Payload = shakaLib.util.Uint8ArrayUtils.toStandardBase64(originalPayload);
+    request.drmInfo.licenseServerUri = licenseServerUri;
+    request.uris[0] = licenseServerUri;
+    request.headers['Content-Type'] = 'application/json';
+    request.body = JSON.stringify({spc: base64Payload});
+  });
+}
+const addResponseFilterForHlsEdgioFairPlay =( shakaLib: Shaka, shakaPlayer: ShakaPlayer) => {
+    shakaPlayer.getNetworkingEngine().registerResponseFilter((type: string, response) => {
+      if (type !== shakaLib.net.NetworkingEngine.RequestType.LICENSE) {
+        return;
+      }
+      let utf8ResponseData = shakaLib.util.StringUtils.fromUTF8(response.data);
+      utf8ResponseData = utf8ResponseData.trim();
+      const jsonResponseData = JSON.parse(utf8ResponseData);
+      response.data = shakaLib.util.Uint8ArrayUtils.fromBase64(jsonResponseData.ckc).buffer;
+    });
+}
+
 function prepareDrm(
   shakaLib: Shaka,
   shakaPlayer: ShakaPlayer,
@@ -65,6 +94,8 @@ function prepareDrm(
   const drmConfig = (configuration && configuration.licenseAcquisition) || {};
   const serviceCertificate =
     details.widevineServiceCertificateUrl || (drmConfig.widevine && drmConfig.widevine.serviceCertificateUrl);
+  
+  let fairPlayCertificateUrl = '' ;
 
   const widevineEmeAttributes = getEmeAttributes(navigator.userAgent, serviceCertificate);
   const { licenseRequestHeaders, robustness } = details;
@@ -108,16 +139,26 @@ function prepareDrm(
         [widevine]: licenseUrl,
         [playready]: licenseUrl
       };
-
+  if (source.mediaFormat === "HLS" && source.drmLicenseUri?.name === edgioLicenseForFairplay) {
+    if(shakaLib.polyfill.PatchedMediaKeysApple){
+      shakaLib.polyfill.PatchedMediaKeysApple.install();
+    }
+    fairPlayCertificateUrl = details.fairPlayCertificateUrl
+    addRequestFilterForHlsEdgioFairPlay(shakaLib, shakaPlayer);
+    addResponseFilterForHlsEdgioFairPlay(shakaLib, shakaPlayer);
+  }
   shakaPlayer.configure({
     drm: {
       servers,
       advanced: {
-        'com.widevine.alpha': {
+        [widevine]: {
           ...widevineRobustness,
           serverCertificate: widevineEmeAttributes.serviceCertificate
         },
-        'com.microsoft.playready': playreadyRobustness
+        [playready]: playreadyRobustness,
+        [fairplay]: {
+          serverCertificateUri: fairPlayCertificateUrl,
+        }
       }
     }
   });
@@ -159,7 +200,7 @@ const getSourceChangeHandler = (shakaLib: Shaka, shakaPlayer: ShakaPlayer) => <
       .then(() => prepareDrm(shakaLib, shakaPlayer, source, nextProps.configuration))
       .then(() => shakaPlayer.load(source.streamUrl, source.startPosition))
       .catch(err => {
-        if (err && err.code !== shakaLib.util.Error.Code.LOAD_INTERRUPTED) {
+        if (err && err.code !== shakaLib.util.Error.Code?.LOAD_INTERRUPTED) {
           throw mapShakaError(shakaLib, false, err, navigator.userAgent, document.location);
         }
       });
