@@ -126,9 +126,7 @@ export interface Shaka {
     },
     Uint8ArrayUtils:{
       toStandardBase64: (data: BufferSource)=> string,
-      fromBase64: ({ ckc: string })=> {
-        buffer: ArrayBuffer
-      },
+      fromBase64: ({ ckc: string })=> Uint8Array,
     }
   };
   net: {
