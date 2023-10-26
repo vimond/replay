@@ -4,15 +4,14 @@ import type { Shaka, ShakaPlayer, ShakaRequestFilter, ShakaResponseFilter } from
 import mapShakaError from './shakaErrorMapper';
 import normalizeSource from '../common/sourceNormalizer';
 import type { ShakaVideoStreamerConfiguration } from './injectableShakaVideoStreamer';
-import { edgioLicenseForFairplay } from '../../../common';
 
 declare class Object {
   static entries<TKey, TValue>({ [key: TKey]: TValue }): [TKey, TValue][];
 }
 
-const widevine = 'com.widevine.alpha';
-const playready = 'com.microsoft.playready';
-const fairplay = 'com.apple.fps.1_0';
+const WIDEVINE_DRM_TYPE = 'com.widevine.alpha';
+const PLAYREADY_DRM_TYPE = 'com.microsoft.playready';
+const FAIRPLAY_DRM_TYPE = 'com.apple.fps.1_0';
 
 type Props<C: VideoStreamerConfiguration> = {
   source?: ?PlaybackSource,
@@ -55,22 +54,27 @@ function addLicenseRequestFilters(
   });
 }
 
-const addRequestFilterForHlsEdgioFairPlay =( shakaLib: Shaka, shakaPlayer: ShakaPlayer) => {
+const addRequestFilterForHlsFairPlay =( shakaLib: Shaka, shakaPlayer: ShakaPlayer, details) => {
   shakaPlayer.getNetworkingEngine().registerRequestFilter((type: string, request) => {
     if (type !== shakaLib.net.NetworkingEngine.RequestType.LICENSE) {
       return;
     }
-    const skdUri = shakaLib.util.StringUtils.fromBytesAutoDetect(request.initData);
-    const licenseServerUri = skdUri.replace('skd://', 'https://');
-    const originalPayload = new Uint8Array(request.body);
-    const base64Payload = shakaLib.util.Uint8ArrayUtils.toStandardBase64(originalPayload);
-    request.drmInfo.licenseServerUri = licenseServerUri;
-    request.uris[0] = licenseServerUri;
-    request.headers['Content-Type'] = 'application/json';
-    request.body = JSON.stringify({spc: base64Payload});
+    if (details.extractLicenseUrlFromSkd === true) {
+      const skdUri = shakaLib.util.StringUtils.fromBytesAutoDetect(request.initData);
+      const licenseServerUri = skdUri.replace('skd://', 'https://');
+      request.drmInfo.licenseServerUri = licenseServerUri;
+      request.uris[0] = licenseServerUri;  
+    }
+    if (details.fairPlayRequestFormat === 'base64json') {
+      const originalPayload = new Uint8Array(request.body);
+      const base64Payload = shakaLib.util.Uint8ArrayUtils.toStandardBase64(originalPayload);
+      request.headers['Content-Type'] = 'application/json';
+      request.body = JSON.stringify({spc: base64Payload});
+    }
   });
 }
-const addResponseFilterForHlsEdgioFairPlay =( shakaLib: Shaka, shakaPlayer: ShakaPlayer) => {
+const addResponseFilterForHlsFairPlay =( shakaLib: Shaka, shakaPlayer: ShakaPlayer, details) => {
+  if (details.fairPlayRequestFormat === 'base64json') {
     shakaPlayer.getNetworkingEngine().registerResponseFilter((type: string, response) => {
       if (type !== shakaLib.net.NetworkingEngine.RequestType.LICENSE) {
         return;
@@ -80,6 +84,7 @@ const addResponseFilterForHlsEdgioFairPlay =( shakaLib: Shaka, shakaPlayer: Shak
       const jsonResponseData = JSON.parse(utf8ResponseData);
       response.data = shakaLib.util.Uint8ArrayUtils.fromBase64(jsonResponseData.ckc).buffer;
     });
+  }  
 }
 
 function prepareDrm(
@@ -94,16 +99,15 @@ function prepareDrm(
   const drmConfig = (configuration && configuration.licenseAcquisition) || {};
   const serviceCertificate =
     details.widevineServiceCertificateUrl || (drmConfig.widevine && drmConfig.widevine.serviceCertificateUrl);
-  
-  let fairPlayCertificateUrl = '' ;
+  const fairPlayCertificateUrl = details.fairPlayCertificateUrl || drmConfig.serviceCertificateUrl;
 
   const widevineEmeAttributes = getEmeAttributes(navigator.userAgent, serviceCertificate);
   const { licenseRequestHeaders, robustness } = details;
   const widevineRobustness =
-    robustness && robustness[widevine]
+    robustness && robustness[WIDEVINE_DRM_TYPE]
       ? {
-          audioRobustness: robustness[widevine].audio,
-          videoRobustness: robustness[widevine].video
+          audioRobustness: robustness[WIDEVINE_DRM_TYPE].audio,
+          videoRobustness: robustness[WIDEVINE_DRM_TYPE].video
         }
       : drmConfig.widevine && drmConfig.widevine.robustness
       ? {
@@ -115,10 +119,10 @@ function prepareDrm(
           videoRobustness: widevineEmeAttributes.videoRobustness
         };
   const playreadyRobustness =
-    robustness && robustness[playready]
+    robustness && robustness[PLAYREADY_DRM_TYPE]
       ? {
-          audioRobustness: robustness[playready].audio,
-          videoRobustness: robustness[playready].video
+          audioRobustness: robustness[PLAYREADY_DRM_TYPE].audio,
+          videoRobustness: robustness[PLAYREADY_DRM_TYPE].video
         }
       : drmConfig.playReady && drmConfig.playReady.robustness
       ? {
@@ -136,27 +140,26 @@ function prepareDrm(
   const servers = drmType
     ? { [drmType]: licenseUrl }
     : {
-        [widevine]: licenseUrl,
-        [playready]: licenseUrl
+        [WIDEVINE_DRM_TYPE]: licenseUrl,
+        [PLAYREADY_DRM_TYPE]: licenseUrl
       };
-  if (source.mediaFormat === "HLS" && source.drmLicenseUri?.name === edgioLicenseForFairplay) {
+  if (drmType === FAIRPLAY_DRM_TYPE) {
     if(shakaLib.polyfill.PatchedMediaKeysApple){
       shakaLib.polyfill.PatchedMediaKeysApple.install();
     }
-    fairPlayCertificateUrl = details.fairPlayCertificateUrl
-    addRequestFilterForHlsEdgioFairPlay(shakaLib, shakaPlayer);
-    addResponseFilterForHlsEdgioFairPlay(shakaLib, shakaPlayer);
+    addRequestFilterForHlsFairPlay(shakaLib, shakaPlayer, details);
+    addResponseFilterForHlsFairPlay(shakaLib, shakaPlayer, details);
   }
   shakaPlayer.configure({
     drm: {
       servers,
       advanced: {
-        [widevine]: {
+        [WIDEVINE_DRM_TYPE]: {
           ...widevineRobustness,
           serverCertificate: widevineEmeAttributes.serviceCertificate
         },
-        [playready]: playreadyRobustness,
-        [fairplay]: {
+        [PLAYREADY_DRM_TYPE]: playreadyRobustness,
+        [FAIRPLAY_DRM_TYPE]: {
           serverCertificateUri: fairPlayCertificateUrl,
         }
       }

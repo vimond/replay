@@ -82,7 +82,7 @@ export type SourceTrack = {
   cues?: Array<{ start: number, end: number, content: string }>
 };
 
-export type FairPlayRequestFormat = 'formdata' | 'binary' | 'base64';
+export type FairPlayRequestFormat = 'formdata' | 'binary' | 'base64' | 'base64json';
 
 export type AdvancedPlaybackSource = {
   streamUrl: string,
@@ -105,6 +105,7 @@ export type AdvancedPlaybackSource = {
     fairPlayRequestFormat?: FairPlayRequestFormat,
     contentIdExtractMatch?: RegExp | string,
     contentId?: string,
+    extractLicenseUrlFromSkd?: boolean,
     robustness?: {
       [string]: {
         audio: string,

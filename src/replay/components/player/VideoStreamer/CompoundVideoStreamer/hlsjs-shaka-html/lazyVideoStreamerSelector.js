@@ -3,7 +3,6 @@
 import { lazy } from 'react';
 import type { LazyVideoStreamerSelector } from '../CompoundVideoStreamer';
 import { detectStreamType, isSafari } from '../helpers';
-import { edgioLicenseForFairplay } from '../../../../common';
 
 const HlsjsVideoStreamer = lazy(() => import('../../HlsjsVideoStreamer/HlsjsVideoStreamer'));
 const ShakaVideoStreamer = lazy(() => import('../../ShakaVideoStreamer/ShakaVideoStreamer'));
@@ -18,7 +17,7 @@ const selectVideoStreamerImporter: LazyVideoStreamerSelector = (source, userAgen
     switch (streamType.name) {
       case 'hls':
         if (isSafari(userAgent)) {
-          if(source.drmLicenseUri && source.drmLicenseUri.name === edgioLicenseForFairplay){
+          if(source.drmLicenseUri && source.licenseAcquisitionDetails?.extractLicenseUrlFromSkd){
             return ShakaVideoStreamer;
           };
           return HtmlVideoStreamer;

@@ -1,6 +1,5 @@
 import getSourceChangeHandler from './shakaSourceChangeHandler';
 import shaka from 'shaka-player';
-import { edgioLicenseForFairplay } from '../../../common';
 
 function MockShakaPlayer() {
   const networkingEngine = {
@@ -270,7 +269,9 @@ test('Shaka helper handleSourceChange() configures DRM for the ClearKey scheme i
     });
   });
 });
-test('Shaka helper handleSourceChange() configures DRM for the Edgio FairPlay scheme if source specifies a license URL and the Edgio FairPlay DRM type.', () => {
+test(`Shaka helper handleSourceChange() configures DRM for the a FairPlay scheme where the source requires 
+      JSON-wrapped base64 request format and needs to have the license url 
+      parsed from the SKD value (as for example Edgio does).`, () => {
   const shakaPlayer = new MockShakaPlayer();
   const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const firstSource = {
@@ -280,10 +281,12 @@ test('Shaka helper handleSourceChange() configures DRM for the Edgio FairPlay sc
     drmType: 'com.apple.fps.1_0',
     mediaFormat: 'HLS',
     drmLicenseUri:{
-      name: edgioLicenseForFairplay
+      name: 'drmprovider.fairplay'
     },
     licenseAcquisitionDetails: {
-      fairPlayCertificateUrl: "https://dummy.cer"
+      fairPlayCertificateUrl: "https://dummy.cer",
+      extractLicenseUrlFromSkd: true,
+      fairPlayRequestFormat: 'base64json'
     }
   };
   return handleSourceChange(
@@ -304,7 +307,9 @@ test('Shaka helper handleSourceChange() configures DRM for the Edgio FairPlay sc
     }));
   });
 });
-test('Shaka helper handleSourceChange() registers request and response filters if source specifies a license URL and the Edgio FairPlay DRM type.', () => {
+test(`Shaka helper handleSourceChange() registers request and response filters 
+      if source specifies a license URL and requires the request to be in Base64-wrapped JSON format 
+      and needs to have the license url parsed from the SKD value.`, () => {
   const shakaPlayer = new MockShakaPlayer();
   const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
   const firstSource = {
@@ -314,10 +319,12 @@ test('Shaka helper handleSourceChange() registers request and response filters i
     drmType: 'com.apple.fps.1_0',
     mediaFormat: 'HLS',
     drmLicenseUri:{
-      name: edgioLicenseForFairplay
+      name: 'drm'
     },
     licenseAcquisitionDetails: {
-      fairPlayCertificateUrl: "https://dummy.cer"
+      fairPlayCertificateUrl: "https://dummy.cer",
+      extractLicenseUrlFromSkd: true,
+      fairPlayRequestFormat: 'base64json'
     }
   };
   return handleSourceChange(

@@ -1,4 +1,4 @@
-export type FairPlayRequestFormat = 'formdata' | 'binary' | 'base64';
+export type FairPlayRequestFormat = 'formdata' | 'binary' | 'base64' | 'base64json';
 
 export interface VideoStreamerConfiguration {
   licenseAcquisition?: {
