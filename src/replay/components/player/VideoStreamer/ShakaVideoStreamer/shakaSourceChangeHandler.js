@@ -99,7 +99,7 @@ function prepareDrm(
   const drmConfig = (configuration && configuration.licenseAcquisition) || {};
   const serviceCertificate =
     details.widevineServiceCertificateUrl || (drmConfig.widevine && drmConfig.widevine.serviceCertificateUrl);
-  const fairPlayCertificateUrl = details.fairPlayCertificateUrl || drmConfig.serviceCertificateUrl;
+  const fairPlayCertificateUrl = details.fairPlayCertificateUrl || drmConfig.fairPlay.serviceCertificateUrl;
 
   const widevineEmeAttributes = getEmeAttributes(navigator.userAgent, serviceCertificate);
   const { licenseRequestHeaders, robustness } = details;

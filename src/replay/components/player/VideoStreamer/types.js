@@ -168,7 +168,8 @@ export type VideoStreamerConfiguration = {
       serviceCertificateUrl?: ?string,
       withCredentials?: ?boolean,
       requestFormat?: ?FairPlayRequestFormat,
-      contentIdExtractMatch?: ?(RegExp | string)
+      contentIdExtractMatch?: ?(RegExp | string),
+      extractLicenseUrlFromSkd?: ?boolean,
     },
     playReady: {
       withCredentials?: ?boolean,
