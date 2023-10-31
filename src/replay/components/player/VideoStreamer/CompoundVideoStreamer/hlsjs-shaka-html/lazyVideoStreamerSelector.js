@@ -13,10 +13,14 @@ const selectVideoStreamerImporter: LazyVideoStreamerSelector = (source, userAgen
   if (source) {
     const contentType = typeof source === 'string' ? null : source.contentType;
     const streamUrl = typeof source === 'string' ? source : source.streamUrl;
+    const extractLicenseUrlFromSkd = typeof source === 'string' ? null : source.licenseAcquisitionDetails?.extractLicenseUrlFromSkd;
     const streamType = detectStreamType(streamUrl, contentType);
     switch (streamType.name) {
       case 'hls':
         if (isSafari(userAgent)) {
+          if(source.drmLicenseUri && extractLicenseUrlFromSkd){
+            return ShakaVideoStreamer;
+          };
           return HtmlVideoStreamer;
         } else {
           return HlsjsVideoStreamer;

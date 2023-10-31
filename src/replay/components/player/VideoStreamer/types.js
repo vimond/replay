@@ -82,7 +82,7 @@ export type SourceTrack = {
   cues?: Array<{ start: number, end: number, content: string }>
 };
 
-export type FairPlayRequestFormat = 'formdata' | 'binary' | 'base64';
+export type FairPlayRequestFormat = 'formdata' | 'binary' | 'base64' | 'base64json';
 
 export type AdvancedPlaybackSource = {
   streamUrl: string,
@@ -93,6 +93,11 @@ export type AdvancedPlaybackSource = {
   isLive?: boolean,
   textTracks?: Array<SourceTrack>,
   metadata?: any,
+  mediaFormat?: string,
+  drmLicenseUri?: {
+    name: string ,
+    uri: string
+  },
   licenseAcquisitionDetails?: {
     licenseRequestHeaders?: { [string]: string },
     fairPlayCertificateUrl?: string,
@@ -100,6 +105,7 @@ export type AdvancedPlaybackSource = {
     fairPlayRequestFormat?: FairPlayRequestFormat,
     contentIdExtractMatch?: RegExp | string,
     contentId?: string,
+    extractLicenseUrlFromSkd?: boolean,
     robustness?: {
       [string]: {
         audio: string,
@@ -162,7 +168,8 @@ export type VideoStreamerConfiguration = {
       serviceCertificateUrl?: ?string,
       withCredentials?: ?boolean,
       requestFormat?: ?FairPlayRequestFormat,
-      contentIdExtractMatch?: ?(RegExp | string)
+      contentIdExtractMatch?: ?(RegExp | string),
+      extractLicenseUrlFromSkd?: ?boolean,
     },
     playReady: {
       withCredentials?: ?boolean,

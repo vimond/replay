@@ -269,3 +269,71 @@ test('Shaka helper handleSourceChange() configures DRM for the ClearKey scheme i
     });
   });
 });
+test(`Shaka helper handleSourceChange() configures DRM for the a FairPlay scheme where the source requires 
+      JSON-wrapped base64 request format and needs to have the license url 
+      parsed from the SKD value (as for example Edgio does).`, () => {
+  const shakaPlayer = new MockShakaPlayer();
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
+  const firstSource = {
+    streamUrl: 'https://ok.com/puter',
+    startPosition: 33,
+    licenseUrl: 'https://example.com/license',
+    drmType: 'com.apple.fps.1_0',
+    mediaFormat: 'HLS',
+    drmLicenseUri:{
+      name: 'drmprovider.fairplay'
+    },
+    licenseAcquisitionDetails: {
+      fairPlayCertificateUrl: "https://dummy.cer",
+      extractLicenseUrlFromSkd: true,
+      fairPlayRequestFormat: 'base64json'
+    }
+  };
+  return handleSourceChange(
+    {
+      source: firstSource
+    },
+    {}
+  ).then(() => {
+    expect(shakaPlayer.load.mock.calls[0]).toEqual(['https://ok.com/puter', 33]);
+    const drmConfig = shakaPlayer.configure.mock.calls[0][0];
+    expect(drmConfig.drm.servers).toEqual({
+      'com.apple.fps.1_0': 'https://example.com/license'
+    });
+    expect(drmConfig.drm.advanced).toEqual(expect.objectContaining({
+      'com.apple.fps.1_0':{
+        serverCertificateUri: firstSource.licenseAcquisitionDetails.fairPlayCertificateUrl
+      }
+    }));
+  });
+});
+test(`Shaka helper handleSourceChange() registers request and response filters 
+      if source specifies a license URL and requires the request to be in Base64-wrapped JSON format 
+      and needs to have the license url parsed from the SKD value.`, () => {
+  const shakaPlayer = new MockShakaPlayer();
+  const handleSourceChange = getSourceChangeHandler(shaka, shakaPlayer);
+  const firstSource = {
+    streamUrl: 'https://ok.com/puter',
+    startPosition: 33,
+    licenseUrl: 'https://example.com/license',
+    drmType: 'com.apple.fps.1_0',
+    mediaFormat: 'HLS',
+    drmLicenseUri:{
+      name: 'drm'
+    },
+    licenseAcquisitionDetails: {
+      fairPlayCertificateUrl: "https://dummy.cer",
+      extractLicenseUrlFromSkd: true,
+      fairPlayRequestFormat: 'base64json'
+    }
+  };
+  return handleSourceChange(
+    {
+      source: firstSource
+    },
+    {}
+  ).then(() => {
+    expect(shakaPlayer.getNetworkingEngine().registerRequestFilter).toHaveBeenCalledTimes(1);
+    expect(shakaPlayer.getNetworkingEngine().registerResponseFilter).toHaveBeenCalledTimes(1);
+  });
+});

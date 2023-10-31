@@ -15,6 +15,7 @@ export interface AdvancedPlaybackSource {
     fairPlayCertificateUrl?: string,
     widevineServiceCertificateUrl?: string,
     fairPlayRequestFormat?: FairPlayRequestFormat,
+    extractLicenseUrlFromSkd: boolean,
     contentIdExtractMatch?: RegExp | string,
     contentId?: string
   }

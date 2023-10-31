@@ -3,9 +3,13 @@
 export type ShakaRequest = {
   uris: Array<string>,
   method: string,
-  body: ArrayBuffer,
+  body: any,
   headers: { [string]: string },
   allowCrossSiteCredentials: boolean,
+  initData: Uint8Array,
+  drmInfo: {
+    licenseServerUri: string
+  },
   retryParameters: {
     maxAttempts: number,
     baseDelay: number,
@@ -108,10 +112,22 @@ export interface Shaka {
     installAll: () => {},
     MediaCapabilities: {
       install: () => {}
+    },
+    PatchedMediaKeysApple: {
+      install: () => {}
     }
   };
   util: {
-    Error: Error
+    Error: Error,
+    StringUtils: {
+      fromBytesAutoDetect: (data: Uint8Array)=> string,
+      fromUTF8: (data: ArrayBuffer) => string,
+      
+    },
+    Uint8ArrayUtils:{
+      toStandardBase64: (data: BufferSource)=> string,
+      fromBase64: ({ ckc: string })=> Uint8Array,
+    }
   };
   net: {
     NetworkingEngine: {
