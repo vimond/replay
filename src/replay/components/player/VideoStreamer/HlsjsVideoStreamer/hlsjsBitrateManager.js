@@ -10,11 +10,21 @@ declare class Object {
 }
 
 type PropsWithInitial = {
-  initialPlaybackProps?: InitialPlaybackProps
+  initialPlaybackProps?: InitialPlaybackProps,
+  configuration?: any
 };
 
 function getBitrateAsKbps(level: HlsjsQualityLevel) {
   return (level && Math.ceil(level.bitrate / 1000)) || 0;
+}
+
+function manualbitrateSwitch(hls, configuration, switchTrackId) {
+  const { manualBitrateSwitchStrategy } = configuration || {};
+  if (manualBitrateSwitchStrategy === "instant-switch") {
+    hls.currentLevel = switchTrackId;
+  } else {
+    hls.nextLevel = switchTrackId;
+  }
 }
 
 const getHlsjsBitrateManager = <P: PropsWithInitial>(
@@ -107,21 +117,22 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
 
   function fixBitrate(bitrate: ?(number | 'max' | 'min')) {
     if (hls) {
+      const { configuration } = streamer.props;
       if (bitrate === 'min') {
         if (Array.isArray(hls.levels) && hls.levels.length > 0) {
-          hls.nextLevel = 0;
+          manualbitrateSwitch(hls, configuration, 0);
           updateStreamState({ bitrateFix: getBitrateAsKbps(hls.levels[0]) });
           log && log('Fixing bitrate to lowest level out of ' + hls.levels.length);
         }
       } else if (bitrate === 'max') {
         if (Array.isArray(hls.levels) && hls.levels.length > 0) {
-          hls.nextLevel = hls.levels.length - 1;
+          manualbitrateSwitch(hls, configuration, hls.levels.length - 1);
           updateStreamState({ bitrateFix: getBitrateAsKbps(hls.levels[hls.levels.length - 1]) });
           log && log('Fixing bitrate to highest level out of ' + hls.levels.length);
         }
-      } else if (bitrate == null || isNaN(bitrate) || bitrate < 0 || !bitrate) {
+      } else if (bitrate == null || bitrate === Infinity || isNaN(bitrate) || bitrate < 0 || !bitrate) {
         log && log('Resetting fixing of bitrate.');
-        hls.nextLevel = -1;
+        manualbitrateSwitch(hls, configuration, -1);
         updateStreamState({ bitrateFix: null });
       } else if (typeof bitrate === 'string') {
         log &&
@@ -133,7 +144,7 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
         if (Array.isArray(hls.levels)) {
           for (var i = 0; i < hls.levels.length; i++) {
             if (getBitrateAsKbps(hls.levels[i]) === bitrate) {
-              hls.nextLevel = i;
+              manualbitrateSwitch(hls, configuration, i);
               log && log('Fixing bitrate to HLS level ' + i, hls.levels);
               updateStreamState({ bitrateFix: bitrate });
               return;

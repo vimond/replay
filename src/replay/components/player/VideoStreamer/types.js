@@ -154,6 +154,8 @@ export type VideoStreamerProps = CommonProps & {
   onPlaybackError?: PlaybackError => void
 };
 
+export type ManualBitrateSwitchStrategy = 'smooth-switch' | 'instant-switch';
+
 export type VideoStreamerConfiguration = {
   licenseAcquisition?: ?{
     widevine: {
@@ -183,6 +185,7 @@ export type VideoStreamerConfiguration = {
     withCredentials?: ?boolean
   },
   logLevel?: 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG' | 'VERBOSE',
+  manualBitrateSwitchStrategy?: ?ManualBitrateSwitchStrategy,
   defaultBandwidth?: ?number,
   crossOrigin?: ?string,
   playsInline?: ?boolean,
