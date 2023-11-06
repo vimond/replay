@@ -2,7 +2,11 @@ defaults: &defaults
   working_directory: /tmp/replay
   docker:
     - image: circleci/node:10.20-browsers
-version: 2
+
+version: 2.1
+
+orbs:
+  utils: vimond/utils@volatile
 
 jobs:
   install:
@@ -51,12 +55,13 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp
-      - run:
-          name: Fetching npm credentials
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_REGISTRY_TOKEN" > ~/.npmrc
+      - utils/configure-npm
+
       - run:
           name: Publish npm package
-          command: yarn publish
+          command: |
+            npm config set registry https://vimond.jfrog.io/vimond/api/npm/npm-local
+            npm publish
   publish-docs:
     <<: *defaults
     steps:
@@ -110,7 +115,10 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*/
+              only:
+                - junayed/temporary-release-to-vimond-jfrog
+          context:
+            - vimond-global
       - publish-docs:
           requires:
             - publish
@@ -119,3 +127,5 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
+          context:
+            - vimond-global
