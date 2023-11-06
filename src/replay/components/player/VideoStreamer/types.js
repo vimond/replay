@@ -185,7 +185,7 @@ export type VideoStreamerConfiguration = {
     withCredentials?: ?boolean
   },
   logLevel?: 'NONE' | 'ERROR' | 'WARNING' | 'INFO' | 'DEBUG' | 'VERBOSE',
-  manualBitrateSwitchStrategy?: ?ManualBitrateSwitchStrategy,
+  manualBitrateSwitchStrategy?: ManualBitrateSwitchStrategy,
   defaultBandwidth?: ?number,
   crossOrigin?: ?string,
   playsInline?: ?boolean,
