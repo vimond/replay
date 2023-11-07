@@ -18,7 +18,7 @@ function getBitrateAsKbps(level: HlsjsQualityLevel) {
   return (level && Math.ceil(level.bitrate / 1000)) || 0;
 }
 
-function manualbitrateSwitch(hls, configuration, switchTrackId) {
+function manualBitrateSwitch(hls, configuration, switchTrackId) {
   const { manualBitrateSwitchStrategy } = configuration || {};
   if (manualBitrateSwitchStrategy === "instant-switch") {
     hls.currentLevel = switchTrackId;
@@ -120,19 +120,19 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
       const { configuration } = streamer.props;
       if (bitrate === 'min') {
         if (Array.isArray(hls.levels) && hls.levels.length > 0) {
-          manualbitrateSwitch(hls, configuration, 0);
+          manualBitrateSwitch(hls, configuration, 0);
           updateStreamState({ bitrateFix: getBitrateAsKbps(hls.levels[0]) });
           log && log('Fixing bitrate to lowest level out of ' + hls.levels.length);
         }
       } else if (bitrate === 'max') {
         if (Array.isArray(hls.levels) && hls.levels.length > 0) {
-          manualbitrateSwitch(hls, configuration, hls.levels.length - 1);
+          manualBitrateSwitch(hls, configuration, hls.levels.length - 1);
           updateStreamState({ bitrateFix: getBitrateAsKbps(hls.levels[hls.levels.length - 1]) });
           log && log('Fixing bitrate to highest level out of ' + hls.levels.length);
         }
       } else if (bitrate == null || bitrate === Infinity || isNaN(bitrate) || bitrate < 0 || !bitrate) {
         log && log('Resetting fixing of bitrate.');
-        manualbitrateSwitch(hls, configuration, -1);
+        manualBitrateSwitch(hls, configuration, -1);
         updateStreamState({ bitrateFix: null });
       } else if (typeof bitrate === 'string') {
         log &&
@@ -144,7 +144,7 @@ const getHlsjsBitrateManager = <P: PropsWithInitial>(
         if (Array.isArray(hls.levels)) {
           for (var i = 0; i < hls.levels.length; i++) {
             if (getBitrateAsKbps(hls.levels[i]) === bitrate) {
-              manualbitrateSwitch(hls, configuration, i);
+              manualBitrateSwitch(hls, configuration, i);
               log && log('Fixing bitrate to HLS level ' + i, hls.levels);
               updateStreamState({ bitrateFix: bitrate });
               return;

@@ -43,8 +43,7 @@ to the currently streaming bitrate.
 From the available bitrates in `QualitySelection` options in Replay, When a specific bitrate is selected then it will indicate a maximum bitrate to be considered for adaptive
 bitrate switching.
 
-The following example contains `QualitySelection` options in Replay and hovering over the options there will be available bitrates of the stream and an indicator will point
-to the current streaming bitrate. Then a specific bitrate can be selected and Replay will consider it the maximum bitrate for adaptive switching.
+The following example contains `QualitySelection` options in Replay and from this option when a specific bitrate is selected, Replay will consider it as the maximum bitrate for adaptive switching.
 
 <Playground>
   <Replay
@@ -65,7 +64,7 @@ While the manual quality selection strategy(`fix-bitrate`) is enabled with `smoo
 When selecting a specific bitrate among different bitrates, the switching won't happen right away. After the already buffered streaming segment of the previously selected bitrate
 is played out, the switching will happen. By default, `smooth-switch` strategy is enabled in Replay with manual quality selection (`fix-bitrate`).
 
-The following example contains both override base configuration of Repaly for enabling manual smooth quality selection and ways to pass that overridden configuration.
+The following example contains both override base configuration of Replay for enabling manual smooth quality selection and ways to pass that overridden configuration.
 
 <Playground>
   <Replay
@@ -89,7 +88,7 @@ While the manual bitrate selection strategy(`fix-bitrate`) is enabled with `inst
 At the time of selecting a specific bitrate among different bitrates, The bitrate will be selected right away. For enabling `smooth-switch` strategy of `fix-bitrate` in Replay,
 user has to override base configuration.
 
-The following example contains both override base configuration of Repaly for enabling manual instant quality selection and ways to pass that overridden configuration.
+The following example contains both override base configuration of Replay for enabling manual instant quality selection and ways to pass that overridden configuration.
 
 <Playground>
   <Replay

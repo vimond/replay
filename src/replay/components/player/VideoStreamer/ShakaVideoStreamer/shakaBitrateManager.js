@@ -36,7 +36,7 @@ function isUnique(item, index, arr) {
   return arr.indexOf(item) === index;
 }
 
-function manualbitrateSwitch(shakaPlayer: ShakaPlayer, configuration, track: ShakaTrack) {
+function manualBitrateSwitch(shakaPlayer: ShakaPlayer, configuration, track: ShakaTrack) {
   const { manualBitrateSwitchStrategy } = configuration || {};
   shakaPlayer.configure({ abr: { enabled: false, restrictions: { maxBandwidth: Infinity } } });
   if (manualBitrateSwitchStrategy === "instant-switch") {
@@ -124,7 +124,7 @@ const getShakaBitrateManager = <P: PropsWithInitial>(
         const desiredVariantTrack =
           bitrate === 'min' ? sortedTracks[0] : bitrate === 'max' ? sortedTracks[sortedTracks.length - 1] : null;
         if (desiredVariantTrack) {
-          manualbitrateSwitch(shakaPlayer, configuration, desiredVariantTrack);
+          manualBitrateSwitch(shakaPlayer, configuration, desiredVariantTrack);
           updateStreamState({ bitrateFix: getBitrateAsKbps(desiredVariantTrack) });
         } else {
           shakaPlayer.configure(resetConfiguration);
@@ -153,7 +153,7 @@ const getShakaBitrateManager = <P: PropsWithInitial>(
         return getBitrateAsKbps(track) === bitrate;
       })[0];
       if (matchingTrack) {
-        manualbitrateSwitch(shakaPlayer, configuration, matchingTrack);
+        manualBitrateSwitch(shakaPlayer, configuration, matchingTrack);
         updateStreamState({ bitrateFix: getBitrateAsKbps(matchingTrack) });
         log && log('Locking at bitrate ' + bitrate + '.', matchingTrack);
       } else {
