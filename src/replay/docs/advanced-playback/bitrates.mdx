@@ -40,21 +40,8 @@ to the currently streaming bitrate.
 
 ### Capped selection
 
-From the available bitrates in `QualitySelection` options in Replay, When a specific bitrate is selected then it will indicate a maximum bitrate to be considered for adaptive
-bitrate switching.
-
-The following example contains `QualitySelection` options in Replay and from this option when a specific bitrate is selected, Replay will consider it as the maximum bitrate for adaptive switching.
-
-<Playground>
-  <Replay
-    source={{
-             streamUrl: 'public/example-media/adaptive.m3u8',
-             contentType: 'application/x-mpegurl'
-           }}
-    initialPlaybackProps={{ isPaused: true }}>
-    <CompoundVideoStreamer/>
-  </Replay>
-</Playground>
+When a specific bitrate is selected from the options mentioned above, it will indicate a maximum bitrate to be considered for adaptive bitrate switching. Replay will consider it as
+the maximum bitrate for adaptive switching.
 
 ## Manual quality selection
 
