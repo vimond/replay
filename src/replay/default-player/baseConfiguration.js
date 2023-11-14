@@ -4,7 +4,8 @@ import type { PlayerConfiguration } from './types';
 
 export const baseConfiguration: PlayerConfiguration = {
   videoStreamer: {
-    logLevel: 'WARNING'
+    logLevel: 'WARNING',
+    manualBitrateSwitchStrategy: 'smooth-switch'
   },
   interactionDetector: {
     inactivityDelay: 2

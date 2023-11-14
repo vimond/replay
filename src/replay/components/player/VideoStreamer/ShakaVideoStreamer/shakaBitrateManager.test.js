@@ -13,7 +13,7 @@ const createVariantTrack = bitrate => {
   };
 };
 
-const setup = (bitrates = [], currentBitrate, initialPlaybackProps) => {
+const setup = (bitrates = [], currentBitrate, initialPlaybackProps, configuration) => {
   const variantTracks = bitrates.map(createVariantTrack);
   if (currentBitrate) {
     const index = bitrates.indexOf(currentBitrate);
@@ -26,7 +26,7 @@ const setup = (bitrates = [], currentBitrate, initialPlaybackProps) => {
 
   const onStreamStateChange = jest.fn();
   const streamer = {
-    props: { onStreamStateChange, initialPlaybackProps }
+    props: { onStreamStateChange, initialPlaybackProps, configuration }
   };
 
   const updateStreamState = getFilteredStreamStateUpdater(streamer);
@@ -86,6 +86,7 @@ test('Shaka bitrate manager capBitrate() with valid number passed restricts to a
   });
   expect(onStreamStateChange).toHaveBeenCalledWith({ bitrateCap: 1235 });
 });
+
 test('Shaka bitrate manager capBitrate() with Infinity or falsy passed resets max bandwidth and enables ABR.', () => {
   const { eventHandlers, onStreamStateChange, shakaPlayer, bitrateManager } = setup([
     1234567,
@@ -109,7 +110,8 @@ test('Shaka bitrate manager capBitrate() with Infinity or falsy passed resets ma
   });
   expect(onStreamStateChange).toHaveBeenCalledWith({ bitrateCap: null });
 });
-test('Shaka bitrate manager fixBitrate() with "max" passed resets max bandwidth, disables ABR, and selects track with highest bitrate.', () => {
+
+test('Shaka bitrate manager fixBitrate() with "max" passed resets max bandwidth, disables ABR and choose smooth switch, and selects track with highest bitrate.', () => {
   const { eventHandlers, onStreamStateChange, shakaPlayer, bitrateManager, variantTracks } = setup([
     1234567,
     2345678,
@@ -125,7 +127,8 @@ test('Shaka bitrate manager fixBitrate() with "max" passed resets max bandwidth,
   expect(shakaPlayer.selectVariantTrack).toHaveBeenCalledWith(variantTracks[2]);
   expect(onStreamStateChange).toHaveBeenCalledWith({ bitrateFix: 7892 });
 });
-test('Shaka bitrate manager fixBitrate() with "min" passed resets max bandwidth, disables ABR, and selects track with lowest bitrate.', () => {
+
+test('Shaka bitrate manager fixBitrate() with "min" passed resets max bandwidth, disables ABR and choose smooth switch, and selects track with lowest bitrate.', () => {
   const { eventHandlers, onStreamStateChange, shakaPlayer, bitrateManager, variantTracks } = setup([
     1234567,
     2345678,
@@ -141,7 +144,8 @@ test('Shaka bitrate manager fixBitrate() with "min" passed resets max bandwidth,
   expect(shakaPlayer.selectVariantTrack).toHaveBeenCalledWith(variantTracks[0]);
   expect(onStreamStateChange).toHaveBeenCalledWith({ bitrateFix: 1235 });
 });
-test('Shaka bitrate manager fixBitrate() with number passed selects track with matching bitrate, if found, and resets max bandwidth, disables ABR.', () => {
+
+test('Shaka bitrate manager fixBitrate() with number passed selects track with matching bitrate, if found, and resets max bandwidth, disables ABR and choose smooth switch.', () => {
   const { eventHandlers, onStreamStateChange, shakaPlayer, bitrateManager, variantTracks } = setup([
     1234567,
     2345678,
@@ -157,6 +161,33 @@ test('Shaka bitrate manager fixBitrate() with number passed selects track with m
   expect(shakaPlayer.selectVariantTrack).toHaveBeenCalledWith(variantTracks[3]);
   expect(onStreamStateChange).toHaveBeenCalledWith({ bitrateFix: 3457 });
 });
+
+test('Shaka bitrate manager fixBitrate() with number passed selects track with matching bitrate, if found, and resets max bandwidth, disables ABR and choose instant switch.', () => {
+  const { eventHandlers, onStreamStateChange, shakaPlayer, bitrateManager, variantTracks } = setup([
+    1234567,
+    2345678,
+    7891234,
+    3456789
+  ], null, {}, { manualBitrateSwitchStrategy: 'instant-switch' });
+  eventHandlers.streaming();
+  eventHandlers.variantchanged();
+  bitrateManager.fixBitrate(3457);
+  expect(shakaPlayer.configure).toHaveBeenCalledWith({
+    abr: { enabled: false, restrictions: { maxBandwidth: Infinity } }
+  });
+  expect(shakaPlayer.selectVariantTrack).toHaveBeenCalledWith(variantTracks[3], true);
+  expect(onStreamStateChange).toHaveBeenCalledWith({ bitrateFix: 3457 });
+  shakaPlayer.configure.mockClear();
+  shakaPlayer.selectVariantTrack.mockClear();
+  onStreamStateChange.mockClear();
+  bitrateManager.fixBitrate(Infinity);
+  expect(shakaPlayer.configure).toHaveBeenCalledWith({
+    abr: { enabled: true, restrictions: { maxBandwidth: Infinity } }
+  });
+  expect(onStreamStateChange).toHaveBeenCalledWith({ bitrateFix: null });
+  expect(shakaPlayer.selectVariantTrack).not.toHaveBeenCalled();
+});
+
 test('Shaka bitrate manager fixBitrate() with no valid number resets max bandwidth, and re-enables ABR.', () => {
   const { eventHandlers, onStreamStateChange, shakaPlayer, bitrateManager } = setup([
     1234567,
