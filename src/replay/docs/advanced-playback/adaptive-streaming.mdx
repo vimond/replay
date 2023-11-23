@@ -243,7 +243,7 @@ const replayOptions = {
         xhrSetup: xhr => xhr.setRequestHeader('Authorization', myToken)
       }
     },
-    shakaPLayer: {
+    shakaPlayer: {
       requestFilter: (type, request) => {
         if (type === 1 || type === 0) { // shaka.net.NetworkingEngine.RequestType.MANIFEST || .SEGMENT
           request.headers['Authorization'] = myToken;
