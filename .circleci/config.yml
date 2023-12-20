@@ -2,7 +2,10 @@ defaults: &defaults
   working_directory: /tmp/replay
   docker:
     - image: circleci/node:10.20-browsers
-version: 2
+version: 2.1
+
+orbs:
+  utils: vimond/utils@volatile
 
 jobs:
   install:
@@ -110,7 +113,10 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*/
+              only:
+                - publish-V4.0.0
+          context:
+            - vimond-global
       - publish-docs:
           requires:
             - publish
@@ -118,4 +124,7 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*/
+              only:
+                - publish-V4.0.0
+          context:
+            - vimond-global
